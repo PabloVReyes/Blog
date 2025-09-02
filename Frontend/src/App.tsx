@@ -1,16 +1,14 @@
 import { useRoutes } from "react-router-dom"
 import { routes } from "@/routes/routes"
-import { useSettings } from "./hooks/useSettings"
 import { useEffect } from "react"
+import { useSettingsStore } from "./store/settingsStore"
 
 export const App = () => {
-  const settings = useSettings()
+  const { title } = useSettingsStore()
 
   useEffect(() => {
-    if (settings.title) {
-      document.title = settings.title;
-    }
-  }, [settings])
+    document.title = title;
+  }, [title])
 
   const routing = useRoutes(routes)
   return routing

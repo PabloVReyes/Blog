@@ -76,3 +76,11 @@
 .chevron {
     transition: transform 200ms ease;
 }
+
+body {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+}
+
+.custom-color-picker {
+  --cp-swatch-size: 40px; /* 👈 aumenta tamaño */
+}

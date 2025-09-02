@@ -8,7 +8,8 @@ async function main() {
   // Ejemplo: páginas iniciales del blog
   const settings = [
     { name: "title", value: "Blog" },
-    { name: "color", value: "red" },
+    { name: "color", value: "green" },
+    { name: "theme", value: "auto" },
   ];
 
   for (const setting of settings) {

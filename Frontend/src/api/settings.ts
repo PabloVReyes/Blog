@@ -4,3 +4,8 @@ export const getSettings = async() => {
     const response = await api.get("/api/settings")
     return response.data
 }
+
+export const updateSettings = async(name: string, value: string) => {
+    const response = await api.put(`/api/settings/update`, {name, value})
+    return response.data
+}

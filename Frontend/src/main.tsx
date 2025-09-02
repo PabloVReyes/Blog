@@ -10,17 +10,19 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./styles.css";
 import { mantineTheme } from "./theme/theme.ts";
-import { useSettings } from "./hooks/useSettings.ts";
+import { useSettingsStore } from "./store/settingsStore.ts";
+import { SettingsLoader } from "./SettingsLoader.tsx";
 
 function Root() {
-  const settings = useSettings()
+  const { color, theme } = useSettingsStore()
 
   return (
     <MantineProvider
-      theme={mantineTheme(settings?.color)}
-      defaultColorScheme="auto"
+      theme={mantineTheme(color)}
+      defaultColorScheme={theme}
     >
       <BrowserRouter>
+        <SettingsLoader/>
         <App />
       </BrowserRouter>
     </MantineProvider>
