@@ -149,7 +149,7 @@ export const General = () => {
                             ) :
                                 <Image
                                     src={`http://localhost:3001${favicon}`}
-                                    alt="Preview"
+                                    alt="Sin icono"
                                     w={80}
                                     h="auto"
                                     radius="sm"

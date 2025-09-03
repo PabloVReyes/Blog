@@ -4,6 +4,7 @@ import { Navbar } from "./components/Navbar"
 import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { NavbarMinimal } from "./components/NavbarMinimal";
+import { Modal } from "./components/Modal";
 
 export const Layout = () => {
     const isMobile = useMediaQuery('(max-width: 768px)');
@@ -45,6 +46,7 @@ export const Layout = () => {
                         pointerEvents: expanded ? 'auto' : 'none',
                     }}
                 >
+                    <Modal/>
                     <Navbar />
                 </Box>
 
