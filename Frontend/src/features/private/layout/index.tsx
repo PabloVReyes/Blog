@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom"
 import { Navbar } from "./components/Navbar"
 import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
+import { NavbarMinimal } from "./components/NavbarMinimal";
 
 export const Layout = () => {
     const isMobile = useMediaQuery('(max-width: 768px)');
@@ -45,6 +46,20 @@ export const Layout = () => {
                     }}
                 >
                     <Navbar />
+                </Box>
+
+                <Box
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        transition: 'opacity 0.3s ease',
+                        position: 'absolute',
+                        inset: 0,
+                        opacity: expanded ? 0 : 1,
+                        pointerEvents: expanded ? 'none' : 'auto',
+                    }}
+                >
+                    <NavbarMinimal/>
                 </Box>
             </Box>
 

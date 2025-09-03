@@ -1,10 +1,10 @@
-import { IconHome, IconSettings } from "@tabler/icons-react";
+import { IconAppWindow, IconHome, IconSettings } from "@tabler/icons-react";
 
 export const paths = [
     {
         label: "Inicio",
         icon: IconHome,
-        link: "administration/home",
+        link: "/administration/home",
         links: [
             {
                 label: "Resumen",
@@ -13,13 +13,24 @@ export const paths = [
         ]
     },
     {
-        label: "Configuraciones",
-        icon: IconSettings,
-        link: "administration/settings",
+        label: "Páginas",
+        icon: IconAppWindow,
+        link: "/administration/pages",
         links: [
             {
-                label: "Pagina",
-                link: "/administration/settings/page"
+                label: "Todas las páginas",
+                link: "/administration/pages/all"
+            }
+        ]
+    },
+    {
+        label: "Configuraciones",
+        icon: IconSettings,
+        link: "/administration/settings",
+        links: [
+            {
+                label: "General",
+                link: "/administration/settings/general"
             }
         ]
     }

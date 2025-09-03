@@ -41,8 +41,8 @@ class server {
     }
 
     settingPublicRoute() {
-        const public_path = path.resolve(__dirname, '@/storage');
-        this.app.use(express.static(public_path))
+        const public_path = path.resolve(__dirname, '../uploads');
+        this.app.use("/uploads", express.static(public_path))
     }
 
     settingLogFile() {

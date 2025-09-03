@@ -10,10 +10,12 @@ interface SettingState {
     title: string;
     color: string;
     theme: ThemeType;
+    favicon?: string;
     setSettings: (settings: Record<string, string>) => void;
     setTitle: (title: string) => void;
     setColor: (color: string) => void;
     setTheme: (theme: ThemeType) => void;
+    setFavicon: (url: string) => void;
     loadSettings: () => Promise<void>;
     saveSetting: (name: string, value: string) => Promise<void>;
 }
@@ -25,6 +27,7 @@ export const useSettingsStore = create<SettingState>()(
             title: "Blog",
             color: "blue",
             theme: "auto",
+            favicon: undefined,
 
             // Actualiza settings, color y theme desde un objeto recibido
             setSettings: (settings) => {
@@ -39,6 +42,7 @@ export const useSettingsStore = create<SettingState>()(
                 set({
                     settings,
                     title: settings.title,
+                    favicon: settings.favicon,
                     color: colorFromDB,
                     theme: themeFromDB,
                 });
@@ -56,10 +60,14 @@ export const useSettingsStore = create<SettingState>()(
             // Cambia theme y actualiza store
             setTheme: (theme: ThemeType) => set({ theme }),
 
+            // Actualizar el icono
+            setFavicon: (url) => ({ favicon: url }),
+
             // Cargar settings desde API
             loadSettings: async () => {
                 try {
                     const settingsFromAPI = await getSettings();
+                    console.log(settingsFromAPI)
                     get().setSettings(settingsFromAPI);
                 } catch (error) {
                     console.error("Error cargando configuraciones:", error);

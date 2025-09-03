@@ -20,7 +20,7 @@ export const LinksGroup = ({ icon: Icon, label, links, link }: Props) => {
 
     const hasLinks = Array.isArray(links);
 
-    const isGroupOpened = pathname.startsWith(`/${link}`) || (link === '' && pathname === '/')
+    const isGroupOpened = pathname.startsWith(`${link}`) || (link === '' && pathname === '/')
 
     const [opened, setOpened] = useState(isGroupOpened);
 

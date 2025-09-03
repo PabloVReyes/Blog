@@ -1,5 +1,5 @@
-import { settingsService, updateSettingsService } from "@/services/settings.service";
-import { RequestHandler } from "express";
+import { settingsService, updateSettingsService, uploadFaviconService } from "@/services/settings.service";
+import { RequestHandler, response } from "express";
 
 export const settingsController: RequestHandler = async (request, response) => {
     try {
@@ -23,5 +23,21 @@ export const updateSettingsController: RequestHandler = async (request, response
             .send({
                 msg: error.message || "Actualizar configuración"
             })
-    } 
+    }
+}
+export const uploadFaviconController = async (request, response) => {
+    try {
+        if (!request.file) {
+            response.status(500).send({ msg: "No se ha enviado ningun archivo" })
+        }
+
+        const url = await uploadFaviconService(request.file)
+
+        response.json({ url: url })
+    } catch (error: any) {
+        response.status(500)
+            .send({
+                msg: error.message || "Error al subir el icono"
+            })
+    }
 }

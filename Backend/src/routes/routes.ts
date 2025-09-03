@@ -18,6 +18,6 @@ router.get('/', (request, response) => {
     }
 })
 
-router.use("/api", settingsRoutes)
+router.use("/api/settings", settingsRoutes)
 
 module.exports = router;

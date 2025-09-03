@@ -10,6 +10,7 @@ async function main() {
     { name: "title", value: "Blog" },
     { name: "color", value: "green" },
     { name: "theme", value: "auto" },
+    { name: "favicon", value: "" },
   ];
 
   for (const setting of settings) {

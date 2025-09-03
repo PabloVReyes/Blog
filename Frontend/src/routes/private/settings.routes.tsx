@@ -1,4 +1,4 @@
-import { Page } from "@/features/private/settings/pages/Page";
+import { General } from "@/features/private/settings/pages/General";
 import { Navigate, type RouteObject } from "react-router-dom";
 
 export const settingsRoutes: RouteObject = {
@@ -6,11 +6,11 @@ export const settingsRoutes: RouteObject = {
     children: [
         {
             path: "",
-            element: <Navigate to="/administration/settings/page" replace/>
+            element: <Navigate to="/administration/settings/general" replace/>
         },
         {
-            path: "page",
-            element: <Page/>
+            path: "general",
+            element: <General/>
         }
     ]
 }
