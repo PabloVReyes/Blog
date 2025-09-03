@@ -1,7 +1,7 @@
 import { uploadFavicon } from "@/api/settings";
 import { useSettingsStore } from "@/store/settingsStore";
 import { colorMap } from "@/utils/colors";
-import { ActionIcon, Button, Card, CheckIcon, ColorSwatch, Container, Divider, FileInput, Group, Image, Stack, Text, TextInput, Title, Tooltip, useMantineColorScheme } from "@mantine/core"
+import { ActionIcon, Button, Card, CheckIcon, ColorSwatch, Container, Divider, FileInput, Group, Image, Stack, Text, TextInput, Title, Tooltip } from "@mantine/core"
 import { IconMoon, IconSun, IconSunMoon } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
@@ -15,13 +15,12 @@ export const General = () => {
         favicon
     });
 
-    const { setColorScheme } = useMantineColorScheme();
+
     const [file, setFile] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
 
     const handleThemeChange = (selected: 'light' | 'dark' | 'auto') => {
         setTheme(selected);
-        setColorScheme(selected);
     };
 
     const updateFavicon = (url: string) => {
