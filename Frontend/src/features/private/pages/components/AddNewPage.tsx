@@ -14,7 +14,39 @@ import Paragraph from '@tiptap/extension-paragraph'
 import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { Gapcursor } from '@tiptap/extensions'
+import Image from '@tiptap/extension-image'
 import "./styles.css"
+import { IconColumnInsertLeft, IconColumnInsertRight, IconColumnRemove, IconRowInsertBottom, IconRowInsertTop, IconRowRemove, IconTableOff, IconTablePlus } from "@tabler/icons-react";
+import { mergeAttributes } from '@tiptap/core'
+
+export const ResizableImage = Image.extend({
+    addAttributes() {
+        return {
+            ...this.parent?.(),
+            width: {
+                default: 'auto',
+                renderHTML: (attributes) => {
+                    return attributes.width ? { width: attributes.width } : {}
+                },
+            },
+            height: {
+                default: 'auto',
+                renderHTML: (attributes) => {
+                    return attributes.height ? { height: attributes.height } : {}
+                },
+            },
+        }
+    },
+
+    renderHTML({ HTMLAttributes }) {
+        return [
+            'div',
+            { class: 'resizable-image' },
+            ['img', mergeAttributes(HTMLAttributes)],
+            ['span', { class: 'resize-handle bottom-right' }],
+        ]
+    },
+})
 
 export const AddNewPageHeader = () => {
     return (
@@ -41,6 +73,7 @@ export const AddNewPage = () => {
             SubScript,
             Highlight,
             Color,
+            ResizableImage,
             TableKit.configure({
                 table: { resizable: true },
             }),
@@ -140,26 +173,29 @@ export const AddNewPage = () => {
                                         editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
                                     }
                                 >
-                                    Tabla 3x3
+                                    <IconTablePlus size={18} stroke={1.5} color="gray" />
                                 </RichTextEditor.Control>
 
                                 <RichTextEditor.Control onClick={() => editor.chain().focus().addColumnBefore().run()}>
-                                    + Columna antes
+                                    <IconColumnInsertLeft size={18} stroke={1.5} color="gray" />
                                 </RichTextEditor.Control>
                                 <RichTextEditor.Control onClick={() => editor.chain().focus().addColumnAfter().run()}>
-                                    + Columna después
+                                    <IconColumnInsertRight size={18} stroke={1.5} color="gray" />
                                 </RichTextEditor.Control>
                                 <RichTextEditor.Control onClick={() => editor.chain().focus().addRowBefore().run()}>
-                                    + Fila arriba
+                                    <IconRowInsertTop size={18} stroke={1.5} color="gray" />
                                 </RichTextEditor.Control>
                                 <RichTextEditor.Control onClick={() => editor.chain().focus().addRowAfter().run()}>
-                                    + Fila abajo
+                                    <IconRowInsertBottom size={18} stroke={1.5} color="gray" />
                                 </RichTextEditor.Control>
                                 <RichTextEditor.Control onClick={() => editor.chain().focus().deleteRow().run()}>
-                                    Eliminar fila
+                                    <IconRowRemove size={18} stroke={1.5} color="gray" />
+                                </RichTextEditor.Control>
+                                <RichTextEditor.Control onClick={() => editor.chain().focus().deleteColumn().run()}>
+                                    <IconColumnRemove size={18} stroke={1.5} color="gray" />
                                 </RichTextEditor.Control>
                                 <RichTextEditor.Control onClick={() => editor.chain().focus().deleteTable().run()}>
-                                    Eliminar tabla
+                                    <IconTableOff size={18} stroke={1.5} color="gray" />
                                 </RichTextEditor.Control>
                             </RichTextEditor.ControlsGroup>
                         </RichTextEditor.Toolbar>
