@@ -1,5 +1,6 @@
 import { Router } from "express";
 import settingsRoutes from "@/routes/settings.routes"
+import pagesRoutes from "@/routes/pages.routes"
 
 const router: Router = Router()
 
@@ -19,5 +20,6 @@ router.get('/', (request, response) => {
 })
 
 router.use("/api/settings", settingsRoutes)
+router.use("/api/pages", pagesRoutes)
 
 module.exports = router;

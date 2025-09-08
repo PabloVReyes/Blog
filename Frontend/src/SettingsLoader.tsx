@@ -1,9 +1,9 @@
 import { useEffect } from "react"
-import { useSettingsStore } from "./store/settingsStore"
+import { useSettingStore } from "./store/settingStore";
 
 export const SettingsLoader = () => {
-    const loadSettings = useSettingsStore((state) => state.loadSettings);
-    const favicon = useSettingsStore((state) => state.favicon);
+    const loadSettings = useSettingStore((state) => state.loadSettings);
+    const favicon = useSettingStore((state) => state.favicon);
 
     useEffect(() => {
         loadSettings()

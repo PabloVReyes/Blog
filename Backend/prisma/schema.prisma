@@ -13,8 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Settings {
-  id    Int    @id @default(autoincrement())
+model Setting {
+  id    String @id @default(uuid())
   name  String @unique
   value String
+}
+
+model Page {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  html      String   @db.LongText
+  content   Json
+  createdAt DateTime @default(now())
 }

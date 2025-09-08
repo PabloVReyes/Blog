@@ -14,7 +14,7 @@ async function main() {
   ];
 
   for (const setting of settings) {
-    await prisma.settings.upsert({
+    await prisma.setting.upsert({
       where: { name: setting.name },
       update: {},
       create: {

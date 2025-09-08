@@ -1,5 +1,5 @@
 import { uploadFavicon } from "@/api/settings";
-import { useSettingsStore } from "@/store/settingsStore";
+import { useSettingStore } from "@/store/settingStore";
 import { colorMap } from "@/utils/colors";
 import { ActionIcon, Button, Card, CheckIcon, ColorSwatch, Container, Divider, FileInput, Group, Image, Stack, Text, TextInput, Title, Tooltip } from "@mantine/core"
 import { IconMoon, IconSun, IconSunMoon } from "@tabler/icons-react";
@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export const General = () => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { color, setColor, theme, setTheme, saveSetting, title, setTitle, setFavicon, favicon } = useSettingsStore()
+    const { color, setColor, theme, setTheme, saveSetting, title, setTitle, setFavicon, favicon } = useSettingStore()
     const [initialState, setInitialState] = useState({
         title,
         theme,

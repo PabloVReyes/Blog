@@ -1,8 +1,8 @@
 import { useRoutes } from "react-router-dom"
 import { routes } from "@/routes/routes"
 import { useEffect } from "react"
-import { useSettingsStore } from "./store/settingsStore"
 import { useMantineColorScheme } from "@mantine/core";
+import { useSettingStore } from "./store/settingStore";
 
 const updateFavicon = (url: string) => {
   let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
@@ -15,7 +15,7 @@ const updateFavicon = (url: string) => {
 };
 
 export const App = () => {
-  const { title, favicon, theme } = useSettingsStore()
+  const { title, favicon, theme } = useSettingStore()
   const { setColorScheme } = useMantineColorScheme();
 
   useEffect(() => {

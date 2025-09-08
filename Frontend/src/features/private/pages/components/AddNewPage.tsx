@@ -8,50 +8,34 @@ import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
 import Placeholder from '@tiptap/extension-placeholder';
-import { Color } from '@tiptap/extension-color'
+import { Color } from '@tiptap/extension-color';
+import { TextStyle } from '@tiptap/extension-text-style';
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { Gapcursor } from '@tiptap/extensions'
-import Image from '@tiptap/extension-image'
 import "./styles.css"
 import { IconColumnInsertLeft, IconColumnInsertRight, IconColumnRemove, IconRowInsertBottom, IconRowInsertTop, IconRowRemove, IconTableOff, IconTablePlus } from "@tabler/icons-react";
-import { mergeAttributes } from '@tiptap/core'
-
-export const ResizableImage = Image.extend({
-    addAttributes() {
-        return {
-            ...this.parent?.(),
-            width: {
-                default: 'auto',
-                renderHTML: (attributes) => {
-                    return attributes.width ? { width: attributes.width } : {}
-                },
-            },
-            height: {
-                default: 'auto',
-                renderHTML: (attributes) => {
-                    return attributes.height ? { height: attributes.height } : {}
-                },
-            },
-        }
-    },
-
-    renderHTML({ HTMLAttributes }) {
-        return [
-            'div',
-            { class: 'resizable-image' },
-            ['img', mergeAttributes(HTMLAttributes)],
-            ['span', { class: 'resize-handle bottom-right' }],
-        ]
-    },
-})
+import { usePageStore } from "@/store/pagesStore";
 
 export const AddNewPageHeader = () => {
+    const publishPage = usePageStore((s) => s.publishPage);
+    const isPublishing = usePageStore((s) => s.isPublishing);
+
+    const handlePublish = async () => {
+        const result = await publishPage();
+        if (result.ok) {
+            console.log("✅ Publicado", result.data);
+            // aquí puedes cerrar modal, redirigir, etc.
+        } else {
+            console.error("❌ Error al publicar:", result.error);
+        }
+    };
+
     return (
         <ModalHeader className="modal-header">
-            <Button>
+            <Button onClick={handlePublish} loading={isPublishing}>
                 Publicar
             </Button>
             <ModalCloseButton />
@@ -60,6 +44,8 @@ export const AddNewPageHeader = () => {
 }
 
 export const AddNewPage = () => {
+    const { setTitle, setContent } = usePageStore();
+
     const editor = useEditor({
         extensions: [
             Document,
@@ -72,14 +58,17 @@ export const AddNewPage = () => {
             Superscript,
             SubScript,
             Highlight,
+            TextStyle,
             Color,
-            ResizableImage,
             TableKit.configure({
                 table: { resizable: true },
             }),
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
             Placeholder.configure({ placeholder: 'Contenido' })
         ],
+        onUpdate: ({ editor }) => {
+            setContent(editor.getJSON(), editor.getHTML());
+        },
     });
 
     return (
@@ -101,6 +90,7 @@ export const AddNewPage = () => {
                                 background: "transparent"
                             }
                         }}
+                        onChange={e => setTitle(e.target.value)}
                     />
 
                     <RichTextEditor editor={editor}>

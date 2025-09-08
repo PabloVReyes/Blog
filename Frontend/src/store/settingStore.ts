@@ -20,7 +20,7 @@ interface SettingState {
     saveSetting: (name: string, value: string) => Promise<void>;
 }
 
-export const useSettingsStore = create<SettingState>()(
+export const useSettingStore = create<SettingState>()(
     persist(
         (set, get) => ({
             settings: {},

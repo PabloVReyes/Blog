@@ -16,8 +16,8 @@ interface Props {
     value: string
 }
 
-export const updateSettingsService = async ({ name, value }: Props) => {
-    await updateSettingsQuery({ name, value })
+export const updateSettingsService = async (body: Props) => {
+    await updateSettingsQuery(body)
     return true;
 }
 

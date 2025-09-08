@@ -11,11 +11,11 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./styles.css";
 import { mantineTheme } from "./theme/theme.ts";
-import { useSettingsStore } from "./store/settingsStore.ts";
 import { SettingsLoader } from "./SettingsLoader.tsx";
+import { useSettingStore } from "./store/settingStore.ts";
 
 function Root() {
-  const { color, theme } = useSettingsStore()
+  const { color, theme } = useSettingStore()
 
   return (
     <MantineProvider

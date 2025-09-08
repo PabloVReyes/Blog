@@ -4,7 +4,7 @@ import { response } from "express"
 export const getSettingsQuery = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await database.settings.findMany()
+            const data = await database.setting.findMany()
             resolve(data)
         } catch {
             reject([])
@@ -20,7 +20,7 @@ interface Props {
 export const updateSettingsQuery = ({ name, value }: Props) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await database.settings.update({
+            await database.setting.update({
                 where: { name },
                 data: {
                     value: value
