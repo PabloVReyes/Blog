@@ -33,6 +33,7 @@ export const LinksGroup = ({ icon: Icon, label, links, link }: Props) => {
 
         return (
             <Link
+                key={child.label}
                 to={child.link}
                 className="link"
                 data-active={isActive || undefined}

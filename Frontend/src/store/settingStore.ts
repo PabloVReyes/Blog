@@ -67,7 +67,6 @@ export const useSettingStore = create<SettingState>()(
             loadSettings: async () => {
                 try {
                     const settingsFromAPI = await getSettings();
-                    console.log(settingsFromAPI)
                     get().setSettings(settingsFromAPI);
                 } catch (error) {
                     console.error("Error cargando configuraciones:", error);
@@ -78,8 +77,6 @@ export const useSettingStore = create<SettingState>()(
             saveSetting: async (name: string, value: string) => {
                 try {
                     await updateSettings(name, value);
-                    // await updateSettings(name, value);
-                    // Actualizar en store local
                     const newSettings = { ...get().settings, [name]: value };
                     get().setSettings(newSettings);
                 } catch (error) {

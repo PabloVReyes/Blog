@@ -29,7 +29,11 @@ export const publishPageQuery = ({ title, slug, content, html }: Props) => {
 export const getPagesQuery = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await database.page.findMany({})
+            const data = await database.page.findMany({
+                orderBy: {
+                    createdAt: 'desc'
+                }
+            })
             resolve(data)
         } catch {
             reject(false)

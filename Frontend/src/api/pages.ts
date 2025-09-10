@@ -1,6 +1,6 @@
 import { api } from "@/services/axios.client"
 
-export const publishPage = async (title: string, content: string, html: string) => {
+export const publishPage = async (title: string, content: {}, html: string) => {
     const response = await api.post("/api/pages/publish", { title, content, html })
     return response.data
 }

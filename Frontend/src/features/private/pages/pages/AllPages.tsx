@@ -1,10 +1,10 @@
-import { useModalStore } from "@/store/modalStore";
 import { Button, Card, Container, Group, Stack, Text, Title } from "@mantine/core"
 import { IconPlus } from "@tabler/icons-react"
-import { AddNewPage, AddNewPageHeader } from "../components/AddNewPage";
+import { AddNewPage } from "../components/AddNewPage";
 import { useEffect, useState } from "react";
 import { getPages } from "@/api/pages";
 import { PagesTable } from "../components/PagesTable";
+import { useDisclosure } from "@mantine/hooks";
 
 interface Page {
     id: string;
@@ -17,21 +17,17 @@ interface Page {
 
 
 export const AllPages = () => {
-    const { openModal } = useModalStore();
+    const [opened, {open, close}] = useDisclosure(false)
     const [pages, setPages] = useState<Page[]>([]);
 
-    const handleAddNewPage = () => {
-        openModal({
-            title: "Agregar nueva página",
-            content: <AddNewPage />,
-            header: <AddNewPageHeader />
-        })
-    }
-
     useEffect(() => {
+        handlePagesUpdate()
+    }, [])
+
+    const handlePagesUpdate = () => {
         getPages()
             .then(setPages)
-    }, [])
+    }
 
     return (
         <Container>
@@ -42,7 +38,13 @@ export const AllPages = () => {
                         <Text c="dimmed" size="sm">Lista de todas las páginas que se encuentran almacenadas</Text>
                     </Stack>
 
-                    <Button leftSection={<IconPlus />} onClick={handleAddNewPage}>
+                    <AddNewPage
+                        opened={opened}
+                        close={close}
+                        onUpdate={handlePagesUpdate}
+                    />
+
+                    <Button leftSection={<IconPlus />} onClick={open}>
                         Crear nueva página
                     </Button>
                 </Group>

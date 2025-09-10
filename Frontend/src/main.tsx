@@ -13,6 +13,7 @@ import "./styles.css";
 import { mantineTheme } from "./theme/theme.ts";
 import { SettingsLoader } from "./SettingsLoader.tsx";
 import { useSettingStore } from "./store/settingStore.ts";
+import { Notifications } from '@mantine/notifications';
 
 function Root() {
   const { color, theme } = useSettingStore()
@@ -22,6 +23,7 @@ function Root() {
       theme={mantineTheme(color)}
       defaultColorScheme={theme}
     >
+      <Notifications position="bottom-left"/>
       <BrowserRouter>
         <SettingsLoader/>
         <App />

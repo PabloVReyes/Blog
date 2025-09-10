@@ -4,9 +4,7 @@ import { create } from 'zustand';
 interface ModalData {
     title?: string;
     subtitle?: string;
-    size?: string;
     content: ReactNode;
-    header?: ReactNode;
 }
 
 interface ModalState {

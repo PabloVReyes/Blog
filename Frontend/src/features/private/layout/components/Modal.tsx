@@ -8,25 +8,20 @@ export const Modal = () => {
             opened={opened}
             onClose={closeModal}
             centered
-            size={modal?.size}
-            fullScreen={modal?.size ? false : true}
+            size="lg"
         >
             <ModalMantine.Overlay />
             <ModalMantine.Content>
-                {modal?.header ?
-                    <>{modal.header}</>
-                    : <ModalMantine.Header>
-                        <ModalMantine.Title style={{ width: "100%", textAlign: "center" }}>
-                            {modal?.title}
-                            {modal?.subtitle && (
-                                <Text size="sm" c="dimmed">
-                                    {modal.subtitle}
-                                </Text>
-                            )}
-                        </ModalMantine.Title>
-                        <ModalMantine.CloseButton />
-                    </ModalMantine.Header>
-                }
+                <ModalMantine.Header>
+                    <ModalMantine.Title style={{ width: "100%", textAlign: "center" }}>
+                        {modal?.title}
+                        {modal?.subtitle && (
+                            <Text size="sm" c="dimmed">
+                                {modal.subtitle}
+                            </Text>
+                        )}
+                    </ModalMantine.Title>
+                </ModalMantine.Header>
                 <ModalMantine.Body>
                     <Stack>{modal?.content}</Stack>
                 </ModalMantine.Body>
