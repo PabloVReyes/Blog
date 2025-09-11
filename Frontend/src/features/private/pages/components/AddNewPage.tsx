@@ -25,7 +25,7 @@ import { notify } from '@/utils/notify';
 interface Props {
     opened: boolean;
     close: () => void;
-    onUpdate: () => void;
+    onUpdate?: () => void;
 }
 
 export const AddNewPage = ({ opened, close, onUpdate }: Props) => {

@@ -2,9 +2,11 @@ import { Button, Card, Container, Group, Stack, Text, Title } from "@mantine/cor
 import { IconPlus } from "@tabler/icons-react"
 import { AddNewPage } from "../components/AddNewPage";
 import { useEffect, useState } from "react";
-import { getPages } from "@/api/pages";
+import { getPages, getPagesCount } from "@/api/pages";
 import { PagesTable } from "../components/PagesTable";
 import { useDisclosure } from "@mantine/hooks";
+import { usePageStore } from "@/store/paginationStore";
+import { Pagination } from "@/components/Pagination";
 
 interface Page {
     id: string;
@@ -20,13 +22,18 @@ export const AllPages = () => {
     const [opened, {open, close}] = useDisclosure(false)
     const [pages, setPages] = useState<Page[]>([]);
 
+    const { setTotalItems, page, limit } = usePageStore()
+
     useEffect(() => {
         handlePagesUpdate()
-    }, [])
+    }, [page, limit])
 
     const handlePagesUpdate = () => {
-        getPages()
+        getPages(page, limit)
             .then(setPages)
+
+        getPagesCount()
+            .then(setTotalItems)
     }
 
     return (
@@ -52,6 +59,11 @@ export const AllPages = () => {
                 <Card>
                     <PagesTable 
                         pages={pages}
+                        onUpdate={handlePagesUpdate}
+                    />
+
+                    <Pagination
+                        useStore={usePageStore}
                     />
                 </Card>
             </Stack>

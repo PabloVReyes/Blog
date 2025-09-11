@@ -1,4 +1,5 @@
 import { database } from "@/database/config"
+import { random } from "colors";
 
 interface Props {
     title: string;
@@ -26,17 +27,35 @@ export const publishPageQuery = ({ title, slug, content, html }: Props) => {
     })
 }
 
-export const getPagesQuery = () => {
+interface getPageQueryProps {
+    skip: number;
+    take: number;
+}
+
+export const getPagesQuery = ({skip, take}: getPageQueryProps) => {
     return new Promise(async (resolve, reject) => {
         try {
             const data = await database.page.findMany({
                 orderBy: {
                     createdAt: 'desc'
-                }
+                },
+                take,
+                skip
             })
             resolve(data)
         } catch {
             reject(false)
+        }
+    })
+}
+
+export const getPagesCountQuery = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await database.page.count({})
+            resolve(data)
+        } catch {
+            reject(0)
         }
     })
 }
@@ -50,6 +69,22 @@ export const getPageQuery = (slug: string) => {
                 }
             })
             resolve(data)
+        } catch {
+            reject(false)
+        }
+    })
+}
+
+export const deletePageQuery = (id: string) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await database.page.delete({
+                where: {
+                    id
+                }
+            })
+
+            resolve(true)
         } catch {
             reject(false)
         }

@@ -10,7 +10,18 @@ export const getPage = async (slug: string) => {
     return response.data
 }
 
-export const getPages = async () => {
-    const response = await api.get(`/api/pages/`)
+export const getPages = async (page: number, limit: number) => {
+    const response = await api.get(`/api/pages/?page=${page}&limit=${limit}`)
     return response.data
+}
+
+export const getPagesCount = async () => {
+    const response = await api.get(`/api/pages/count`)
+    console.log(response)
+    return response.data
+}
+
+export const deletePage = async (id: string) => {
+    const response = await api.delete(`/api/pages/delete/${id}`)
+    return response.data;
 }

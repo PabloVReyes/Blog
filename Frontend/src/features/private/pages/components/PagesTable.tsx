@@ -1,6 +1,8 @@
+import { useModalStore } from "@/store/modalStore";
 import { ActionIcon, Group, Table, Tooltip } from "@mantine/core";
 import { IconEdit, IconEye, IconTrash } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { DeletePage } from "./DeletePage";
 
 interface Page {
     id: string;
@@ -13,6 +15,7 @@ interface Page {
 
 interface Props {
     pages: Page[]
+    onUpdate?: () => void;
 }
 
 const convertDate = (dateToConvert: string) => {
@@ -29,11 +32,19 @@ const convertDate = (dateToConvert: string) => {
     }));
 }
 
-export const PagesTable = ({ pages }: Props) => {
+export const PagesTable = ({ pages, onUpdate }: Props) => {
+    const { openModal } = useModalStore()
     const navigate = useNavigate()
 
     const handleViewPage = (slug: string) => {
         navigate(`/${slug}`)
+    }
+
+    const handleDeletePage = (page: Page) => {
+        openModal({
+            title: "Eliminar página",
+            content: <DeletePage id={page.id} title={page.title} onUpdate={onUpdate}/>
+        })
     }
 
     const renderRows = () => {
@@ -55,7 +66,7 @@ export const PagesTable = ({ pages }: Props) => {
                             </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Eliminar">
-                            <ActionIcon className="action">
+                            <ActionIcon className="action" onClick={() => handleDeletePage(page)}>
                                 <IconTrash size={16} stroke={1.5} color="var(--mantine-color-red-6)" />
                             </ActionIcon>
                         </Tooltip>
