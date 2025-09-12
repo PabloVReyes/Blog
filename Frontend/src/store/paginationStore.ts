@@ -15,7 +15,7 @@ export interface PaginationState {
 }
 
 export const usePageStore = create<PaginationState>((set, get) => ({
-    page: 0,
+    page: 1,
     limit: 10,
     totalItems: 0,
     search: "",

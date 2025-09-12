@@ -18,8 +18,8 @@ export const getPagesController: RequestHandler = async (request, response) => {
     try {
         const { page, limit } = request.query
         const data = await getPagesService({
-            page: Number(request.query.page ?? 1),
-            limit: Number(request.query.limit ?? 10)
+            page: Number(page ?? 1),
+            limit: Number(limit ?? 10)
         })
         response.json(data)
     } catch (error: any) {

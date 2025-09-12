@@ -19,7 +19,7 @@ interface getPagesServiceProps {
 }
 
 export const getPagesService = async ({ page, limit }: getPagesServiceProps) => {
-    const skip = (limit * (page + 1) - limit)
+    const skip = (limit * page - limit)
     const take = limit
 
     const data = await getPagesQuery({ skip, take })
@@ -28,7 +28,6 @@ export const getPagesService = async ({ page, limit }: getPagesServiceProps) => 
 
 export const getPagesCountService = async () => {
     const data = await getPagesCountQuery()
-    console.log(data)
     return data
 }
 

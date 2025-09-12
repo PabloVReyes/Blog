@@ -6,7 +6,7 @@ export const publishPage = async (title: string, content: {}, html: string) => {
 }
 
 export const getPage = async (slug: string) => {
-    const response = await api.get(`/api/pages/${slug}`)
+    const response = await api.get(`/api/pages/page/${slug}`)
     return response.data
 }
 

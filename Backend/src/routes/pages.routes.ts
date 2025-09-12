@@ -4,9 +4,9 @@ import { Router } from "express";
 const router: Router = Router()
 
 router.get('/', getPagesController)
+router.get("/page/:slug", getPageController)
+router.get('/count', getPagesCountController)
 router.post('/publish', publishPageController)
-router.get("/:slug", getPageController)
 router.delete("/delete/:id", deletePageController)
-router.get("/count", getPagesCountController)
 
 export default router;
