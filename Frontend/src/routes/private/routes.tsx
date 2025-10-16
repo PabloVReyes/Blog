@@ -1,8 +1,9 @@
-import { Summary } from "@/features/private/home/pages/Summary";
 import { Layout } from "@/features/private/layout";
 import { Navigate, type RouteObject } from "react-router-dom";
 import { settingsRoutes } from "./settings.routes";
 import { pagesRoutes } from "./pages.routes";
+import { sidebarRoutes } from "./sidebar.routes";
+import { Home } from "@/features/public/home/page";
 
 export const privateRoutes: RouteObject = {
     path: "administration",
@@ -10,18 +11,14 @@ export const privateRoutes: RouteObject = {
     children: [
         {
             index: true,
-            element: <Navigate to="home/summary" replace />
+            element: <Navigate to="home" replace />
         },
         {
             path: "home",
-            children: [
-                {
-                    path: "summary",
-                    element: <Summary />
-                }
-            ]
+            element: <Home/>
         },
         pagesRoutes,
+        sidebarRoutes,
         settingsRoutes
     ]
 }

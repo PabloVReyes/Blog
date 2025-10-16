@@ -1,5 +1,5 @@
-import { Box, Code, Collapse, Group, ScrollArea, Text, UnstyledButton } from "@mantine/core"
-import { paths } from "../paths"
+import { Box, Code, Collapse, Group, ScrollArea, Text, UnstyledButton } from "@mantine/core";
+import { paths } from "../paths";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -18,71 +18,78 @@ export const LinksGroup = ({ icon: Icon, label, links, link }: Props) => {
     const location = useLocation();
     const pathname = location.pathname;
 
-    const hasLinks = Array.isArray(links);
+    const hasLinks = Array.isArray(links) && links.length > 0;
 
-    const isGroupOpened = pathname.startsWith(`${link}`) || (link === '' && pathname === '/')
+    // ✅ activo si el padre o alguno de los hijos coincide con la ruta
+    const groupActive =
+        (link && pathname === link) ||
+        (hasLinks && links!.some((l) => pathname === l.link));
 
-    const [opened, setOpened] = useState(isGroupOpened);
+    const [opened, setOpened] = useState(groupActive);
 
     useEffect(() => {
-        setOpened(isGroupOpened)
-    }, [pathname, link])
+        setOpened(groupActive);
+    }, [pathname]);
 
-    const items = (hasLinks ? links : []).map((child) => {
-        const isActive = child.link === pathname;
-
+    // Renderiza los hijos
+    const items = (hasLinks ? links! : []).map((child) => {
+        const isActive = pathname === child.link;
         return (
             <Link
                 key={child.label}
                 to={child.link}
-                className="link"
+                className={`link ${isActive ? "active-link" : ""}`}
                 data-active={isActive || undefined}
+                style={{ display: "block", padding: "8px 16px" }} // opcional: padding interno
             >
                 {child.label}
             </Link>
-        )
-    })
-
-    const groupActive = hasLinks
-        ? links.some((l) => l.link === pathname)
-        : pathname === `/${link}` || (link === '' && pathname == '/')
+        );
+    });
 
     return (
         <>
             <UnstyledButton
-                onClick={() => setOpened((o) => !o)}
+                component={link ? Link : undefined}
+                to={link || ''}
                 className="control"
                 data-active={groupActive || undefined}
+                onClick={() => !link && hasLinks && setOpened((o) => !o)}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    height: 50,
+                    width: "100%",
+                    padding: "0 16px",
+                }}
             >
-                <Group justify="space-between" gap={0}>
-                    <Box
+                {/* icono + texto */}
+                <Box style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <Icon size={20} stroke={2} />
+                    <Box>{label}</Box>
+                </Box>
+
+                {/* chevron al extremo */}
+                {hasLinks && (
+                    <IconChevronRight
+                        className="chevron"
+                        size={16}
+                        stroke={1.5}
                         style={{
-                            display: 'flex',
-                            alignItems: 'center'
+                            transform: opened ? "rotate(-90deg)" : "none",
+                            transition: "transform 0.2s",
                         }}
-                    >
-                        <Icon size={20} stroke={2} />
-                        <Box ml="md">{label}</Box>
-                    </Box>
-                    {hasLinks && (
-                        <IconChevronRight
-                            className="chevron"
-                            stroke={1.5}
-                            size={16}
-                            style={{ transform: opened ? 'rotate(-90deg)' : 'none', transition: 'transform 0.2s ease' }}
-                        />
-                    )}
-                </Group>
+                    />
+                )}
             </UnstyledButton>
 
             {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
         </>
-    )
-}
+    );
+};
 
 export const Navbar = () => {
-    const links = paths.map((item) => <LinksGroup {...item} key={item.label} />)
-
     return (
         <nav className="navbar">
             <div className="header">
@@ -93,8 +100,12 @@ export const Navbar = () => {
             </div>
 
             <ScrollArea className="links">
-                <div>{links}</div>
+                <div>
+                    {paths.map((item) => (
+                        <LinksGroup {...item} key={item.label} />
+                    ))}
+                </div>
             </ScrollArea>
         </nav>
-    )
-}
+    );
+};

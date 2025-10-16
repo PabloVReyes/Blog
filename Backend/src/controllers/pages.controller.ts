@@ -1,4 +1,4 @@
-import { deletePageService, getPagesCountService, getPageService, getPagesService, publishPageService } from "@/services/pages.service"
+import { deletePageService, getAllPagesService, getPagesCountService, getPageService, getPagesService, publishPageService } from "@/services/pages.service"
 import { RequestHandler } from "express"
 
 export const publishPageController: RequestHandler = async (request, response) => {
@@ -16,10 +16,11 @@ export const publishPageController: RequestHandler = async (request, response) =
 
 export const getPagesController: RequestHandler = async (request, response) => {
     try {
-        const { page, limit } = request.query
+        const { page, limit, search } = request.query
         const data = await getPagesService({
             page: Number(page ?? 1),
-            limit: Number(limit ?? 10)
+            limit: Number(limit ?? 10),
+            search: String(search ?? "")
         })
         response.json(data)
     } catch (error: any) {
@@ -32,7 +33,8 @@ export const getPagesController: RequestHandler = async (request, response) => {
 
 export const getPagesCountController: RequestHandler = async (request, response) => {
     try {
-        const data = await getPagesCountService()
+        const { search } = request.query
+        const data = await getPagesCountService(String(search ?? ""))
         response.json(data)
     } catch (error: any) {
         response.status(500)
@@ -64,6 +66,18 @@ export const deletePageController: RequestHandler = async (request, response) =>
         response.status(500)
             .send({
                 msg: error.message || "Eliminar página"
+            })
+    }
+}
+
+export const getAllPagesController: RequestHandler = async (request, response) => {
+    try {
+        const data = await getAllPagesService()
+        response.json(data)
+    } catch (error: any) {
+        response.status(500)
+            .send({
+                msg: error.message || "Obtener lista de todas las páginas"
             })
     }
 }

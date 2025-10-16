@@ -26,6 +26,10 @@ export const usePageStore = create<PaginationState>((set, get) => ({
     setSearch: (search: any) => set({ search, page: 1 }),
 
     totalPages: () => Math.ceil(get().totalItems / get().limit),
-    firstItem: () => (get().page - 1) * get().limit + 1,
+    firstItem: () => {
+        const { page, limit, totalItems } = get();
+        if (totalItems === 0) return 0;
+        return (page - 1) * limit + 1;
+    },
     lastItem: () => Math.min(get().page * get().limit, get().totalItems)
 }))

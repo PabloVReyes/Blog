@@ -1,4 +1,4 @@
-export const Summary = () => {
+export const Home = () => {
     return (
         <>
             Pagina de resumen

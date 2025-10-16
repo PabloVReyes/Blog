@@ -7,6 +7,7 @@ import { PagesTable } from "../components/PagesTable";
 import { useDisclosure } from "@mantine/hooks";
 import { usePageStore } from "@/store/paginationStore";
 import { Pagination } from "@/components/Pagination";
+import { Search } from "@/components/Search";
 
 interface Page {
     id: string;
@@ -18,21 +19,21 @@ interface Page {
 }
 
 
-export const AllPages = () => {
-    const [opened, {open, close}] = useDisclosure(false)
+export const Pages = () => {
+    const [opened, { open, close }] = useDisclosure(false)
     const [pages, setPages] = useState<Page[]>([]);
 
-    const { setTotalItems, page, limit } = usePageStore()
+    const { setTotalItems, page, limit, search } = usePageStore()
 
     useEffect(() => {
         handlePagesUpdate()
-    }, [page, limit])
+    }, [page, limit, search])
 
     const handlePagesUpdate = () => {
-        getPages(page, limit)
+        getPages(page, limit, search)
             .then(setPages)
 
-        getPagesCount()
+        getPagesCount(search)
             .then(setTotalItems)
     }
 
@@ -57,14 +58,20 @@ export const AllPages = () => {
                 </Group>
 
                 <Card>
-                    <PagesTable 
-                        pages={pages}
-                        onUpdate={handlePagesUpdate}
-                    />
+                    <Stack gap="xl">
+                        <Search
+                            useStore={usePageStore}
+                        />
 
-                    <Pagination
-                        useStore={usePageStore}
-                    />
+                        <PagesTable
+                            pages={pages}
+                            onUpdate={handlePagesUpdate}
+                        />
+
+                        <Pagination
+                            useStore={usePageStore}
+                        />
+                    </Stack>
                 </Card>
             </Stack>
         </Container>

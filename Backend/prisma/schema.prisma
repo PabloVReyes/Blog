@@ -16,7 +16,7 @@ datasource db {
 model Setting {
   id    String @id @default(uuid())
   name  String @unique
-  value String
+  value String @db.LongText
 }
 
 model Page {

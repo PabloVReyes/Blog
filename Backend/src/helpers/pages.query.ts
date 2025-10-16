@@ -30,18 +30,32 @@ export const publishPageQuery = ({ title, slug, content, html }: Props) => {
 interface getPageQueryProps {
     skip: number;
     take: number;
+    search: string;
 }
 
-export const getPagesQuery = ({skip, take}: getPageQueryProps) => {
+export const getPagesQuery = ({ skip, take, search }: getPageQueryProps) => {
     return new Promise(async (resolve, reject) => {
         try {
+            let whereCondition = {}
+
+            if (search && search.trim() != "") {
+                whereCondition = {
+                    OR: [
+                        { title: { contains: search } },
+                        { slug: { contains: search } }
+                    ]
+                }
+            }
+
             const data = await database.page.findMany({
+                where: whereCondition,
                 orderBy: {
                     createdAt: 'desc'
                 },
                 take,
                 skip
             })
+
             resolve(data)
         } catch {
             reject(false)
@@ -49,10 +63,24 @@ export const getPagesQuery = ({skip, take}: getPageQueryProps) => {
     })
 }
 
-export const getPagesCountQuery = () => {
+export const getPagesCountQuery = (search: string) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await database.page.count({})
+            let whereCondition = {}
+
+            if (search && search.trim() != "") {
+                whereCondition = {
+                    OR: [
+                        { title: { contains: search } },
+                        { slug: { contains: search } }
+                    ]
+                }
+            }
+
+            const data = await database.page.count({
+                where: whereCondition
+            })
+
             resolve(data)
         } catch {
             reject(0)
@@ -87,6 +115,18 @@ export const deletePageQuery = (id: string) => {
             resolve(true)
         } catch {
             reject(false)
+        }
+    })
+}
+
+export const getAllPagesQuery = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await database.page.findMany({})
+
+            resolve(data)
+        } catch {
+            reject([])
         }
     })
 }

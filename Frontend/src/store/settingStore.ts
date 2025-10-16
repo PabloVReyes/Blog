@@ -2,8 +2,17 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getSettings, updateSettings } from "@/api/settings";
 import { colorMap } from "@/utils/colors";
+import type { TreeItems } from "@/components/SoportableTee/types";
 
 type ThemeType = "auto" | "dark" | "light";
+
+interface MenuItem {
+  id: string;
+  label: string;
+  link: string;
+  icon: string;
+  children?: TreeItems;
+}
 
 interface SettingState {
     settings: Record<string, string>;
@@ -18,6 +27,22 @@ interface SettingState {
     setFavicon: (url: string) => void;
     loadSettings: () => Promise<void>;
     saveSetting: (name: string, value: string) => Promise<void>;
+
+    // Menus
+    menu: TreeItems;
+    setMenu: (menu: any) => void;
+    addMenuItem: (item: {
+        id: string;
+        label: string;
+        link: string;
+        icon: string;
+        children?: TreeItems;
+    }) => void;
+    getMenuItemById: (id: string) => MenuItem | null;
+    updateMenuItem: (
+        id: string,
+        updates: Partial<{ label: string, link: string, icon: string }>
+    ) => void;
 }
 
 export const useSettingStore = create<SettingState>()(
@@ -28,6 +53,7 @@ export const useSettingStore = create<SettingState>()(
             color: "blue",
             theme: "auto",
             favicon: undefined,
+            menu: [],
 
             // Actualiza settings, color y theme desde un objeto recibido
             setSettings: (settings) => {
@@ -39,12 +65,22 @@ export const useSettingStore = create<SettingState>()(
                     ? settings.color
                     : "blue";
 
+                let menu: TreeItems = [];
+                try {
+                    menu = settings.menu ? JSON.parse(settings.menu) : [];
+                    if (!Array.isArray(menu)) menu = []; // <- importante
+                } catch (error) {
+                    console.error("Error parseando el menú:", error);
+                    menu = [];
+                }
+
                 set({
                     settings,
                     title: settings.title,
                     favicon: settings.favicon,
                     color: colorFromDB,
                     theme: themeFromDB,
+                    menu
                 });
             },
 
@@ -83,6 +119,46 @@ export const useSettingStore = create<SettingState>()(
                     console.error("Error guardando configuración:", error);
                 }
             },
+
+            setMenu: (menu) => set({ menu }),
+
+            addMenuItem: (item: { id: string; children?: TreeItems }) => {
+                const currentMenu = get().menu || [];
+                set({ menu: [...currentMenu, { ...item, children: item.children || [] }] });
+            },
+
+            getMenuItemById: (id) => {
+                const findNode = (items: TreeItems): any | null => {
+                    for (const item of items) {
+                        if(item.id === id) return item;
+
+                        if(item.children?.length) {
+                            const found = findNode(item.children);
+                            if(found) return found
+                        }
+                    }
+
+                    return null;
+                };
+                return findNode(get().menu);
+            },
+
+            updateMenuItem: (id, updates) => {
+                const updateNode = (items: TreeItems): TreeItems => {
+                    return items.map((item) => {
+                        if (item.id === id) {
+                            return { ...item, ...updates };
+                        }
+
+                        if (item.children && item.children.length > 0) {
+                            return {...item, children: updateNode(item.children)};
+                        }
+                        return item;
+                    })
+                };
+
+                set({menu: updateNode(get().menu)});
+            }
         }),
         {
             name: "settings-storage", // nombre en localStorage
