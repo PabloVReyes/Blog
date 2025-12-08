@@ -4,7 +4,7 @@ import { IconEdit, IconEye, IconEyeClosed, IconInfoCircle, IconTrash } from "@ta
 import { useModalStore } from "@/store/modalStore"
 import { CmpHomeCarouselInformation } from "./CmpHomeCarouselInformation"
 import { CmpHomeCarouselEdit } from "./CmpHomeCarouselEdit"
-import { CmpHomeCarouselEliminate } from "./CmpHomeCarouselEliminate"
+import { CmpHomeCarouselDelete } from "./CmpHomeCarouselDelete"
 
 export const CmpHomeCarouselTableRow = (item: ItemProps) => {
     const { openModal } = useModalStore()
@@ -23,10 +23,10 @@ export const CmpHomeCarouselTableRow = (item: ItemProps) => {
         })
     }
 
-    const handleEliminate = () => {
+    const handleDelete = () => {
         openModal({
             title: "Eliminar",
-            content: <CmpHomeCarouselEliminate key={item.id} {...item}/>
+            content: <CmpHomeCarouselDelete key={item.id} {...item}/>
         })
     }
 
@@ -64,7 +64,7 @@ export const CmpHomeCarouselTableRow = (item: ItemProps) => {
                     </ActionIcon>
                     <ActionIcon
                         className="action"
-                        onClick={handleEliminate}
+                        onClick={handleDelete}
                     >
                         <IconTrash size={16} stroke={1.5} color="var(--mantine-color-red-6)" />
                     </ActionIcon>

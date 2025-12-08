@@ -97,8 +97,8 @@ export const NavbarMinimal = () => {
             <div className="navbar-main-minimal">
                 <Stack justify="center" gap={0}>
                     <ScrollArea>
-                        {menuItems.map((item) => (
-                            <NavbarLink {...item} key={item.id} />
+                        {menuItems.map((item, index) => (
+                            <NavbarLink {...item} key={index} />
                         ))}
                     </ScrollArea>
                 </Stack>

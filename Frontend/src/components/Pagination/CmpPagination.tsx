@@ -27,7 +27,10 @@ export const CmpPagination = ({ useStore }: Props) => {
                     checkIconPosition="right"
                     data={["10", "25", "50", "100"]}
                     value={limit.toString()}
-                    onChange={(value) => setLimit(Number(value))}
+                    onChange={(value) => {
+                        if (!value) return;
+                        setLimit(Number(value));
+                    }}
                     w={80}
                 />
 

@@ -2,6 +2,7 @@ import { Router } from "express";
 import settingsRoutes from "@/routes/settings.routes"
 import pagesRoutes from "@/routes/pages.routes"
 import carouselRoutes from "@/routes/carousel.routes"
+import filesRoutes from "@/routes/files.routes"
 
 const router: Router = Router()
 
@@ -23,5 +24,6 @@ router.get('/', (request, response) => {
 router.use("/api/settings", settingsRoutes)
 router.use("/api/pages", pagesRoutes)
 router.use("/api/carousel", carouselRoutes)
+router.use("/api/files", filesRoutes)
 
 module.exports = router;

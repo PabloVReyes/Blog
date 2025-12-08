@@ -3,6 +3,7 @@ import { Navigate, type RouteObject } from "react-router-dom";
 import { settingsRoutes } from "./settings.routes";
 import { pagesRoutes } from "./pages.routes";
 import { sidebarRoutes } from "./sidebar.routes";
+import { filesRoutes } from "./files.routes";
 
 export const privateRoutes: RouteObject = {
     path: "administration",
@@ -18,6 +19,7 @@ export const privateRoutes: RouteObject = {
         },
         pagesRoutes,
         sidebarRoutes,
-        settingsRoutes
+        settingsRoutes,
+        filesRoutes
     ]
 }

@@ -1,10 +1,10 @@
-import { getAllCarousel, getAllCarouselCount } from "@/api/carousel";
 import { create } from "zustand";
-import { type UsePrivateHomeCarouselStoreProps } from "./type";
+import type { usePrivateFilesStoreProps } from "./type.ts";
+import { getFiles, getFilesCount } from "@/api/files.ts";
 
-export const usePrivateHomeCarouselStore = create<UsePrivateHomeCarouselStoreProps>((set, get) => ({
+export const usePrivateFilesStore = create<usePrivateFilesStoreProps>((set, get) => ({
     page: 1,
-    limit: 10,
+    limit: 25,
     totalItems: 0,
     items: [],
     isFetching: false,
@@ -22,12 +22,12 @@ export const usePrivateHomeCarouselStore = create<UsePrivateHomeCarouselStorePro
     },
     lastItem: () => Math.min(get().page * get().limit, get().totalItems),
 
-    async fetchCarousel() {
-        const {page, limit, search} = get();
+    async fetchFiles() {
+        const { page, limit, search } = get();
 
         try {
-            const list = await getAllCarousel(page, limit, search)
-            const count = await getAllCarouselCount(search)
+            const list = await getFiles(page, limit, search)
+            const count = await getFilesCount(search)
 
             set({ items: list, totalItems: count })
         } finally {

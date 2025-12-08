@@ -1,4 +1,4 @@
-import { IconAppWindow, IconHome, IconLayoutSidebar, IconSettings } from "@tabler/icons-react";
+import { IconAppWindow, IconFiles, IconHome, IconLayoutSidebar, IconSettings } from "@tabler/icons-react";
 
 export const paths = [
     {
@@ -23,8 +23,13 @@ export const paths = [
         link: "/administration/sidebar",
     },
     {
+        label: "Archivos",
+        icon: IconFiles,
+        link: "/administration/files"
+    },
+    {
         label: "Configuraciones",
         icon: IconSettings,
         link: "/administration/settings",
-    }
+    },
 ]

@@ -1,23 +1,23 @@
-import { deleteCarousel } from "@/api/carousel"
+import { deleteFile } from "@/api/files"
+import { usePrivateFilesStore } from "@/store/files/filesStore"
 import { useModalStore } from "@/store/modalStore"
-import { usePrivateHomeCarouselStore } from "@/store/pages/homeStore"
 import { Alert, Button, Divider, Flex, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled, IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 
-export const CmpHomeCarouselEliminate = ({ id, title }: { id: string, title: string }) => {
+export const CmpFileDelete = ({ filename }: { filename: string }) => {
     const { closeModal, openModal } = useModalStore()
-    const { fetchCarousel } = usePrivateHomeCarouselStore()
+    const { fetchFiles } = usePrivateFilesStore()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const form = useForm({
         initialValues: {
-            id: id,
+            filename: filename,
             value: ""
         },
         validate: {
-            value: (value => value == `Eliminar ${title}` ? null : "Para eliminar el item escribe exactamente lo que se solicita")
+            value: (value => value == `Eliminar archivo` ? null : "Para eliminar el archivo escribe exactamente lo que se solicita")
         }
     })
 
@@ -25,23 +25,23 @@ export const CmpHomeCarouselEliminate = ({ id, title }: { id: string, title: str
         try {
             setIsLoading(true);
 
-            await deleteCarousel(values.id)
+            await deleteFile(values.filename)
 
             setTimeout(() => {
                 openModal({
-                    title: "Item eliminado",
-                    subtitle: "El item fue eliminado correctamente",
+                    title: "Archivo eliminado",
+                    subtitle: "El archivo fue eliminado correctamente",
                     content: (
                         <Stack align="center" p="xl">
                             <IconTrash size={60} color="red" />
                             <Text ta="center">
-                                El item ha sido eliminado correctamente.
+                                El archivo ha sido eliminado correctamente.
                             </Text>
                         </Stack>
                     )
                 });
 
-                fetchCarousel();
+                fetchFiles();
 
                 setTimeout(() => {
                     closeModal();
@@ -49,11 +49,12 @@ export const CmpHomeCarouselEliminate = ({ id, title }: { id: string, title: str
 
             }, 1000);
         } catch (error) {
-            console.error("Error deleted permission:", error);
+            console.error("Error deleted file:", error);
         } finally {
             setTimeout(() => setIsLoading(false), 1000);
         }
     }
+
 
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -73,18 +74,18 @@ export const CmpHomeCarouselEliminate = ({ id, title }: { id: string, title: str
                 >
                     <Stack>
                         <Text size="sm">
-                            Estás a punto de eliminar del carousel el item “{title}”.
+                            Estás a punto de eliminar el archivo “{filename}”.
                         </Text>
 
                         <Text size="sm">
-                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este item.
+                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este archivo.
                         </Text>
                         <Text size="sm">
                             Para continuar, escribe exactamente:
                         </Text>
 
                         <Text size="sm" fw={700}>
-                            Eliminar {title}
+                            Eliminar archivo
                         </Text>
 
                         <Text size="sm">
@@ -98,7 +99,7 @@ export const CmpHomeCarouselEliminate = ({ id, title }: { id: string, title: str
                 <TextInput
                     autoFocus
                     withAsterisk
-                    placeholder="Eliminar permiso"
+                    placeholder="Eliminar archivo"
                     {...form.getInputProps("value")}
                 />
 
