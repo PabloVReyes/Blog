@@ -1,5 +1,5 @@
 import { deletePageService, getAllPagesService, getPagesCountService, getPageService, getPagesService, publishPageService } from "@/services/pages.service"
-import { RequestHandler } from "express"
+import { RequestHandler, response } from "express"
 
 export const publishPageController: RequestHandler = async (request, response) => {
     try {
@@ -81,3 +81,4 @@ export const getAllPagesController: RequestHandler = async (request, response) =
             })
     }
 }
+

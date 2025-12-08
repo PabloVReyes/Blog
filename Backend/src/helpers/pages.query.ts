@@ -123,7 +123,6 @@ export const getAllPagesQuery = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const data = await database.page.findMany({})
-
             resolve(data)
         } catch {
             reject([])

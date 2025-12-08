@@ -25,6 +25,7 @@ export const updateSettingsController: RequestHandler = async (request, response
             })
     }
 }
+
 export const uploadFaviconController = async (request, response) => {
     try {
         if (!request.file) {

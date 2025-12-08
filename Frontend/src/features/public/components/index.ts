@@ -1,0 +1,1 @@
+export { CmpCarousel } from "./Carousel";

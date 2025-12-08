@@ -41,7 +41,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { notify } from '@/utils/notify';
 import { useSettingStore } from '@/store/settingStore';
 import { useModalStore } from '@/store/modalStore';
-import { EditMenu } from '@/features/private/sidebar/components/EditMenu';
+import { EditMenu } from '@/features/private/pages/Sidebar/components/EditMenu';
 
 const measuring = {
     droppable: {

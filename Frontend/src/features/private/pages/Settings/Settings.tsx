@@ -5,7 +5,7 @@ import { ActionIcon, Button, Card, CheckIcon, ColorSwatch, Container, Divider, F
 import { IconMoon, IconSun, IconSunMoon } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
-export const General = () => {
+export const Settings = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const { color, setColor, theme, setTheme, saveSetting, title, setTitle, setFavicon, favicon } = useSettingStore()
     const [initialState, setInitialState] = useState({

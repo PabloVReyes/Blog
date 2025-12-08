@@ -1,12 +1,12 @@
 import { Button, Card, Container, Group, Stack, Text, Title } from "@mantine/core"
 import { IconPlus } from "@tabler/icons-react"
-import { AddNewPage } from "../components/AddNewPage";
+import { AddNewPage } from "../../components/AddNewPage";
 import { useEffect, useState } from "react";
 import { getPages, getPagesCount } from "@/api/pages";
-import { PagesTable } from "../components/PagesTable";
+import { PagesTable } from "../../components/PagesTable";
 import { useDisclosure } from "@mantine/hooks";
 import { usePageStore } from "@/store/paginationStore";
-import { Pagination } from "@/components/Pagination";
+import { CmpPagination } from "@/components/Pagination";
 import { Search } from "@/components/Search";
 
 interface Page {
@@ -68,7 +68,7 @@ export const Pages = () => {
                             onUpdate={handlePagesUpdate}
                         />
 
-                        <Pagination
+                        <CmpPagination
                             useStore={usePageStore}
                         />
                     </Stack>

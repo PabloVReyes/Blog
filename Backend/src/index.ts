@@ -46,12 +46,12 @@ class server {
     }
 
     settingLogFile() {
-        const logDir = path.join(__dirname, '/log')
+        const logDir = path.join(__dirname, '../log')
         if (!fs.existsSync(logDir)) {
             fs.mkdirSync(logDir)
         }
 
-        const logFile = fs.createWriteStream(path.join(__dirname, '/log/request.log'), { flags: 'a' })
+        const logFile = fs.createWriteStream(path.join(__dirname, '../log/request.log'), { flags: 'a' })
         this.app.use(morgan('combined', { stream: logFile }))
     }
 

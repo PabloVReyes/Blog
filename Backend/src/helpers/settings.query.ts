@@ -20,14 +20,19 @@ interface Props {
 export const updateSettingsQuery = ({ name, value }: Props) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await database.setting.update({
+            await database.setting.upsert({
                 where: { name },
-                data: {
-                    value: value
+                create: {
+                    name,
+                    value
+                },
+                update: {
+                    value
                 }
             })
             resolve(true)
-        } catch {
+        } catch (error) {
+            console.log("Error updateSettingsQuery", error)
             reject(false)
         }
     })

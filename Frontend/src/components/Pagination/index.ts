@@ -1,0 +1,1 @@
+export { CmpPagination } from "./CmpPagination"

@@ -3,6 +3,7 @@ import { paths } from "../paths";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IconChevronRight } from "@tabler/icons-react";
+import { useSettingStore } from "@/store/settingStore";
 
 interface Props {
     link?: string;
@@ -90,11 +91,13 @@ export const LinksGroup = ({ icon: Icon, label, links, link }: Props) => {
 };
 
 export const Navbar = () => {
+    const {title} = useSettingStore()
+
     return (
         <nav className="navbar">
             <div className="header">
                 <Group justify="space-between">
-                    <Text>Blog</Text>
+                    <Text>{title}</Text>
                     <Code fw={700}>Beta</Code>
                 </Group>
             </div>

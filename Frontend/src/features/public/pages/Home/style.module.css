@@ -1,0 +1,41 @@
+/* MOBILE FIRST: por defecto, todo ocupa 12 columnas */
+.colMain {
+    grid-column: span 12;
+}
+
+.colSide {
+    grid-column: span 12;
+}
+
+/* >= sm */
+@media (min-width: 48em) {
+    .colMain {
+        grid-column: span 8;
+    }
+
+    .colSide {
+        grid-column: span 4;
+    }
+}
+
+/* >= md */
+@media (min-width: 62em) {
+    .colMain {
+        grid-column: span 7;
+    }
+
+    .colSide {
+        grid-column: span 5;
+    }
+}
+
+/* >= lg */
+@media (min-width: 75em) {
+    .colMain {
+        grid-column: span 8;
+    }
+
+    .colSide {
+        grid-column: span 4;
+    }
+}

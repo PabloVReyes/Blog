@@ -1,22 +1,7 @@
 import { Layout } from "@/features/public/layout";
-import { DynamicPage } from "@/features/public/pages/pages/DynamicPage";
-import { useSettingStore } from "@/store/settingStore";
-import { Navigate, type RouteObject } from "react-router-dom";
-
-const RedirectToFirstPage = () => {
-    const menu: any = useSettingStore((s) => s.menu)
-
-    if (!menu || menu.length === 0) {
-        return (
-            <>
-                Sin paginas
-            </>
-        )
-    }
-
-    const firstLink = menu[0].link;
-    return <Navigate to={firstLink} replace />;
-}
+import { Home } from "@/features/public/pages";
+import { DynamicPage } from "@/features/public/pages/DynamicPage";
+import { type RouteObject } from "react-router-dom";
 
 export const publicRoutes: RouteObject = {
     path: "/",
@@ -24,7 +9,7 @@ export const publicRoutes: RouteObject = {
     children: [
         {
             index: true,
-            element: <RedirectToFirstPage />
+            element: <Home />
         },
         {
             path: ":slug",

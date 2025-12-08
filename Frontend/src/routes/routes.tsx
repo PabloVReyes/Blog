@@ -1,4 +1,3 @@
-import { Home } from "@/features/public/home/page";
 import type { RouteObject } from "react-router-dom";
 import { privateRoutes } from "./private/routes";
 import { publicRoutes } from "./public/routes";
@@ -8,6 +7,6 @@ export const routes: RouteObject[] = [
     privateRoutes,
     {
         path: '/',
-        element: <Home/>
+        element: <></>
     }
 ]

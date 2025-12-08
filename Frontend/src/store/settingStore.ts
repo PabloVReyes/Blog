@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getSettings, updateSettings } from "@/api/settings";
 import { colorMap } from "@/utils/colors";
-import type { TreeItems } from "@/components/SoportableTee/types";
+import type { TreeItems } from "@/components/SortableTree/types";
 
 type ThemeType = "auto" | "dark" | "light";
 

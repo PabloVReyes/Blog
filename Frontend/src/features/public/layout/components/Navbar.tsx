@@ -110,14 +110,24 @@ const mapTreeToMenu = (items: TreeItem[]): MenuItem[] =>
 
 // --- Navbar ---
 export const Navbar = () => {
-    const { menu } = useSettingStore();
-    const menuItems = mapTreeToMenu(menu);
+    const { menu, title } = useSettingStore();
+    const home: any = [
+        {
+            id: 'inicio',
+            label: 'Inicio',
+            icon: 'IconHome',
+            link: "/",
+        },
+        ...menu
+    ]
+
+    const menuItems = mapTreeToMenu(home);
 
     return (
         <nav className="navbar">
             <div className="header">
                 <Group justify="space-between">
-                    <Text>Blog</Text>
+                    <Text>{title}</Text>
                     <Code fw={700}>Beta</Code>
                 </Group>
             </div>

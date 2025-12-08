@@ -10,6 +10,12 @@ export const paths = [
         label: "Páginas",
         icon: IconAppWindow,
         link: "/administration/pages",
+        links: [
+            {
+                label: "Inicio",
+                link: "/administration/pages/home",
+            }
+        ]
     },
     {
         label: "Menú lateral",

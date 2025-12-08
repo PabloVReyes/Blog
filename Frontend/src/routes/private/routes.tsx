@@ -3,7 +3,6 @@ import { Navigate, type RouteObject } from "react-router-dom";
 import { settingsRoutes } from "./settings.routes";
 import { pagesRoutes } from "./pages.routes";
 import { sidebarRoutes } from "./sidebar.routes";
-import { Home } from "@/features/public/home/page";
 
 export const privateRoutes: RouteObject = {
     path: "administration",
@@ -15,7 +14,7 @@ export const privateRoutes: RouteObject = {
         },
         {
             path: "home",
-            element: <Home/>
+            element: <>Inicio</>
         },
         pagesRoutes,
         sidebarRoutes,
