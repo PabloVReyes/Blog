@@ -7,18 +7,20 @@ export const getCarouselService = async () => {
 
 
 export const getAllCarouselService = async (req: any) => {
-    const { page, limit } = req.query
+    const { page, limit, search } = req.query
 
     const props = {
         skip: (limit * page - limit),
-        take: Number(limit)
+        take: Number(limit),
+        search
     }
 
     const data = await getAllCarouselQuery(props)
     return data
 }
-export const getAllCarouselCountService = async () => {
-    const data = await getAllCarouselCountQuery()
+
+export const getAllCarouselCountService = async (req: any) => {
+    const data = await getAllCarouselCountQuery(req.query.search)
     return data
 }
 

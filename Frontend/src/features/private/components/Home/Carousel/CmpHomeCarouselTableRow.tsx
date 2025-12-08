@@ -32,7 +32,7 @@ export const CmpHomeCarouselTableRow = (item: ItemProps) => {
 
     return (
         <Table.Tr key={item.id}>
-            <Table.Td style={{ textAlign: "center" }}>
+            <Table.Td style={{ textAlign: "center" }} w={10}>
                 {item.is_visible ?
                     <IconEye stroke={1.5}/> :
                     <IconEyeClosed stroke={1.5}/>

@@ -1,12 +1,12 @@
 import { api } from "@/services/axios.client"
 
-export const getAllCarousel = async (page: number, limit: number) => {
-    const response = await api.get(`/api/carousel/all?page=${page}&limit=${limit}`)
+export const getAllCarousel = async (page: number, limit: number, search: string) => {
+    const response = await api.get(`/api/carousel/all?page=${page}&limit=${limit}&search=${search}`)
     return response.data
 }
 
-export const getAllCarouselCount = async () => {
-    const response = await api.get("/api/carousel/all/count")
+export const getAllCarouselCount = async (search: string) => {
+    const response = await api.get(`/api/carousel/all/count?search=${search}`)
     return response.data
 }
 

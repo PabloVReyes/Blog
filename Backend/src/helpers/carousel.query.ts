@@ -1,18 +1,33 @@
 import { database } from "@/database/config"
 
 interface getAllCarouselQueryProps {
-    skip: number,
-    take: number
+    skip: number;
+    take: number;
+    search: string;
 }
 
-export const getAllCarouselQuery = (props: getAllCarouselQueryProps) => {
+export const getAllCarouselQuery = ({ skip, take, search }: getAllCarouselQueryProps) => {
     return new Promise(async (resolve, reject) => {
         try {
+            let whereCondition = {}
+
+            if (search && search.trim() != "") {
+                whereCondition = {
+                    OR: [
+                        { title: { contains: search } },
+                        { description: { contains: search } },
+                        { url: { contains: search } }
+                    ]
+                }
+            }
+
             const data = await database.carousel.findMany({
+                where: whereCondition,
                 orderBy: {
                     createdAt: "desc"
                 },
-                ...props
+                skip,
+                take
             })
             resolve(data)
         } catch (error) {
@@ -22,10 +37,24 @@ export const getAllCarouselQuery = (props: getAllCarouselQueryProps) => {
     })
 }
 
-export const getAllCarouselCountQuery = () => {
+export const getAllCarouselCountQuery = (search: string) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await database.carousel.count({})
+            let whereCondition = {}
+
+            if (search && search.trim() != "") {
+                whereCondition = {
+                    OR: [
+                        { title: { contains: search } },
+                        { description: { contains: search } },
+                        { url: { contains: search } }
+                    ]
+                }
+            }
+
+            const data = await database.carousel.count({
+                where: whereCondition
+            })
             resolve(data)
         } catch (error) {
             console.log("Error en getAllCarouselCountQuery", error)

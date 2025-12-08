@@ -15,7 +15,7 @@ export const postCarouselController: RequestHandler = async(req, res) => {
 
 export const getAllCarouselCountContoller: RequestHandler = async(req, res) => {
     try {
-        const data = await getAllCarouselCountService()
+        const data = await getAllCarouselCountService(req)
         res.json(data)
     } catch (error) {
         res.status(500)

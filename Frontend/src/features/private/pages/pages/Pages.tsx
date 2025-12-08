@@ -7,7 +7,6 @@ import { PagesTable } from "../../components/PagesTable";
 import { useDisclosure } from "@mantine/hooks";
 import { usePageStore } from "@/store/paginationStore";
 import { CmpPagination } from "@/components/Pagination";
-import { Search } from "@/components/Search";
 
 interface Page {
     id: string;
@@ -59,9 +58,6 @@ export const Pages = () => {
 
                 <Card>
                     <Stack gap="xl">
-                        <Search
-                            useStore={usePageStore}
-                        />
 
                         <PagesTable
                             pages={pages}

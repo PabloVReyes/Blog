@@ -8,10 +8,12 @@ export const usePrivateHomeCarouselStore = create<UsePrivateHomeCarouselProps>((
     totalItems: 0,
     items: [],
     isFetching: false,
+    search: "",
 
     setPage: (page) => set({ page }),
     setLimit: (limit) => set({ limit, page: 1 }),
     setTotalItems: (totalItems) => set({ totalItems }),
+    setSearch: (search: any) => set({ search, page: 1 }),
     totalPages: () => Math.ceil(get().totalItems / get().limit),
     firstItem: () => {
         const { page, limit, totalItems } = get();
@@ -21,11 +23,11 @@ export const usePrivateHomeCarouselStore = create<UsePrivateHomeCarouselProps>((
     lastItem: () => Math.min(get().page * get().limit, get().totalItems),
 
     async fetchCarousel() {
-        const {page, limit} = get();
+        const {page, limit, search} = get();
 
         try {
-            const list = await getAllCarousel(page, limit)
-            const count = await getAllCarouselCount()
+            const list = await getAllCarousel(page, limit, search)
+            const count = await getAllCarouselCount(search)
 
             set({ items: list, totalItems: count })
         } finally {

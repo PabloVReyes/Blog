@@ -1,0 +1,1 @@
+export { CmpSearch } from "./CmpSearch"

@@ -3,12 +3,12 @@ import { IconPlus } from "@tabler/icons-react"
 import { useModalStore } from "@/store/modalStore"
 import { usePrivateHomeCarouselStore } from "@/store/pages/homeStore"
 import { useEffect } from "react"
-import { CmpPagination } from "@/components"
+import { CmpPagination, CmpSearch } from "@/components"
 import { CmpHomeCarouselAdd, CmpHomeCarouselTable } from "../../../components"
 
 export const Home = () => {
     const { openModal } = useModalStore()
-    const { fetchCarousel, items, page, limit } = usePrivateHomeCarouselStore()
+    const { fetchCarousel, items, page, limit, search, setSearch } = usePrivateHomeCarouselStore()
 
     const handleAddCarousel = () => {
         openModal({
@@ -19,7 +19,7 @@ export const Home = () => {
 
     useEffect(() => {
         fetchCarousel()
-    }, [page, limit])
+    }, [page, limit, search])
 
     return (
         <Container>
@@ -44,12 +44,20 @@ export const Home = () => {
                     </Button>
 
                 </Group>
+                {/* Busqueda */}
+                <Card>
+                    <CmpSearch
+                        value={search}
+                        onChange={setSearch}
+                    />
+                </Card>
+                {/* Contenido */}
                 <Card>
                     <CmpHomeCarouselTable
                         items={items}
                     />
                 </Card>
-
+                {/* Paginacion */}
                 <Card>
                     <CmpPagination
                         useStore={usePrivateHomeCarouselStore}

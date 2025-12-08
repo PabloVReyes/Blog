@@ -1,9 +1,25 @@
-import { Table } from "@mantine/core"
+import { Table, Text } from "@mantine/core"
 import { CmpHomeCarouselTableRow } from "./CmpHomeCarouselTableRow"
 import type { ItemProps } from "./type"
 
 export const CmpHomeCarouselTable = ({ items }: { items: ItemProps[] }) => {
     const renderRows = () => {
+        if (items.length < 1) {
+            return (
+                <Table.Td colSpan={5}>
+                    <Text
+                        mt={20}
+                        size="sm"
+                        truncate="end"
+                        c="dimmed"
+                        style={{ textAlign: "center" }}
+                    >
+                        Sin elementos
+                    </Text>
+                </Table.Td>
+            )
+        }
+
         return items.map((item: ItemProps, index: number) => (
             <CmpHomeCarouselTableRow
                 {...item}
