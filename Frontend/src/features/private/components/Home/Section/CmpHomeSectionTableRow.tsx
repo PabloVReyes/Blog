@@ -2,6 +2,7 @@ import { useModalStore } from "@/store/modalStore"
 import { ActionIcon, Group, Table, Text } from "@mantine/core"
 import { IconEdit, IconInfoCircle } from "@tabler/icons-react"
 import { CmpHomeSectionEdit } from "./CmpHomeSectionEdit"
+import { CmpHomeSectionInformation } from "./CmpHomeSectionInformation"
 
 export const CmpHomeSectionTableRow = (item: any) => {
     const { openModal } = useModalStore()
@@ -10,6 +11,13 @@ export const CmpHomeSectionTableRow = (item: any) => {
         openModal({
             title: "Editar seccion",
             content: <CmpHomeSectionEdit key={item.id} {...item} />
+        })
+    }
+
+    const handleInformation = () => {
+        openModal({
+            title: "Informacion de seccion",
+            content: <CmpHomeSectionInformation key={item.id} {...item}/>
         })
     }
 
@@ -27,7 +35,7 @@ export const CmpHomeSectionTableRow = (item: any) => {
                 <Group justify="center" gap={5}>
                     <ActionIcon
                         className="action"
-                    // onClick={handleInformation}
+                        onClick={handleInformation}
                     >
                         <IconInfoCircle size={16} stroke={1.5} />
                     </ActionIcon>

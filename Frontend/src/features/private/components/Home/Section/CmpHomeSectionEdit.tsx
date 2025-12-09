@@ -19,6 +19,9 @@ export const CmpHomeSectionEdit = (item: any) => {
             file: null as File | null,
             image: item.image ? true : false,
             url: "",
+        },
+        validate: {
+            title: (value) => (value.trim().length < 3 ? "Agrega un titulo mas largo" : null),
         }
     })
 
