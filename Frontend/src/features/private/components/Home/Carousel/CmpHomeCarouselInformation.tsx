@@ -1,6 +1,7 @@
 import { Button, Group, Image, Table } from "@mantine/core"
 import type { ItemProps } from "./type"
 import { useModalStore } from "@/store/modalStore"
+import { formatDate } from "@/utils/formatDate"
 
 export const CmpHomeCarouselInformation = (item: ItemProps) => {
     const { closeModal } = useModalStore()
@@ -28,6 +29,10 @@ export const CmpHomeCarouselInformation = (item: ItemProps) => {
                     <Table.Tr>
                         <Table.Th>URL</Table.Th>
                         <Table.Td>{item.url}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Th>Fecha de creacion</Table.Th>
+                        <Table.Td>{formatDate(item.createdAt)}</Table.Td>
                     </Table.Tr>
                 </Table.Tbody>
             </Table>

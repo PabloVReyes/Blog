@@ -23,13 +23,13 @@ export const CmpFilesTable = ({ items }: { items: ItemProps[] }) => {
     return (
         <SimpleGrid
             cols={{ base: 2, sm: 2, md: 3, lg: 4, xl: 5 }}
-            spacing="xl"
+            spacing="sm"
         >
             {items.map((item: ItemProps, index: number) => (
-                    <CmpFileTableItem
-                        key={index}
-                        {...item}
-                    />
+                <CmpFileTableItem
+                    key={index}
+                    {...item}
+                />
             ))}
         </SimpleGrid>
     )

@@ -8,13 +8,10 @@ import { Image, Text, Title } from '@mantine/core';
 export const CmpCarousel = () => {
     const [data, setData] = useState<string[]>([])
 
-
     useEffect(() => {
-        getCarousel()
-            .then(setData)
+        getCarousel().then(setData)
     }, [])
 
-    console.log(data)
     const autoplay = useRef(Autoplay({ delay: 5000 }));
 
     return (
@@ -27,10 +24,42 @@ export const CmpCarousel = () => {
             onMouseEnter={autoplay.current.stop}
             onMouseLeave={() => autoplay.current.play()}
         >
+            {/* Si no hay elementos */}
+            {data.length < 1 && (
+                <Carousel.Slide
+                    style={{
+                        borderRadius: "12px",
+                        overflow: "hidden",
+                        border: "1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4))",
+                    }}
+                >
+                    <Text
+                        size='sm'
+                        c="dimmed"
+                        style={{
+                            position: "relative",
+                            width: "100%",
+                            height: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        Sin elementos
+                    </Text>
+                </Carousel.Slide>
+            )}
+
             {data.map((item: any, index) => (
-                <Carousel.Slide key={index}>
+                <Carousel.Slide
+                    key={index}
+                    style={{
+                        borderRadius: "12px",
+                        overflow: "hidden",
+                    }}
+                >
                     <div
-                        onClick={() => window.location.href = item.url}
+                        onClick={() => item.url && window.open(item.url, "_blank")}
                         style={{
                             position: "relative",
                             width: "100%",
@@ -44,10 +73,12 @@ export const CmpCarousel = () => {
                             height="100%"
                             width="100%"
                             fit="cover"
-                            style={{ objectPosition: "center" }}
+                            style={{
+                                objectPosition: "center",
+                            }}
                         />
 
-                        {/* Título */}
+                        {/* Título + Descripción */}
                         <div
                             style={{
                                 position: "absolute",
@@ -56,10 +87,8 @@ export const CmpCarousel = () => {
                                 padding: "10px 20px",
                                 background: "rgba(0, 0, 0, 0.4)",
                                 color: "white",
-                                fontSize: "20px",
-                                fontWeight: 600,
                                 backdropFilter: "blur(4px)",
-                                textAlign: "left" // cambia a "center" o "right"
+                                textAlign: "left",
                             }}
                         >
                             <Title order={3}>{item.title}</Title>

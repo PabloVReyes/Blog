@@ -37,3 +37,12 @@ model Carousel {
   createdAt   DateTime @default(now())
   is_visible  Boolean  @default(true)
 }
+
+model SectionHome {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  image     String?
+  url       String?
+  createdAt DateTime @default(now())
+}

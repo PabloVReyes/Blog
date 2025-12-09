@@ -44,7 +44,7 @@ export const CmpHomeCarouselEdit = (item: ItemProps) => {
                 formData.append("file", values.file)
             }
 
-            await updateCarousel(item.id, values)
+            await updateCarousel(item.id, formData)
 
             setTimeout(() => {
                 openModal({
@@ -72,8 +72,6 @@ export const CmpHomeCarouselEdit = (item: ItemProps) => {
         } finally {
             setTimeout(() => setIsLoading(false), 1000);
         }
-
-
     }
 
     const handleFileChange = (file: File | null) => {
@@ -135,21 +133,12 @@ export const CmpHomeCarouselEdit = (item: ItemProps) => {
                 <Grid>
                     <Grid.Col span={"auto"}>
                         <FileInput
-                            withAsterisk
                             label="Imagen"
                             description="Imagen que se mostrar en el carrosel"
                             placeholder="Da clic para seleccionar una imagen de tu equipo"
                             accept="image/png,image/jpeg,image/jpg"
                             {...form.getInputProps("file")}
                             onChange={handleFileChange}
-                            styles={{
-                                input: {
-                                    fontSize: '14px',
-                                },
-                                placeholder: {
-                                    fontSize: '14px',
-                                },
-                            }}
                         />
                     </Grid.Col>
                     {preview ?

@@ -1,10 +1,20 @@
-import { Card, Container, Grid, Group, SimpleGrid, Stack, Text, Title } from "@mantine/core"
+import { Container, Grid, Group, SimpleGrid, Stack, Title } from "@mantine/core"
 import classes from "./style.module.css";
-import { CmpCarousel } from "../../components";
+import { CmpCard, CmpCarousel } from "../../components";
+import { useEffect } from "react";
+import { usePrivateHomeSectionStore } from "@/store/pages/homeStore";
 
 const PRIMARY_COL_HEIGHT = '50dvh';
 
 export const Home = () => {
+    const { isFetching, fetchSections, items } = usePrivateHomeSectionStore()
+
+    useEffect(() => {
+        fetchSections()
+    }, [])
+
+    if (isFetching) return <>Cargando</>
+
     const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - var(--mantine-spacing-md) / 2)`;
 
     return (
@@ -24,38 +34,16 @@ export const Home = () => {
                     <div className={classes.colSide}>
                         <Grid gutter="md">
                             <Grid.Col>
-                                <Card
-                                    h={SECONDARY_COL_HEIGHT}
-                                >
-                                    <Card.Section
-                                        withBorder
-                                        inheritPadding
-                                        py="xs"
-                                        style={{ justifyItems: "center" }}
-                                    >
-                                        <Text fw={500}>Datos generales</Text>
-                                    </Card.Section>
-                                    <Stack gap="md">
-
-                                    </Stack>
-                                </Card>
+                                <CmpCard
+                                    height={SECONDARY_COL_HEIGHT}
+                                    {...items[0]}
+                                />
                             </Grid.Col>
                             <Grid.Col>
-                                <Card
-                                    h={SECONDARY_COL_HEIGHT}
-                                >
-                                    <Card.Section
-                                        withBorder
-                                        inheritPadding
-                                        py="xs"
-                                        style={{ justifyItems: "center" }}
-                                    >
-                                        <Text fw={500}>Datos generales</Text>
-                                    </Card.Section>
-                                    <Stack gap="md">
-
-                                    </Stack>
-                                </Card>
+                                <CmpCard
+                                    height={SECONDARY_COL_HEIGHT}
+                                    {...items[1]}
+                                />
                             </Grid.Col>
                         </Grid>
                     </div>
@@ -63,55 +51,22 @@ export const Home = () => {
 
                 <Grid gutter="md">
                     <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-                        <Card
-                            h={SECONDARY_COL_HEIGHT}
-                        >
-                            <Card.Section
-                                withBorder
-                                inheritPadding
-                                py="xs"
-                                style={{ justifyItems: "center" }}
-                            >
-                                <Text fw={500}>Datos generales</Text>
-                            </Card.Section>
-                            <Stack gap="md">
-
-                            </Stack>
-                        </Card>
+                        <CmpCard
+                            height={SECONDARY_COL_HEIGHT}
+                            {...items[2]}
+                        />
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-                        <Card
-                            h={SECONDARY_COL_HEIGHT}
-                        >
-                            <Card.Section
-                                withBorder
-                                inheritPadding
-                                py="xs"
-                                style={{ justifyItems: "center" }}
-                            >
-                                <Text fw={500}>Datos generales</Text>
-                            </Card.Section>
-                            <Stack gap="md">
-
-                            </Stack>
-                        </Card>
+                        <CmpCard
+                            height={SECONDARY_COL_HEIGHT}
+                            {...items[3]}
+                        />
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 6, md: 4 }}>
-                        <Card
-                            h={SECONDARY_COL_HEIGHT}
-                        >
-                            <Card.Section
-                                withBorder
-                                inheritPadding
-                                py="xs"
-                                style={{ justifyItems: "center" }}
-                            >
-                                <Text fw={500}>Datos generales</Text>
-                            </Card.Section>
-                            <Stack gap="md">
-
-                            </Stack>
-                        </Card>
+                        <CmpCard
+                            height={SECONDARY_COL_HEIGHT}
+                            {...items[4]}
+                        />
                     </Grid.Col>
                 </Grid>
             </Stack>

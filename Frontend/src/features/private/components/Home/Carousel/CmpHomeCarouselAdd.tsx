@@ -143,14 +143,6 @@ export const CmpHomeCarouselAdd = () => {
                             accept="image/png,image/jpeg,image/jpg"
                             {...form.getInputProps("file")}
                             onChange={handleFileChange}
-                            styles={{
-                                input: {
-                                    fontSize: '14px',
-                                },
-                                placeholder: {
-                                    fontSize: '14px',
-                                },
-                            }}
                         />
                     </Grid.Col>
                     {preview && (

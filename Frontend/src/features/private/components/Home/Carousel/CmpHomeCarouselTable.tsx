@@ -6,7 +6,7 @@ export const CmpHomeCarouselTable = ({ items }: { items: ItemProps[] }) => {
     const renderRows = () => {
         if (items.length < 1) {
             return (
-                <Table.Td colSpan={5}>
+                <Table.Td colSpan={6}>
                     <Text
                         mt={20}
                         size="sm"
@@ -35,12 +35,14 @@ export const CmpHomeCarouselTable = ({ items }: { items: ItemProps[] }) => {
                     <Table.Tr>
                         <Table.Th
                             style={{ textAlign: "center" }}
+                            w={10}
                         >
                             Vista
                         </Table.Th>
                         <Table.Th>Titulo</Table.Th>
                         <Table.Th>Descripcion</Table.Th>
                         <Table.Th>Ir a</Table.Th>
+                        <Table.Th>Fecha de creacion</Table.Th>
                         <Table.Th
                             style={{ textAlign: "center" }}
                         >

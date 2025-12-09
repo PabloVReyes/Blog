@@ -47,6 +47,26 @@ async function main() {
         });
     }
 
+    const sections = [
+        {id: 1, title: "Primer apartado", content: "Hola"},
+        {id: 2, title: "Segundo apartado", content: "Hola"},
+        {id: 3, title: "Tercer apartado", content: "Hola"},
+        {id: 4, title: "Cuarto apartado", content: "Hola"},
+        {id: 5, title: "Quinto apartado", content: "Hola"},
+    ]
+
+    for (const section of sections) {
+        await prisma.sectionHome.upsert({
+            where: {id: section.id},
+            update: {},
+            create: {
+                id: section.id,
+                title: section.title,
+                content: section.content
+            }
+        })
+    }
+
     console.log("Seeding finished!");
 }
 

@@ -5,6 +5,7 @@ import { useModalStore } from "@/store/modalStore"
 import { CmpHomeCarouselInformation } from "./CmpHomeCarouselInformation"
 import { CmpHomeCarouselEdit } from "./CmpHomeCarouselEdit"
 import { CmpHomeCarouselDelete } from "./CmpHomeCarouselDelete"
+import { formatDate } from "@/utils/formatDate"
 
 export const CmpHomeCarouselTableRow = (item: ItemProps) => {
     const { openModal } = useModalStore()
@@ -32,7 +33,7 @@ export const CmpHomeCarouselTableRow = (item: ItemProps) => {
 
     return (
         <Table.Tr key={item.id}>
-            <Table.Td style={{ textAlign: "center" }} w={10}>
+            <Table.Td style={{ textAlign: "center" }}>
                 {item.is_visible ?
                     <IconEye stroke={1.5}/> :
                     <IconEyeClosed stroke={1.5}/>
@@ -48,6 +49,7 @@ export const CmpHomeCarouselTableRow = (item: ItemProps) => {
                 </Text>
             </Table.Td>
             <Table.Td>{item.url}</Table.Td>
+            <Table.Td>{formatDate(item.createdAt)}</Table.Td>
             <Table.Td style={{ textAlign: "center" }}>
                 <Group justify="center" gap={5}>
                     <ActionIcon

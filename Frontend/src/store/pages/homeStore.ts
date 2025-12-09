@@ -1,6 +1,7 @@
 import { getAllCarousel, getAllCarouselCount } from "@/api/carousel";
 import { create } from "zustand";
-import { type UsePrivateHomeCarouselStoreProps } from "./type";
+import { type UsePrivateHomeCarouselStoreProps, type UsePrivateHomeSectionStoreProps } from "./type";
+import { getSections } from "@/api/sections";
 
 export const usePrivateHomeCarouselStore = create<UsePrivateHomeCarouselStoreProps>((set, get) => ({
     page: 1,
@@ -23,13 +24,28 @@ export const usePrivateHomeCarouselStore = create<UsePrivateHomeCarouselStorePro
     lastItem: () => Math.min(get().page * get().limit, get().totalItems),
 
     async fetchCarousel() {
-        const {page, limit, search} = get();
+        const { page, limit, search } = get();
 
         try {
             const list = await getAllCarousel(page, limit, search)
             const count = await getAllCarouselCount(search)
 
             set({ items: list, totalItems: count })
+        } finally {
+            set({ isFetching: false })
+        }
+    }
+}))
+
+export const usePrivateHomeSectionStore = create<UsePrivateHomeSectionStoreProps>((set) => ({
+    items: [],
+    isFetching: false,
+
+    async fetchSections() {
+        try {
+            const list = await getSections()
+
+            set({ items: list })
         } finally {
             set({ isFetching: false })
         }

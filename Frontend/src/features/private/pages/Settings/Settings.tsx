@@ -15,7 +15,6 @@ export const Settings = () => {
         favicon
     });
 
-
     const [file, setFile] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
 
@@ -146,14 +145,15 @@ export const Settings = () => {
                                     h="auto"
                                     radius="sm"
                                 />
-                            ) :
+                            ) : favicon && (
                                 <Image
                                     src={`http://localhost:3001${favicon}`}
-                                    alt="Sin icono"
+                                    alt="Icono"
                                     w={80}
                                     h="auto"
                                     radius="sm"
                                 />
+                            )
                             }
                         </Group>
 

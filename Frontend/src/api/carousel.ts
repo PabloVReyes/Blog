@@ -21,9 +21,7 @@ export const addCarousel = async (values: any) => {
 }
 
 export const updateCarousel = async (id: string, values: any) => {
-    const response = await api.put(`/api/carousel/${id}`, values, {
-        headers: { "Content-Type": "multipart/form-data" }
-    })
+    const response = await api.put(`/api/carousel/${id}`, values)
     return response.data
 }
 

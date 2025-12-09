@@ -7,3 +7,13 @@ export interface UsePrivateHomeCarouselStoreProps extends PaginationState {
     fetchCarousel: () => void;
 }
 
+export interface UsePrivateHomeSectionStoreProps {
+    items: ItemsProps[];
+    isFetching: boolean;
+    fetchSections: () => void;
+}
+
+interface ItemsProps {
+    title: string
+    content: string
+}

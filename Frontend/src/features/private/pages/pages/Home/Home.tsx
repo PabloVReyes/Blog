@@ -1,14 +1,15 @@
 import { Button, Card, Container, Divider, Group, Stack, Text, Title } from "@mantine/core"
 import { IconPlus } from "@tabler/icons-react"
 import { useModalStore } from "@/store/modalStore"
-import { usePrivateHomeCarouselStore } from "@/store/pages/homeStore"
+import { usePrivateHomeCarouselStore, usePrivateHomeSectionStore } from "@/store/pages/homeStore"
 import { useEffect } from "react"
 import { CmpPagination, CmpSearch } from "@/components"
-import { CmpHomeCarouselAdd, CmpHomeCarouselTable } from "../../../components"
+import { CmpHomeCarouselAdd, CmpHomeCarouselTable, CmpHomeSectionTable } from "../../../components"
 
 export const Home = () => {
     const { openModal } = useModalStore()
     const { fetchCarousel, items, page, limit, search, setSearch } = usePrivateHomeCarouselStore()
+    const { fetchSections, items: sections } = usePrivateHomeSectionStore()
 
     const handleAddCarousel = () => {
         openModal({
@@ -20,6 +21,10 @@ export const Home = () => {
     useEffect(() => {
         fetchCarousel()
     }, [page, limit, search])
+
+    useEffect(() => {
+        fetchSections()
+    }, [])
 
     return (
         <Container>
@@ -68,13 +73,15 @@ export const Home = () => {
 
                 <Group align="center">
                     <Stack gap={1} style={{ flex: '1 1 auto' }}>
-                        <Title order={4}>Apartados</Title>
-                        <Text c="dimmed" size="sm">Configuracion del carrusel</Text>
+                        <Title order={4}>Secciones</Title>
+                        <Text c="dimmed" size="sm">Configuracion de cada una de las secciones del inicio</Text>
                     </Stack>
                 </Group>
 
                 <Card>
-                    {/* <CmpHomeCarousel /> */}
+                    <CmpHomeSectionTable 
+                        items={sections}
+                    />
                 </Card>
 
             </Stack>
