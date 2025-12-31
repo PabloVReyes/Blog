@@ -43,14 +43,14 @@ export const PagesTable = ({ pages, onUpdate }: Props) => {
     const handleDeletePage = (page: Page) => {
         openModal({
             title: "Eliminar página",
-            content: <DeletePage id={page.id} title={page.title} onUpdate={onUpdate}/>
+            content: <DeletePage id={page.id} title={page.title} onUpdate={onUpdate} />
         })
     }
 
     const renderRows = () => {
         return pages.map((page) => (
             <Table.Tr key={page.id}>
-                <Table.Td>{page.title.toUpperCase()}</Table.Td>
+                <Table.Td>{page.title}</Table.Td>
                 <Table.Td>/{page.slug}</Table.Td>
                 <Table.Td>{convertDate(page.createdAt)}</Table.Td>
                 <Table.Td>

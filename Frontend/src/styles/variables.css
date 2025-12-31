@@ -1,0 +1,11 @@
+:root[data-mantine-color-scheme="light"] {
+    --app-border: 1px solid var(--mantine-color-gray-3);
+    --app-background-color: var(--mantine-color-white);
+    --app-primary-color: var(--mantine-primary-color-8)
+}
+
+:root[data-mantine-color-scheme="dark"] {
+    --app-border: 1px solid var(--mantine-color-dark-4);
+    --app-background-color: var(--mantine-color-dark-6);
+    --app-primary-color: var(--mantine-primary-color-9);
+}

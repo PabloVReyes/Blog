@@ -1,3 +1,4 @@
+import { Button } from "./Button";
 import { Card } from "./Card";
 import { Container } from "./Container";
 import { FileInput } from "./FileInput";
@@ -5,5 +6,6 @@ import { FileInput } from "./FileInput";
 export const components = {
     Card,
     Container,
-    FileInput
+    FileInput,
+    Button
 }

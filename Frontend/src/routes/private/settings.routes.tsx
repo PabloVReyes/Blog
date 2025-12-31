@@ -1,7 +1,7 @@
-import { Settings } from "@/features/private/pages";
+import { Settings } from "@/features";
 import { type RouteObject } from "react-router-dom";
 
 export const settingsRoutes: RouteObject = {
     path: "settings",
-    element: <Settings/>
+    element: <Settings />
 }

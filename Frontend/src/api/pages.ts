@@ -1,7 +1,7 @@
 import { api } from "@/services/axios.client"
 
-export const publishPage = async (title: string, content: {}, html: string) => {
-    const response = await api.post("/api/pages/publish", { title, content, html })
+export const publishPage = async (values: any) => {
+    const response = await api.post("/api/pages/publish", values)
     return response.data
 }
 
@@ -27,5 +27,10 @@ export const deletePage = async (id: string) => {
 
 export const getAllPages = async () => {
     const response = await api.get("/api/pages/all")
+    return response.data
+}
+
+export const uploadPageImage = async (file: any) => {
+    const response = await api.post("/api/pages/image", file)
     return response.data
 }

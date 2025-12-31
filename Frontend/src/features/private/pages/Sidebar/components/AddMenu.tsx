@@ -1,7 +1,7 @@
 import { getAllPages } from "@/api/pages"
 import { IconPicker } from "@/components/IconPicker"
 import { useModalStore } from "@/store/modalStore"
-import { useSettingStore } from "@/store/settingStore"
+import { useSettingStore } from "@/features/settings/store/settings/settingStore"
 import { notify } from "@/utils/notify"
 import { Autocomplete, Button, Group, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"

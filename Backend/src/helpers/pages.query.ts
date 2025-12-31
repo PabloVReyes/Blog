@@ -5,10 +5,9 @@ interface Props {
     title: string;
     slug: string;
     content: string;
-    html: string
 }
 
-export const publishPageQuery = ({ title, slug, content, html }: Props) => {
+export const publishPageQuery = ({ title, slug, content }: Props) => {
     return new Promise(async (resolve, reject) => {
         try {
             await database.page.create({
@@ -16,7 +15,6 @@ export const publishPageQuery = ({ title, slug, content, html }: Props) => {
                     title,
                     slug,
                     content,
-                    html
                 }
             })
             resolve(true)

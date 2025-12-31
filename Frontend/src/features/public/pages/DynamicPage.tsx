@@ -2,33 +2,34 @@ import { getPage } from "@/api/pages"
 import { Card, Container, Group, Stack, Title } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import { EditorRenderer } from '@/utils/editorRenderer';
+import "./styles.css"
 
 export const DynamicPage = () => {
     const { slug } = useParams<{ slug: string }>()
-    const [html, setHtml] = useState<string>("")
+    const [content, setContent] = useState<any>("")
     const [title, setTitle] = useState<string>("")
 
-    console.log(html)
+    console.log(content);
 
     useEffect(() => {
         if (!slug) return;
 
         getPage(slug)
-            .then(res => { setHtml(res.html); setTitle(res.title) })
+            .then(res => { setContent(res.content); setTitle(res.title) })
     }, [slug])
+
 
     return (
         <Container>
             <Stack gap="md">
                 <Group justify="space-between" align="flex-start">
                     <Stack gap={1} style={{ flex: '1 1 auto' }}>
-                        <Title order={2}>{title.toUpperCase()}</Title>
+                        <Title order={2}>{title}</Title>
                     </Stack>
                 </Group>
                 <Card>
-                    <div>
-                        <div dangerouslySetInnerHTML={{ __html: html }} />
-                    </div>
+                    <EditorRenderer content={content} />
                 </Card>
             </Stack>
         </Container>

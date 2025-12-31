@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useSettingStore } from "./store/settingStore";
+import { useSettingStore } from "./features/settings/store/settings/settingStore";
 
 export const SettingsLoader = () => {
     const loadSettings = useSettingStore((state) => state.loadSettings);

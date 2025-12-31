@@ -1,12 +1,12 @@
 import { Button, Card, Container, Group, Stack, Text, Title } from "@mantine/core"
 import { IconPlus } from "@tabler/icons-react"
-import { AddNewPage } from "../../components/AddNewPage";
 import { useEffect, useState } from "react";
 import { getPages, getPagesCount } from "@/api/pages";
 import { PagesTable } from "../../components/PagesTable";
 import { useDisclosure } from "@mantine/hooks";
 import { usePageStore } from "@/store/paginationStore";
 import { CmpPagination } from "@/components/Pagination";
+import { CmpPageAdd } from "../../components/pages";
 
 interface Page {
     id: string;
@@ -45,13 +45,12 @@ export const Pages = () => {
                         <Text c="dimmed" size="sm">Lista de todas las páginas que se encuentran almacenadas</Text>
                     </Stack>
 
-                    <AddNewPage
+                    <CmpPageAdd
                         opened={opened}
                         close={close}
-                        onUpdate={handlePagesUpdate}
                     />
 
-                    <Button leftSection={<IconPlus />} onClick={open}>
+                    <Button leftSection={<IconPlus />} onClick={open} >
                         Crear nueva página
                     </Button>
                 </Group>

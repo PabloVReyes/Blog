@@ -23,7 +23,6 @@ model Page {
   id        String   @id @default(uuid())
   title     String
   slug      String   @unique
-  html      String   @db.LongText
   content   Json
   createdAt DateTime @default(now())
 }

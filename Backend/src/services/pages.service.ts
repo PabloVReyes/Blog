@@ -4,13 +4,22 @@ import slugify from "slugify"
 interface publishPageServiceProps {
     title: string,
     content: string
-    html: string
 }
 
-export const publishPageService = async ({ title, content, html }: publishPageServiceProps) => {
+export const publishPageService = async ({ title, content }: publishPageServiceProps) => {
     const slug = slugify(title, { lower: true, strict: true })
-    await publishPageQuery({ title, slug, content, html })
+    await publishPageQuery({ title, slug, content })
     return true
+}
+
+export const uploadPageImageService = async (req: any) => {
+    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    return {
+        success: 1,
+        file: {
+            url: imageUrl
+        }
+    };
 }
 
 interface getPagesServiceProps {

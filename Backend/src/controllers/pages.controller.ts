@@ -1,4 +1,4 @@
-import { deletePageService, getAllPagesService, getPagesCountService, getPageService, getPagesService, publishPageService } from "@/services/pages.service"
+import { deletePageService, getAllPagesService, getPagesCountService, getPageService, getPagesService, publishPageService, uploadPageImageService } from "@/services/pages.service"
 import { RequestHandler, response } from "express"
 
 export const publishPageController: RequestHandler = async (request, response) => {
@@ -10,6 +10,18 @@ export const publishPageController: RequestHandler = async (request, response) =
         response.status(500)
             .send({
                 msg: error.message || "Guardar pagina"
+            })
+    }
+}
+
+export const uploadPageImageController: RequestHandler = async (req, res) => {
+    try {
+        const data = await uploadPageImageService(req);
+        res.json(data);
+    } catch (error: any) {
+        response.status(500)
+            .send({
+                msg: error.message || "Subir imagen de página"
             })
     }
 }

@@ -1,4 +1,3 @@
-export { Pages, Home } from "./Pages"
-export { Settings } from "./Settings"
+export { Pages, Home } from "./pages"
 export { Sidebar } from "./Sidebar"
 export { Files } from "./Files"

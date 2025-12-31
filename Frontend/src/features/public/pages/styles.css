@@ -1,0 +1,43 @@
+.cdx-marker {
+    background-color: var(--mantine-primary-color-6) !important;
+    color: white;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.ce-text-left {
+    text-align: left;
+}
+
+.ce-text-center {
+    text-align: center;
+}
+
+.ce-text-right {
+    text-align: right;
+}
+
+.ce-text-justify {
+    text-align: justify;
+}
+
+.image-viewer {
+    display: flex;
+}
+
+.image-align-left {
+    justify-content: flex-start;
+}
+
+.image-align-center {
+    justify-content: center;
+}
+
+.image-align-right {
+    justify-content: flex-end;
+}
+
+.image-viewer img {
+    max-width: 100%;
+    height: auto;
+}
