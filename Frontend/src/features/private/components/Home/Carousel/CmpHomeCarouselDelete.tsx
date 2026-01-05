@@ -1,5 +1,5 @@
 import { deleteCarousel } from "@/api/carousel"
-import { useModalStore } from "@/store/modalStore"
+import { useModalStore } from "@/shared"
 import { usePrivateHomeCarouselStore } from "@/store/pages/homeStore"
 import { Alert, Button, Divider, Flex, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"

@@ -1,1 +1,1 @@
-export { useSettingStore } from "./settings"
+export { useSettingStore } from "./settingStore"

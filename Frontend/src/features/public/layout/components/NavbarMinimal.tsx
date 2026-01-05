@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { IconLogout } from "@tabler/icons-react";
 import { Link, useLocation } from "react-router-dom";
-import { useSettingStore } from "@/features/settings/store/settings/settingStore";
+import { useSettingStore } from "@/features/settings/store/settingStore";
 import * as TablerIcons from "@tabler/icons-react";
 import { type IconProps } from "@tabler/icons-react";
 

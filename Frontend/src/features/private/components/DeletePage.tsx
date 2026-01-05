@@ -1,5 +1,5 @@
 import { deletePage } from "@/api/pages";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared";
 import { notify } from "@/utils/notify";
 import { Alert, Button, Group, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";

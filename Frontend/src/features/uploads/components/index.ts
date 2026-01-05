@@ -1,0 +1,1 @@
+export { UploadsTable } from "./UploadsTable"

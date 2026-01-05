@@ -1,4 +1,4 @@
-import { useModalStore } from "@/store/modalStore"
+import { useModalStore } from "@/shared"
 import { Button, Group, Image, Table } from "@mantine/core"
 
 export const CmpHomeSectionInformation = (item: any) => {

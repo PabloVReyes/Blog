@@ -3,8 +3,7 @@ import styles from "./MainLayout.module.css"
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
-import { Sidebar } from "./Sidebar";
-import { Modal } from "./Modal";
+import { BaseModal, BaseSidebar } from "@/shared";
 
 export const MainLayout = () => {
     const isMobile = useMediaQuery("(max-width: 768px)");
@@ -20,8 +19,8 @@ export const MainLayout = () => {
             <Box className={`${styles.sidebar} ${expanded ? styles.sidebarExpanded : styles.sidebarCollapsed}`}>
                 <Box className={`${styles.sidebarLayer} ${expanded ? styles.layerVisible : styles.layerHidden}`}
                 >
-                    <Modal/>
-                    <Sidebar/>
+                    <BaseModal />
+                    <BaseSidebar />
                 </Box>
 
                 <Box

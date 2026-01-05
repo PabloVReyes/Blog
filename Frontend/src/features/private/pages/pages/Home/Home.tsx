@@ -1,10 +1,10 @@
 import { Button, Card, Container, Divider, Group, Stack, Text, Title } from "@mantine/core"
 import { IconPlus } from "@tabler/icons-react"
-import { useModalStore } from "@/store/modalStore"
 import { usePrivateHomeCarouselStore, usePrivateHomeSectionStore } from "@/store/pages/homeStore"
 import { useEffect } from "react"
-import { CmpPagination, CmpSearch } from "@/components"
+import { CmpPagination } from "@/components"
 import { CmpHomeCarouselAdd, CmpHomeCarouselTable, CmpHomeSectionTable } from "../../../components"
+import { useModalStore } from "@/shared"
 
 export const Home = () => {
     const { openModal } = useModalStore()
@@ -51,10 +51,10 @@ export const Home = () => {
                 </Group>
                 {/* Busqueda */}
                 <Card>
-                    <CmpSearch
+                    {/* <CmpSearch
                         value={search}
                         onChange={setSearch}
-                    />
+                    /> */}
                 </Card>
                 {/* Contenido */}
                 <Card>

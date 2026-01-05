@@ -1,5 +1,5 @@
 import { updateSection } from "@/api/sections"
-import { useModalStore } from "@/store/modalStore"
+import { useModalStore } from "@/shared"
 import { usePrivateHomeSectionStore } from "@/store/pages/homeStore"
 import { Button, Divider, FileInput, Grid, Group, Image, Stack, Switch, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"

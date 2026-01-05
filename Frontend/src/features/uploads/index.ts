@@ -1,0 +1,1 @@
+export { Uploads } from "./pages"

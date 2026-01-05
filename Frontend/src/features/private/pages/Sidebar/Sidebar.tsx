@@ -1,11 +1,11 @@
-import { useModalStore } from "@/store/modalStore"
 import { Button, Card, Container, Group, Stack, Text, Title } from "@mantine/core"
 import { IconDeviceFloppy, IconPlus } from "@tabler/icons-react"
 import { AddMenu } from "./components/AddMenu"
-import { useSettingStore } from "@/features/settings/store/settings/settingStore"
+import { useSettingStore } from "@/features/settings/store/settingStore"
 import { useEffect, useState } from "react"
 import { notify } from "@/utils/notify"
 import { SortableTree } from "@/components/SortableTree/SortableTree"
+import { useModalStore } from "@/shared"
 
 export const Sidebar = () => {
     const { openModal } = useModalStore()

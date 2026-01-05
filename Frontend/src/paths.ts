@@ -23,7 +23,7 @@ export const paths = [
     {
         label: "Archivos",
         icon: "IconFiles",
-        link: "/administration/files"
+        link: "/administration/uploads"
     },
     {
         label: "Configuraciones",

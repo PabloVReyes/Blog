@@ -1,11 +1,11 @@
 import { ActionIcon, Group, Table, Text } from "@mantine/core"
 import type { ItemProps } from "./type"
 import { IconEdit, IconEye, IconEyeClosed, IconInfoCircle, IconTrash } from "@tabler/icons-react"
-import { useModalStore } from "@/store/modalStore"
 import { CmpHomeCarouselInformation } from "./CmpHomeCarouselInformation"
 import { CmpHomeCarouselEdit } from "./CmpHomeCarouselEdit"
 import { CmpHomeCarouselDelete } from "./CmpHomeCarouselDelete"
-import { formatDate } from "@/utils/formatDate"
+import { formatDate } from "@/shared/utils/FormatDate/FormatDate"
+import { useModalStore } from "@/shared"
 
 export const CmpHomeCarouselTableRow = (item: ItemProps) => {
     const { openModal } = useModalStore()
@@ -20,14 +20,14 @@ export const CmpHomeCarouselTableRow = (item: ItemProps) => {
     const handleEdit = () => {
         openModal({
             title: "Editar informacion",
-            content: <CmpHomeCarouselEdit key={item.id} {...item}/>
+            content: <CmpHomeCarouselEdit key={item.id} {...item} />
         })
     }
 
     const handleDelete = () => {
         openModal({
             title: "Eliminar",
-            content: <CmpHomeCarouselDelete key={item.id} {...item}/>
+            content: <CmpHomeCarouselDelete key={item.id} {...item} />
         })
     }
 
@@ -35,8 +35,8 @@ export const CmpHomeCarouselTableRow = (item: ItemProps) => {
         <Table.Tr key={item.id}>
             <Table.Td style={{ textAlign: "center" }}>
                 {item.is_visible ?
-                    <IconEye stroke={1.5}/> :
-                    <IconEyeClosed stroke={1.5}/>
+                    <IconEye stroke={1.5} /> :
+                    <IconEyeClosed stroke={1.5} />
                 }
             </Table.Td>
             <Table.Td>{item.title}</Table.Td>

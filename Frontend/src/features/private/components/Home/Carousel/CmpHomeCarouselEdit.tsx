@@ -2,10 +2,10 @@ import { useForm } from "@mantine/form"
 import type { ItemProps } from "./type"
 import { Button, Divider, FileInput, Grid, Group, Image, Stack, Switch, Text, TextInput } from "@mantine/core"
 import { IconCheck, IconCircleCheck, IconX } from "@tabler/icons-react"
-import { useModalStore } from "@/store/modalStore"
 import { useState } from "react"
 import { updateCarousel } from "@/api/carousel"
 import { usePrivateHomeCarouselStore } from "@/store/pages/homeStore"
+import { useModalStore } from "@/shared"
 
 export const CmpHomeCarouselEdit = (item: ItemProps) => {
     const { closeModal, openModal } = useModalStore()

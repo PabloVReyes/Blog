@@ -14,7 +14,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import { mantineTheme } from "../theme/theme.ts";
 import { SettingsLoader } from "../SettingsLoader.tsx";
-import { useSettingStore } from "../features/settings/store/settings/settingStore.ts";
+import { useSettingStore } from "../features/settings/store/settingStore.ts";
 import { Notifications } from '@mantine/notifications';
 
 function Root() {

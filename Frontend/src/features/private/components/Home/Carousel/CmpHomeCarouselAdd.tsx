@@ -1,5 +1,5 @@
 import { addCarousel } from "@/api/carousel"
-import { useModalStore } from "@/store/modalStore"
+import { useModalStore } from "@/shared"
 import { usePrivateHomeCarouselStore } from "@/store/pages/homeStore"
 import { Button, Divider, FileInput, Grid, Group, Image, Stack, Switch, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
@@ -112,7 +112,7 @@ export const CmpHomeCarouselAdd = () => {
                         }
                     />
                 </Group>
-                <Divider/>
+                <Divider />
                 <TextInput
                     withAsterisk
                     label="Titulo"

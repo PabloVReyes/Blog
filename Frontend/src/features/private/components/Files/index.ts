@@ -1,1 +1,0 @@
-export { CmpFilesTable } from "./CmpFilesTable"

@@ -1,7 +1,7 @@
 import { Button, Group, Image, Table } from "@mantine/core"
 import type { ItemProps } from "./type"
-import { useModalStore } from "@/store/modalStore"
-import { formatDate } from "@/utils/formatDate"
+import { formatDate } from "@/shared/utils/FormatDate/FormatDate"
+import { useModalStore } from "@/shared"
 
 export const CmpHomeCarouselInformation = (item: ItemProps) => {
     const { closeModal } = useModalStore()

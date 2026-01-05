@@ -1,7 +1,7 @@
 import { useRoutes } from "react-router-dom"
 import { useEffect } from "react"
 import { useMantineColorScheme } from "@mantine/core";
-import { useSettingStore } from "../features/settings/store/settings/settingStore";
+import { useSettingStore } from "../features/settings/store/settingStore";
 import { router } from "./router"
 
 const updateFavicon = (url: string) => {

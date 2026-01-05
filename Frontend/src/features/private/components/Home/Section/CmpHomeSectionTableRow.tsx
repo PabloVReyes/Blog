@@ -1,8 +1,8 @@
-import { useModalStore } from "@/store/modalStore"
 import { ActionIcon, Group, Table, Text } from "@mantine/core"
 import { IconEdit, IconInfoCircle } from "@tabler/icons-react"
 import { CmpHomeSectionEdit } from "./CmpHomeSectionEdit"
 import { CmpHomeSectionInformation } from "./CmpHomeSectionInformation"
+import { useModalStore } from "@/shared"
 
 export const CmpHomeSectionTableRow = (item: any) => {
     const { openModal } = useModalStore()
@@ -17,7 +17,7 @@ export const CmpHomeSectionTableRow = (item: any) => {
     const handleInformation = () => {
         openModal({
             title: "Informacion de seccion",
-            content: <CmpHomeSectionInformation key={item.id} {...item}/>
+            content: <CmpHomeSectionInformation key={item.id} {...item} />
         })
     }
 

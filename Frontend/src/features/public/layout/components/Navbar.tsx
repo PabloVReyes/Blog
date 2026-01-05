@@ -2,7 +2,7 @@ import { Box, Code, Collapse, Group, ScrollArea, Text, UnstyledButton } from "@m
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IconChevronRight } from "@tabler/icons-react";
-import { useSettingStore } from "@/features/settings/store/settings/settingStore";
+import { useSettingStore } from "@/features/settings/store/settingStore";
 import * as TablerIcons from "@tabler/icons-react";
 import { type IconProps } from "@tabler/icons-react";
 

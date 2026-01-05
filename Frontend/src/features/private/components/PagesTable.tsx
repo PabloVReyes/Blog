@@ -1,8 +1,8 @@
-import { useModalStore } from "@/store/modalStore";
 import { ActionIcon, Group, Table, Tooltip } from "@mantine/core";
 import { IconEdit, IconEye, IconTrash } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { DeletePage } from "./DeletePage";
+import { useModalStore } from "@/shared";
 
 interface Page {
     id: string;
