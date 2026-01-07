@@ -1,4 +1,4 @@
-import { deletePageQuery, getAllPagesQuery, getPageQuery, getPagesCountQuery, getPagesQuery, publishPageQuery } from "@/helpers/pages.query"
+import { deletePageQuery, getAllPagesUrlQuery, getPageQuery, getPagesCountQuery, getPagesQuery, publishPageQuery } from "@/helpers/pages.query"
 import slugify from "slugify"
 
 interface publishPageServiceProps {
@@ -51,15 +51,15 @@ export const deletePageService = async (id: string) => {
     return true
 }
 
-export const getAllPagesService = async () => {
-    const data: any = await getAllPagesQuery()
+export const getAllPagesUrlService = async () => {
+    const data: any = await getAllPagesUrlQuery()
 
     const Pages = []
 
     data.map((page) => {
         const Data = {
-            title: page.title,
-            slug: page.slug
+            value: `/${page.slug}`,
+            label: `/${page.slug}`
         }
 
         Pages.push(Data)

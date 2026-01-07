@@ -1,8 +1,8 @@
 import { useRoutes } from "react-router-dom"
 import { useEffect } from "react"
 import { useMantineColorScheme } from "@mantine/core";
-import { useSettingStore } from "../features/settings/store/settingStore";
 import { router } from "./router"
+import { useSettingStore } from "@/shared";
 
 const updateFavicon = (url: string) => {
     let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;

@@ -3,7 +3,7 @@ import { settingsRoutes } from "./settings.routes";
 import { pagesRoutes } from "./pages.routes";
 import { sidebarRoutes } from "./sidebar.routes";
 import { uploadsRoutes } from "./uploads.routes";
-import { MainLayout } from "@/layouts";
+import { MainLayout } from "@/shared";
 
 export const privateRoutes: RouteObject = {
     path: "administration",

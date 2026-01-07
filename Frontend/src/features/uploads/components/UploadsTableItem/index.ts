@@ -1,1 +1,0 @@
-export { UploadsTableItem } from "./UploadsTableItem"

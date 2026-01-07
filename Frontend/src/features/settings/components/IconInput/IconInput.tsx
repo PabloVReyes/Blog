@@ -1,6 +1,6 @@
+import { useSettingStore } from "@/shared";
 import { Card, FileInput, Group, Image, Text } from "@mantine/core"
 import { useState, type Dispatch, type SetStateAction } from "react";
-import { useSettingStore } from "../../store";
 
 interface Props {
     setIcon: Dispatch<SetStateAction<File | null>>;

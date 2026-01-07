@@ -1,1 +1,0 @@
-export { CmpPagination } from "./Pagination"

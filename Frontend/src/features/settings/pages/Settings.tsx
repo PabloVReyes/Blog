@@ -2,9 +2,11 @@ import { Button, Card, Container, Divider, Group, Stack, Text, Title } from "@ma
 import { ColorSelect, IconInput, ThemeSelect, TitleInput } from "../components"
 import { useState } from "react";
 import { uploadFavicon } from "../api/setttings";
-import { useSettingStore } from "../store";
+import { useModalStore, useSettingStore } from "@/shared";
+import { IconCheck } from "@tabler/icons-react";
 
 export const Settings = () => {
+    const { openModal } = useModalStore()
     const [loading, setLoading] = useState<boolean>(false)
     const [icon, setIcon] = useState<File | null>(null);
     const { color, theme, saveSetting, title, setFavicon, favicon } = useSettingStore()
@@ -62,6 +64,20 @@ export const Settings = () => {
                 theme,
                 color
             })
+
+            openModal({
+                title: "Configuraciones guardadas",
+                subtitle: "Configuraciones guardadas correctamente",
+                autoClose: 2500,
+                content: (
+                    <Stack align="center" p="xl">
+                        <IconCheck size={60} color="green" />
+                        <Text ta="center">
+                            las configuraciones se han aplicado correctamente.
+                        </Text>
+                    </Stack>
+                ),
+            });
         } catch (error) {
             console.error("Error al guardar la configuracion", error)
         } finally {

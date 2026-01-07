@@ -14,8 +14,8 @@ import { BrowserRouter } from "react-router-dom";
 
 import { mantineTheme } from "../theme/theme.ts";
 import { SettingsLoader } from "../SettingsLoader.tsx";
-import { useSettingStore } from "../features/settings/store/settingStore.ts";
 import { Notifications } from '@mantine/notifications';
+import { useSettingStore } from "@/shared";
 
 function Root() {
     const { color, theme } = useSettingStore()

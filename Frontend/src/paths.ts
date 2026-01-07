@@ -8,7 +8,7 @@ export const paths = [
         label: "Páginas",
         icon: "IconAppWindow",
         link: "/administration/pages",
-        links: [
+        children: [
             {
                 label: "Inicio",
                 link: "/administration/pages/home",

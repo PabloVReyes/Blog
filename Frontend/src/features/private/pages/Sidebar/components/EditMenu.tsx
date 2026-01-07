@@ -1,7 +1,7 @@
-import { getAllPages } from "@/api/pages"
-import { IconPicker } from "@/components/IconPicker"
-import { useSettingStore } from "@/features/settings/store/settingStore"
-import { useModalStore } from "@/shared"
+// import { getAllPages } from "@/api/pages"
+import { getAllPagesUrl } from "@/features/sidebar/api/pages"
+import { IconSelect } from "@/features/sidebar/components/shared"
+import { useModalStore, useSettingStore } from "@/shared"
 import { notify } from "@/utils/notify"
 import type { UniqueIdentifier } from "@dnd-kit/core"
 import { Autocomplete, Button, Group, Stack, TextInput } from "@mantine/core"
@@ -35,7 +35,7 @@ export const EditMenu = ({ id }: Props) => {
 
 
     useEffect(() => {
-        getAllPages().then((data) => {
+        getAllPagesUrl().then((data) => {
             const mapped = data.map((p: any) => ({ value: p.title, slug: p.slug }));
             setPages(mapped);
 
@@ -89,7 +89,7 @@ export const EditMenu = ({ id }: Props) => {
                         form.setFieldValue("page", selectedPage ? selectedPage.slug : "");
                     }}
                 />
-                <IconPicker form={form} />
+                <IconSelect form={form} />
 
                 <Group mt="lg" gap={5} justify="flex-end">
                     <Button variant="outline" onClick={closeModal}>

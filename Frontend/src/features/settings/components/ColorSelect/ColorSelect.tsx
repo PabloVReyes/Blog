@@ -1,6 +1,6 @@
+import { useSettingStore } from "@/shared"
 import { colorMap } from "@/utils/colors"
 import { CheckIcon, ColorSwatch, Group, Text } from "@mantine/core"
-import { useSettingStore } from "../../store"
 
 export const ColorSelect = () => {
     const { color, setColor } = useSettingStore()

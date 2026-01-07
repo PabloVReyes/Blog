@@ -1,14 +1,20 @@
 /////////////////
 // Componentes //
 /////////////////
-export { Search, BaseModal, BaseSidebar } from "./components"
+export { Search, Pagination } from "./components"
 
 ///////////
 // Store //
 ///////////
-export { useModalStore } from "./store"
+export { useModalStore, useSettingStore } from "./store"
 
 ///////////
 // Utils //
 ///////////
 export { formatDate } from "./utils"
+
+/////////////
+// Layouts //
+/////////////
+
+export { MainLayout } from "./layouts"

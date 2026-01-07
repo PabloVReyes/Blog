@@ -2,9 +2,8 @@ import { Button, Card, Container, Divider, Group, Stack, Text, Title } from "@ma
 import { IconPlus } from "@tabler/icons-react"
 import { usePrivateHomeCarouselStore, usePrivateHomeSectionStore } from "@/store/pages/homeStore"
 import { useEffect } from "react"
-import { CmpPagination } from "@/components"
 import { CmpHomeCarouselAdd, CmpHomeCarouselTable, CmpHomeSectionTable } from "../../../components"
-import { useModalStore } from "@/shared"
+import { Pagination, useModalStore } from "@/shared"
 
 export const Home = () => {
     const { openModal } = useModalStore()
@@ -64,7 +63,7 @@ export const Home = () => {
                 </Card>
                 {/* Paginacion */}
                 <Card>
-                    <CmpPagination
+                    <Pagination
                         useStore={usePrivateHomeCarouselStore}
                     />
                 </Card>
@@ -79,7 +78,7 @@ export const Home = () => {
                 </Group>
 
                 <Card>
-                    <CmpHomeSectionTable 
+                    <CmpHomeSectionTable
                         items={sections}
                     />
                 </Card>

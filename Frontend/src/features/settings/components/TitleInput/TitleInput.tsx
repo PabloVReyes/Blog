@@ -1,8 +1,11 @@
+import { useSettingStore } from "@/shared"
 import { Text, TextInput } from "@mantine/core"
-import { useSettingStore } from "../../store"
+
+const MAX_LENGTH = 15;
 
 export const TitleInput = () => {
     const { setTitle, title } = useSettingStore()
+
     return (
         <TextInput
             label="Título"
@@ -11,11 +14,11 @@ export const TitleInput = () => {
             placeholder="Título de la página"
             description="Título principal de la pagina"
             defaultValue={title}
-            maxLength={15}
+            maxLength={MAX_LENGTH}
             onChange={(e) => setTitle(e.currentTarget.value)}
             rightSection={
                 <Text size="xs" c="dimmed">
-                    {title.length}/15
+                    {title.length}/{MAX_LENGTH}
                 </Text>
             }
             rightSectionWidth={40}

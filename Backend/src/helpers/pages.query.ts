@@ -117,10 +117,14 @@ export const deletePageQuery = (id: string) => {
     })
 }
 
-export const getAllPagesQuery = () => {
+export const getAllPagesUrlQuery = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await database.page.findMany({})
+            const data = await database.page.findMany({
+                select: {
+                    slug: true
+                }
+            })
             resolve(data)
         } catch {
             reject([])

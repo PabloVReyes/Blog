@@ -1,5 +1,5 @@
+import { useSettingStore } from "@/shared";
 import { ActionIcon, Group, Text, Tooltip } from "@mantine/core"
-import { useSettingStore } from "../../store";
 import { IconMoon, IconSun, IconSunMoon } from "@tabler/icons-react";
 
 export const ThemeSelect = () => {

@@ -5,8 +5,8 @@ import { getPages, getPagesCount } from "@/api/pages";
 import { PagesTable } from "../../components/PagesTable";
 import { useDisclosure } from "@mantine/hooks";
 import { usePageStore } from "@/store/paginationStore";
-import { CmpPagination } from "@/components/Pagination";
 import { CmpPageAdd } from "../../components/pages";
+import { Pagination } from "@/shared";
 
 interface Page {
     id: string;
@@ -63,7 +63,7 @@ export const Pages = () => {
                             onUpdate={handlePagesUpdate}
                         />
 
-                        <CmpPagination
+                        <Pagination
                             useStore={usePageStore}
                         />
                     </Stack>

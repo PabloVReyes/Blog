@@ -25,11 +25,6 @@ export const deletePage = async (id: string) => {
     return response.data;
 }
 
-export const getAllPages = async () => {
-    const response = await api.get("/api/pages/all")
-    return response.data
-}
-
 export const uploadPageImage = async (file: any) => {
     const response = await api.post("/api/pages/image", file)
     return response.data

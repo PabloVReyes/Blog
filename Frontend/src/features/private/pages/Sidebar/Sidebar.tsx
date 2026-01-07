@@ -1,15 +1,11 @@
 import { Button, Card, Container, Group, Stack, Text, Title } from "@mantine/core"
 import { IconDeviceFloppy, IconPlus } from "@tabler/icons-react"
-import { AddMenu } from "./components/AddMenu"
-import { useSettingStore } from "@/features/settings/store/settingStore"
 import { useEffect, useState } from "react"
 import { notify } from "@/utils/notify"
-import { SortableTree } from "@/components/SortableTree/SortableTree"
-import { useModalStore } from "@/shared"
+import { SortableTree } from "@/features/sidebar/components/SortableTree/SortableTree"
+import { useSettingStore } from "@/shared"
 
 export const Sidebar = () => {
-    const { openModal } = useModalStore()
-
     const { menu, saveSetting } = useSettingStore()
     const [initialMenu, setInitialMenu] = useState(menu);
     const [hasChanges, setHasChanges] = useState(false);
@@ -19,12 +15,6 @@ export const Sidebar = () => {
     }, [menu, initialMenu]);
 
 
-    const handleAddMenu = () => {
-        openModal({
-            title: "Agregar Menú",
-            content: <AddMenu />
-        })
-    }
 
     const handleSubmit = async () => {
         try {
@@ -60,7 +50,7 @@ export const Sidebar = () => {
                             Guardar
                         </Button>
 
-                        <Button leftSection={<IconPlus />} onClick={handleAddMenu}>
+                        <Button leftSection={<IconPlus />}>
                             Agregar menú
                         </Button>
                     </Group>

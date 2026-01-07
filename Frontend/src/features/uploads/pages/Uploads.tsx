@@ -1,9 +1,9 @@
 import { Search } from "@/shared"
 import { Container, Group, Stack, Text, Title } from "@mantine/core"
-import { UploadsTable } from "../components"
+import { Table } from "../components"
 import { useEffect } from "react"
 import { useFilesStore } from "../store"
-import { Pagination } from "@/shared/components"
+import { Pagination } from "@/shared"
 
 export const Uploads = () => {
     const { fetchFiles, items, page, limit, search, setSearch } = useFilesStore()
@@ -27,7 +27,7 @@ export const Uploads = () => {
                     onChange={setSearch}
                 />
 
-                <UploadsTable
+                <Table
                     items={items}
                 />
 

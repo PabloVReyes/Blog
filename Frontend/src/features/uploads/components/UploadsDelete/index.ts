@@ -1,1 +1,0 @@
-export { UploadsDelete } from "./UploadsDelete"

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { deleteFile, getFiles, getFilesCount } from "@/features/uploads/api/uploads";
-import type { useFilesStoreProps } from "./type";
+import type { useFilesStoreProps } from "./types";
 
 export const useFilesStore = create<useFilesStoreProps>((set, get) => ({
     page: 1,
@@ -37,25 +37,30 @@ export const useFilesStore = create<useFilesStoreProps>((set, get) => ({
     },
 
     async deleteFile(filename: string) {
-        const { items, totalItems, page } = get();
+        const { items, totalItems, page, limit, search } = get();
 
         await deleteFile(filename);
 
-        // Actualizacion optimista
-        const newItems = items.filter(
+        let newItems = items.filter(
             (item) => item.filename !== filename
-        )
+        );
 
         const newTotal = Math.max(totalItems - 1, 0);
 
+        // Si quedó espacio, intenta traer 1 item de la siguiente página
+        if (newItems.length < limit) {
+            const nextPage = page + 1;
+
+            const nextItems = await getFiles(nextPage, 1, search);
+
+            if (nextItems.length > 0) {
+                newItems = [...newItems, nextItems[0]];
+            }
+        }
+
         set({
             items: newItems,
-            totalItems: newTotal
-        })
-
-        if (newItems.length === 0 && page > 1) {
-            set({ page: page - 1 });
-            await get().fetchFiles();
-        }
+            totalItems: newTotal,
+        });
     }
 }))

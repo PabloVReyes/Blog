@@ -1,6 +1,11 @@
-import { deletePageService, getAllPagesService, getPagesCountService, getPageService, getPagesService, publishPageService, uploadPageImageService } from "@/services/pages.service"
+import { deletePageService, getAllPagesUrlService, getPagesCountService, getPageService, getPagesService, publishPageService, uploadPageImageService } from "@/services/pages.service"
 import { RequestHandler, response } from "express"
 
+////////////
+// Create //
+////////////
+
+// Publicar pagina
 export const publishPageController: RequestHandler = async (request, response) => {
     try {
         const body = request.body
@@ -14,6 +19,7 @@ export const publishPageController: RequestHandler = async (request, response) =
     }
 }
 
+// Subir imagen
 export const uploadPageImageController: RequestHandler = async (req, res) => {
     try {
         const data = await uploadPageImageService(req);
@@ -26,6 +32,12 @@ export const uploadPageImageController: RequestHandler = async (req, res) => {
     }
 }
 
+
+////////////
+//  Read  //
+////////////
+
+// Obtener paginas
 export const getPagesController: RequestHandler = async (request, response) => {
     try {
         const { page, limit, search } = request.query
@@ -43,6 +55,7 @@ export const getPagesController: RequestHandler = async (request, response) => {
     }
 }
 
+// Numero total de paginas
 export const getPagesCountController: RequestHandler = async (request, response) => {
     try {
         const { search } = request.query
@@ -56,6 +69,7 @@ export const getPagesCountController: RequestHandler = async (request, response)
     }
 }
 
+// Informacion de la pagina
 export const getPageController: RequestHandler = async (request, response) => {
     try {
         const { slug } = request.params
@@ -69,6 +83,29 @@ export const getPageController: RequestHandler = async (request, response) => {
     }
 }
 
+// Todas las paginas (URL)
+export const getAllPagesUrlController: RequestHandler = async (request, response) => {
+    try {
+        const data = await getAllPagesUrlService()
+        response.json(data)
+    } catch (error: any) {
+        response.status(500)
+            .send({
+                msg: error.message || "Obtener lista de todas las páginas"
+            })
+    }
+}
+
+
+////////////
+// Update //
+////////////
+
+////////////
+// Delete //
+////////////
+
+// Eliminar pagina
 export const deletePageController: RequestHandler = async (request, response) => {
     try {
         const { id } = request.params
@@ -78,18 +115,6 @@ export const deletePageController: RequestHandler = async (request, response) =>
         response.status(500)
             .send({
                 msg: error.message || "Eliminar página"
-            })
-    }
-}
-
-export const getAllPagesController: RequestHandler = async (request, response) => {
-    try {
-        const data = await getAllPagesService()
-        response.json(data)
-    } catch (error: any) {
-        response.status(500)
-            .send({
-                msg: error.message || "Obtener lista de todas las páginas"
             })
     }
 }
