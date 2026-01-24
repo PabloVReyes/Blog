@@ -1,1 +1,1 @@
-export { Uploads } from "./pages"
+export { Uploads } from "./page"

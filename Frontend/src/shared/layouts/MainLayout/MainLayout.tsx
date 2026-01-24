@@ -3,7 +3,7 @@ import styles from "./styles.module.css"
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
-import { BaseModal, BaseSidebar } from "./components";
+import { BaseModal, BaseSidebar, Header } from "./components";
 
 export const MainLayout = () => {
     const isMobile = useMediaQuery("(max-width: 768px)");

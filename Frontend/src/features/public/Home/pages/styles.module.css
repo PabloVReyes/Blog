@@ -1,0 +1,54 @@
+/* MOBILE FIRST: por defecto, todo ocupa 12 columnas */
+.colMain {
+    grid-column: span 12;
+}
+
+.colSide {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+}
+
+.derechohabiencia {
+    flex: 2;
+    /* ocupa más espacio */
+}
+
+.calendar {
+    flex: 1;
+    /* ocupa menos */
+}
+
+/* >= sm */
+/* @media (min-width: 48em) {
+    .colMain {
+        grid-column: span 8;
+    }
+
+    .colSide {
+        grid-column: span 4;
+    }
+} */
+
+/* >= md */
+/* @media (min-width: 62em) {
+    .colMain {
+        grid-column: span 7;
+    }
+
+    .colSide {
+        grid-column: span 5;
+    }
+} */
+
+/* >= lg */
+@media (min-width: 75em) {
+    .colMain {
+        grid-column: span 9;
+    }
+
+    .colSide {
+        grid-column: span 3;
+    }
+}

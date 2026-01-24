@@ -1,0 +1,74 @@
+.item {
+    display: flex;
+    align-items: center;
+}
+
+.itemIcon {
+    padding: var(--mantine-spacing-xs);
+    margin-right: var(--mantine-spacing-md);
+}
+
+.rating {
+    position: absolute;
+    top: var(--mantine-spacing-xs);
+    right: 12px;
+    pointer-events: none;
+}
+
+.itemTitle {
+    margin-bottom: calc(var(--mantine-spacing-xs) / 2);
+}
+
+.group:hover .itemTitle {
+    color: var(--mantine-color-green-6);
+}
+
+
+.group {
+    transition: box-shadow 300ms ease, transform 300ms ease;
+}
+
+.group:hover {
+    box-shadow: var(--mantine-shadow-xl);
+    transform: translateY(-2px);
+}
+
+.action {
+    align-self: flex-start;
+    pointer-events: none;
+}
+
+.arrow {
+    transition: transform 200ms ease;
+}
+
+.group:hover .arrow {
+    transform: translateX(2px);
+}
+
+.group:hover .action {
+    gap: 1px;
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    /* redondeado */
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+
+    /* estado inicial “light” */
+    background-color: rgba(var(--icon-rgb), 0.1);
+    color: rgb(var(--icon-rgb));
+}
+
+/* Hover sobre la Card */
+.group:hover .iconWrapper {
+    background-color: rgb(var(--icon-rgb));
+    /* fondo lleno */
+    color: white;
+    /* icono blanco */
+}

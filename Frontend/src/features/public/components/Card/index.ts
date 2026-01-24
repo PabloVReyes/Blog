@@ -1,1 +1,0 @@
-export { CmpCard } from "./CmpCard"
