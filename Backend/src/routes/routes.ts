@@ -4,6 +4,7 @@ import pagesRoutes from "@/routes/pages.routes"
 import carouselRoutes from "@/routes/carousel.routes"
 import filesRoutes from "@/routes/files.routes"
 import sectionsRoutes from "@/routes/sections.routes"
+import directoryRoutes from "@/routes/directory.routes"
 
 const router: Router = Router()
 
@@ -27,5 +28,6 @@ router.use("/api/pages", pagesRoutes)
 router.use("/api/carousel", carouselRoutes)
 router.use("/api/files", filesRoutes)
 router.use("/api/sections", sectionsRoutes)
+router.use("/api/directory", directoryRoutes)
 
 module.exports = router;

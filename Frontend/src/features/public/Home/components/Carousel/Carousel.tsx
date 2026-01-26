@@ -1,5 +1,5 @@
 import { Carousel as MantineCarousel } from '@mantine/carousel';
-import classes from './style.module.css'
+import classes from './Carousel.module.css'
 import Autoplay from 'embla-carousel-autoplay';
 import { useEffect, useRef, useState } from 'react';
 import { getCarousel } from '@/api/carousel';

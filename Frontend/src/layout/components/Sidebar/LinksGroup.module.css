@@ -1,0 +1,71 @@
+.control {
+    margin-top: 3px;
+    border-radius: 8px;
+    font-weight: 500;
+    display: block;
+    width: 100%;
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+    color: white;
+    font-size: var(--mantine-font-size-sm);
+
+    &:hover {
+        background-color: #364153;
+        color: var(--mantine-color-white);
+
+        & .linkIcon {
+            color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+        }
+    }
+
+    &[data-active] {
+
+        &,
+        &:hover {
+            background-color: var(--app-primary-color);
+            color: var(--mantine-color-white);
+
+            & .linkIcon {
+                color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+            }
+        }
+    }
+}
+
+.link {
+    border-radius: 0px 8px 8px 0px;
+    font-weight: 500;
+    display: block;
+    text-decoration: none;
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+    padding-left: var(--mantine-spacing-md);
+    margin-left: var(--mantine-spacing-xl);
+    font-size: var(--mantine-font-size-sm);
+    color: white;
+    border-left: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+
+    &:hover {
+        background-color: #364153;
+        color: white;
+
+        & .linkIcon {
+            color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+        }
+    }
+
+    &[data-active] {
+
+        &,
+        &:hover {
+            color: var(--app-primary-color);
+            /* background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7)); */
+
+            & .linkIcon {
+                color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+            }
+        }
+    }
+}
+
+.chevron {
+    transition: transform 200ms ease;
+}

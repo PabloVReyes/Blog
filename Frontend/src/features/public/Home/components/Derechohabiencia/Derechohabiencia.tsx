@@ -1,11 +1,11 @@
 import { Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/core"
-import styles from "./styles.module.css"
+import styles from "./Derechohabiencia.module.css"
 import { IconExternalLink, IconSearch } from "@tabler/icons-react"
 
 export const Derechohabiencia = () => {
     return (
         <Card padding={"lg"} h={"100%"}>
-            <Stack>
+            <Stack h={"100%"}>
                 <div className={styles.item}>
                     <ThemeIcon variant="light" color="blue" className={styles.itemIcon} size={45} radius="md">
                         <IconSearch size={40} />
@@ -22,7 +22,7 @@ export const Derechohabiencia = () => {
                     Verifica el estatus de afiliación
                 </Text>
 
-                <Stack gap={"xs"}>
+                <Stack gap={"xs"} mt={"auto"}>
                     <Button
                         variant="light"
                         color="gray"

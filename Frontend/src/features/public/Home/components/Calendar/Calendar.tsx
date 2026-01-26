@@ -1,11 +1,11 @@
 import { Badge, Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/core"
-import styles from "./styles.module.css"
+import styles from "./Calendar.module.css"
 import { IconCalendarWeek, IconFileDownload } from "@tabler/icons-react"
 
 export const Calendar = () => {
     return (
         <Card padding={"lg"} h={"100%"}>
-            <Stack>
+            <Stack h={"100%"}>
                 <Badge className={styles.rating} color="red" size="sm">
                     2025
                 </Badge>
@@ -26,6 +26,7 @@ export const Calendar = () => {
                 </Text>
 
                 <Button
+                    mt={"auto"}
                     color="green"
                     leftSection={
                         <IconFileDownload size={18} />

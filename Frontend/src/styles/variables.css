@@ -1,5 +1,5 @@
 :root[data-mantine-color-scheme="light"] {
-    --app-border: 1px solid var(--mantine-color-gray-3);
+    --app-border: 1px solid var(--mantine-color-gray-7);
     --app-background-color: var(--mantine-color-white);
     --app-primary-color: var(--mantine-primary-color-8);
     --app-info-color: var(--mantine-primary-color-8);

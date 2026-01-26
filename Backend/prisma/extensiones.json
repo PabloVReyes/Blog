@@ -1,0 +1,2270 @@
+[
+    {
+        "id": "1",
+        "extension": "1001",
+        "nombre": "CONMUTADOR",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "2",
+        "extension": "1002",
+        "nombre": "CONMUTADOR",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "3",
+        "extension": "1004",
+        "nombre": "CODIGO COVID (PARA VOCEO CODIGO NARANJA)",
+        "piso": "PLANTA BAJA",
+        "jefe": "SIN TELEFONO",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "4",
+        "extension": "1005",
+        "nombre": "JEFATURA DE DESARROLLO DE SISTEMAS",
+        "piso": "PLANTA BAJA",
+        "jefe": "ING. GEORGINA RUTH VAZQUEZ CEBALLOS",
+        "secretarias": "ALMA NURIS MU\u00d1IZ DOMINGUEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "5",
+        "extension": "1006",
+        "nombre": "CONSULTA EXTERNA CONS. No. 5 CIRUGIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "6",
+        "extension": "1007",
+        "nombre": "CONSULTA EXTERNA CONS. No. 4 GINECOLOGIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "7",
+        "extension": "1008",
+        "nombre": "CONSULTA EXTERNA MOD. 1 LOBY",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "8",
+        "extension": "1009",
+        "nombre": "CONSULTA EXTERNA CONS. No. 3 GINECOLOGIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "9",
+        "extension": "1010",
+        "nombre": "CONSULTA EXTERNA",
+        "piso": "PLANTA BAJA",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "10",
+        "extension": "1011",
+        "nombre": "CAJA 1ER NIVEL FRENTE AL AUDITORIO",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "11",
+        "extension": "1012",
+        "nombre": "CONSULTA EXTERNA CONS. No. 1 GINECOLOGIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "12",
+        "extension": "1013",
+        "nombre": "CONSULTA EXTERNA MOD. 2 LOBY",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "13",
+        "extension": "1014",
+        "nombre": "CONSULTA EXTERNA CONS. No. 7 OFTALMOLOGIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "14",
+        "extension": "1015",
+        "nombre": "CONSULTA EXTERNA CONS. No. 8 OFTALMOLOGIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "15",
+        "extension": "1016",
+        "nombre": "CONSULTA EXTERNA CONS. No. 9 PEDIATRIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "16",
+        "extension": "1017",
+        "nombre": "CONSULTA EXTERNA CONS. No. 10 OTORRINOLARIN",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "17",
+        "extension": "1018",
+        "nombre": "CONSULTA EXTERNA MOD. 3 LOBY",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "18",
+        "extension": "1019",
+        "nombre": "CONSULTA EXTERNA CONS. No. 11 PROCTOLOGIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "19",
+        "extension": "1020",
+        "nombre": "CONSULTA EXTERNA CONS. No. 12 NEFRO Y NEURO",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "20",
+        "extension": "1022",
+        "nombre": "CONSULTA EXTERNA CONS. No. 12-B ELECTROCARD",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "21",
+        "extension": "1023",
+        "nombre": "DIRECCION GENERAL SECRETARIA",
+        "piso": "PLANTA BAJA GOBIERNO",
+        "jefe": "DR. RAFAEL NORBERTO HERNANDEZ GOMEZ",
+        "secretarias": "TATIANA MARQUEZ GABRIELA CASTILLO",
+        "deleted_at": null
+    },
+    {
+        "id": "22",
+        "extension": "1026",
+        "nombre": "DIRECCION SALA DE JUNTAS",
+        "piso": "PLANTA BAJA GOBIERNO",
+        "jefe": "DR. RAFAEL NORBERTO HERNANDEZ GOMEZ",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "23",
+        "extension": "1027",
+        "nombre": "SUBDIRECCION MEDICA SECRETARIA",
+        "piso": "PLANTA BAJA GOBIERNO",
+        "jefe": "DR. JOSE BERNABE RAMIREZ CABRERA",
+        "secretarias": "ADRIANO FABRE MARIA ISABEL",
+        "deleted_at": null
+    },
+    {
+        "id": "24",
+        "extension": "1028",
+        "nombre": "SUBDIRECCION ADMINISTRATIVA SECRETARIA",
+        "piso": "PLANTA BAJA GOBIERNO",
+        "jefe": "LIC. RUBEN VAZQUEZ RASGADO",
+        "secretarias": "LUCIA CARREON",
+        "deleted_at": null
+    },
+    {
+        "id": "25",
+        "extension": "1029",
+        "nombre": "JEFATURA SUBDIRECCION MEDICA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "CL\u00d6NICA DEL CAT\u0090TER",
+        "deleted_at": null
+    },
+    {
+        "id": "26",
+        "extension": "1031",
+        "nombre": "INFORMACION MODULO LOBBY",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "27",
+        "extension": "1032",
+        "nombre": "TRABAJO SOCIAL SECRETARIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "LTS. JULIETA SANCHEZ GONZALEZ",
+        "secretarias": "JOSEFINA",
+        "deleted_at": null
+    },
+    {
+        "id": "28",
+        "extension": "1033",
+        "nombre": "TRABAJO SOCIAL JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "LTS. JULIETA SANCHEZ GONZALEZ",
+        "secretarias": "JOSEFINA",
+        "deleted_at": null
+    },
+    {
+        "id": "29",
+        "extension": "1034",
+        "nombre": "SISTEMAS JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "MTRO FRANCISCO BARAJAS MTZ.",
+        "secretarias": "ALMA NURIS MU\u00d1IZ DOMINGUEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "30",
+        "extension": "1035",
+        "nombre": "JEFATURA DE SOPORTE TECNICO Y REDES",
+        "piso": "PLANTA BAJA",
+        "jefe": "ING. PABLO VAZQUEZ REYES",
+        "secretarias": "ALMA NURIS MU\u00d1IZ DOMINGUEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "31",
+        "extension": "1036",
+        "nombre": "BAJO RIESGO",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DRA. BERENICE",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "32",
+        "extension": "1037",
+        "nombre": "SISTEMAS SECRETARIA JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "M.C. FRANCISCO BARAJAS MARTINEZ",
+        "secretarias": "ALMA NURIS MU\u00d1IZ DOMINGUEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "33",
+        "extension": "1038",
+        "nombre": "TRABAJO SOCIAL COORDINACI\u00e0N RECEPCION",
+        "piso": "PLANTA BAJA",
+        "jefe": "C. GLADIS HERNANDEZ CRUZ (T.M) C. PATRICIA REYES SOSA (J.A.)",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "34",
+        "extension": "1039",
+        "nombre": "TRABAJO SOCIAL SUPERVISION",
+        "piso": "PLANTA BAJA",
+        "jefe": "LTS. ISIDRA ANTONIA LEZAMA GUERRA LTS. MARINA PALOMO ORTIZ",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "35",
+        "extension": "1040",
+        "nombre": "TRABAJO SOCIAL SECRETARIA SUPERVISION",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "36",
+        "extension": "1041",
+        "nombre": "CAJA DE FARMACIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "37",
+        "extension": "1042",
+        "nombre": "ABASTECIMIENTOS JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "LIC. ROBERTO CERVANTES RODRIGUEZ",
+        "secretarias": "MARIA TERESA PALACIOS MOLINA",
+        "deleted_at": null
+    },
+    {
+        "id": "38",
+        "extension": "1043",
+        "nombre": "FARMACIA JEFE DE DEPARTAMENTO",
+        "piso": "PLANTA BAJA",
+        "jefe": "M.F.C. DIEGO ARMANDO CHI LOVILLO",
+        "secretarias": "ADELINA",
+        "deleted_at": null
+    },
+    {
+        "id": "39",
+        "extension": "1044",
+        "nombre": "COMPRAS JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "C.P. FRANSISCO J. OSOLANO OSORNIO",
+        "secretarias": "HILDA MOLINA SANCHEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "40",
+        "extension": "1045",
+        "nombre": "ABASTECIMIENTOS SECRETARIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "LIC. ROBERTO CERVANTES RODRIGUEZ",
+        "secretarias": "MARIA TERESA PALACIOS MOLINA",
+        "deleted_at": null
+    },
+    {
+        "id": "41",
+        "extension": "1046",
+        "nombre": "AUDIOVISUAL",
+        "piso": "PLANTA BAJA",
+        "jefe": "LDG. NESTOR MOISES SAAVEDRA ARREGUIN",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "42",
+        "extension": "1048",
+        "nombre": "COMPRAS 1",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "43",
+        "extension": "1049",
+        "nombre": "PRECONSULTA ENFERMERIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "44",
+        "extension": "1052",
+        "nombre": "TRABAJO SOCIAL PATRIMONIO DE LA BENEF. PUBLICA",
+        "piso": "PLANTA BAJA",
+        "jefe": "LTS. HUGO ENRIQUE MORELOS MENDOZA",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "45",
+        "extension": "1053",
+        "nombre": "CASETA DE SEGURIDAD No. 2 HERNANDEZ OCHOA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "46",
+        "extension": "1054",
+        "nombre": "COVID 1",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "47",
+        "extension": "1055",
+        "nombre": "TOCO CIRUGIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DRA. BERENICE VENEGAS",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "48",
+        "extension": "1057",
+        "nombre": "MANTENIMIENTO SECRETARIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "ING. AMAURY CUERVO MARTINEZ",
+        "secretarias": "SUZETTE GONZALEZ SANCHEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "49",
+        "extension": "1058",
+        "nombre": "MANTENIMIENTO JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "ING. AMAURY CUERVO MARTINEZ",
+        "secretarias": "SUZETTE GONZALEZ SANCHEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "50",
+        "extension": "1059",
+        "nombre": "EPIDEMIOLOG\u00d6A",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DRA. ALEJANDRA DE J. CORTES RAMIREZ",
+        "secretarias": "YUKARI JULIANA DIAZ GONZALEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "51",
+        "extension": "1060",
+        "nombre": "MAXILO FACIAL Y ESTOMATOLOG\u00d6A - DENTAL",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "52",
+        "extension": "1061",
+        "nombre": "SERVICIOS FARMACEUTICOS",
+        "piso": "PLANTA BAJA",
+        "jefe": "MFC. MACHNADBAY PEREZ MENDIOLA",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "53",
+        "extension": "1062",
+        "nombre": "TOCO CIRUGIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DRA. BERENICE VENEGAS",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "54",
+        "extension": "1063",
+        "nombre": "MANTENIMIENTO SUB-JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "ING. ERIK YOVANI HERNANDEZ CARRETO",
+        "secretarias": "SUZETTE GONZALEZ SANCHEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "55",
+        "extension": "1064",
+        "nombre": "MANTENIMIENTO TALLER",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "56",
+        "extension": "1065",
+        "nombre": "ALMACEN",
+        "piso": "PLANTA BAJA",
+        "jefe": "C. MARTIN CARRETERO QUIROZ",
+        "secretarias": "ESTELA COLORADO",
+        "deleted_at": null
+    },
+    {
+        "id": "57",
+        "extension": "1066",
+        "nombre": "ALMACEN JEFATURA-SECRETARIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "LIC. MARTIN CARRETERO QUIROZ",
+        "secretarias": "ESTELA COLORADO",
+        "deleted_at": null
+    },
+    {
+        "id": "58",
+        "extension": "1067",
+        "nombre": "ARCHIVO CLINICO ESTADISTICA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "59",
+        "extension": "1068",
+        "nombre": "ARCHIVO CLINICO JEFATURA Y VENTANILLA",
+        "piso": "PLANTA BAJA",
+        "jefe": "LIC. TOMAS RODRIGUEZ CORTES",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "60",
+        "extension": "1069",
+        "nombre": "INVENTARIOS",
+        "piso": "PLANTA BAJA",
+        "jefe": "L.C. JOS\u00c9 DE JES\u00daS GUZM\u00c1N JIM\u00c9NEZ ENCARGADO",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "61",
+        "extension": "1070",
+        "nombre": "DESCANSO DE CHOFERES",
+        "piso": "PLANTA BAJA",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "62",
+        "extension": "1071",
+        "nombre": "LAVANDERIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "C. ROJAS GARCIA ROGELIO ALAIN",
+        "secretarias": "TANIA GUZMAN TORRES",
+        "deleted_at": null
+    },
+    {
+        "id": "63",
+        "extension": "1072",
+        "nombre": "CASA DE MAQUINAS",
+        "piso": "PLANTA BAJA",
+        "jefe": "ING. EDUARDO MENDOZA",
+        "secretarias": "SUZETTE GONZALEZ SANCHEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "64",
+        "extension": "1073",
+        "nombre": "NUTRICION JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "L.N.GUILLERMO SANCHEZ CAMARILLO",
+        "secretarias": "MARISCAL RAMIREZ IRMA GRACIELA",
+        "deleted_at": null
+    },
+    {
+        "id": "65",
+        "extension": "1074",
+        "nombre": "NUTRICION Y DIETETICA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "66",
+        "extension": "1077",
+        "nombre": "RECURSOS HUMANOS CONTROL ASIST. JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "C. MA. DE DOLORES LANDA GARC\u00cdA",
+        "secretarias": "SANDRA LUZ PORTILLA MONFIL. ANA LIBIA HAAZ ORTEGA",
+        "deleted_at": null
+    },
+    {
+        "id": "67",
+        "extension": "1078",
+        "nombre": "RECURSOS HUMANOS SELECCION Y CONTRATACION",
+        "piso": "PLANTA BAJA",
+        "jefe": "C. ELDA MACEDA GARRIDO",
+        "secretarias": "VIRGINIA LUNA FUENTES",
+        "deleted_at": null
+    },
+    {
+        "id": "68",
+        "extension": "1079",
+        "nombre": "RECURSOS HUMANOS SELECCION Y C. SECRETARIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "69",
+        "extension": "1080",
+        "nombre": "RECURSOS HUMANOS JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "ING. ROSA MARIA FLORES SOSA",
+        "secretarias": "ADRIANA OLIVIA HERNANDEZ RUIZ",
+        "deleted_at": null
+    },
+    {
+        "id": "70",
+        "extension": "1081",
+        "nombre": "RECURSOS HUMANOS SECRETARIA - JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "ING. ROSA MARIA FLORES SOSA",
+        "secretarias": "ADRIANA OLIVIA HERNANDEZ RUIZ",
+        "deleted_at": null
+    },
+    {
+        "id": "71",
+        "extension": "1082",
+        "nombre": "RECURSOS HUMANOS NOMINA Y REGISTRO",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "72",
+        "extension": "1083",
+        "nombre": "PATOLOGIA SECRETARIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DRA. TANIA CHAVEZ PRIEGO",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "73",
+        "extension": "1084",
+        "nombre": "PATOLOGIA JEFATURA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DRA. TANIA CHAVEZ PRIEGO",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "74",
+        "extension": "1085",
+        "nombre": "SERVICIOS GENERALES APOYO ADMINISTRATIVO\/SECRETARIA",
+        "piso": "PLANTA BAJA",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "76",
+        "extension": "1087",
+        "nombre": "INSABI (ARCHIVO)",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "77",
+        "extension": "1088",
+        "nombre": "JURIDICO",
+        "piso": "PLANTA BAJA",
+        "jefe": "LIC. ANGEL DOMINGUEZ RIVAS",
+        "secretarias": "ERIKA COLORADO GARCIA",
+        "deleted_at": null
+    },
+    {
+        "id": "78",
+        "extension": "1092",
+        "nombre": "FARMACIA MOSTRADOR",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "79",
+        "extension": "1101",
+        "nombre": "CAJA 1ER NIVEL FRENTE AL AUDITORIO",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "80",
+        "extension": "1103",
+        "nombre": "RADIOLOGIA SECRETARIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DR. CARLOS MARTIN CERVANTES JUAREZ",
+        "secretarias": "PIEDAD GARCIA GUEVARA",
+        "deleted_at": null
+    },
+    {
+        "id": "81",
+        "extension": "1104",
+        "nombre": "RECURSOS FINANCIEROS SECRETARIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "MAP. POMPEYA LANDA MARTINEZ",
+        "secretarias": "MARIA DE JESUS MIRANDA HERNANDEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "82",
+        "extension": "1105",
+        "nombre": "ENSE\u00a5ANZA JEFATURA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DR. JUAN GERARDO NEME KURI",
+        "secretarias": "ANGELICA LUCIA MARTINEZ ARCOS",
+        "deleted_at": null
+    },
+    {
+        "id": "83",
+        "extension": "1106",
+        "nombre": "ENSE\u00a5ANZA SECRETARIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DR. JUAN GERARDO NEME KURI",
+        "secretarias": "ANGELICA LUCIA MARTINEZ ARCOS",
+        "deleted_at": null
+    },
+    {
+        "id": "84",
+        "extension": "1107",
+        "nombre": "REC. FINANCIEROS INGRESOS",
+        "piso": "PRIMER NIVEL",
+        "jefe": "C. ANTONIA SALAS S\u00c1NCHEZ",
+        "secretarias": "ARIADNA",
+        "deleted_at": null
+    },
+    {
+        "id": "85",
+        "extension": "1108",
+        "nombre": "REC. FINANCIEROS EGRESOS",
+        "piso": "PRIMER NIVEL",
+        "jefe": "MTRA. M\u00d3NICA DENISSE NAVARRO LANDA",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "86",
+        "extension": "1109",
+        "nombre": "REC. FINANCIEROS EGRESOS SECRETARIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "87",
+        "extension": "1110",
+        "nombre": "REC. FINANCIEROS CAJA CENTRAL CAPTURA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "88",
+        "extension": "1111",
+        "nombre": "REC. FINANCIEROS COBRANZAS",
+        "piso": "PRIMER NIVEL",
+        "jefe": "C.P. INES TOLEDO LE\u00d3N",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "89",
+        "extension": "1112",
+        "nombre": "REC. FINANCIEROS JEFATURA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "MAP. POMPEYA LANDA MTZ.",
+        "secretarias": "MARIA DE JESUS MIRANDA HERNANDEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "90",
+        "extension": "1113",
+        "nombre": "REC. FINANCIEROS CONTABILIDAD",
+        "piso": "PRIMER NIVEL",
+        "jefe": "C.P. JAIME P\u00c9REZ MENDOZA",
+        "secretarias": "ISABEL CANO",
+        "deleted_at": null
+    },
+    {
+        "id": "91",
+        "extension": "1114",
+        "nombre": "BANCO DE SANGRE JEFATURA Y RECEPCI\u00e0N",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DRA. ARACELY VAZQUEZ LEAL",
+        "secretarias": "YAMILETH",
+        "deleted_at": null
+    },
+    {
+        "id": "92",
+        "extension": "1115",
+        "nombre": "ADMISION Y ALTAS RECEPCION",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "93",
+        "extension": "1116",
+        "nombre": "REC. FINANCIEROS CAJA CENTRAL ",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "94",
+        "extension": "1119",
+        "nombre": "TOCO CIRUGIA RECUPERACION",
+        "piso": "PRIMER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "96",
+        "extension": "1126",
+        "nombre": "URGENCIAS PEDIATRICAS MOD. DE ENFERMERAS",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "97",
+        "extension": "1127",
+        "nombre": "URGENCIAS ADULTOS MOD. ENFERMERAS",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "98",
+        "extension": "1128",
+        "nombre": "TRIAGE RESPIRATORIO",
+        "piso": "PRIMER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "99",
+        "extension": "1129",
+        "nombre": "URGENCIAS MODULO SEGURIDAD RAMPA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "100",
+        "extension": "1130",
+        "nombre": "URGENCIAS RECEPCION E INFORMACION",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "101",
+        "extension": "1132",
+        "nombre": "URGENCIAS JEFATURA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DR. JAIME GONZALEZ MACIAS",
+        "secretarias": "SAMANTHA LIZBETH SOTO MARTINEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "102",
+        "extension": "1133",
+        "nombre": "URGENCIAS TRABAJO SOCIAL",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "103",
+        "extension": "1134",
+        "nombre": "COVID URGENCIAS",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "104",
+        "extension": "1135",
+        "nombre": "LABORATORIO NOCTURNO URGENCIAS",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "105",
+        "extension": "1136",
+        "nombre": "LABORATORIO RECEPCION",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "107",
+        "extension": "1138",
+        "nombre": "URGENCIAS CAJA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "108",
+        "extension": "1139",
+        "nombre": "ENSE\u00a5ANZA COORD. DE CAPACITACION ENF.",
+        "piso": "PRIMER NIVEL",
+        "jefe": "MASE. ARELY BLANCO PEREZ",
+        "secretarias": "KAREN CITLALI",
+        "deleted_at": null
+    },
+    {
+        "id": "109",
+        "extension": "1140",
+        "nombre": "LABORATORIO JEFATURA Y SECRETARIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "QFB.JAVIER SOTO MONTANO",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "110",
+        "extension": "1142",
+        "nombre": "ADMISION Y ALTAS ENFERMERIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "111",
+        "extension": "1144",
+        "nombre": "REC. FINANCIEROS VALORES",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "112",
+        "extension": "1145",
+        "nombre": "RADIOLOGIA MODULO",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "113",
+        "extension": "1147",
+        "nombre": "RADIOLOG\u00d6A SALA DE ULTRASONIDO",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "114",
+        "extension": "1201",
+        "nombre": "UCIP",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "115",
+        "extension": "1202",
+        "nombre": "PEDIATRIA MEDICA CENTRAL ENFERMERAS",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "116",
+        "extension": "1203",
+        "nombre": "TRABAJO SOCIAL 2\u00a7 NIVEL",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "117",
+        "extension": "1204",
+        "nombre": "SERVICIOS M\u0090DICOS JEFATURA Y QUIR\u00e0FANO",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DRA.SANDRA NI\u00a5O OBERTO",
+        "secretarias": "MARIA LUISA SALAZAR MONTIEL",
+        "deleted_at": null
+    },
+    {
+        "id": "118",
+        "extension": "1205",
+        "nombre": "MEDICINA INTERNA JEFATURA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DR.JESUS RIVERA VARGAS",
+        "secretarias": "ADRIANA CASTILLO ALARCON",
+        "deleted_at": null
+    },
+    {
+        "id": "119",
+        "extension": "1206",
+        "nombre": "HEMODIALISIS SALA DE PROCEDIMIENTOS",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "120",
+        "extension": "1207",
+        "nombre": "CIRUGIA CENTRAL DE ENFERMERAS 1",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "121",
+        "extension": "1208",
+        "nombre": "PEDIATRIA JEFATURA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DRA. SAMANTHA PONCE RAMOS",
+        "secretarias": "GLORIA E. MEZA HERNANDEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "122",
+        "extension": "1212",
+        "nombre": "CIRUGIA JEFATURA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DR. JUAN ROBERTO GOMEZ MARTINEZ",
+        "secretarias": "MARGARITA ALVAREZ VEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "123",
+        "extension": "1213",
+        "nombre": "GINECOLOGIA CENTRAL DE ENFERMERAS",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "124",
+        "extension": "1214",
+        "nombre": "MODULO DE SEGURIDAD",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "126",
+        "extension": "1216",
+        "nombre": "CIRUGIA CENTRAL DE ENFERMERAS 2",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "127",
+        "extension": "1217",
+        "nombre": "MEDICINA INTERNA CENTRAL DE ENFERMERAS",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "128",
+        "extension": "1219",
+        "nombre": "SINDICATO S.E.T.S.S.V. SECCI\u00e0N XVI BAJO ESCALERAS",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "129",
+        "extension": "1220",
+        "nombre": "GINECOLOGIA JEFATURA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DRA.BERENICE VENEGAS ESPINOZA",
+        "secretarias": "JANETH ADRIANA ORTIZ GARCIA",
+        "deleted_at": null
+    },
+    {
+        "id": "130",
+        "extension": "1221",
+        "nombre": "ENDOSCOPIA",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "131",
+        "extension": "1222",
+        "nombre": "ELECTROENCEFALOGRAMA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "132",
+        "extension": "1223",
+        "nombre": "PEDIATRIA QUIRURGICA CENTRAL DE ENFERMERAS",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "133",
+        "extension": "1224",
+        "nombre": "TRAUMATOLOGIA \/ NEFRO CENTRAL DE ENFERMERAS",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "134",
+        "extension": "1227",
+        "nombre": "MAXILOFACIAL RESIDENCIA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "135",
+        "extension": "1228",
+        "nombre": "RADIOLOGIA TOMOGRAFIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "136",
+        "extension": "1229",
+        "nombre": "CLINICA DE CATETERES",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "137",
+        "extension": "1230",
+        "nombre": "TAMIZ AUDITIVO",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "138",
+        "extension": "1231",
+        "nombre": "CALIDAD Y CONTROL 3er NIVEL",
+        "piso": "TERCER NIVEL",
+        "jefe": "C.D. ANCONA FERNANDEZ ELEANA ELIZABETH",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "139",
+        "extension": "1232",
+        "nombre": "ROPERIA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "140",
+        "extension": "1245",
+        "nombre": "AUDIOLOGIA Y FONIATRIA ",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "141",
+        "extension": "1246",
+        "nombre": "ENFERMERIA SUPERVISION Y SECRETARIA",
+        "piso": "TERCER NIVEL",
+        "jefe": "L.E.E. OSCAR IVAN SOLABAC GARCIA",
+        "secretarias": "VALERIA PAULINA JIMENEZ MORALES",
+        "deleted_at": null
+    },
+    {
+        "id": "142",
+        "extension": "1248",
+        "nombre": "SINDICATO S.T.O.P.D.A.E.V. SECCI\u00e0N I",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "143",
+        "extension": "1249",
+        "nombre": "ESTOMATOLOGIA JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DRA. VIANEY MORALES ANGUIANO",
+        "secretarias": "SALMA ANETZY OLIVARES ESPINOZA",
+        "deleted_at": null
+    },
+    {
+        "id": "144",
+        "extension": "1250",
+        "nombre": "SERVICIOS GENERALES JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "ARQ. IVAN FDO. LEON HERRERA",
+        "secretarias": "ELIA ISABEL RAMIREZ MARTINEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "145",
+        "extension": "1251",
+        "nombre": "FARMACIA JEFATURA DE SERVICIO",
+        "piso": "PLANTA BAJA",
+        "jefe": "MFC. PATRICIA ELISA MOLINA PRIOR",
+        "secretarias": "MARIA TERESA SOTELO RAMIREZ",
+        "deleted_at": null
+    },
+    {
+        "id": "146",
+        "extension": "1254",
+        "nombre": "CARDIOLOG\u00d6A JEFATURA Y UNIDAD DE CATETERISMO",
+        "piso": "TERCER NIVEL",
+        "jefe": "DR. ROBERTO DOM\u00cdNGUEZ L\u00d3PEZ",
+        "secretarias": "ABIGAIL",
+        "deleted_at": null
+    },
+    {
+        "id": "147",
+        "extension": "1255",
+        "nombre": "ALMACEN MEDICAMENTOS 2\u00f8 NIVEL",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "148",
+        "extension": "1256",
+        "nombre": "RADIOLOGIA JEFATURA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DR. CARLOS MARTIN CERVANTES JUAREZ",
+        "secretarias": "PIEDAD GARCIA GUEVARA",
+        "deleted_at": null
+    },
+    {
+        "id": "149",
+        "extension": "1259",
+        "nombre": "DOSIS UNITARIA MEDICINA INTERNA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "150",
+        "extension": "1263",
+        "nombre": "JEFATURA TRAUMATOLOGIA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DR. JAIME HERNANDEZ HUESCA",
+        "secretarias": "SULIK LOAIZA",
+        "deleted_at": null
+    },
+    {
+        "id": "151",
+        "extension": "1265",
+        "nombre": "TELEMEDICINA",
+        "piso": "PLANTA BAJA GOBIERNO",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "152",
+        "extension": "1266",
+        "nombre": "TEMPORAL",
+        "piso": "PLANTA BAJA",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "153",
+        "extension": "1267",
+        "nombre": "SINDICATO S.T.S.P.E.E.V.",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "154",
+        "extension": "1268",
+        "nombre": "FARMACIA SATELITE URGENCIAS",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "155",
+        "extension": "1269",
+        "nombre": "CIRUGIA AULA (CENTRO DE MANDO)",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "156",
+        "extension": "1270",
+        "nombre": "EPIDEMIOLOG\u00d6A JEFATURA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DRA. ALEJANDRA DE J. CORTES RAMIREZ",
+        "secretarias": "YUKARI JULIANA DIAZ GONZALEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "157",
+        "extension": "1271",
+        "nombre": "ODONTOPEDIATRIA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "158",
+        "extension": "1281",
+        "nombre": "TOCO PREPERACION",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DRA. BERENICE VENEGAS",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "159",
+        "extension": "1283",
+        "nombre": "COVID PEDIATRIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "160",
+        "extension": "1284",
+        "nombre": "RECEPCION TOCO-COVID",
+        "piso": "PRIMER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "161",
+        "extension": "1285",
+        "nombre": "JURIDICO SECRETARIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "162",
+        "extension": "1286",
+        "nombre": "COVID CENDI ",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "163",
+        "extension": "1292",
+        "nombre": "QUIROFANO RECUPERACION",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "164",
+        "extension": "1295",
+        "nombre": "CENDI RECUPERACION",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "165",
+        "extension": "1297",
+        "nombre": "CEYE",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "166",
+        "extension": "1300",
+        "nombre": "ANESTESIOLOGIA JEFATURA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DR. SERGIO A. LIMA BENITES",
+        "secretarias": "ALEYDA RUBY ALVAREZ MAR",
+        "deleted_at": null
+    },
+    {
+        "id": "167",
+        "extension": "1301",
+        "nombre": "AREA PRIVADA HABITACION 3001",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "168",
+        "extension": "1302",
+        "nombre": "AREA PRIVADA HABITACION 3002",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "169",
+        "extension": "1303",
+        "nombre": "AREA PRIVADA HABITACION 3003",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "170",
+        "extension": "1304",
+        "nombre": "AREA PRIVADA HABITACION 3004",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "171",
+        "extension": "1305",
+        "nombre": "AREA PRIVADA HABITACION 3005",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "172",
+        "extension": "1306",
+        "nombre": "AREA PRIVADA HABITACION 3006",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "173",
+        "extension": "1307",
+        "nombre": "AREA PRIVADA HABITACION 3007",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "174",
+        "extension": "1308",
+        "nombre": "AREA PRIVADA HABITACION 3008",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "175",
+        "extension": "1309",
+        "nombre": "AREA PRIVADA HABITACION 3009",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "176",
+        "extension": "1310",
+        "nombre": "AREA PRIVADA HABITACION 3010",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "177",
+        "extension": "1311",
+        "nombre": "AREA PRIVADA HABITACION 3011",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "178",
+        "extension": "1312",
+        "nombre": "AREA PRIVADA HABITACION 3012",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "179",
+        "extension": "1313",
+        "nombre": "AREA PRIVADA HABITACION 3013",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "180",
+        "extension": "1314",
+        "nombre": "AREA PRIVADA HABITACION 3014",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "181",
+        "extension": "1315",
+        "nombre": "AREA PRIVADA HABITACION 3015",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "182",
+        "extension": "1316",
+        "nombre": "AREA PRIVADA HABITACION 3016",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "183",
+        "extension": "1317",
+        "nombre": "AREA PRIVADA HABITACION 3017",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "184",
+        "extension": "1318",
+        "nombre": "AREA PRIVADA HABITACION 3018",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "186",
+        "extension": "1320",
+        "nombre": "AREA PRIVADA HABITACION 3020",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "187",
+        "extension": "1321",
+        "nombre": "AREA PRIVADA HABITACION 3021",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "188",
+        "extension": "1322",
+        "nombre": "AREA PRIVADA HABITACION 3022",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "189",
+        "extension": "1323",
+        "nombre": "AREA PRIVADA HABITACION 3023",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "190",
+        "extension": "1324",
+        "nombre": "AREA PRIVADA HABITACION 3024",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "191",
+        "extension": "1325",
+        "nombre": "INHALOTERAPIA JEFATURA",
+        "piso": "TERCER NIVEL",
+        "jefe": "DRA. ROSARIO GONZALEZ RIVEROS",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "192",
+        "extension": "1326",
+        "nombre": "AREA ANEXA BAUMANI",
+        "piso": "TERCER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "193",
+        "extension": "1327",
+        "nombre": "AREA PRIVADA HABITACION 3027",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "194",
+        "extension": "1328",
+        "nombre": "AREA PRIVADA HABITACION 3028",
+        "piso": "TERCER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "195",
+        "extension": "1329",
+        "nombre": "COORDINACION CALIDAD ENFERMERIA",
+        "piso": "TERCER NIVEL",
+        "jefe": "LIC.ENF.JUDITH GUERRERO SANCHEZ",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "196",
+        "extension": "1330",
+        "nombre": "ENFERMERIA JEFATURA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "M.A.S.E. DULA CONTRERAS HERNANDEZ M.A.S.E. GUADALUPE LARA REZA (SUB-JEFE)",
+        "secretarias": "VALERIA PAULINA JIMENEZ MORALES YARELI HERNANDEZ VALDERRABANO",
+        "deleted_at": null
+    },
+    {
+        "id": "197",
+        "extension": "1331",
+        "nombre": "GASTROSQUISIS Y ALIMENTACION PARENTERAL",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "198",
+        "extension": "1333",
+        "nombre": "TIZANERIA",
+        "piso": "TERCER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "199",
+        "extension": "1334",
+        "nombre": "CATETERISMO (HEMODINAMIA, ECOCARDIOGRAMA)",
+        "piso": "TERCER NIVEL",
+        "jefe": "DR. ROBERTO DOM\u00cdNGUEZ L\u00d3PEZ",
+        "secretarias": "ABIGAIL",
+        "deleted_at": null
+    },
+    {
+        "id": "200",
+        "extension": "1335",
+        "nombre": "TOCOCIRUGIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "201",
+        "extension": "1336",
+        "nombre": "AREA PRIVADA ANTERIOR 1 CENTRAL ENFERMERAS",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "202",
+        "extension": "1337",
+        "nombre": "NEFROLOGIA JEFATURA",
+        "piso": "TERCER NIVEL",
+        "jefe": "DR. BENJAMIN CASTRO MIRANDA",
+        "secretarias": "MARIA DE LOS ANGELES MINERVA FUENTES ROQUE",
+        "deleted_at": null
+    },
+    {
+        "id": "203",
+        "extension": "1338",
+        "nombre": "AREA PRIVADA ANTERIOR 2 CENTRAL DE ENFERMERAS",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "204",
+        "extension": "1339",
+        "nombre": "AFERESIS",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "205",
+        "extension": "1341",
+        "nombre": "INVESTIGACION CLINICA DE FARMACOS",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "206",
+        "extension": "1343",
+        "nombre": "AREA PRIVADA JEFATURA",
+        "piso": "TERCER NIVEL",
+        "jefe": "DR. JOAQUIN H. FERNANDEZ SOTO",
+        "secretarias": "KARLA PATRICIA ESTRADA MARTINEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "207",
+        "extension": "1344",
+        "nombre": "RECEPCION AREA PRIVADA",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "208",
+        "extension": "1345",
+        "nombre": "AREA PRIVADA CAJA",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "209",
+        "extension": "1346",
+        "nombre": "AREA PRIVADA CONSULTORIO",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "210",
+        "extension": "1347",
+        "nombre": "UCI JEFATURA",
+        "piso": "TERCER NIVEL",
+        "jefe": "DR.MANUEL HUERTA MONTIEL",
+        "secretarias": "INES PEREZ MIRANDA",
+        "deleted_at": null
+    },
+    {
+        "id": "211",
+        "extension": "1348",
+        "nombre": "UCI RECEPCION",
+        "piso": "TERCER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "212",
+        "extension": "1349",
+        "nombre": "DOSIS UNITARIA COVID",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "213",
+        "extension": "1351",
+        "nombre": "UCIA UNIDAD DE DOSIS UNITARIA",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "214",
+        "extension": "1352",
+        "nombre": "UCI CENTRAL DE ENFERMERAS 2",
+        "piso": "TERCER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "215",
+        "extension": "1353",
+        "nombre": "FARMACIA SAT\u0090LITE 3ER NIVEL A.P.",
+        "piso": "TERCER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "216",
+        "extension": "1356",
+        "nombre": "COMPRAS 2",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "217",
+        "extension": "2033",
+        "nombre": "ENLACE DE IMSS BIENESTAR",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DR. HERN\u00c1N A. SOLIS BENITEZ",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "218",
+        "extension": "2070",
+        "nombre": "SINDICATO S.N.T.S.A. SUB. SECCI\u00e0N 26 ",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "219",
+        "extension": "2112",
+        "nombre": "BANCO DE SANGRE JEFATURA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DRA. ARACELY VAZQUEZ LEAL",
+        "secretarias": "YAMILETH",
+        "deleted_at": null
+    },
+    {
+        "id": "220",
+        "extension": "2256",
+        "nombre": "INTERVENCI\u00e0N VESICULAR SALA 2 DE RX",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "221",
+        "extension": "2259",
+        "nombre": "CAPASITS JEFATURA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DR. DICK HERNANDEZ HERNANDEZ",
+        "secretarias": "ROSA ELENA JARVIO MARTINEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "222",
+        "extension": "2260",
+        "nombre": "CAPASITS RECEPCION",
+        "piso": "PLANTA BAJA",
+        "jefe": "DR. DICK HERNANDEZ HERNANDEZ",
+        "secretarias": "ROSA ELENA JARVIO MARTINEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "223",
+        "extension": "2261",
+        "nombre": "CAPASITS TRABAJO SOCIAL",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "224",
+        "extension": "2262",
+        "nombre": "CAPASITS AUDITORIO",
+        "piso": "PLANTA BAJA",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "225",
+        "extension": "2305",
+        "nombre": "COORDINACION DE LA INICIATIVA HOSP. AMIGO DEL NI\u00d1O Y DE LA NI\u00d1A",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "PSIC. EDITH NAVA BUSTOS",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "226",
+        "extension": "2307",
+        "nombre": "LACTARIO",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "227",
+        "extension": "2308",
+        "nombre": "EXTRACCI\u00e0N L\u00b5CTEO",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "228",
+        "extension": "2309",
+        "nombre": "BANCO DE LECHE",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "LIC. LUCERO ANTONIO MONTALVO",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "229",
+        "extension": "2311",
+        "nombre": "CRECIMIENTO Y DESARROLLO",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "230",
+        "extension": "2313",
+        "nombre": "UCIN",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "231",
+        "extension": "2315",
+        "nombre": "UTIP TERAPIA PEDIATRICA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DR. RUBEN LADRON DE GUEVARA",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "232",
+        "extension": "2316",
+        "nombre": "DOSIS UNITARIA PEDIATRICA SITE TERAPIA INTERMEDIA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "DRA. CARMEN MORALES",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "233",
+        "extension": "2317",
+        "nombre": "RESIDENCIA M\u0090DICA PEDIATR\u00d6A",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "234",
+        "extension": "2321",
+        "nombre": "RADIOLOGIA RESONANCIA RECEPCION",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "235",
+        "extension": "2323",
+        "nombre": "RADIOLOGIA SALA DE JUNTAS",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "236",
+        "extension": "2324",
+        "nombre": "COVID RX TAC ",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "237",
+        "extension": "2325",
+        "nombre": "RADIOLOGIA RESONANCIA SALA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "238",
+        "extension": "2330",
+        "nombre": "CALIDAD Y CONTROL 3er NIVEL ",
+        "piso": "TERCER NIVEL",
+        "jefe": "*",
+        "secretarias": "",
+        "deleted_at": null
+    },
+    {
+        "id": "239",
+        "extension": "2331",
+        "nombre": "CLINICA DE MAMA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DR. RAUL ENRIQUE GUZMAN GARCIA",
+        "secretarias": "C. LOURDES CALVA",
+        "deleted_at": null
+    },
+    {
+        "id": "240",
+        "extension": "2333",
+        "nombre": "CLINICA DE MAMA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DR. RAUL ENRIQUE GUZMAN GARCIA",
+        "secretarias": "C. LOURDES CALVA",
+        "deleted_at": null
+    },
+    {
+        "id": "241",
+        "extension": "2334",
+        "nombre": "CLINICA DE MAMA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DR. RAUL E. GUZMAN GARCIA",
+        "secretarias": "C. LOURDES CALVA",
+        "deleted_at": null
+    },
+    {
+        "id": "242",
+        "extension": "1051",
+        "nombre": "JEFATURA CONSULTA EXTERNA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DR. ENRIQUE ARTEAGA LENDECHY",
+        "secretarias": "MARIA ELENA HERNANDEZ HERNANDEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "243",
+        "extension": "1024",
+        "nombre": "DIRECCION GENERAL SECRETARIA",
+        "piso": "PLANTA BAJA GOBIERNO",
+        "jefe": "DR. RAFAEL NORBERTO HERNANDEZ GOMEZ",
+        "secretarias": "TATIANA MARQUEZ GABRIELA CASTILLO",
+        "deleted_at": null
+    },
+    {
+        "id": "244",
+        "extension": "1264",
+        "nombre": "MONITOR MEDICINA INTERNA",
+        "piso": "SEGUNDO NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "245",
+        "extension": "1086",
+        "nombre": "CONTROL 1 PATOLOGIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DRA. TANIA CHAVEZ PRIEGO",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "246",
+        "extension": "2332",
+        "nombre": "CLINICA DE MAMA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DR. RAUL E. GUZMAN GARCIA",
+        "secretarias": "C. LOURDES CALVA",
+        "deleted_at": null
+    },
+    {
+        "id": "247",
+        "extension": "2336",
+        "nombre": "COLPOSCOPIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DRA. BERENICE VENEGAS",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "249",
+        "extension": "1150",
+        "nombre": "TOCO PREPARACION",
+        "piso": "PRIMER NIVEL",
+        "jefe": "DRA. VERENICE VENEGAS",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "250",
+        "extension": "1446",
+        "nombre": "MEDICINA DEL TRABAJO",
+        "piso": "PLANTA BAJA",
+        "jefe": "DRA. MARIA DOLORES FLORES ALONSO",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "251",
+        "extension": "1076",
+        "nombre": "RECURSOS HUMANOS",
+        "piso": "PLANTA BAJA",
+        "jefe": "ING. ROSA MARIA FLORES SOSA",
+        "secretarias": "ADRIANA OLIVA HERNANDEZ RUIZ",
+        "deleted_at": null
+    },
+    {
+        "id": "252",
+        "extension": "1444",
+        "nombre": "RECEPCION CEDICAM",
+        "piso": "PLANTA BAJA",
+        "jefe": "DR. RAUL E. GUZMAN GARCIA",
+        "secretarias": "SILVIA DOMINGUEZ SANCHEZ",
+        "deleted_at": null
+    },
+    {
+        "id": "253",
+        "extension": "1125",
+        "nombre": "MASTOGRAFO 1",
+        "piso": "PRIMER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "254",
+        "extension": "1143",
+        "nombre": "RECEPCION URGENCIAS",
+        "piso": "PRIMER NIVEL",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "255",
+        "extension": "1454",
+        "nombre": "CONTROL 2 PATOLOGIA",
+        "piso": "PLANTA BAJA",
+        "jefe": "DRA. TANIA CHAVEZ PRIEGO",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "256",
+        "extension": "1186",
+        "nombre": "URGENCIAS PROVISIONAL (CONTROL 1 PATOLOGIA)",
+        "piso": "PLANTA BAJA",
+        "jefe": null,
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "257",
+        "extension": "1287",
+        "nombre": "NORMA 046",
+        "piso": "PRIMER NIVEL",
+        "jefe": "PSIC. JOSAHIMAR RODRIGUEZ MENDEZ",
+        "secretarias": null,
+        "deleted_at": null
+    },
+    {
+        "id": "258",
+        "extension": "1288",
+        "nombre": "URGENCIAS ENFERMERIA",
+        "piso": "PRIMER NIVEL",
+        "jefe": "L.E. MARIO LIMON",
+        "secretarias": null,
+        "deleted_at": null
+    }
+]

@@ -1,0 +1,1 @@
+export { standardsRoutes } from "./routes"

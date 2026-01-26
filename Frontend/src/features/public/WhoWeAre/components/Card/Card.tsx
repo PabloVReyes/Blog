@@ -1,5 +1,5 @@
 import { Card as MantineCard, Stack, Text, ThemeIcon, Title } from "@mantine/core"
-import styles from "./styles.module.css"
+import styles from "./Card.module.css"
 
 interface Props {
     Icon: any;

@@ -1,4 +1,4 @@
-export { homeRoutes, whoWeAreRoutes, systemsRoutes } from "./public"
+export { homeRoutes, whoWeAreRoutes, systemsRoutes, standardsRoutes } from "./public"
 
 export { Settings } from "./private"
 export { Uploads } from "./uploads"

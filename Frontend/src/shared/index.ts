@@ -12,9 +12,3 @@ export { useModalStore, useSettingStore } from "./store"
 // Utils //
 ///////////
 export { formatDate, mantineColorsRGB } from "./utils"
-
-/////////////
-// Layouts //
-/////////////
-
-export { MainLayout } from "./layouts"

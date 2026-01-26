@@ -1,12 +1,18 @@
 import type { RouteObject } from "react-router-dom";
 import { privateRoutes } from "./private/routes";
 import { publicRoutes } from "./public/routes";
+import { Layout } from "@/layout";
 
 export const routes: RouteObject[] = [
-    publicRoutes,
-    privateRoutes,
     {
         path: '/',
-        element: <></>
-    }
+        element: <Layout />,
+        children: [
+            publicRoutes,
+            privateRoutes
+        ]
+    },
+    // homeRoutes,
+    // privateRoutes,
+    // publicRoutes,
 ]
