@@ -1,15 +1,14 @@
 import { useLocation } from "react-router-dom"
-import { paths } from "@/paths";
 import styles from "./Sidebar.module.css"
 import { Code, Group, ScrollArea, Text } from "@mantine/core";
 import { useSettingStore } from "@/shared/store";
 import { mapTreeToMenu } from "./utils";
 import { LinksGroup } from "./LinksGroup";
+import { paths } from "@/features";
 
 export const Sidebar = () => {
     const { title, menu } = useSettingStore()
     const { pathname } = useLocation()
-
 
     const home: any = [
         {
@@ -50,10 +49,30 @@ export const Sidebar = () => {
             icon: "IconFileText",
             link: "/normas-oficiales"
         },
+        {
+            id: "disposiciones-juridicas-administrativas",
+            label: "Disposiciones Juridicas Administrativas",
+            icon: "IconGavel",
+            link: "/disposiciones-juridicas-administrativas"
+        },
+        {
+            id: "descargas",
+            label: "Descarga de Información",
+            icon: "IconDownload",
+            link: "/descargas",
+            children: [
+                {
+                    id: "direccion",
+                    label: "Dirección",
+                    icon: "IconDownload",
+                    link: "/descargas/direccion",
+                }
+            ]
+        },
         ...menu
     ]
 
-    const isPrivate = pathname.startsWith("/administration")
+    const isPrivate = pathname.startsWith("/administracion")
 
     const menuItems: any = isPrivate ? paths : mapTreeToMenu(home)
 
@@ -63,7 +82,7 @@ export const Sidebar = () => {
                 <Group className={styles.header} justify="space-between">
                     <Text>{title ? title : "Sin título"}</Text>
                     <Code fw={700} className={styles.version}>
-                        Beta
+                        {isPrivate ? "Admin" : "Beta"}
                     </Code>
                 </Group>
             </div>
@@ -71,7 +90,7 @@ export const Sidebar = () => {
             <ScrollArea className={styles.links}>
                 <div className={styles.linksInner}>
                     {menuItems.map((item: any) => (
-                        <LinksGroup {...item} key={item.label} />
+                        <LinksGroup {...item} isPrivate={isPrivate} key={item.label} />
                     ))}
                 </div>
             </ScrollArea>

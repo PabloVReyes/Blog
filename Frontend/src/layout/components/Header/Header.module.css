@@ -22,3 +22,7 @@
     color: white;
     background-color: transparent;
 }
+
+.kbd {
+    color: var(--mantine-primary-color-6)
+}

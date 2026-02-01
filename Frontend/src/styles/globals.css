@@ -2,7 +2,33 @@ body {
     background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
 }
 
-.custom-color-picker {
+/* Nuevas */
+.themeIcon {
+    border-radius: 12px;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    background-color: 0.1;
+
+    &:hover {
+        background-color: var(--icon-rgb);
+        color: white;
+    }
+}
+
+.actionIcon {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+    color: light-dark(var(--mantine-color-dark-5), var(--mantine-color-gray-0));
+
+    &:hover {
+        background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
+        color: light-dark(var(--mantine-color-dark-5), var(--mantine-color-gray-0));
+    }
+}
+
+
+/* Pendientes por revisar */
+
+/* .custom-color-picker {
     --cp-swatch-size: 40px;
 }
 
@@ -55,21 +81,12 @@ body {
 }
 
 /* MODAL */
-.modal-header {
+/* .modal-header {
     height: 56px;
     background-color: var(--mantine-color-body);
     border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
-.action {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
-    color: light-dark(var(--mantine-color-dark-5), var(--mantine-color-gray-0));
-}
-
-.action:hover {
-    background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
-    color: light-dark(var(--mantine-color-dark-5), var(--mantine-color-gray-0));
-}
 
 .mantine-RichTextEditor-root:focus-within {
     outline: none !important;
@@ -82,7 +99,6 @@ body {
     outline: none !important;
     box-shadow: none !important;
     background: transparent;
-    /* si quieres que sea totalmente plano */
 }
 
 .item {
@@ -118,4 +134,4 @@ body {
 
 .tooltip {
     color: var(--menu-item-color, var(--mantine-color-text));
-}
+} */

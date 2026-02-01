@@ -1,1 +1,0 @@
-export { systemsRoutes } from "./routes"

@@ -1,90 +1,86 @@
-import { Badge, Button, Card, Divider, Flex, Group, Stack, Text, TextInput, ThemeIcon, Title } from "@mantine/core"
-import { IconArrowNarrowRight, IconSearch } from "@tabler/icons-react"
-import { searchsItems } from "./searchs"
-import styles from "./Search.module.css"
-import { mantineColorsRGB } from "@/shared"
-import { useMemo, useState } from "react"
+import { Divider, Stack, Text, TextInput } from "@mantine/core"
+import { IconSearch } from "@tabler/icons-react"
+import { Card } from "@/shared"
+import { useEffect, useRef, useState } from "react"
+import { getSearch } from "@/layout/api"
 
 export const Search = () => {
     const [query, setQuery] = useState("")
+    const [data, setData] = useState<any[]>([])
+    const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1);
 
-    const filteredItems = useMemo(() => {
-        const q = query.trim().toLowerCase();
+    const loaderRef = useRef<HTMLDivElement | null>(null);
 
-        // Sin búsqueda → primeros 6
-        if (!q) {
-            return searchsItems.slice(0, 4);
+    const fetchPage = async (pageToLoad: number, reset = false) => {
+        if (loading) return;
+
+        setLoading(true);
+
+        const result = await getSearch({
+            page: pageToLoad,
+            limit: 10,
+            search: query,
+        });
+
+        if (reset) {
+            setData(result);
+        } else {
+            setData((prev) => [...prev, ...result]);
         }
 
-        // Con búsqueda → filtrar y limitar a 6
-        return searchsItems
-            .filter((item) =>
-                item.title.toLowerCase().includes(q)
-            )
-            .slice(0, 4);
+        setHasMore(result.length > 0);
+        setPage(pageToLoad + 1);
+
+        setLoading(false);
+    };
+
+    // ====== Carga inicial ======
+    useEffect(() => {
+        fetchPage(1, true);
+    }, []);
+
+    // ====== Reset cuando cambia búsqueda ======
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setPage(1);
+            setHasMore(true);
+            fetchPage(1, true);
+        }, 300);
+
+        return () => clearTimeout(timeout);
     }, [query]);
 
-    const items = filteredItems.map((search) => {
-        if (!filteredItems) {
-            return (
-                <Text size="sm" c="dimmed">
-                    No se encontraron resultados
-                </Text>
-            )
+    // ====== Infinite scroll ======
+    useEffect(() => {
+        if (!hasMore || loading) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    fetchPage(page);
+                }
+            },
+            { rootMargin: "100px" } // carga un poco antes de llegar al fondo
+        );
+
+        if (loaderRef.current) {
+            observer.observe(loaderRef.current);
         }
 
+        return () => observer.disconnect();
+    }, [page, hasMore, loading]);
+
+    const items = data.map((search, index) => {
         return (
             <Card
-                className={styles.group}
-            >
-                <Flex justify="space-between" align="flex-start">
-                    <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
-                        <ThemeIcon
-                            size={56}
-                            color="green"
-                            variant="light"
-                            style={{
-                                '--icon-rgb': mantineColorsRGB[search.color] || "22,163,74" // fallback green
-                            } as React.CSSProperties}
-                            className={`${styles.itemIcon} ${styles.iconWrapper}`}
-
-                        >
-                            <search.icon size={28} />
-                        </ThemeIcon>
-
-                        <Stack gap={4} style={{ flex: 1 }}>
-                            <Group gap="sm">
-                                <Title order={5}>{search.title}</Title>
-                                {search.badge &&
-                                    <Badge color="red" size="xs">
-                                        {search.badge}
-                                    </Badge>
-                                }
-                            </Group>
-
-                            <Text size="sm" c="gray.7">
-                                {search.description}
-                            </Text>
-
-                            <Button
-                                mt={"auto"}
-                                variant="subtle"
-                                color="green"
-                                px={0}
-                                className={styles.action}
-                                rightSection={
-                                    <IconArrowNarrowRight
-                                        size={20}
-                                        className={styles.arrow}
-                                    />
-                                }
-                            >
-                                Acceder
-                            </Button>
-                        </Stack>
-                    </Flex>
-                </Flex>
-            </Card>
+                key={index}
+                type="system"
+                variant="horizontal"
+                submitLabel="Acceder"
+                {...search}
+            />
         )
     })
 
@@ -101,6 +97,7 @@ export const Search = () => {
                     input: {
                         border: "none",
                         fontSize: "18px",
+                        backgroundColor: "transparent",
                         '&:focus': {
                             outline: "none",
                             boxShadow: "none",
@@ -111,12 +108,19 @@ export const Search = () => {
             />
             <Divider />
             {items}
-            {query.trim() && filteredItems.length === 0 && (
+            {hasMore && <div ref={loaderRef} style={{ height: 1 }} />}
+
+            {loading && (
+                <Text size="sm" c="dimmed" ta="center">
+                    Cargando más resultados...
+                </Text>
+            )}
+
+            {!loading && data.length === 0 && (
                 <Text size="sm" c="dimmed" ta="center">
                     No se encontraron resultados
                 </Text>
             )}
-
         </Stack>
     )
 }

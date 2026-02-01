@@ -1,0 +1,1 @@
+export { StatutesCard } from "./StatutesCard"

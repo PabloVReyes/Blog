@@ -1,1 +1,0 @@
-export { SystemsCard } from "./SystemsCard"

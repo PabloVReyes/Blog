@@ -1,7 +1,7 @@
 /////////////////
 // Componentes //
 /////////////////
-export { Search, Pagination } from "./components"
+export { Search, Pagination, Card } from "../components"
 
 ///////////
 // Store //

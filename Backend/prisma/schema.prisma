@@ -49,3 +49,13 @@ model Ditectory {
   name      String
   secretary String?
 }
+
+// Sistemas de consulta
+model Systems {
+  id          String @id @unique @default(uuid())
+  name        String
+  description String @db.Text
+  color       String
+  icon        String
+  url         String
+}

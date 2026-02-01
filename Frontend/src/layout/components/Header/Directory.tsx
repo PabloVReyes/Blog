@@ -1,6 +1,6 @@
 import {
     Badge,
-    Card,
+    Card as MantineCard,
     Divider,
     Flex,
     Group,
@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import styles from "./Directory.module.css";
-import { mantineColorsRGB } from "@/shared";
+import { Card, mantineColorsRGB } from "@/shared";
 import { useEffect, useRef, useState } from "react";
 import { getDirectory } from "@/layout/api";
 
@@ -86,53 +86,14 @@ export const Directory = () => {
     }, [page, hasMore, loading]);
 
     const items = data.map((item, index) => (
-        <Card key={`${item.phone}-${index}`} className={styles.group}>
-            <Flex justify="space-between" align="flex-start">
-                <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
-                    <ThemeIcon
-                        size={56}
-                        color="green"
-                        variant="light"
-                        style={{
-                            '--icon-rgb': mantineColorsRGB["green"] || "22,163,74",
-                        } as React.CSSProperties}
-                        className={`${styles.itemIcon} ${styles.iconWrapper}`}
-                    >
-                        <Text fw={700}>{item.phone}</Text>
-                    </ThemeIcon>
-
-                    <Stack gap={4} style={{ flex: 1 }}>
-                        <Group gap="sm">
-                            <Title order={5} mt={10}>{item.name}</Title>
-
-                            {item.level && (
-                                <Badge color="red" size="xs" className={styles.rating}>
-                                    {item.level}
-                                </Badge>
-                            )}
-                        </Group>
-
-                        {item.boss && (
-                            <Text size="sm" c="gray.7">
-                                <Text span c="green" fw={700}>Jefe(a):</Text> {item.boss}
-                            </Text>
-                        )}
-
-                        {item.secretary && (
-                            <Text size="sm" c="gray.7">
-                                <Text span c="green" fw={700}>Secretario(a):</Text> {item.secretary}
-                            </Text>
-                        )}
-
-                        {item.email && (
-                            <Text size="sm" c="gray.7">
-                                <Text span c="green" fw={700}>Correo electrónico:</Text> {item.email}
-                            </Text>
-                        )}
-                    </Stack>
-                </Flex>
-            </Flex>
-        </Card>
+        <Card
+            type="directory"
+            phone={item.phone}
+            name={item.name}
+            boss={item.boss}
+            secretary={item.secretary}
+            email={item.email}
+        />
     ));
 
     return (
@@ -144,6 +105,7 @@ export const Directory = () => {
                 onChange={(e) => setQuery(e.currentTarget.value)}
                 styles={{
                     input: {
+                        backgroundColor: "transparent",
                         border: "none",
                         fontSize: "18px",
                         '&:focus': {

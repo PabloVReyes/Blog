@@ -1,1 +1,0 @@
-export { CmpHomeSectionTable } from "./CmpHomeSectionTable"

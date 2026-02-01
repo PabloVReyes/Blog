@@ -1,32 +1,11 @@
 import { PrismaClient } from "@prisma/client";
+import fs from "fs";
+import path from "path";
 
 const prisma = new PrismaClient();
 
 async function main() {
     console.log("Seeding database...");
-
-    // Ejemplo: páginas iniciales del blog
-    // const menu = JSON.stringify([{
-    //     id: 'Home',
-    //     children: [],
-    // },
-    // {
-    //     id: 'Collections',
-    //     children: [
-    //         { id: 'Spring', children: [] },
-    //         { id: 'Summer', children: [] },
-    //         { id: 'Fall', children: [] },
-    //         { id: 'Winter', children: [] },
-    //     ],
-    // },
-    // {
-    //     id: 'My Account',
-    //     children: [
-    //         { id: 'Addresses', children: [] },
-    //         { id: 'Order History', children: [] },
-    //     ],
-    // },])
-
 
     const settings = [
         { name: "title", value: "Blog" },
@@ -48,16 +27,16 @@ async function main() {
     }
 
     const sections = [
-        {id: 1, title: "Primer apartado", content: "Hola"},
-        {id: 2, title: "Segundo apartado", content: "Hola"},
-        {id: 3, title: "Tercer apartado", content: "Hola"},
-        {id: 4, title: "Cuarto apartado", content: "Hola"},
-        {id: 5, title: "Quinto apartado", content: "Hola"},
+        { id: 1, title: "Primer apartado", content: "Hola" },
+        { id: 2, title: "Segundo apartado", content: "Hola" },
+        { id: 3, title: "Tercer apartado", content: "Hola" },
+        { id: 4, title: "Cuarto apartado", content: "Hola" },
+        { id: 5, title: "Quinto apartado", content: "Hola" },
     ]
 
     for (const section of sections) {
         await prisma.sectionHome.upsert({
-            where: {id: section.id},
+            where: { id: section.id },
             update: {},
             create: {
                 id: section.id,
@@ -66,6 +45,42 @@ async function main() {
             }
         })
     }
+
+
+    const filePath = path.join(__dirname, 'sistemas.json'); // si está en la misma carpeta que seed_ext.ts
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+    for (const item of data) {
+        await prisma.systems.create({
+            data: {
+                name: item.name,
+                description: item.description,
+                color: item.color,
+                icon: item.icon,
+                url: item.url,
+            },
+        });
+    }
+
+    console.log('✅ Todas los sistemas cargadas correctamente');
+
+    const filePathExtensions = path.join(__dirname, 'extensiones.json'); // si está en la misma carpeta que seed_ext.ts
+    const dataExtensions = JSON.parse(fs.readFileSync(filePathExtensions, 'utf8'));
+
+    for (const item of dataExtensions) {
+        await prisma.ditectory.create({
+            data: {
+                name: item.nombre,
+                phone: item.extension,
+                level: item.piso,
+                boss: item.jefe || null,
+                secretary: item.secretarias || null,
+                email: item.email || null,
+            },
+        });
+    }
+
+    console.log('✅ Todas las extensiones cargadas correctamente');
 
     console.log("Seeding finished!");
 }

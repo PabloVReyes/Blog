@@ -1,12 +1,12 @@
-import { Box } from "@mantine/core"
-import styles from "./Layout.module.css"
+import { Box } from "@mantine/core";
+import styles from "./Layout.module.css";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
 import { Header, Modal, Sidebar } from "./components";
 
 export const Layout = () => {
-    const isMobile = useMediaQuery("(max-width: 768px)");
+    const isMobile = useMediaQuery("(max-width: 780px)");
     const [expanded, setExpanded] = useState(() => !isMobile);
 
     useEffect(() => {
@@ -15,28 +15,35 @@ export const Layout = () => {
 
     return (
         <Box className={styles.layout}>
+
             {/* Sidebar */}
-            <Box className={`${styles.sidebar} ${expanded ? styles.sidebarExpanded : styles.sidebarCollapsed}`}>
-                <Box className={`${styles.sidebarLayer} ${expanded ? styles.layerVisible : styles.layerHidden}`}
+            <Box
+                className={`
+          ${styles.sidebar}
+          ${expanded ? styles.sidebarExpanded : styles.sidebarCollapsed}
+          ${isMobile ? styles.sidebarHidden : ""}
+        `}
+            >
+                <Box
+                    className={`
+            ${styles.sidebarLayer}
+            ${expanded ? styles.layerVisible : styles.layerHidden}
+          `}
                 >
                     <Sidebar />
                 </Box>
-
-                <Box
-                    className={`${styles.sidebarLayer} ${expanded ? styles.layerHidden : styles.layerVisible}`}
-                >
-                    {/* <NavbarMinimal /> */}
-                </Box>
             </Box>
 
-            {/* Contenido */}
+            {/* Content */}
             <Box className={styles.content}>
-                <Header />
-                <Modal/>
+                <Header 
+                    expanded={expanded}
+                />
+                <Modal />
                 <main className={styles.main}>
                     <Outlet />
                 </main>
             </Box>
         </Box>
-    )
-}
+    );
+};

@@ -5,10 +5,16 @@ import { useHotkeys, useOs } from "@mantine/hooks"
 import { useModalStore } from "@/shared"
 import { Search } from "./Search"
 import { Directory } from "./Directory"
+import { useNavigate } from "react-router-dom"
 
-export const Header = () => {
+interface Props {
+    expanded: boolean;
+}
+
+export const Header = ({ expanded }: Props) => {
     const os = useOs();
     const { openModal } = useModalStore()
+    const navigate = useNavigate();
 
     const handleSearch = () => {
         openModal({
@@ -22,6 +28,10 @@ export const Header = () => {
         })
     }
 
+    const handleAdmin = () => {
+        navigate('/administracion')
+    }
+
     useHotkeys([
         [
             os === 'macos' ? 'mod+k' : 'ctrl+k',
@@ -30,6 +40,10 @@ export const Header = () => {
         [
             os === 'macos' ? 'mod+shift+d' : "ctrl+shift+d",
             handleDirectory
+        ],
+        [
+            'ctrl+shift+m',
+            handleAdmin
         ]
     ])
 
@@ -37,6 +51,7 @@ export const Header = () => {
         <header className={styles.header}>
             <Group justify="space-between" h="100%">
                 <Button
+                    ml={"xs"}
                     variant="subtle"
                     onClick={handleSearch}
                     className={styles.search}
@@ -44,8 +59,9 @@ export const Header = () => {
                         <IconSearch />
                     }
                     rightSection={
+                        expanded &&
                         <div dir="ltr">
-                            <Kbd c="green" size={"xs"}>{os !== 'macos' ? "CTRL" : "COMMAND"}</Kbd> + <Kbd c="green" size={"xs"}>K</Kbd>
+                            <Kbd className={styles.kbd} size={"xs"}>{os !== 'macos' ? "CTRL" : "COMMAND"}</Kbd> + <Kbd className={styles.kbd} size={"xs"}>K</Kbd>
                         </div>
                     }
                 >
@@ -61,15 +77,14 @@ export const Header = () => {
                         <IconBook />
                     }
                     rightSection={
+                        expanded &&
                         <div dir="ltr">
-                            <Kbd c="green" size={"xs"}>{os !== 'macos' ? "CTRL" : "COMMAND"}</Kbd> + <Kbd c="green" size={"xs"}>SHIFT</Kbd> + <Kbd c="green" size={"xs"}>D</Kbd>
+                            <Kbd className={styles.kbd} size={"xs"}>{os !== 'macos' ? "CTRL" : "COMMAND"}</Kbd> + <Kbd size={"xs"} className={styles.kbd}>SHIFT</Kbd> + <Kbd className={styles.kbd} size={"xs"}>D</Kbd>
                         </div>
                     }
                 >
                     Directorio
                 </Button>
-                {/* <p>Hola</p> */}
-                {/* <p>Hola</p> */}
             </Group>
         </header>
     )

@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./LinksGroup.module.css"
 import * as TablerIcons from "@tabler/icons-react";
 import { type IconProps } from "@tabler/icons-react";
+import { matchPath } from "react-router-dom";
 
 type TablerIconComponent = React.FC<IconProps>;
 
@@ -16,9 +17,12 @@ interface Props {
         label: string;
         link: string
     }[];
+    isPrivate: boolean;
 }
 
-export const LinksGroup = ({ icon, label, children, link }: Props) => {
+export const LinksGroup = ({ icon, label, children, link, isPrivate }: Props) => {
+    const hasLink = isPrivate ? (link === "/" ? `/administracion` : `/administracion${link}`) : link
+
     const IconComponent =
         TablerIcons[icon as keyof typeof TablerIcons] as unknown as TablerIconComponent;
 
@@ -27,9 +31,17 @@ export const LinksGroup = ({ icon, label, children, link }: Props) => {
 
     const hasLinks = Array.isArray(children) && children.length > 0;
 
-    const groupActive =
-        (link && pathname === link) ||
-        (hasLinks && children!.some((l) => pathname === l.link));
+    const isExactRoot =
+        hasLink &&
+        (pathname === hasLink || pathname === hasLink + "/");
+
+    const isChildActive =
+        hasLinks &&
+        children!.some(
+            (l) => matchPath({ path: l.link, end: false }, pathname) !== null
+        );
+
+    const groupActive = isExactRoot || isChildActive;
 
     const [opened, setOpened] = useState(groupActive);
 
@@ -57,7 +69,7 @@ export const LinksGroup = ({ icon, label, children, link }: Props) => {
         <>
             <UnstyledButton
                 component={link ? Link : undefined}
-                to={link || ''}
+                to={hasLink || ''}
                 className={styles.control}
                 data-active={groupActive || undefined}
                 onClick={() => !link && hasLinks && setOpened((o: any) => !o)}
@@ -72,7 +84,9 @@ export const LinksGroup = ({ icon, label, children, link }: Props) => {
             >
                 {/* icono + texto */}
                 <Box style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <IconComponent size={20} stroke={2} />
+                    <Box style={{ flexShrink: 0 }}>
+                        <IconComponent size={20} stroke={2} />
+                    </Box>
                     <Box>{label}</Box>
                 </Box>
 

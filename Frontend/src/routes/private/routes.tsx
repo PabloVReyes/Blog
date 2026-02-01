@@ -1,23 +1,13 @@
-import { Navigate, type RouteObject } from "react-router-dom";
-import { settingsRoutes } from "./settings.routes";
-import { pagesRoutes } from "./pages.routes";
-import { sidebarRoutes } from "./sidebar.routes";
-import { uploadsRoutes } from "./uploads.routes";
+import { systemsPrivateRoutes } from "@/features";
+import type { RouteObject } from "react-router-dom";
 
 export const privateRoutes: RouteObject = {
-    path: "administration",
+    path: "administracion",
     children: [
         {
             index: true,
-            element: <Navigate to="home" replace />
-        },
-        {
-            path: "home",
             element: <>Inicio</>
         },
-        pagesRoutes,
-        sidebarRoutes,
-        settingsRoutes,
-        uploadsRoutes
+        systemsPrivateRoutes
     ]
 }

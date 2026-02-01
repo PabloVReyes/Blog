@@ -1,0 +1,29 @@
+.button {
+    cursor: pointer;
+}
+
+.circle {
+    border-radius: 50%;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+    transition: all 300ms ease;
+}
+
+.circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+    color: white;
+}
+
+.text {
+    color: #374151;
+    /* gray-700 */
+    transition: color 200ms ease;
+}
+
+.button:hover .text {
+    color: #10b981;
+    /* emerald-600 */
+}

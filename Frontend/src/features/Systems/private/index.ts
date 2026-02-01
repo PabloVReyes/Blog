@@ -1,0 +1,1 @@
+export { systemsPrivateRoutes } from "./routes"
