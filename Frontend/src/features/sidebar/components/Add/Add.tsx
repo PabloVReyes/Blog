@@ -1,8 +1,9 @@
 import { Button, Divider, Group, Stack, Text } from "@mantine/core"
 import { IconSelect, PageSelect, TitleInput } from "../shared"
 import { useForm } from "@mantine/form"
-import { useModalStore, useSettingStore } from "@/shared"
+import { useModalStore } from "@/shared"
 import { IconCheck } from "@tabler/icons-react"
+import { useSettingStore } from "@/features/Settings"
 
 export const Add = () => {
     const { closeModal, openModal } = useModalStore();

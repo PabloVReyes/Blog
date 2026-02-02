@@ -1,10 +1,10 @@
 import { useLocation } from "react-router-dom"
 import styles from "./Sidebar.module.css"
 import { Code, Group, ScrollArea, Text } from "@mantine/core";
-import { useSettingStore } from "@/shared/store";
 import { mapTreeToMenu } from "./utils";
 import { LinksGroup } from "./LinksGroup";
-import { paths } from "@/features";
+import { useSettingStore } from "@/features";
+import { paths } from "@/paths";
 
 export const Sidebar = () => {
     const { title, menu } = useSettingStore()

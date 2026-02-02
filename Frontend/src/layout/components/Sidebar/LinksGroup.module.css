@@ -9,7 +9,7 @@
     font-size: var(--mantine-font-size-sm);
 
     &:hover {
-        background-color: #364153;
+        background-color: light-dark(#364153, oklch(27.8% 0.033 256.848));
         color: var(--mantine-color-white);
 
         & .linkIcon {
@@ -44,7 +44,7 @@
     border-left: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 
     &:hover {
-        background-color: #364153;
+        background-color: light-dark(#364153, oklch(27.8% 0.033 256.848));
         color: white;
 
         & .linkIcon {

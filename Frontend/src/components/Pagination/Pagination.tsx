@@ -2,6 +2,7 @@ import type { PaginationState } from "@/store/paginationStore"
 import { Group, Pagination as PaginationMantine, Select, Text } from "@mantine/core"
 import type { StoreApi, UseBoundStore } from "zustand"
 import { useShallow } from "zustand/react/shallow"
+import styles from "./Pagination.module.css"
 
 interface Props {
     useStore: UseBoundStore<StoreApi<PaginationState>>
@@ -43,6 +44,7 @@ export const Pagination = ({ useStore }: Props) => {
                 </Text>
 
                 <PaginationMantine.Root
+                    classNames={styles}
                     total={totalPages()}
                     value={page}
                     onChange={setPage}

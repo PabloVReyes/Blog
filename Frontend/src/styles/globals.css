@@ -1,5 +1,5 @@
 body {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+    background-color: light-dark(var(--mantine-color-gray-0), oklch(21% 0.034 264.665));
 }
 
 /* Nuevas */

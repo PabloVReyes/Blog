@@ -39,8 +39,9 @@ import { sortableTreeKeyboardCoordinates } from './keyboardCoordinates';
 import { SortableTreeItem } from './components';
 import { CSS } from '@dnd-kit/utilities';
 import { notify } from '@/utils/notify';
-import { useModalStore, useSettingStore } from '@/shared';
+import { useModalStore } from '@/shared';
 import { Edit } from '../Edit/Edit';
+import { useSettingStore } from '@/features/Settings';
 
 const measuring = {
     droppable: {

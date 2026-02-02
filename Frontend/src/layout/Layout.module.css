@@ -18,7 +18,6 @@
     overflow: hidden;
     transition: width 0.35s ease;
     background-color: var(--background);
-    border-right: var(--app-border);
 }
 
 .sidebarExpanded {

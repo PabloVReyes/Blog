@@ -76,6 +76,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                             form={form}
                         />
                         <ColorSelect
+                            type="default"
                             form={form}
                         />
                         <Divider orientation="vertical" />

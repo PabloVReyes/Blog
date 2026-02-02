@@ -1,0 +1,1 @@
+export { settingsPrivateRoutes } from "./routes"

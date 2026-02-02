@@ -12,9 +12,9 @@ export {
 } from "./Systems"
 
 export {
-    paths
-} from "./private"
+    settingsPrivateRoutes,
+    useSettingStore
+} from "./Settings"
 
-export { Settings } from "./private"
 export { Uploads } from "./uploads"
 export { Sidebar } from "./sidebar"

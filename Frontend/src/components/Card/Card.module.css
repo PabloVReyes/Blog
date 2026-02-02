@@ -49,9 +49,7 @@
 /* Hover sobre la Card */
 .group:hover .iconWrapper {
     background-color: var(--icon-rgb);
-    /* fondo lleno */
     color: white;
-    /* icono blanco */
 }
 
 .rating {

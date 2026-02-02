@@ -1,9 +1,10 @@
-import { useModalStore, useSettingStore } from "@/shared"
+import { useModalStore } from "@/shared"
 import type { EditProps } from "./types"
 import { useForm } from "@mantine/form"
 import { Button, Divider, Group, Stack, Text } from "@mantine/core"
 import { IconSelect, PageSelect, TitleInput } from "../shared"
 import { IconCheck } from "@tabler/icons-react"
+import { useSettingStore } from "@/features/Settings"
 
 export const Edit = ({ id }: EditProps) => {
     const { getMenuItemById, updateMenuItem } = useSettingStore()

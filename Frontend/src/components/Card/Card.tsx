@@ -2,6 +2,7 @@ import { Badge, Button, Flex, Group, Card as MantineCard, Stack, Text, ThemeIcon
 import styles from "./Card.module.css"
 import * as TablerIcons from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { colorMap } from "../ColorSelect/colors";
 
 interface Props {
     type: "system" | "file" | "directory"
@@ -162,11 +163,12 @@ export const Card = ({
                 <Flex justify="space-between" align="flex-start">
                     <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
                         <ThemeIcon
+                            autoContrast
                             size={56}
                             variant="light"
                             className={`${styles.iconWrapper}`}
                             style={{
-                                '--icon-rgb': theme.primaryColor || "#40c057" // fallback green
+                                '--icon-rgb': `${colorMap[theme.primaryColor]}` || "#40c057" // fallback green
                             } as React.CSSProperties}
                         >
                             <Text fw={700}>{phone}</Text>
@@ -177,7 +179,7 @@ export const Card = ({
                                 <Title order={5} mt={10}>{name}</Title>
 
                                 {level && (
-                                    <Badge color="red" size="xs" className={styles.rating}>
+                                    <Badge size="xs" className={styles.rating}>
                                         {level}
                                     </Badge>
                                 )}

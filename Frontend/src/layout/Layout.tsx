@@ -3,7 +3,7 @@ import styles from "./Layout.module.css";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
-import { Header, Modal, Sidebar } from "./components";
+import { Header, Modal, Settings, Sidebar } from "./components";
 
 export const Layout = () => {
     const isMobile = useMediaQuery("(max-width: 780px)");
@@ -36,9 +36,10 @@ export const Layout = () => {
 
             {/* Content */}
             <Box className={styles.content}>
-                <Header 
+                <Header
                     expanded={expanded}
                 />
+                <Settings />
                 <Modal />
                 <main className={styles.main}>
                     <Outlet />

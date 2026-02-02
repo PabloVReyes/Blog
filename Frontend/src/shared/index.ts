@@ -6,7 +6,7 @@ export { Search, Pagination, Card } from "../components"
 ///////////
 // Store //
 ///////////
-export { useModalStore, useSettingStore } from "./store"
+export { useModalStore } from "./store"
 
 ///////////
 // Utils //

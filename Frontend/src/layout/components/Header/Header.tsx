@@ -1,4 +1,4 @@
-import { Button, Group, Kbd } from "@mantine/core"
+import { Button, Group, Kbd, useComputedColorScheme } from "@mantine/core"
 import styles from "./Header.module.css"
 import { IconBook, IconSearch } from "@tabler/icons-react"
 import { useHotkeys, useOs } from "@mantine/hooks"
@@ -6,15 +6,23 @@ import { useModalStore } from "@/shared"
 import { Search } from "./Search"
 import { Directory } from "./Directory"
 import { useNavigate } from "react-router-dom"
+import { useSettingStore } from "@/features"
 
 interface Props {
     expanded: boolean;
 }
 
 export const Header = ({ expanded }: Props) => {
+    const { setTheme } = useSettingStore();
+    const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+
     const os = useOs();
     const { openModal } = useModalStore()
     const navigate = useNavigate();
+
+    const handleTheme = () => {
+        setTheme(computedColorScheme === 'light' ? 'dark' : 'light')
+    }
 
     const handleSearch = () => {
         openModal({
@@ -44,6 +52,10 @@ export const Header = ({ expanded }: Props) => {
         [
             'ctrl+shift+m',
             handleAdmin
+        ],
+        [
+            os === 'macos' ? 'mod+j' : 'ctrl+j',
+            handleTheme,
         ]
     ])
 

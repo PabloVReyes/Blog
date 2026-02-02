@@ -1,18 +1,11 @@
 import {
-    Badge,
-    Card as MantineCard,
     Divider,
-    Flex,
-    Group,
     Stack,
     Text,
     TextInput,
-    ThemeIcon,
-    Title
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import styles from "./Directory.module.css";
-import { Card, mantineColorsRGB } from "@/shared";
+import { Card } from "@/shared";
 import { useEffect, useRef, useState } from "react";
 import { getDirectory } from "@/layout/api";
 
@@ -87,7 +80,9 @@ export const Directory = () => {
 
     const items = data.map((item, index) => (
         <Card
+            key={index}
             type="directory"
+            level={item.level}
             phone={item.phone}
             name={item.name}
             boss={item.boss}

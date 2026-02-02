@@ -1,4 +1,4 @@
-import { systemsPrivateRoutes } from "@/features";
+import { settingsPrivateRoutes, systemsPrivateRoutes } from "@/features";
 import type { RouteObject } from "react-router-dom";
 
 export const privateRoutes: RouteObject = {
@@ -8,6 +8,7 @@ export const privateRoutes: RouteObject = {
             index: true,
             element: <>Inicio</>
         },
-        systemsPrivateRoutes
+        systemsPrivateRoutes,
+        settingsPrivateRoutes
     ]
 }
