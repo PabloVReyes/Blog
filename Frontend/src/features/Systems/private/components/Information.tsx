@@ -1,7 +1,7 @@
 import { Button, Card, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
 import type { SystemProps } from "../../types"
 import * as TablerIcons from "@tabler/icons-react";
-import { useModalStore } from "@/shared";
+import { useModalStore } from "@/layout";
 
 
 export const Information = ({ icon, color, name, description, url }: SystemProps) => {

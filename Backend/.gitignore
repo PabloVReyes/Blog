@@ -25,4 +25,6 @@ dist-ssr
 .env
 
 prisma/migrations
+prisma/data
 uploads/
+/generated/prisma

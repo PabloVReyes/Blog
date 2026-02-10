@@ -16,5 +16,9 @@ export {
     useSettingStore
 } from "./Settings"
 
+export {
+    macroprocessPublicRoutes
+} from "./Macroprocess"
+
 export { Uploads } from "./uploads"
 export { Sidebar } from "./sidebar"

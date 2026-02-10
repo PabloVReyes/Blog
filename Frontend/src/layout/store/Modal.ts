@@ -1,3 +1,4 @@
+import { create } from "zustand";
 import type { ReactNode } from "react";
 
 interface ModalData {
@@ -13,3 +14,11 @@ export interface ModalState {
     openModal: (data: ModalData) => void;
     closeModal: () => void;
 };
+
+
+export const useModalStore = create<ModalState>((set) => ({
+    opened: false,
+    modal: null,
+    openModal: (data) => set({ opened: true, modal: data }),
+    closeModal: () => set({ opened: false, modal: null })
+}));

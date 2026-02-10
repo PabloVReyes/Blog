@@ -1,10 +1,15 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 
 model Setting {
@@ -52,10 +57,58 @@ model Ditectory {
 
 // Sistemas de consulta
 model Systems {
-  id          String @id @unique @default(uuid())
+  id          String    @id @unique @default(uuid())
   name        String
-  description String @db.Text
+  description String    @db.Text
   color       String
   icon        String
   url         String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+model Area {
+  id          String    @id @unique @default(uuid())
+  name        String
+  category    String
+  manager     String?
+  description String?
+  manuals     Manual[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+model ManualType {
+  id        String         @id @unique @default(uuid())
+  name      String
+  color     String
+  category  ManualCategory @default(STANDARD)
+  manuals   Manual[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime?      @updatedAt
+}
+
+model Manual {
+  id           String  @id @unique @default(uuid())
+  fileName     String
+  storedName   String?
+  filePath     String?
+  fileSize     Int?
+  mimeType     String?
+  areaId       String
+  manualTypeId String
+
+  area       Area       @relation(fields: [areaId], references: [id])
+  manualType ManualType @relation(fields: [manualTypeId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@index([areaId])
+  @@index([manualTypeId])
+}
+
+enum ManualCategory {
+  STANDARD // MO, MP, DxSit, PT
+  EXTRA // Código Ético, Normatividad, etc
 }

@@ -4,8 +4,8 @@ import { IconBook, IconInfoCircle, IconMoon, IconSearch, IconSun } from "@tabler
 import styles from "./Settings.module.css"
 import cx from 'clsx';
 import { useSettingStore } from "@/features";
-import { useModalStore } from "@/shared";
 import { Directory, Search } from "../Header";
+import { useModalStore } from "@/layout/store";
 
 export const Settings = () => {
     const os = useOs();

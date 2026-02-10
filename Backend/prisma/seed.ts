@@ -1,15 +1,17 @@
 import { PrismaClient } from "@prisma/client";
+import { adapter } from "../src/database/config"
+import "dotenv/config";
 import fs from "fs";
 import path from "path";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
     console.log("Seeding database...");
 
     const settings = [
         { name: "title", value: "Blog" },
-        { name: "color", value: "red" },
+        { name: "color", value: "teal" },
         { name: "theme", value: "auto" },
         { name: "favicon", value: "" },
         // { name: "menu", value: menu }
@@ -47,7 +49,7 @@ async function main() {
     }
 
 
-    const filePath = path.join(__dirname, 'sistemas.json'); // si está en la misma carpeta que seed_ext.ts
+    const filePath = path.join(__dirname, './data/sistemas.json'); // si está en la misma carpeta que seed_ext.ts
     const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
     for (const item of data) {
@@ -64,7 +66,7 @@ async function main() {
 
     console.log('✅ Todas los sistemas cargadas correctamente');
 
-    const filePathExtensions = path.join(__dirname, 'extensiones.json'); // si está en la misma carpeta que seed_ext.ts
+    const filePathExtensions = path.join(__dirname, './data/extensiones.json'); // si está en la misma carpeta que seed_ext.ts
     const dataExtensions = JSON.parse(fs.readFileSync(filePathExtensions, 'utf8'));
 
     for (const item of dataExtensions) {
@@ -81,6 +83,60 @@ async function main() {
     }
 
     console.log('✅ Todas las extensiones cargadas correctamente');
+
+    // Macroproceso
+    // Tipos de manuales
+
+    const filePathManualType = path.join(__dirname, './data/manual_types.json'); // si está en la misma carpeta que seed_ext.ts
+    const dataManualType = JSON.parse(fs.readFileSync(filePathManualType, 'utf8'));
+
+    for (const item of dataManualType) {
+        await prisma.manualType.create({
+            data: {
+                id: item.id,
+                name: item.name,
+                color: item.color,
+                category: item.category
+            },
+        });
+    }
+
+    console.log('✅ Todos los tipos de manuales cargados correctamente');
+
+    // Areas
+    const filePathArea = path.join(__dirname, './data/areas.json'); // si está en la misma carpeta que seed_ext.ts
+    const dataArea = JSON.parse(fs.readFileSync(filePathArea, 'utf8'));
+
+    for (const item of dataArea) {
+        await prisma.area.create({
+            data: {
+                id: item.id,
+                name: item.name,
+                category: item.category,
+                description: item.description,
+                manager: item.manager
+            }
+        })
+    }
+
+    console.log('✅ Todas las areas cargadas correctamente');
+
+    const filePathManuals = path.join(__dirname, './data/manuals.json'); // si está en la misma carpeta que seed_ext.ts
+    const dataManuals = JSON.parse(fs.readFileSync(filePathManuals, 'utf8'));
+
+    for (const item of dataManuals) {
+        await prisma.manual.create({
+            data: {
+                fileName: item.fileName,
+                areaId: item.areaId,
+                manualTypeId: item.manualTypeId
+            }
+        })
+    }
+
+    console.log('✅ Todas los manuales cargadas correctamente');
+
+
 
     console.log("Seeding finished!");
 }

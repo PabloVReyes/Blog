@@ -2,11 +2,11 @@ import { Button, Group, Kbd, useComputedColorScheme } from "@mantine/core"
 import styles from "./Header.module.css"
 import { IconBook, IconSearch } from "@tabler/icons-react"
 import { useHotkeys, useOs } from "@mantine/hooks"
-import { useModalStore } from "@/shared"
 import { Search } from "./Search"
 import { Directory } from "./Directory"
 import { useNavigate } from "react-router-dom"
 import { useSettingStore } from "@/features"
+import { useModalStore } from "@/layout/store"
 
 interface Props {
     expanded: boolean;

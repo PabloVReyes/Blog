@@ -21,24 +21,41 @@ interface Props {
 }
 
 export const LinksGroup = ({ icon, label, children, link, isPrivate }: Props) => {
-    const hasLink = isPrivate ? (link === "/" ? `/administracion` : `/administracion${link}`) : link
-
-    const IconComponent =
-        TablerIcons[icon as keyof typeof TablerIcons] as unknown as TablerIconComponent;
-
-    const location = useLocation();
-    const pathname = location.pathname;
+    const { pathname } = useLocation();
 
     const hasLinks = Array.isArray(children) && children.length > 0;
+    const prefix = isPrivate ? "/administracion" : "";
+
+    // Une rutas evitando // y errores
+    const joinPaths = (...paths: (string | undefined)[]) =>
+        "/" +
+        paths
+            .filter(Boolean)
+            .map((p) => p!.replace(/^\/+|\/+$/g, ""))
+            .join("/");
+
+    // Link del padre
+    const baseLink = link ? joinPaths(prefix, link) : undefined;
+
+    // Hijos normalizados, concatenando la ruta del padre
+    const normalizedChildren = hasLinks
+        ? children!.map((c) => ({
+            ...c,
+            link: joinPaths(prefix, link, c.link),
+        }))
+        : [];
+
+    const IconComponent =
+        TablerIcons[icon] as unknown as TablerIconComponent;
 
     const isExactRoot =
-        hasLink &&
-        (pathname === hasLink || pathname === hasLink + "/");
+        baseLink &&
+        (pathname === baseLink || pathname === baseLink + "/");
 
     const isChildActive =
         hasLinks &&
-        children!.some(
-            (l) => matchPath({ path: l.link, end: false }, pathname) !== null
+        normalizedChildren.some(
+            (c) => matchPath({ path: c.link, end: false }, pathname) !== null
         );
 
     const groupActive = isExactRoot || isChildActive;
@@ -47,29 +64,13 @@ export const LinksGroup = ({ icon, label, children, link, isPrivate }: Props) =>
 
     useEffect(() => {
         setOpened(groupActive);
-    }, [pathname]);
-
-    // Renderiza los hijos
-    const items = (hasLinks ? children! : []).map((child) => {
-        const isActive = pathname === child.link;
-        return (
-            <Link
-                key={child.label}
-                to={child.link}
-                className={styles.link}
-                data-active={isActive || undefined}
-                style={{ display: "block", padding: "8px 16px" }} // opcional: padding interno
-            >
-                {child.label}
-            </Link>
-        );
-    });
+    }, [groupActive]);
 
     return (
         <>
             <UnstyledButton
-                component={link ? Link : undefined}
-                to={hasLink || ''}
+                component={baseLink ? Link : undefined}
+                to={baseLink || ''}
                 className={styles.control}
                 data-active={groupActive || undefined}
                 onClick={() => !link && hasLinks && setOpened((o: any) => !o)}
@@ -104,7 +105,23 @@ export const LinksGroup = ({ icon, label, children, link, isPrivate }: Props) =>
                 )}
             </UnstyledButton>
 
-            {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
+            {hasLinks && (
+                <Collapse in={opened}>
+                    {normalizedChildren.map((child) => {
+                        const isActive = pathname === child.link;
+                        return (
+                            <Link
+                                key={child.label}
+                                to={child.link}
+                                className={styles.link}
+                                data-active={isActive || undefined}
+                            >
+                                {child.label}
+                            </Link>
+                        );
+                    })}
+                </Collapse>
+            )}
         </>
     );
 };

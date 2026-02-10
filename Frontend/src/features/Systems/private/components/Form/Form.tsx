@@ -1,9 +1,9 @@
 import type { UseFormReturnType } from "@mantine/form"
 import { Button, Divider, Fieldset, Group, Stack, Text, Textarea, TextInput, ThemeIcon } from "@mantine/core";
-import { useModalStore } from "@/shared";
 import * as TablerIcons from "@tabler/icons-react";
 import { ColorSelect, IconSelect, PageSelect } from "@/components";
 import type { SystemProps } from "@/features/Systems/types";
+import { useModalStore } from "@/layout";
 
 interface Props {
     form: UseFormReturnType<SystemProps>;

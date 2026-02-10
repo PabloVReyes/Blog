@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import { type SystemProps } from "../../types"
 import { Form, FormValidate } from "./Form"
-import { useSystemsStore } from "../store/Systems"
+import { useSystemsStore } from "../store"
 import { notify } from "@/utils/notify"
-import { useModalStore } from "@/shared"
 import { Stack, Text } from "@mantine/core"
 import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
+import { useModalStore } from "@/layout"
 
 interface Props extends SystemProps {
     id: string

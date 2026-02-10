@@ -27,13 +27,13 @@ export const Sidebar = () => {
                     id: "filosofia-organizacional",
                     label: "Filosofia Organizacional",
                     icon: "IconUsers",
-                    link: "/quienes-somos/filosofira-organizacional",
+                    link: "/filosofira-organizacional",
                 },
                 {
                     id: "codigos-de-etica",
                     label: "Códigos Ético Conductuales",
                     icon: "IconUsers",
-                    link: "/quienes-somos/codigos-de-etica",
+                    link: "/codigos-de-etica",
                 }
             ]
         },
@@ -65,9 +65,15 @@ export const Sidebar = () => {
                     id: "direccion",
                     label: "Dirección",
                     icon: "IconDownload",
-                    link: "/descargas/direccion",
+                    link: "/direccion",
                 }
             ]
+        },
+        {
+            id: "macroproceso",
+            label: "Macroproceso",
+            icon: "IconGitBranch",
+            link: "/macroproceso"
         },
         ...menu
     ]

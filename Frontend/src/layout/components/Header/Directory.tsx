@@ -5,9 +5,9 @@ import {
     TextInput,
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { Card } from "@/shared";
 import { useEffect, useRef, useState } from "react";
 import { getDirectory } from "@/layout/api";
+import { Card } from "@/components";
 
 export const Directory = () => {
     const [query, setQuery] = useState("");

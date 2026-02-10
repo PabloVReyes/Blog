@@ -1,9 +1,9 @@
 import { Button, Card, Container, Group, Stack, Text, Title } from "@mantine/core"
 import { IconCheck, IconDeviceFloppy, IconPlus } from "@tabler/icons-react"
 import { Add, SortableTree } from "../components"
-import { useModalStore } from "@/shared"
 import { useState } from "react"
 import { useSettingStore } from "@/features/Settings"
+import { useModalStore } from "@/layout"
 
 export const Sidebar = () => {
     const [loading, setLoading] = useState<boolean>(false)

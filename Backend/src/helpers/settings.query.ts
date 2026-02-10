@@ -32,7 +32,7 @@ export const updateSettingsQuery = ({ name, value }: Props) => {
             })
             resolve(true)
         } catch (error) {
-            console.log("Error updateSettingsQuery", error)
+            console.error("Error updateSettingsQuery", error)
             reject(false)
         }
     })

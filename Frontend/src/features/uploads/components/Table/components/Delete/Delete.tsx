@@ -1,10 +1,10 @@
 import { useFilesStore } from "@/features/uploads/store"
-import { useModalStore } from "@/shared"
 import { Blockquote, Button, Divider, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconInfoTriangle, IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 import type { DeleteProps } from "./types"
+import { useModalStore } from "@/layout"
 
 export const Delete = ({ filename }: DeleteProps) => {
     const { closeModal, openModal } = useModalStore()

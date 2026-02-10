@@ -1,10 +1,10 @@
-import { useModalStore } from "@/shared"
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconInfoCircle, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import type { SystemProps } from "../../types"
 import { Information } from "./Information"
 import { Delete } from "./Delete"
+import { useModalStore } from "@/layout"
 
 interface Props extends SystemProps {
     id: string;

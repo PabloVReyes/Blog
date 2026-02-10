@@ -1,9 +1,8 @@
-import { Search } from "@/shared"
 import { Container, Group, Stack, Text, Title } from "@mantine/core"
 import { Table } from "../components"
 import { useEffect } from "react"
 import { useFilesStore } from "../store"
-import { Pagination } from "@/shared"
+import { Pagination, Search } from "@/components"
 
 export const Uploads = () => {
     const { fetchFiles, items, page, limit, search, setSearch } = useFilesStore()

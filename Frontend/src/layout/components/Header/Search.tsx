@@ -1,8 +1,8 @@
 import { Divider, Stack, Text, TextInput } from "@mantine/core"
 import { IconSearch } from "@tabler/icons-react"
-import { Card } from "@/shared"
 import { useEffect, useRef, useState } from "react"
 import { getSearch } from "@/layout/api"
+import { Card } from "@/components"
 
 export const Search = () => {
     const [query, setQuery] = useState("")

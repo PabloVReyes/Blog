@@ -1,0 +1,1 @@
+export { getAreaById, downloadManual, getManual } from "./Macroprocess"

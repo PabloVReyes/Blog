@@ -1,4 +1,5 @@
 import { settingsPrivateRoutes, systemsPrivateRoutes } from "@/features";
+import { macroprocessPrivateRoutes } from "@/features/Macroprocess";
 import type { RouteObject } from "react-router-dom";
 
 export const privateRoutes: RouteObject = {
@@ -9,6 +10,7 @@ export const privateRoutes: RouteObject = {
             element: <>Inicio</>
         },
         systemsPrivateRoutes,
-        settingsPrivateRoutes
+        macroprocessPrivateRoutes,
+        settingsPrivateRoutes,
     ]
 }

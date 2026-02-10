@@ -10,6 +10,22 @@ export const paths = [
         link: "/sistemas-de-consulta"
     },
     {
+        id: "macroproceso",
+        label: "Macroproceso",
+        icon: "IconGitBranch",
+        link: "/macroproceso",
+        children: [
+            {
+                label: "Manuales",
+                link: "/tipos-manuales"
+            },
+            {
+                label: "Áreas",
+                link: "/areas"
+            }
+        ]
+    },
+    {
         label: "Páginas",
         icon: "IconAppWindow",
         link: "/administration/pages",

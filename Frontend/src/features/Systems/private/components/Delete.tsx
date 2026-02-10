@@ -1,10 +1,10 @@
-import { useModalStore } from "@/shared"
 import { Alert, Button, Divider, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled, IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useSystemsStore } from "../store/Systems"
+import { useSystemsStore } from "../store"
 import { notify } from "@/utils/notify"
+import { useModalStore } from "@/layout"
 
 interface Props {
     id: string

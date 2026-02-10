@@ -40,8 +40,6 @@ export const EditorRenderer: React.FC<Props> = ({ content }) => {
                         const height = block.tunes?.imageDimensions?.height || 'auto';
                         const align = block.tunes?.imageAlign?.align ?? 'center';
 
-                        console.log(align);
-
                         return (
                             <div className={`image-viewer image-align-${align}`}>
                                 <Card key={block.id} w={`${width}`} h={`${height}`}>

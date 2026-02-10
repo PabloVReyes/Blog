@@ -1,0 +1,1 @@
+export { macroprocessPublicRoutes } from "./routes"

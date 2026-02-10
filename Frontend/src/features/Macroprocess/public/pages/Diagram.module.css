@@ -1,0 +1,11 @@
+.specialGrid {
+    grid-column: span 1;
+}
+
+/* */
+
+@media (min-width: 1125px) {
+    .specialGrid {
+        grid-column: span 4;
+    }
+}

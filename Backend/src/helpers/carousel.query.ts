@@ -31,7 +31,7 @@ export const getAllCarouselQuery = ({ skip, take, search }: getAllCarouselQueryP
             })
             resolve(data)
         } catch (error) {
-            console.log("Error en getAllCarouselQuery", error)
+            console.error("Error en getAllCarouselQuery", error)
             reject([])
         }
     })
@@ -57,7 +57,7 @@ export const getAllCarouselCountQuery = (search: string) => {
             })
             resolve(data)
         } catch (error) {
-            console.log("Error en getAllCarouselCountQuery", error)
+            console.error("Error en getAllCarouselCountQuery", error)
             reject(0)
         }
     })
@@ -76,7 +76,7 @@ export const getCarouselQuery = () => {
             })
             resolve(data)
         } catch (error) {
-            console.log("Error en getCarouselQuery", error)
+            console.error("Error en getCarouselQuery", error)
             reject([])
         }
     })
@@ -101,7 +101,7 @@ export const postCarouselQuery = (props: PostCarouselQueryProps) => {
 
             resolve(true)
         } catch (error) {
-            console.log("Error en postCarouselQuery", error)
+            console.error("Error en postCarouselQuery", error)
             reject(false)
         }
     })

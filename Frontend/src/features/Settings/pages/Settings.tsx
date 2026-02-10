@@ -4,8 +4,8 @@ import { IconInput, ThemeSelect, TitleInput } from "../components"
 import { useState } from "react";
 import { useSettingStore } from "../store";
 import { IconCheck } from "@tabler/icons-react";
-import { useModalStore } from "@/shared";
 import { uploadFavicon } from "../api";
+import { useModalStore } from "@/layout";
 
 export const Settings = () => {
     const [icon, setIcon] = useState<File | null>(null);

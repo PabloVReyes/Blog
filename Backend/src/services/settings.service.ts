@@ -21,7 +21,7 @@ export const updateSettingsService = async (body: Props) => {
     return true;
 }
 
-export const uploadFaviconService = (file: any) => {
+export const uploadFaviconService = async (file: any) => {
     const ext = path.extname(file.originalname)
     const finalName = `favicon${ext}`;
     const finalPath = path.join(__dirname, "../../uploads", finalName)

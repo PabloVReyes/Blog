@@ -1,11 +1,11 @@
 import { ActionIcon, Card, Flex, Group, Text } from "@mantine/core"
 import { IconInfoCircle, IconTrash } from "@tabler/icons-react"
 import styles from "./styles.module.css"
-import { useModalStore } from "@/shared"
 import { typeFile } from "./utils"
 import { Delete } from "../Delete/Delete"
 import { Info } from "../Info"
 import type { ItemProps } from "./types"
+import { useModalStore } from "@/layout"
 
 export const Item = (item: ItemProps) => {
     const { openModal } = useModalStore()

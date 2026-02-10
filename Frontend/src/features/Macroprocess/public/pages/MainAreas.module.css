@@ -1,0 +1,11 @@
+.arrow {
+    transition: transform 200ms ease;
+}
+
+.group:hover .arrow {
+    transform: translateX(2px);
+}
+
+.group:hover {
+    background-color: transparent;
+}

@@ -10,8 +10,6 @@ export const DynamicPage = () => {
     const [content, setContent] = useState<any>("")
     const [title, setTitle] = useState<string>("")
 
-    console.log(content);
-
     useEffect(() => {
         if (!slug) return;
 

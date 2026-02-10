@@ -7,6 +7,7 @@ import sectionsRoutes from "@/routes/sections.routes"
 import directoryRoutes from "@/routes/directory.routes"
 import systemsRoutes from "@/routes/systems.routes"
 import searchRoutes from "@/routes/search.routes"
+import macroprocessRoutes from "@/routes/macroprocess.routes"
 
 const router: Router = Router()
 
@@ -33,5 +34,6 @@ router.use("/api/sections", sectionsRoutes)
 router.use("/api/directory", directoryRoutes)
 router.use("/api/systems", systemsRoutes)
 router.use("/api/search", searchRoutes)
+router.use("/api/macroprocess", macroprocessRoutes)
 
 module.exports = router;

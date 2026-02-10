@@ -1,0 +1,25 @@
+.button {
+    padding: var(--mantine-spacing-sm);
+    border-radius: var(--mantine-radius-md);
+    background-color: light-dark(oklch(43.75% 0.04688 250.074),
+            oklch(37.3% 0.034 259.733));
+    transition: background-color 150ms ease, transform 100ms ease;
+}
+
+.button:hover:not(:disabled) {
+    background-color: light-dark(oklch(47.5% 0.04688 250.074),
+            oklch(33.5% 0.034 259.733));
+}
+
+.button:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.button:disabled {
+    background-color: light-dark(oklch(90% 0.01 250),
+            oklch(25% 0.01 260));
+    color: light-dark(oklch(55% 0.02 250),
+            oklch(65% 0.02 260));
+    cursor: not-allowed;
+    opacity: 0.7;
+}

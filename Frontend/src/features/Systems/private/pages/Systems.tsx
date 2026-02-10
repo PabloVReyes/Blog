@@ -2,11 +2,11 @@ import { Container, Pagination, Search, Table } from "@/components"
 import { Button, Card, Group, Stack } from "@mantine/core"
 import { columns } from "./TableColumns"
 import { IconPlus } from "@tabler/icons-react"
-import { useModalStore } from "@/shared"
 import { Add } from "../components"
-import { useSystemsStore } from "../store/Systems"
+import { useSystemsStore } from "../store"
 import { useEffect } from "react"
 import { notify } from "@/utils/notify"
+import { useModalStore } from "@/layout"
 
 export const Systems = () => {
     const { openModal } = useModalStore()

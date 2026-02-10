@@ -1,4 +1,4 @@
-import { useModalStore } from "@/shared"
+import { useModalStore } from "@/layout/store";
 import { Modal as ModalMantine, Stack, Text } from "@mantine/core"
 import { useEffect } from "react";
 
@@ -21,6 +21,7 @@ export const Modal = () => {
             onClose={closeModal}
             centered
             size="lg"
+            transitionProps={{ transition: 'fade', duration: 200 }}
         >
             <ModalMantine.Overlay />
             <ModalMantine.Content>
