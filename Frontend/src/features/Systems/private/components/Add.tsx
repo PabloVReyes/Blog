@@ -1,35 +1,75 @@
 import { useForm } from "@mantine/form"
 import type { SystemProps } from "@/features/Systems/types"
 import { useSystemsStore } from "../store"
-import { Form, FormValidate } from "./Form"
 import { Stack, Text } from "@mantine/core"
 import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
+import { Form } from "./Form"
+import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
 
 export const Add = () => {
     const { openModal } = useModalStore()
     const { add } = useSystemsStore();
     const [loading, setLoading] = useState<boolean>(false)
+    const [active, setActive] = useState(0);
 
     const form = useForm<SystemProps>({
         mode: "controlled",
         initialValues: {
+            acronym: "",
             icon: "",
             color: "",
             name: "",
             description: "",
             url: "",
+            type: "page" as "page" | "file",
+            file: null as File | null,
         },
-        validate: FormValidate
+        validate: {
+            name: (value) => validateName(value, { required: true }),
+            description: validateDescription,
+            icon: validateIcon,
+            color: validateColor,
+            url: (value) => validateUrl(value, { required: active === 0 }),
+            file: (value) => validatePdf(value, { required: active === 1 })
+        }
     })
 
+    console.log(active)
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
 
-            await add(values)
+            const formData = new FormData();
+            if (values.acronym.trim() !== "") {
+                formData.append("acronym", values.acronym)
+            }
+
+            if (values.name.trim() !== "") {
+                formData.append("name", values.name)
+            }
+
+            formData.append("description", values.description)
+            formData.append("icon", values.icon)
+            formData.append("color", values.color)
+
+            if (active === 0) {
+                formData.append("type", "page")
+            } else if (active === 1) {
+                formData.append("type", "file")
+            }
+
+            if (active == 0 && values.url.trim() !== "") {
+                formData.append("url", values.url)
+            }
+
+            if (active === 1 && values.file) {
+                formData.append("file", values.file!)
+            }
+
+            await add(formData)
 
             openModal({
                 title: "Sistema agregado",
@@ -58,6 +98,8 @@ export const Add = () => {
     return (
         <Form
             form={form}
+            activeIndex={active}
+            setActiveIndex={setActive}
             onSubmit={handleSubmit}
             submitLabel="Agregar"
             isLoading={loading}

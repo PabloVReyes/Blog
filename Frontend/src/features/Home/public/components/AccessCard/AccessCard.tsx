@@ -21,26 +21,19 @@ export const AccessCard = ({ accessCards }: any) => {
         try {
             const response = await downloadAccessCard(id)
 
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
             const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
+                type: "application/pdf",
             });
 
-            const link = document.createElement("a");
+            const url = window.URL.createObjectURL(blob);
 
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
+            window.open(url, "_blank");
 
-            document.body.appendChild(link);
-            link.click();
+            // Opcional: liberar memoria después de un tiempo
+            setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+            }, 1000);
 
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
 
         } catch (error) {
             console.error("Error al descargar archivo", error);
@@ -121,7 +114,6 @@ export const AccessCard = ({ accessCards }: any) => {
                                 <Button
                                     mt={"auto"}
                                     variant="subtle"
-                                    color="green"
                                     px={0}
                                     className={styles.action}
                                     rightSection={

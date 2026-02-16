@@ -4,6 +4,7 @@ import { type SystemProps } from "../../types"
 import { fetchSystems } from "../api"
 import { SimpleGrid } from "@mantine/core"
 import { Alert } from "@/ui"
+import { System } from "../components"
 
 export const Systems = () => {
     const [data, setData] = useState<SystemProps[] | []>([])
@@ -20,9 +21,9 @@ export const Systems = () => {
         >
             <SimpleGrid cols={{ sm: 1, md: 2, lg: 3 }}>
                 {data.map((item, index: number) => (
-                    <Card
+                    <System
                         key={index}
-                        type="system"
+                        card="system"
                         variant="vertical"
                         {...item}
                         submitLabel="Acceder al sistema"

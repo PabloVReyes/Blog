@@ -46,6 +46,9 @@ export const useCarouselStore = create<CarouselState>((set, get) => ({
         try {
             await addCarousel(data)
             get().fetch()
+            set({
+                page: 1
+            })
         } catch (error: any) {
             throw new Error(error)
         }
@@ -55,6 +58,9 @@ export const useCarouselStore = create<CarouselState>((set, get) => ({
         try {
             await deleteCarousel(id)
             get().fetch()
+            set({
+                page: 1
+            })
         } catch (error: any) {
             throw new Error(error)
         }

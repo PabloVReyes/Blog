@@ -14,7 +14,7 @@ const typeOptions = ["page", "file"] as const;
 export const Edit = ({ id, title, description, icon, color, type, url, fileName, isActive }: any) => {
     const { openModal } = useModalStore()
     const { update } = useAccessCardStore()
-    const initialActive = typeOptions.indexOf(type ?? "null");
+    const initialActive = typeOptions.indexOf(type ?? "page");
     const [active, setActive] = useState(initialActive);
     const [loading, setLoading] = useState<boolean>(false)
 

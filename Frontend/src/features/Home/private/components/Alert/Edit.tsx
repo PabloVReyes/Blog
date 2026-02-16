@@ -8,8 +8,7 @@ import { useAlertStore } from "../../store"
 import { useState } from "react"
 import { Notify } from "@/ui"
 import { validateColor, validateDescription, validateIcon, validateTitle } from "@/utils"
-import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants"
-import { MAX_AUTHOR_LENGTH } from "@/constants/inputs"
+import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_AUTHOR_LENGTH } from "@/constants"
 
 const options = [
     { label: "Informativo", value: "blue" },

@@ -1,1 +1,6 @@
-export { MAX_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH } from "./inputs"
+export { 
+    MAX_TITLE_LENGTH, 
+    MAX_DESCRIPTION_LENGTH,
+    MAX_ACRONYM_LENGTH,
+    MAX_AUTHOR_LENGTH
+} from "./inputs"

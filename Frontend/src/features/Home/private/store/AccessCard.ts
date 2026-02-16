@@ -46,6 +46,9 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
         try {
             await addAccessCard(data)
             get().fetch()
+            set({
+                page: 1
+            })
         } catch (error: any) {
             throw new Error(error)
         }
@@ -55,6 +58,9 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
         try {
             await deleteAccessCard(id)
             get().fetch()
+            set({
+                page: 1
+            })
         } catch (error: any) {
             throw new Error(error)
         }

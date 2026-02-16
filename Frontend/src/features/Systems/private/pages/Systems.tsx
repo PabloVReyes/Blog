@@ -10,7 +10,7 @@ import { Notify } from "@/ui"
 
 export const Systems = () => {
     const { openModal } = useModalStore()
-    const { systems, fetch, setSearch, search, isLoading, page, limit } = useSystemsStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSystemsStore()
 
     useEffect(() => {
         handleFetch()
@@ -65,14 +65,21 @@ export const Systems = () => {
                     <Card>
                         <Table
                             isLoading={isLoading}
-                            data={systems}
+                            data={items}
                             columns={columns}
                         />
                     </Card>
 
                     <Card>
                         <Pagination
-                            useStore={useSystemsStore}
+                            limit={limit}
+                            onChangeLimit={setLimit}
+                            totalPages={totalPages}
+                            onChangePage={setPage}
+                            totalItems={totalItems}
+                            firstItem={firstItem}
+                            lastItem={lastItem}
+                            page={page}
                         />
                     </Card>
                 </Stack>

@@ -30,6 +30,7 @@ export const IndicatorGroup = ({ items, activeIndex = 0, onChange, label, descri
                         key={item}
                         ref={(el) => { controlsRefs.current[i] = el; }}
                         onClick={() => handleClick(i)}
+                        data-active={active === i || undefined}
                         className={`${styles.control} ${active === i ? styles.active : ""}`}
                     >
                         <span className={styles.controlLabel}>{item}</span>

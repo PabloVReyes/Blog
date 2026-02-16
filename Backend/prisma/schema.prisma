@@ -166,14 +166,23 @@ model Ditectory {
 
 // Sistemas de consulta
 model Systems {
-  id          String    @id @unique @default(uuid())
-  name        String
-  description String    @db.LongText
+  id          String  @id @unique @default(uuid())
+  acronym     String?
+  name        String?
+  description String  @db.LongText
   color       String
   icon        String
-  url         String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
+  url         String?
+
+  type       String?
+  fileName   String?
+  storedName String?
+  filePath   String?
+  fileSize   Int?
+  mimeType   String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Area {

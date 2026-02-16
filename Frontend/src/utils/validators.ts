@@ -120,3 +120,21 @@ export const validateYear = (
 
     return null;
 };
+
+export const validateName = (
+    value: string,
+    options?: {
+        required?: boolean;
+    }
+) => {
+    const { required = false } =
+        options || {};
+
+    if (value === null || value === undefined || value === "") {
+        return required ? "Si no colocas un nombre corto, debes de colorcar un nombre" : null;
+    }
+
+    if (value.length < 3) {
+        return "El nombre debe tener al menos 3 caracteres"
+    }
+}

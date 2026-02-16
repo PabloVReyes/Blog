@@ -5,10 +5,18 @@ import { mapTreeToMenu } from "./utils";
 import { LinksGroup } from "./LinksGroup";
 import { useSettingStore } from "@/features";
 import { paths } from "@/paths";
+import { useEffect, useState } from "react";
+import { fetchSystems } from "@/layout/api";
 
 export const Sidebar = () => {
     const { title, menu } = useSettingStore()
     const { pathname } = useLocation()
+    const [systems, setSystems] = useState<any[]>([])
+
+    useEffect(() => {
+        fetchSystems()
+            .then(setSystems)
+    }, [])
 
     const home: any = [
         {
@@ -42,6 +50,13 @@ export const Sidebar = () => {
             label: 'Sistemas de Consulta',
             icon: 'IconSearch',
             link: "/sistemas-de-consulta",
+            children: systems.map((system) => ({
+                id: system.id,
+                label: system.acronym ? system.acronym : system.name,
+                icon: "IconDatabase",
+                type: system.type,
+                link: `${system.url}`,
+            }))
         },
         {
             id: "normas-oficiales",

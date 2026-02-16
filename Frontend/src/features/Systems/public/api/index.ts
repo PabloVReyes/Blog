@@ -1,1 +1,4 @@
-export { fetchSystems } from "./Systems"
+export {
+    fetchSystems,
+    downloadSystem
+} from "./Systems"

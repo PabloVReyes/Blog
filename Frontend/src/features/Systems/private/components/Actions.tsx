@@ -1,13 +1,13 @@
 import { ActionIcon, Group } from "@mantine/core"
-import { IconEdit, IconInfoCircle, IconTrash } from "@tabler/icons-react"
+import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import type { SystemProps } from "../../types"
-import { Information } from "./Information"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
 interface Props extends SystemProps {
     id: string;
+    fileName: string;
 }
 
 export const Actions = ({ id, ...props }: Props) => {
@@ -18,16 +18,6 @@ export const Actions = ({ id, ...props }: Props) => {
             content: (
                 <Edit
                     id={id}
-                    {...props}
-                />
-            )
-        })
-    }
-
-    const handleInformation = () => {
-        openModal({
-            content: (
-                <Information
                     {...props}
                 />
             )
@@ -47,9 +37,6 @@ export const Actions = ({ id, ...props }: Props) => {
 
     return (
         <Group gap={5} wrap="nowrap" justify="center">
-            <ActionIcon className="actionIcon" onClick={handleInformation}>
-                <IconInfoCircle size={16} />
-            </ActionIcon>
             <ActionIcon className="actionIcon" onClick={handleEdit}>
                 <IconEdit size={16} />
             </ActionIcon>

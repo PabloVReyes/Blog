@@ -81,7 +81,7 @@ export const Directory = () => {
     const items = data.map((item, index) => (
         <Card
             key={index}
-            type="directory"
+            card="directory"
             level={item.level}
             phone={item.phone}
             name={item.name}

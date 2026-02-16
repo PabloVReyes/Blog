@@ -34,6 +34,7 @@ async function main() {
     for (const item of data) {
         await prisma.systems.create({
             data: {
+                acronym: item.acronym,
                 name: item.name,
                 description: item.description,
                 color: item.color,

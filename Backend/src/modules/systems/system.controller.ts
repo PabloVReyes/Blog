@@ -1,18 +1,21 @@
 import { RequestHandler } from "express";
-import * as service from "./accesscard.service"
-import { deleteAccessCardParamsSchema, downloadAccessCardFileSchema, getAccesscardSchema, PostAccessCardSchema, postAccessCardShema, putAccessCardParamsSchema, PutAccessCardSchema, putAccessCardShema } from "./accesscard.schema";
+import { deleteSystemParamsSchema, downloadSystemFileSchema, getSystemSchema, postSystemSchema, PostSystemSchema, putSystemParamsSchema, putSystemSchema, PutSystemSchema } from "./system.schema";
+import * as service from "./system.service";
 import fs from "fs"
 
 ////////////
 // CREATE //
 ////////////
 
-export const postAccessCardController: RequestHandler = async (req, res) => {
+export const postSystemController: RequestHandler = async (req, res) => {
     try {
-        const body: PostAccessCardSchema = postAccessCardShema.parse(req.body)
+        const body: PostSystemSchema = postSystemSchema.parse(req.body)
         const file = req.file
+
         const dto = { ...body, file }
-        await service.postAccessCardService(dto)
+
+        await service.postSystemService(dto)
+
         res.json({ success: true })
     } catch (error) {
         if (error.name === "ZodError") {
@@ -38,12 +41,12 @@ export const postAccessCardController: RequestHandler = async (req, res) => {
 // READ //
 //////////
 
-export const getAccessCardController: RequestHandler = async (req, res) => {
+export const getSystemsController: RequestHandler = async (req, res) => {
     try {
-        const dto = getAccesscardSchema.parse(req.query)
-        const data = await service.getAccessCardService(dto)
+        const dto = getSystemSchema.parse(req.query)
+        const data = await service.getSystemService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: unknown) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -54,10 +57,10 @@ export const getAccessCardController: RequestHandler = async (req, res) => {
     }
 }
 
-export const downloadAccessCardFileController: RequestHandler = async (req, res) => {
+export const downloadSystemFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadAccessCardFileSchema.parse(req.params)
-        const data = await service.downloadAccessCardFileService(params.id)
+        const params = downloadSystemFileSchema.parse(req.params)
+        const data = await service.downloadSystemFileService(params.id)
 
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
 
@@ -72,6 +75,7 @@ export const downloadAccessCardFileController: RequestHandler = async (req, res)
         );
 
         fs.createReadStream(data.filePath).pipe(res);
+
     } catch (error) {
         if (error.name === "ZodError") {
             return res.status(422).json({
@@ -96,13 +100,15 @@ export const downloadAccessCardFileController: RequestHandler = async (req, res)
 // UPDATE //
 ////////////
 
-export const putAccessCardController: RequestHandler = async (req, res) => {
+export const puySystemController: RequestHandler = async (req, res) => {
     try {
-        const params = putAccessCardParamsSchema.parse(req.params)
-        const body: PutAccessCardSchema = putAccessCardShema.parse(req.body)
+        const params = putSystemParamsSchema.parse(req.params)
+        const body: PutSystemSchema = putSystemSchema.parse(req.body)
         const file = req.file
+
         const dto = { ...body, file }
-        const data = await service.putAccessCardService(params.id, dto)
+        const data = await service.putSystemService(params.id, dto)
+
         res.json(data)
     } catch (error) {
         if (error.name === "ZodError") {
@@ -124,14 +130,11 @@ export const putAccessCardController: RequestHandler = async (req, res) => {
     }
 }
 
-////////////
-// DELETE //
-////////////
-
-export const deleteAccessCardController: RequestHandler = async (req, res) => {
+export const deleteSystemController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteAccessCardParamsSchema.parse(req.params)
-        service.deleteAccessCardService(params.id)
+        const params = deleteSystemParamsSchema.parse(req.params)
+        await service.deteleSystemService(params.id)
+
         res.json({ success: true })
     } catch (error) {
         if (error.name === "ZodError") {

@@ -11,11 +11,6 @@ export const fetchSystems = async ({ page, limit, search }: { page?: number, lim
     return response.data
 }
 
-export const countSystems = async ({ search }: { search: string }) => {
-    const response = await api.get(`/api/systems/count?search=${search}`)
-    return response.data
-}
-
 export const updateSystem = async (id: string, body: SystemProps) => {
     const response = await api.put(`/api/systems/${id}`, body)
     return response.data

@@ -3,10 +3,10 @@ import settingsRoutes from "@/routes/settings.routes"
 import pagesRoutes from "@/routes/pages.routes"
 import filesRoutes from "@/routes/files.routes"
 import directoryRoutes from "@/routes/directory.routes"
-import systemsRoutes from "@/routes/systems.routes"
 import searchRoutes from "@/routes/search.routes"
 import macroprocessRoutes from "@/routes/macroprocess.routes"
-import newRoutes from "@/modules/home/home.routes"
+import homeRoutes from "@/modules/home/home.routes"
+import systemsRoutes from "@/modules/systems/system.routes"
 
 const router: Router = Router()
 
@@ -29,11 +29,11 @@ router.use("/api/settings", settingsRoutes)
 router.use("/api/pages", pagesRoutes)
 router.use("/api/files", filesRoutes)
 router.use("/api/directory", directoryRoutes)
-router.use("/api/systems", systemsRoutes)
 router.use("/api/search", searchRoutes)
 router.use("/api/macroprocess", macroprocessRoutes)
 
 // Limpio
-router.use("/api/home", newRoutes)
+router.use("/api/home", homeRoutes)
+router.use("/api/systems", systemsRoutes)
 
 module.exports = router;

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { colorMap } from "../ColorSelect/colors";
 
 interface Props {
-    type: "system" | "file" | "directory"
+    card: "system" | "file" | "directory"
     variant?: "vertical" | "horizontal"
     name: string;
     badge?: string;
@@ -19,10 +19,11 @@ interface Props {
     level?: string;
     secretary?: string;
     email?: string;
+    acronym?: string;
 }
 
 export const Card = ({
-    type,
+    card,
     name,
     badge,
     description,
@@ -35,7 +36,7 @@ export const Card = ({
     level,
     boss,
     secretary,
-    email
+    email,
 }: Props) => {
     const navigate = useNavigate();
     const theme = useMantineTheme()
@@ -60,105 +61,14 @@ export const Card = ({
         <MantineCard
             h={'100%'}
             p={"lg"}
-            onClick={type === "system" ? handleNavigate : undefined}
+            onClick={card === "system" ? handleNavigate : undefined}
             style={{
-                cursor: type === "system" ? "pointer" : "default",
+                cursor: card === "system" ? "pointer" : "default",
                 position: "relative"
             }}
             className={styles.group}
         >
-            {type === "system" && variant === "vertical" &&
-                (
-                    <Stack gap={"xs"} h={"100%"}>
-                        <ThemeIcon
-                            size={56}
-                            color={color}
-                            variant="light"
-                            className={`${styles.iconWrapper}`}
-                            style={{
-                                '--icon-rgb': color || "#40c057" // fallback green
-                            } as React.CSSProperties}
-                        >
-                            <Icon size={28} />
-                        </ThemeIcon>
-
-                        <Title order={4} className={styles.itemTitle}>
-                            {name}
-                        </Title>
-
-                        {description && (
-                            <Text size="sm">
-                                {description}
-                            </Text>
-                        )}
-
-                        <Button
-                            mt={"auto"}
-                            variant="subtle"
-                            px={0}
-                            className={styles.action}
-                            rightSection={
-                                <TablerIcons.IconArrowNarrowRight
-                                    size={20}
-                                    className={styles.arrow}
-                                />
-                            }
-                        >
-                            {submitLabel}
-                        </Button>
-                    </Stack>
-                )
-            }
-            {type === "system" && variant === "horizontal" &&
-                <Flex justify="space-between" align="flex-start">
-                    <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
-                        <ThemeIcon
-                            size={56}
-                            color={color}
-                            variant="light"
-                            className={`${styles.iconWrapper}`}
-                            style={{
-                                '--icon-rgb': color || "#40c057" // fallback green
-                            } as React.CSSProperties}
-                        >
-                            <Icon size={28} />
-                        </ThemeIcon>
-
-                        <Stack gap={4} style={{ flex: 1 }}>
-                            <Group gap="sm">
-                                <Title order={5}>{name}</Title>
-                                {badge &&
-                                    <Badge color="red" size="xs">
-                                        {badge}
-                                    </Badge>
-                                }
-                            </Group>
-
-                            <Text size="sm">
-                                {description}
-                            </Text>
-
-                            {submitLabel &&
-                                <Button
-                                    mt={"auto"}
-                                    variant="subtle"
-                                    px={0}
-                                    className={styles.action}
-                                    rightSection={
-                                        <TablerIcons.IconArrowNarrowRight
-                                            size={20}
-                                            className={styles.arrow}
-                                        />
-                                    }
-                                >
-                                    {submitLabel}
-                                </Button>
-                            }
-                        </Stack>
-                    </Flex>
-                </Flex>
-            }
-            {type === "directory" &&
+            {card === "directory" &&
                 <Flex justify="space-between" align="flex-start">
                     <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
                         <ThemeIcon
