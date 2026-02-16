@@ -1,11 +1,10 @@
 import { useModalStore } from "@/layout";
-import { Alert } from "@/ui"
-import { Button, Group, Stack, Text, TextInput } from "@mantine/core"
+import { Alert, Button, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangle, IconCheck } from "@tabler/icons-react"
+import { IconAlertTriangleFilled, IconCheck } from "@tabler/icons-react"
 import { useMacroprocessStore } from "../../store";
-import { notify } from "@/utils/notify";
 import { useState } from "react";
+import { Notify } from "@/ui";
 
 interface Props {
     id: string;
@@ -45,7 +44,7 @@ export const Delete = ({ id, fileName }: Props) => {
                 ),
             });
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al eliminar archivo",
                 message: error.message
@@ -60,37 +59,28 @@ export const Delete = ({ id, fileName }: Props) => {
             <Stack>
                 <Alert
                     color="yellow"
-                    title={
-                        <Group align="center" gap="xs" mb="sm">
-                            <IconAlertTriangle />
-                            <Text fw={600} fz="lg">
-                                ¡Atención!
-                            </Text>
-                        </Group>
-                    }
-                    content={
-                        <Stack>
-                            <Text size="sm" fw={700}>
-                                ¡Antes de continuar....!
-                            </Text>
-                            <Text size="sm">
-                                Estás a punto de eliminar el archivo <Text span fw={700}>“{fileName}”</Text>.
-                            </Text>
-                            <Text size="sm">
-                                Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este archivo.
-                            </Text>
-                            <Text size="sm">
-                                Para continuar, escribe exactamente:
-                            </Text>
-                            <Text size="sm" fw={700}>
-                                Eliminar archivo {fileName}
-                            </Text>
-                            <Text size="sm">
-                                Esto garantiza que comprendes el impacto de esta acción.
-                            </Text>
-                        </Stack>
-                    }
-                />
+                    mt={10}
+                    icon={<IconAlertTriangleFilled />}
+                    title="¡Antes de continuar....!"
+                >
+                    <Stack>
+                        <Text size="sm">
+                            Estás a punto de eliminar el archivo <Text span fw={700}>“{fileName}”</Text>.
+                        </Text>
+                        <Text size="sm">
+                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este archivo.
+                        </Text>
+                        <Text size="sm">
+                            Para continuar, escribe exactamente:
+                        </Text>
+                        <Text size="sm" fw={700}>
+                            Eliminar archivo {fileName}
+                        </Text>
+                        <Text size="sm">
+                            Esto garantiza que comprendes el impacto de esta acción.
+                        </Text>
+                    </Stack>
+                </Alert>
 
                 <TextInput
                     autoFocus

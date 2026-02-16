@@ -1,9 +1,9 @@
 import { Container, Pagination, Search, Table } from "@/components"
 import { Card, Stack } from "@mantine/core"
 import { useAreasStore } from "../../store"
-import { notify } from "@/utils/notify"
 import { useEffect } from "react"
 import { columns } from "./TableColumns"
+import { Notify } from "@/ui"
 
 export const Areas = () => {
     const { fetch, areas, isLoading, page, search, limit, setSearch } = useAreasStore()
@@ -16,7 +16,7 @@ export const Areas = () => {
         try {
             await fetch()
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al obtener sistemas",
                 message: error.message

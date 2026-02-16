@@ -29,3 +29,17 @@
     cursor: not-allowed;
     background-color: light-dark(white, oklch(27.8% 0.033 256.848));
 }
+
+.option {
+    transition: background-color 120ms ease;
+}
+
+.option:hover {
+    background-color: var(--mantine-primary-color-filled) !important;
+    color: var(--mantine-primary-color-contrast) !important;
+}
+
+.option[data-combobox-selected] {
+    background-color: var(--mantine-primary-color-filled) !important;
+    color: var(--mantine-primary-color-contrast) !important;
+}

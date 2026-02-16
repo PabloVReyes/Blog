@@ -2,11 +2,11 @@ import { useForm } from "@mantine/form"
 import { type SystemProps } from "../../types"
 import { Form, FormValidate } from "./Form"
 import { useSystemsStore } from "../store"
-import { notify } from "@/utils/notify"
 import { Stack, Text } from "@mantine/core"
 import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 import { useModalStore } from "@/layout"
+import { Notify } from "@/ui"
 
 interface Props extends SystemProps {
     id: string
@@ -46,7 +46,7 @@ export const Edit = ({ id, icon, color, name, description, url }: Props) => {
                 ),
             });
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al actualizar sistema",
                 message: error.message

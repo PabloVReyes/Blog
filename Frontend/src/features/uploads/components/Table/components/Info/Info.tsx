@@ -1,4 +1,3 @@
-import { formatDate } from "@/shared"
 import { Image, Stack, Table } from "@mantine/core"
 import type { InfoProps } from "./types"
 
@@ -29,7 +28,7 @@ export const Info = ({ filename, mime, size, url, uploadedAt }: InfoProps) => {
                     </Table.Tr>
                     <Table.Tr>
                         <Table.Th>Fecha de subida</Table.Th>
-                        <Table.Td>{formatDate(uploadedAt)}</Table.Td>
+                        <Table.Td>{uploadedAt}</Table.Td>
                     </Table.Tr>
                 </Table.Tbody>
             </Table>

@@ -1,4 +1,4 @@
-import { downloadsRoutes, homeRoutes, juristicRoutes, macroprocessPublicRoutes, standardsRoutes, systemsPublicRoutes, whoWeAreRoutes } from "@/features";
+import { downloadsRoutes, homePublicRoutes, juristicRoutes, macroprocessPublicRoutes, standardsRoutes, systemsPublicRoutes, whoWeAreRoutes } from "@/features";
 import { DynamicPage } from "@/features/public/pages/DynamicPage";
 import { type RouteObject } from "react-router-dom";
 
@@ -7,8 +7,8 @@ export const publicRoutes: RouteObject = {
     children: [
         systemsPublicRoutes,
         macroprocessPublicRoutes,
+        homePublicRoutes,
 
-        homeRoutes,
         whoWeAreRoutes,
         standardsRoutes,
         juristicRoutes,

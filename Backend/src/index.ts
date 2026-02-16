@@ -72,7 +72,7 @@ class server {
         this.settingDataFormProcess();
         this.settingRoutes()
         this.server.listen(this.port, () => {
-            console.log(colors.error(`http://localhost:${this.port}`))
+            console.log(colors.help(`http://localhost:${this.port}`))
         })
     }
 }

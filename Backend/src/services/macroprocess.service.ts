@@ -1,6 +1,5 @@
 import { deleteManualQuery, getAreasCountQuery, getAreasQuery, getAreaWithManualsQuery, getManualByIdQuery, getManualByTypeQuery, getManualQuery, getManualsTypeCountQuery, getManualsTypeQuery, getManualsWithAreaCountQuery, getManualsWithAreaQuery, putAreaQuery, putManualQuery, putManualTypeQuery } from "@/helpers/macroprocess.query";
 import { sanitizeFileName } from "@/routes/macroprocess.routes";
-import path from "node:path";
 
 export const getAreaWithManualsService = async (req: any) => {
     const { id } = req.params;
@@ -34,8 +33,22 @@ export const putManualService = async (req: any) => {
     const { id } = req.params
     const file = req.file
 
+
     if (!file) {
         throw new Error("Archivo requerido")
+    }
+
+    const manual: any = await getManualByIdQuery(id)
+
+    if (manual.storedName) {
+        try {
+            if (manual.filePath) {
+                const fs = await import("fs/promises");
+                await fs.unlink(manual.filePath).catch(() => { });
+            }
+        } catch (error) {
+            console.error("Error eliminando archivo anterior:", error);
+        }
     }
 
     const props: any = {

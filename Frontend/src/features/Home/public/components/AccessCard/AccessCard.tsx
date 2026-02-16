@@ -1,0 +1,143 @@
+import {
+    Card,
+    Text,
+    Badge,
+    ThemeIcon,
+    Stack,
+    Button,
+    Title,
+    SimpleGrid
+} from "@mantine/core"
+import styles from "./AccessCard.module.css"
+import { IconArrowNarrowRight } from "@tabler/icons-react"
+import * as TablerIcons from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
+import { downloadAccessCard } from "../../api";
+
+export const AccessCard = ({ accessCards }: any) => {
+    const navigate = useNavigate();
+
+    const download = async (id: string) => {
+        try {
+            const response = await downloadAccessCard(id)
+
+            const disposition = response.headers["content-disposition"];
+
+            const fileName =
+                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
+                "manual.pdf";
+
+            const blob = new Blob([response.data], {
+                type: response.headers["content-type"]
+            });
+
+            const link = document.createElement("a");
+
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+
+            document.body.appendChild(link);
+            link.click();
+
+            link.remove();
+            window.URL.revokeObjectURL(link.href);
+
+        } catch (error) {
+            console.error("Error al descargar archivo", error);
+        }
+    };
+
+    const handleNavigate = ({ type, url, id }: any) => {
+        if (type === "page") {
+            if (!url) return;
+
+            // externa
+            if (url.startsWith("http")) {
+                window.open(url, "_blank"); // o window.location.href = url;
+            } else {
+                // interna SPA
+                navigate(url);
+            }
+        } else {
+            download(id)
+        }
+    };
+
+    return (
+        <>
+            <Title order={2}>
+                Accesos Rápidos
+            </Title>
+
+            <SimpleGrid cols={{ md: 2, sm: 2, xs: 1, lg: 4 }}>
+                {accessCards.map((system: any, index: number) => {
+                    const Icon =
+                        system.icon &&
+                        (TablerIcons as any)[system.icon];
+
+                    return (
+                        <Card
+                            key={index}
+                            h={"100%"}
+                            p="lg"
+                            withBorder
+                            style={{ cursor: "pointer", position: "relative" }}
+                            className={styles.group}
+                            onClick={() => handleNavigate({ ...system })}
+                        >
+                            <Stack gap={"xs"} h={"100%"}>
+                                {system.badge && (
+                                    <Badge
+                                        color="red"
+                                        size="sm"
+                                        className={styles.rating}
+                                    >
+                                        {system.badge}
+                                    </Badge>
+                                )}
+                                <ThemeIcon
+                                    size={56}
+                                    color={system.color}
+                                    variant="light"
+                                    className={`${styles.iconWrapper}`}
+                                    style={{
+                                        '--icon-rgb': system.color || "#40c057" // fallback green
+                                    } as React.CSSProperties}
+                                >
+                                    <Icon size={28} />
+                                </ThemeIcon>
+
+                                <Title order={4} className={styles.itemTitle}>
+                                    {system.title}
+                                </Title>
+
+                                {system.description && (
+                                    <Text size="sm">
+                                        {system.description}
+                                    </Text>
+                                )}
+
+
+                                <Button
+                                    mt={"auto"}
+                                    variant="subtle"
+                                    color="green"
+                                    px={0}
+                                    className={styles.action}
+                                    rightSection={
+                                        <IconArrowNarrowRight
+                                            size={20}
+                                            className={styles.arrow}
+                                        />
+                                    }
+                                >
+                                    {system.type === "page" ? "Acceder" : "Descargar"}
+                                </Button>
+                            </Stack>
+                        </Card>
+                    )
+                })}
+            </SimpleGrid>
+        </>
+    )
+}

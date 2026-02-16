@@ -2,9 +2,9 @@ import { useModalStore } from "@/layout";
 import { Button, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react";
-import { notify } from "@/utils/notify";
 import { useAreasStore } from "../../store";
 import { IconCheck } from "@tabler/icons-react";
+import { Notify } from "@/ui";
 
 const MAX_NAME_LENGTH = 150
 
@@ -45,7 +45,7 @@ export const Edit = ({ id, name }: any) => {
                 ),
             });
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al editar el área",
                 message: error.message

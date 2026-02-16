@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import type { SystemProps } from "@/features/Systems/types"
 import { useSystemsStore } from "../store"
-import { notify } from "@/utils/notify"
 import { Form, FormValidate } from "./Form"
 import { Stack, Text } from "@mantine/core"
 import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 import { useModalStore } from "@/layout"
+import { Notify } from "@/ui"
 
 export const Add = () => {
     const { openModal } = useModalStore()
@@ -45,7 +45,7 @@ export const Add = () => {
             });
 
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al agregar sistema",
                 message: error.message

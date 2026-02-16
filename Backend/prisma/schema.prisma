@@ -26,25 +26,134 @@ model Page {
   createdAt DateTime @default(now())
 }
 
-model Carousel {
-  id          String   @id @default(uuid())
+// Inicio
+model HomeSection {
+  id         String          @id @default(uuid())
+  key        String          @unique
+  title      String
+  type       HomeSectionType
+  isActive   Boolean         @default(true)
+  orderIndex Int
+
+  carouselItems    CarouselItem[]
+  accessCards      AccessCardItem[]
+  calendar         CalendarConfig?
+  derechoambiencia DerechohabienciaConfig?
+  alert            AlertMessage?
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+}
+
+model AlertMessage {
+  id          String      @id @default(uuid())
   title       String
-  description String
-  image       String
-  url         String
-  createdAt   DateTime @default(now())
-  is_visible  Boolean  @default(true)
+  description String      @db.LongText
+  author      String
+  color       String
+  icon        String?
+  isActive    Boolean     @default(true)
+  sectionId   String      @unique
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
+  section     HomeSection @relation(fields: [sectionId], references: [id])
 }
 
-model SectionHome {
-  id        Int      @id @default(autoincrement())
-  content   String?
+model CarouselItem {
+  id          String  @id @default(uuid())
+  imageName   String
+  imageUrl    String
+  imagePath   String
+  type        String
+  title       String?
+  description String? @db.LongText
+  orderIndex  Int     @default(0)
+  isActive    Boolean @default(true)
+  url         String?
+  fileName    String?
+  storedName  String?
+  filePath    String?
+  fileSize    Int?
+  mimeType    String?
+
+  sectionId String
+  section   HomeSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
-  title     String
-  image     String?
-  url       String?
+  updatedAt DateTime @updatedAt
 }
 
+model AccessCardItem {
+  id          String      @id @default(uuid())
+  title       String
+  badge       String?
+  color       String
+  description String?     @db.LongText
+  icon        String?
+  url         String?
+  type        String?
+  fileName    String?
+  storedName  String?
+  filePath    String?
+  fileSize    Int?
+  mimeType    String?
+  orderIndex  Int
+  isActive    Boolean     @default(true)
+  sectionId   String
+  section     HomeSection @relation(fields: [sectionId], references: [id])
+}
+
+model CalendarConfig {
+  id          String      @id @default(uuid())
+  year        Int
+  title       String
+  icon        String
+  color       String
+  description String?     @db.LongText
+  sectionId   String      @unique
+  fileName    String?
+  storedName  String?
+  filePath    String?
+  fileSize    Int?
+  mimeType    String?
+  section     HomeSection @relation(fields: [sectionId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
+}
+
+model DerechohabienciaConfig {
+  id          String                 @id @default(uuid())
+  title       String
+  icon        String
+  color       String
+  description String?                @db.LongText
+  sectionId   String                 @unique
+  links       DerechohabienciaLink[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime?              @updatedAt
+  section     HomeSection            @relation(fields: [sectionId], references: [id])
+}
+
+model DerechohabienciaLink {
+  id                       String                  @id @default(uuid())
+  title                    String
+  url                      String
+  orderIndex               Int                     @default(0)
+  isActive                 Boolean                 @default(true)
+  createdAt                DateTime                @default(now())
+  updatedAt                DateTime                @updatedAt
+  derechohabienciaConfig   DerechohabienciaConfig? @relation(fields: [derechohabienciaConfigId], references: [id])
+  derechohabienciaConfigId String?
+}
+
+enum HomeSectionType {
+  ALERT
+  CAROUSEL
+  CALENDAR
+  DERECHOHABIENCIA
+  ACCESS_CARD
+}
+
+// Directorio
 model Ditectory {
   id        String  @id @default(uuid())
   phone     String
@@ -59,7 +168,7 @@ model Ditectory {
 model Systems {
   id          String    @id @unique @default(uuid())
   name        String
-  description String    @db.Text
+  description String    @db.LongText
   color       String
   icon        String
   url         String
@@ -72,7 +181,7 @@ model Area {
   name        String
   category    String
   manager     String?
-  description String?
+  description String?   @db.LongText
   manuals     Manual[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt

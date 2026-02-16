@@ -38,10 +38,10 @@ import type { FlattenedItem, SensorContext } from './types';
 import { sortableTreeKeyboardCoordinates } from './keyboardCoordinates';
 import { SortableTreeItem } from './components';
 import { CSS } from '@dnd-kit/utilities';
-import { notify } from '@/utils/notify';
 import { Edit } from '../Edit/Edit';
 import { useSettingStore } from '@/features/Settings';
 import { useModalStore } from '@/layout';
+import { Notify } from '@/ui';
 
 const measuring = {
     droppable: {
@@ -260,7 +260,7 @@ export function SortableTree({
             const { depth, parentId } = projected;
 
             if (depth > 1) {
-                notify({
+                Notify({
                     type: "error",
                     title: "Error en el menú lateral",
                     message: "No puedes colocar submenus dentro de otros submenus"
@@ -304,7 +304,7 @@ export function SortableTree({
             setItems(newItems);
             setMenu(newItems)
 
-            notify({
+            Notify({
                 type: "info",
                 title: "Menú editado",
                 message: "El menú fue editado, recuerda guardar para aplicar los cambios"
@@ -336,7 +336,7 @@ export function SortableTree({
         const newItems = removeItem(items, id);
         setItems(newItems);   // local
         setMenu(newItems);
-        notify({
+        Notify({
             type: "warning",
             title: "Elemento eliminado",
             message: "El elemento fue eliminado correctamente, recuerde guardar para aplicar los cambios"
@@ -347,7 +347,7 @@ export function SortableTree({
         const newItems = setProperty(items, id, 'collapsed', (v) => !v);
         setItems(newItems);   // local
         setMenu(newItems); // Store
-        notify({
+        Notify({
             type: "info",
             title: "Menú editado",
             message: "El menú fue editado, recuerda guardar para aplicar los cambios"

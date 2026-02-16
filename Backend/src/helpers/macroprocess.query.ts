@@ -1,4 +1,4 @@
-import { database } from "@/database/config"
+import { database } from "@/config/prisma"
 
 export const getAreaWithManualsQuery = (id: string) => {
     return new Promise(async (resolve, reject) => {

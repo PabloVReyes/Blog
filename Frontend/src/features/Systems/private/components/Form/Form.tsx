@@ -1,7 +1,7 @@
 import type { UseFormReturnType } from "@mantine/form"
 import { Button, Divider, Fieldset, Group, Stack, Text, Textarea, TextInput, ThemeIcon } from "@mantine/core";
 import * as TablerIcons from "@tabler/icons-react";
-import { ColorSelect, IconSelect, PageSelect } from "@/components";
+import { ColorSelect, IconSelect } from "@/components";
 import type { SystemProps } from "@/features/Systems/types";
 import { useModalStore } from "@/layout";
 
@@ -64,9 +64,6 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
 
                         <Divider />
 
-                        <PageSelect
-                            form={form}
-                        />
                     </Stack>
                 </Fieldset>
 

@@ -129,7 +129,7 @@ export const MainAreas = ({ setActiveTab }: Props) => {
                             <Grid.Col span={{ xs: 12, md: 9 }}>
                                 <Stack gap={10}>
                                     <SimpleGrid
-                                        cols={{ base: 1, sm: 2, md: 3 }}
+                                        cols={{ xs: 1, sm: 2, md: 3 }}
                                         spacing={10}
                                     >
                                         {hospitalAreas.map(key => (

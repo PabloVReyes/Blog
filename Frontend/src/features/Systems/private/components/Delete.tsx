@@ -3,8 +3,8 @@ import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled, IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 import { useSystemsStore } from "../store"
-import { notify } from "@/utils/notify"
 import { useModalStore } from "@/layout"
+import { Notify } from "@/ui"
 
 interface Props {
     id: string
@@ -45,7 +45,7 @@ export const Delete = ({ id, name }: Props) => {
             });
 
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al eliminar permiso",
                 message: error.message

@@ -1,0 +1,11 @@
+import { api } from "@/services/axios.client"
+
+export const fecthDerechohabiencia = async () => {
+    const response = await api.get(`/api/home/derechohabiencia`)
+    return response.data
+}
+
+export const updateDerechohabiencia = async (id: string, body: any) => {
+    const response = await api.put(`/api/home/derechohabiencia/${id}`, body)
+    return response.data
+}

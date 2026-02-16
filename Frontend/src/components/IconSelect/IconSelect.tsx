@@ -1,5 +1,6 @@
 import { Autocomplete, Group, Text } from '@mantine/core';
 import * as TablerIcons from '@tabler/icons-react';
+import styles from "./IconSelect.module.css"
 
 interface IconOption {
     value: string;
@@ -27,6 +28,9 @@ export const IconSelect = ({ form }: Props) => {
 
     return (
         <Autocomplete
+            classNames={{
+                option: styles.option,
+            }}
             withAsterisk
             label="Icono"
             description="Icono que aparecerá en el menú lateral"
@@ -40,7 +44,7 @@ export const IconSelect = ({ form }: Props) => {
             renderOption={({ option }: any) => {
                 const ItemIcon: any = (TablerIcons as any)[option.value];
                 return (
-                    <Group gap="xs">
+                    <Group gap="xs" className={styles.option}>
                         {ItemIcon && <ItemIcon size={18} stroke={1.5} />}
                         <Text size='sm'>{option.label}</Text>
                     </Group>

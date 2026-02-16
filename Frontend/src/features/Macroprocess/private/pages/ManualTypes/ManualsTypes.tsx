@@ -1,9 +1,9 @@
 import { Container, Pagination, Search, Table } from "@/components"
 import { useManualsTypesStore } from "../../store"
 import { useEffect } from "react"
-import { notify } from "@/utils/notify"
 import { Card, Stack } from "@mantine/core"
 import { columns } from "./TableColumns"
+import { Notify } from "@/ui"
 
 export const ManualsTypes = () => {
     const { fetch, manuals, page, limit, search, setSearch, isLoading } = useManualsTypesStore()
@@ -16,7 +16,7 @@ export const ManualsTypes = () => {
         try {
             await fetch()
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al obtener sistemas",
                 message: error.message

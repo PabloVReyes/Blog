@@ -250,7 +250,7 @@
     "@types/range-parser" "*"
     "@types/send" "*"
 
-"@types/express@^5.0.3":
+"@types/express@*", "@types/express@^5.0.3":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-5.0.6.tgz#2d724b2c990dcb8c8444063f3580a903f6d500cc"
   integrity sha512-sKYVuV7Sv9fbPIt/442koC7+IIwK5olP1KWeD88e/idgoJqDm3JV/YUiPwkoKK92ylff2MGxSz1CSjsXelx0YA==
@@ -268,6 +268,13 @@
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@types/http-errors/-/http-errors-2.0.5.tgz#5b749ab2b16ba113423feb1a64a95dcd30398472"
   integrity sha512-r8Tayk8HJnX0FztbZN7oVqGccWgw98T/0neJphO91KkmOzug1KkofZURD4UaD5uH8AqcFLfdPErnBod0u71/qg==
+
+"@types/multer@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/multer/-/multer-2.0.0.tgz#db5f82136b619f5ce4d923b00034eb466c13acf4"
+  integrity sha512-C3Z9v9Evij2yST3RSBktxP9STm6OdMc5uR1xF1SGr98uv8dUlAL2hqwrZ3GVB3uyMyiegnscEK6PGtYvNrjTjw==
+  dependencies:
+    "@types/express" "*"
 
 "@types/node@*", "@types/node@^25.2.0":
   version "25.2.0"
@@ -1776,3 +1783,8 @@ zeptomatch@2.1.0:
   dependencies:
     grammex "^3.1.11"
     graphmatch "^1.1.0"
+
+zod@^4.3.6:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.3.6.tgz#89c56e0aa7d2b05107d894412227087885ab112a"
+  integrity sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==

@@ -46,7 +46,7 @@ export const Actions = ({ id, ...props }: Props) => {
     }
 
     return (
-        <Group gap={5} wrap="nowrap">
+        <Group gap={5} wrap="nowrap" justify="center">
             <ActionIcon className="actionIcon" onClick={handleInformation}>
                 <IconInfoCircle size={16} />
             </ActionIcon>

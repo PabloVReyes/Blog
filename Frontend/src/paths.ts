@@ -2,7 +2,7 @@ export const paths = [
     {
         label: "Inicio",
         icon: "IconHome",
-        link: "/",
+        link: "/inicio",
     },
     {
         label: "Sistemas de consulta",

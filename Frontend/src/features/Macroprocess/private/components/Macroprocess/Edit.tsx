@@ -4,7 +4,7 @@ import { useForm } from "@mantine/form"
 import { useMacroprocessStore } from "../../store";
 import { useState } from "react";
 import { IconCheck } from "@tabler/icons-react";
-import { notify } from "@/utils/notify";
+import { Notify } from "@/ui";
 
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -61,7 +61,7 @@ export const Edit = ({ id, fileName }: any) => {
                 ),
             });
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al editar manual",
                 message: error.message

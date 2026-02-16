@@ -92,7 +92,6 @@ export const Card = ({
                             </Text>
                         )}
 
-
                         <Button
                             mt={"auto"}
                             variant="subtle"
@@ -206,58 +205,6 @@ export const Card = ({
                     </Flex>
                 </Flex>
             }
-            {/* <Flex justify="space-between" align="flex-start">
-                <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
-                    <ThemeIcon
-                        size={56}
-                        color={color}
-                        variant="light"
-                        style={{
-                            '--icon-rgb': mantineColorsRGB[color] || "22,163,74" // fallback green
-                        } as React.CSSProperties}
-                        className={`${styles.itemIcon} ${styles.iconWrapper}`}
-
-                    >
-                        <Icon size={28} />
-                    </ThemeIcon>
-
-                    <Stack gap={4} style={{ flex: 1 }}>
-                        <Group gap="sm">
-                            <Title order={5}>{name}</Title>
-                            {badge &&
-                                <Badge color="green" variant="light" size="xs">
-                                    {badge}
-                                </Badge>
-                            }
-                        </Group>
-
-                        <Text size="sm" color="gray.7">
-                            {description}
-                        </Text>
-                    </Stack>
-                </Flex>
-
-                <Group gap={2}>
-                    <Button
-                        variant="subtle"
-                        color="gray"
-                        p={6}
-                        radius="md"
-                        style={{ minWidth: 0 }}
-                    >
-                        <IconDownload size={20} />
-                    </Button>
-                    <Button
-                        variant="subtle"
-                        p={6}
-                        color="gray"
-                        radius="md"
-                        style={{ minWidth: 0 }}
-                    >
-                        <IconExternalLink size={20} />
-                    </Button>
-                </Group>
-            </Flex> */}
         </MantineCard>
     )
 }

@@ -1,0 +1,1 @@
+export { homePrivateRoutes } from "./routes"

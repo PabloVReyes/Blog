@@ -65,6 +65,7 @@ export const putManualController: RequestHandler = async (req, res) => {
 export const getManualController: RequestHandler = async (req, res) => {
     try {
         const data = await getManualService(req)
+        
         res.setHeader(
             "Content-Disposition",
             `attachment; filename="${data.fileName}"`

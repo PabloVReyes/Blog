@@ -2,8 +2,8 @@ import { Container, Pagination, Search, Table } from "@/components"
 import { Card, Stack } from "@mantine/core"
 import { useEffect } from "react"
 import { useMacroprocessStore } from "../../store"
-import { notify } from "@/utils/notify"
 import { columns } from "./TableColumns"
+import { Notify } from "@/ui"
 
 export const Macroprocess = () => {
     const { fetch, manuals, isLoading, page, search, limit, setSearch } = useMacroprocessStore()
@@ -16,7 +16,7 @@ export const Macroprocess = () => {
         try {
             await fetch()
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al obtener sistemas",
                 message: error.message

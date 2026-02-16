@@ -5,8 +5,8 @@ import { IconPlus } from "@tabler/icons-react"
 import { Add } from "../components"
 import { useSystemsStore } from "../store"
 import { useEffect } from "react"
-import { notify } from "@/utils/notify"
 import { useModalStore } from "@/layout"
+import { Notify } from "@/ui"
 
 export const Systems = () => {
     const { openModal } = useModalStore()
@@ -20,7 +20,7 @@ export const Systems = () => {
         try {
             await fetch()
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al obtener sistemas",
                 message: error.message

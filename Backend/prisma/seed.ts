@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { adapter } from "../src/database/config"
+import { adapter } from "../src/config/prisma"
 import "dotenv/config";
 import fs from "fs";
 import path from "path";
@@ -28,27 +28,6 @@ async function main() {
         });
     }
 
-    const sections = [
-        { id: 1, title: "Primer apartado", content: "Hola" },
-        { id: 2, title: "Segundo apartado", content: "Hola" },
-        { id: 3, title: "Tercer apartado", content: "Hola" },
-        { id: 4, title: "Cuarto apartado", content: "Hola" },
-        { id: 5, title: "Quinto apartado", content: "Hola" },
-    ]
-
-    for (const section of sections) {
-        await prisma.sectionHome.upsert({
-            where: { id: section.id },
-            update: {},
-            create: {
-                id: section.id,
-                title: section.title,
-                content: section.content
-            }
-        })
-    }
-
-
     const filePath = path.join(__dirname, './data/sistemas.json'); // si está en la misma carpeta que seed_ext.ts
     const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
@@ -64,7 +43,133 @@ async function main() {
         });
     }
 
+
     console.log('✅ Todas los sistemas cargadas correctamente');
+
+    // Inicio
+    await prisma.homeSection.create({
+        data: {
+            key: "alert",
+            type: "ALERT",
+            title: "Alerta",
+            orderIndex: 0,
+            alert: {
+                create: {
+                    icon: "IconHandLoveYou",
+                    color: "green",
+                    title: "¡Bienvenido al sistema renovado!",
+                    description:
+                        "Hemos evolucionado nuestra plataforma para ofrecerte un entorno más moderno, ágil y funcional, manteniendo todo lo que ya conoces y agregando nuevas mejoras pensadas para ti.",
+                    author: "Pablo Vazquez Reyes",
+                    isActive: true,
+                },
+            },
+        },
+    });
+
+    console.log('✅ Alert');
+
+    await prisma.homeSection.create({
+        data: {
+            key: "carousel",
+            type: "CAROUSEL",
+            orderIndex: 1,
+            title: "Carrusel"
+        },
+    });
+
+    console.log('✅ Carousel');
+
+    await prisma.homeSection.create({
+        data: {
+            key: "calendar",
+            type: "CALENDAR",
+            title: "Calendario",
+            orderIndex: 2,
+            calendar: {
+                create: {
+                    color: "green",
+                    icon: "IconCalendarWeek",
+                    year: 2025,
+                    title: "Calendario de Comités Intrahospitalarios",
+                    description: "Consulta fechas importantes",
+                },
+            },
+        },
+    });
+
+    console.log('✅ Calendario');
+
+    await prisma.homeSection.create({
+        data: {
+            key: "derechohambiencia",
+            type: "DERECHOHABIENCIA",
+            title: "Derechohabiencia",
+            orderIndex: 3,
+            derechoambiencia: {
+                create: {
+                    color: "blue",
+                    icon: "IconSearch",
+                    title: "Consulta Derechohabiencia",
+                    description: "Verifica el estatus de afiliación",
+                    links: {
+                        create: [
+                            {
+                                title: "IMSS Digital",
+                                url: "https://www.imss.gob.mx/constancia-no-derechohabiencia",
+                                orderIndex: 0,
+                            },
+                            {
+                                title: "ISSSTE",
+                                url: "https://oficinavirtual.issste.gob.mx/Servicios/Acreditaci%C3%B3n-de-no-Afiliaci%C3%B3n",
+                                orderIndex: 1,
+                            },
+                            {
+                                title: "CURP",
+                                url: "https://www.gob.mx/curp/",
+                                orderIndex: 2,
+                            },
+                        ]
+                    }
+                }
+            },
+        },
+    });
+
+    console.log('✅ Derechohabiencia');
+
+    await prisma.homeSection.create({
+        data: {
+            key: "accesscard",
+            type: "ACCESS_CARD",
+            title: "Accesos Directos",
+            orderIndex: 4,
+            accessCards: {
+                create: [
+                    {
+                        icon: "IconPhone",
+                        title: "Sistema Escolar",
+                        url: "https://sistema.escolar.mx",
+                        color: "green",
+                        description: "Información y procedimientos",
+                        type: "page",
+                        orderIndex: 0,
+                    },
+                    {
+                        icon: "IconDna2",
+                        title: "Correo Institucional",
+                        url: "https://correo.institucional.mx",
+                        description: "Información y procedimientos",
+                        color: "blue.5",
+                        type: "page",
+                        orderIndex: 1,
+                    },
+                ],
+            },
+        },
+    });
+
+    console.log('✅ Access Card');
 
     const filePathExtensions = path.join(__dirname, './data/extensiones.json'); // si está en la misma carpeta que seed_ext.ts
     const dataExtensions = JSON.parse(fs.readFileSync(filePathExtensions, 'utf8'));
@@ -86,7 +191,6 @@ async function main() {
 
     // Macroproceso
     // Tipos de manuales
-
     const filePathManualType = path.join(__dirname, './data/manual_types.json'); // si está en la misma carpeta que seed_ext.ts
     const dataManualType = JSON.parse(fs.readFileSync(filePathManualType, 'utf8'));
 
@@ -135,8 +239,6 @@ async function main() {
     }
 
     console.log('✅ Todas los manuales cargadas correctamente');
-
-
 
     console.log("Seeding finished!");
 }

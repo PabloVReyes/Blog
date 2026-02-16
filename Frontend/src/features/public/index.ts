@@ -1,4 +1,3 @@
-export { homeRoutes } from "./Home"
 export { whoWeAreRoutes } from "./WhoWeAre"
 export { standardsRoutes } from "./Standards"
 export { juristicRoutes } from "./Juristic"

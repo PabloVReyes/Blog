@@ -1,5 +1,4 @@
 export {
-    homeRoutes,
     whoWeAreRoutes,
     standardsRoutes,
     juristicRoutes,
@@ -19,6 +18,11 @@ export {
 export {
     macroprocessPublicRoutes
 } from "./Macroprocess"
+
+export {
+    homePublicRoutes,
+    homePrivateRoutes
+} from "./Home"
 
 export { Uploads } from "./uploads"
 export { Sidebar } from "./sidebar"

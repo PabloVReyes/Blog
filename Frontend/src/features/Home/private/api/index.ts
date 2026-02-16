@@ -1,0 +1,6 @@
+export { addCarousel, fecthCarousel, updateCarousel, deleteCarousel } from "./Carousel"
+export { fetchSections } from "./Sections"
+export { fecthAlert, updateAlert } from "./Alert"
+export { fecthCalendar, updateCalendar } from "./Calendar"
+export { fecthDerechohabiencia, updateDerechohabiencia } from "./Derechohabiencia"
+export { fecthAccessCard, addAccessCard, updateAccessCard, deleteAccessCard } from "./AccessCard"

@@ -1,5 +1,5 @@
 import { Autocomplete } from "./Autocomplete";
-import { Card } from "./Card";
+import { Card, CardSection } from "./Card";
 import { ColorInput } from "./ColorInput";
 import { Combobox } from "./Combobox";
 import { Container } from "./Container";
@@ -14,6 +14,7 @@ import { Textarea } from "./Textrea";
 
 export const components = {
     Card,
+    CardSection,
     Container,
     FileInput,
     TextInput,

@@ -2,7 +2,6 @@ import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from 
 import { standards } from "./standards"
 import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-react"
 import styles from "./Standards.module.css"
-import { mantineColorsRGB } from "@/shared"
 
 export const StandardsCard = () => {
     return standards.map((standard) => (
@@ -16,7 +15,7 @@ export const StandardsCard = () => {
                         color="green"
                         variant="light"
                         style={{
-                            '--icon-rgb': mantineColorsRGB["green"] || "22,163,74" // fallback green
+                            '--icon-rgb': "green" || "22,163,74" // fallback green
                         } as React.CSSProperties}
                         className={`${styles.itemIcon} ${styles.iconWrapper}`}
 

@@ -4,5 +4,6 @@ export { Card } from "./Card"
 export { Table } from './Table'
 export { ColorSelect } from "./ColorSelect"
 export { IconSelect } from "./IconSelect"
-export { PageSelect } from "./PageSelect"
 export { Container } from "./Container"
+export { Switch } from "./Switch"
+export { IndicatorGroup } from "./IndicatorGroup"

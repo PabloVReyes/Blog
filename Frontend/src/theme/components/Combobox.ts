@@ -3,7 +3,7 @@ export const Combobox = {
         radius: "md",
     },
 
-    styles: () => ({
+    styles: (theme: any) => ({
         input: {
             backgroundColor: "light-dark(white, oklch(27.8% 0.033 256.848))",
             color: "light-dark(black, white)",
@@ -13,19 +13,8 @@ export const Combobox = {
             transition: "all .15s ease",
 
             "&:focus": {
-                borderColor:
-                    "light-dark(oklch(60% 0.12 260), oklch(70% 0.12 260))",
-                boxShadow: "0 0 0 2px rgba(0,0,0,0.05)", // opcional
+                borderColor: theme.colors[theme.primaryColor][6],
             },
-
-            "&::placeholder": {
-                color: "light-dark(#6b7280, #9ca3af)",
-            },
-        },
-
-        label: {
-            color: "light-dark(#111827, #e5e7eb)",
-            fontWeight: 500,
         },
 
         dropdown: {
@@ -35,26 +24,24 @@ export const Combobox = {
                 "light-dark(oklch(92.8% 0.006 264.531), oklch(37.3% 0.034 259.733))",
         },
 
-        item: {
+        /* 🔥 ESTA ES LA CLAVE */
+        option: {
             color: "light-dark(black, white)",
 
-            "&[data-selected]": {
+            "&:hover": {
                 backgroundColor: "var(--mantine-primary-color-filled)",
                 color: "var(--mantine-primary-color-contrast)",
             },
 
-            "&:hover": {
-                backgroundColor:
-                    "light-dark(oklch(95% 0.01 260), oklch(35% 0.04 260))",
+            "&[data-combobox-selected]": {
+                backgroundColor: "var(--mantine-primary-color-filled)",
+                color: "var(--mantine-primary-color-contrast)",
             },
-        },
 
-        description: {
-            color: "light-dark(#6b7280, #9ca3af)",
-        },
-
-        error: {
-            color: "red",
+            "&[data-combobox-active]": {
+                backgroundColor: "var(--mantine-primary-color-filled)",
+                color: "var(--mantine-primary-color-contrast)",
+            },
         },
     }),
 };

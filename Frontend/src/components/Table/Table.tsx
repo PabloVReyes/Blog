@@ -43,6 +43,7 @@ export const Table = ({ columns, isLoading = false, data }: Props) => {
             <MantineTable.Tr key={rowIndex}>
                 {columns.map((col, colIndex: number) => (
                     <MantineTable.Td
+                        miw={col.miw && col.miw}
                         key={colIndex}
                         style={{ textAlign: col.align }}
                     >

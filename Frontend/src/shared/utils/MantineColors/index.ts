@@ -1,1 +1,0 @@
-export { mantineColorsRGB } from "./MantineColor"

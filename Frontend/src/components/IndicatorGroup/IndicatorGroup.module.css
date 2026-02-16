@@ -1,0 +1,55 @@
+.root {
+    position: relative;
+    width: fit-content;
+    border-radius: var(--mantine-radius-md);
+    padding: 5px;
+    display: flex;
+    width: 100%;
+    /* 🔥 ahora ocupa todo el ancho */
+
+    /* Fondo igual que FileInput */
+    background-color: light-dark(white,
+            oklch(27.8% 0.033 256.848));
+
+    border: 1px solid light-dark(oklch(92.8% 0.006 264.531),
+            oklch(37.3% 0.034 259.733));
+}
+
+.control {
+    flex: 1;
+    text-align: center;
+    padding: 7px 12px;
+    line-height: 1;
+    font-size: var(--mantine-font-size-sm);
+    font-weight: 500;
+    border-radius: var(--mantine-radius-md);
+    transition: color 100ms ease, background-color 100ms ease;
+
+    /* Texto igual que inputs */
+    color: light-dark(black, white);
+}
+
+/* Hover consistente con tu sistema */
+.control:hover {
+    background-color: light-dark(oklch(95% 0.01 260),
+            oklch(35% 0.04 260));
+}
+
+/* Activo: solo cambia el texto (el fondo lo maneja el indicator) */
+.control[data-active] {
+    color: var(--mantine-primary-color-contrast);
+}
+
+.controlLabel {
+    position: relative;
+    z-index: 1;
+}
+
+.indicator {
+    border-radius: var(--mantine-radius-md);
+
+    /* Primary dinámico */
+    background-color: var(--mantine-primary-color-filled);
+
+    transition: all 200ms ease;
+}

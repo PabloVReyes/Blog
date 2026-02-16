@@ -2,10 +2,10 @@ import { useModalStore } from "@/layout";
 import { Button, Divider, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react";
-import { notify } from "@/utils/notify";
 import { ColorSelect } from "@/components";
 import { useManualsTypesStore } from "../../store";
 import { IconCheck } from "@tabler/icons-react";
+import { Notify } from "@/ui";
 
 const MAX_CODE_LENGTH = 10
 const MAX_NAME_LENGTH = 50
@@ -53,7 +53,7 @@ export const Edit = ({ id, name, color }: any) => {
                 ),
             });
         } catch (error: any) {
-            notify({
+            Notify({
                 type: "error",
                 title: "Error al editar manual",
                 message: error.message

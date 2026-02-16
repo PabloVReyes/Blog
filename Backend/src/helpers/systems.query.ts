@@ -1,4 +1,4 @@
-import { database } from "@/database/config"
+import { database } from "@/config/prisma"
 
 interface PostSystemQueryProps {
     icon: string;

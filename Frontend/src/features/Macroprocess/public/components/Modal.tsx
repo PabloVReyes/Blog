@@ -98,7 +98,7 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
                                     <Title order={4}>Manuales y documentos</Title>
                                 </Group>
                                 {area?.manuals &&
-                                    <SimpleGrid cols={{ base: 1, md: 2 }}>
+                                    <SimpleGrid cols={{ sm: 1, md: 2 }}>
                                         {area?.manuals.map((manual: any, index: number) => (
                                             <UnstyledButton
                                                 key={index}

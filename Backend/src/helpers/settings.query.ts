@@ -1,4 +1,4 @@
-import { database } from "@/database/config"
+import { database } from "@/config/prisma"
 import { response } from "express"
 
 export const getSettingsQuery = () => {

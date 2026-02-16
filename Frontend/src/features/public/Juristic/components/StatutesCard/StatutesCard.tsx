@@ -1,7 +1,6 @@
 import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
 import { IconDownload, IconExternalLink, IconGavel } from "@tabler/icons-react"
 import styles from "./Statutes.module.css"
-import { mantineColorsRGB } from "@/shared"
 import { statutes } from "./statutes"
 
 export const StatutesCard = () => {
@@ -16,7 +15,7 @@ export const StatutesCard = () => {
                         color="green"
                         variant="light"
                         style={{
-                            '--icon-rgb': mantineColorsRGB["green"] || "22,163,74" // fallback green
+                            '--icon-rgb': "green" || "22,163,74" // fallback green
                         } as React.CSSProperties}
                         className={`${styles.itemIcon} ${styles.iconWrapper}`}
 

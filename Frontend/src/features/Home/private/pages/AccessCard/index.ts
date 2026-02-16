@@ -1,0 +1,1 @@
+export { AccessCard } from "./AcessCard"
