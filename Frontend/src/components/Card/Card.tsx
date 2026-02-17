@@ -1,4 +1,4 @@
-import { Badge, Button, Flex, Group, Card as MantineCard, Stack, Text, ThemeIcon, Title, useMantineTheme } from "@mantine/core"
+import { Badge, Flex, Group, Card as MantineCard, Stack, Text, ThemeIcon, Title, useMantineTheme } from "@mantine/core"
 import styles from "./Card.module.css"
 import * as TablerIcons from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
@@ -25,14 +25,8 @@ interface Props {
 export const Card = ({
     card,
     name,
-    badge,
-    description,
-    icon,
-    color,
     url,
-    submitLabel,
     phone,
-    variant = "horizontal",
     level,
     boss,
     secretary,
@@ -40,10 +34,6 @@ export const Card = ({
 }: Props) => {
     const navigate = useNavigate();
     const theme = useMantineTheme()
-
-    const Icon =
-        icon &&
-        (TablerIcons as any)[icon];
 
     const handleNavigate = () => {
         if (!url) return;

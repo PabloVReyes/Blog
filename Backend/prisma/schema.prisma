@@ -230,3 +230,8 @@ enum ManualCategory {
   STANDARD // MO, MP, DxSit, PT
   EXTRA // Código Ético, Normatividad, etc
 }
+
+model cie10 {
+  id   String @id @unique @default(uuid())
+  name String @db.LongText
+}

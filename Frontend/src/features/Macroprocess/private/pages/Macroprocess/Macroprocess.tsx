@@ -1,4 +1,4 @@
-import { Container, Pagination, Search, Table } from "@/components"
+import { Container, Table } from "@/components"
 import { Card, Stack } from "@mantine/core"
 import { useEffect } from "react"
 import { useMacroprocessStore } from "../../store"
@@ -32,10 +32,10 @@ export const Macroprocess = () => {
             <Card>
                 <Stack>
                     <Card>
-                        <Search
+                        {/* <Search
                             value={search}
                             onChange={setSearch}
-                        />
+                        /> */}
                     </Card>
                     <Card>
                         <Table
@@ -45,9 +45,9 @@ export const Macroprocess = () => {
                         />
                     </Card>
                     <Card>
-                        <Pagination
+                        {/* <Pagination
                             useStore={useMacroprocessStore}
-                        />
+                        /> */}
                     </Card>
                 </Stack>
             </Card>

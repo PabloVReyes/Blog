@@ -1,4 +1,4 @@
-import { Container, Pagination, Search, Table } from "@/components"
+import { Container, Table } from "@/components"
 import { useManualsTypesStore } from "../../store"
 import { useEffect } from "react"
 import { Card, Stack } from "@mantine/core"
@@ -32,10 +32,10 @@ export const ManualsTypes = () => {
             <Card>
                 <Stack>
                     <Card>
-                        <Search
+                        {/* <Search
                             value={search}
                             onChange={setSearch}
-                        />
+                        /> */}
                     </Card>
 
                     <Card>
@@ -47,9 +47,9 @@ export const ManualsTypes = () => {
                     </Card>
 
                     <Card>
-                        <Pagination
+                        {/* <Pagination
                             useStore={useManualsTypesStore}
-                        />
+                        /> */}
                     </Card>
                 </Stack>
             </Card>

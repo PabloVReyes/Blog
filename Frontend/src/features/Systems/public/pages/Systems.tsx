@@ -1,4 +1,4 @@
-import { Card, Container } from "@/components"
+import { Container } from "@/components"
 import { useEffect, useState } from "react"
 import { type SystemProps } from "../../types"
 import { fetchSystems } from "../api"

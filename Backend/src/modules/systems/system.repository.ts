@@ -60,7 +60,8 @@ export const getSystemRepository = async ({ search, take, skip }: GetSystemRepos
     const where = {
         ...(search && {
             OR: [
-                { title: { contains: search } },
+                { acronym: { contains: search } },
+                { name: { contains: search } },
                 { description: { contains: search } },
             ],
         }),

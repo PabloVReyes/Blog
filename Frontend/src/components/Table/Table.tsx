@@ -1,21 +1,23 @@
-import { Loader, Table as MantineTable, Text } from "@mantine/core"
+import { Card, Loader, Table as MantineTable, Text } from "@mantine/core"
+import styles from "./Table.module.css"
 
 interface Props {
-    columns: any[],
+    columns: any[]
     isLoading?: boolean
     data: any[]
 }
 
 export const Table = ({ columns, isLoading = false, data }: Props) => {
+
     const renderRows = () => {
         if (isLoading) {
             return (
                 <MantineTable.Tr>
-                    <MantineTable.Td colSpan={columns.length} style={{ textAlign: "center" }}>
-                        <Loader
-                            mt={20}
-                            style={{ textAlign: "center" }}
-                        />
+                    <MantineTable.Td
+                        colSpan={columns.length}
+                        className={styles.loaderCell}
+                    >
+                        <Loader />
                     </MantineTable.Td>
                 </MantineTable.Tr>
             )
@@ -24,14 +26,11 @@ export const Table = ({ columns, isLoading = false, data }: Props) => {
         if (!data || data.length === 0) {
             return (
                 <MantineTable.Tr>
-                    <MantineTable.Td colSpan={columns.length}>
-                        <Text
-                            mt={20}
-                            size="sm"
-                            truncate="end"
-                            c="dimmed"
-                            style={{ textAlign: "center" }}
-                        >
+                    <MantineTable.Td
+                        colSpan={columns.length}
+                        className={styles.empty}
+                    >
+                        <Text size="sm" c="dimmed">
                             No se encontraron resultados
                         </Text>
                     </MantineTable.Td>
@@ -40,11 +39,16 @@ export const Table = ({ columns, isLoading = false, data }: Props) => {
         }
 
         return data.map((row, rowIndex: number) => (
-            <MantineTable.Tr key={rowIndex}>
+            <MantineTable.Tr
+                key={rowIndex}
+                className={`${styles.row} ${rowIndex % 2 === 0 ? styles.rowEven : styles.rowOdd
+                    }`}
+            >
                 {columns.map((col, colIndex: number) => (
                     <MantineTable.Td
-                        miw={col.miw && col.miw}
                         key={colIndex}
+                        miw={col.miw}
+                        className={styles.td}
                         style={{ textAlign: col.align }}
                     >
                         {col.render
@@ -58,19 +62,28 @@ export const Table = ({ columns, isLoading = false, data }: Props) => {
     }
 
     return (
-        <MantineTable.ScrollContainer minWidth={800}>
-            <MantineTable verticalSpacing={"xs"}>
-                <MantineTable.Thead>
-                    <MantineTable.Tr>
-                        {columns.map((item, index: number) => (
-                            <MantineTable.Th key={index} style={{ textAlign: item.align }}>{item.label}</MantineTable.Th>
-                        ))}
-                    </MantineTable.Tr>
-                </MantineTable.Thead>
-                <MantineTable.Tbody>
-                    {renderRows()}
-                </MantineTable.Tbody>
-            </MantineTable>
-        </MantineTable.ScrollContainer>
+        <Card p={0} withBorder className={styles.wrapper}>
+            <MantineTable.ScrollContainer minWidth={800} type="native">
+                <MantineTable verticalSpacing={0} highlightOnHover>
+                    <MantineTable.Thead className={styles.thead}>
+                        <MantineTable.Tr>
+                            {columns.map((item, index: number) => (
+                                <MantineTable.Th
+                                    key={index}
+                                    className={styles.th}
+                                    style={{ textAlign: item.align }}
+                                >
+                                    {item.label}
+                                </MantineTable.Th>
+                            ))}
+                        </MantineTable.Tr>
+                    </MantineTable.Thead>
+
+                    <MantineTable.Tbody>
+                        {renderRows()}
+                    </MantineTable.Tbody>
+                </MantineTable>
+            </MantineTable.ScrollContainer>
+        </Card>
     )
 }

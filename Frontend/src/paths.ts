@@ -7,7 +7,13 @@ export const paths = [
     {
         label: "Sistemas de consulta",
         icon: "IconSearch",
-        link: "/sistemas-de-consulta"
+        link: "/sistemas-de-consulta",
+        children: [
+            {
+                label: "CIE-10",
+                link: "/cie-10"
+            },
+        ]
     },
     {
         id: "macroproceso",
@@ -25,27 +31,27 @@ export const paths = [
             }
         ]
     },
-    {
-        label: "Páginas",
-        icon: "IconAppWindow",
-        link: "/administration/pages",
-        children: [
-            {
-                label: "Inicio",
-                link: "/administration/pages/home",
-            }
-        ]
-    },
-    {
-        label: "Menú lateral",
-        icon: "IconLayoutSidebar",
-        link: "/administration/sidebar",
-    },
-    {
-        label: "Archivos",
-        icon: "IconFiles",
-        link: "/administration/uploads"
-    },
+    // {
+    //     label: "Páginas",
+    //     icon: "IconAppWindow",
+    //     link: "/administration/pages",
+    //     children: [
+    //         {
+    //             label: "Inicio",
+    //             link: "/administration/pages/home",
+    //         }
+    //     ]
+    // },
+    // {
+    //     label: "Menú lateral",
+    //     icon: "IconLayoutSidebar",
+    //     link: "/administration/sidebar",
+    // },
+    // {
+    //     label: "Archivos",
+    //     icon: "IconFiles",
+    //     link: "/administration/uploads"
+    // },
     {
         label: "Configuraciones",
         icon: "IconSettings",

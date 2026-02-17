@@ -1,5 +1,5 @@
 import type { RouteObject } from "react-router-dom";
-import { Systems } from "../pages";
+import { CIE10, Systems } from "../pages";
 
 export const systemsPublicRoutes: RouteObject = {
     path: "sistemas-de-consulta",
@@ -7,6 +7,10 @@ export const systemsPublicRoutes: RouteObject = {
         {
             index: true,
             element: <Systems />
+        },
+        {
+            path: "cie-10",
+            element: <CIE10 />
         }
     ]
 }

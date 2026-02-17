@@ -26,8 +26,6 @@ export const postSystemService = async (dto: SystemCreateDto) => {
         mimeType: file?.mimetype ?? null,
     }
 
-    console.log(props)
-
     await repo.postSystemRepository(props)
 
     return true

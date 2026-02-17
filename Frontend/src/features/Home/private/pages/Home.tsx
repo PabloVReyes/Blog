@@ -2,11 +2,11 @@ import { Container } from "@/components"
 import { Center, Loader, Stack } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { fetchSections } from "../api"
-import { Carousel } from "./Carousel/Carousel"
+import { Carousel } from "./Carousel"
 import { Alert } from "./Alert"
 import { Derechohabiencia } from "./Derechohabiencia"
-import { AccessCard } from "./AccessCard"
 import { Calendar } from "./Calendar"
+import { AccessCard } from "./AcessCard"
 
 export const Home = () => {
     const [sections, setSections] = useState<any[]>([])
@@ -38,7 +38,7 @@ export const Home = () => {
             title="Inicio"
             description="Configuración del Inicio"
         >
-            <Stack>
+            <Stack gap={100}>
                 {sections.map((section, index: number) => {
                     switch (section.type) {
                         case "ALERT":

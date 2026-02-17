@@ -3,6 +3,7 @@ import * as controller from "./system.controller"
 import multer from "multer";
 import path from "path";
 import { sanitizeFileName } from "@/routes/macroprocess.routes";
+import cie10Rutes from "./cie10/cie10.routes"
 
 const router: Router = Router()
 
@@ -36,5 +37,7 @@ router.get("/:id/download", controller.downloadSystemFileController)
 router.put("/:id", upload.single("file"), controller.puySystemController)
 router.post("/", upload.single("file"), controller.postSystemController)
 router.delete("/:id", controller.deleteSystemController)
+
+router.use("/cie-10", cie10Rutes)
 
 export default router;

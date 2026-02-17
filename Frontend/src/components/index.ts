@@ -1,5 +1,3 @@
-export { Search } from "./Search"
-export { Pagination } from "./Pagination"
 export { Card } from "./Card"
 export { Table } from './Table'
 export { ColorSelect } from "./ColorSelect"
@@ -7,3 +5,4 @@ export { IconSelect } from "./IconSelect"
 export { Container } from "./Container"
 export { Switch } from "./Switch"
 export { IndicatorGroup } from "./IndicatorGroup"
+export { Panel } from "./Panel"

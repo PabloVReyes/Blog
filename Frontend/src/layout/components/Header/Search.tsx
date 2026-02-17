@@ -111,7 +111,8 @@ export const Search = () => {
                 window.open(url, "_blank"); // o window.location.href = url;
             } else {
                 // interna SPA
-                navigate(url);
+                const newUrl = `/sistemas-de-consulta${url}`
+                navigate(newUrl);
             }
         }
 
@@ -154,8 +155,8 @@ export const Search = () => {
                             <Group gap="sm">
                                 <Title order={5}>
                                     {search.acronym &&
-                                    `${search.acronym} - `
-                                }
+                                        `${search.acronym} - `
+                                    }
                                     {search.name}</Title>
                                 {search.badge &&
                                     <Badge color="red" size="xs">

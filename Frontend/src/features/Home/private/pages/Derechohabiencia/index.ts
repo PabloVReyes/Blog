@@ -1,1 +1,0 @@
-export { Derechohabiencia } from "./Derechohabiencia"

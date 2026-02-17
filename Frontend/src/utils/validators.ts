@@ -14,6 +14,9 @@ export const validateIcon = (value: string) =>
 export const validateColor = (value: string) =>
     value.length < 3 ? "Selecciona el Color" : null;
 
+export const validateCode = (value: string) =>
+    value.length < 1 ? "El codigo debe de tener al menos 1 caracter" : null;
+
 // Validación de URL con opciones para requerirla o permitir solo relativas
 export const validateUrl = (
     value: string,

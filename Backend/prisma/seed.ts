@@ -241,6 +241,20 @@ async function main() {
 
     console.log('✅ Todas los manuales cargadas correctamente');
 
+    const filePathCie10 = path.join(__dirname, './data/cie10.json'); // si está en la misma carpeta que seed_ext.ts
+    const dataCie10 = JSON.parse(fs.readFileSync(filePathCie10, 'utf8'));
+
+    for (const item of dataCie10) {
+        await prisma.cie10.create({
+            data: {
+                id: item.id,
+                name: item.name,
+            }
+        })
+    }
+
+    console.log('✅ Sistema CIE-10 cargado');
+
     console.log("Seeding finished!");
 }
 

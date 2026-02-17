@@ -2,7 +2,7 @@ import { Container, Group, Stack, Text, Title } from "@mantine/core"
 import { Table } from "../components"
 import { useEffect } from "react"
 import { useFilesStore } from "../store"
-import { Pagination, Search } from "@/components"
+// import { Pagination, Search } from "@/components"
 
 export const Uploads = () => {
     const { fetchFiles, items, page, limit, search, setSearch } = useFilesStore()
@@ -21,18 +21,18 @@ export const Uploads = () => {
                     </Stack>
                 </Group>
 
-                <Search
+                {/* <Search
                     value={search}
                     onChange={setSearch}
-                />
+                /> */}
 
                 <Table
                     items={items}
                 />
-
+{/* 
                 <Pagination
                     useStore={useFilesStore}
-                />
+                /> */}
 
             </Stack>
         </Container>

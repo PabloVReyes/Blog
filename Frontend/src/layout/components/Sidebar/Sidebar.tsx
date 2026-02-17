@@ -47,7 +47,7 @@ export const Sidebar = () => {
         },
         {
             id: 'sistemas',
-            label: 'Sistemas de Consulta',
+            label: 'Sistemas de consulta',
             icon: 'IconSearch',
             link: "/sistemas-de-consulta",
             children: systems.map((system) => ({

@@ -1,12 +1,99 @@
-import { Container, Pagination, Search, Table } from "@/components"
-import { Button, Card, Group, Stack } from "@mantine/core"
-import { columns } from "./TableColumns"
-import { IconPlus } from "@tabler/icons-react"
-import { Add } from "../components"
+import { Container, Panel, Table } from "@/components"
+import { Text, ThemeIcon } from "@mantine/core"
 import { useSystemsStore } from "../store"
 import { useEffect } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
+import * as TablerIcons from "@tabler/icons-react"
+import { ActionsSystems, AddSystem } from "../components"
+
+const columns = [
+    {
+        key: 'icon',
+        label: 'Icono',
+        align: 'center',
+        render: (row: any) => {
+            const Icon =
+                row.icon &&
+                (TablerIcons as any)[row.icon];
+            return (
+                <ThemeIcon
+                    size={50}
+                    color={row.color}
+                    variant="light"
+                    style={{
+                        '--icon-rgb': row.color || "#40c057" // fallback green
+                    } as React.CSSProperties}
+                    className="themeIcon"
+                >
+                    <Icon />
+                </ThemeIcon>
+            )
+        }
+    },
+    {
+        key: 'acronym',
+        label: 'Nombre corto',
+        align: 'left',
+        render: (row: any) => {
+            if (!row.acronym) {
+                return <Text size="xs" c="dimmed">------</Text>
+            }
+
+            return <Text size="sm">{row.acronym}</Text>
+        }
+    },
+    {
+        key: 'name',
+        label: 'Nombre',
+        align: 'left',
+    },
+    {
+        key: 'description',
+        label: 'Descripcion',
+        align: 'left',
+    },
+    {
+        key: 'url',
+        label: 'Enlace',
+        align: 'left',
+        render: (row: any) => {
+            if (!row.url) {
+                return <Text size="xs" c="dimmed">Sin enlace</Text>
+            }
+
+            return <Text size="sm">{row.url}</Text>
+        }
+    },
+    {
+        key: "file",
+        label: "Archivo",
+        align: "left",
+        render: (row: any) => {
+            if (!row.fileName) {
+                return <Text size="xs" c="dimmed">Sin archivo</Text>
+            }
+
+            return <Text
+                style={{
+                    overflowWrap: "anywhere",
+                    wordBreak: "break-word",
+                }}
+                size="sm"
+            >
+                {row.fileName}
+            </Text>
+        }
+    },
+    {
+        key: 'actions',
+        label: 'Acciones',
+        align: 'left',
+        render: (row: any) => {
+            return <ActionsSystems {...row} />
+        }
+    },
+]
 
 export const Systems = () => {
     const { openModal } = useModalStore()
@@ -30,7 +117,7 @@ export const Systems = () => {
 
     const handleAdd = () => {
         openModal({
-            content: <Add />
+            content: <AddSystem />
         })
     }
 
@@ -39,51 +126,30 @@ export const Systems = () => {
             title="Sistemas de consultas"
             description="Accede a los diferentes sistemas de información institucionales"
         >
-            <Card>
-                <Stack>
-                    <Card>
-                        <Group gap={5}>
-                            <Search
-                                value={search}
-                                onChange={setSearch}
-                                placeholder="Buscar permisos..."
-                            />
-                            <Button
-                                style={{ flex: "1 1 auto" }}
-                                leftSection={
-                                    <IconPlus
-                                        size={16}
-                                    />
-                                }
-                                onClick={handleAdd}
-                            >
-                                Nuevo sistema
-                            </Button>
-                        </Group>
-                    </Card>
-
-                    <Card>
-                        <Table
-                            isLoading={isLoading}
-                            data={items}
-                            columns={columns}
-                        />
-                    </Card>
-
-                    <Card>
-                        <Pagination
-                            limit={limit}
-                            onChangeLimit={setLimit}
-                            totalPages={totalPages}
-                            onChangePage={setPage}
-                            totalItems={totalItems}
-                            firstItem={firstItem}
-                            lastItem={lastItem}
-                            page={page}
-                        />
-                    </Card>
-                </Stack>
-            </Card>
+            <Panel
+                title
+                titleValue="Lista de sistemas"
+                onAddElement={handleAdd}
+                search
+                searchValue={search}
+                onChangeSearch={setSearch}
+                limit
+                limitValue={limit}
+                onChangeLimit={setLimit}
+                page
+                pageValue={page}
+                onChangePage={setPage}
+                firstItem={firstItem}
+                lastItem={lastItem}
+                totalItems={totalItems}
+                totalPages={totalPages}
+            >
+                <Table
+                    isLoading={isLoading}
+                    data={items}
+                    columns={columns}
+                />
+            </Panel>
         </Container>
     )
 }

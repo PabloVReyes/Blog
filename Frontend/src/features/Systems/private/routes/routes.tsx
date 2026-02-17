@@ -1,8 +1,17 @@
 import { type RouteObject } from "react-router-dom";
-import { Systems } from "../pages";
+import { CIE10, Systems } from "../pages";
 
 export const systemsPrivateRoutes: RouteObject = {
     path: "sistemas-de-consulta",
-    element: <Systems />
+    children: [
+        {
+            index: true,
+            element: <Systems />
+        },
+        {
+            path: "cie-10",
+            element: <CIE10 />
+        }
+    ]
 }
 
