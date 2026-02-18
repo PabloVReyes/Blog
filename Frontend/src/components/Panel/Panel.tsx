@@ -1,11 +1,11 @@
-import { Button, Card, Group, Pagination, Select, Stack, Text, TextInput, Title } from "@mantine/core"
+import { Box, Button, Card, Flex, Group, Pagination, Select, Stack, Text, TextInput, Title } from "@mantine/core"
 import { IconPlus, IconSearch } from "@tabler/icons-react"
 import type { ReactNode } from "react"
 import styles from "./Pagination.module.css"
 
 type SearchProps =
-    | { search?: false; searchValue?: never; onChangeSearch?: never }
-    | { search: true; searchValue: string; onChangeSearch: (value: string) => void };
+    | { search?: false; searchValue?: never; searchPlaceholder?: never; onChangeSearch?: never }
+    | { search: true; searchValue: string; searchPlaceholder: string; onChangeSearch: (value: string) => void };
 
 type LimitProps =
     | { limit?: false; limitValue?: never; onChangeLimit?: never }
@@ -29,6 +29,7 @@ export const Panel = ({
     children,
     search,
     searchValue,
+    searchPlaceholder,
     onChangeSearch,
     limitValue,
     limit,
@@ -61,14 +62,18 @@ export const Panel = ({
 
             {(search || limit) &&
                 <Card>
-                    <Group justify="space-between">
-                        <div style={{ visibility: search ? 'visible' : 'hidden' }}>
+                    <Flex
+                        justify="space-between"
+                        direction={{ base: "column", sm: "row" }}
+                        gap="md"
+                    >
+                        <Box w="100%" hidden={!search}>
                             <TextInput
-                                miw={'300px'}
+                                w={{ base: "100%", sm: 300 }}
                                 leftSection={
                                     <IconSearch />
                                 }
-                                placeholder="Buscar por código o nombre..."
+                                placeholder={searchPlaceholder}
                                 styles={{
                                     input: {
                                         backgroundColor: "light-dark(oklch(98.5% 0.002 247.839), oklch(21% 0.034 264.665))"
@@ -77,9 +82,9 @@ export const Panel = ({
                                 onChange={(e) => onChangeSearch && onChangeSearch(e.target.value)}
                                 value={searchValue}
                             />
-                        </div>
+                        </Box>
 
-                        <div style={{ visibility: limit ? 'visible' : 'hidden' }}>
+                        <Box w={{ base: "100%", sm: 150 }} hidden={!limit}>
                             <Select
                                 searchable={false}
                                 data={[
@@ -93,18 +98,21 @@ export const Panel = ({
                                 onChange={(value) => {
                                     onChangeLimit && onChangeLimit(Number(value));
                                 }}
-                                w={150}
+                                w={{ base: "100%", sm: 150 }}
                             />
-                        </div>
-                    </Group>
+                        </Box>
+                    </Flex>
                 </Card >
             }
             {children}
             {page && totalItems > 0 &&
-                <div>
+                <Stack>
                     <Text
+                        ta={{ base: "center", sm: "left" }}
                         size="sm"
-                        style={{ color: "light-dark(oklch(44.6% 0.03 256.802), oklch(70.7% 0.022 261.325))" }}
+                        style={{
+                            color: "light-dark(oklch(44.6% 0.03 256.802), oklch(70.7% 0.022 261.325))",
+                        }}
                     >
                         {`Mostrando ${firstItem || 0} a ${lastItem || 0} de ${totalItems || 0} registros`}
                     </Text>
@@ -118,9 +126,8 @@ export const Panel = ({
                             onChange={onChangePage}
                         />
                     </Group>
-                </div>
+                </Stack>
             }
-
         </Stack>
     )
 }

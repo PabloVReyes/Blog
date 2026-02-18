@@ -96,10 +96,10 @@ export const MainAreas = ({ setActiveTab }: Props) => {
             {/* Codigos */}
             <Fieldset legend="Códigos" style={{ textAlign: "center" }}>
                 <Group gap={10} justify="center" wrap="wrap">
-                    <Badge autoContrast color="gray.5">(MO) Manual de Organización</Badge>
-                    <Badge autoContrast color="red">(MP) Manual de Procedimientos</Badge>
-                    <Badge autoContrast color="blue">(DxSit) Diagnóstico Situacional</Badge>
-                    <Badge autoContrast color="yellow">(PT) Plan de Trabajo</Badge>
+                    <Badge color="gray.5">(MO) Manual de Organización</Badge>
+                    <Badge color="red">(MP) Manual de Procedimientos</Badge>
+                    <Badge color="blue">(DxSit) Diagnóstico Situacional</Badge>
+                    <Badge color="yellow">(PT) Plan de Trabajo</Badge>
                 </Group>
             </Fieldset>
 

@@ -57,7 +57,7 @@ export const AccessCard = ({ accessCards }: any) => {
     };
 
     return (
-        <>
+        <Stack>
             <Title order={2}>
                 Accesos Rápidos
             </Title>
@@ -130,6 +130,6 @@ export const AccessCard = ({ accessCards }: any) => {
                     )
                 })}
             </SimpleGrid>
-        </>
+        </Stack>
     )
 }

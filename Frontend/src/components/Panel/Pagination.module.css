@@ -18,7 +18,6 @@
     /* Estas variables cambian automáticamente si cambias el primaryColor en el tema */
     background-color: var(--mantine-primary-color-filled) !important;
     border-color: var(--mantine-primary-color-filled) !important;
-    color: var(--mantine-color-white) !important;
 }
 
 /* Estado Deshabilitado */
@@ -35,10 +34,8 @@
 
 .option:hover {
     background-color: var(--mantine-primary-color-filled) !important;
-    color: var(--mantine-primary-color-contrast) !important;
 }
 
 .option[data-combobox-selected] {
     background-color: var(--mantine-primary-color-filled) !important;
-    color: var(--mantine-primary-color-contrast) !important;
 }

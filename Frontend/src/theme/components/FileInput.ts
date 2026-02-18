@@ -21,16 +21,6 @@ export const FileInput = {
             },
         },
 
-        label: {
-            color: "light-dark(#111827, #e5e7eb)",
-            fontWeight: 500,
-            marginBottom: 4,
-        },
-
-        description: {
-            color: "light-dark(#6b7280, #9ca3af)",
-        },
-
         error: {
             color: "red",
         },

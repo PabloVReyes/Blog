@@ -23,15 +23,6 @@ export const Select = {
             },
         },
 
-        label: {
-            color: "light-dark(#111827, #e5e7eb)",
-            fontWeight: 500,
-        },
-
-        description: {
-            color: "light-dark(#6b7280, #9ca3af)",
-        },
-
         dropdown: {
             backgroundColor: "light-dark(white, oklch(27.8% 0.033 256.848))",
             borderColor:

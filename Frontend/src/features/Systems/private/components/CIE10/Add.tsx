@@ -27,6 +27,8 @@ export const AddCIE10 = () => {
 
     const handleSubmit = async (values: typeof form.values) => {
         try {
+            setLoading(true)
+            
             await add(values)
 
             openModal({

@@ -4,10 +4,8 @@
 
 .option:hover {
     background-color: var(--mantine-primary-color-filled) !important;
-    color: var(--mantine-primary-color-contrast) !important;
 }
 
 .option[data-combobox-selected] {
     background-color: var(--mantine-primary-color-filled) !important;
-    color: var(--mantine-primary-color-contrast) !important;
 }

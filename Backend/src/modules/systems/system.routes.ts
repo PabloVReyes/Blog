@@ -4,6 +4,7 @@ import multer from "multer";
 import path from "path";
 import { sanitizeFileName } from "@/routes/macroprocess.routes";
 import cie10Rutes from "./cie10/cie10.routes"
+import monthlyReportsRoutes from "./monthlyReports/monthlyReports.routes"
 
 const router: Router = Router()
 
@@ -39,5 +40,6 @@ router.post("/", upload.single("file"), controller.postSystemController)
 router.delete("/:id", controller.deleteSystemController)
 
 router.use("/cie-10", cie10Rutes)
+router.use("/monthly-reports", monthlyReportsRoutes)
 
 export default router;

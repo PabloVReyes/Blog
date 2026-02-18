@@ -2,7 +2,7 @@ import { IconArrowPointCenterFill, IconBiohazardFill } from "@/ui";
 import { ActionIcon, Badge, Button, Fieldset, Group, Loader, SimpleGrid, Stack, Text, useMantineTheme } from "@mantine/core"
 import { IconArrowNarrowLeft, IconFileText } from "@tabler/icons-react";
 import styles from "./SupportAreas.module.css"
-import { colorMap } from "@/components/ColorSelect/colors";
+import { colorMap } from "@/utils/colors";
 import { useArea, useManualMap } from "../hook";
 import { AreaSection, Modal } from "../components";
 import { useMediaQuery } from "@mantine/hooks";
@@ -137,10 +137,10 @@ export const SupportAreas = ({ setActiveTab }: Props) => {
 
             <Fieldset legend="Códigos" style={{ textAlign: "center" }}>
                 <Group gap={10} justify="center" wrap="wrap">
-                    <Badge autoContrast color="gray.5">(MO) Manual de Organización</Badge>
-                    <Badge autoContrast color="red">(MP) Manual de Procedimientos</Badge>
-                    <Badge autoContrast color="blue">(DxSit) Diagnóstico Situacional</Badge>
-                    <Badge autoContrast color="yellow">(PT) Plan de Trabajo</Badge>
+                    <Badge color="gray.5">(MO) Manual de Organización</Badge>
+                    <Badge color="red">(MP) Manual de Procedimientos</Badge>
+                    <Badge color="blue">(DxSit) Diagnóstico Situacional</Badge>
+                    <Badge color="yellow">(PT) Plan de Trabajo</Badge>
                 </Group>
             </Fieldset>
 

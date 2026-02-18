@@ -21,15 +21,6 @@ export const TextInput = {
             },
         },
 
-        label: {
-            color: "light-dark(#111827, #e5e7eb)",
-            fontWeight: 500,
-        },
-
-        description: {
-            color: "light-dark(#6b7280, #9ca3af)",
-        },
-
         error: {
             color: "red",
         },

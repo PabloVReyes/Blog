@@ -1,5 +1,5 @@
-import { ColorSelect, IconSelect } from "@/components"
-import { Button, Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
+import { ColorSelect, IconSelect, ModalButtons } from "@/components"
+import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import * as TablerIcons from "@tabler/icons-react";
 import { useForm } from "@mantine/form"
 import { useModalStore } from "@/layout";
@@ -8,10 +8,11 @@ import { Notify } from "@/ui";
 import { validateColor, validateDescription, validateIcon, validateTitle, validateYear } from "@/utils";
 import { useState } from "react";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
+import { MAX_YEAR_LENGTH } from "@/constants/inputs";
 
 export const Edit = ({ id, icon, color, title, description, year, fileName }: any) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { closeModal, openModal } = useModalStore()
+    const { openModal } = useModalStore()
     const { update } = useCalendarStore()
 
     const form = useForm({
@@ -27,7 +28,7 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: an
         validate: {
             title: validateTitle,
             description: validateDescription,
-            year: (values) => validateYear(values, { required: true, min: 1900, max: 3000 }),
+            year: (values) => validateYear(values, { required: true, min: 1900, max: 2100 }),
             color: validateColor,
             icon: validateIcon
         }
@@ -121,10 +122,10 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: an
                         description="Año del calendario"
                         placeholder="Año"
                         {...form.getInputProps("year")}
-                        maxLength={4}
+                        maxLength={MAX_YEAR_LENGTH}
                         rightSection={
                             <Text size="xs" c="dimmed">
-                                {form.values.year?.length || 0}/{4}
+                                {form.values.year?.length || 0}/{MAX_YEAR_LENGTH}
                             </Text>
                         }
                         rightSectionWidth={30}
@@ -170,20 +171,11 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: an
                         </ThemeIcon>
                     </Group>
                 </Fieldset>
-                <Group gap={5} justify="flex-end">
-                    <Button
-                        onClick={closeModal}
-                        variant="outline"
-                    >
-                        Cerrar
-                    </Button>
-                    <Button
-                        type="submit"
-                        loading={loading}
-                    >
-                        Editar
-                    </Button>
-                </Group>
+
+                <ModalButtons
+                    loading={loading}
+                    label="Editar"
+                />
             </Stack>
         </form>
     )

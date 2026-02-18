@@ -30,17 +30,14 @@ export const Combobox = {
 
             "&:hover": {
                 backgroundColor: "var(--mantine-primary-color-filled)",
-                color: "var(--mantine-primary-color-contrast)",
             },
 
             "&[data-combobox-selected]": {
                 backgroundColor: "var(--mantine-primary-color-filled)",
-                color: "var(--mantine-primary-color-contrast)",
             },
 
             "&[data-combobox-active]": {
                 backgroundColor: "var(--mantine-primary-color-filled)",
-                color: "var(--mantine-primary-color-contrast)",
             },
         },
     }),

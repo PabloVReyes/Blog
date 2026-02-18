@@ -6,6 +6,7 @@ import { useModalStore } from "@/layout"
 import { ActionsCarousel, AddCarousel } from "../components"
 import { Notify } from "@/ui"
 import { IconEye, IconEyeOff } from "@tabler/icons-react"
+import { useDebouncedValue } from "@mantine/hooks"
 
 const columns = [
     {
@@ -75,10 +76,11 @@ const columns = [
 export const Carousel = ({ id }: any) => {
     const { openModal } = useModalStore()
     const { fetch, items, search, setSearch, limit, setLimit, page, setPage, totalPages, totalItems, firstItem, lastItem, isLoading } = useCarouselStore()
+    const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
         handleFetch()
-    }, [search, limit, page])
+    }, [debounced, limit, page])
 
     const handleFetch = async () => {
         try {
@@ -110,6 +112,7 @@ export const Carousel = ({ id }: any) => {
             onAddElement={handleAdd}
             search
             searchValue={search}
+            searchPlaceholder="Buscar Carrusel..."
             onChangeSearch={setSearch}
             limit
             limitValue={limit}

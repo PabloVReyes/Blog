@@ -1,7 +1,6 @@
-import { IndicatorGroup, Switch } from "@/components"
+import { IndicatorGroup, ModalButtons, Switch } from "@/components"
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants"
-import { useModalStore } from "@/layout"
-import { Button, Divider, Fieldset, FileInput, Group, Stack, Text, TextInput } from "@mantine/core"
+import { Divider, Fieldset, FileInput, Stack, Text, TextInput } from "@mantine/core"
 
 interface Props {
     form: any
@@ -15,8 +14,6 @@ interface Props {
 }
 
 export const Form = ({ form, activeIndex, setActiveIndex, onSubmit, submitLabel, isLoading = false, fileName, imageName }: Props) => {
-    const { closeModal } = useModalStore()
-
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>
@@ -122,20 +119,10 @@ export const Form = ({ form, activeIndex, setActiveIndex, onSubmit, submitLabel,
                     }
                 </Fieldset>
 
-                <Group gap={5} justify="flex-end">
-                    <Button
-                        variant="outline"
-                        onClick={closeModal}
-                    >
-                        Cerrar
-                    </Button>
-                    <Button
-                        type="submit"
-                        loading={isLoading}
-                    >
-                        {submitLabel}
-                    </Button>
-                </Group>
+                <ModalButtons
+                    label={submitLabel}
+                    loading={isLoading}
+                />
             </Stack>
         </form>
     )

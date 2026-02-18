@@ -1,5 +1,5 @@
 import { ColorInput, ColorSwatch, Group, Stack, Text } from "@mantine/core"
-import { colorMap, colors } from "./colors"
+import { colorMap, colors } from "../../utils/colors"
 import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 
@@ -15,7 +15,6 @@ export const ColorSelect = ({
     useStore
 }: Props) => {
     const { color, setColor } = useStore ? useStore() : useState()
-
     return (
         <>
             {type === "default" &&

@@ -8,7 +8,7 @@ export const columns = [
         align: 'center',
         render: (row: any) => {
             return (
-                <Badge autoContrast color={row.color} size="sm">
+                <Badge color={row.color} size="sm">
                     {row.id}
                 </Badge>
             )

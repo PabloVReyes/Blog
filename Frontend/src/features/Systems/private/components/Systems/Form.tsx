@@ -1,9 +1,8 @@
 import type { UseFormReturnType } from "@mantine/form"
-import { Button, Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core";
+import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core";
 import * as TablerIcons from "@tabler/icons-react";
-import { ColorSelect, IconSelect, IndicatorGroup } from "@/components";
+import { ColorSelect, IconSelect, IndicatorGroup, ModalButtons } from "@/components";
 import type { SystemProps } from "@/features/Systems/types";
-import { useModalStore } from "@/layout";
 import { MAX_ACRONYM_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 
 interface Props {
@@ -17,8 +16,6 @@ interface Props {
 }
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading, activeIndex, setActiveIndex, fileName }: Props) => {
-    const { closeModal } = useModalStore()
-
     const Icon =
         form.values.icon &&
         (TablerIcons as any)[form.values.icon];
@@ -147,17 +144,10 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, activeIndex, setA
                     }
                 </Fieldset>
 
-                <Group gap={5} justify="flex-end">
-                    <Button variant="outline" onClick={closeModal}>
-                        Cancelar
-                    </Button>
-                    <Button
-                        type="submit"
-                        loading={isLoading}
-                    >
-                        {submitLabel}
-                    </Button>
-                </Group>
+                <ModalButtons
+                    label={submitLabel}
+                    loading={isLoading}
+                />
             </Stack>
         </form>
     )

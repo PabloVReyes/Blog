@@ -1,12 +1,11 @@
 import { Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/core";
 import * as TablerIcons from "@tabler/icons-react";
-import { downloadSystem } from "../api";
+import { downloadSystem } from "../../api";
 import styles from './System.module.css'
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const System = ({ id, icon, color, name, acronym, description, url, type }: any) => {
     const navigate = useNavigate()
-    const { pathname } = useLocation()
 
     const Icon =
         icon &&
@@ -46,7 +45,7 @@ export const System = ({ id, icon, color, name, acronym, description, url, type 
                 window.open(url, "_blank"); // o window.location.href = url;
             } else {
                 // interna SPA
-                const newUrl = `${pathname}${url}`
+                const newUrl = `/sistemas-de-consulta${url}`
                 navigate(newUrl);
             }
         }

@@ -12,7 +12,6 @@ export const ManualButton = ({ manual, rotate, size, onClick }: ManualButtonProp
 
     return (
         <Button
-            autoContrast
             size={size}
             color={manual.manualType.color}
             disabled={!manual.storedName}

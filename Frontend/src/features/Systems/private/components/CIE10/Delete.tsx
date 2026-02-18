@@ -1,10 +1,11 @@
-import { Alert, Button, Divider, Group, Stack, Text, TextInput } from "@mantine/core"
+import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled, IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 import { useCIE10Store } from "../../store"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
+import { ModalButtons } from "@/components"
 
 interface Props {
     id: string
@@ -12,7 +13,7 @@ interface Props {
 }
 
 export const Delete = ({ id, name }: Props) => {
-    const { closeModal, openModal } = useModalStore()
+    const { openModal } = useModalStore()
     const { remove } = useCIE10Store()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -95,18 +96,10 @@ export const Delete = ({ id, name }: Props) => {
                     {...form.getInputProps("value")}
                 />
 
-                <Group gap={5} justify="flex-end">
-                    <Button variant="outline" onClick={closeModal}>
-                        Cancelar
-                    </Button>
-                    <Button
-                        loading={loading}
-                        color="red"
-                        type="submit"
-                    >
-                        Eliminar
-                    </Button>
-                </Group>
+                <ModalButtons
+                    label="Eliminar"
+                    loading={loading}
+                />
             </Stack>
         </form>
     )

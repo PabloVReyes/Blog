@@ -1,8 +1,7 @@
 import { Badge, Flex, Group, Card as MantineCard, Stack, Text, ThemeIcon, Title, useMantineTheme } from "@mantine/core"
 import styles from "./Card.module.css"
-import * as TablerIcons from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import { colorMap } from "../ColorSelect/colors";
+import { colorMap } from "../../utils/colors";
 
 interface Props {
     card: "system" | "file" | "directory"
@@ -62,7 +61,6 @@ export const Card = ({
                 <Flex justify="space-between" align="flex-start">
                     <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
                         <ThemeIcon
-                            autoContrast
                             size={56}
                             variant="light"
                             className={`${styles.iconWrapper}`}

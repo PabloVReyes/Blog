@@ -126,7 +126,6 @@ export const Diagram = ({ setActiveTab }: Props) => {
             />
 
             <Button
-                autoContrast
                 size={isMobile ? "md" : "xl"}
                 color="orange.2"
                 style={{

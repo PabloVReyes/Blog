@@ -6,6 +6,7 @@ import { useModalStore } from "@/layout"
 import { ActionsAccessCard, AddAccessCard } from "../components"
 import { Notify } from "@/ui"
 import * as TableIcons from "@tabler/icons-react"
+import { useDebouncedValue } from "@mantine/hooks"
 
 const columns = [
     {
@@ -98,10 +99,11 @@ const columns = [
 export const AccessCard = ({ id }: any) => {
     const { openModal } = useModalStore()
     const { fetch, items, search, setSearch, page, limit, setLimit, totalPages, totalItems, firstItem, lastItem, setPage, isLoading } = useAccessCardStore()
+    const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
         handleFetch()
-    }, [search, page, limit])
+    }, [debounced, page, limit])
 
     const handleFetch = async () => {
         try {
@@ -109,7 +111,7 @@ export const AccessCard = ({ id }: any) => {
         } catch (error: any) {
             Notify({
                 type: "error",
-                title: "Error al obtener sistemas",
+                title: "Error al obtener Accesos Rápidos",
                 message: error.message
             })
         }
@@ -132,6 +134,7 @@ export const AccessCard = ({ id }: any) => {
             onAddElement={handleAdd}
             search
             searchValue={search}
+            searchPlaceholder="Buscar Acceso Rápido...."
             onChangeSearch={setSearch}
             limit
             limitValue={limit}

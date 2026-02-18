@@ -8,3 +8,12 @@ export {
     validateColor,
     validateIcon
 } from "./validators"
+
+export {
+    colorMap,
+    colors
+} from "./colors"
+
+export {
+    formatFileSize
+} from "./files"

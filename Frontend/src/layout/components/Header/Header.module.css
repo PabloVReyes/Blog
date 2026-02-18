@@ -14,12 +14,12 @@
 }
 
 .search:hover {
-    color: white;
+    color: light-dark(var(--mantine-primary-color-contrast), white);
     background-color: transparent;
 }
 
 .search {
-    color: white;
+    color: light-dark(var(--mantine-primary-color-contrast), white);
     background-color: transparent;
 }
 

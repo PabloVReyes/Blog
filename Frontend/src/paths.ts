@@ -13,6 +13,10 @@ export const paths = [
                 label: "CIE-10",
                 link: "/cie-10"
             },
+            {
+                label: "Informes Mensuales",
+                link: "/informes-mensuales"
+            }
         ]
     },
     {

@@ -130,6 +130,10 @@ export const puySystemController: RequestHandler = async (req, res) => {
     }
 }
 
+////////////
+// DELETE //
+////////////
+
 export const deleteSystemController: RequestHandler = async (req, res) => {
     try {
         const params = deleteSystemParamsSchema.parse(req.params)

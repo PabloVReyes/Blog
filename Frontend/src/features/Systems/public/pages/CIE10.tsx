@@ -61,6 +61,7 @@ export const CIE10 = () => {
                 search
                 searchValue={search}
                 onChangeSearch={setSearch}
+                searchPlaceholder="Buscar por clave o nombre..."
                 limit
                 limitValue={limit}
                 onChangeLimit={setLimit}

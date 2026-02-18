@@ -1,6 +1,6 @@
-import { IconSelect, Switch } from "@/components"
+import { IconSelect, ModalButtons, Switch } from "@/components"
 import { useModalStore } from "@/layout"
-import { Button, Divider, Group, Select, Stack, Text, TextInput } from "@mantine/core"
+import { Divider, Select, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconCheck } from "@tabler/icons-react"
 import styles from "./Edit.module.css"
@@ -18,7 +18,7 @@ const options = [
 ];
 
 export const Edit = ({ id, icon, isActive, title, description, author, color }: any) => {
-    const { closeModal, openModal } = useModalStore()
+    const { openModal } = useModalStore()
     const { update } = useAlertStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -157,20 +157,10 @@ export const Edit = ({ id, icon, isActive, title, description, author, color }: 
                     />
                 </div>
 
-                <Group gap={5} justify="flex-end">
-                    <Button
-                        variant="outline"
-                        onClick={closeModal}
-                    >
-                        Cerrar
-                    </Button>
-                    <Button
-                        loading={loading}
-                        type="submit"
-                    >
-                        Editar
-                    </Button>
-                </Group>
+                <ModalButtons
+                    loading={loading}
+                    label="Editar"
+                />
             </Stack>
         </form>
     )

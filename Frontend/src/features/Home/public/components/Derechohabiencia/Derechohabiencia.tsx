@@ -8,7 +8,7 @@ export const Derechohabiencia = ({ color, icon, title, description, links }: any
         (TablerIcons as any)[icon];
 
     return (
-        <Card padding={"lg"} h={"100%"} mih={"300px"}>
+        <Card padding={"lg"} h={"100%"}>
             <Stack h={"100%"}>
                 <div className={styles.item}>
                     <ThemeIcon variant="light" color={color} className={styles.itemIcon} size={45} radius="md">

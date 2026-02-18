@@ -1,7 +1,6 @@
-import { ColorSelect, IconSelect, IndicatorGroup, Switch } from "@/components"
+import { ColorSelect, IconSelect, IndicatorGroup, ModalButtons, Switch } from "@/components"
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants"
-import { useModalStore } from "@/layout"
-import { Button, Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
+import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import * as TablerIcons from "@tabler/icons-react";
 
 interface Props {
@@ -15,8 +14,6 @@ interface Props {
 }
 
 export const Form = ({ form, activeIndex, submitLabel, setActiveIndex, onSubmit, isLoading, fileName }: Props) => {
-    const { closeModal } = useModalStore()
-
     const Icon =
         form.values.icon &&
         (TablerIcons as any)[form.values.icon];
@@ -136,20 +133,10 @@ export const Form = ({ form, activeIndex, submitLabel, setActiveIndex, onSubmit,
                     }
                 </Fieldset>
 
-                <Group gap={5} justify="flex-end">
-                    <Button
-                        variant="outline"
-                        onClick={closeModal}
-                    >
-                        Cerrar
-                    </Button>
-                    <Button
-                        type="submit"
-                        loading={isLoading}
-                    >
-                        {submitLabel}
-                    </Button>
-                </Group>
+                <ModalButtons
+                    label={submitLabel}
+                    loading={isLoading}
+                />
             </Stack>
         </form >
     )

@@ -33,7 +33,7 @@ export const IconSelect = ({ form }: Props) => {
             }}
             withAsterisk
             label="Icono"
-            description="Icono que aparecerá en el menú lateral"
+            description="Icono que representa al elemento"
             placeholder="Escribe nombre del icono..."
             data={data.map((i) => i.label)}
             value={iconProps.value} // valor del formulario

@@ -62,7 +62,6 @@ export const ManualsGrid = ({ manuals }: Props) => {
                 return (
                     <Button
                         key={code}
-                        autoContrast
                         size="compact-xs"
                         w={50}
                         color={manual?.manualType.color || "gray"}

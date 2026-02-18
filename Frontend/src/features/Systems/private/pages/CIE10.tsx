@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { ActionsCIE10, AddCIE10 } from "../components"
 import { useModalStore } from "@/layout"
+import { useDebouncedValue } from "@mantine/hooks"
 
 const columns = [
     {
@@ -30,10 +31,11 @@ const columns = [
 export const CIE10 = () => {
     const { fetch, search, page, limit, items, isLoading, setSearch, setLimit, totalItems, totalPages, firstItem, lastItem, setPage } = useCIE10Store()
     const { openModal } = useModalStore()
+    const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
         handleFetch()
-    }, [search, page, limit])
+    }, [debounced, page, limit])
 
     const handleFetch = async () => {
         try {
@@ -67,6 +69,7 @@ export const CIE10 = () => {
                 onAddElement={handleAdd}
                 search
                 searchValue={search}
+                searchPlaceholder="Buscar por clave o nombre..."
                 onChangeSearch={setSearch}
                 limit
                 limitValue={limit}

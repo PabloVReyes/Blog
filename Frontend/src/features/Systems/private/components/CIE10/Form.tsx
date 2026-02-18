@@ -1,7 +1,7 @@
-import { Button, Divider, Group, Stack, Text, TextInput } from "@mantine/core";
-import { useModalStore } from "@/layout";
+import { Divider, Stack, Text, TextInput } from "@mantine/core";
 import { MAX_TITLE_LENGTH } from "@/constants";
 import { MAX_CODE_LENGTH } from "@/constants/inputs";
+import { ModalButtons } from "@/components";
 
 interface Props {
     form: any;
@@ -11,8 +11,6 @@ interface Props {
 }
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
-    const { closeModal } = useModalStore()
-
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>
@@ -53,17 +51,10 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                     />
                 </div>
 
-                <Group gap={5} justify="flex-end">
-                    <Button variant="outline" onClick={closeModal}>
-                        Cancelar
-                    </Button>
-                    <Button
-                        type="submit"
-                        loading={isLoading}
-                    >
-                        {submitLabel}
-                    </Button>
-                </Group>
+                <ModalButtons
+                    label={submitLabel}
+                    loading={isLoading}
+                />
             </Stack>
         </form>
     )

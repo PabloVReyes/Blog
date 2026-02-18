@@ -7,7 +7,6 @@
 
     &[data-active] {
         background-color: var(--mantine-primary-color-filled);
-        color: var(--mantine-primary-color-contrast);
         border-color: var(--mantine-primary-color-filled);
     }
 }

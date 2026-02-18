@@ -33,7 +33,6 @@ export const Autocomplete = {
             color: "light-dark(black, white)",
             "&[data-selected]": {
                 backgroundColor: "var(--mantine-primary-color-filled)",
-                color: "var(--mantine-primary-color-contrast)",
             },
             "&:hover": {
                 backgroundColor: "light-dark(oklch(95% 0.01 260), oklch(35% 0.04 260))",

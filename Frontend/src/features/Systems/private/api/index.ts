@@ -11,3 +11,10 @@ export {
     updateCIE10,
     deleteCIE10
 } from "./CIE10"
+
+export {
+    addMonthlyReports,
+    fetchMonthlyReports,
+    updateMonthlyReports,
+    deleteMonthlyReports
+} from "./MonthlyReports"

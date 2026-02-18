@@ -24,4 +24,6 @@ export interface SystemsState {
     isLoading: boolean
 }
 
-export interface CIE10State extends SystemsState {}
+export interface CIE10State extends SystemsState { }
+
+export interface MonthlyReportsState extends SystemsState { }

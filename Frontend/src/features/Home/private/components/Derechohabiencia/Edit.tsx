@@ -1,5 +1,5 @@
-import { ColorSelect, IconSelect } from "@/components"
-import { Button, Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
+import { ColorSelect, IconSelect, ModalButtons } from "@/components"
+import { Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import * as TablerIcons from "@tabler/icons-react";
 import { formRootRule, useForm } from "@mantine/form"
 import { useModalStore } from "@/layout";
@@ -10,7 +10,7 @@ import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { useState } from "react";
 
 export const Edit = ({ id, icon, color, title, description, links }: any) => {
-    const { closeModal, openModal } = useModalStore()
+    const { openModal } = useModalStore()
     const { update } = useDerechohabienciaStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -168,20 +168,10 @@ export const Edit = ({ id, icon, color, title, description, links }: any) => {
                     ))}
                 </Fieldset>
 
-                <Group gap={5} justify="flex-end">
-                    <Button
-                        onClick={closeModal}
-                        variant="outline"
-                    >
-                        Cerrar
-                    </Button>
-                    <Button
-                        loading={loading}
-                        type="submit"
-                    >
-                        Editar
-                    </Button>
-                </Group>
+                <ModalButtons
+                    label="Editar"
+                    loading={loading}
+                />
             </Stack>
         </form>
     )

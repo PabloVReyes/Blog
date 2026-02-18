@@ -74,7 +74,6 @@ export const ExtraManuals = ({ manuals, numberColums }: Props) => {
 
                     return (
                         <Button
-                            autoContrast
                             key={typeId}
                             size="compact-xs"
                             color={manual?.manualType.color || "gray"}
@@ -99,7 +98,6 @@ export const ExtraManuals = ({ manuals, numberColums }: Props) => {
 
                         return (
                             <Button
-                                autoContrast
                                 key={typeId}
                                 size="compact-xs"
                                 color={manual?.manualType.color || "gray"}

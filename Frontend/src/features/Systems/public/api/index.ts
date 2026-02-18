@@ -6,3 +6,9 @@ export {
 export {
     fecthCIE10
 } from "./CIE10"
+
+export {
+    fetchPeriods,
+    fetchMonthlyReports,
+    downloadMonthlyReports
+} from "./MonthlyReports"

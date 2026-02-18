@@ -61,7 +61,6 @@ export const Calendar = ({ id, title, color, year, description, fileName, icon }
                 </Text>
 
                 <Button
-                    autoContrast
                     mt={"auto"}
                     color={color}
                     leftSection={

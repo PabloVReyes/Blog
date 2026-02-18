@@ -6,6 +6,7 @@ import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
 import * as TablerIcons from "@tabler/icons-react"
 import { ActionsSystems, AddSystem } from "../components"
+import { useDebouncedValue } from "@mantine/hooks"
 
 const columns = [
     {
@@ -98,10 +99,11 @@ const columns = [
 export const Systems = () => {
     const { openModal } = useModalStore()
     const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSystemsStore()
+    const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
         handleFetch()
-    }, [search, page, limit])
+    }, [debounced, page, limit])
 
     const handleFetch = async () => {
         try {
@@ -133,6 +135,7 @@ export const Systems = () => {
                 search
                 searchValue={search}
                 onChangeSearch={setSearch}
+                searchPlaceholder="Buscar Sistema..."
                 limit
                 limitValue={limit}
                 onChangeLimit={setLimit}

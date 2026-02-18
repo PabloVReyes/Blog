@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getSettings, updateSettings } from "@/api/settings";
-import { colorMap } from "@/utils/colors";
+import { colorMap } from "@/utils";
 import type { TreeItems } from "@/features/sidebar/components/SortableTree/types";
 
 type ThemeType = "auto" | "dark" | "light";

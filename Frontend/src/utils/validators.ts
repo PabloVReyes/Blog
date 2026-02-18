@@ -134,7 +134,7 @@ export const validateName = (
         options || {};
 
     if (value === null || value === undefined || value === "") {
-        return required ? "Si no colocas un nombre corto, debes de colorcar un nombre" : null;
+        return required ? "Debes de introducir un nombre" : null;
     }
 
     if (value.length < 3) {

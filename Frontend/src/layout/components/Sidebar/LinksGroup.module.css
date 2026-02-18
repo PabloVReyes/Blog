@@ -22,7 +22,7 @@
         &,
         &:hover {
             background-color: var(--app-primary-color);
-            color: var(--mantine-color-white);
+            color: var(--mantine-primary-color-contrast);
 
             & .linkIcon {
                 color: light-dark(var(--mantine-color-black), var(--mantine-color-white));

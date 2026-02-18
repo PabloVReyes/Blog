@@ -4,23 +4,68 @@ import { components } from "./components";
 export const mantineTheme = (primaryColor: string = "blue") => createTheme({
     fontFamily: 'Inter, sans-serif',
     primaryColor,
+    autoContrast: true,
     colors: {
-        custom1: [
-            "#ebfff6",
-            "#d5feeb",
-            "#a6fdd4",
-            "#74fdbc",
-            "#52fda8",
-            "#41fd9b",
-            "#38fe93",
-            "#2de27f",
-            "#20c970",
-            "#00a65a"
+        darkGreen: [
+            "#e6fbf1", // 0
+            "#c9f3df", // 1
+            "#9fe7c6", // 2
+            "#6fdaab", // 3
+            "#47cf95", // 4
+            "#26c583", // 5
+            "#00a65a", // 6 ← base
+            "#008f4d", // 7
+            "#007640", // 8
+            "#005c32", // 9
+        ],
+        brown: [
+            "#f7f3f2", // 0
+            "#e8e6e5", // 1
+            "#d2c9c6", // 2
+            "#bdaaa4", // 3
+            "#ab9087", // 4
+            "#a17f74", // 5
+            "#9d766a", // 6
+            "#896459", // 7
+            "#7b594e", // 8
+            "#5d4037", // 9
+        ],
+        salmon: [
+            "#fff1ef", // 0
+            "#ffe3df", // 1
+            "#ffc9c2", // 2
+            "#ffada3", // 3
+            "#ff9488", // 4
+            "#ff7f73", // 5
+            "#FA8072", // 6 ← base
+            "#e46f62", // 7
+            "#c85f53", // 8
+            "#a94d44", // 9
+        ],
+        paleBlue: [
+            "#ecf4ff", // 0
+            "#dce4f5", // 1
+            "#b9c7e2", // 2
+            "#94a8d0", // 3
+            "#748dc0", // 4
+            "#5f7cb7", // 5
+            "#5474b4", // 6 ← base
+            "#44639f", // 7
+            "#3a5890", // 8
+            "#2c4b80", // 9
+        ],
+        skyBlue: [
+            "#e1f8ff", // 0
+            "#cbedff", // 1
+            "#9ad7ff", // 2
+            "#64c1ff", // 3
+            "#3aaefe", // 4
+            "#20a2fe", // 5
+            "#099cff", // 6 ← base
+            "#0088e4", // 7
+            "#0079cd", // 8
+            "#0068b6", // 9
         ]
-    },
-    primaryShade: {
-        light: 8,
-        dark: 9,
     },
     defaultRadius: 'md',
     headings: {
