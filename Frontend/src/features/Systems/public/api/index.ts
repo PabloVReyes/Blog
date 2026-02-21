@@ -12,3 +12,9 @@ export {
     fetchMonthlyReports,
     downloadMonthlyReports
 } from "./MonthlyReports"
+
+export {
+    fetchAgreementPerson,
+    fetchGroups,
+    fetchZones
+} from "./AgreementPerson"

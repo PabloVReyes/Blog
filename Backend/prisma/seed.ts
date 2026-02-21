@@ -11,7 +11,7 @@ async function main() {
 
     const settings = [
         { name: "title", value: "Blog" },
-        { name: "color", value: "teal" },
+        { name: "color", value: "custom1" },
         { name: "theme", value: "auto" },
         { name: "favicon", value: "" },
         // { name: "menu", value: menu }

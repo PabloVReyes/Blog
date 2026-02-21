@@ -39,3 +39,15 @@
 .option[data-combobox-selected] {
     background-color: var(--mantine-primary-color-filled) !important;
 }
+
+.limit {
+    transition: background-color 120ms ease;
+}
+
+.limit:hover {
+    background-color: var(--mantine-primary-color-filled) !important;
+}
+
+.limit[data-combobox-selected] {
+    background-color: var(--mantine-primary-color-filled) !important;
+}

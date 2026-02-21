@@ -20,7 +20,7 @@
     "zod": "^4.3.6"
   },
   "scripts": {
-    "db:seed": "prisma migrate reset --force && prisma db seed && yarn dev",
+    "db:seed": "prisma db seed",
     "db:reset": "prisma migrate reset --force",
     "db:migrate": "prisma migrate dev && prisma generate",
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/index.ts",

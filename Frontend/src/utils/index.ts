@@ -6,7 +6,10 @@ export {
     validateImage,
     validateYear,
     validateColor,
-    validateIcon
+    validateIcon,
+    validateCode,
+    validateName,
+    validateSelect
 } from "./validators"
 
 export {
@@ -17,3 +20,7 @@ export {
 export {
     formatFileSize
 } from "./files"
+
+export {
+    Highlight
+} from "./text"

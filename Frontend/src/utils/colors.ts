@@ -71,6 +71,8 @@ export const colorMap: Record<string, string> = {
     darkGreen: "#00a65a",
     paleBlue: "#5474b4",
     skyBlue: "#099cff",
+    brightBlue: "#0063ff",
+    custom1: "#59ada6",
     brown: "#9d766a",
     salmon: "#FA8072",
     teal: "#12B886",

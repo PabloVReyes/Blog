@@ -98,6 +98,9 @@ export const Panel = ({
                                 onChange={(value) => {
                                     onChangeLimit && onChangeLimit(Number(value));
                                 }}
+                                classNames={{
+                                    option: styles.limit
+                                }}
                                 w={{ base: "100%", sm: 150 }}
                             />
                         </Box>
@@ -119,6 +122,8 @@ export const Panel = ({
 
                     <Group justify="center">
                         <Pagination
+                            // boundaries={1}
+                            siblings={0}
                             gap={5}
                             classNames={styles}
                             total={totalPages}

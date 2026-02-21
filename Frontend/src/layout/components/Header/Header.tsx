@@ -1,4 +1,4 @@
-import { Button, Group, Kbd, useComputedColorScheme } from "@mantine/core"
+import { Burger, Button, Group, Kbd, useComputedColorScheme } from "@mantine/core"
 import styles from "./Header.module.css"
 import { IconBook, IconSearch } from "@tabler/icons-react"
 import { useHotkeys, useOs } from "@mantine/hooks"
@@ -9,10 +9,13 @@ import { useSettingStore } from "@/features"
 import { useModalStore } from "@/layout/store"
 
 interface Props {
-    expanded: boolean;
+    mobileOpen: boolean;
+    toggleSidebar: () => void;
+    isMobile: boolean;
 }
 
-export const Header = ({ expanded }: Props) => {
+
+export const Header = ({ isMobile, mobileOpen, toggleSidebar }: Props) => {
     const { setTheme } = useSettingStore();
     const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
@@ -62,23 +65,31 @@ export const Header = ({ expanded }: Props) => {
     return (
         <header className={styles.header}>
             <Group justify="space-between" h="100%">
-                <Button
-                    ml={"xs"}
-                    variant="subtle"
-                    onClick={handleSearch}
-                    className={styles.search}
-                    leftSection={
-                        <IconSearch />
-                    }
-                    rightSection={
-                        expanded &&
-                        <div dir="ltr">
-                            <Kbd className={styles.kbd} size={"xs"}>{os !== 'macos' ? "CTRL" : "COMMAND"}</Kbd> + <Kbd className={styles.kbd} size={"xs"}>K</Kbd>
-                        </div>
-                    }
-                >
-                    Buscar
-                </Button>
+                <Group gap={5} ml={"xs"}>
+                    {isMobile && (
+                        <Burger
+                            opened={mobileOpen}
+                            onClick={toggleSidebar}
+                            size="md"
+                        />
+                    )}
+                    <Button
+                        variant="subtle"
+                        onClick={handleSearch}
+                        className={styles.search}
+                        leftSection={
+                            <IconSearch />
+                        }
+                        rightSection={
+                            !isMobile &&
+                            <div dir="ltr">
+                                <Kbd className={styles.kbd} size={"xs"}>{os !== 'macos' ? "CTRL" : "COMMAND"}</Kbd> + <Kbd className={styles.kbd} size={"xs"}>K</Kbd>
+                            </div>
+                        }
+                    >
+                        Buscar
+                    </Button>
+                </Group>
 
                 <Button
                     mr={"sm"}
@@ -89,7 +100,7 @@ export const Header = ({ expanded }: Props) => {
                         <IconBook />
                     }
                     rightSection={
-                        expanded &&
+                        !isMobile &&
                         <div dir="ltr">
                             <Kbd className={styles.kbd} size={"xs"}>{os !== 'macos' ? "CTRL" : "COMMAND"}</Kbd> + <Kbd size={"xs"} className={styles.kbd}>SHIFT</Kbd> + <Kbd className={styles.kbd} size={"xs"}>D</Kbd>
                         </div>

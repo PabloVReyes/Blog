@@ -8,7 +8,7 @@ export const useCarouselStore = create<CarouselState>((set, get) => ({
     totalItems: 0,
     items: [],
     isLoading: false,
-    
+
     // Paginacion
     totalPages: 1,
 
@@ -27,16 +27,20 @@ export const useCarouselStore = create<CarouselState>((set, get) => ({
             set({ isLoading: true })
             const { page, limit, search } = get()
 
-            const {data, meta} = await fecthCarousel({ page, limit, search })
-            set({ 
-                items: data, 
-                totalItems: meta.total, 
+            const { data, meta } = await fecthCarousel({ page, limit, search })
+            set({
+                items: data,
+                totalItems: meta.total,
                 totalPages: meta.totalPages,
                 firstItem: meta.firstItem,
                 lastItem: meta.lastItem
             })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         } finally {
             set({ isLoading: false })
         }
@@ -50,7 +54,11 @@ export const useCarouselStore = create<CarouselState>((set, get) => ({
                 page: 1
             })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     },
 
@@ -62,7 +70,11 @@ export const useCarouselStore = create<CarouselState>((set, get) => ({
                 page: 1
             })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     },
 
@@ -81,7 +93,11 @@ export const useCarouselStore = create<CarouselState>((set, get) => ({
                 )
             }))
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     }
 }))

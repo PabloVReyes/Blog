@@ -277,3 +277,49 @@ enum ReportType {
   STATISTICAL
   EXTRA
 }
+
+model AgreementPerson {
+  id   Int        @id @default(autoincrement())
+  name String
+  type PersonType @default(HOLDER)
+
+  // Relaciones
+  // Quiénes son mis titulares (si soy dependiente)
+  parents  FamilyLink[] @relation("DependentToParents")
+  // Quiénes son mis dependientes (si soy titular)
+  children FamilyLink[] @relation("ParentToChildren")
+
+  zoneId  Int
+  zone    Zone  @relation(fields: [zoneId], references: [id])
+  groupId Int
+  group   Group @relation(fields: [groupId], references: [id])
+}
+
+model FamilyLink {
+  parentId    Int
+  dependentId Int
+
+  parent    AgreementPerson @relation("ParentToChildren", fields: [parentId], references: [id])
+  dependent AgreementPerson @relation("DependentToParents", fields: [dependentId], references: [id])
+
+  @@id([parentId, dependentId]) // Llave primaria compuesta
+}
+
+model Zone {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  persons AgreementPerson[]
+}
+
+model Group {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  persons AgreementPerson[]
+}
+
+enum PersonType {
+  HOLDER
+  DEPENDENT
+}

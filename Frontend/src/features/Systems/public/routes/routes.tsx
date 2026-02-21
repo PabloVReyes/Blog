@@ -1,5 +1,5 @@
 import type { RouteObject } from "react-router-dom";
-import { CIE10, MonthlyReports, Systems } from "../pages";
+import { AgreementPerson, CIE10, MonthlyReports, Systems } from "../pages";
 
 export const systemsPublicRoutes: RouteObject = {
     path: "sistemas-de-consulta",
@@ -15,6 +15,10 @@ export const systemsPublicRoutes: RouteObject = {
         {
             path: "informes-mensuales",
             element: <MonthlyReports />
+        },
+        {
+            path: "pacientes-convenio",
+            element: <AgreementPerson />
         }
     ]
 }

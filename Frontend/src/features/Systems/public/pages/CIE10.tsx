@@ -3,19 +3,35 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect, useState } from "react"
 import { fecthCIE10 } from "../api"
 import { Notify } from "@/ui"
+import { Text } from "@mantine/core"
+import { Highlight } from "@/utils"
 
-const columns = [
+const columns = (search: string) => [
     {
         key: "id",
         label: "Clave",
         align: "left",
         miw: 100,
+        render: (row: any) => {
+            return (
+                <Text size="sm">
+                    <Highlight text={row.id} query={search} />
+                </Text>
+            )
+        }
 
     },
     {
         key: 'name',
         label: 'Nombre',
         align: 'left',
+        render: (row: any) => {
+            return (
+                <Text size="sm">
+                    <Highlight text={row.name} query={search} />
+                </Text>
+            )
+        }
     },
 ]
 
@@ -74,7 +90,7 @@ export const CIE10 = () => {
                 pageValue={page}
             >
                 <Table
-                    columns={columns}
+                    columns={columns(search)}
                     data={data.data}
                     isLoading={loading}
                 />

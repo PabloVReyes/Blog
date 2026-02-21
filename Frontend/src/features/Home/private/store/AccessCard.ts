@@ -36,7 +36,11 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
                 lastItem: meta.lastItem
             })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         } finally {
             set({ isLoading: false })
         }
@@ -50,7 +54,11 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
                 page: 1
             })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     },
 
@@ -62,7 +70,11 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
                 page: 1
             })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     },
 
@@ -81,7 +93,11 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
                 )
             }))
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     }
 }))

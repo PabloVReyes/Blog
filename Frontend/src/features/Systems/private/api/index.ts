@@ -18,3 +18,15 @@ export {
     updateMonthlyReports,
     deleteMonthlyReports
 } from "./MonthlyReports"
+
+export {
+    fetchAgreementPerson,
+    fetchAgreementPersonHolders,
+    fetchGroups,
+    fetchZones,
+    addGroup,
+    addZone,
+    updateAgreementPerson,
+    deleteAgreementPerson,
+    addAgreementPerson
+} from "./AgreementPerson"

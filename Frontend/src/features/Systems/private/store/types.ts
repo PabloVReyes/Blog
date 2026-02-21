@@ -27,3 +27,8 @@ export interface SystemsState {
 export interface CIE10State extends SystemsState { }
 
 export interface MonthlyReportsState extends SystemsState { }
+
+export type AgreementPersonState = Omit<SystemsState, "update" | "remove"> & {
+    update: (id: number, data: any) => Promise<void>;
+    remove: (id: number) => Promise<void>;
+}

@@ -36,26 +36,31 @@ interface GetCie10RepositoryProps {
 }
 
 export const getCie10Repository = async ({ search, take, skip }: GetCie10RepositoryProps) => {
-    const where = {
-        ...(search && {
-            OR: [
-                { id: { contains: search } },
-                { name: { contains: search } },
-            ],
-        }),
+    try {
+        const where = {
+            ...(search && {
+                OR: [
+                    { id: { contains: search } },
+                    { name: { contains: search } },
+                ],
+            }),
+        }
+
+        const [data, total] = await Promise.all([
+            database.cie10.findMany({
+                where,
+                orderBy: { id: "asc" },
+                ...(take !== undefined && { take }),
+                ...(skip !== undefined && { skip }),
+            }),
+            database.cie10.count({ where }),
+        ])
+
+        return { data, total }
+    } catch (error) {
+        console.error("Error en getCie10Repository", error)
+        throw new Error("Error al obtener enfermedades")
     }
-
-    const [data, total] = await Promise.all([
-        database.cie10.findMany({
-            where,
-            orderBy: { id: "asc" },
-            ...(take !== undefined && { take }),
-            ...(skip !== undefined && { skip }),
-        }),
-        database.cie10.count({ where }),
-    ])
-
-    return { data, total }
 }
 
 ////////////
@@ -96,7 +101,7 @@ export const deleteCie10Repository = async (id: string) => {
                 id
             },
         })
-        
+
         return true
     } catch (error) {
         console.error("Error en postCie10Repository", error)

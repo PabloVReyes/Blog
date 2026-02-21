@@ -34,7 +34,11 @@ export const useAreasStore = create<AreasState>((set, get) => ({
 
             set({ areas: data, totalItems: count })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         } finally {
             set({ isLoading: false })
         }
@@ -55,7 +59,11 @@ export const useAreasStore = create<AreasState>((set, get) => ({
                 )
             }))
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     }
 }))

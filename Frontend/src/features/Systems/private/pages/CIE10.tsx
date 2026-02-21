@@ -29,7 +29,21 @@ const columns = [
 
 
 export const CIE10 = () => {
-    const { fetch, search, page, limit, items, isLoading, setSearch, setLimit, totalItems, totalPages, firstItem, lastItem, setPage } = useCIE10Store()
+    const { 
+        fetch, 
+        search, 
+        page, 
+        limit, 
+        items, 
+        isLoading, 
+        setSearch, 
+        setLimit, 
+        totalItems, 
+        totalPages, 
+        firstItem, 
+        lastItem, 
+        setPage 
+    } = useCIE10Store()
     const { openModal } = useModalStore()
     const [debounced] = useDebouncedValue(search, 500)
 

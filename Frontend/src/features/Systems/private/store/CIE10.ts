@@ -35,7 +35,11 @@ export const useCIE10Store = create<CIE10State>((set, get) => ({
                 lastItem: meta.lastItem
             })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         } finally {
             set({ isLoading: false })
         }
@@ -49,7 +53,11 @@ export const useCIE10Store = create<CIE10State>((set, get) => ({
                 page: 1
             })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     },
 
@@ -61,7 +69,11 @@ export const useCIE10Store = create<CIE10State>((set, get) => ({
                 page: 1
             })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     },
 
@@ -79,7 +91,11 @@ export const useCIE10Store = create<CIE10State>((set, get) => ({
                 )
             }))
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     }
 }))

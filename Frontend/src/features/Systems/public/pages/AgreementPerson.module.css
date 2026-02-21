@@ -1,0 +1,68 @@
+/* Contenedor del item: mantiene border-radius y overflow */
+.accordionItem {
+    background-color: light-dark(white, oklch(27.8% 0.033 256.848));
+    border-radius: 15px;
+    box-shadow: var(--mantine-shadow-xl);
+    border: 1px solid light-dark(oklch(92.8% 0.006 264.531), oklch(37.3% 0.034 259.733));
+    overflow: hidden;
+    /* evita que los panels sobresalgan */
+}
+
+/* Control (solo el header) */
+.accordionControl {
+    border-radius: 15px 15px 0 0;
+    /* solo esquinas superiores */
+    transition: background-color 0.2s;
+}
+
+.accordionControl:hover {
+    background-color: light-dark(oklch(98.5% 0.002 247.839),
+            oklch(37.3% 0.034 259.733 / 0.5));
+}
+
+/* Panel de contenido */
+.accordionPanel {
+    padding-left: 64px;
+    border-top: 1px solid light-dark(oklch(92.8% 0.006 264.531),
+            oklch(37.3% 0.034 259.733));
+    background-color: light-dark(oklch(98.5% 0.002 247.839),
+            oklch(21% 0.034 264.665 / 0.3));
+    transition: background-color 0.2s;
+}
+
+.accordionPanel:hover {
+    background-color: light-dark(oklch(96.7% 0.003 264.542),
+            oklch(27.8% 0.033 256.848 / 0.5));
+}
+
+/* Solo el último panel dentro de un item obtiene border-radius inferior */
+.accordionItem .accordionPanel:last-of-type {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.accordionControl .chevron-placeholder {
+    width: 24px;
+    /* ancho igual al chevron */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.iconWrapper {
+    transition: all 0.3s ease;
+
+    /* estado inicial “light” */
+    background-color: 0.1;
+}
+
+/* Hover sobre la Card */
+.accordionControl:hover .iconWrapper {
+    background-color: var(--icon-rgb);
+    color: white;
+}
+
+.accordionPanel:hover .iconWrapper {
+    background-color: var(--icon-rgb);
+    color: white;
+}

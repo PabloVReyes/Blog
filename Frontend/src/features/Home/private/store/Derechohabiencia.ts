@@ -18,7 +18,11 @@ export const useDerechohabienciaStore = create<DerechohabienciaState>((set) => (
 
             set({ items: data })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         } finally {
             set({ isLoading: false })
         }
@@ -39,7 +43,11 @@ export const useDerechohabienciaStore = create<DerechohabienciaState>((set) => (
                 )
             }))
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     }
 }))

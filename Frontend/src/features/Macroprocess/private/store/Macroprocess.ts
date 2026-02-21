@@ -34,7 +34,11 @@ export const useMacroprocessStore = create<MacroprocessState>((set, get) => ({
 
             set({ manuals: data, totalItems: count })
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         } finally {
             set({ isLoading: false })
         }
@@ -56,7 +60,11 @@ export const useMacroprocessStore = create<MacroprocessState>((set, get) => ({
             }))
 
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     },
 
@@ -75,7 +83,11 @@ export const useMacroprocessStore = create<MacroprocessState>((set, get) => ({
                 )
             }))
         } catch (error: any) {
-            throw new Error(error)
+            const message =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Error desconocido"
+            throw new Error(message)
         }
     }
 }))

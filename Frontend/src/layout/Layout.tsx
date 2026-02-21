@@ -1,47 +1,62 @@
 import { Box } from "@mantine/core";
 import styles from "./Layout.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react"; // Añadido useRef
 import { useMediaQuery } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
 import { Header, Modal, Settings, Sidebar } from "./components";
 
 export const Layout = () => {
     const isMobile = useMediaQuery("(max-width: 780px)");
-    const [expanded, setExpanded] = useState(() => !isMobile);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    
+    // 1. Referencia al contenedor que tiene 'overflow: auto'
+    const viewportRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setExpanded(!isMobile);
+        document.body.style.overflow = mobileOpen ? "hidden" : "";
+    }, [mobileOpen]);
+
+    useEffect(() => {
+        if (isMobile) setMobileOpen(false);
     }, [isMobile]);
+
+    const toggleSidebar = () => {
+        setMobileOpen(prev => !prev);
+    };
 
     return (
         <Box className={styles.layout}>
+            {isMobile && mobileOpen && (
+                <div
+                    className={styles.overlay}
+                    onClick={() => setMobileOpen(false)}
+                />
+            )}
 
-            {/* Sidebar */}
             <Box
                 className={`
-          ${styles.sidebar}
-          ${expanded ? styles.sidebarExpanded : styles.sidebarCollapsed}
-          ${isMobile ? styles.sidebarHidden : ""}
-        `}
+                    ${styles.sidebar}
+                    ${!isMobile ? styles.sidebarDesktop : ""}
+                    ${isMobile && mobileOpen ? styles.sidebarMobileOpen : ""}
+                `}
             >
-                <Box
-                    className={`
-            ${styles.sidebarLayer}
-            ${expanded ? styles.layerVisible : styles.layerHidden}
-          `}
-                >
-                    <Sidebar />
-                </Box>
+                <Sidebar />
             </Box>
 
-            {/* Content */}
             <Box className={styles.content}>
                 <Header
-                    expanded={expanded}
+                    toggleSidebar={toggleSidebar}
+                    mobileOpen={mobileOpen}
+                    isMobile={isMobile}
                 />
-                <Settings />
+
+                {/* 2. Pasamos la referencia a Settings */}
+                <Settings scrollContainer={viewportRef} />
+                
                 <Modal />
-                <main className={styles.main}>
+
+                {/* 3. Asignamos la ref al elemento main */}
+                <main className={styles.main} ref={viewportRef}>
                     <Outlet />
                 </main>
             </Box>

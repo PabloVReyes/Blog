@@ -162,18 +162,19 @@ export const MonthlyReports = () => {
                 {/* Content */}
                 <Stack flex={1} gap="md" w={"100%"}>
                     {/* Search Bar */}
-                    <Card withBorder radius="md">
+                    <Card>
                         <Flex
                             justify="space-between"
                             direction={{ base: "column", sm: "row" }}
                             gap="md"
+                            style={{ alignItems: "center" }}
                         >
                             <TextInput
                                 placeholder="Buscar informes..."
                                 leftSection={<IconSearch size={18} />}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                miw={300}
+                                w={{ base: "100%", sm: 300 }}
                                 styles={{
                                     input: {
                                         background:

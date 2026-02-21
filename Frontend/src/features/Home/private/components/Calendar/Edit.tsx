@@ -7,8 +7,7 @@ import { useCalendarStore } from "../../store";
 import { Notify } from "@/ui";
 import { validateColor, validateDescription, validateIcon, validateTitle, validateYear } from "@/utils";
 import { useState } from "react";
-import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
-import { MAX_YEAR_LENGTH } from "@/constants/inputs";
+import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 
 export const Edit = ({ id, icon, color, title, description, year, fileName }: any) => {
     const [loading, setLoading] = useState<boolean>(false)

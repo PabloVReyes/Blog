@@ -36,6 +36,22 @@ export const validateUrl = (
     return null;
 };
 
+export const validateSelect = (
+    value: string | number | null,
+    options?: {
+        required?: boolean;
+        allowRelative?: boolean;
+    }
+) => {
+    const { required = false } = options || {};
+
+    if (!value) {
+        return required ? "Seleccionar una opción" : null;
+    }
+
+    return null;
+};
+
 // Validacion de archivos PDF con opciones para requerirlo, permitir solo relativos o considerar un archivo existente
 const DEFAULT_MAX_SIZE = 5 * 1024 * 1024; // 5MB
 

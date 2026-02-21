@@ -1,6 +1,5 @@
 import { Divider, FileInput, Select, Stack, Text, TextInput } from "@mantine/core";
-import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
-import { MAX_YEAR_LENGTH } from "@/constants/inputs";
+import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 import { ModalButtons } from "@/components";
 
 interface Props {

@@ -1,6 +1,4 @@
-/* ===============================
-   Layout base
-   =============================== */
+/* Layout base */
 
 .layout {
     display: flex;
@@ -8,69 +6,28 @@
     overflow: hidden;
 }
 
-/* ===============================
-   Sidebar
-   =============================== */
+/* Sidebar */
 
 .sidebar {
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-    transition: width 0.35s ease;
     background-color: var(--background);
+    height: 100%;
+    transition: transform 0.3s ease;
 }
 
-.sidebarExpanded {
+/* Desktop sidebar siempre visible */
+
+.sidebarDesktop {
     width: 256px;
     min-width: 256px;
 }
 
-.sidebarCollapsed {
-    width: 80px;
-    min-width: 80px;
-}
-
-/* Sidebar hidden in mobile */
-
-.sidebarHidden {
-    width: 0 !important;
-    min-width: 0 !important;
-    border-right: none;
-}
-
-/* ===============================
-   Sidebar layers
-   =============================== */
-
-.sidebarLayer {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    transition: opacity 0.25s ease;
-}
-
-.layerVisible {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.layerHidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* ===============================
-   Content
-   =============================== */
+/* Content */
 
 .content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    width: 100%;
     min-width: 0;
-    /* importante para overflow correcto */
 }
 
 .main {
@@ -79,13 +36,30 @@
     padding: 16px;
 }
 
-/* ===============================
-   Responsive fallback
-   =============================== */
+/* Mobile */
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
     .sidebar {
-        width: 0;
-        min-width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 260px;
+        height: 100vh;
+        transform: translateX(-100%);
+        z-index: 1000;
+        background-color: var(--background);
     }
+
+    .sidebarMobileOpen {
+        transform: translateX(0);
+    }
+}
+
+/* Overlay oscuro */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 999;
 }

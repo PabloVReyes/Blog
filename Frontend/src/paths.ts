@@ -16,7 +16,11 @@ export const paths = [
             {
                 label: "Informes Mensuales",
                 link: "/informes-mensuales"
-            }
+            },
+            {
+                label: "Pacientes de Convenio",
+                link: "/pacientes-convenio"
+            },
         ]
     },
     {
