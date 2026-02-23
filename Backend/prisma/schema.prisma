@@ -323,3 +323,21 @@ enum PersonType {
   HOLDER
   DEPENDENT
 }
+
+model Cbim {
+  id          String     @id @default(uuid())
+  code        String     @unique
+  name        String     @db.LongText
+  description String     @db.LongText
+  sp          String?
+  fpgc        String?
+  cbt_cae     CBTCAEType @default(CAE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CBTCAEType {
+  CAE
+  CBT
+}

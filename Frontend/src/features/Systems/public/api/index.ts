@@ -18,3 +18,7 @@ export {
     fetchGroups,
     fetchZones
 } from "./AgreementPerson"
+
+export {
+    fectCBIM
+} from "./CBIM"

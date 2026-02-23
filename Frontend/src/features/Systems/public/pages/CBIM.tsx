@@ -1,0 +1,148 @@
+import { Container, Panel, Table } from "@/components"
+import { useDebouncedValue } from "@mantine/hooks"
+import { useEffect, useState } from "react"
+import { fectCBIM } from "../api"
+import { Notify } from "@/ui"
+import { Text } from "@mantine/core"
+import { Highlight } from "@/utils"
+
+const columns = (search: string) => [
+    {
+        key: "code",
+        label: "Clave",
+        align: "left",
+        miw: 100,
+        render: (row: any) => {
+            return (
+                <Text size="sm">
+                    <Highlight text={row.code} query={search} />
+                </Text>
+            )
+        }
+
+    },
+    {
+        key: 'name',
+        label: 'Nombre',
+        align: 'left',
+        render: (row: any) => {
+            return (
+                <Text size="sm">
+                    <Highlight text={row.name} query={search} />
+                </Text>
+            )
+        }
+    },
+    {
+        key: 'description',
+        label: 'Presentación',
+        align: 'left',
+        render: (row: any) => {
+            return (
+                <Text size="sm">
+                    <Highlight text={row.description} query={search} />
+                </Text>
+            )
+        }
+    },
+    {
+        key: 'sp',
+        label: 'SP',
+        align: 'left',
+        render: (row: any) => {
+            if (!row.sp) {
+                return <Text size="xs" c="dimmed">--</Text>
+            }
+
+            return (
+                <Text size="sm">
+                    <Highlight text={row.sp} query={search} />
+                </Text>
+            )
+        }
+    },
+    {
+        key: 'fpgc',
+        label: 'FPGC',
+        align: 'center',
+        render: (row: any) => {
+            if (!row.fpgc) {
+                return <Text size="xs" c="dimmed">--</Text>
+            }
+
+            return (
+                <Text size="sm">
+                    <Highlight text={row.fpgc} query={search} />
+                </Text>
+            )
+        }
+    },
+    {
+        key: 'cbt_cae',
+        label: 'CBT CAE',
+        align: 'center',
+    },
+]
+
+export const CBIM = () => {
+    const [search, setSearch] = useState<string>("")
+    const [data, setData]: any = useState<any[]>([])
+    const [page, setPage]: any = useState<number>(1)
+    const [limit, setLimit] = useState<number>(10)
+    const [debounced] = useDebouncedValue(search, 500)
+    const [loading, setLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        handleFetch()
+    }, [limit, page])
+
+    useEffect(() => {
+        setPage(1)
+        handleFetch()
+    }, [debounced])
+
+    const handleFetch = async () => {
+        try {
+            setLoading(true)
+            await fectCBIM({ page, limit, search }).then(setData)
+        } catch (error: any) {
+            Notify({
+                type: "error",
+                title: "Error al obtener Cuadro Basico de Medicamentos",
+                message: error.message
+            })
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return (
+        <Container
+            title="Cuadro Básico Integral de Medicamentos"
+            description="Herramienta normativa en México que agrupa, bajo criterios de eficacia, seguridad y calidad, los medicamentos esenciales necesarios para la atención médica en las instituciones públicas"
+        >
+            <Panel
+                search
+                searchValue={search}
+                onChangeSearch={setSearch}
+                searchPlaceholder="Buscar por clave o nombre..."
+                limit
+                limitValue={limit}
+                onChangeLimit={setLimit}
+                page
+                firstItem={data?.meta?.firstItem}
+                lastItem={data?.meta?.lastItem}
+                totalItems={data?.meta?.total}
+                totalPages={data?.meta?.totalPages}
+                onChangePage={setPage}
+                pageValue={page}
+            >
+                <Table
+                    columns={columns(search)}
+                    data={data.data}
+                    isLoading={loading}
+                />
+            </Panel>
+        </Container>
+    )
+}

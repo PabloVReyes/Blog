@@ -5,7 +5,8 @@ import path from "path";
 import { sanitizeFileName } from "@/routes/macroprocess.routes";
 import cie10Rutes from "./cie10/cie10.routes"
 import monthlyReportsRoutes from "./monthlyReports/monthlyReports.routes"
-import agreementPerson from "./agreementPerson/agreementPerson.routes"
+import agreementPersonRoutes from "./agreementPerson/agreementPerson.routes"
+import cbimRoutes from "./cbim/cbim.routes"
 
 const router: Router = Router()
 
@@ -42,6 +43,7 @@ router.delete("/:id", controller.deleteSystemController)
 
 router.use("/cie-10", cie10Rutes)
 router.use("/monthly-reports", monthlyReportsRoutes)
-router.use("/agreement-person", agreementPerson)
+router.use("/agreement-person", agreementPersonRoutes)
+router.use("/cbim", cbimRoutes)
 
 export default router;

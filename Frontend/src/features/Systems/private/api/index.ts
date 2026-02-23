@@ -30,3 +30,10 @@ export {
     deleteAgreementPerson,
     addAgreementPerson
 } from "./AgreementPerson"
+
+export {
+    fectCBIM,
+    updateCBIM,
+    addCBIM,
+    deleteCBIM
+} from "./CBIM"

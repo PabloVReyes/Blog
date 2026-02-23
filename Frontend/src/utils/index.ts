@@ -9,7 +9,8 @@ export {
     validateIcon,
     validateCode,
     validateName,
-    validateSelect
+    validateSelect,
+    validateCodeMedicine
 } from "./validators"
 
 export {

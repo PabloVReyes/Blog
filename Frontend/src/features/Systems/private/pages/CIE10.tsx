@@ -71,7 +71,6 @@ export const CIE10 = () => {
         })
     }
 
-
     return (
         <Container
             title="Clasificación internacional de enfermedades"

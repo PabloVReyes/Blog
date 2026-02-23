@@ -21,6 +21,10 @@ export const paths = [
                 label: "Pacientes de Convenio",
                 link: "/pacientes-convenio"
             },
+            {
+                label: "CBIM - CAE",
+                link: "/cbim"
+            },
         ]
     },
     {

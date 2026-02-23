@@ -32,3 +32,5 @@ export type AgreementPersonState = Omit<SystemsState, "update" | "remove"> & {
     update: (id: number, data: any) => Promise<void>;
     remove: (id: number) => Promise<void>;
 }
+
+export interface CBIMState extends SystemsState { }

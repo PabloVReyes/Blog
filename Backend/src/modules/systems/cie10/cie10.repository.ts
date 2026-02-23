@@ -86,12 +86,12 @@ export const putCie10Repository = async ({ id, name, code }: PutCie10RepositoryP
         })
     } catch (error) {
         console.error("Error en postCie10Repository", error)
-        throw new Error("Error al crear el enfermedad")
+        throw new Error("Error al editar la enfermedad")
     }
 }
 
 ////////////
-// UPDATE //
+// DELETE //
 ////////////
 
 export const deleteCie10Repository = async (id: string) => {
@@ -104,7 +104,7 @@ export const deleteCie10Repository = async (id: string) => {
 
         return true
     } catch (error) {
-        console.error("Error en postCie10Repository", error)
-        throw new Error("Error al crear el enfermedad")
+        console.error("Error en deleteCie10Repository", error)
+        throw new Error("Error al eliminar el enfermedad")
     }
 }

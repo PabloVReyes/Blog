@@ -1,5 +1,6 @@
 // Regex para URL absoluta (https://...) o relativa (/hola)
 export const URL_REGEX = /^(https?:\/\/[^\s]+|\/[^\s]*)$/;
+export const MEDICAL_CODE_REGEX = /^\d{3}\.\d{3}\.\d{4}\.\d{2}$/;
 
 // Validaciones comunes
 export const validateTitle = (value: string) =>
@@ -7,6 +8,9 @@ export const validateTitle = (value: string) =>
 
 export const validateDescription = (value: string) =>
     value.length < 3 ? "La descripción debe tener al menos 3 caracteres" : null;
+
+export const validatePresentation = (value: string) =>
+    value.length < 3 ? "La presentación debe tener al menos 3 caracteres" : null;
 
 export const validateIcon = (value: string) =>
     value.length < 3 ? "Selecciona el Icono" : null;
@@ -157,3 +161,20 @@ export const validateName = (
         return "El nombre debe tener al menos 3 caracteres"
     }
 }
+
+export const validateCodeMedicine = (
+    value: string,
+    options?: {
+        required?: boolean;
+    }
+) => {
+    const { required = false } =
+        options || {};
+
+    if (value === null || value === undefined || value === "") {
+        return required ? "Debes de introducir la clave" : null;
+    }
+
+    if (!MEDICAL_CODE_REGEX.test(value)) return "La clave no es válida";
+}
+
