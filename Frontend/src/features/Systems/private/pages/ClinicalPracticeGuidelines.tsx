@@ -17,13 +17,6 @@ const columns = [
         key: "title",
         label: "Título",
         align: 'left',
-        // render: (row: any) => {
-        //     if (!row.description) {
-        //         return <Text size="xs" c="dimmed">------</Text>
-        //     }
-
-        //     return <Text size="sm">{row.description}</Text>
-        // }
     },
     {
         key: "cateogry",

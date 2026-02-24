@@ -29,6 +29,10 @@ export const paths = [
                 label: "GPC Cenetec",
                 link: "/guias-practica-clinica"
             },
+            {
+                label: "Algoritmos PBM",
+                link: "/pbm"
+            }
         ]
     },
     {

@@ -25,3 +25,7 @@ export {
 export {
     Highlight
 } from "./text"
+
+export {
+    catMessages
+} from "./cat"

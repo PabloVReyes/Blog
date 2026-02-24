@@ -197,7 +197,7 @@ export const putClinicalPracticeGuidelinesReporisory = async ({
 // DELETE //
 ////////////
 
-export const deleteClinicalPracticeGuidelinesReporisory = async (id: string) => {
+export const deleteClinicalPracticeGuidelinesRepository = async (id: string) => {
     try {
         return await database.clinicalPracticeGuidelines.delete({ where: { id } })
     } catch (error) {

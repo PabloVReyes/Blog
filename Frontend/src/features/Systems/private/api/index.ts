@@ -46,3 +46,10 @@ export {
     updateGuide,
     deleteGuide
 } from "./ClinicalPracticeGuidelines"
+
+export {
+    addPBM,
+    fetchPBM,
+    updatePBM,
+    deletePBM
+} from "./PBM"

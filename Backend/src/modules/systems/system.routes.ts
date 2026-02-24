@@ -8,6 +8,7 @@ import monthlyReportsRoutes from "./monthlyReports/monthlyReports.routes"
 import agreementPersonRoutes from "./agreementPerson/agreementPerson.routes"
 import cbimRoutes from "./cbim/cbim.routes"
 import clinicalPracticeGuidelinesRoutes from "./clinicalPracticeGuidelines/clinicalPracticeGuidelines.routes"
+import pbmRoutes from "./pmb/pbm.routes"
 
 const router: Router = Router()
 
@@ -47,5 +48,6 @@ router.use("/monthly-reports", monthlyReportsRoutes)
 router.use("/agreement-person", agreementPersonRoutes)
 router.use("/cbim", cbimRoutes)
 router.use("/clinical-practice-guidelines", clinicalPracticeGuidelinesRoutes)
+router.use("/pbm", pbmRoutes)
 
 export default router;

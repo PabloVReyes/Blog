@@ -8,7 +8,7 @@ import { Header, Modal, Settings, Sidebar } from "./components";
 export const Layout = () => {
     const isMobile = useMediaQuery("(max-width: 780px)");
     const [mobileOpen, setMobileOpen] = useState(false);
-    
+
     // 1. Referencia al contenedor que tiene 'overflow: auto'
     const viewportRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +52,7 @@ export const Layout = () => {
 
                 {/* 2. Pasamos la referencia a Settings */}
                 <Settings scrollContainer={viewportRef} />
-                
+
                 <Modal />
 
                 {/* 3. Asignamos la ref al elemento main */}

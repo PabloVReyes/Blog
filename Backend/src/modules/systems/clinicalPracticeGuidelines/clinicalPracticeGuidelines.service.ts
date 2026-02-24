@@ -170,7 +170,7 @@ export const daleteClinicalPracticeGuidelinesService = async (id: string) => {
         await fs.unlink(ClinicalPracticeGuideline.filePathRR).catch(() => { });
     }
 
-    await repo.deleteClinicalPracticeGuidelinesReporisory(id)
+    await repo.deleteClinicalPracticeGuidelinesRepository(id)
 
     return true
 }

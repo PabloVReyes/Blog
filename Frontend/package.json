@@ -50,6 +50,7 @@
     "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "lodash.throttle": "^4.1.1",
+    "lottie-react": "^2.4.1",
     "path": "^0.12.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

@@ -28,3 +28,8 @@ export {
     fetchGuides,
     downloadGuide
 } from "./ClinicalPracticeGuidelines"
+
+export {
+    fetchPBM,
+    downloadPBM
+} from "./PBM"

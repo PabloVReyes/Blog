@@ -7,6 +7,7 @@ import { Divider } from "./Divider";
 import { Fieldset } from "./FieldSet";
 import { FileInput } from "./FileInput";
 import { InputBase } from "./InputBase";
+import { Menu } from "./Menu";
 import { Modal } from "./Modal";
 import { Select } from "./Select";
 import { TextInput } from "./TextInput";
@@ -27,4 +28,5 @@ export const components = {
     Divider,
     Autocomplete,
     ColorInput,
+    Menu
 }

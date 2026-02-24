@@ -1,5 +1,5 @@
 import { type RouteObject } from "react-router-dom";
-import { AgreementPerson, CBIM, CIE10, ClinicalPracticeGuidelines, MonthlyReports, Systems } from "../pages";
+import { AgreementPerson, CBIM, CIE10, ClinicalPracticeGuidelines, MonthlyReports, PBM, Systems } from "../pages";
 
 export const systemsPrivateRoutes: RouteObject = {
     path: "sistemas-de-consulta",
@@ -27,6 +27,10 @@ export const systemsPrivateRoutes: RouteObject = {
         {
             path: "guias-practica-clinica",
             element: <ClinicalPracticeGuidelines />
+        },
+        {
+            path: "pbm",
+            element: <PBM/>
         }
     ]
 }
