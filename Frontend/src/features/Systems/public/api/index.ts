@@ -20,5 +20,11 @@ export {
 } from "./AgreementPerson"
 
 export {
-    fectCBIM
+    fecthCBIM
 } from "./CBIM"
+
+export {
+    fetchCategorys,
+    fetchGuides,
+    downloadGuide
+} from "./ClinicalPracticeGuidelines"

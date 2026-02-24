@@ -2,8 +2,8 @@ import { Card, Text } from "@mantine/core"
 import type { ReactNode } from "react";
 
 interface Props {
-    color?: "blue" | "green" | "red" | "yellow"
-    title: string | ReactNode;
+    color?: "blue" | "green" | "red" | "yellow" | "orange"
+    title?: string | ReactNode;
     content: string | ReactNode;
 }
 
@@ -37,6 +37,13 @@ const AlertColor = (color: string) => {
                 backgroud: "light-dark(oklch(97.8% 0.025 96.443), color-mix(in oklab, oklch(42.6% 0.123 96.512) 22%, transparent))",
                 border: "light-dark(oklch(91.2% 0.082 96.103), oklch(47.9% 0.148 97.021))"
             }
+        case "orange":
+            return {
+                title: "light-dark(oklch(45.2% 0.164 52.375), oklch(85.3% 0.158 58.318))",
+                content: "light-dark(oklch(50.1% 0.182 50.921), oklch(76.9% 0.189 55.412))",
+                backgroud: "light-dark(oklch(98% 0.02 56.321), color-mix(in oklab, oklch(45.2% 0.164 52.375) 22%, transparent))",
+                border: "light-dark(oklch(92.4% 0.091 55.224), oklch(50.1% 0.182 50.921))"
+            }
         default:
             return {
                 title: "light-dark(oklch(37.8% 0.077 168.94), oklch(84.5% 0.143 164.978))",
@@ -59,9 +66,11 @@ export const Alert = ({
             p="lg"
             style={{ backgroundColor: `${AlertColor(color).backgroud}`, borderColor: `${AlertColor(color).border}` }}
         >
-            <Text fw={600} fz="lg" mb="sm" c={AlertColor(color).title}>
-                {title}
-            </Text>
+            {title &&
+                <Text fw={600} fz="lg" mb="sm" c={AlertColor(color).title}>
+                    {title}
+                </Text>
+            }
             <Text fz="sm" c={AlertColor(color).content}>
                 {content}
             </Text>

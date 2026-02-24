@@ -7,6 +7,7 @@ import cie10Rutes from "./cie10/cie10.routes"
 import monthlyReportsRoutes from "./monthlyReports/monthlyReports.routes"
 import agreementPersonRoutes from "./agreementPerson/agreementPerson.routes"
 import cbimRoutes from "./cbim/cbim.routes"
+import clinicalPracticeGuidelinesRoutes from "./clinicalPracticeGuidelines/clinicalPracticeGuidelines.routes"
 
 const router: Router = Router()
 
@@ -45,5 +46,6 @@ router.use("/cie-10", cie10Rutes)
 router.use("/monthly-reports", monthlyReportsRoutes)
 router.use("/agreement-person", agreementPersonRoutes)
 router.use("/cbim", cbimRoutes)
+router.use("/clinical-practice-guidelines", clinicalPracticeGuidelinesRoutes)
 
 export default router;

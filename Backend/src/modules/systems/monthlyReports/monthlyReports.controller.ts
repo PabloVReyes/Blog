@@ -40,7 +40,6 @@ export const postMonthlyReportsController: RequestHandler = async (req, res) => 
 // READ //
 //////////
 
-
 export const getMonthlyReportsController: RequestHandler = async (req, res) => {
     try {
         const dto = getMonthlyReportsSchema.parse(req.query)

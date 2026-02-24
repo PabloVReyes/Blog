@@ -1,0 +1,1 @@
+export { ClinicalPracticeGuideline } from "./ClinicalPracticeGuideline"

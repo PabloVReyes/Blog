@@ -25,6 +25,10 @@ export const paths = [
                 label: "CBIM - CAE",
                 link: "/cbim"
             },
+            {
+                label: "GPC Cenetec",
+                link: "/guias-practica-clinica"
+            },
         ]
     },
     {

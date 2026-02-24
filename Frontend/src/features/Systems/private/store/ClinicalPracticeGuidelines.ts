@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { type CBIMState } from "./types";
-import { addCBIM, deleteCBIM, fecthCBIM, updateCBIM } from "../api";
+import { type ClinicalPracticeGuidelinesState } from "./types";
+import { addGuide, deleteGuide, fetchGuides, updateGuide } from "../api";
 
-export const useCBIMStore = create<CBIMState>((set, get) => ({
+export const useClinicalPracticeGuidelinesStore = create<ClinicalPracticeGuidelinesState>((set, get) => ({
     page: 1,
     limit: 10,
     totalItems: 0,
@@ -25,7 +25,7 @@ export const useCBIMStore = create<CBIMState>((set, get) => ({
             set({ isLoading: true })
             const { page, limit, search } = get()
 
-            const { data, meta } = await fecthCBIM({ page, limit, search })
+            const { data, meta } = await fetchGuides({ page, limit, search })
 
             set({
                 items: data,
@@ -47,7 +47,7 @@ export const useCBIMStore = create<CBIMState>((set, get) => ({
 
     async add(data) {
         try {
-            await addCBIM(data)
+            await addGuide(data)
             get().fetch()
             set({
                 page: 1
@@ -63,7 +63,7 @@ export const useCBIMStore = create<CBIMState>((set, get) => ({
 
     async remove(id) {
         try {
-            await deleteCBIM(id)
+            await deleteGuide(id)
             get().fetch()
             set({
                 page: 1
@@ -79,7 +79,7 @@ export const useCBIMStore = create<CBIMState>((set, get) => ({
 
     async update(id, data) {
         try {
-            const newData = await updateCBIM(id, data)
+            const newData = await updateGuide(id, data)
             set((state) => ({
                 items: state.items.map((system: any) =>
                     system.id === id

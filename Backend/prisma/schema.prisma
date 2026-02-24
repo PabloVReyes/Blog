@@ -341,3 +341,30 @@ enum CBTCAEType {
   CAE
   CBT
 }
+
+model ClinicalPracticeGuidelines {
+  id    String @id @default(uuid())
+  code  String
+  title String
+
+  // Evidencias y Recomendaciones
+  fileNameER String
+  filePathER String
+  fileSizeER Int
+  mimeTypeER String
+
+  // Referencia Rapida
+  fileNameRR String
+  filePathRR String
+  fileSizeRR Int
+  mimeTypeRR String
+
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+}
+
+model Category {
+  id                         String                       @id @default(uuid())
+  name                       String                       @unique
+  clinicalPracticeGuidelines ClinicalPracticeGuidelines[]
+}

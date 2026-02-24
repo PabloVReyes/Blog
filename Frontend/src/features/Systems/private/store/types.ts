@@ -34,3 +34,5 @@ export type AgreementPersonState = Omit<SystemsState, "update" | "remove"> & {
 }
 
 export interface CBIMState extends SystemsState { }
+
+export interface ClinicalPracticeGuidelinesState extends SystemsState { }

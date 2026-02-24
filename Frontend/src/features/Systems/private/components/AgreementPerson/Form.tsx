@@ -9,7 +9,7 @@ import {
     fetchZones,
     fetchAgreementPersonHolders,
 } from "../../api";
-import { ApiSelect } from "./ApiSelect";
+import { ApiSelect } from "@/components";
 import { RemotePaginatedSelect } from "./RemotePaginatedSelect";
 
 interface Item {

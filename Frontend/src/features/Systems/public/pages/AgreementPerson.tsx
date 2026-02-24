@@ -199,7 +199,7 @@ export const AgreementPerson = () => {
                     </Group>
                 </Card>
                 {loading ? (
-                    <Center h={200}><Loader color="blue" /></Center>
+                    <Center h={"100%"}><Loader /></Center>
                 ) : data.data?.length > 0 ? (
                     <Stack>
                         <Accordion
@@ -299,7 +299,7 @@ export const AgreementPerson = () => {
                     </Stack>
                 ) : (
                     <Card>
-                        <Text ta="center" c="dimmed">No se encontraron resultados.</Text>
+                        <Text ta="center" c="dimmed" size="sm">No se encontraron resultados.</Text>
                     </Card>
                 )}
             </Panel>

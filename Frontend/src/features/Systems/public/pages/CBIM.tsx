@@ -1,8 +1,8 @@
 import { Container, Panel, Table } from "@/components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect, useState } from "react"
-import { fectCBIM } from "../api"
-import { Notify } from "@/ui"
+import { fecthCBIM } from "../api"
+import { Alert, Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { Highlight } from "@/utils"
 
@@ -104,7 +104,7 @@ export const CBIM = () => {
     const handleFetch = async () => {
         try {
             setLoading(true)
-            await fectCBIM({ page, limit, search }).then(setData)
+            await fecthCBIM({ page, limit, search }).then(setData)
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -121,6 +121,10 @@ export const CBIM = () => {
             title="Cuadro Básico Integral de Medicamentos"
             description="Herramienta normativa en México que agrupa, bajo criterios de eficacia, seguridad y calidad, los medicamentos esenciales necesarios para la atención médica en las instituciones públicas"
         >
+            <Alert
+                color="orange"
+                content="Cualquier duda marcar a la ext. 1251"
+            />
             <Panel
                 search
                 searchValue={search}

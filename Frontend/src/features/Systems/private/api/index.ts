@@ -32,8 +32,17 @@ export {
 } from "./AgreementPerson"
 
 export {
-    fectCBIM,
+    fecthCBIM,
     updateCBIM,
     addCBIM,
     deleteCBIM
 } from "./CBIM"
+
+export {
+    fetchCategorys,
+    addCategory,
+    addGuide,
+    fetchGuides,
+    updateGuide,
+    deleteGuide
+} from "./ClinicalPracticeGuidelines"
