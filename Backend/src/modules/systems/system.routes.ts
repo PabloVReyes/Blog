@@ -9,6 +9,7 @@ import agreementPersonRoutes from "./agreementPerson/agreementPerson.routes"
 import cbimRoutes from "./cbim/cbim.routes"
 import clinicalPracticeGuidelinesRoutes from "./clinicalPracticeGuidelines/clinicalPracticeGuidelines.routes"
 import pbmRoutes from "./pmb/pbm.routes"
+import gpcRoutes from "./gpc/gpc.routes"
 
 const router: Router = Router()
 
@@ -49,5 +50,6 @@ router.use("/agreement-person", agreementPersonRoutes)
 router.use("/cbim", cbimRoutes)
 router.use("/clinical-practice-guidelines", clinicalPracticeGuidelinesRoutes)
 router.use("/pbm", pbmRoutes)
+router.use("/gpc", gpcRoutes)
 
 export default router;

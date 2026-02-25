@@ -53,3 +53,12 @@ export {
     updatePBM,
     deletePBM
 } from "./PBM"
+
+export {
+    addCicle,
+    fetchCicle,
+    addGPC,
+    fetchGPC,
+    updateGPC,
+    deleteGPC
+} from "./GPC"

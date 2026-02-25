@@ -1,15 +1,19 @@
-import { Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title, useMantineTheme } from "@mantine/core"
+import { Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
 import styles from "./Algorithms.module.css"
-import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-react"
-import { colorMap, formatFileSize } from "@/utils"
-import { downloadPBM } from "../../api"
+import { IconDownload, IconExternalLink } from "@tabler/icons-react"
+import { formatFileSize } from "@/utils"
+import { downloadGPC } from "../../api"
+import * as TablerIcons from "@tabler/icons-react"
 
-export const PBMAlgorithms = ({ id, title, fileSize }: any) => {
-    const theme = useMantineTheme()
+export const GPCAlgorithms = ({ id, title, fileSize, orderIndex, color, description }: any) => {
+    const Icon =
+        orderIndex &&
+        (TablerIcons as any)[`IconHexagonNumber${orderIndex}Filled`];
+
 
     const download = async (id: string) => {
         try {
-            const response = await downloadPBM(id)
+            const response = await downloadGPC(id)
 
             const disposition = response.headers["content-disposition"];
 
@@ -39,7 +43,7 @@ export const PBMAlgorithms = ({ id, title, fileSize }: any) => {
 
     const view = async (id: string) => {
         try {
-            const response = await downloadPBM(id)
+            const response = await downloadGPC(id)
 
             const blob = new Blob([response.data], {
                 type: "application/pdf",
@@ -71,16 +75,17 @@ export const PBMAlgorithms = ({ id, title, fileSize }: any) => {
                         variant="light"
                         className={`${styles.iconWrapper}`}
                         style={{
-                            '--icon-rgb': `${colorMap[theme.primaryColor]}` || "#40c057" // fallback green
+                            '--icon-rgb': `${color}` || "#40c057" // fallback green
                         } as React.CSSProperties}
                     >
-                        <IconFileText size={28} />
+                        <Icon size={28} />
                     </ThemeIcon>
 
                     <Stack gap={5} style={{ flex: 1 }}>
-                        <Group gap="sm">
-                            <Title order={5}>{title}</Title>
-                        </Group>
+                        <Title order={5}>{title}</Title>
+                        <Text size="sm" c="dimmed">
+                            {description}
+                        </Text>
                         <Text size="xs" c="dimmed">
                             {formatFileSize(fileSize)}
                         </Text>

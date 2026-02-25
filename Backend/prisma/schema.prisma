@@ -378,3 +378,26 @@ model pbm {
   fileSize Int
   mimeType String
 }
+
+model gpc {
+  id          String @id @default(uuid())
+  orderIndex  Int
+  title       String
+  description String @db.LongText
+
+  fileName String
+  filePath String
+  fileSize Int
+  mimeType String
+
+  cicle   cicle  @relation(fields: [cicleId], references: [id])
+  cicleId String
+
+  @@unique([cicleId, orderIndex])
+}
+
+model cicle {
+  id   String @id @default(uuid())
+  name String
+  gpcs gpc[]
+}

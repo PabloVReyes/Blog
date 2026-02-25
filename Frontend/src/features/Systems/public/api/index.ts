@@ -33,3 +33,8 @@ export {
     fetchPBM,
     downloadPBM
 } from "./PBM"
+
+export {
+    fetchGPC,
+    downloadGPC
+} from "./GPC"

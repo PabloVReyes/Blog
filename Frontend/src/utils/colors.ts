@@ -85,3 +85,45 @@ export const colorMap: Record<string, string> = {
 export const reverseColorMap: Record<string, string> = Object.fromEntries(
     Object.entries(colorMap).map(([name, hex]) => [hex, name])
 );
+
+export const getCicloColor = (
+    index: number,
+    baseColor = "blue"
+) => {
+    const START_SHADE = 6
+    const STEP = 1
+    const MAX_SHADE = 9
+
+    const shade = Math.min(START_SHADE + index * STEP, MAX_SHADE)
+
+    const lightBgShade = Math.max(shade - 2, 0)
+    const darkBgShade = Math.min(shade + 3, 9)
+
+    const lightTextShade = Math.min(shade + 4, 9)
+    const darkTextShade = Math.max(shade - 4, 0)
+
+    return {
+        color: baseColor,
+        shade,
+
+        bg: `light-dark(
+      var(--mantine-color-${baseColor}-${lightBgShade}),
+      var(--mantine-color-${baseColor}-${darkBgShade})
+    )`,
+
+        border: `light-dark(
+      var(--mantine-color-${baseColor}-${shade}),
+      var(--mantine-color-${baseColor}-${Math.max(shade - 1, 0)})
+    )`,
+
+        text: `light-dark(
+      var(--mantine-color-${baseColor}-${lightTextShade}),
+      var(--mantine-color-${baseColor}-${darkTextShade})
+    )`,
+
+        badge: `light-dark(
+      var(--mantine-color-${baseColor}-${Math.min(shade + 1, 9)}),
+      var(--mantine-color-${baseColor}-${Math.max(shade - 1, 0)})
+    )`,
+    }
+}

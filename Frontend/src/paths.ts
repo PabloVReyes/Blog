@@ -32,6 +32,10 @@ export const paths = [
             {
                 label: "Algoritmos PBM",
                 link: "/pbm"
+            },
+            {
+                label: "Algoritmos GPC",
+                link: "gpc"
             }
         ]
     },

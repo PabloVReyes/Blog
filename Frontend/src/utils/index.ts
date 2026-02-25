@@ -10,12 +10,15 @@ export {
     validateCode,
     validateName,
     validateSelect,
-    validateCodeMedicine
+    validateCodeMedicine,
+    validateOrder,
+    validatePresentation
 } from "./validators"
 
 export {
     colorMap,
-    colors
+    colors,
+    getCicloColor
 } from "./colors"
 
 export {

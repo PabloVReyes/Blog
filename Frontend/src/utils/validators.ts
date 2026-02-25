@@ -178,3 +178,22 @@ export const validateCodeMedicine = (
     if (!MEDICAL_CODE_REGEX.test(value)) return "La clave no es válida";
 }
 
+export const validateOrder = (
+    value: number,
+    options?: {
+        required?: boolean;
+    }
+) => {
+    const { required = false } =
+        options || {};
+
+    if (value === null || value === undefined) {
+        return required ? "Introduce la prioridad" : null;
+    }
+
+    if (value < 1) {
+        return "La prioridad debe ser mayor a 0"
+    }
+}
+
+

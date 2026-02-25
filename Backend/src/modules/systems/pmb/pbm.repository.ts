@@ -36,19 +36,6 @@ export const postPbmRepository = async ({
     }
 }
 
-// export const postCategoryRepository = async (name: string) => {
-//     try {
-//         return await database.category.create({
-//             data: {
-//                 name
-//             }
-//         })
-//     } catch (error) {
-//         console.error("Error en postCategoryRepository")
-//         throw new Error("Error al crear nueva categoria")
-//     }
-// }
-
 //////////
 // READ //
 //////////

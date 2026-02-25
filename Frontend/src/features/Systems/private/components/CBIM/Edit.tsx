@@ -6,7 +6,7 @@ import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
-import { validateCodeMedicine, validateName, validatePresentation } from "@/utils/validators"
+import { validateCodeMedicine, validateName, validatePresentation } from "@/utils"
 
 export const Edit = ({ id, name, code, description, cbt_cae, sp, fpgc }: any) => {
     const { openModal } = useModalStore()

@@ -23,18 +23,13 @@ export interface SystemsState {
 
     isLoading: boolean
 }
-
 export interface CIE10State extends SystemsState { }
-
 export interface MonthlyReportsState extends SystemsState { }
-
 export type AgreementPersonState = Omit<SystemsState, "update" | "remove"> & {
     update: (id: number, data: any) => Promise<void>;
     remove: (id: number) => Promise<void>;
 }
-
 export interface CBIMState extends SystemsState { }
-
 export interface ClinicalPracticeGuidelinesState extends SystemsState { }
-
 export interface PBMState extends SystemsState { }
+export interface GPCState extends SystemsState { }

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchPBM } from "../api";
 import { Notify } from "@/ui";
 import { Card, Center, Loader, Text } from "@mantine/core";
-import { Algorithms } from "../components";
+import { PBMAlgorithms } from "../components";
 
 interface Meta {
     total: number;
@@ -98,7 +98,7 @@ export const PBM = () => {
                 )
                     : data.data?.length > 0
                         ? data.data.map((item, index: number) => (
-                            <Algorithms {...item} key={index} />
+                            <PBMAlgorithms {...item} key={index} />
                         ))
                         : (
                             <Card>

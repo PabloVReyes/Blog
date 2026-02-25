@@ -5,29 +5,29 @@ import { useState } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
 import { Form } from "./Form"
-import { validateCodeMedicine, validateName, validatePresentation } from "@/utils"
-import { useCBIMStore } from "../../store"
+import { validateDescription, validateOrder, validatePdf, validateSelect, validateTitle } from "@/utils"
+import { useGPCStore } from "../../store"
 
-export const AddCBIM = () => {
+export const AddGCP = () => {
     const { openModal } = useModalStore()
-    const { add } = useCBIMStore();
+    const { add } = useGPCStore();
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
         initialValues: {
-            code: "",
-            name: "",
+            title: "",
             description: "",
-            sp: "",
-            fpgc: "",
-            cbt_cae: "CAE"
+            cicle: "",
+            orderIndex: 1,
+            file: null as File | null,
         },
         validate: {
-            code: (value) => validateCodeMedicine(value, { required: true }),
-            name: (value) => validateName(value, { required: true }),
-            description: validatePresentation,
-            cbt_cae: (value) => value.length < 1 ? "Este dato es necesario" : null
+            title: validateTitle,
+            description: validateDescription,
+            cicle: (value) => validateSelect(value, { required: true }),
+            orderIndex: (value) => validateOrder(value, { required: true }),
+            file: (value) => validatePdf(value, { required: true })
         }
     })
 
@@ -35,7 +35,17 @@ export const AddCBIM = () => {
         try {
             setLoading(true)
 
-            await add(values)
+            const formData = new FormData();
+            formData.append("title", values.title)
+            formData.append("description", values.description)
+            formData.append("cicle", values.cicle)
+            formData.append("orderIndex", String(values.orderIndex))
+
+            if (values.file) {
+                formData.append("file", values.file!)
+            }
+
+            await add(formData)
 
             openModal({
                 title: "Sistema agregado",

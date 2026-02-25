@@ -1,1 +1,1 @@
-export { Algorithms } from "./Algorithms"
+export { PBMAlgorithms } from "./Algorithms"
