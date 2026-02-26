@@ -69,12 +69,11 @@ export const Alert = ({
     return (
         <Card
             withBorder
-            radius={15}
             p="lg"
             style={{ backgroundColor: `${AlertColor(color).backgroud}`, borderColor: `${AlertColor(color).border}` }}
         >
             {title &&
-                <Text fw={600} fz="lg" mb="sm" c={AlertColor(color).title}>
+                <Text fw={600} fz="lg" c={AlertColor(color).title}>
                     {title}
                 </Text>
             }

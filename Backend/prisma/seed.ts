@@ -255,6 +255,29 @@ async function main() {
 
     console.log('✅ Sistema CIE-10 cargado');
 
+    const fileCodes = path.join(__dirname, './data/codigos.json'); // si está en la misma carpeta que seed_ext.ts
+    const dataCodes = JSON.parse(fs.readFileSync(fileCodes, 'utf8'));
+
+    for (const item of dataCodes) {
+        await prisma.codes.create({
+            data: {
+                code: item.codigo,
+                color: item.color,
+                name: item.nombre,
+                description: item.descripcion,
+                category: {
+                    connectOrCreate: {
+                        where: { name: item.categoria },
+                        create: { name: item.categoria }
+                    }
+                },
+                icon: item.icono
+            }
+        })
+    }
+
+    console.log('✅ Codigos');
+
     console.log("Seeding finished!");
 }
 

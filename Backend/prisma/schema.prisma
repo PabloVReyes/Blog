@@ -408,11 +408,11 @@ model CareProtocols {
   title       String
   description String
 
-  fileName                String
-  filePath                String
-  fileSize                Int
-  mimeType                String
-  
+  fileName String
+  filePath String
+  fileSize Int
+  mimeType String
+
   categoryCareProtocolsId String?
 }
 
@@ -420,4 +420,23 @@ model CategoryCareProtocols {
   id            String          @id @default(uuid())
   name          String
   careProtocols CareProtocols[]
+}
+
+model Codes {
+  id              String        @id @default(uuid())
+  name            String
+  code            String
+  color           String
+  icon            String
+  description     String        @db.LongText
+  category        CategoryCodes @relation(fields: [categoryCodesId], references: [id])
+  categoryCodesId String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime?     @updatedAt
+}
+
+model CategoryCodes {
+  id    String  @id @default(uuid())
+  name  String  @unique
+  codes Codes[]
 }

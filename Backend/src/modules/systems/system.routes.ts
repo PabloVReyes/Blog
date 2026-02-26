@@ -11,6 +11,7 @@ import clinicalPracticeGuidelinesRoutes from "./clinicalPracticeGuidelines/clini
 import pbmRoutes from "./pmb/pbm.routes"
 import gpcRoutes from "./gpc/gpc.routes"
 import careProtocolsRoutes from "./careProtocols/careProtocols.routes"
+import codesRoutes from "./codes/codes.routes"
 
 const router: Router = Router()
 
@@ -53,5 +54,6 @@ router.use("/clinical-practice-guidelines", clinicalPracticeGuidelinesRoutes)
 router.use("/pbm", pbmRoutes)
 router.use("/gpc", gpcRoutes)
 router.use("/care-protocols", careProtocolsRoutes)
+router.use("/codes", codesRoutes)
 
 export default router;

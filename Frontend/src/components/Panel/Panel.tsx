@@ -122,7 +122,6 @@ export const Panel = ({
 
                     <Group justify="center">
                         <Pagination
-                            // boundaries={1}
                             siblings={0}
                             gap={5}
                             classNames={styles}

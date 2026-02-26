@@ -43,3 +43,8 @@ export {
     fetchCareCategory,
     downloadProtocol
 } from "./CareProtocols"
+
+export {
+    fetchPatientSafety,
+    fetchCategoryPatientSafety
+} from "./PatientSafety"
