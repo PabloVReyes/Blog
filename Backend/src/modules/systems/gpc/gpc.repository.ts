@@ -1,5 +1,4 @@
 import { database } from "@/config/prisma";
-import { GpcCreateDto } from "./gpc.types";
 import { PaginationProps } from "@/types/pagination";
 
 ////////////

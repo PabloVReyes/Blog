@@ -33,3 +33,4 @@ export interface CBIMState extends SystemsState { }
 export interface ClinicalPracticeGuidelinesState extends SystemsState { }
 export interface PBMState extends SystemsState { }
 export interface GPCState extends SystemsState { }
+export interface CareProtocolsState extends SystemsState { }

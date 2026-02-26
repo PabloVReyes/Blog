@@ -62,3 +62,12 @@ export {
     updateGPC,
     deleteGPC
 } from "./GPC"
+
+export {
+    fetchCareCategory,
+    addCareCategory,
+    addCareProtocols,
+    fecthCareProtocols,
+    updateCareProtocols,
+    deleteCareProtocols
+} from "./CareProtocols"

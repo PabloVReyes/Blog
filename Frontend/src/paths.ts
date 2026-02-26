@@ -35,7 +35,11 @@ export const paths = [
             },
             {
                 label: "Algoritmos GPC",
-                link: "gpc"
+                link: "/gpc"
+            },
+            {
+                label: "Protocolos de Atención (Pediatría)",
+                link: "/protocolos-atencion"
             }
         ]
     },

@@ -38,3 +38,8 @@ export {
     fetchGPC,
     downloadGPC
 } from "./GPC"
+
+export {
+    fetchCareCategory,
+    downloadProtocol
+} from "./CareProtocols"

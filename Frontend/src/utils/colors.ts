@@ -99,9 +99,6 @@ export const getCicloColor = (
     const lightBgShade = Math.max(shade - 2, 0)
     const darkBgShade = Math.min(shade + 3, 9)
 
-    const lightTextShade = Math.min(shade + 4, 9)
-    const darkTextShade = Math.max(shade - 4, 0)
-
     return {
         color: baseColor,
         shade,
@@ -116,10 +113,7 @@ export const getCicloColor = (
       var(--mantine-color-${baseColor}-${Math.max(shade - 1, 0)})
     )`,
 
-        text: `light-dark(
-      var(--mantine-color-${baseColor}-${lightTextShade}),
-      var(--mantine-color-${baseColor}-${darkTextShade})
-    )`,
+        text: `var(--mantine-primary-color-contrast)`,
 
         badge: `light-dark(
       var(--mantine-color-${baseColor}-${Math.min(shade + 1, 9)}),

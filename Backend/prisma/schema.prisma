@@ -401,3 +401,23 @@ model cicle {
   name String
   gpcs gpc[]
 }
+
+model CareProtocols {
+  id          String                 @id @default(uuid())
+  category    CategoryCareProtocols? @relation(fields: [categoryCareProtocolsId], references: [id])
+  title       String
+  description String
+
+  fileName                String
+  filePath                String
+  fileSize                Int
+  mimeType                String
+  
+  categoryCareProtocolsId String?
+}
+
+model CategoryCareProtocols {
+  id            String          @id @default(uuid())
+  name          String
+  careProtocols CareProtocols[]
+}

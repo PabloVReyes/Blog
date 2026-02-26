@@ -1,54 +1,51 @@
 import { sanitizeFileName } from "@/utils/file";
-import * as repo from "./gpc.repository"
-import { GetGpcScheme, PostCicleScheme } from "./gpc.scheme";
-import { GpcCreateDto, GpcUpdateDto } from "./gpc.types";
+import * as repo from "./careProtocols.repository"
+import { CareProtocolsCreateDto, CareProtocolsUpdateDto } from "./careProtocols.types";
+import { GetCareProtocolsScheme, PostCategoryScheme } from "./careProtocols.scheme";
 import { getPagination } from "@/utils/pagination";
 
 ////////////
 // CREATE //
 ////////////
 
-export const postCicleService = async (dto: PostCicleScheme) => {
-    const { name } = dto
-
-    return await repo.postCicleRepository({ name })
+export const postCategoryService = async (dto: PostCategoryScheme) => {
+    const { name } = dto;
+    return await repo.postCategoryRepository(name)
 }
 
-export const postGpcService = async (dto: GpcCreateDto) => {
-    const { title, description, orderIndex, cicle, file } = dto
+export const postCareProtocolsService = async (dto: CareProtocolsCreateDto) => {
+    const { title, description, category, file } = dto
 
-    return await repo.postGpcRepository({
+    return await repo.postCareProtocolsRepository({
         title,
         description,
-        cicle,
-        orderIndex,
+        category,
         fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
         filePath: file?.path ?? null,
         fileSize: file?.size ?? null,
         mimeType: file?.mimetype ?? null,
     })
-
 }
 
 //////////
 // READ //
 //////////
 
-export const getCicleService = async () => {
-    const { data, total } = await repo.getCicleRepository()
+export const getCategoryService = async () => {
+    const { data, total } = await repo.getCategoryRepository()
     return {
         data,
         meta: {
-            total,
+            total
         }
     }
 }
 
-export const getGpcService = async (dto: GetGpcScheme) => {
+export const getCareProtocolsService = async (dto: GetCareProtocolsScheme) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
-    const { data, total } = await repo.getGpcRepository({
+    const { data, total } = await repo.getCareProtocolsRepository({
         skip,
         take,
         search
@@ -67,11 +64,11 @@ export const getGpcService = async (dto: GetGpcScheme) => {
     }
 }
 
-export const getCicleWithGpcService = async (dto: GetGpcScheme) => {
+export const getCategoryWithCareProtocolsService = async (dto: GetCareProtocolsScheme) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
-    const { data, total } = await repo.getCicleWithGpcRepository({
+    const { data, total } = await repo.getCategoryWithCareProtocolsRepository({
         skip,
         take,
         search
@@ -90,42 +87,42 @@ export const getCicleWithGpcService = async (dto: GetGpcScheme) => {
     }
 }
 
-export const dowloadGpcFileService = async (id: string) => {
-    const GPC = await repo.getGpcByIdRepositoy(id)
+export const dowloadCareProtocolFileService = async (id: string) => {
+    const Protocol = await repo.getCareProtocolByIdRepository(id)
 
-    if (!GPC || !GPC.filePath) {
+    if (!Protocol || !Protocol.filePath) {
         throw new Error("Algoritmo no encontrado")
     }
 
     return {
-        filePath: GPC.filePath,
-        fileName: GPC.fileName
+        filePath: Protocol.filePath,
+        fileName: Protocol.fileName
     }
 }
+
 
 ////////////
 // UPDATE //
 ////////////
 
-export const putGpcService = async (id: string, dto: GpcUpdateDto) => {
-    const { title, description, cicle, orderIndex, file } = dto
+export const putCareProtocolsService = async (id: string, dto: CareProtocolsUpdateDto) => {
+    const { title, description, category, file } = dto
 
-    const Gpc = await repo.getGpcByIdRepositoy(id)
+    const Protocol = await repo.getCareProtocolByIdRepository(id)
 
     const props: any = {
         id,
         title,
         description,
-        cicle,
-        orderIndex
+        category
     }
 
     if (file) {
-        if (Gpc.filePath) {
+        if (Protocol.filePath) {
             try {
-                if (Gpc.filePath) {
+                if (Protocol.filePath) {
                     const fs = await import("fs/promises");
-                    await fs.unlink(Gpc.filePath).catch(() => { });
+                    await fs.unlink(Protocol.filePath).catch(() => { });
                 }
 
 
@@ -140,24 +137,24 @@ export const putGpcService = async (id: string, dto: GpcUpdateDto) => {
         props.mimeType = file.mimetype;
     }
 
-    return await repo.putGpcRepository(props)
+    return await repo.putCareProtocolRepository(props)
 }
 
 ////////////
 // DELETE //
 ////////////
 
-export const deleteGpcService = async (id: string) => {
-    const GPC = await repo.getGpcByIdRepositoy(id)
+export const deleteCareProtocolsService = async (id: string) => {
+    const Protocol = await repo.getCareProtocolByIdRepository(id)
 
-    if (!GPC) {
+    if (!Protocol) {
         throw new Error("Algoritmo no encontrada")
     }
 
-    if (GPC.filePath) {
+    if (Protocol.filePath) {
         const fs = await import("fs/promises");
-        await fs.unlink(GPC.filePath).catch(() => { });
+        await fs.unlink(Protocol.filePath).catch(() => { });
     }
 
-    return await repo.deleteGpcRepository(id)
+    return await repo.deleteCareProtocolsRepository(id)
 }

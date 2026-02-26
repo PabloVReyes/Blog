@@ -2,7 +2,7 @@ import { z } from "zod"
 
 ////////////
 // CREATE //
-///////////
+////////////
 
 export const postCicleScheme = z.object({
     name: z.string()
