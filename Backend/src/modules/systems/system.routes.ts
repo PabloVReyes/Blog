@@ -12,6 +12,7 @@ import pbmRoutes from "./pmb/pbm.routes"
 import gpcRoutes from "./gpc/gpc.routes"
 import careProtocolsRoutes from "./careProtocols/careProtocols.routes"
 import codesRoutes from "./codes/codes.routes"
+import adverseEventsRoutes from "./adverseEvents/adverseEvents.routes"
 
 const router: Router = Router()
 
@@ -55,5 +56,6 @@ router.use("/pbm", pbmRoutes)
 router.use("/gpc", gpcRoutes)
 router.use("/care-protocols", careProtocolsRoutes)
 router.use("/codes", codesRoutes)
+router.use("/adverse-events", adverseEventsRoutes)
 
 export default router;

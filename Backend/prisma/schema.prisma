@@ -440,3 +440,13 @@ model CategoryCodes {
   name  String  @unique
   codes Codes[]
 }
+
+model AdverseEvents {
+  id       String  @id @default(uuid())
+  title    String
+  type     String  @unique
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
+}

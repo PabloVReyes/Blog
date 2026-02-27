@@ -1,4 +1,4 @@
-import { Burger, Button, Group, Kbd, useComputedColorScheme } from "@mantine/core"
+import { Burger, Button, Group, useComputedColorScheme } from "@mantine/core"
 import styles from "./Header.module.css"
 import { IconBook, IconSearch } from "@tabler/icons-react"
 import { useHotkeys, useOs } from "@mantine/hooks"
@@ -80,12 +80,6 @@ export const Header = ({ isMobile, mobileOpen, toggleSidebar }: Props) => {
                         leftSection={
                             <IconSearch />
                         }
-                        rightSection={
-                            !isMobile &&
-                            <div dir="ltr">
-                                <Kbd className={styles.kbd} size={"xs"}>{os !== 'macos' ? "CTRL" : "COMMAND"}</Kbd> + <Kbd className={styles.kbd} size={"xs"}>K</Kbd>
-                            </div>
-                        }
                     >
                         Buscar
                     </Button>
@@ -98,12 +92,6 @@ export const Header = ({ isMobile, mobileOpen, toggleSidebar }: Props) => {
                     className={styles.search}
                     leftSection={
                         <IconBook />
-                    }
-                    rightSection={
-                        !isMobile &&
-                        <div dir="ltr">
-                            <Kbd className={styles.kbd} size={"xs"}>{os !== 'macos' ? "CTRL" : "COMMAND"}</Kbd> + <Kbd size={"xs"} className={styles.kbd}>SHIFT</Kbd> + <Kbd className={styles.kbd} size={"xs"}>D</Kbd>
-                        </div>
                     }
                 >
                     Directorio

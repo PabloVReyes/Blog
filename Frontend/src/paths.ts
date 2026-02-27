@@ -40,6 +40,10 @@ export const paths = [
             {
                 label: "Protocolos de Atención (Pediatría)",
                 link: "/protocolos-atencion"
+            },
+            {
+                label: "Eventos Adversos",
+                link: '/eventos-adversos'
             }
         ]
     },

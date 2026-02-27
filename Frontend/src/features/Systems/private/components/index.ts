@@ -7,3 +7,4 @@ export { ActionsClinicalPracticeGuidelines, AddClinicalPracticeGuidelines } from
 export { ActionsPBM, AddPBM } from "./PBM"
 export { AddGCP, ActionsGCP } from "./GPC"
 export { ActionsCareProtocols, AddCareProtocols } from "./CareProtocols"
+export { ActionsAdverseEvents } from "./AdverseEvents"

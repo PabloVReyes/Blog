@@ -1,5 +1,5 @@
 import type { RouteObject } from "react-router-dom";
-import { AgreementPerson, CareProtocols, CBIM, CIE10, ClinicalPracticeGuidelines, GPC, MonthlyReports, PatientSafety, PBM, Systems } from "../pages";
+import { AdverseEvents, AgreementPerson, CareProtocols, CBIM, CIE10, ClinicalPracticeGuidelines, GPC, MonthlyReports, PatientSafety, PBM, Systems } from "../pages";
 
 export const systemsPublicRoutes: RouteObject = {
     path: "sistemas-de-consulta",
@@ -43,6 +43,10 @@ export const systemsPublicRoutes: RouteObject = {
         {
             path: "seguridad-paciente",
             element: <PatientSafety />
+        },
+        {
+            path: "eventos-adversos",
+            element: <AdverseEvents />
         }
     ]
 }

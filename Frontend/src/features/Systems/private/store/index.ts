@@ -7,3 +7,4 @@ export { useClinicalPracticeGuidelinesStore } from "./ClinicalPracticeGuidelines
 export { usePBMStore } from "./PBM"
 export { useGPCStore } from "./GPC"
 export { useCareProtocolsStore } from "./CareProtocols"
+export { useAdverseEventsStore } from "./AdverseEvents"

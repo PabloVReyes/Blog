@@ -278,6 +278,23 @@ async function main() {
 
     console.log('✅ Codigos');
 
+    await prisma.adverseEvents.create({
+        data: {
+            title: "Reporte en Línea",
+            type: "qr"
+        }
+    })
+
+    await prisma.adverseEvents.create({
+        data: {
+            title: "Formato Físico",
+            type: "file"
+        }
+    })
+
+    console.log('✅ Eventos Adversos');
+
+
     console.log("Seeding finished!");
 }
 

@@ -42,11 +42,11 @@ export const AddSystem = () => {
             setLoading(true)
 
             const formData = new FormData();
-            if (values.acronym.trim() !== "") {
+            if (values.acronym && values.acronym.trim() !== "") {
                 formData.append("acronym", values.acronym)
             }
 
-            if (values.name.trim() !== "") {
+            if (values.name && values.name.trim() !== "") {
                 formData.append("name", values.name)
             }
 
@@ -60,7 +60,7 @@ export const AddSystem = () => {
                 formData.append("type", "file")
             }
 
-            if (active == 0 && values.url.trim() !== "") {
+            if (active == 0 && values.url && values.url.trim() !== "") {
                 formData.append("url", values.url)
             }
 

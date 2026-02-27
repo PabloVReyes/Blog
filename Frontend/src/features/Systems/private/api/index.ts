@@ -71,3 +71,9 @@ export {
     updateCareProtocols,
     deleteCareProtocols
 } from "./CareProtocols"
+
+export {
+    fetchAdverseEvents,
+    updateAdverseEvent,
+    deleteAdverseEvent
+} from "./AdverseEvents"

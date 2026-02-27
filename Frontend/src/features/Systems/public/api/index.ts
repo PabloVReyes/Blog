@@ -48,3 +48,7 @@ export {
     fetchPatientSafety,
     fetchCategoryPatientSafety
 } from "./PatientSafety"
+
+export {
+    downloadAdverseEvent
+} from "./AdverseEvents"
