@@ -63,6 +63,18 @@ export const paths = [
             }
         ]
     },
+    {
+        id: "downloads",
+        label: "Descargar Información",
+        icon: "IconDownload",
+        link: "/descargas",
+        children: [
+            {
+                label: "Areas",
+                link: "/areas"
+            }
+        ]
+    },
     // {
     //     label: "Páginas",
     //     icon: "IconAppWindow",

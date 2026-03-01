@@ -1,0 +1,1 @@
+export { fetchAreas, fecthArea } from "./Areas"

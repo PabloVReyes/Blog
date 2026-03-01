@@ -126,12 +126,12 @@ export const CareProtocols = () => {
             }
             <Alert
                 color="cyan"
-                title="Sobre los Algoritmos GPC"
+                title="Sobre los Protocolos de Atención Pediátrica"
                 content={
-                    <Stack>
-                        <Text size="sm">Los Algoritmos de Guías de Práctica Clínica (GPC) están organizados en tres ciclos para facilitar su consulta y aplicación sistemática.</Text>
-                        <Text size="sm">📌 Estos algoritmos están basados en las GPC del CENETEC y actualizados según la evidencia científica más reciente.</Text>
-                    </Stack>
+                    <div>
+                        <Text size="sm">Los protocolos de atención pediátrica son guías clínicas estandarizadas que establecen los procedimientos diagnósticos y terapéuticos para patologías específicas.</Text>
+                        <Text size="sm">📌 Estos protocolos están alineados con las guías de práctica clínica nacionales e internacionales y son de aplicación obligatoria en el servicio de Pediatría.</Text>
+                    </div>
                 }
             />
         </Container>

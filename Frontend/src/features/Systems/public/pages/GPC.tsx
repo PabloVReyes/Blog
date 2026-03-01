@@ -129,10 +129,10 @@ export const GPC = () => {
                 color="cyan"
                 title="Sobre los Algoritmos GPC"
                 content={
-                    <Stack>
+                    <div>
                         <Text size="sm">Los Algoritmos de Guías de Práctica Clínica (GPC) están organizados en tres ciclos para facilitar su consulta y aplicación sistemática.</Text>
                         <Text size="sm">📌 Estos algoritmos están basados en las GPC del CENETEC y actualizados según la evidencia científica más reciente.</Text>
-                    </Stack>
+                    </div>
                 }
             />
         </Container>

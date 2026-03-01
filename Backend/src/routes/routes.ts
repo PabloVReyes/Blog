@@ -7,6 +7,7 @@ import searchRoutes from "@/routes/search.routes"
 import macroprocessRoutes from "@/routes/macroprocess.routes"
 import homeRoutes from "@/modules/home/home.routes"
 import systemsRoutes from "@/modules/systems/system.routes"
+import downloadsRoutes from "@/modules/downloads/downloads.routes"
 
 const router: Router = Router()
 
@@ -35,5 +36,7 @@ router.use("/api/macroprocess", macroprocessRoutes)
 // Limpio
 router.use("/api/home", homeRoutes)
 router.use("/api/systems", systemsRoutes)
+router.use("/api/downloads", downloadsRoutes)
+
 
 module.exports = router;

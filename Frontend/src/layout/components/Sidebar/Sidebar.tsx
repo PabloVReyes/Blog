@@ -6,16 +6,19 @@ import { LinksGroup } from "./LinksGroup";
 import { useSettingStore } from "@/features";
 import { paths } from "@/paths";
 import { useEffect, useState } from "react";
-import { fetchSystems } from "@/layout/api";
+import { fetchDownloads, fetchSystems } from "@/layout/api";
 
 export const Sidebar = () => {
     const { title, menu } = useSettingStore()
     const { pathname } = useLocation()
     const [systems, setSystems] = useState<any[]>([])
+    const [downloads, setDownloads] = useState<any[]>([])
 
     useEffect(() => {
         fetchSystems()
             .then(setSystems)
+        fetchDownloads()
+            .then(setDownloads)
     }, [])
 
     const home: any = [
@@ -72,17 +75,15 @@ export const Sidebar = () => {
         },
         {
             id: "descargas",
-            label: "Descarga de Información",
+            label: "Descargar Información",
             icon: "IconDownload",
             link: "/descargas",
-            children: [
-                {
-                    id: "direccion",
-                    label: "Dirección",
-                    icon: "IconDownload",
-                    link: "/direccion",
-                }
-            ]
+            children: downloads.map((area) => ({
+                id: area.id,
+                label: area.name,
+                icon: area.icon,
+                link: `${area.slug}`,
+            }))
         },
         {
             id: "macroproceso",

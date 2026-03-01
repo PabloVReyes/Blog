@@ -2,7 +2,6 @@ export {
     whoWeAreRoutes,
     standardsRoutes,
     juristicRoutes,
-    downloadsRoutes
 } from "./public"
 
 export {
@@ -23,6 +22,10 @@ export {
     homePublicRoutes,
     homePrivateRoutes
 } from "./Home"
+
+export {
+    downloadsPublicRoutes
+} from "./Downloads"
 
 export { Uploads } from "./uploads"
 export { Sidebar } from "./sidebar"

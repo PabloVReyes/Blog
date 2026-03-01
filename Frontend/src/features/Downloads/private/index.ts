@@ -1,0 +1,1 @@
+export { downloadsPrivateRoutes } from "./routes"

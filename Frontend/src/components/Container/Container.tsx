@@ -2,8 +2,8 @@ import { Stack, Text, Title, Container as MantineContainer } from "@mantine/core
 import type { ReactNode } from "react";
 
 interface Props {
-    title: string;
-    description: string
+    title?: string;
+    description?: string
     children: ReactNode
 }
 
@@ -15,8 +15,10 @@ export const Container = ({ title, description, children }: Props) => {
                     <Title order={2}>
                         {title}
                     </Title>
-
-                    <Text c="dimmed">{description}</Text>
+                    
+                    {description &&
+                        <Text c="dimmed">{description}</Text>
+                    }
                 </Stack>
 
                 {children}

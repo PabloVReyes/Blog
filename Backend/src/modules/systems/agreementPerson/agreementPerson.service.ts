@@ -6,7 +6,6 @@ import { getPagination } from "@/utils/pagination";
 // CREATE //
 ////////////
 
-
 export const postAgreementPersonService = async (dto: PostAgreementPersonsSchema) => {
     const { name, group, zone, type, holder } = dto
 

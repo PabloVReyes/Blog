@@ -450,3 +450,149 @@ model AdverseEvents {
   fileSize Int?
   mimeType String?
 }
+
+// =======================
+// ENUMS
+// =======================
+
+enum MessageType {
+  INFO
+  WARNING
+  SUCCESS
+  ERROR
+}
+
+enum FileType {
+  DOCUMENT
+  IMAGE
+  VIDEO
+  AUDIO
+  OTHER
+}
+
+// =======================
+// AREA
+// =======================
+
+model DownloadArea {
+  id       Int     @id @default(autoincrement())
+  name     String
+  slug     String  @unique
+  icon     String
+  color    String
+  isActive Boolean @default(true)
+
+  // Relaciones
+  messages DownloadAreaMessage[]
+  sections DownloadSection[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+// =======================
+// AREA MESSAGE
+// =======================
+
+model DownloadAreaMessage {
+  id      Int         @id @default(autoincrement())
+  title   String
+  content String
+  icon    String? // Ej: "info-circle", "alert-triangle"
+  type    MessageType @default(INFO)
+
+  isActive Boolean @default(true)
+  order    Int?
+
+  // Programación opcional
+  startAt DateTime?
+  endAt   DateTime?
+
+  areaId Int
+  area   DownloadArea @relation(fields: [areaId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([areaId])
+  @@index([isActive])
+}
+
+// =======================
+// SECTION
+// =======================
+
+model DownloadSection {
+  id       Int     @id @default(autoincrement())
+  name     String
+  slug     String
+  order    Int?
+  isActive Boolean @default(true)
+
+  areaId Int
+  area   DownloadArea @relation(fields: [areaId], references: [id], onDelete: Cascade)
+
+  categories DownloadCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([areaId, slug])
+  @@index([areaId])
+  @@index([isActive])
+}
+
+// =======================
+// CATEGORY (Agrupación interna)
+// =======================
+
+model DownloadCategory {
+  id       Int     @id @default(autoincrement())
+  name     String
+  order    Int?
+  isActive Boolean @default(true)
+
+  sectionId Int
+  section   DownloadSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  files DownloadFile[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sectionId])
+  @@index([isActive])
+}
+
+// =======================
+// DOWNLOAD FILE
+// =======================
+
+model DownloadFile {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+
+  url       String
+  mimeType  String
+  extension String?
+  size      Int?
+
+  type FileType @default(DOCUMENT)
+
+  isNew    Boolean @default(false)
+  isActive Boolean @default(true)
+  order    Int?
+
+  categoryId Int
+  category   DownloadCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([isActive])
+  @@index([type])
+}
