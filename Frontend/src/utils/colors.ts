@@ -90,7 +90,7 @@ export const getCicloColor = (
     index: number,
     baseColor = "blue"
 ) => {
-    const START_SHADE = 6
+    const START_SHADE = 4
     const STEP = 1
     const MAX_SHADE = 9
 

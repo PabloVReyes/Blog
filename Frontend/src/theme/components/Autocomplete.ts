@@ -39,10 +39,6 @@ export const Autocomplete = {
             },
         },
 
-        description: {
-            color: "light-dark(#6b7280, #9ca3af)",
-        },
-
         error: {
             color: "red",
         },

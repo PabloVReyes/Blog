@@ -18,7 +18,7 @@ export const columns = [
         align: 'center',
         render: (row: any) => {
             return (
-                <Badge size="sm">{row.category === "main" ? "Área Principal" : "Área de Soporte"}</Badge>
+                <Badge variant="filled" size="sm">{row.category === "main" ? "Área Principal" : "Área de Soporte"}</Badge>
             )
         }
     },

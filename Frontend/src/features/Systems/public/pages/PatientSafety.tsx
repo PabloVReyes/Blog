@@ -257,6 +257,7 @@ export const PatientSafety = () => {
                                         </Stack>
 
                                         <Badge
+                                            variant="filled"
                                             pos="absolute"
                                             top={8}
                                             right={8}

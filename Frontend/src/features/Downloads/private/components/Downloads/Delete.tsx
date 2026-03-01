@@ -6,6 +6,7 @@ import { useState } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
 import { ModalButtons } from "@/components"
+import { useDownloadsStore } from "../../store"
 
 interface Props {
     id: string
@@ -14,7 +15,7 @@ interface Props {
 
 export const Delete = ({ id, name }: Props) => {
     const { openModal } = useModalStore()
-    // const { remove } = useSystemsStore()
+    const { remove } = useDownloadsStore()
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -30,7 +31,7 @@ export const Delete = ({ id, name }: Props) => {
         try {
             setLoading(true);
 
-            // await remove(id)
+            await remove(id)
 
             openModal({
                 title: "Permiso eliminado",

@@ -159,7 +159,7 @@ export const Search = () => {
                                     }
                                     {search.name}</Title>
                                 {search.badge &&
-                                    <Badge color="red" size="xs">
+                                    <Badge color="red" size="xs" variant="filled" >
                                         {search.badge}
                                     </Badge>
                                 }

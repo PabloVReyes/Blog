@@ -1,76 +1,103 @@
 import { useForm } from "@mantine/form"
-// import { type SystemProps } from "../../../types"
 import { Form } from "./Form"
-// import { useSystemsStore } from "../../store"
 import { Stack, Text } from "@mantine/core"
 import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
-import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
+import { validateFile, validateName, validateSelect } from "@/utils"
+import { useDownloadsStore } from "../../store"
 
-const typeOptions = ["page", "file"] as const;
+export interface Datum {
+    id: number;
+    name: string;
+    description: null | string;
+    fileName: string;
+    filePath: string;
+    fileSize: number;
+    mimeType: string;
+    type: "DOCUMENT" | "IMAGE";
+    isNew: boolean;
+    isActive: boolean;
+    order: null;
+    categoryId: number;
+    createdAt: Date;
+    updatedAt: Date;
+    category: Category;
+}
 
-export const Edit = ({ id, icon, color, name, description, url, acronym, type, fileName }: any) => {
+export interface Category {
+    id: number;
+    name: string;
+    order: null;
+    isActive: boolean;
+    sectionId: number;
+    createdAt: Date;
+    updatedAt: Date;
+    section: Category;
+    areaId: number;
+    area: Area;
+}
+
+export interface Area {
+    id: number;
+    name: string;
+    slug: string;
+    icon: string;
+    color: string;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface Meta {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+}
+
+export const Edit = (file: Datum) => {
     const { openModal } = useModalStore()
-    // const { update } = useSystemsStore()
-    const initialActive = typeOptions.indexOf(type ?? "page");
-    const [active, setActive] = useState(initialActive);
+    const { update } = useDownloadsStore()
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm<any>({
         mode: "controlled",
         initialValues: {
-            acronym,
-            icon,
-            color,
-            name,
-            description,
-            url,
-            type: "page" as "page" | "file",
-            file: null as File | null,
+            name: file.name,
+            description: file.description,
+            isNew: file.isNew,
+            type: file.type as "DOCUMENT" | "IMAGE",
+            area: String(file.category.section?.areaId),
+            section: String(file.category.sectionId),
+            category: String(file.categoryId),
+            file: null as File | null
         },
         validate: {
             name: (value) => validateName(value, { required: true }),
-            description: validateDescription,
-            icon: validateIcon,
-            color: validateColor,
-            url: (values) => validateUrl(values, { required: active === 0 }),
-            file: (values) => validatePdf(values, { required: active === 1, existingFileName: fileName })
+            type: (value) => validateSelect(value, { required: true }),
+            area: (value) => validateSelect(value, { required: true }),
+            section: (value, values) => validateSelect(value, { required: values.area != null }),
+            category: (value, values) => validateSelect(value, { required: values.section != null }),
+            file: (value) => validateFile(value, { required: true, existingFileName: file.fileName })
         }
     })
 
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            const formData = new FormData();
-            if (values.acronym && values.acronym.trim() !== "") {
-                formData.append("acronym", values.acronym)
-            }
-
-            if (values.name && values.name.trim() !== "") {
-                formData.append("name", values.name)
-            }
-
+            const formData = new FormData()
+            formData.append("name", values.name)
             formData.append("description", values.description)
-            formData.append("icon", values.icon)
-            formData.append("color", values.color)
-
-            if (active === 0) {
-                formData.append("type", "page")
-            } else if (active === 1) {
-                formData.append("type", "file")
+            formData.append("isNew", String(values.isNew))
+            formData.append("type", values.type)
+            formData.append("category", String(values.category))
+            if (values.file) {
+                formData.append("file", values.file)
             }
 
-            if (active == 0 && values.url && values.url.trim() !== "") {
-                formData.append("url", values.url)
-            }
-
-            if (active === 1 && values.file) {
-                formData.append("file", values.file!)
-            }
-
-            // await update(id, formData)
+            await update(file.id.toString(), formData)
 
             openModal({
                 title: "Sistema actualizado",
@@ -101,9 +128,7 @@ export const Edit = ({ id, icon, color, name, description, url, acronym, type, f
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={fileName}
-            activeIndex={active}
-            setActiveIndex={setActive}
+            fileName={file.fileName}
         />
     )
 }

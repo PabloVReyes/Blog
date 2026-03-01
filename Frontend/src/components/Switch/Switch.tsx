@@ -14,11 +14,11 @@ export const Switch = ({ value, label, description, withAsterisk, ...props }: Pr
             <Stack gap={2}>
                 {label &&
                     <Group gap={2} wrap="nowrap">
-                        <Text size="sm" c={"light-dark(black, white)"}>Visible</Text>
+                        <Text size="sm" c={"light-dark(black, white)"}>{label}</Text>
                         {withAsterisk && <Text size="xs" style={{ color: 'red' }}>*</Text>}
                     </Group>
                 }
-                {description && <Text size="xs" c="light-dark(#6b7280, #9ca3af)">{description}</Text>}
+                {description && <Text size="xs" c="dimmed">{description}</Text>}
             </Stack>
             <MantineSwitch
                 size="md"

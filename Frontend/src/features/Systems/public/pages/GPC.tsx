@@ -86,44 +86,46 @@ export const GPC = () => {
                     data.data.map((cicle, index: number) => {
                         const colors = getCicloColor(index, theme.primaryColor)
                         return (
-                            <Card
-                                p={16}
-                                key={index}
-                                style={{
-                                    borderColor: `${colors.border}`,
-                                }}
-                            >
-                                <Card.Section
-                                    p={"md"}
+                            <Stack>
+                                <Card
+                                    p={16}
+                                    key={index}
                                     style={{
-                                        backgroundColor: `${colors.bg}`,
-                                        color: `${colors.text}`
+                                        border: "none",
                                     }}
                                 >
-                                    <Group justify="space-between">
-                                        <Text fw={700} size="xl">{cicle.name}</Text>
-                                        <Badge
-                                            px={"12px"}
-                                            py={"4px"}
-                                            color={`${colors.badge}`}
-                                        >
-                                            {cicle._count.gpcs}{" "}
-                                            {cicle._count.gpcs === 1 ? "algoritmo" : "algoritmos"}
-                                        </Badge>
-                                    </Group>
-                                </Card.Section>
+                                    <Card.Section
+                                        p={"md"}
+                                        style={{
+                                            backgroundColor: `${colors.bg}`,
+                                            color: `${colors.text}`
+                                        }}
+                                    >
+                                        <Group justify="space-between">
+                                            <Text fw={700}>{cicle.name}</Text>
+                                            <Badge
+                                                variant="filled"
+                                                px={"12px"}
+                                                py={"4px"}
+                                                color={`${colors.badge}`}
+                                            >
+                                                {cicle._count.gpcs}{" "}
+                                                {cicle._count.gpcs === 1 ? "algoritmo" : "algoritmos"}
+                                            </Badge>
+                                        </Group>
+                                    </Card.Section>
+                                </Card>
 
-                                <Stack p={"16px"} gap={"sm"}>
-                                    {cicle.gpcs.map((item, indexGPC: number) => (
-                                        <GPCAlgorithms {...item} key={indexGPC} color={colors.bg} />
-                                    ))}
-                                </Stack>
-                            </Card>
+                                {cicle.gpcs.map((item, indexGPC: number) => (
+                                    <GPCAlgorithms {...item} key={indexGPC} color={colors.bg} />
+                                ))}
+                            </Stack>
                         )
                     })
-                    : (<Card>
-                        <Text ta="center" size="sm" c="dimmed">No se encontraron resultados.</Text>
-                    </Card>)
+                    : (
+                        <Card>
+                            <Text ta="center" size="sm" c="dimmed">No se encontraron resultados.</Text>
+                        </Card>)
             }
             <Alert
                 color="cyan"

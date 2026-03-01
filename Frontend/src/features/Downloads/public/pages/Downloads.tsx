@@ -56,7 +56,7 @@ export const Downloads = () => {
             <Card>
                 {loading
                     ? <Center><Loader /></Center>
-                    : <SimpleGrid cols={5} spacing={"lg"} style={{ textAlign: "center" }}>
+                    : <SimpleGrid cols={{ xs: 2, sm: 3, md: 5 }} spacing={"lg"} style={{ textAlign: "center" }}>
                         {data.data.map((item, index: number) => (
                             <Areas key={index} {...item} />
                         ))}

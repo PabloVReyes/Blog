@@ -46,7 +46,7 @@ const columns = [
         align: 'center',
         miw: 75,
         render: (row: any) => {
-            return <Badge color="red" size="xs">{row.year}</Badge>
+            return <Badge variant="filled" color="red" size="xs">{row.year}</Badge>
         }
     },
     {

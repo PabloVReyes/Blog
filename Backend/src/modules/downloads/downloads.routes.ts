@@ -3,11 +3,12 @@ import * as controller from "./downloads.controller"
 import multer from "multer";
 import path from "path";
 import { sanitizeFileName } from "@/routes/macroprocess.routes";
+import { uploadsRoot } from "./path";
 
 const router: Router = Router()
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, "../../../../uploads/downloads"),
+    destination: uploadsRoot,
     filename: (req, file, cb) => {
         const safeName = sanitizeFileName(file.originalname);
 
@@ -21,13 +22,10 @@ const storage = multer.diskStorage({
 export const upload = multer({
     storage,
     fileFilter: (_, file, cb) => {
-        if (file.mimetype !== "application/pdf") {
-            return cb(new Error("Solo PDF"));
-        }
         cb(null, true);
     },
     limits: {
-        fileSize: 5 * 1024 * 1024,
+        fileSize: 100 * 1024 * 1024,
     }
 });
 
@@ -37,5 +35,20 @@ router.get("/areas", controller.getAreasController)
 router.get("/areas/:slug", controller.getAreasWithDownloadsController)
 router.put("/areas/:id", controller.putAreaController)
 router.delete("/areas/:id", controller.deleteAreaController)
+
+// Secciones
+router.post('/sections', controller.postSectionController)
+router.get('/sections/:area', controller.getSectionsByAreaController)
+
+// Categorias
+router.post('/categories', controller.postCategoryController)
+router.get("/categories/:section", controller.getCategoriesBySectionController)
+
+// Descargas
+router.get('/', controller.getDownloadsController)
+router.get('/download/:id', controller.downloadFileController)
+router.post('/', upload.single("file"), controller.postDownloadController)
+router.put('/:id', upload.single("file"), controller.putDownloadController)
+router.delete('/:id', controller.deleteDownloadController)
 
 export default router;

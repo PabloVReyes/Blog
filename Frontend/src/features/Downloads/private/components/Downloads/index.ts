@@ -1,2 +1,2 @@
-export { ActionsAreas } from "./Actions"
-export { AddArea } from "./Add"
+export { ActionsDownloads } from "./Actions"
+export { AddDownloads } from "./Add"

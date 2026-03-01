@@ -8,7 +8,7 @@ export const columns = [
         align: 'center',
         render: (row: any) => {
             return (
-                <Badge color={row.manualType.color} size="sm">
+                <Badge variant="filled" color={row.manualType.color} size="sm">
                     {row.manualType.id}
                 </Badge>
             )
@@ -40,7 +40,7 @@ export const columns = [
         align: 'center',
         render: (row: any) => {
             return (
-                <Badge size="sm">{row.area.category === "main" ? "Área principal" : "Área de apoyo"}</Badge>
+                <Badge variant="filled" size="sm">{row.area.category === "main" ? "Área principal" : "Área de apoyo"}</Badge>
             )
         }
     },

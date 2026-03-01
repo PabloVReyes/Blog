@@ -1,1 +1,0 @@
-export { downloadsRoutes } from "./routes"

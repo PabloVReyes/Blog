@@ -57,7 +57,7 @@ export const validateSelect = (
 };
 
 // Validacion de archivos PDF con opciones para requerirlo, permitir solo relativos o considerar un archivo existente
-const DEFAULT_MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const DEFAULT_MAX_SIZE = 100 * 1024 * 1024; // 100MB
 
 export const validatePdf = (
     file: File | null,
@@ -85,7 +85,7 @@ export const validatePdf = (
 
     // Tamaño
     if (file.size > maxSize) {
-        return "El PDF no debe superar 5MB";
+        return "El PDF no debe superar 100MB";
     }
 
     return null;
@@ -107,7 +107,7 @@ export const validateImage = (
         return "Debe ser una imagen válida";
 
     if (file.size > maxSize)
-        return "La imagen no debe superar 5MB";
+        return "La imagen no debe superar 100MB";
 
     return null;
 };
@@ -195,5 +195,32 @@ export const validateOrder = (
         return "La prioridad debe ser mayor a 0"
     }
 }
+
+export const validateFile = (
+    file: File | null,
+    options?: {
+        required?: boolean;
+        maxSize?: number;
+        existingFileName?: string | null;
+    }
+) => {
+    const { required = false, maxSize = DEFAULT_MAX_SIZE, existingFileName } =
+        options || {};
+
+    // Si no hay archivo nuevo
+    if (!file) {
+        if (required && !existingFileName) {
+            return "El archivo a descargar es necesario";
+        }
+        return null;
+    }
+
+    // Tamaño
+    if (file.size > maxSize) {
+        return "El archivo no debe superar 100MB";
+    }
+
+    return null;
+};
 
 

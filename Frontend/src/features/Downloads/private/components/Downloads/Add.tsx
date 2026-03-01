@@ -5,26 +5,33 @@ import { useState } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
 import { Form } from "./Form"
-import { validateColor, validateIcon, validateName } from "@/utils/validators"
-import { useAreasStore } from "../../store"
+import { validateFile, validateName, validateSelect } from "@/utils/validators"
+import { useDownloadsStore } from "../../store"
 
 export const AddDownloads = () => {
     const { openModal } = useModalStore()
-    const { add } = useAreasStore();
+    const { add } = useDownloadsStore();
     const [loading, setLoading] = useState<boolean>(false)
-    const [active, setActive] = useState(0);
 
     const form = useForm({
         mode: "controlled",
         initialValues: {
             name: "",
-            icon: "",
-            color: ""
+            description: "",
+            isNew: true,
+            type: "DOCUMENT" as "DOCUMENT" | "IMAGE",
+            area: null,
+            section: null,
+            category: null,
+            file: null as File | null
         },
         validate: {
             name: (value) => validateName(value, { required: true }),
-            icon: validateIcon,
-            color: validateColor
+            type: (value) => validateSelect(value, { required: true }),
+            area: (value) => validateSelect(value, { required: true }),
+            section: (value, values) => validateSelect(value, { required: values.area != null }),
+            category: (value, values) => validateSelect(value, { required: values.section != null }),
+            file: (value) => validateFile(value, { required: true })
         }
     })
 
@@ -32,7 +39,17 @@ export const AddDownloads = () => {
         try {
             setLoading(true)
 
-            await add(values)
+            const formData = new FormData()
+            formData.append("name", values.name)
+            formData.append("description", values.description)
+            formData.append("isNew", String(values.isNew))
+            formData.append("type", values.type)
+            formData.append("category", String(values.category))
+            if (values.file) {
+                formData.append("file", values.file)
+            }
+
+            await add(formData)
 
             openModal({
                 title: "Área agregado",
@@ -61,8 +78,6 @@ export const AddDownloads = () => {
     return (
         <Form
             form={form}
-            activeIndex={active}
-            setActiveIndex={setActive}
             onSubmit={handleSubmit}
             submitLabel="Agregar"
             isLoading={loading}

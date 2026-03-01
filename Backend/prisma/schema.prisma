@@ -527,7 +527,6 @@ model DownloadAreaMessage {
 model DownloadSection {
   id       Int     @id @default(autoincrement())
   name     String
-  slug     String
   order    Int?
   isActive Boolean @default(true)
 
@@ -539,7 +538,6 @@ model DownloadSection {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([areaId, slug])
   @@index([areaId])
   @@index([isActive])
 }
@@ -572,14 +570,14 @@ model DownloadCategory {
 
 model DownloadFile {
   id          Int     @id @default(autoincrement())
-  title       String
+  name        String
   description String?
 
-  url       String
-  mimeType  String
-  extension String?
-  size      Int?
-
+  fileName String
+  filePath String
+  fileSize Int
+  mimeType String
+  
   type FileType @default(DOCUMENT)
 
   isNew    Boolean @default(false)

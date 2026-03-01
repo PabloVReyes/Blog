@@ -25,7 +25,7 @@ const columns = [
         miw: "150px",
         render: (row: any) => {
             return (
-                <Badge size="sm">{row.category.name}</Badge>
+                <Badge variant="filled" size="sm">{row.category.name}</Badge>
             )
         }
     },

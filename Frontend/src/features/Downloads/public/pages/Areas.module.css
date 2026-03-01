@@ -1,0 +1,18 @@
+/* Tabs.module.css */
+.tab {
+    color: gray;
+    /* color normal */
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+}
+
+.tab[data-active] {
+    color: var(--mantine-primary-color-6);
+    /* color principal al estar activo */
+    font-weight: 600;
+}

@@ -18,6 +18,7 @@ interface Props {
     required?: boolean;
     withAsterisk?: boolean;
     initialItem?: Item | null; // valor inicial
+    onChange?: (value: string | null) => void; // 👈 NUEVO
 }
 
 export function ApiSelect({
@@ -32,6 +33,7 @@ export function ApiSelect({
     required,
     withAsterisk,
     initialItem,
+    onChange
 }: Props) {
     const combobox = useCombobox();
     const [search, setSearch] = useState("");
@@ -45,18 +47,24 @@ export function ApiSelect({
     );
 
     const handleSubmit = async (val: string) => {
+        let newValue: string | null = null;
+
         if (val === "$create" && onCreate) {
             if (!search) return;
-            const newItem = await onCreate(search.toUpperCase());
+            const newItem = await onCreate(search);
             if (newItem) {
-                form.setFieldValue(name, newItem.value);
-                setSearch("");
+                newValue = newItem.value;
             }
         } else {
-            form.setFieldValue(name, val);
-            setSearch("");
+            newValue = val;
         }
 
+        if (newValue !== null) {
+            form.setFieldValue(name, newValue);
+            onChange?.(newValue); // 👈 dispara callback externo
+        }
+
+        setSearch("");
         combobox.closeDropdown();
     };
 
@@ -66,7 +74,7 @@ export function ApiSelect({
             classNames={{
                 option: "optionSelect"
             }}
-            >
+        >
             <Combobox.Target>
                 <InputBase
                     withAsterisk={withAsterisk}
@@ -79,7 +87,7 @@ export function ApiSelect({
                     onFocus={() => combobox.openDropdown()}
                     onClick={() => combobox.openDropdown()}
                     onChange={(e) => {
-                        setSearch(e.currentTarget.value.toUpperCase());
+                        setSearch(e.currentTarget.value);
                         combobox.openDropdown();
                     }}
                     onBlur={() => {

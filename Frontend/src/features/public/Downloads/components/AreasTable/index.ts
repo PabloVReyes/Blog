@@ -1,1 +1,0 @@
-export { AreasTable } from "./AreasTable"

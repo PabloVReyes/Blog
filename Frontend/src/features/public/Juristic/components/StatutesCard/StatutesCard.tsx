@@ -27,7 +27,7 @@ export const StatutesCard = () => {
                         <Group gap="sm">
                             <Title order={5}>{statute.name}</Title>
                             {statute.badge &&
-                                <Badge color="green" variant="light" size="xs">
+                                <Badge variant="filled" color="green" variant="light" size="xs">
                                     {statute.badge}
                                 </Badge>
                             }

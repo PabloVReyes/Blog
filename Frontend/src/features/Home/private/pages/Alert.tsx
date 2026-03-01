@@ -14,19 +14,19 @@ export const columns = [
         miw: 100,
         render: (row: any) => {
             if (row.color === "blue") {
-                return <Badge size="xs" color="blue">Informativo</Badge>
+                return <Badge size="xs" variant="filled" color="blue">Informativo</Badge>
             }
 
             if (row.color === "green") {
-                return <Badge size="xs" color="green">Exitoso</Badge>
+                return <Badge size="xs" variant="filled" color="green">Exitoso</Badge>
             }
 
             if (row.color === "yellow") {
-                return <Badge size="xs" color="yellow">Advertencia</Badge>
+                return <Badge size="xs" variant="filled" color="yellow">Advertencia</Badge>
             }
 
             if (row.color === "red") {
-                return <Badge size="xs" color="red">Error</Badge>
+                return <Badge size="xs" variant="filled" color="red">Error</Badge>
             }
         }
     },

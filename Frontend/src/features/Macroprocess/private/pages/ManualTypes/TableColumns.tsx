@@ -8,7 +8,7 @@ export const columns = [
         align: 'center',
         render: (row: any) => {
             return (
-                <Badge color={row.color} size="sm">
+                <Badge variant="filled" color={row.color} size="sm">
                     {row.id}
                 </Badge>
             )
@@ -30,7 +30,7 @@ export const columns = [
         align: 'center',
         render: (row: any) => {
             return (
-                <Badge size="sm">{row.category === "STANDARD" ? "Principal" : "Extra"}</Badge>
+                <Badge variant="filled" size="sm">{row.category === "STANDARD" ? "Principal" : "Extra"}</Badge>
             )
         }
     },

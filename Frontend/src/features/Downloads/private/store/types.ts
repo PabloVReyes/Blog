@@ -23,3 +23,5 @@ export interface AreasState {
 
     isLoading: boolean
 }
+
+export interface DownloadsState extends AreasState {}

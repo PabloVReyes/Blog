@@ -81,6 +81,7 @@ export const AccessCard = ({ accessCards }: any) => {
                             <Stack gap={"xs"} h={"100%"}>
                                 {system.badge && (
                                     <Badge
+                                        variant="filled"
                                         color="red"
                                         size="sm"
                                         className={styles.rating}

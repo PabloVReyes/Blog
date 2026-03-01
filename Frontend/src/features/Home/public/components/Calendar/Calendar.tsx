@@ -41,7 +41,7 @@ export const Calendar = ({ id, title, color, year, description, fileName, icon }
     return (
         <Card padding={"lg"} h={"100%"}>
             <Stack h={"100%"}>
-                <Badge className={styles.rating} color="red" size="sm">
+                <Badge variant="filled" className={styles.rating} color="red" size="sm">
                     {year}
                 </Badge>
                 <div className={styles.item}>

@@ -6,7 +6,15 @@ export const addArea = async (body: any) => {
 }
 
 export const fetchAreas = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/downloads/areas?page=${page}&limit=${limit}&search=${search}`)
+    const params = new URLSearchParams()
+
+    if (page) params.append("page", String(page))
+    if (limit) params.append("limit", String(limit))
+    if (search) params.append("search", search)
+
+    const url = `/api/downloads/areas?${params.toString()}`
+
+    const response = await api.get(url)
     return response.data
 }
 

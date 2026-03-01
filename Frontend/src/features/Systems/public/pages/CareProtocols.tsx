@@ -85,39 +85,40 @@ export const CareProtocols = () => {
                     data.data.map((category, index: number) => {
                         const colors = getCicloColor(index, theme.primaryColor)
                         return (
-                            <Card
-                                p={16}
-                                key={index}
-                                style={{
-                                    borderColor: `${colors.border}`,
-                                }}
-                            >
-                                <Card.Section
-                                    p={"md"}
+                            <Stack>
+                                <Card
+                                    p={16}
+                                    key={index}
                                     style={{
-                                        backgroundColor: `${colors.bg}`,
-                                        color: `${colors.text}`
+                                        border: "none"
                                     }}
                                 >
-                                    <Group justify="space-between">
-                                        <Text fw={700} size="xl">{category.name}</Text>
-                                        <Badge
-                                            px={"12px"}
-                                            py={"4px"}
-                                            color={`${colors.badge}`}
-                                        >
-                                            {category._count.careProtocols}{" "}
-                                            {category._count.careProtocols === 1 ? "protocolo" : "protocolos"}
-                                        </Badge>
-                                    </Group>
-                                </Card.Section>
+                                    <Card.Section
+                                        p={"md"}
+                                        style={{
+                                            backgroundColor: `${colors.bg}`,
+                                            color: `${colors.text}`
+                                        }}
+                                    >
+                                        <Group justify="space-between">
+                                            <Text fw={700}>{category.name}</Text>
+                                            <Badge
+                                                variant="filled"
+                                                px={"12px"}
+                                                py={"4px"}
+                                                color={`${colors.badge}`}
+                                            >
+                                                {category._count.careProtocols}{" "}
+                                                {category._count.careProtocols === 1 ? "protocolo" : "protocolos"}
+                                            </Badge>
+                                        </Group>
+                                    </Card.Section>
 
-                                <Stack p={"16px"} gap={"sm"}>
                                     {category.careProtocols.map((item, indexGPC: number) => (
                                         <Protocol {...item} key={indexGPC} color={colors.bg} />
                                     ))}
-                                </Stack>
-                            </Card>
+                                </Card>
+                            </Stack>
                         )
                     })
                     : (<Card>

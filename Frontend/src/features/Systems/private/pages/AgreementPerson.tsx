@@ -46,7 +46,7 @@ const columns = [
             return (
                 <Badge
                     size="sm"
-                    // Azul para Titulares, Morado (grape) para Dependientes
+                    variant="filled"
                     color={isTitular ? "" : "grape"}
                 >
                     {isTitular ? "Titular" : "Dependiente"}

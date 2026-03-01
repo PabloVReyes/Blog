@@ -52,7 +52,7 @@ const columns = (theme: any) => [
         miw: "150px",
         render: (row: any) => {
             return (
-                <Badge size="sm">{row.cicle.name}</Badge>
+                <Badge variant="filled"  size="sm">{row.cicle.name}</Badge>
             )
         }
     },

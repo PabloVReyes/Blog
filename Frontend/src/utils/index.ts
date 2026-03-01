@@ -12,7 +12,8 @@ export {
     validateSelect,
     validateCodeMedicine,
     validateOrder,
-    validatePresentation
+    validatePresentation,
+    validateFile
 } from "./validators"
 
 export {
@@ -22,7 +23,8 @@ export {
 } from "./colors"
 
 export {
-    formatFileSize
+    formatFileSize,
+    resolveFileMeta
 } from "./files"
 
 export {

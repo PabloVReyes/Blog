@@ -37,6 +37,8 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 
 import Lottie from "lottie-react";
 import catAnimation from "@/assets/cat.json";
+import SpaceCatAnimation from "@/assets/space_cat.json";
+
 import { catMessages } from "@/utils";
 
 interface SettingsProps {
@@ -63,6 +65,11 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
     const [message, setMessage] = useState(catMessages[0]);
     const [showBubble, setShowBubble] = useState(false);
 
+    const [showIdleCat, setShowIdleCat] = useState(false);
+    const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const IDLE_TIME = 60000; // 30 segundos
+
+    /* ================= SCROLL ================= */
     useEffect(() => {
         const container = scrollContainer.current;
         if (!container) return;
@@ -80,7 +87,7 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
         return () => container.removeEventListener("scroll", handleScroll);
     }, [scrollContainer]);
 
-    // Mostrar burbuja cuando se abre el menú
+    /* ================= MENSAJES GATO ================= */
     useEffect(() => {
         if (!menuOpened) return;
 
@@ -95,6 +102,38 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
         return () => clearTimeout(timer);
     }, [menuOpened]);
 
+    /* ================= IDLE DETECTOR ================= */
+
+    useEffect(() => {
+        const resetTimer = () => {
+            if (idleTimerRef.current) {
+                clearTimeout(idleTimerRef.current);
+            }
+
+            setShowIdleCat(false);
+
+            idleTimerRef.current = setTimeout(() => {
+                setShowIdleCat(true);
+            }, IDLE_TIME);
+        };
+
+        const events = ["mousemove", "keydown", "scroll", "click", "touchstart"];
+
+        events.forEach((event) =>
+            window.addEventListener(event, resetTimer)
+        );
+
+        resetTimer();
+
+        return () => {
+            if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+            events.forEach((event) =>
+                window.removeEventListener(event, resetTimer)
+            );
+        };
+    }, []);
+
+    /* ================= ACCIONES ================= */
     const scrollToTop = () =>
         scrollContainer.current?.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -293,6 +332,32 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
                     </Portal>
                 )}
             </Stack>
+
+            {showIdleCat && (
+                <Portal>
+                    <div
+                        style={{
+                            position: "fixed",
+                            inset: 0,
+                            zIndex: 3000,
+                            background: "rgba(0,0,0,0.5)",
+                            backdropFilter: "blur(6px)",
+                        }}
+                    >
+                        <div style={{ width: 500 }}>
+                            <Lottie
+                                animationData={SpaceCatAnimation}
+                                loop
+                                autoplay
+                                style={{
+                                    width: "100vw",
+                                    height: "100vh",
+                                }}
+                            />
+                        </div>
+                    </div>
+                </Portal>
+            )}
         </Affix>
     );
 };
