@@ -114,8 +114,8 @@ export const PatientSafety = () => {
             <Alert
                 color="red"
                 title={
-                    <Group align="center" gap="xs" mb="sm">
-                        <TablerIcons.IconAlertTriangle color="red" />
+                    <Group align="center" gap="xs" mb="sm" wrap="nowrap">
+                        <TablerIcons.IconAlertTriangle color="red" style={{ flex: "0 0 auto" }} />
                         <Text fw={600} fz="lg">
                             Importante: Es responsabilidad de todos conocer cada uno de los Códigos de Seguridad Hospitalaria
                         </Text>
@@ -307,7 +307,7 @@ export const PatientSafety = () => {
                                             }}
                                         >
                                             <Group align="flex-start" gap={6} wrap="nowrap">
-                                                <TablerIcons.IconInfoCircle size={16} />
+                                                <TablerIcons.IconInfoCircle size={16} style={{ flex: "0 0 auto" }} />
                                                 <Text size="sm" c="light-dark(gray.6, gray.4)" style={{ lineHeight: 1.5, flex: 1 }}>
                                                     {code.description}
                                                 </Text>

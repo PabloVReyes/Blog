@@ -219,7 +219,7 @@ export const deleteDownloadService = async (id: number) => {
     const download: any = await repo.getDownloadByIdRepository(id)
 
     if (!download) {
-        throw new Error("Sistema no encontrado")
+        throw new Error("Descarga no encontrada")
     }
 
     if (download.filePath) {

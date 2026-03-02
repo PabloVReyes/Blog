@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as controller from "./downloads.controller"
+import * as controller from "./uveh.controller"
 import multer from "multer";
 import { sanitizeFileName } from "@/routes/macroprocess.routes";
 import { uploadsRoot } from "./path";
@@ -28,20 +28,10 @@ export const upload = multer({
     }
 });
 
-// Areas
-router.post("/areas", controller.postDownloadAreaController)
-router.get("/areas", controller.getAreasController)
-router.get("/areas/:slug", controller.getAreasWithDownloadsController)
-router.put("/areas/:id", controller.putAreaController)
-router.delete("/areas/:id", controller.deleteAreaController)
-
-// Secciones
-router.post('/sections', controller.postSectionController)
-router.get('/sections/:area', controller.getSectionsByAreaController)
-
 // Categorias
 router.post('/categories', controller.postCategoryController)
-router.get("/categories/:section", controller.getCategoriesBySectionController)
+router.get('/categories', controller.getCategoriesController)
+router.get('/categories-downloads', controller.getCategoriesWithDownloadsController)
 
 // Descargas
 router.get('/', controller.getDownloadsController)

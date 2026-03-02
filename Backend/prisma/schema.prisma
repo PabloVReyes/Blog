@@ -571,13 +571,13 @@ model DownloadCategory {
 model DownloadFile {
   id          Int     @id @default(autoincrement())
   name        String
-  description String?
+  description String? @db.LongText
 
   fileName String
   filePath String
   fileSize Int
   mimeType String
-  
+
   type FileType @default(DOCUMENT)
 
   isNew    Boolean @default(false)
@@ -593,4 +593,32 @@ model DownloadFile {
   @@index([categoryId])
   @@index([isActive])
   @@index([type])
+}
+
+model uveh {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String? @db.LongText
+  isNew       Boolean @default(false)
+
+  fileName String
+  filePath String
+  fileSize Int
+  mimeType String
+
+  categoryId Int
+  category   uvehCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model uvehCategory {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  uvehs uveh[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

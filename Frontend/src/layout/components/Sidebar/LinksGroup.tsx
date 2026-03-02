@@ -103,8 +103,8 @@ export const LinksGroup = ({
     const Content = (
         <>
             <Box style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <IconComponent size={20} stroke={2} />
-                <Box>{label}</Box>
+                <IconComponent size={20} stroke={2} style={{ flex: "0 0 auto" }} />
+                <Box style={{ flex: 1, minWidth: 0 }}>{label}</Box>
             </Box>
 
             {hasLinks && (

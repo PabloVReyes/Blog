@@ -27,5 +27,10 @@ export {
     downloadsPublicRoutes
 } from "./Downloads"
 
+export {
+    uvehPublicRoutes,
+    uvehPrivateRoutes
+} from "./UVEH"
+
 export { Uploads } from "./uploads"
 export { Sidebar } from "./sidebar"

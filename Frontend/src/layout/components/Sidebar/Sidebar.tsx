@@ -62,6 +62,12 @@ export const Sidebar = () => {
             }))
         },
         {
+            id: "uveh",
+            label: "Vigilancia Epidemiológica",
+            icon: "IconVirus",
+            link: "/uveh"
+        },
+        {
             id: "normas-oficiales",
             label: "Normas Oficiales",
             icon: "IconFileText",

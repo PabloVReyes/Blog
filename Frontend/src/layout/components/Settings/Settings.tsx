@@ -48,7 +48,7 @@ interface SettingsProps {
 export const Settings = ({ scrollContainer }: SettingsProps) => {
     const os = useOs();
     const theme = useMantineTheme();
-
+    const [rotation, setRotation] = useState(0);
     const { openModal } = useModalStore();
     const { setTheme } = useSettingStore();
 
@@ -67,7 +67,7 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
 
     const [showIdleCat, setShowIdleCat] = useState(false);
     const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
-    const IDLE_TIME = 60000; // 30 segundos
+    const IDLE_TIME = 30 * 60 * 1000; // 30 minutos
 
     /* ================= SCROLL ================= */
     useEffect(() => {
@@ -175,6 +175,11 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
     }, [menuOpened]);
+
+    const getRandomRotation = () => {
+        const randomStep = Math.floor(Math.random() * 360) + 90;
+        return randomStep;
+    };
 
     return (
         <Affix position={{ bottom: 20, right: 20 }} zIndex={1000}>
@@ -342,18 +347,45 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
                             zIndex: 3000,
                             background: "rgba(0,0,0,0.5)",
                             backdropFilter: "blur(6px)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            overflow: "visible",
                         }}
                     >
-                        <div style={{ width: 500 }}>
-                            <Lottie
-                                animationData={SpaceCatAnimation}
-                                loop
-                                autoplay
+                        <div
+                            style={{
+                                width: "100vw",
+                                height: "100vh",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                transform: `rotate(${rotation}deg)`,
+                                transformOrigin: "center center",
+                                transition: "transform 0.8s ease-in-out",
+                            }}
+                        >
+                            <div
                                 style={{
-                                    width: "100vw",
-                                    height: "100vh",
+                                    width: "180%",
+                                    height: "180%",
+                                    overflow: "visible",
                                 }}
-                            />
+                            >
+                                <Lottie
+                                    animationData={SpaceCatAnimation}
+                                    loop
+                                    autoplay
+                                    onLoopComplete={() => {
+                                        const randomRotation = getRandomRotation();
+                                        setRotation((prev) => prev + randomRotation);
+                                    }}
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                    }}
+                                />
+                            </div>
                         </div>
                     </div>
                 </Portal>

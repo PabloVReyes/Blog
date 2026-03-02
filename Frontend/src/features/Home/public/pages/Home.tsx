@@ -2,7 +2,7 @@ import { Card, Center, Container, Grid, Group, Loader, Stack, Text } from "@mant
 import { AccessCard, Calendar, Carousel, Derechohabiencia } from "../components";
 import { Alert } from "@/ui";
 import { useMediaQuery } from "@mantine/hooks";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fecthHomeSections } from "../api";
 import * as TablerIcons from "@tabler/icons-react";
 import { MiniCalendar } from '@mantine/dates';
@@ -27,6 +27,13 @@ export const Home = () => {
     const derechoSection = data.find((s) => s.type === "DERECHOHABIENCIA");
     const accessCardSection = data.find((s) => s.type === "ACCESS_CARD");
 
+    const IconComponent =
+        alertSection?.alert?.icon
+            ?
+            alertSection.alert.icon &&
+            (TablerIcons as any)[alertSection.alert.icon]
+            : null;
+
     return (
         <Container>
             <Stack>
@@ -35,11 +42,10 @@ export const Home = () => {
                     <Alert
                         color={alertSection.alert.color}
                         title={
-                            <Group align="center" gap="xs" mb="sm">
+                            <Group align="center" gap="xs" mb="sm" wrap="nowrap">
                                 {alertSection.alert.icon &&
-                                    React.createElement(
-                                        (TablerIcons as any)[alertSection.alert.icon]
-                                    )}
+                                    <IconComponent style={{ flex: "0 0 auto" }} />
+                                }
                                 <Text fw={600} fz="lg">
                                     {alertSection.alert.title}
                                 </Text>

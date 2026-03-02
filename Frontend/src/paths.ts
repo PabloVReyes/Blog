@@ -48,6 +48,12 @@ export const paths = [
         ]
     },
     {
+        id: "uveh",
+        label: "Vigilancia Epidemiológica",
+        icon: "IconVirus",
+        link: "/uveh"
+    },
+    {
         id: "macroproceso",
         label: "Macroproceso",
         icon: "IconGitBranch",

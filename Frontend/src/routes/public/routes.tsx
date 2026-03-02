@@ -1,4 +1,4 @@
-import { downloadsPublicRoutes, homePublicRoutes, juristicRoutes, macroprocessPublicRoutes, standardsRoutes, systemsPublicRoutes, whoWeAreRoutes } from "@/features";
+import { downloadsPublicRoutes, homePublicRoutes, juristicRoutes, macroprocessPublicRoutes, standardsRoutes, systemsPublicRoutes, uvehPublicRoutes, whoWeAreRoutes } from "@/features";
 import { DynamicPage } from "@/features/public/pages/DynamicPage";
 import { type RouteObject } from "react-router-dom";
 
@@ -9,6 +9,7 @@ export const publicRoutes: RouteObject = {
         macroprocessPublicRoutes,
         homePublicRoutes,
         downloadsPublicRoutes,
+        uvehPublicRoutes,
 
         whoWeAreRoutes,
         standardsRoutes,
