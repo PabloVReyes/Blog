@@ -1,0 +1,1 @@
+export { Standar } from './Standar'

@@ -9,6 +9,7 @@ import homeRoutes from "@/modules/home/home.routes"
 import systemsRoutes from "@/modules/systems/system.routes"
 import downloadsRoutes from "@/modules/downloads/downloads.routes"
 import uvehRoutes from "@/modules/uveh/uveh.routes"
+import standarsRoutes from "@/modules/standars/standars.routes"
 
 const router: Router = Router()
 
@@ -39,5 +40,6 @@ router.use("/api/home", homeRoutes)
 router.use("/api/systems", systemsRoutes)
 router.use("/api/downloads", downloadsRoutes)
 router.use("/api/uveh", uvehRoutes)
+router.use("/api/standars", standarsRoutes)
 
 module.exports = router;

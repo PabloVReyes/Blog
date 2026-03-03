@@ -54,6 +54,12 @@ export const paths = [
         link: "/uveh"
     },
     {
+        id: "normas-oficiales",
+        label: "Normas Oficiales",
+        icon: "IconFileText",
+        link: "/normas-oficiales"
+    },
+    {
         id: "macroproceso",
         label: "Macroproceso",
         icon: "IconGitBranch",

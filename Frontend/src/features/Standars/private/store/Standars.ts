@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import type { AreasState } from "./types";
-import { addArea, deleteArea, fetchAreas, updateArea } from "../api";
+import type { StandarsState } from "./types";
+import { addStandar, deleteStandar, fetchStandars, updateStandar } from "../api";
 
-export const useAreasStore = create<AreasState>((set, get) => ({
+export const useStandarsStore = create<StandarsState>((set, get) => ({
     page: 1,
     limit: 10,
     totalItems: 0,
@@ -25,7 +25,7 @@ export const useAreasStore = create<AreasState>((set, get) => ({
             set({ isLoading: true })
             const { page, limit, search } = get()
 
-            const { data, meta } = await fetchAreas({ page, limit, search })
+            const { data, meta } = await fetchStandars({ page, limit, search })
 
             set({
                 items: data,
@@ -47,7 +47,7 @@ export const useAreasStore = create<AreasState>((set, get) => ({
 
     async add(data) {
         try {
-            await addArea(data)
+            await addStandar(data)
             get().fetch()
             set({
                 page: 1
@@ -63,7 +63,7 @@ export const useAreasStore = create<AreasState>((set, get) => ({
 
     async remove(id) {
         try {
-            await deleteArea(Number(id))
+            await deleteStandar(Number(id))
             get().fetch()
             set({
                 page: 1
@@ -79,16 +79,16 @@ export const useAreasStore = create<AreasState>((set, get) => ({
 
     async update(id, data) {
         try {
-            const newData = await updateArea(id, data)
+            const newData = await updateStandar(Number(id), data)
             set((state) => ({
                 items: state.items.map((system: any) =>
-                    system.id === id
+                    system.id === Number(id)
                         ? {
                             ...system,
                             ...newData
                         }
                         : system
-                )
+                ),
             }))
         } catch (error: any) {
             const message =

@@ -32,5 +32,10 @@ export {
     uvehPrivateRoutes
 } from "./UVEH"
 
+export {
+    standarsPublicRoutes,
+    standarsPrivateRoutes
+} from "./Standars"
+
 export { Uploads } from "./uploads"
 export { Sidebar } from "./sidebar"
