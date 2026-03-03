@@ -1,4 +1,4 @@
-import { Container, Grid, List, Stack, Title } from "@mantine/core"
+import { Container, List, SimpleGrid, Stack, Title } from "@mantine/core"
 import { Card } from "../components"
 import { IconAward, IconBuildingHospital, IconGolf, IconTarget } from "@tabler/icons-react"
 
@@ -10,24 +10,20 @@ export const OrganizationalPhilosophy = () => {
                     Filosofia Organizacional
                 </Title>
 
-                <Grid columns={12}>
-                    <Grid.Col span={6}>
-                        <Card
-                            Icon={IconTarget}
-                            title="Misión"
-                            color="green"
-                            content={"Brindar atención medica gratuita a la población sin seguridad social, centrada en la seguridad del paciente con calidad, sentido humano, promoviendo el autocuidado de su salud, desarrollando investigación y formando profesionales de la salud calificados."}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={6}>
-                        <Card
-                            Icon={IconBuildingHospital}
-                            title="Visión"
-                            color="blue"
-                            content={"Ser un hospital de tercer nivel garante del derecho de la salud, reconocido por su modelo de calidad centrado en la seguridad del paciente, consolidado como un centro de educación e investigación de referencia nacional."}
-                        />
-                    </Grid.Col>
-                </Grid>
+                <SimpleGrid cols={{ base: 1, md: 2 }}>
+                    <Card
+                        Icon={IconTarget}
+                        title="Misión"
+                        color="green"
+                        content={"Brindar atención medica gratuita a la población sin seguridad social, centrada en la seguridad del paciente con calidad, sentido humano, promoviendo el autocuidado de su salud, desarrollando investigación y formando profesionales de la salud calificados."}
+                    />
+                    <Card
+                        Icon={IconBuildingHospital}
+                        title="Visión"
+                        color="blue"
+                        content={"Ser un hospital de tercer nivel garante del derecho de la salud, reconocido por su modelo de calidad centrado en la seguridad del paciente, consolidado como un centro de educación e investigación de referencia nacional."}
+                    />
+                </SimpleGrid>
 
                 <Card
                     Icon={IconAward}

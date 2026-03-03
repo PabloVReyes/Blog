@@ -1,6 +1,6 @@
 export {
-    whoWeAreRoutes,
-} from "./public"
+    whoWeArePublicRoutes
+} from "./WhoWeAre"
 
 export {
     systemsPrivateRoutes,

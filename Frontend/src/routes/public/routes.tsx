@@ -1,4 +1,4 @@
-import { downloadsPublicRoutes, homePublicRoutes, juristicPublicRoutes, macroprocessPublicRoutes, standarsPublicRoutes, systemsPublicRoutes, uvehPublicRoutes, whoWeAreRoutes } from "@/features";
+import { downloadsPublicRoutes, homePublicRoutes, juristicPublicRoutes, macroprocessPublicRoutes, standarsPublicRoutes, systemsPublicRoutes, uvehPublicRoutes, whoWeArePublicRoutes } from "@/features";
 import { type RouteObject } from "react-router-dom";
 
 export const publicRoutes: RouteObject = {
@@ -11,8 +11,7 @@ export const publicRoutes: RouteObject = {
         uvehPublicRoutes,
         standarsPublicRoutes,
         juristicPublicRoutes,
-
-        whoWeAreRoutes,
+        whoWeArePublicRoutes
     ]
 }
 

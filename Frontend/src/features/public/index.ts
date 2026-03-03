@@ -1,1 +1,0 @@
-export { whoWeAreRoutes } from "./WhoWeAre"

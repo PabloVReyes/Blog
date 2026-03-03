@@ -1,7 +1,7 @@
 import { Navigate, type RouteObject } from "react-router-dom";
 import { CodesOfEthics, OrganizationalPhilosophy } from "../pages";
 
-export const whoWeAreRoutes: RouteObject = {
+export const whoWeArePublicRoutes: RouteObject = {
     path: "quienes-somos",
     children: [
         {
