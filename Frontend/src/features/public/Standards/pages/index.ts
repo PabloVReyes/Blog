@@ -1,1 +1,0 @@
-export { Standards } from "./Standards"

@@ -1,1 +1,0 @@
-export { StandardsCard } from "./StandardsCard"

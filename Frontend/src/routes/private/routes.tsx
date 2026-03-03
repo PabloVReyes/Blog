@@ -1,5 +1,4 @@
-import { homePrivateRoutes, settingsPrivateRoutes, standarsPrivateRoutes, systemsPrivateRoutes, uvehPrivateRoutes } from "@/features";
-import { downloadsPrivateRoutes } from "@/features/Downloads";
+import { downloadsPrivateRoutes, homePrivateRoutes, juristicPrivateRoutes, settingsPrivateRoutes, standarsPrivateRoutes, systemsPrivateRoutes, uvehPrivateRoutes } from "@/features";
 import { macroprocessPrivateRoutes } from "@/features/Macroprocess";
 import type { RouteObject } from "react-router-dom";
 
@@ -12,6 +11,7 @@ export const privateRoutes: RouteObject = {
         settingsPrivateRoutes,
         downloadsPrivateRoutes,
         uvehPrivateRoutes,
-        standarsPrivateRoutes
+        standarsPrivateRoutes,
+        juristicPrivateRoutes
     ]
 }

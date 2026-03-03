@@ -148,11 +148,14 @@ export const putStandarRepository = async ({
                 filePath,
                 fileSize,
                 mimeType
+            },
+            include: {
+                category: true
             }
         })
     } catch (error) {
         console.error("error en putStandarRepository")
-        console.log("Errror al crear norma oficial")
+        throw new Error("Error al actualizar norma oficial")
     }
 }
 

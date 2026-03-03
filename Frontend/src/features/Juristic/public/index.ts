@@ -1,0 +1,1 @@
+export { juristicPublicRoutes } from "./routes"

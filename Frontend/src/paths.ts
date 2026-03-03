@@ -60,6 +60,12 @@ export const paths = [
         link: "/normas-oficiales"
     },
     {
+        id: "disposiciones-juridicas-administrativas",
+        label: "Disposiciones Juridicas Administrativas",
+        icon: "IconGavel",
+        link: "/disposiciones-juridicas-administrativas"
+    },
+    {
         id: "macroproceso",
         label: "Macroproceso",
         icon: "IconGitBranch",

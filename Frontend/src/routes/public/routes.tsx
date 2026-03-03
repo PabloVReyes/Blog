@@ -1,5 +1,4 @@
-import { downloadsPublicRoutes, homePublicRoutes, juristicRoutes, macroprocessPublicRoutes, standarsPublicRoutes, systemsPublicRoutes, uvehPublicRoutes, whoWeAreRoutes } from "@/features";
-import { DynamicPage } from "@/features/public/pages/DynamicPage";
+import { downloadsPublicRoutes, homePublicRoutes, juristicPublicRoutes, macroprocessPublicRoutes, standarsPublicRoutes, systemsPublicRoutes, uvehPublicRoutes, whoWeAreRoutes } from "@/features";
 import { type RouteObject } from "react-router-dom";
 
 export const publicRoutes: RouteObject = {
@@ -11,13 +10,9 @@ export const publicRoutes: RouteObject = {
         downloadsPublicRoutes,
         uvehPublicRoutes,
         standarsPublicRoutes,
+        juristicPublicRoutes,
 
         whoWeAreRoutes,
-        juristicRoutes,
-        {
-            path: ":slug",
-            element: <DynamicPage />
-        },
     ]
 }
 

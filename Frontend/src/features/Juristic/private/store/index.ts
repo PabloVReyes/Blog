@@ -1,0 +1,1 @@
+export { useJuristicStore } from "./Juristic"

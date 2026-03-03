@@ -1,7 +1,5 @@
 export {
     whoWeAreRoutes,
-    standardsRoutes,
-    juristicRoutes,
 } from "./public"
 
 export {
@@ -24,7 +22,8 @@ export {
 } from "./Home"
 
 export {
-    downloadsPublicRoutes
+    downloadsPublicRoutes,
+    downloadsPrivateRoutes
 } from "./Downloads"
 
 export {
@@ -36,6 +35,11 @@ export {
     standarsPublicRoutes,
     standarsPrivateRoutes
 } from "./Standars"
+
+export {
+    juristicPrivateRoutes,
+    juristicPublicRoutes
+} from "./Juristic"
 
 export { Uploads } from "./uploads"
 export { Sidebar } from "./sidebar"

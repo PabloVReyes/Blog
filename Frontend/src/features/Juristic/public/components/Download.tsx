@@ -1,10 +1,10 @@
 import { Badge, Button, Card, Flex, Group, Image, Stack, Text, ThemeIcon, Title } from "@mantine/core"
-import classes from "./Standar.module.css"
+import classes from "./Download.module.css"
 import { colorMap, formatFileSize, resolveFileMeta } from "@/utils"
-import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-react"
+import { IconDownload, IconExternalLink, IconGavel } from "@tabler/icons-react"
 import { downloadFile } from "../api"
 
-export const Standar = ({ id, color, name, description, fileSize, mimeType, fileName, isNew, type, filePath, category }: any) => {
+export const Download = ({ id, color, name, description, fileSize, mimeType, fileName, isNew, type, filePath }: any) => {
     const download = async (id: string) => {
         try {
             const response = await downloadFile(id)
@@ -78,7 +78,7 @@ export const Standar = ({ id, color, name, description, fileSize, mimeType, file
                                 '--icon-rgb': colorMap[color] || "#40c057" // fallback green
                             } as React.CSSProperties}
                         >
-                            <IconFileText size={28} />
+                            <IconGavel size={28} />
                         </ThemeIcon>
                     }
 
@@ -96,17 +96,10 @@ export const Standar = ({ id, color, name, description, fileSize, mimeType, file
                                 {description}
                             </Text>
                         }
-                        <Group gap={5}>
-                            <Badge
-                                size="xs"
-                                variant="filled"
-                            >
-                                {category.name}
-                            </Badge>
-                            <Text size="xs" c="dimmed">
-                                - {fileMeta.label} • {formatFileSize(fileSize)}
-                            </Text>
-                        </Group>
+
+                        <Text size="xs" c="dimmed">
+                            {fileMeta.label} • {formatFileSize(fileSize)}
+                        </Text>
                     </Stack>
                 </Flex>
 

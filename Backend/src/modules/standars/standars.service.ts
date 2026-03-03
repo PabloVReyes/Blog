@@ -13,7 +13,7 @@ import { uploadsRoot } from "./path"
 export const postSdantardService = async (dto: types.StandarCreateDto) => {
     const { name, description, isNew, category, file } = dto
 
-    await repo.postStandarRepository({
+    return await repo.postStandarRepository({
         name,
         description: description ?? null,
         isNew,

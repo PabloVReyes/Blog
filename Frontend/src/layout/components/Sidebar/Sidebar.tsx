@@ -80,6 +80,12 @@ export const Sidebar = () => {
             link: "/disposiciones-juridicas-administrativas"
         },
         {
+            id: "macroproceso",
+            label: "Macroproceso",
+            icon: "IconGitBranch",
+            link: "/macroproceso"
+        },
+        {
             id: "descargas",
             label: "Descargar Información",
             icon: "IconDownload",
@@ -90,12 +96,6 @@ export const Sidebar = () => {
                 icon: area.icon,
                 link: `${area.slug}`,
             }))
-        },
-        {
-            id: "macroproceso",
-            label: "Macroproceso",
-            icon: "IconGitBranch",
-            link: "/macroproceso"
         },
         ...menu
     ]

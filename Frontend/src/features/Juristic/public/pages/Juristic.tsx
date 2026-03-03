@@ -2,8 +2,8 @@ import { Container } from "@/components"
 import { Alert, Notify } from "@/ui"
 import { Card, Center, Loader, Text, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { fetchStandars } from "../api";
-import { Standar } from "../components";
+import { Download } from "../components";
+import { fetchJuristics } from "../api";
 
 export interface Data {
     data: Datum[];
@@ -19,15 +19,6 @@ export interface Datum {
     filePath: string;
     fileSize: number;
     mimeType: string;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    category: Category;
-}
-
-export interface Category {
-    id: number;
-    name: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -39,8 +30,7 @@ export interface Meta {
     totalPages: number;
 }
 
-
-export const Standars = () => {
+export const Juristic = () => {
     const theme = useMantineTheme()
     const [data, setData] = useState<Data>({
         data: [],
@@ -53,7 +43,7 @@ export const Standars = () => {
         try {
             setLoading(true)
 
-            const response = await fetchStandars();
+            const response = await fetchJuristics();
             setData(response);
         } catch (error: any) {
             Notify({
@@ -74,16 +64,15 @@ export const Standars = () => {
 
     return (
         <Container
-            title="Normas Oficilaes Mexicanas"
-            description="Las Normas Oficiales Mexicanas (NOM) son regulaciones técnicas de observancia obligatoria expedidas por las dependencias competentes, que tienen como finalidad establecer las características que deben reunir los procesos o servicios cuando estos puedan constituir un riesgo para la seguridad de las personas o dañar la salud humana; así como aquellas relativas a terminología y las que se refieran a su cumplimiento y aplicación.
-                    Las NOM en materia de Prevención y Promoción de la Salud, una vez aprobadas por el Comité Consultivo Nacional de Normalización de Prevención y Control de Enfermedades (CCNNPCE) son expedidas y publicadas en el Diario Oficial de la Federación y, por tratarse de materia sanitaria, entran en vigor al día siguiente de su publicación."
+            title="Disposiciones Jurídicas Administrativas"
+            description="Leyes, Códigos, Reglamentos, Decretos, Lineamientos, Acuerdos, Circulares, Manuales, Guías, Otros"
         >
             {loading
                 ? (<Center h={"100%"}><Loader /></Center>)
                 : data.data?.length > 0
                     ?
                     data.data.map((standar, index: number) => (
-                        <Standar {...standar} key={index} color={theme.primaryColor} />
+                        <Download {...standar} key={index} color={theme.primaryColor} />
                     ))
                     : (
                         <Card>
@@ -91,8 +80,9 @@ export const Standars = () => {
                         </Card>)
             }
             <Alert
-                title="Actualizaciones y Modificaciones"
-                content="Las normas oficiales están sujetas a actualizaciones periódicas. Verifica siempre la versión más reciente en el Diario Oficial de la Federación o consulta con el área de Calidad."
+                color="yellow"
+                title="Marco Legal y Normativo"
+                content="Las disposiciones jurídicas y administrativas aquí presentadas constituyen el marco legal que rige las operaciones del centro hospitalario. Para consultas específicas o interpretación jurídica, favor de contactar al Departamento Jurídico de la institución."
             />
         </Container>
     )

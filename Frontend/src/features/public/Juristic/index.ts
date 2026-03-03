@@ -1,1 +1,0 @@
-export { juristicRoutes } from "./routes"
