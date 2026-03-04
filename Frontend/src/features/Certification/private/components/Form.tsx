@@ -2,7 +2,7 @@ import { Divider, Fieldset, FileInput, Stack, Text, TextInput } from "@mantine/c
 import { ApiSelect, ModalButtons, Switch } from "@/components";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { useEffect, useState } from "react";
-import { addCategory, fetchCategories } from "../api";
+import { addSection, fetchSections } from "../api";
 
 interface Item {
     value: string;
@@ -18,27 +18,27 @@ interface Props {
 }
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
-    const [categories, setCategories] = useState<Item[]>([])
-    const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
+    const [sections, setSections] = useState<Item[]>([])
+    const [loadingSections, setLoadingSections] = useState<boolean>(false)
 
-    const fecthCategoriesData = async () => {
-        setLoadingCategories(true)
+    const fecthSectionsData = async () => {
+        setLoadingSections(true)
         try {
-            const res = await fetchCategories();
+            const res = await fetchSections();
             const formatted = res.data.map((item: any) => ({
                 value: item.id.toString(),
                 label: item.name
             }))
 
-            setCategories(formatted);
+            setSections(formatted);
         } finally {
-            setLoadingCategories(false)
+            setLoadingSections(false)
         }
     }
 
 
     useEffect(() => {
-        fecthCategoriesData()
+        fecthSectionsData()
     }, [])
 
     return (
@@ -90,19 +90,20 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                     <ApiSelect
                         withAsterisk
                         form={form}
-                        name="category"
-                        label="Categoria"
-                        description="Selecciona la categoria donde se encontrara el archivo"
-                        placeholder="Categoria"
-                        data={categories}
-                        loading={loadingCategories}
+                        name="section"
+                        label="Sección"
+                        description="Selecciona la sección donde se encontrara el archivo"
+                        placeholder="Sección"
+                        data={sections}
+                        loading={loadingSections}
                         onCreate={async (name) => {
-                            const res = await addCategory({ name, section: form.values.section });
+                            const res = await addSection({ name, section: form.values.section });
                             const newItem = { value: res.id.toString(), label: res.name };
-                            setCategories((prev) => [...prev, newItem]);
+                            setSections((prev) => [...prev, newItem]);
                             return newItem;
                         }}
                     />
+
                 </Fieldset>
 
                 <Fieldset legend="Archivo">

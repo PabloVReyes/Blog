@@ -11,6 +11,7 @@ import downloadsRoutes from "@/modules/downloads/downloads.routes"
 import uvehRoutes from "@/modules/uveh/uveh.routes"
 import standarsRoutes from "@/modules/standars/standars.routes"
 import juristicsRoutes from "@/modules/juristics/juristics.routes"
+import certificationRoutes from "@/modules/certification/certification.routes"
 
 const router: Router = Router()
 
@@ -43,5 +44,6 @@ router.use("/api/downloads", downloadsRoutes)
 router.use("/api/uveh", uvehRoutes)
 router.use("/api/standars", standarsRoutes)
 router.use("/api/juristics", juristicsRoutes)
+router.use("/api/certification", certificationRoutes)
 
 module.exports = router;

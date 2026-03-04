@@ -44,7 +44,7 @@ export const ColorSelect = ({
                                 onClick={() => setColor(name)}
                                 style={{
                                     cursor: "pointer",
-                                    color: '#fff'
+                                    color: 'var(--mantine-primary-color-contrast)'
                                 }}
                             >
                                 {color === name && <IconCheck size={25} />}

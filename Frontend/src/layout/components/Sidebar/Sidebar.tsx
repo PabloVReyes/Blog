@@ -80,6 +80,12 @@ export const Sidebar = () => {
             link: "/disposiciones-juridicas-administrativas"
         },
         {
+            id: "certification",
+            label: "Certificación",
+            icon: "IconAward",
+            link: "/certificacion"
+        },
+        {
             id: "macroproceso",
             label: "Macroproceso",
             icon: "IconGitBranch",

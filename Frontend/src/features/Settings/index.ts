@@ -1,2 +1,2 @@
-export { settingsPrivateRoutes } from "./routes"
-export { useSettingStore } from "./store"
+export { settingsPrivateRoutes } from "./private"
+export { useSettingStore } from "./private/store"

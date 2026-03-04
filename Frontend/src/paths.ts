@@ -66,6 +66,12 @@ export const paths = [
         link: "/disposiciones-juridicas-administrativas"
     },
     {
+        id: "certification",
+        label: "Certificación",
+        icon: "IconAward",
+        link: "/certificacion"
+    },
+    {
         id: "macroproceso",
         label: "Macroproceso",
         icon: "IconGitBranch",
@@ -93,27 +99,6 @@ export const paths = [
             }
         ]
     },
-    // {
-    //     label: "Páginas",
-    //     icon: "IconAppWindow",
-    //     link: "/administration/pages",
-    //     children: [
-    //         {
-    //             label: "Inicio",
-    //             link: "/administration/pages/home",
-    //         }
-    //     ]
-    // },
-    // {
-    //     label: "Menú lateral",
-    //     icon: "IconLayoutSidebar",
-    //     link: "/administration/sidebar",
-    // },
-    // {
-    //     label: "Archivos",
-    //     icon: "IconFiles",
-    //     link: "/administration/uploads"
-    // },
     {
         label: "Configuraciones",
         icon: "IconSettings",

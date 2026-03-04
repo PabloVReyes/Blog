@@ -1,17 +1,18 @@
-import { downloadsPublicRoutes, homePublicRoutes, juristicPublicRoutes, macroprocessPublicRoutes, standarsPublicRoutes, systemsPublicRoutes, uvehPublicRoutes, whoWeArePublicRoutes } from "@/features";
+import { certificationPublicRoutes, downloadsPublicRoutes, homePublicRoutes, juristicPublicRoutes, macroprocessPublicRoutes, standarsPublicRoutes, systemsPublicRoutes, uvehPublicRoutes, whoWeArePublicRoutes } from "@/features";
 import { type RouteObject } from "react-router-dom";
 
 export const publicRoutes: RouteObject = {
     path: "/",
     children: [
+        whoWeArePublicRoutes,
         systemsPublicRoutes,
-        macroprocessPublicRoutes,
-        homePublicRoutes,
-        downloadsPublicRoutes,
         uvehPublicRoutes,
         standarsPublicRoutes,
         juristicPublicRoutes,
-        whoWeArePublicRoutes
+        macroprocessPublicRoutes,
+        certificationPublicRoutes,
+        homePublicRoutes,
+        downloadsPublicRoutes,
     ]
 }
 

@@ -66,7 +66,7 @@ export const getCategoriesRepository = async () => {
     try {
         const [data, total] = await Promise.all([
             database.standarsCategory.findMany(),
-            database.standars.count()
+            database.standarsCategory.count()
         ])
 
         return { data, total }

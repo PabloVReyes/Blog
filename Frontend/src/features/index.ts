@@ -41,5 +41,7 @@ export {
     juristicPublicRoutes
 } from "./Juristic"
 
-export { Uploads } from "./uploads"
-export { Sidebar } from "./sidebar"
+export {
+    certificationPublicRoutes,
+    certificationPrivateRoutes
+} from "./Certification"

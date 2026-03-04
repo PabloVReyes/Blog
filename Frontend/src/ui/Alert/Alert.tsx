@@ -70,7 +70,11 @@ export const Alert = ({
         <Card
             withBorder
             p="lg"
-            style={{ backgroundColor: `${AlertColor(color).backgroud}`, borderColor: `${AlertColor(color).border}` }}
+            style={{ 
+                backgroundColor: `${AlertColor(color).backgroud}`, 
+                borderColor: `${AlertColor(color).border}`, 
+                justifyContent: "center"
+            }}
         >
             {title &&
                 <Text fw={600} fz="lg" c={AlertColor(color).title}>

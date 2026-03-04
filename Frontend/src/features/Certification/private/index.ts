@@ -1,0 +1,1 @@
+export { certificationPrivateRoutes } from "./routes"
