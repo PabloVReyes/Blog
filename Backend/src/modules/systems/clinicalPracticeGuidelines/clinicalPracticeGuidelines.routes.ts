@@ -2,8 +2,9 @@ import { Router } from "express";
 import * as controller from "./clinicalPracticeGuidelines.controller"
 import multer from "multer";
 import path from "path";
-import { sanitizeFileName } from "@/routes/macroprocess.routes";
+
 import fs from "fs"
+import { sanitizeFileName } from "@/utils/file";
 
 const router: Router = Router()
 

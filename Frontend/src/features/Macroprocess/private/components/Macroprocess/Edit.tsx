@@ -5,10 +5,14 @@ import { useMacroprocessStore } from "../../store";
 import { useState } from "react";
 import { IconCheck } from "@tabler/icons-react";
 import { Notify } from "@/ui";
+import { validatePdf } from "@/utils";
 
-const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+interface Props {
+    id: string,
+    fileName?: string | null
+}
 
-export const Edit = ({ id, fileName }: any) => {
+export const Edit = ({ id, fileName }: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
     const { openModal } = useModalStore()
     const { closeModal } = useModalStore()
@@ -20,22 +24,7 @@ export const Edit = ({ id, fileName }: any) => {
             file: null as File | null
         },
         validate: {
-            file: (file) => {
-
-                if (!file) {
-                    return "El archivo es obligatorio";
-                }
-
-                if (file.type !== "application/pdf") {
-                    return "Solo se permiten archivos PDF";
-                }
-
-                if (file.size > MAX_SIZE) {
-                    return "El PDF no debe superar 5MB";
-                }
-
-                return null;
-            },
+            file: (value) => validatePdf(value, { required: true, existingFileName: fileName })
         },
     })
 

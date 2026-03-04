@@ -1,13 +1,17 @@
 import { create } from "zustand";
-import { countManualsTypes, fetchManualsTypes, updateManualType } from "../api";
+import { fetchManualsTypes, updateManualType } from "../api";
 import type { ManualsTypesState } from "./types";
 
 export const useManualsTypesStore = create<ManualsTypesState>((set, get) => ({
     page: 1,
     limit: 10,
     totalItems: 0,
-    manuals: [],
+    items: [],
     isLoading: false,
+
+    totalPages: 0,
+    lastItem: 0,
+    firstItem: 0,
 
     // Filtros
     search: "",
@@ -15,24 +19,21 @@ export const useManualsTypesStore = create<ManualsTypesState>((set, get) => ({
 
     setPage: (page) => set({ page }),
     setLimit: (limit) => set({ limit, page: 1 }),
-    setTotalItems: (totalItems) => set({ totalItems }),
-
-    totalPages: () => Math.ceil(get().totalItems / get().limit),
-    firstItem: () =>
-        get().totalItems === 0
-            ? 0
-            : (get().page - 1) * get().limit + 1,
-    lastItem: () => Math.min(get().page * get().limit, get().totalItems),
 
     async fetch() {
         try {
             set({ isLoading: true })
             const { page, limit, search } = get()
 
-            const data = await fetchManualsTypes({ page, limit, search })
-            const count = await countManualsTypes({ search })
+            const { data, meta } = await fetchManualsTypes({ page, limit, search })
 
-            set({ manuals: data, totalItems: count })
+            set({
+                items: data,
+                totalItems: meta.total,
+                totalPages: meta.totalPages,
+                firstItem: meta.firstItem,
+                lastItem: meta.lastItem
+            })
         } catch (error: any) {
             const message =
                 error?.response?.data?.message ||
@@ -44,19 +45,22 @@ export const useManualsTypesStore = create<ManualsTypesState>((set, get) => ({
         }
     },
 
+    async add() { },
+
+    async remove() { },
+
     async update(id, data) {
         try {
-            const newData = await updateManualType(id, data)
-
+            const newData = await updateManualType(String(id), data)
             set((state) => ({
-                manuals: state.manuals.map((manual: any) =>
-                    manual.id === id
+                items: state.items.map((system: any) =>
+                    system.id === id
                         ? {
-                            ...manual,
+                            ...system,
                             ...newData
                         }
-                        : manual
-                )
+                        : system
+                ),
             }))
         } catch (error: any) {
             const message =

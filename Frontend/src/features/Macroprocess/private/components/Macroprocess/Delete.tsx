@@ -8,10 +8,11 @@ import { Notify } from "@/ui";
 
 interface Props {
     id: string;
-    fileName: string;
+    name: string;
+    area: string;
 }
 
-export const Delete = ({ id, fileName }: Props) => {
+export const Delete = ({ id, name, area }: Props) => {
     const { openModal, closeModal } = useModalStore()
     const { remove } = useMacroprocessStore()
     const [loading, setLoading] = useState<boolean>(false)
@@ -22,7 +23,7 @@ export const Delete = ({ id, fileName }: Props) => {
             value: ""
         },
         validate: {
-            value: (value => value == `Eliminar archivo ${fileName}` ? null : "Para eliminar el archivo escribe lo que se solicita")
+            value: (value => value == `Eliminar archivo ${name}` ? null : "Para eliminar el archivo escribe lo que se solicita")
         }
     })
 
@@ -65,7 +66,7 @@ export const Delete = ({ id, fileName }: Props) => {
                 >
                     <Stack>
                         <Text size="sm">
-                            Estás a punto de eliminar el archivo <Text span fw={700}>“{fileName}”</Text>.
+                            Estás a punto de eliminar el archivo <Text span fw={700}>“{name}” del área "{area}"</Text>.
                         </Text>
                         <Text size="sm">
                             Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este archivo.
@@ -74,7 +75,7 @@ export const Delete = ({ id, fileName }: Props) => {
                             Para continuar, escribe exactamente:
                         </Text>
                         <Text size="sm" fw={700}>
-                            Eliminar archivo {fileName}
+                            Eliminar archivo {name}
                         </Text>
                         <Text size="sm">
                             Esto garantiza que comprendes el impacto de esta acción.

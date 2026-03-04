@@ -1,8 +1,8 @@
 import { Router } from "express";
 import * as controller from "./standars.controller"
 import multer from "multer";
-import { sanitizeFileName } from "@/routes/macroprocess.routes";
 import { uploadsRoot } from "./path";
+import { sanitizeFileName } from "@/utils/file";
 
 const router: Router = Router()
 

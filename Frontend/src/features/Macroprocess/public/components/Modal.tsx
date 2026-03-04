@@ -103,7 +103,7 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
                                             <UnstyledButton
                                                 key={index}
                                                 p={"sm"}
-                                                disabled={!manual.storedName}
+                                                disabled={!manual.fileName}
                                                 className={styles.button}
                                                 onClick={() => download(manual.id)}
                                             >
@@ -120,7 +120,7 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
                             </Box>
 
                             <Alert
-                                color="green"
+                                color="emerald"
                                 title="Información"
                                 content="Para documentación específica, manuales
             de procedimientos, formatos o contacto directo con esta área,

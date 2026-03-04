@@ -11,13 +11,13 @@ export const columns = [
         key: "type",
         label: "Tipo",
         align: "center",
-        miw: 100,
+        miw: 150,
         render: (row: any) => {
             if (row.color === "blue") {
                 return <Badge size="xs" variant="filled" color="blue">Informativo</Badge>
             }
 
-            if (row.color === "green") {
+            if (row.color === "emerald") {
                 return <Badge size="xs" variant="filled" color="green">Exitoso</Badge>
             }
 

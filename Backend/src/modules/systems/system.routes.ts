@@ -2,7 +2,6 @@ import { Router } from "express";
 import * as controller from "./system.controller"
 import multer from "multer";
 import path from "path";
-import { sanitizeFileName } from "@/routes/macroprocess.routes";
 import cie10Rutes from "./cie10/cie10.routes"
 import monthlyReportsRoutes from "./monthlyReports/monthlyReports.routes"
 import agreementPersonRoutes from "./agreementPerson/agreementPerson.routes"
@@ -13,6 +12,7 @@ import gpcRoutes from "./gpc/gpc.routes"
 import careProtocolsRoutes from "./careProtocols/careProtocols.routes"
 import codesRoutes from "./codes/codes.routes"
 import adverseEventsRoutes from "./adverseEvents/adverseEvents.routes"
+import { sanitizeFileName } from "@/utils/file";
 
 const router: Router = Router()
 

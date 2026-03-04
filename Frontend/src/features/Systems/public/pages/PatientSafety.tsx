@@ -8,10 +8,10 @@ import * as TablerIcons from "@tabler/icons-react"
 import classes from "./PatientSafety.module.css"
 
 const messages = [
-    { title: "Emergencias Médicas", content: "Códigos para atención inmediata de situaciones médicas críticas que ponen en riesgo la vida del paciente.", color: "blue" as "blue" | "green" | "red" | "yellow" | "orange" | "cyan" },
-    { title: "Seguridad Física", content: "Códigos para protección de personas ante amenazas, robos, violencia y situaciones de riesgo físico.", color: "red" as "blue" | "green" | "red" | "yellow" | "orange" | "cyan" },
-    { title: "Desastres y Evacuación", content: "Códigos para manejo de incendios, desastres naturales y evacuación ordenada del hospital.", color: "green" as "blue" | "green" | "red" | "yellow" | "orange" | "cyan" },
-    { title: "Incidentes", content: "Códigos para manejo de derrames peligrosos y fallas en sistemas críticos del hospital.", color: "orange" as "blue" | "green" | "red" | "yellow" | "orange" | "cyan" }
+    { title: "Emergencias Médicas", content: "Códigos para atención inmediata de situaciones médicas críticas que ponen en riesgo la vida del paciente.", color: "blue" as "blue" | "emerald" | "red" | "yellow" | "orange" | "cyan" },
+    { title: "Seguridad Física", content: "Códigos para protección de personas ante amenazas, robos, violencia y situaciones de riesgo físico.", color: "red" as "blue" | "emerald" | "red" | "yellow" | "orange" | "cyan" },
+    { title: "Desastres y Evacuación", content: "Códigos para manejo de incendios, desastres naturales y evacuación ordenada del hospital.", color: "emerald" as "blue" | "emerald" | "red" | "yellow" | "orange" | "cyan" },
+    { title: "Incidentes", content: "Códigos para manejo de derrames peligrosos y fallas en sistemas críticos del hospital.", color: "orange" as "blue" | "emerald" | "red" | "yellow" | "orange" | "cyan" }
 ]
 
 interface Zone {
@@ -328,7 +328,7 @@ export const PatientSafety = () => {
                         color={message.color}
                         title={
                             <Group align="center" gap={0} mb="sm">
-                                <TablerIcons.IconPointFilled color={message.color} />
+                                <TablerIcons.IconPointFilled />
                                 <Text fw={600} fz="lg">
                                     {message.title}
                                 </Text>

@@ -12,7 +12,7 @@ import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_AUTHOR_LENGTH } from "@/c
 
 const options = [
     { label: "Informativo", value: "blue" },
-    { label: "Exitoso", value: "green" },
+    { label: "Exitoso", value: "emerald" },
     { label: "Advertencia", value: "yellow" },
     { label: "Error", value: "red" },
 ];

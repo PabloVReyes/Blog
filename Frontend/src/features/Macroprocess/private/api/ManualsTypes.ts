@@ -5,11 +5,6 @@ export const fetchManualsTypes = async ({ page, limit, search }: { page?: number
     return response.data
 }
 
-export const countManualsTypes = async ({ search }: { search: string }) => {
-    const response = await api.get(`/api/macroprocess/manuals/count?search=${search}`)
-    return response.data
-}
-
 export const updateManualType = async (id: string, body: any) => {
     const response = await api.put(`/api/macroprocess/manuals/${id}`, body)
     return response.data

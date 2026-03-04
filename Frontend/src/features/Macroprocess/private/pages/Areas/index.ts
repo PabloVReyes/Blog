@@ -1,1 +1,0 @@
-export { Areas } from "./Areas"

@@ -57,7 +57,7 @@ async function main() {
             alert: {
                 create: {
                     icon: "IconHandLoveYou",
-                    color: "green",
+                    color: "emerald",
                     title: "¡Bienvenido al sistema renovado!",
                     description:
                         "Hemos evolucionado nuestra plataforma para ofrecerte un entorno más moderno, ágil y funcional, manteniendo todo lo que ya conoces y agregando nuevas mejoras pensadas para ti.",
@@ -232,7 +232,6 @@ async function main() {
     for (const item of dataManuals) {
         await prisma.manual.create({
             data: {
-                fileName: item.fileName,
                 areaId: item.areaId,
                 manualTypeId: item.manualTypeId
             }

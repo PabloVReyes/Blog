@@ -6,6 +6,7 @@ import { ColorSelect } from "@/components";
 import { useManualsTypesStore } from "../../store";
 import { IconCheck } from "@tabler/icons-react";
 import { Notify } from "@/ui";
+import { validateCode, validateName } from "@/utils";
 
 const MAX_CODE_LENGTH = 10
 const MAX_NAME_LENGTH = 50
@@ -23,8 +24,8 @@ export const Edit = ({ id, name, color }: any) => {
             color: color
         },
         validate: {
-            code: (value) => value.length > 1 ? null : "Ingresa un código",
-            name: (value) => value.length > 3 ? null : "Ingresa un nombre de manual",
+            code: validateCode,
+            name: (value) => validateName(value, { required: true }),
             color: (value) => value.length > 2 ? null : "Selecciona un color para el código"
         },
     })

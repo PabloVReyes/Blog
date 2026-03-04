@@ -136,7 +136,7 @@ export const Certification = () => {
                     content="El Modelo Único de Evaluación de la Calidad (MUEC) es el estándar utilizado por el Consejo de Salubridad General para certificar hospitales en México."
                 />
                 <Alert
-                    color="green"
+                    color="emerald"
                     title={
                         <Group align="center" gap="xs" mb="sm" wrap="nowrap">
                             <IconFileText style={{ flex: "0 0 auto" }} />

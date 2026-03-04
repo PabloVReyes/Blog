@@ -65,7 +65,7 @@ export const Downloads = () => {
             </Card>
 
             <Alert
-                color="green"
+                color="emerald"
                 title="Información"
                 content="Haz clic en cualquier departamento para acceder a los documentos y archivos disponibles para descarga. Los archivos están organizados por categoría y fecha de publicación."
             />

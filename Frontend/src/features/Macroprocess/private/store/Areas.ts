@@ -1,13 +1,17 @@
 import { create } from "zustand";
-import { countAreas, fetchAreas, updateArea } from "../api";
+import { fetchAreas, updateArea } from "../api";
 import type { AreasState } from "./types";
 
 export const useAreasStore = create<AreasState>((set, get) => ({
     page: 1,
     limit: 10,
     totalItems: 0,
-    areas: [],
+    items: [],
     isLoading: false,
+
+    totalPages: 0,
+    lastItem: 0,
+    firstItem: 0,
 
     // Filtros
     search: "",
@@ -15,24 +19,21 @@ export const useAreasStore = create<AreasState>((set, get) => ({
 
     setPage: (page) => set({ page }),
     setLimit: (limit) => set({ limit, page: 1 }),
-    setTotalItems: (totalItems) => set({ totalItems }),
-
-    totalPages: () => Math.ceil(get().totalItems / get().limit),
-    firstItem: () =>
-        get().totalItems === 0
-            ? 0
-            : (get().page - 1) * get().limit + 1,
-    lastItem: () => Math.min(get().page * get().limit, get().totalItems),
 
     async fetch() {
         try {
             set({ isLoading: true })
             const { page, limit, search } = get()
 
-            const data = await fetchAreas({ page, limit, search })
-            const count = await countAreas({ search })
+            const { data, meta } = await fetchAreas({ page, limit, search })
 
-            set({ areas: data, totalItems: count })
+            set({
+                items: data,
+                totalItems: meta.total,
+                totalPages: meta.totalPages,
+                firstItem: meta.firstItem,
+                lastItem: meta.lastItem
+            })
         } catch (error: any) {
             const message =
                 error?.response?.data?.message ||
@@ -44,19 +45,22 @@ export const useAreasStore = create<AreasState>((set, get) => ({
         }
     },
 
+    async add() { },
+
+    async remove() { },
+
     async update(id, data) {
         try {
-            const newData = await updateArea(id, data)
-
+            const newData = await updateArea(String(id), data)
             set((state) => ({
-                areas: state.areas.map((manual: any) =>
-                    manual.id === id
+                items: state.items.map((system: any) =>
+                    system.id === id
                         ? {
-                            ...manual,
+                            ...system,
                             ...newData
                         }
-                        : manual
-                )
+                        : system
+                ),
             }))
         } catch (error: any) {
             const message =

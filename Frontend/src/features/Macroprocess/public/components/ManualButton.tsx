@@ -14,7 +14,7 @@ export const ManualButton = ({ manual, rotate, size, onClick }: ManualButtonProp
         <Button
             size={size}
             color={manual.manualType.color}
-            disabled={!manual.storedName}
+            disabled={!manual.fileName}
             onClick={onClick}
             style={{ minWidth: 0, height: '100%' }}
         >

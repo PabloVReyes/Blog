@@ -1,29 +1,29 @@
-import type { PaginationState } from "@/store/paginationStore";
+export interface MacroprocessState {
+    // Elementos
+    items: any[]
+    totalItems: number;
 
-export interface MacroprocessState extends PaginationState {
-    manuals: any[]
+    // Paginacion
+    totalPages: number;
+    page: number
+    setPage: (page: number) => void;
+    limit: number;
+    setLimit: (limit: number) => void;
+    firstItem: number;
+    lastItem: number;
+
+    // Filtros
+    search: string;
+    setSearch: (search: string) => void;
 
     fetch: () => Promise<void>;
-    update: (id: string, data: any) => Promise<void>;
-    remove: (id: string) => Promise<void>;
+    add: (data: any) => Promise<void>
+    update: (id: string | number, data: any) => Promise<void>;
+    remove: (id: string | number) => Promise<void>;
 
     isLoading: boolean
 }
 
-export interface ManualsTypesState extends PaginationState {
-    manuals: any[]
+export interface ManualsTypesState extends MacroprocessState { }
 
-    fetch: () => Promise<void>;
-    update: (id: string, data: any) => Promise<void>;
-
-    isLoading: boolean
-}
-
-export interface AreasState extends PaginationState {
-    areas: any[]
-
-    fetch: () => Promise<void>;
-    update: (id: string, data: any) => Promise<void>;
-
-    isLoading: boolean
-}
+export interface AreasState extends MacroprocessState { }

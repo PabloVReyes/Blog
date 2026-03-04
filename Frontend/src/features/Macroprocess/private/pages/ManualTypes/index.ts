@@ -1,1 +1,0 @@
-export { ManualsTypes } from "./ManualsTypes"

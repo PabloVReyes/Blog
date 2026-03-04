@@ -1,3 +1,3 @@
 export { Macroprocess } from "./Macroprocess"
-export { ManualsTypes } from "./ManualTypes"
-export {Areas} from "./Areas"
+export { ManualsTypes } from "./ManualsTypes"
+export { Areas } from "./Areas"

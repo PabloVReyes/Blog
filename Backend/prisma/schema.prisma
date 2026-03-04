@@ -208,8 +208,7 @@ model ManualType {
 
 model Manual {
   id           String  @id @unique @default(uuid())
-  fileName     String
-  storedName   String?
+  fileName     String?
   filePath     String?
   fileSize     Int?
   mimeType     String?

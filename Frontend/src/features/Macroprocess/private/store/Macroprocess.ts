@@ -1,13 +1,17 @@
 import { create } from "zustand";
 import type { MacroprocessState } from "./types";
-import { countManuals, deleteManual, fetchManuals, updateManual } from "../api";
+import { deleteManual, fetchManuals, updateManual } from "../api";
 
 export const useMacroprocessStore = create<MacroprocessState>((set, get) => ({
     page: 1,
     limit: 10,
     totalItems: 0,
-    manuals: [],
+    items: [],
     isLoading: false,
+
+    totalPages: 0,
+    lastItem: 0,
+    firstItem: 0,
 
     // Filtros
     search: "",
@@ -15,24 +19,21 @@ export const useMacroprocessStore = create<MacroprocessState>((set, get) => ({
 
     setPage: (page) => set({ page }),
     setLimit: (limit) => set({ limit, page: 1 }),
-    setTotalItems: (totalItems) => set({ totalItems }),
-
-    totalPages: () => Math.ceil(get().totalItems / get().limit),
-    firstItem: () =>
-        get().totalItems === 0
-            ? 0
-            : (get().page - 1) * get().limit + 1,
-    lastItem: () => Math.min(get().page * get().limit, get().totalItems),
 
     async fetch() {
         try {
             set({ isLoading: true })
             const { page, limit, search } = get()
 
-            const data = await fetchManuals({ page, limit, search })
-            const count = await countManuals({ search })
+            const { data, meta } = await fetchManuals({ page, limit, search })
 
-            set({ manuals: data, totalItems: count })
+            set({
+                items: data,
+                totalItems: meta.total,
+                totalPages: meta.totalPages,
+                firstItem: meta.firstItem,
+                lastItem: meta.lastItem
+            })
         } catch (error: any) {
             const message =
                 error?.response?.data?.message ||
@@ -44,21 +45,15 @@ export const useMacroprocessStore = create<MacroprocessState>((set, get) => ({
         }
     },
 
+    async add() { },
+
     async remove(id) {
         try {
-            const newData = await deleteManual(id)
-
-            set((state) => ({
-                manuals: state.manuals.map((manual: any) =>
-                    manual.id === id
-                        ? {
-                            ...manual,
-                            ...newData
-                        }
-                        : manual
-                )
-            }))
-
+            await deleteManual(String(id))
+            get().fetch()
+            set({
+                page: 1
+            })
         } catch (error: any) {
             const message =
                 error?.response?.data?.message ||
@@ -70,17 +65,16 @@ export const useMacroprocessStore = create<MacroprocessState>((set, get) => ({
 
     async update(id, data) {
         try {
-            const newData = await updateManual(id, data)
-
+            const newData = await updateManual(String(id), data)
             set((state) => ({
-                manuals: state.manuals.map((manual: any) =>
-                    manual.id === id
+                items: state.items.map((system: any) =>
+                    system.id === String(id)
                         ? {
-                            ...manual,
+                            ...system,
                             ...newData
                         }
-                        : manual
-                )
+                        : system
+                ),
             }))
         } catch (error: any) {
             const message =

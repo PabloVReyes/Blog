@@ -4,7 +4,7 @@ import pagesRoutes from "@/routes/pages.routes"
 import filesRoutes from "@/routes/files.routes"
 import directoryRoutes from "@/routes/directory.routes"
 import searchRoutes from "@/routes/search.routes"
-import macroprocessRoutes from "@/routes/macroprocess.routes"
+import macroprocessRoutes from "@/modules/macroprocess/macroprocess.routes"
 import homeRoutes from "@/modules/home/home.routes"
 import systemsRoutes from "@/modules/systems/system.routes"
 import downloadsRoutes from "@/modules/downloads/downloads.routes"
@@ -35,7 +35,6 @@ router.use("/api/pages", pagesRoutes)
 router.use("/api/files", filesRoutes)
 router.use("/api/directory", directoryRoutes)
 router.use("/api/search", searchRoutes)
-router.use("/api/macroprocess", macroprocessRoutes)
 
 // Limpio
 router.use("/api/home", homeRoutes)
@@ -45,5 +44,6 @@ router.use("/api/uveh", uvehRoutes)
 router.use("/api/standars", standarsRoutes)
 router.use("/api/juristics", juristicsRoutes)
 router.use("/api/certification", certificationRoutes)
+router.use("/api/macroprocess", macroprocessRoutes)
 
 module.exports = router;
