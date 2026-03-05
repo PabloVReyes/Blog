@@ -12,6 +12,8 @@ import {
     Transition,
     Portal,
     Paper,
+    Title,
+    Badge,
 } from "@mantine/core";
 
 import { useOs } from "@mantine/hooks";
@@ -38,6 +40,7 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import Lottie from "lottie-react";
 import catAnimation from "@/assets/cat.json";
 import SpaceCatAnimation from "@/assets/space_cat.json";
+import OfflineCatAnimation from "@/assets/offline_cat.json";
 
 import { catMessages } from "@/utils";
 
@@ -45,10 +48,22 @@ interface SettingsProps {
     scrollContainer: RefObject<HTMLDivElement | null>;
 }
 
+const formattedDate = new Date(__COMMIT_DATE__).toLocaleDateString("es-MX", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+});
+
 export const Settings = ({ scrollContainer }: SettingsProps) => {
     const os = useOs();
     const theme = useMantineTheme();
     const [rotation, setRotation] = useState(0);
+    const [isOnline, setIsOnline] = useState(navigator.onLine);
+    const [checkingConnection, setCheckingConnection] = useState(false);
+
+    const BLOCKED_PORT = "5173";
+    const isBlockedPort = window.location.port === BLOCKED_PORT;
+
     const { openModal } = useModalStore();
     const { setTheme } = useSettingStore();
 
@@ -105,10 +120,10 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
     /* ================= IDLE DETECTOR ================= */
 
     useEffect(() => {
+        if (!isOnline || isBlockedPort) return;
+
         const resetTimer = () => {
-            if (idleTimerRef.current) {
-                clearTimeout(idleTimerRef.current);
-            }
+            if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
 
             setShowIdleCat(false);
 
@@ -131,7 +146,7 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
                 window.removeEventListener(event, resetTimer)
             );
         };
-    }, []);
+    }, [isOnline, isBlockedPort]);
 
     /* ================= ACCIONES ================= */
     const scrollToTop = () =>
@@ -179,6 +194,36 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
     const getRandomRotation = () => {
         const randomStep = Math.floor(Math.random() * 360) + 90;
         return randomStep;
+    };
+
+    /* ================= Conexión ================= */
+    useEffect(() => {
+        const handleOnline = () => setIsOnline(true);
+        const handleOffline = () => setIsOnline(false);
+
+        window.addEventListener("online", handleOnline);
+        window.addEventListener("offline", handleOffline);
+
+        return () => {
+            window.removeEventListener("online", handleOnline);
+            window.removeEventListener("offline", handleOffline);
+        };
+    }, []);
+
+    const checkConnection = async () => {
+        setCheckingConnection(true);
+
+        try {
+            // Intento ligero (puede ser tu backend /health)
+            await fetch("/", { method: "HEAD", cache: "no-store" });
+
+            setIsOnline(true);
+            window.location.reload(); // opcional: recargar app
+        } catch (error) {
+            setIsOnline(false);
+        } finally {
+            setCheckingConnection(false);
+        }
     };
 
     return (
@@ -285,13 +330,14 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
 
                         <Menu.Label>Información</Menu.Label>
 
-                        <Stack p={11} pt={2} gap={10}>
-                            <Group justify="space-between">
-                                <Text size="sm" fw={700} c={theme.primaryColor}>
-                                    Actualizado el 18 de febrero de 2026
-                                </Text>
-                            </Group>
-                        </Stack>
+                        <Group gap={6} justify="center" p={11} pt={2}>
+                            <Text size="sm" fw={900} c={theme.primaryColor}>
+                                Actualizado el {formattedDate}
+                            </Text>
+                            <Badge size="sm" variant="light">
+                                #{__COMMIT_HASH__}
+                            </Badge>
+                        </Group>
                     </Menu.Dropdown>
                 </Menu>
 
@@ -338,7 +384,54 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
                 )}
             </Stack>
 
-            {showIdleCat && (
+            {/* OFFLINE */}
+            {!isOnline && (
+                <Portal>
+                    <div
+                        style={{
+                            position: "fixed",
+                            inset: 0,
+                            zIndex: 5000,
+                            background: "rgba(0,0,0,0.5)",
+                            backdropFilter: "blur(6px)",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            padding: 40,
+                        }}
+                    >
+                        <Lottie
+                            animationData={OfflineCatAnimation}
+                            loop
+                            autoplay
+                            style={{ width: "60dvw", height: "60dvh" }}
+                        />
+                        <Stack gap={5} align="center">
+                            <Title fw={700} c="var(--mantine-primary-color-contrast)">
+                                Sin conexión a internet
+                            </Title>
+
+                            <Text size="sm" fw={700} c="var(--mantine-primary-color-contrast)">
+                                Verifica tu red e intenta nuevamente.
+                            </Text>
+
+                            <Button
+                                mt={"xl"}
+                                size="md"
+                                radius="xl"
+                                loading={checkingConnection}
+                                onClick={checkConnection}
+                            >
+                                Volver a intentar
+                            </Button>
+                        </Stack>
+                    </div>
+                </Portal>
+            )}
+
+            {showIdleCat && isOnline && !isBlockedPort && (
                 <Portal>
                     <div
                         style={{

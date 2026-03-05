@@ -121,10 +121,6 @@ export const CBIM = () => {
             title="Cuadro Básico Integral de Medicamentos"
             description="Herramienta normativa en México que agrupa, bajo criterios de eficacia, seguridad y calidad, los medicamentos esenciales necesarios para la atención médica en las instituciones públicas"
         >
-            <Alert
-                color="orange"
-                content="Cualquier duda marcar a la ext. 1251"
-            />
             <Panel
                 search
                 searchValue={search}
@@ -147,6 +143,11 @@ export const CBIM = () => {
                     isLoading={loading}
                 />
             </Panel>
+            <Alert
+                color="orange"
+                title="Información"
+                content="Cualquier duda o aclaración marcar a la ext. 1251"
+            />
         </Container>
     )
 }

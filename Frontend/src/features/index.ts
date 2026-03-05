@@ -45,3 +45,8 @@ export {
     certificationPublicRoutes,
     certificationPrivateRoutes
 } from "./Certification"
+
+export {
+    vacationPrivateRoutes,
+    vacationPublicRoutes
+} from "./Vacation"

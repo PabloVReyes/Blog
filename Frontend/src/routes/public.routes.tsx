@@ -1,4 +1,4 @@
-import { certificationPublicRoutes, downloadsPublicRoutes, homePublicRoutes, juristicPublicRoutes, macroprocessPublicRoutes, standarsPublicRoutes, systemsPublicRoutes, uvehPublicRoutes, whoWeArePublicRoutes } from "@/features";
+import { certificationPublicRoutes, downloadsPublicRoutes, homePublicRoutes, juristicPublicRoutes, macroprocessPublicRoutes, standarsPublicRoutes, systemsPublicRoutes, uvehPublicRoutes, vacationPublicRoutes, whoWeArePublicRoutes } from "@/features";
 import { type RouteObject } from "react-router-dom";
 
 export const publicRoutes: RouteObject = {
@@ -13,6 +13,7 @@ export const publicRoutes: RouteObject = {
         certificationPublicRoutes,
         homePublicRoutes,
         downloadsPublicRoutes,
+        vacationPublicRoutes
     ]
 }
 

@@ -103,6 +103,12 @@ export const Sidebar = () => {
                 link: `${area.slug}`,
             }))
         },
+        {
+            id: "vacation",
+            label: "Rol vacacional",
+            icon: "IconBeach",
+            link: "/rol-vacacional"
+        },
         ...menu
     ]
 

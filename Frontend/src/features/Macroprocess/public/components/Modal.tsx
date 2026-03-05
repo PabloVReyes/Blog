@@ -121,10 +121,13 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
 
                             <Alert
                                 color="emerald"
-                                title="Información"
-                                content="Para documentación específica, manuales
-            de procedimientos, formatos o contacto directo con esta área,
-            consulta al responsable del área."
+                                content={
+                                <Text size="sm">
+                                    <Text fw={700} span size="sm">Información: </Text>Para documentación específica, manuales
+                                    de procedimientos, formatos o contacto directo con esta área,
+                                    consulta al responsable del área.
+                                </Text>
+                                }
                             />
                         </Stack>
                     </>

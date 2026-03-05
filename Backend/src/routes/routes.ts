@@ -12,6 +12,7 @@ import uvehRoutes from "@/modules/uveh/uveh.routes"
 import standarsRoutes from "@/modules/standars/standars.routes"
 import juristicsRoutes from "@/modules/juristics/juristics.routes"
 import certificationRoutes from "@/modules/certification/certification.routes"
+import vacationRoutes from "@/modules/vacations/vacations.routes"
 
 const router: Router = Router()
 
@@ -45,5 +46,6 @@ router.use("/api/standars", standarsRoutes)
 router.use("/api/juristics", juristicsRoutes)
 router.use("/api/certification", certificationRoutes)
 router.use("/api/macroprocess", macroprocessRoutes)
+router.use("/api/vacation", vacationRoutes)
 
 module.exports = router;

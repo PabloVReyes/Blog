@@ -1,175 +1,221 @@
-import { Badge, Button, Card, Divider, Flex, Group, Stack, Text, TextInput, ThemeIcon, Title } from "@mantine/core"
+import {
+    Badge,
+    Button,
+    Card,
+    Divider,
+    Flex,
+    Group,
+    Stack,
+    Text,
+    TextInput,
+    ThemeIcon,
+    Title
+} from "@mantine/core"
 import { IconSearch } from "@tabler/icons-react"
 import { useEffect, useRef, useState } from "react"
 import { downloadSystem, getSearch } from "@/layout/api"
 import styles from "./Search.module.css"
-import * as TablerIcons from "@tabler/icons-react";
-import { useNavigate } from "react-router-dom";
+import * as TablerIcons from "@tabler/icons-react"
+import { useNavigate } from "react-router-dom"
 import { useModalStore } from "@/layout/store"
 
 export const Search = () => {
     const [query, setQuery] = useState("")
     const [data, setData] = useState<any[]>([])
-    const [loading, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
-    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false)
+    const [page, setPage] = useState(1)
+    const [total, setTotal] = useState(0)
+
     const navigate = useNavigate()
     const { closeModal } = useModalStore()
 
-    const loaderRef = useRef<HTMLDivElement | null>(null);
+    const loaderRef = useRef<HTMLDivElement | null>(null)
+    const isFetchingRef = useRef(false)
+    const debounceRef = useRef<NodeJS.Timeout | null>(null)
 
+    // ==============================
+    // FETCH CONTROLADO
+    // ==============================
     const fetchPage = async (pageToLoad: number, reset = false) => {
-        if (loading) return;
+        if (isFetchingRef.current) return
 
-        setLoading(true);
+        isFetchingRef.current = true
+        setLoading(true)
 
-        const result = await getSearch({
-            page: pageToLoad,
-            limit: 10,
-            search: query,
-        });
+        try {
+            const result = await getSearch({
+                page: pageToLoad,
+                limit: 10,
+                search: query,
+            })
 
-        if (reset) {
-            setData(result);
-        } else {
-            setData((prev) => [...prev, ...result]);
+            const newData = result.data || []
+            setTotal(result.total || 0)
+
+            setData(prev => {
+                if (reset) return newData
+
+                // 🔥 Evitar duplicados por ID
+                const ids = new Set(prev.map(i => i.id))
+                const filtered = newData.filter((i: any) => !ids.has(i.id))
+
+                return [...prev, ...filtered]
+            })
+
+            setPage(pageToLoad + 1)
+        } catch (error) {
+            console.error("Error en búsqueda:", error)
+        } finally {
+            isFetchingRef.current = false
+            setLoading(false)
+        }
+    }
+
+    // ==============================
+    // CARGA INICIAL
+    // ==============================
+    useEffect(() => {
+        fetchPage(1, true)
+    }, [])
+
+    // ==============================
+    // RESET CON DEBOUNCE
+    // ==============================
+    useEffect(() => {
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current)
         }
 
-        setHasMore(result.length > 0);
-        setPage(pageToLoad + 1);
+        debounceRef.current = setTimeout(() => {
+            setData([])
+            setPage(1)
+            fetchPage(1, true)
+        }, 300)
 
-        setLoading(false);
-    };
+        return () => {
+            if (debounceRef.current) {
+                clearTimeout(debounceRef.current)
+            }
+        }
+    }, [query])
 
-    // ====== Carga inicial ======
+    // ==============================
+    // INFINITE SCROLL ESTABLE
+    // ==============================
     useEffect(() => {
-        fetchPage(1, true);
-    }, []);
-
-    // ====== Reset cuando cambia búsqueda ======
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setPage(1);
-            setHasMore(true);
-            fetchPage(1, true);
-        }, 300);
-
-        return () => clearTimeout(timeout);
-    }, [query]);
-
-    // ====== Infinite scroll ======
-    useEffect(() => {
-        if (!hasMore || loading) return;
+        if (!loaderRef.current) return
+        if (data.length >= total) return
 
         const observer = new IntersectionObserver(
-            (entries) => {
+            entries => {
                 if (entries[0].isIntersecting) {
-                    fetchPage(page);
+                    fetchPage(page)
                 }
             },
-            { rootMargin: "100px" } // carga un poco antes de llegar al fondo
-        );
+            { rootMargin: "150px" }
+        )
 
-        if (loaderRef.current) {
-            observer.observe(loaderRef.current);
-        }
+        observer.observe(loaderRef.current)
 
-        return () => observer.disconnect();
-    }, [page, hasMore, loading]);
+        return () => observer.disconnect()
+    }, [page, total, data.length])
 
+    // ==============================
+    // DESCARGA
+    // ==============================
     const download = async (id: string) => {
         try {
             const response = await downloadSystem(id)
 
             const blob = new Blob([response.data], {
                 type: "application/pdf",
-            });
+            })
 
-            const url = window.URL.createObjectURL(blob);
+            const url = window.URL.createObjectURL(blob)
+            window.open(url, "_blank")
 
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
             setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
+                window.URL.revokeObjectURL(url)
+            }, 1000)
         } catch (error) {
-            console.error("Error al descargar archivo", error);
+            console.error("Error al descargar archivo", error)
         }
-    };
+    }
 
+    // ==============================
+    // NAVEGACIÓN
+    // ==============================
     const handleNavigate = (type: string, id: string, url?: string) => {
         if (type === "file") {
             download(id)
         } else {
-            if (!url) return;
+            if (!url) return
 
-            // externa
             if (url.startsWith("http")) {
-                window.open(url, "_blank"); // o window.location.href = url;
+                window.open(url, "_blank")
             } else {
-                // interna SPA
-                const newUrl = `/sistemas-de-consulta${url}`
-                navigate(newUrl);
+                navigate(`/sistemas-de-consulta${url}`)
             }
         }
 
         closeModal()
-    };
+    }
 
-    const items = data.map((search, index) => {
+    // ==============================
+    // RENDER ITEMS
+    // ==============================
+    const items = data.map((search) => {
         const Icon =
             search.icon &&
-            (TablerIcons as any)[search.icon];
+            (TablerIcons as any)[search.icon]
 
         return (
             <Card
-                key={index}
-                h={'100%'}
-                p={"lg"}
+                key={search.id} // ✅ nunca usar index
+                h="100%"
+                p="lg"
                 onClick={() => handleNavigate(search.type, search.id, search.url)}
-                style={{
-                    cursor: "pointer",
-                    position: "relative"
-                }}
+                style={{ cursor: "pointer", position: "relative" }}
                 className={styles.group}
             >
-
                 <Flex justify="space-between" align="flex-start">
                     <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
                         <ThemeIcon
                             size={56}
                             color={search.color}
                             variant="light"
-                            className={`${styles.iconWrapper}`}
+                            className={styles.iconWrapper}
                             style={{
-                                '--icon-rgb': search.color || "#40c057" // fallback green
+                                '--icon-rgb': search.color || "#40c057"
                             } as React.CSSProperties}
                         >
-                            <Icon size={28} />
+                            {Icon && <Icon size={28} />}
                         </ThemeIcon>
 
                         <Stack gap={4} style={{ flex: 1 }}>
                             <Group gap="sm">
                                 <Title order={5}>
-                                    {search.acronym &&
-                                        `${search.acronym} - `
-                                    }
-                                    {search.name}</Title>
-                                {search.badge &&
-                                    <Badge color="red" size="xs" variant="filled" >
+                                    {search.acronym && `${search.acronym} - `}
+                                    {search.name}
+                                </Title>
+
+                                {search.badge && (
+                                    <Badge
+                                        color="red"
+                                        size="xs"
+                                        variant="filled"
+                                    >
                                         {search.badge}
                                     </Badge>
-                                }
+                                )}
                             </Group>
 
                             <Text size="sm">
                                 {search.description}
                             </Text>
+
                             <Button
-                                mt={"auto"}
+                                mt="auto"
                                 variant="subtle"
                                 px={0}
                                 className={styles.action}
@@ -189,12 +235,13 @@ export const Search = () => {
         )
     })
 
+    // ==============================
+    // UI
+    // ==============================
     return (
         <Stack>
             <TextInput
-                leftSection={
-                    <IconSearch />
-                }
+                leftSection={<IconSearch />}
                 value={query}
                 placeholder="Buscar"
                 onChange={(e) => setQuery(e.currentTarget.value)}
@@ -209,11 +256,15 @@ export const Search = () => {
                         },
                     },
                 }}
-
             />
+
             <Divider />
+
             {items}
-            {hasMore && <div ref={loaderRef} style={{ height: 1 }} />}
+
+            {data.length < total && (
+                <div ref={loaderRef} style={{ height: 1 }} />
+            )}
 
             {loading && (
                 <Text size="sm" c="dimmed" ta="center">

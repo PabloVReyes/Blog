@@ -98,7 +98,7 @@ export const getSectionsWithCertificationsRepository = async ({ skip, take, sear
 
         return { data, total }
     } catch (error) {
-        console.error("Erorr en getCategoriesWithDownloadsRepository")
+        console.error("Error en getCategoriesWithDownloadsRepository")
         throw new Error("Error al obtener las categorias con los archivos")
     }
 }

@@ -1,4 +1,5 @@
 import { database } from "@/config/prisma";
+import { PaginationProps } from "@/types/pagination";
 
 ////////////
 // CREATE //
@@ -50,13 +51,7 @@ export const postSystemRepository = async ({ acronym, name, description, color, 
 // READ //
 //////////
 
-interface GetSystemRepositoryProps {
-    search?: string;
-    take?: number;
-    skip?: number;
-}
-
-export const getSystemRepository = async ({ search, take, skip }: GetSystemRepositoryProps) => {
+export const getSystemRepository = async ({ search, take, skip }: PaginationProps) => {
     const where = {
         ...(search && {
             OR: [

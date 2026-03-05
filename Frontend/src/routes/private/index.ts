@@ -1,1 +1,0 @@
-export { privateRoutes } from "./routes"

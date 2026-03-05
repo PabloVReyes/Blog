@@ -89,6 +89,18 @@ export const mantineTheme = (primaryColor: string = "blue") => createTheme({
             "#469891", // 7
             "#388781", // 8
             "#22766f", // 9
+        ],
+        paleRed: [
+            "#ffeaf3", // 0
+            "#fcd4e1", // 1
+            "#f4a7bf", // 2
+            "#ec779c", // 3
+            "#e64f7e", // 4
+            "#e3366c", // 5
+            "#e22862", // 6 ← base
+            "#c91a52", // 7
+            "#b41148", // 8
+            "#9f003e", // 9
         ]
     },
     defaultRadius: 'md',

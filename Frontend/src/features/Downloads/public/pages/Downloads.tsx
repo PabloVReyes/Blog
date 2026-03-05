@@ -1,6 +1,6 @@
 import { Container } from "@/components"
 import { Alert, Notify } from "@/ui"
-import { Card, Center, Loader, SimpleGrid } from "@mantine/core"
+import { Card, Center, Loader, SimpleGrid, Text } from "@mantine/core"
 import { Areas } from "../components"
 import { useEffect, useState } from "react";
 import { fetchAreas } from "../api";
@@ -56,11 +56,14 @@ export const Downloads = () => {
             <Card>
                 {loading
                     ? <Center><Loader /></Center>
-                    : <SimpleGrid cols={{ xs: 2, sm: 3, md: 5 }} spacing={"lg"} style={{ textAlign: "center" }}>
-                        {data.data.map((item, index: number) => (
-                            <Areas key={index} {...item} />
-                        ))}
-                    </SimpleGrid>
+                    : data.data.length > 0
+                        ? <SimpleGrid cols={{ xs: 2, sm: 3, md: 5 }} spacing={"lg"} style={{ textAlign: "center" }}>
+                            {data.data.map((item, index: number) => (
+                                <Areas key={index} {...item} />
+                            ))}
+                        </SimpleGrid>
+                        : <Text ta="center" size="sm" c="dimmed">No se encontraron resultados.</Text>
+
                 }
             </Card>
 

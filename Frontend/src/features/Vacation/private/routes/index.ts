@@ -1,0 +1,1 @@
+export { vacationPrivateRoutes } from "./routes"

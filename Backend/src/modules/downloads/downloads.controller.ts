@@ -28,7 +28,7 @@ export const postDownloadController: RequestHandler = async (req, res) => {
 
         res.status(500)
             .send({
-                msg: error.message || "Error al crear un carrusel"
+                msg: error.message || "Error al crear descarga"
             })
     }
 }

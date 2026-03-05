@@ -1,24 +1,49 @@
 import { getSystemRepository } from "@/modules/systems/system.repository";
 
 export const getSearchService = async (req: any) => {
-    const { page, limit, search } = req.query
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const search = req.query.search || "";
 
-    const props = {
-        skip: undefined,
-        take: undefined,
-        search: limit !== 'undefined' ? search : undefined
-    }
+    const skip = (page - 1) * limit;
 
-    const [{ data: systems },]: any = await Promise.all([
-        getSystemRepository(props),
+    // 🔹 Pedimos paginado real
+    const [
+        { data: systems, total: systemsTotal },
+        // futuro:
+        // { data: downloads, total: downloadsTotal },
+    ] = await Promise.all([
+        getSystemRepository({
+            search,
+            take: limit,
+            skip,
+        }),
     ]);
 
-    const combined = [
-        ...systems.map(s => ({ ...s, typeSearch: "system" })),
+    // 🔹 Normalizamos estructura
+    const normalized = [
+        ...systems.map((s: any) => ({
+            id: s.id,
+            name: s.name,
+            acronym: s.acronym,
+            description: s.description,
+            icon: s.icon,
+            color: s.color,
+            url: s.url,
+            type: "system",
+            createdAt: s.createdAt,
+        })),
     ];
 
-    const start = (page - 1) * limit;
-    const results = combined.slice(start, start + limit);
+    // 🔹 Orden global consistente
+    normalized.sort(
+        (a, b) =>
+            new Date(b.createdAt).getTime() -
+            new Date(a.createdAt).getTime()
+    );
 
-    return results
-}
+    return {
+        data: normalized,
+        total: systemsTotal,
+    };
+};

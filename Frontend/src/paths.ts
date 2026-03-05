@@ -100,6 +100,18 @@ export const paths = [
         ]
     },
     {
+        id: "vacation",
+        label: "Rol vacacional",
+        icon: "IconBeach",
+        link: "/rol-vacacional",
+        children: [
+            {
+                label: "Turnos",
+                link: "/turnos"
+            }
+        ]
+    },
+    {
         label: "Configuraciones",
         icon: "IconSettings",
         link: "/configuraciones",

@@ -1,0 +1,28 @@
+.card {
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--mantine-shadow-lg);
+}
+
+.iconContainer {
+    padding: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon {
+    transition: transform 0.3s ease;
+}
+
+.card:hover .icon {
+    transform: scale(1.1);
+}
+
+.content {
+    padding: 24px;
+}

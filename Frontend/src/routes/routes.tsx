@@ -1,7 +1,7 @@
 import type { RouteObject } from "react-router-dom";
-import { publicRoutes } from "./public/routes";
+import { publicRoutes } from "./public.routes";
 import { Layout } from "@/layout";
-import { privateRoutes } from "./private";
+import { privateRoutes } from "./private.routes";
 
 export const routes: RouteObject[] = [
     {
@@ -12,7 +12,4 @@ export const routes: RouteObject[] = [
             privateRoutes
         ]
     },
-    // homeRoutes,
-    // privateRoutes,
-    // publicRoutes,
 ]

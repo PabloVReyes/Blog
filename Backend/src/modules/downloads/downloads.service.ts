@@ -14,7 +14,7 @@ import { uploadsRoot } from "./path"
 export const postDownloadService = async (dto: types.DownloadsCreateDto) => {
     const { name, description, isNew, type, category, file } = dto
 
-    await repo.postDownloadRepository({
+    return await repo.postDownloadRepository({
         name,
         description: description ?? null,
         isNew,
@@ -228,5 +228,5 @@ export const deleteDownloadService = async (id: number) => {
         await fs.unlink(obsolutePath).catch(() => { });
     }
 
-    await repo.deleteDownloadRepository(id)
+    return await repo.deleteDownloadRepository(id)
 }
