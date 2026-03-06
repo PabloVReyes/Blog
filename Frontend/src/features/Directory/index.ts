@@ -1,0 +1,1 @@
+export { directoryPrivateRoutes } from "./private"

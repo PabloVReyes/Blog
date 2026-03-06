@@ -157,11 +157,19 @@ enum HomeSectionType {
 model Ditectory {
   id        String  @id @default(uuid())
   phone     String
-  level     String
+  level     Level   @relation(fields: [levelId], references: [id])
   boss      String?
   email     String?
   name      String
   secretary String?
+  levelId   String
+}
+
+// nivel
+model Level {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  ditectories Ditectory[]
 }
 
 // Sistemas de consulta
@@ -701,8 +709,8 @@ enum ShiftFileType {
 model ShiftType {
   id        Int      @id @default(autoincrement())
   name      String   @unique // "Matutino - Vespertino"
-  icon      String   
-  color     String   
+  icon      String
+  color     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

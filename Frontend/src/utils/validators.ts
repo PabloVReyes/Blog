@@ -1,6 +1,8 @@
 // Regex para URL absoluta (https://...) o relativa (/hola)
 export const URL_REGEX = /^(https?:\/\/[^\s]+|\/[^\s]*)$/;
 export const MEDICAL_CODE_REGEX = /^\d{3}\.\d{3}\.\d{4}\.\d{2}$/;
+export const EXTENSION_REGEX = /^\d{4}$/;
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Validaciones comunes
 export const validateTitle = (value: string) =>
@@ -223,4 +225,40 @@ export const validateFile = (
     return null;
 };
 
+export const validateExtension = (
+    value: string,
+    options?: {
+        required?: boolean;
+    }
+) => {
+    const { required = false } = options || {};
 
+    if (value === null || value === undefined || value === "") {
+        return required ? "Debes introducir la extensión" : null;
+    }
+
+    if (!EXTENSION_REGEX.test(value)) {
+        return "La extensión debe tener 4 dígitos (0000 - 9999)";
+    }
+
+    return null;
+};
+
+export const validateEmail = (
+    value: string,
+    options?: {
+        required?: boolean;
+    }
+) => {
+    const { required = false } = options || {};
+
+    if (value === null || value === undefined || value === "") {
+        return required ? "Debes introducir un correo electrónico" : null;
+    }
+
+    if (!EMAIL_REGEX.test(value)) {
+        return "El correo electrónico no es válido";
+    }
+
+    return null;
+};

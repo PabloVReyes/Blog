@@ -112,6 +112,12 @@ export const paths = [
         ]
     },
     {
+        id: "directory",
+        label: "Directorio Telefonico",
+        icon: "IconBook",
+        link: "/directorio",
+    },
+    {
         label: "Configuraciones",
         icon: "IconSettings",
         link: "/configuraciones",

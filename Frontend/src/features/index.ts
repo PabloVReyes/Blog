@@ -50,3 +50,7 @@ export {
     vacationPrivateRoutes,
     vacationPublicRoutes
 } from "./Vacation"
+
+export {
+    directoryPrivateRoutes
+} from "./Directory"

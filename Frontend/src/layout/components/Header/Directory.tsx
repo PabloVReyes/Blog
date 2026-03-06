@@ -31,12 +31,12 @@ export const Directory = () => {
         });
 
         if (reset) {
-            setData(result);
+            setData(result.data);
         } else {
-            setData((prev) => [...prev, ...result]);
+            setData((prev) => [...prev, ...result.data]);
         }
 
-        setHasMore(result.length > 0);
+        setHasMore(result.data.length > 0);
         setPage(pageToLoad + 1);
 
         setLoading(false);
@@ -82,7 +82,7 @@ export const Directory = () => {
         <Card
             key={index}
             card="directory"
-            level={item.level}
+            level={item.level.name}
             phone={item.phone}
             name={item.name}
             boss={item.boss}

@@ -2,7 +2,7 @@ import { Router } from "express";
 import settingsRoutes from "@/routes/settings.routes"
 import pagesRoutes from "@/routes/pages.routes"
 import filesRoutes from "@/routes/files.routes"
-import directoryRoutes from "@/routes/directory.routes"
+import directoryRoutes from "@/modules/directory/directory.routes"
 import searchRoutes from "@/routes/search.routes"
 import macroprocessRoutes from "@/modules/macroprocess/macroprocess.routes"
 import homeRoutes from "@/modules/home/home.routes"
@@ -34,7 +34,6 @@ router.get('/', (request, response) => {
 router.use("/api/settings", settingsRoutes)
 router.use("/api/pages", pagesRoutes)
 router.use("/api/files", filesRoutes)
-router.use("/api/directory", directoryRoutes)
 router.use("/api/search", searchRoutes)
 
 // Limpio
@@ -47,5 +46,6 @@ router.use("/api/juristics", juristicsRoutes)
 router.use("/api/certification", certificationRoutes)
 router.use("/api/macroprocess", macroprocessRoutes)
 router.use("/api/vacation", vacationRoutes)
+router.use("/api/directory", directoryRoutes)
 
 module.exports = router;

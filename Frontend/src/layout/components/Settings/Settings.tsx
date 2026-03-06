@@ -334,7 +334,7 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
                             <Text size="sm" fw={900} c={theme.primaryColor}>
                                 Actualizado el {formattedDate}
                             </Text>
-                            <Badge size="sm" variant="light">
+                            <Badge size="md">
                                 #{__COMMIT_HASH__}
                             </Badge>
                         </Group>

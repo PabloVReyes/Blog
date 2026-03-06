@@ -13,7 +13,9 @@ export {
     validateCodeMedicine,
     validateOrder,
     validatePresentation,
-    validateFile
+    validateFile,
+    validateEmail,
+    validateExtension
 } from "./validators"
 
 export {

@@ -180,7 +180,12 @@ async function main() {
             data: {
                 name: item.nombre,
                 phone: item.extension,
-                level: item.piso,
+                level: {
+                    connectOrCreate: {
+                        where: { name: item.piso },
+                        create: { name: item.piso }
+                    }
+                },
                 boss: item.jefe || null,
                 secretary: item.secretarias || null,
                 email: item.email || null,

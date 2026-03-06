@@ -53,13 +53,13 @@ export const Card = ({
             onClick={card === "system" ? handleNavigate : undefined}
             style={{
                 cursor: card === "system" ? "pointer" : "default",
-                position: "relative"
+                position: "relative",
             }}
             className={styles.group}
         >
             {card === "directory" &&
                 <Flex justify="space-between" align="flex-start">
-                    <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
+                    <Flex gap="md" align="center" style={{ flex: 1 }}>
                         <ThemeIcon
                             size={56}
                             variant="light"
@@ -68,12 +68,12 @@ export const Card = ({
                                 '--icon-rgb': `${colorMap[theme.primaryColor]}` || "#40c057" // fallback green
                             } as React.CSSProperties}
                         >
-                            <Text fw={700}>{phone}</Text>
+                            <Text fw={900}>{phone}</Text>
                         </ThemeIcon>
 
                         <Stack gap={4} style={{ flex: 1 }}>
                             <Group gap="sm">
-                                <Title order={5} mt={10}>{name}</Title>
+                                <Title order={5}>{name}</Title>
 
                                 {level && (
                                     <Badge size="xs" className={styles.rating}>
