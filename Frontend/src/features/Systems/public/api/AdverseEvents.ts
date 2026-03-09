@@ -1,4 +1,4 @@
-import { api } from "@/services"
+import { api } from "@/lib"
 
 export const downloadAdverseEvent = async (type: string) => {
     const response = await api.get(`/api/systems/adverse-events/${type}/download`, {

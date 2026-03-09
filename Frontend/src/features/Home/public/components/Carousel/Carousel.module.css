@@ -11,9 +11,9 @@
 
 .root {
     width: 100%;
-    max-height: 1000px;
+    height: 100%;
     /* altura máxima fija */
-    border-radius: var(--mantine-radius-md);
+    border-radius: 16px;
     box-shadow: var(--mantine-shadow-md);
     overflow: hidden;
     position: relative;

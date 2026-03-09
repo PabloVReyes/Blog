@@ -1,4 +1,4 @@
-import { api } from "@/services"
+import { api } from "@/lib"
 
 export const fetchPBM = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
     let url = `/api/systems/pbm?page=${page}&limit=${limit}`

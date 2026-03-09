@@ -1,5 +1,5 @@
-import { useLocation } from "react-router-dom"
-import styles from "./Sidebar.module.css"
+import { useLocation, useNavigate } from "react-router-dom"
+import classes from "./Sidebar.module.css"
 import { Code, Group, ScrollArea, Text } from "@mantine/core";
 import { mapTreeToMenu } from "./utils";
 import { LinksGroup } from "./LinksGroup";
@@ -7,12 +7,22 @@ import { useSettingStore } from "@/features";
 import { paths } from "@/paths";
 import { useEffect, useState } from "react";
 import { fetchDownloads, fetchSystems } from "@/layout/api";
+import { UserButton } from "./UserButton";
+import { useAuthStore } from "@/features/auth/store";
 
 export const Sidebar = () => {
     const { title, menu } = useSettingStore()
     const { pathname } = useLocation()
     const [systems, setSystems] = useState<any[]>([])
     const [downloads, setDownloads] = useState<any[]>([])
+    const user = useAuthStore(state => state.user)
+    const logout = useAuthStore((s) => s.logout)
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout()
+        navigate("/")
+    }
 
     useEffect(() => {
         fetchSystems()
@@ -117,23 +127,32 @@ export const Sidebar = () => {
     const menuItems: any = isPrivate ? paths : mapTreeToMenu(home)
 
     return (
-        <nav className={styles.sidebar}>
-            <div className={styles.sidebarMain}>
-                <Group className={styles.header} justify="space-between">
+        <nav className={classes.sidebar}>
+            <div className={classes.sidebarMain}>
+                <Group className={classes.header} justify="space-between">
                     <Text>{title ? title : "Sin título"}</Text>
-                    <Code fw={700} className={styles.version}>
+                    <Code fw={700} className={classes.version}>
                         {isPrivate ? "Admin" : "Beta"}
                     </Code>
                 </Group>
             </div>
 
-            <ScrollArea className={styles.links}>
-                <div className={styles.linksInner}>
+            <ScrollArea className={classes.links}>
+                <div className={classes.linksInner}>
                     {menuItems.map((item: any) => (
                         <LinksGroup {...item} isPrivate={isPrivate} key={item.label} />
                     ))}
                 </div>
             </ScrollArea>
+
+            {isPrivate &&
+                <div className={classes.footer}>
+                    <UserButton
+                        user={user}
+                        logout={handleLogout}
+                    />
+                </div>
+            }
         </nav>
     );
 }

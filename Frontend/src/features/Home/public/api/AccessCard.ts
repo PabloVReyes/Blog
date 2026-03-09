@@ -1,4 +1,4 @@
-import { api } from "@/services/axios.client"
+import { api } from "@/lib/axios.client"
 
 export const downloadAccessCard = async (id: string) => {
     const response = await api.get(`/api/home/accesscard/${id}/download`, {

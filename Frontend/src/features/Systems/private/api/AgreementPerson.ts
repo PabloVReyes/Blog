@@ -1,4 +1,4 @@
-import { api } from "@/services"
+import { api } from "@/lib"
 
 export const fetchAgreementPerson = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
     const response = await api.get(`/api/systems/agreement-person?page=${page}&limit=${limit}&search=${search}`)

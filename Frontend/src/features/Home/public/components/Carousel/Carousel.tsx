@@ -66,7 +66,8 @@ export const Carousel = ({ items }: any) => {
             plugins={[autoplay.current]}
             onMouseEnter={autoplay.current.stop}
             onMouseLeave={() => autoplay.current.play()}
-            style={{ height: "100%" }}
+            h="100%"
+            style={{ flex: 1 }}
         >
             {/* Si no hay elementos */}
             {items.length < 1 && (
@@ -101,6 +102,7 @@ export const Carousel = ({ items }: any) => {
                         borderRadius: "12px",
                         overflow: "hidden",
                     }}
+                    h="100%"
                 >
                     <div
                         onClick={() => handleNavigate(item)}
@@ -108,18 +110,21 @@ export const Carousel = ({ items }: any) => {
                             position: "relative",
                             width: "100%",
                             height: "100%",
-                            cursor: item.type === "null" ? "default" : "pointer"
+                            overflow: "hidden",
+                            borderRadius: "16px",
+                            cursor: item.type === "null" ? "default" : "pointer",
                         }}
                     >
                         {/* Imagen */}
                         <Image
                             src={`${import.meta.env.VITE_API_URL}${item.imageUrl}`}
-                            height="100%"
-                            width="100%"
-                            fit="cover"
+                            h="100%"
+                            w="100%"
+                            fit="contain"
                             style={{
-                                objectPosition: "center",
-                                maxHeight: "100%",
+                                position: 'absolute', // 👈 Evita que la imagen "empuje" el alto
+                                top: 0,
+                                left: 0
                             }}
                         />
 

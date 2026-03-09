@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { useMantineColorScheme } from "@mantine/core";
 import { routes } from "./routes/routes";
 import { useSettingStore } from "./features";
+import { useAuthInit } from "./hooks/useAuthInit";
 
 const updateFavicon = (url: string) => {
     let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
@@ -18,6 +19,8 @@ export const App = () => {
     const { title, favicon, theme } = useSettingStore()
     const { setColorScheme } = useMantineColorScheme();
 
+    useAuthInit();
+    
     useEffect(() => {
         document.title = title ? title : 'Sin título';
 

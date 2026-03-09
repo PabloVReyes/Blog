@@ -49,7 +49,6 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
             size={"lg"}
             padding={0}
             withCloseButton={false}
-            radius={16}
         >
             {loading || !area ?
                 (<Loader />)
@@ -59,7 +58,7 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
                             bg={color}
                             c={"white"}
                             p={"xl"}
-                            style={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
+                            style={{ borderTopLeftRadius: 15, borderTopRightRadius: 15 }}
                         >
                             <Group justify="space-between" align="flex-start" mb={"md"} wrap="nowrap">
                                 <Box>

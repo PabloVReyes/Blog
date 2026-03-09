@@ -1,4 +1,4 @@
-import { api } from "@/services/axios.client"
+import { api } from "@/lib/axios.client"
 
 export const addCarousel = async (body: any) => {
     const response = await api.post(`/api/home/carousel`, body)

@@ -1,4 +1,4 @@
-import { api } from "@/services/axios.client"
+import { api } from "@/lib/axios.client"
 
 export const getSettings = async () => {
     const response = await api.get("/api/settings")

@@ -1,4 +1,4 @@
-import { api } from "@/services"
+import { api } from "@/lib"
 
 export const fetchStandars = async () => {
     const response = await api.get(`/api/standars`)

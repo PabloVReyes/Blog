@@ -1,16 +1,12 @@
-import { Card, Center, Container, Grid, Group, Loader, Stack, Text } from "@mantine/core";
+import { Center, Container, Grid, Group, Loader, Stack, Text } from "@mantine/core";
 import { AccessCard, Calendar, Carousel, Derechohabiencia } from "../components";
 import { Alert } from "@/ui";
 import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { fecthHomeSections } from "../api";
 import * as TablerIcons from "@tabler/icons-react";
-import { MiniCalendar } from '@mantine/dates';
-import dayjs from 'dayjs';
 
 export const Home = () => {
-    const value = dayjs().format("YYYY-MM-DD") // hoy por defecto
-
     const isDesktop = useMediaQuery("(min-width: 1400px)");
     const [data, setData] = useState<any[]>([]);
 
@@ -35,7 +31,7 @@ export const Home = () => {
             : null;
 
     return (
-        <Container>
+        <Container size={"xl"}>
             <Stack>
                 {/* 1️⃣ ALERT */}
                 {alertSection && (
@@ -65,26 +61,18 @@ export const Home = () => {
                 )}
 
                 {/* 2️⃣ GRID Carousel + Calendar/Derechohabiencia */}
-                <Grid gutter="md" align="stretch">
-                    <Grid.Col span={isDesktop ? 9 : 12}>
-                        {carouselSection && <Carousel items={carouselSection.carouselItems} />}
+                <Grid gutter="md" align="flex-start">
+                    <Grid.Col
+                        span={isDesktop ? 9 : 12}
+                        style={{ alignSelf: 'stretch' }} // 👈 Esto hace que SOLO esta columna se estire
+                    >
+                        <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                            {carouselSection && <Carousel items={carouselSection.carouselItems} />}
+                        </div>
                     </Grid.Col>
 
                     <Grid.Col span={isDesktop ? 3 : 12}>
-                        <Stack>
-                            <Card style={{ alignItems: "center" }}>
-                                <MiniCalendar
-                                    style={{ justifyContent: "center" }}
-                                    w={"100%"}
-                                    numberOfDays={6}
-                                    value={value}
-                                    getDayProps={(date) => ({
-                                        style: {
-                                            color: [0, 6].includes(dayjs(date).day()) ? 'var(--mantine-color-red-8)' : undefined,
-                                        },
-                                    })}
-                                />
-                            </Card>
+                        <Stack gap="md">
                             {calendarSection && <Calendar  {...calendarSection.calendar} />}
                             {derechoSection && (
                                 <Derechohabiencia {...derechoSection.derechoambiencia} />

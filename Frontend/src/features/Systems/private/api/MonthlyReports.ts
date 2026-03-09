@@ -1,4 +1,4 @@
-import { api } from "@/services/axios.client"
+import { api } from "@/lib/axios.client"
 import type { SystemProps } from "../../types"
 
 export const addMonthlyReports = async (body: SystemProps) => {

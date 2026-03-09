@@ -1,4 +1,4 @@
-import { api } from "@/services"
+import { api } from "@/lib"
 
 export const addPBM = async (body: any) => {
     const response = await api.post(`/api/systems/pbm`, body)

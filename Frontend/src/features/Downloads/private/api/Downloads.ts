@@ -1,4 +1,4 @@
-import { api } from "@/services"
+import { api } from "@/lib"
 
 export const addDownload = async (body: any) => {
     const response = await api.post(`/api/downloads/`, body)

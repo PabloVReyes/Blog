@@ -2,6 +2,7 @@ export const Modal = {
     defaultProps: {
         withBorder: true,
         shadow: "sm",
+        radius: 15
     },
 
     styles: () => ({

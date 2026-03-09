@@ -1,0 +1,37 @@
+.modal {
+    padding: 0;
+    overflow: hidden;
+}
+
+.header {
+    background: var(--mantine-primary-color-filled);
+    padding: 1.5rem;
+    position: relative;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+.closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.form {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.alert {
+    margin-bottom: 1rem;
+}
+
+.demoBox {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1rem;
+}

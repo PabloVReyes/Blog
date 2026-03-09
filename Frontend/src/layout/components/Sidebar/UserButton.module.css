@@ -1,0 +1,10 @@
+.user {
+    display: block;
+    width: 100%;
+    padding: var(--mantine-spacing-md);
+    color: white;
+}
+
+.user:hover {
+    background-color: light-dark(#364153, oklch(27.8% 0.033 256.848));
+}

@@ -10,8 +10,8 @@
 
 .rating {
     position: absolute;
-    top: var(--mantine-spacing-xs);
-    right: 12px;
+    top: 5px;
+    right: 5px;
     pointer-events: none;
 }
 

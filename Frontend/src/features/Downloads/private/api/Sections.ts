@@ -1,4 +1,4 @@
-import { api } from "@/services"
+import { api } from "@/lib"
 
 export const fetchSections = async (area: number) => {
     const response = await api.get(`/api/downloads/sections/${area}`)

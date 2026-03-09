@@ -9,6 +9,7 @@ import { FileInput } from "./FileInput";
 import { InputBase } from "./InputBase";
 import { Menu } from "./Menu";
 import { Modal } from "./Modal";
+import { PasswordInput } from "./PasswordInput";
 import { Select } from "./Select";
 import { TextInput } from "./TextInput";
 import { Textarea } from "./Textrea";
@@ -28,5 +29,6 @@ export const components = {
     Divider,
     Autocomplete,
     ColorInput,
-    Menu
+    Menu,
+    PasswordInput
 }

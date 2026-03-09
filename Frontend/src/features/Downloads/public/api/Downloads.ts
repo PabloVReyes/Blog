@@ -1,4 +1,4 @@
-import { api } from "@/services"
+import { api } from "@/lib"
 
 export const downloadFile = async (id: string) => {
     const response = await api.get(`/api/downloads/download/${id}`, {

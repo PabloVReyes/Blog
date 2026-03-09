@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react"; // Añadido useRef
 import { useMediaQuery } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
 import { Header, Modal, Settings, Sidebar } from "./components";
+import { LoginModal } from "@/features/auth/LoginModal";
 
 export const Layout = () => {
     const isMobile = useMediaQuery("(max-width: 780px)");
@@ -54,6 +55,7 @@ export const Layout = () => {
                 <Settings scrollContainer={viewportRef} />
 
                 <Modal />
+                <LoginModal />
 
                 {/* 3. Asignamos la ref al elemento main */}
                 <main className={styles.main} ref={viewportRef}>

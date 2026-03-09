@@ -1,4 +1,4 @@
-import { api } from "@/services/axios.client"
+import { api } from "@/lib/axios.client"
 
 export const fetchPatientSafety = async ({ search, categoryId }: { search?: string, categoryId?: string | undefined }) => {
     let url = `/api/systems/codes?`;

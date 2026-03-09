@@ -2,6 +2,7 @@ import type { RouteObject } from "react-router-dom";
 import { publicRoutes } from "./public.routes";
 import { Layout } from "@/layout";
 import { privateRoutes } from "./private.routes";
+import { PrivateRoute } from "./PrivateRoute";
 
 export const routes: RouteObject[] = [
     {
@@ -9,7 +10,10 @@ export const routes: RouteObject[] = [
         element: <Layout />,
         children: [
             publicRoutes,
-            privateRoutes
+            {
+                element: <PrivateRoute/>,
+                children: [privateRoutes]
+            }
         ]
     },
 ]

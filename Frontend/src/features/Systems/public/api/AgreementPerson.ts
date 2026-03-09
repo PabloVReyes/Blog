@@ -1,4 +1,4 @@
-import { api } from "@/services/axios.client"
+import { api } from "@/lib/axios.client"
 
 export const fetchAgreementPerson = async ({ page, limit, search, groupId, zoneId }: { page?: number, limit?: number, search?: string, groupId?: string | undefined, zoneId?: string | undefined }) => {
     let url = `/api/systems/agreement-person/persons-dependents?page=${page ?? 1}&limit=${limit ?? 10}`;
