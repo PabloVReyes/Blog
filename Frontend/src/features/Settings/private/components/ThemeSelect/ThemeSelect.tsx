@@ -1,53 +1,72 @@
-import { ActionIcon, Group, Text, Tooltip } from "@mantine/core"
-import { IconMoon, IconSun, IconSunMoon } from "@tabler/icons-react";
-import styles from "./ThemeSelect.module.css"
+import { Text, Stack, Box, UnstyledButton } from "@mantine/core";
+import { IconMoon, IconSun, IconSunMoon, IconCheck } from "@tabler/icons-react";
+import classes from "./ThemeSelect.module.css";
 import { useSettingStore } from "../../store";
 
-export const ThemeSelect = () => {
-    const { setTheme, theme } = useSettingStore()
+const availableThemes = [
+    {
+        value: "light",
+        label: "Modo Claro",
+        icon: IconSun,
+        desc: "Interfaz clara para ambientes luminosos"
+    },
+    {
+        value: "auto",
+        label: "Automático",
+        icon: IconSunMoon,
+        desc: "Se ajusta según la configuración del sistema"
+    },
+    {
+        value: "dark",
+        label: "Modo Oscuro",
+        icon: IconMoon,
+        desc: "Interfaz oscura para reducir fatiga visual"
+    },
+] as const;
 
-    const handleThemeChange = (selected: 'light' | 'dark' | 'auto') => {
-        setTheme(selected);
-    };
+export const ThemeSelect = () => {
+    const { setTheme, theme: currentTheme } = useSettingStore();
 
     return (
-        <>
-            <Text size="sm">
-                Tema <Text span style={{ color: "red" }}>*</Text>
-            </Text>
-            <Text c="dimmed" size="xs">Tema de la página</Text>
-            <Group gap={5} wrap="nowrap">
-                <Tooltip label="Claro">
-                    <ActionIcon
-                        size="xl"
-                        className={`${styles.themeBtn}`}
-                        data-active={theme === "light" || undefined}
-                        onClick={() => handleThemeChange('light')}
+        <Stack gap="sm" mt={10}>
+            {availableThemes.map((themeOption) => {
+                const isSelected = currentTheme === themeOption.value;
+                const Icon = themeOption.icon;
+
+                return (
+                    <UnstyledButton
+                        key={themeOption.value}
+                        onClick={() => setTheme(themeOption.value)}
+                        className={`${classes.themeButton} ${isSelected ? classes.selected : classes.unselected
+                            }`}
                     >
-                        <IconSun stroke={2} />
-                    </ActionIcon>
-                </Tooltip>
-                <Tooltip label="Automatico">
-                    <ActionIcon
-                        size="xl"
-                        className={`${styles.themeBtn}`}
-                        data-active={theme === "auto" || undefined}
-                        onClick={() => handleThemeChange('auto')}
-                    >
-                        <IconSunMoon stroke={2} />
-                    </ActionIcon>
-                </Tooltip>
-                <Tooltip label="Oscuro">
-                    <ActionIcon
-                        size="xl"
-                        className={`${styles.themeBtn}`}
-                        data-active={theme === "dark" || undefined}
-                        onClick={() => handleThemeChange('dark')}
-                    >
-                        <IconMoon stroke={2} />
-                    </ActionIcon>
-                </Tooltip>
-            </Group>
-        </>
-    )
-}
+                        <Icon
+                            size={20}
+                            className={isSelected ? classes.iconSelected : classes.iconUnselected}
+                        />
+
+                        <Box style={{ flex: 1 }}>
+                            <Text
+                                fz="sm"
+                                className={isSelected ? classes.labelSelected : undefined}
+                            >
+                                {themeOption.label}
+                            </Text>
+                            <Text fz="xs" c="dimmed" lh={1.2}>
+                                {themeOption.desc}
+                            </Text>
+                        </Box>
+
+                        {isSelected && (
+                            <IconCheck
+                                size={20}
+                                stroke={3}
+                                className={classes.iconSelected}
+                            />
+                        )}
+                    </UnstyledButton>
+                );
+            })}
+        </Stack>
+    );
+};

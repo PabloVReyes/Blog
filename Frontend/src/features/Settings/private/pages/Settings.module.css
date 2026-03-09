@@ -1,0 +1,78 @@
+/* Settings.module.css */
+.card {
+    transition: all 0.3s ease;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.01);
+}
+
+/* Contenedor del gradiente */
+.headerBox {
+    height: 128px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gradientOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(0, 0, 0, 0.2));
+}
+
+/* Patrón de cuadros decorativos */
+.patternContainer {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    width: 128px;
+    height: 128px;
+    opacity: 0.1;
+    transform: rotate(12deg) translate(20px, -20px);
+}
+
+.patternSquare {
+    width: 150px;
+    height: 150px;
+    border-radius: 4px;
+}
+
+/* Animación de la flecha al hacer hover en la tarjeta */
+.arrowIcon {
+    transition: transform 0.2s ease;
+}
+
+.card:hover .arrowIcon {
+    transform: translateX(5px);
+}
+
+/* Clases dinámicas de colores (puedes expandir estas según necesites) */
+.bg_blue {
+    background-color: var(--mantine-color-blue-filled);
+}
+
+.bg_emerald {
+    background-color: #10b981;
+}
+
+/* Emerald no es default en Mantine, se puede mapear a teal */
+.bg_purple {
+    background-color: var(--mantine-color-violet-filled);
+}
+
+.bg_orange {
+    background-color: var(--mantine-color-orange-filled);
+}
+
+.bg_gray {
+    background-color: var(--mantine-color-gray-filled);
+}
+
+.bg_cyan {
+    background-color: var(--mantine-color-cyan-filled);
+}

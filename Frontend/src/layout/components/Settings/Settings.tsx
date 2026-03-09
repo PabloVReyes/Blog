@@ -52,6 +52,7 @@ const formattedDate = new Date(__COMMIT_DATE__).toLocaleDateString("es-MX", {
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC"
 });
 
 export const Settings = ({ scrollContainer }: SettingsProps) => {
@@ -329,6 +330,7 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
                         <Menu.Divider />
 
                         <Menu.Label>Información</Menu.Label>
+
 
                         <Group gap={6} justify="center" p={11} pt={2}>
                             <Text size="sm" fw={900} c={theme.primaryColor}>

@@ -1,4 +1,4 @@
-/* ThemeSelect.module.css */
+/* ColorPicker.module.css */
 .card {
     background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
 }
@@ -12,46 +12,53 @@
     padding: var(--mantine-spacing-xl);
 }
 
-.themeButton {
+.colorOption {
     width: 100%;
     padding: var(--mantine-spacing-md);
+    /* Igual que el themeButton */
     border-radius: var(--mantine-radius-md);
     border: 2px solid;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     gap: var(--mantine-spacing-md);
-    text-align: left;
+    cursor: pointer;
 }
 
 /* Estado No Seleccionado */
 .unselected {
     background-color: transparent;
-    border-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-4));
+    border-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6));
 }
 
 .unselected:hover {
-    /* Hover sutil con el color principal */
+    /* Mismo hover que el tema */
     border-color: var(--mantine-primary-color-filled);
 }
 
-/* Estado Seleccionado Dinámico */
+/* Estado Seleccionado - Idéntico al ThemeSelect */
 .selected {
     border-color: var(--mantine-primary-color-filled);
     background-color: light-dark(var(--mantine-primary-color-light),
-            rgba(var(--mantine-primary-color-light-color), 0.15));
+            rgba(var(--mantine-primary-color-filled-rgb), 0.15));
 }
 
-.iconSelected {
-    color: var(--mantine-primary-color-filled);
+.swatch {
+    width: rem(32px);
+    height: rem(32px);
+    border-radius: rem(8px);
+    flex-shrink: 0;
+    box-shadow: var(--mantine-shadow-sm);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.iconUnselected {
-    color: var(--mantine-color-gray-5);
-}
-
-/* Opcional: Para que el texto del label también use el color principal al estar seleccionado */
 .labelSelected {
     color: var(--mantine-primary-color-filled);
     font-weight: 600;
+}
+
+.checkIcon {
+    color: var(--mantine-primary-color-filled);
+    margin-left: auto;
+    /* Empuja el check a la derecha como en el diseño original */
 }

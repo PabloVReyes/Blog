@@ -1,7 +1,16 @@
 import type { RouteObject } from "react-router-dom";
-import { Settings } from "../pages";
+import { General, Settings } from "../pages";
 
 export const settingsPrivateRoutes: RouteObject = {
     path: "configuraciones",
-    element: <Settings />
+    children: [
+        {
+            index: true,
+            element: <Settings />
+        },
+        {
+            path: "general",
+            element: <General />
+        }
+    ]
 }

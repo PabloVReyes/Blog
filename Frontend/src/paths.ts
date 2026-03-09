@@ -121,5 +121,13 @@ export const paths = [
         label: "Configuraciones",
         icon: "IconSettings",
         link: "/configuraciones",
+        children: [
+            {
+                label: "Generales",
+                icon: "IconSettings",
+                link: "/general",
+            },
+        ]
     },
+
 ]

@@ -1,135 +1,96 @@
-import { ColorSelect, Container } from "@/components"
-import { Button, Card, Divider, Group, Stack, Text } from "@mantine/core"
-import { IconInput, ThemeSelect, TitleInput } from "../components"
-import { useState } from "react";
-import { useSettingStore } from "../store";
-import { IconCheck } from "@tabler/icons-react";
-import { uploadFavicon } from "../api";
-import { useModalStore } from "@/layout";
+import { Box, Card, Group, SimpleGrid, Text, useMantineTheme } from "@mantine/core";
+import {
+    IconArrowNarrowRight,
+    IconChartBar,
+    IconKey,
+    IconSettings,
+    IconShield,
+    IconUserCog,
+    IconUsers
+} from "@tabler/icons-react";
+import { Link } from "react-router-dom";
+import { Container } from "@/components";
+import { Alert } from "@/ui";
+
+// Importación del CSS Module
+import classes from "./Settings.module.css";
+
+const modules = [
+    { id: 1, nombre: "Gestión de Usuarios", descripcion: "Crear, editar y administrar cuentas", icon: IconUsers, color: "blue", url: "#", stats: "45 usuarios" },
+    { id: 2, nombre: "Gestión de Roles", descripcion: "Jerarquías del personal", icon: IconShield, color: "emerald", url: "#", stats: "8 roles" },
+    { id: 3, nombre: "Gestión de Permisos", descripcion: "Configurar accesos", icon: IconKey, color: "purple", url: "#", stats: "24 permisos" },
+    { id: 4, nombre: "Auditoría", descripcion: "Registro de actividades", icon: IconChartBar, color: "orange", url: "#", stats: "1,250 eventos" },
+    { id: 5, nombre: "Configuración General", descripcion: "Parámetros del sistema", icon: IconSettings, color: "gray", url: "/administracion/configuraciones/general", stats: "12 activos" },
+    { id: 6, nombre: "Perfiles", descripcion: "Plantillas predefinidas", icon: IconUserCog, color: "cyan", url: "#", stats: "5 perfiles" },
+];
 
 export const Settings = () => {
-    const [icon, setIcon] = useState<File | null>(null);
-    const [loading, setLoading] = useState<boolean>(false)
-    const { color, theme, saveSetting, title, setFavicon, favicon } = useSettingStore()
-    const { openModal } = useModalStore()
-    const [initialState, setInitialState] = useState({
-        title,
-        theme,
-        color,
-        favicon
-    });
-
-    const hasChanges = () => {
-        return (
-            title !== initialState.title ||
-            theme !== initialState.theme ||
-            color !== initialState.color ||
-            icon !== null // si se seleccionó un nuevo favicon
-        );
-    };
-
-    const updateFavicon = (url: string) => {
-        let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-        if (!link) {
-            link = document.createElement("link");
-            link.rel = "icon";
-            document.head.appendChild(link);
-        }
-        link.href = url;
-    };
-
-    const handleSubmit = async () => {
-        try {
-            setLoading(true)
-            // Actualizar nombre
-            saveSetting("title", title)
-            saveSetting("theme", theme)
-            saveSetting("color", color)
-
-            // Actualizar icono
-            if (icon) {
-                const formData = new FormData();
-                formData.append("favicon", icon)
-
-                const { url } = await uploadFavicon(formData)
-                const faviconUrl = `${import.meta.env.VITE_API_URL}${url}?v=${Date.now()}`;
-
-                setFavicon(url)
-                saveSetting("favicon", url)
-
-                updateFavicon(faviconUrl);
-            }
-
-            setInitialState({
-                title,
-                favicon,
-                theme,
-                color
-            })
-
-            openModal({
-                title: "Configuraciones guardadas",
-                subtitle: "Configuraciones guardadas correctamente",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            las configuraciones se han aplicado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-        } catch (error) {
-            console.error("Error al guardar la configuracion", error)
-        } finally {
-            setLoading(false)
-        }
-    }
+    const theme = useMantineTheme()
 
     return (
-        <Container
-            title="Configuración"
-            description="Configuració de la pagina"
-        >
-            <Card>
-                <Stack>
-                    <TitleInput />
-
-                    <Divider />
-
-                    <IconInput
-                        setIcon={setIcon}
-                    />
-
-                    <Divider />
-
-                    <Group justify="space-between" align="flex-start" wrap="nowrap">
-                        <Stack gap={1}>
-                            <ThemeSelect />
-                        </Stack>
-                        <Divider orientation="vertical" />
-                        <Stack gap={1} style={{ flex: '1 1 auto' }}>
-                            <ColorSelect
-                                type="settings"
-                                useStore={useSettingStore}
-                            />
-                        </Stack>
+        <Container title="Panel de configuración" description="Gestión completa del sistema">
+            <Alert
+                color="yellow"
+                title={
+                    <Group gap="xs" mb="sm">
+                        <IconShield size={20} />
+                        <Text fw={600} fz="lg">Acceso Restringido</Text>
                     </Group>
+                }
+                content="Este módulo es exclusivo para Administradores. Las acciones quedan registradas."
+            />
 
-                    <Divider />
-
-                    <Group justify="flex-end">
-                        <Button
-                            onClick={handleSubmit}
-                            disabled={!hasChanges()}
-                            loading={loading}
+            <SimpleGrid cols={{ base: 1, md: 2, lg: 3 }} spacing="lg" mb="xl">
+                {modules.map((module) => (
+                    <Card
+                        key={module.id}
+                        component={Link}
+                        to={module.url}
+                        radius="lg"
+                        withBorder
+                        className={classes.card} // Uso de CSS Module
+                    >
+                        <Card.Section
+                            withBorder={false}
+                            p={0}
                         >
-                            Guardar
-                        </Button>
-                    </Group>
-                </Stack>
-            </Card>
+                            <Box className={`${classes.headerBox} ${classes[`bg_${module.color}`]}`}>
+                                <div className={classes.gradientOverlay} />
+
+                                <module.icon size={64} color="white" style={{ zIndex: 1, opacity: 0.9 }} />
+
+                                {/* Patrón decorativo de cuadros */}
+                                <div className={classes.patternContainer}>
+                                    <module.icon className={classes.patternSquare}/>
+                                    {/* <SimpleGrid cols={3} spacing={8}>
+                                        {[...Array(9)].map((_, i) => (
+                                            <div key={i} className={classes.patternSquare} />
+                                        ))}
+                                    </SimpleGrid> */}
+                                </div>
+                            </Box>
+                        </Card.Section>
+
+                        <Box mt="md" mb="xl">
+                            <Text fw={700} size="lg" className="mantine-visible-from-light">
+                                {module.nombre}
+                            </Text>
+                            <Text size="sm" c="dimmed" mt="xs" lineClamp={2}>
+                                {module.descripcion}
+                            </Text>
+                        </Box>
+
+                        <Card.Section inheritPadding py="xs" withBorder={false}>
+                            <Group justify="flex-end">
+                                <Group gap={4} c={theme.primaryColor}>
+                                    <Text size="sm" fw={600}>Acceder</Text>
+                                    <IconArrowNarrowRight size={18} className={classes.arrowIcon} />
+                                </Group>
+                            </Group>
+                        </Card.Section>
+                    </Card>
+                ))}
+            </SimpleGrid>
         </Container>
-    )
-}
+    );
+};
