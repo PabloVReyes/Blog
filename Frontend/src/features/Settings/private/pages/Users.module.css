@@ -1,0 +1,9 @@
+.avatar {
+    /* Sustituye border-gray-200 y dark:border-gray-600 */
+    border: 2px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
+}
+
+.dimmedIcon {
+    /* Sustituye text-gray-500 y dark:text-gray-400 */
+    color: var(--mantine-color-dimmed);
+}

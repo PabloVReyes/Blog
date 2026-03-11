@@ -16,9 +16,9 @@ import { Alert } from "@/ui";
 import classes from "./Settings.module.css";
 
 const modules = [
-    { id: 1, nombre: "Gestión de Usuarios", descripcion: "Crear, editar y administrar cuentas", icon: IconUsers, color: "blue", url: "#", stats: "45 usuarios" },
+    { id: 1, nombre: "Gestión de Usuarios", descripcion: "Crear, editar y administrar cuentas", icon: IconUsers, color: "blue", url: "/administracion/configuraciones/usuarios", stats: "45 usuarios" },
     { id: 2, nombre: "Gestión de Roles", descripcion: "Jerarquías del personal", icon: IconShield, color: "emerald", url: "#", stats: "8 roles" },
-    { id: 3, nombre: "Gestión de Permisos", descripcion: "Configurar accesos", icon: IconKey, color: "purple", url: "#", stats: "24 permisos" },
+    { id: 3, nombre: "Gestión de Permisos", descripcion: "Configurar accesos", icon: IconKey, color: "purple", url: "/administracion/configuraciones/permisos", stats: "24 permisos" },
     { id: 4, nombre: "Auditoría", descripcion: "Registro de actividades", icon: IconChartBar, color: "orange", url: "#", stats: "1,250 eventos" },
     { id: 5, nombre: "Configuración General", descripcion: "Parámetros del sistema", icon: IconSettings, color: "gray", url: "/administracion/configuraciones/general", stats: "12 activos" },
     { id: 6, nombre: "Perfiles", descripcion: "Plantillas predefinidas", icon: IconUserCog, color: "cyan", url: "#", stats: "5 perfiles" },
@@ -59,14 +59,8 @@ export const Settings = () => {
 
                                 <module.icon size={64} color="white" style={{ zIndex: 1, opacity: 0.9 }} />
 
-                                {/* Patrón decorativo de cuadros */}
                                 <div className={classes.patternContainer}>
-                                    <module.icon className={classes.patternSquare}/>
-                                    {/* <SimpleGrid cols={3} spacing={8}>
-                                        {[...Array(9)].map((_, i) => (
-                                            <div key={i} className={classes.patternSquare} />
-                                        ))}
-                                    </SimpleGrid> */}
+                                    <module.icon className={classes.patternSquare} />
                                 </div>
                             </Box>
                         </Card.Section>

@@ -1,0 +1,187 @@
+import { Container, Panel, Table } from "@/components";
+import { useModalStore } from "@/layout";
+import { useDebouncedValue } from "@mantine/hooks";
+import { useUserStore } from "../store";
+import { useEffect } from "react";
+import { Notify } from "@/ui";
+import { Avatar, Badge, Box, Group, Text, useMantineTheme } from "@mantine/core";
+import { IconCircleCheck, IconMail, IconShieldFilled, IconXboxX } from "@tabler/icons-react";
+import classes from "./Users.module.css"
+import { formatLocalDate } from "@/utils";
+import { ActionsUsers, AddUsers } from "../components";
+
+export interface Data {
+    id: string;
+    name: string;
+    email: string;
+    active: boolean;
+    lastLoginAt: Date;
+    createdAt: Date;
+    roles: RoleElement[];
+}
+
+export interface RoleElement {
+    role: RoleRole;
+}
+
+export interface RoleRole {
+    id: string;
+    name: string;
+    description: string;
+}
+
+
+
+const columns = (theme: any) => [
+    {
+        key: 'user',
+        label: 'Usuario',
+        align: 'left',
+        render: (row: Data) => {
+            return (
+                <Group gap="sm" wrap="nowrap">
+                    <Avatar radius="xl" alt={row.name} name={row.name} color={theme.primaryColor} variant="filled" />
+                    <Box>
+                        <Text fw={500} size="sm" lh={1.2} c="bright">
+                            {row.name}
+                        </Text>
+
+                        <Group gap={4} mt={2}>
+                            <IconMail size={12} className={classes.dimmedIcon} />
+                            <Text size="xs" c="dimmed">
+                                {row.email}
+                            </Text>
+                        </Group>
+                    </Box>
+                </Group>
+            )
+        }
+    },
+    {
+        key: 'roles',
+        label: 'Roles',
+        align: 'center',
+        render: (row: Data) => {
+            if (!row.roles) {
+                return <Text size="xs" c="dimmed">Sin roles</Text>
+            }
+
+            return row.roles.map((role) => (
+                <Badge
+                    size="sm"
+                    radius="xl"
+                    leftSection={<IconShieldFilled size={12} />}
+                    className={classes.roleBadge}
+                    variant="filled"
+                >
+                    {role.role.name}
+                </Badge>
+            ))
+        }
+    },
+    {
+        key: 'isActive',
+        label: 'Estado',
+        align: 'center',
+        render: (row: Data) => {
+            if (row.active === true) {
+                return (
+                    <Badge
+                        size="sm"
+                        radius="xl"
+                        variant="light"
+                        color="green"
+                        leftSection={<IconCircleCheck size={12} />}
+                    >
+                        ACTIVO
+                    </Badge>
+                )
+            } else {
+                return (
+                    <Badge
+                        size="sm"
+                        radius="xl"
+                        color="red"
+                        variant="light"
+                        leftSection={<IconXboxX size={12} />}
+                    >
+                        INACTIVO
+                    </Badge>
+                )
+            }
+        }
+    },
+    {
+        key: 'lastLoginAt',
+        label: 'Ultimo acceso',
+        align: 'left',
+        render: (row: Data) => {
+            if (!row.lastLoginAt) {
+                return <Text size="xs" c="dimmed">Aún no ha iniciado sesión</Text>
+            }
+
+            return (
+                <Text size="sm">{formatLocalDate(row.lastLoginAt)}</Text>
+            )
+        }
+    },
+    {
+        key: 'actions',
+        label: 'Acciones',
+        align: 'left',
+        render: (row: Data) => {
+            return <ActionsUsers {...row} />
+        }
+    },
+]
+
+
+export const Users = () => {
+    const { openModal } = useModalStore()
+    const theme = useMantineTheme()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useUserStore()
+    const [debounced] = useDebouncedValue(search, 500)
+
+    useEffect(() => {
+        handleFetch()
+    }, [debounced, page, limit])
+
+    const handleFetch = async () => {
+        try {
+            await fetch()
+        } catch (error: any) {
+            Notify({
+                type: "error",
+                title: "Error al obtener descargas",
+                message: error.message
+            })
+        }
+    }
+
+    const handleAdd = () => {
+        openModal({
+            content: <AddUsers />
+        })
+    }
+
+
+    return (
+        <Container
+            title="Gestión de Usuarios"
+            description="Administración de cuentas de usuario del sistema"
+        >
+            <Panel
+                title
+                titleValue="Lista de usuarios"
+                onAddElement={handleAdd}
+                labelAdd="Agregar Usuario"
+            >
+                <Table
+                    isLoading={isLoading}
+                    data={items}
+                    columns={columns(theme)}
+                />
+            </Panel>
+        </Container>
+    );
+};

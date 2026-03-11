@@ -14,6 +14,9 @@ import juristicsRoutes from "@/modules/juristics/juristics.routes"
 import certificationRoutes from "@/modules/certification/certification.routes"
 import vacationRoutes from "@/modules/vacations/vacations.routes"
 import authRoutes from "@/modules/auth/auth.routes"
+import usersRoutes from "@/modules/users/user.routes"
+import rolesRoutes from "@/modules/roles/role.routes"
+import permissionsRoutes from "@/modules/permissions/permission.routes"
 
 const router: Router = Router()
 
@@ -49,5 +52,8 @@ router.use("/api/macroprocess", macroprocessRoutes)
 router.use("/api/vacation", vacationRoutes)
 router.use("/api/directory", directoryRoutes)
 router.use("/api/auth", authRoutes)
+router.use("/api/users", usersRoutes)
+router.use("/api/roles", rolesRoutes)
+router.use("/api/permissions", permissionsRoutes)
 
 module.exports = router;

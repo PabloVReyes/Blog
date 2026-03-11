@@ -22,6 +22,8 @@ model User {
 
   roles UserRole[]
 
+  lastLoginAt DateTime?
+
   createdAt DateTime @default(now())
 }
 
@@ -36,8 +38,10 @@ model Role {
 
 model Permission {
   id          String  @id @default(uuid())
+  name        String?
   key         String  @unique
   description String?
+  active      Boolean @default(true)
 
   roles RolePermission[]
 }

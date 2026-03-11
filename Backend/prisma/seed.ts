@@ -16,15 +16,15 @@ async function main() {
     */
 
     const permissions = [
-        { key: "users.read", description: "Ver usuarios" },
-        { key: "users.create", description: "Crear usuarios" },
-        { key: "users.update", description: "Actualizar usuarios" },
-        { key: "users.delete", description: "Eliminar usuarios" },
+        { key: "users.read", name: "Ver usuarios", description: "Permite ver el apartado de usuarios" },
+        { key: "users.create", name: "Crear usuarios", description: "Permite crear usuarios" },
+        { key: "users.update", name: "Actualizar usuarios", description: "Permite actualizar usuarios" },
+        { key: "users.delete", name: "Eliminar usuarios", description:  "Permite eliminar usuarios" },
 
-        { key: "roles.read", description: "Ver roles" },
-        { key: "roles.create", description: "Crear roles" },
-        { key: "roles.update", description: "Actualizar roles" },
-        { key: "roles.delete", description: "Eliminar roles" }
+        { key: "roles.read", name: "Ver roles", description: "Permite ver la lista de roles" },
+        { key: "roles.create", name: "Crear roles", description: "Permite crear nuevos roles" },
+        { key: "roles.update", name: "Actualizar roles", description: "Permite actualizar roles" },
+        { key: "roles.delete", name: "Eliminar roles", description: "Permite eliminar roles" }
     ]
 
     const permissionRecords = []
@@ -36,6 +36,7 @@ async function main() {
             update: {},
             create: {
                 key: p.key,
+                name: p.name,
                 description: p.description
             }
         })

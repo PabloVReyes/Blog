@@ -27,6 +27,8 @@ export const login = async (email: string, password: string) => {
         permissions
     })
 
+    await repo.updateLastLogin(user.id)
+
     return {
         token,
         user: {

@@ -1,3 +1,6 @@
 export { TitleInput } from "./TitleInput"
+export { ColorPicker } from "./ColorPicker"
 export { IconInput } from "./IconInput"
 export { ThemeSelect } from "./ThemeSelect"
+export { AddUsers, ActionsUsers } from "./Users"
+export { ActionsPermissions, AddPermissions } from "./Permissions"

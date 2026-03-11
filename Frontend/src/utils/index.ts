@@ -15,7 +15,8 @@ export {
     validatePresentation,
     validateFile,
     validateEmail,
-    validateExtension
+    validateExtension,
+    validateKeyPermission
 } from "./validators"
 
 export {
@@ -36,3 +37,7 @@ export {
 export {
     catMessages
 } from "./cat"
+
+export {
+    formatLocalDate
+} from "./date"

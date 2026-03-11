@@ -1,8 +1,7 @@
-// src/stores/auth.store.ts
-
 import { create } from "zustand"
 import { jwtDecode } from "jwt-decode"
 import type { User } from "./types"
+import { useModalStore } from "@/layout/store"
 
 interface JwtPayload {
     exp: number
@@ -37,6 +36,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         const expiresIn = decoded.exp * 1000 - Date.now()
 
+        if (expiresIn <= 0) {
+            get().logout()
+            return
+        }
+
         const timer = setTimeout(() => {
             get().logout()
         }, expiresIn)
@@ -59,6 +63,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         localStorage.removeItem("token")
         localStorage.removeItem("user")
+
+        // cerrar todos los modales abiertos
+        useModalStore.getState().closeModal()
 
         set({
             user: null,

@@ -6,7 +6,7 @@ import { useSettingStore } from "../store";
 import { IconCheck, IconLetterT, IconPalette, IconSunMoon } from "@tabler/icons-react";
 import { uploadFavicon } from "../api";
 import { useModalStore } from "@/layout";
-import { ColorPicker } from "../components/ColorPicker/ColorPicker";
+import { ColorPicker } from "../components";
 
 export const General = () => {
     const mantineTheme = useMantineTheme()
@@ -92,7 +92,7 @@ export const General = () => {
     return (
         <Container
             title="Configuración General"
-            description="Configuració de la pagina"
+            description="Personaliza la apariencia y configuración"
         >
             <SimpleGrid cols={{ base: 1, lg: 2 }}>
                 <Card>

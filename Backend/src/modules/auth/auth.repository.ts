@@ -29,3 +29,20 @@ export const getUserByEmailRepository = async (email: string) => {
         throw new Error("Error al obtener el usuario")
     }
 }
+
+////
+// UPDATE 
+///
+
+export const updateLastLogin = async (id: string) => {
+    try {
+        await database.user.update({
+            where: { id },
+            data: {
+                lastLoginAt: new Date()
+            }
+        })
+    } catch (error) {
+        console.error("Error al actualizar ultima conexión del usuario")
+    }
+}

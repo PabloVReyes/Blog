@@ -1,0 +1,17 @@
+.card {
+    transition: all 0.3s ease;
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--mantine-shadow-lg);
+}
+
+.keyIcon {
+    color: var(--mantine-primary-color-filled);
+}
+
+.code {
+    background-color: light-dark(var(--color-gray-100), var(--color-gray-900));
+}

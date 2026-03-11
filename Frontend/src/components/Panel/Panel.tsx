@@ -17,8 +17,8 @@ type PaginationProps =
 
 
 type TitleProps =
-    | { title?: false; titleValue?: never, onAddElement?: never }
-    | { title: true; titleValue: string, onAddElement?: () => void }
+    | { title?: false; titleValue?: never, onAddElement?: never, labelAdd?: never }
+    | { title: true; titleValue: string, onAddElement?: () => void, labelAdd?: string }
 
 type PanelProps = (SearchProps & LimitProps & PaginationProps & TitleProps) & { children: ReactNode };
 
@@ -40,7 +40,8 @@ export const Panel = ({
     totalPages,
     totalItems,
     pageValue,
-    onChangePage
+    onChangePage,
+    labelAdd = "Agregar Elemento"
 }: PanelProps) => {
     return (
         <Stack>
@@ -53,7 +54,7 @@ export const Panel = ({
                                 onClick={onAddElement}
                                 leftSection={<IconPlus size={16} />}
                             >
-                                Agregar Elemento
+                                {labelAdd}
                             </Button>
                         }
                     </Group>

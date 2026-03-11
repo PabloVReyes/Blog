@@ -28,7 +28,7 @@
 /* Estado No Seleccionado */
 .unselected {
     background-color: transparent;
-    border-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6));
+    border-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-4));
 }
 
 .unselected:hover {

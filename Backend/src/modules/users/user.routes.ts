@@ -1,5 +1,5 @@
 import { Router } from "express"
-import * as userController from "./user.controller"
+import * as controller from "./user.controller"
 
 import { requirePermission } from "../../middleware/permission.middleware"
 import { authMiddleware } from "../auth/auth.middleware"
@@ -10,7 +10,14 @@ router.post(
     "/",
     authMiddleware,
     requirePermission("users.create"),
-    userController.createUser
+    controller.createUserController
+)
+
+router.get(
+    "/",
+    // authMiddleware,
+    // requirePermission("users.read"),
+    controller.getSdandarsController
 )
 
 export default router

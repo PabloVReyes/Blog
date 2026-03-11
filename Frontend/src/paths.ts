@@ -127,6 +127,16 @@ export const paths = [
                 icon: "IconSettings",
                 link: "/general",
             },
+            {
+                label: "Usuarios",
+                icon: "IconSettings",
+                link: "/usuarios",
+            },
+            {
+                label: "Permisos",
+                icon: "IconSettings",
+                link: "/permisos",
+            },
         ]
     },
 

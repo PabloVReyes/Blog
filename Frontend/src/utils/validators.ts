@@ -3,6 +3,7 @@ export const URL_REGEX = /^(https?:\/\/[^\s]+|\/[^\s]*)$/;
 export const MEDICAL_CODE_REGEX = /^\d{3}\.\d{3}\.\d{4}\.\d{2}$/;
 export const EXTENSION_REGEX = /^\d{4}$/;
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const PERMISSION_KEY_REGEX = /^[a-z]+\.(create|read|update|delete)$/;
 
 // Validaciones comunes
 export const validateTitle = (value: string) =>
@@ -258,6 +259,25 @@ export const validateEmail = (
 
     if (!EMAIL_REGEX.test(value)) {
         return "El correo electrónico no es válido";
+    }
+
+    return null;
+};
+
+export const validateKeyPermission = (
+    value: string,
+    options?: {
+        required?: boolean;
+    }
+) => {
+    const { required = false } = options || {};
+
+    if (value === null || value === undefined || value === "") {
+        return required ? "Debes introducir un codigo unico" : null;
+    }
+
+    if (!PERMISSION_KEY_REGEX.test(value)) {
+        return "Formato válido: recurso.create | recurso.read | recurso.update | recurso.delete";
     }
 
     return null;
