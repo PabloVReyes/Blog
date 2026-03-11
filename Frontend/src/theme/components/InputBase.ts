@@ -1,8 +1,4 @@
 export const InputBase = {
-    defaultProps: {
-        radius: "md",
-    },
-
     styles: () => ({
         input: {
             height: 39,

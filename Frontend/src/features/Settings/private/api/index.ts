@@ -14,3 +14,10 @@ export {
     updatePermission,
     deletePermission
 } from "./Permissions"
+
+export {
+    fecthRoles,
+    addRole,
+    updateRoles,
+    deleteRole
+} from "./Roles"

@@ -17,7 +17,7 @@ import classes from "./Settings.module.css";
 
 const modules = [
     { id: 1, nombre: "Gestión de Usuarios", descripcion: "Crear, editar y administrar cuentas", icon: IconUsers, color: "blue", url: "/administracion/configuraciones/usuarios", stats: "45 usuarios" },
-    { id: 2, nombre: "Gestión de Roles", descripcion: "Jerarquías del personal", icon: IconShield, color: "emerald", url: "#", stats: "8 roles" },
+    { id: 2, nombre: "Gestión de Roles", descripcion: "Jerarquías del personal", icon: IconShield, color: "emerald", url: "/administracion/configuraciones/roles", stats: "8 roles" },
     { id: 3, nombre: "Gestión de Permisos", descripcion: "Configurar accesos", icon: IconKey, color: "purple", url: "/administracion/configuraciones/permisos", stats: "24 permisos" },
     { id: 4, nombre: "Auditoría", descripcion: "Registro de actividades", icon: IconChartBar, color: "orange", url: "#", stats: "1,250 eventos" },
     { id: 5, nombre: "Configuración General", descripcion: "Parámetros del sistema", icon: IconSettings, color: "gray", url: "/administracion/configuraciones/general", stats: "12 activos" },

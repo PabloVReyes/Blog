@@ -123,19 +123,24 @@ export const paths = [
         link: "/configuraciones",
         children: [
             {
-                label: "Generales",
-                icon: "IconSettings",
-                link: "/general",
-            },
-            {
                 label: "Usuarios",
                 icon: "IconSettings",
                 link: "/usuarios",
             },
             {
+                label: "Roles",
+                icon: "IconSettings",
+                link: "/roles",
+            },
+            {
                 label: "Permisos",
                 icon: "IconSettings",
                 link: "/permisos",
+            },
+            {
+                label: "Generales",
+                icon: "IconSettings",
+                link: "/general",
             },
         ]
     },

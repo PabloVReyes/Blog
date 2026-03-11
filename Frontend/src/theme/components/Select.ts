@@ -1,6 +1,5 @@
 export const Select = {
     defaultProps: {
-        radius: "md",
         searchable: true,
         nothingFoundMessage: "Sin resultados",
     },

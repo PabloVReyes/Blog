@@ -1,0 +1,101 @@
+.title {
+    display: flex;
+    align-items: center;
+    gap: var(--mantine-spacing-xs);
+    margin-bottom: var(--mantine-spacing-md);
+}
+
+/* Tarjeta de Acceso Total */
+.adminCard {
+    padding: var(--mantine-spacing-md);
+    border-radius: var(--mantine-radius-lg);
+    border: 2px solid;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+.adminActive {
+    border-color: var(--mantine-primary-color-filled);
+    background-color: light-dark(var(--mantine-primary-color-light),
+            rgba(var(--mantine-primary-color-filled-rgb), 0.15));
+}
+
+.adminInactive {
+    border-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
+}
+
+/* Grid de Permisos */
+.permissionsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--mantine-spacing-sm);
+    padding: var(--mantine-spacing-md);
+    border: 1px solid;
+    border-radius: var(--mantine-radius-md);
+}
+
+@media (max-width: 768px) {
+    .permissionsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.permissionItem {
+    padding: var(--mantine-spacing-sm);
+    border-radius: var(--mantine-radius-md);
+    border: 2px solid;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.itemActive {
+    border-color: var(--mantine-primary-color-filled);
+    background-color: light-dark(var(--mantine-primary-color-light),
+            rgba(var(--mantine-primary-color-filled-rgb), 0.1));
+}
+
+.itemInactive {
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+    border-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
+}
+
+.itemInactive:hover {
+    border-color: var(--mantine-primary-color-light-hover);
+}
+
+.root {
+    position: relative;
+    padding: var(--mantine-spacing-md);
+    transition: all 150ms ease;
+    border: 2px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+    cursor: pointer;
+
+    /* Quitamos el &[data-checked] automático que pone Mantine */
+}
+
+/* Esta clase se aplicará solo cuando el elemento esté seleccionado */
+.active {
+    border-color: var(--mantine-primary-color-filled) !important;
+    background-color: light-dark(var(--mantine-primary-color-light),
+            rgba(var(--mantine-primary-color-filled-rgb), 0.1)) !important;
+}
+
+.root:hover {
+    border-color: var(--mantine-primary-color-light-hover);
+}
+
+.label {
+    font-weight: bold;
+    font-size: var(--mantine-font-size-md);
+    line-height: 1.3;
+    color: var(--mantine-color-bright);
+}
+
+.description {
+    margin-top: 4px;
+    color: var(--mantine-color-dimmed);
+}

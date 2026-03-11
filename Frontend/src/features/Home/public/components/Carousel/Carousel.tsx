@@ -73,7 +73,7 @@ export const Carousel = ({ items }: any) => {
             {items.length < 1 && (
                 <MantineCarousel.Slide
                     style={{
-                        borderRadius: "12px",
+                        borderRadius: "15px",
                         overflow: "hidden",
                         border: "1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4))",
                     }}
@@ -99,7 +99,7 @@ export const Carousel = ({ items }: any) => {
                 <MantineCarousel.Slide
                     key={index}
                     style={{
-                        borderRadius: "12px",
+                        borderRadius: "15px",
                         overflow: "hidden",
                     }}
                     h="100%"

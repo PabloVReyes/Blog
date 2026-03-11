@@ -1,8 +1,4 @@
 export const FileInput = {
-    defaultProps: {
-        radius: "md",
-    },
-
     styles: () => ({
         input: {
             fontSize: '14px',

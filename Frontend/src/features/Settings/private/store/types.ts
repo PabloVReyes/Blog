@@ -25,3 +25,4 @@ export interface UserState {
 }
 
 export interface PermissionsState extends UserState {}
+export interface RolesState extends UserState {}

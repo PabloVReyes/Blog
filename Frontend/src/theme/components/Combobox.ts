@@ -1,8 +1,4 @@
 export const Combobox = {
-    defaultProps: {
-        radius: "md",
-    },
-
     styles: (theme: any) => ({
         input: {
             backgroundColor: "light-dark(white, oklch(27.8% 0.033 256.848))",

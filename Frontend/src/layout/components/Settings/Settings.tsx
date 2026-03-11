@@ -62,7 +62,7 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
     const [isOnline, setIsOnline] = useState(navigator.onLine);
     const [checkingConnection, setCheckingConnection] = useState(false);
 
-    const BLOCKED_PORT = "5173";
+    const BLOCKED_PORT = "5174";
     const isBlockedPort = window.location.port === BLOCKED_PORT;
 
     const { openModal } = useModalStore();

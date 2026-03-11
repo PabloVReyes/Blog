@@ -69,7 +69,7 @@ export const Permissions = () => {
                 title
                 titleValue="Lista de permisos"
                 onAddElement={handleAdd}
-                labelAdd="Agregar permiso"
+                labelAdd="Agregar Permiso"
                 search
                 searchPlaceholder="Buscar permiso"
                 searchValue={search}
@@ -150,7 +150,7 @@ export const Permissions = () => {
 
                                             <Group gap={8}>
                                                 {permiso._count.roles < 1 ?
-                                                    <Text size="sm" c="dimmed">Sin roles</Text>
+                                                    <Text size="xs" c="dimmed">Sin roles</Text>
                                                     : permiso.roles.map((rol, index: number) => (
                                                         <Badge
                                                             key={index}

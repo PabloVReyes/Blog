@@ -1,8 +1,4 @@
 export const TextInput = {
-    defaultProps: {
-        radius: "md",
-    },
-
     styles: () => ({
         input: {
             backgroundColor: "light-dark(white, oklch(27.8% 0.033 256.848))",

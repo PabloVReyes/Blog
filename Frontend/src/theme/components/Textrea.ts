@@ -1,6 +1,5 @@
 export const Textarea = {
     defaultProps: {
-        radius: "md",
         autosize: true,
         minRows: 3,
     },

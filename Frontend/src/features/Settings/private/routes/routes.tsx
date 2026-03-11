@@ -1,5 +1,5 @@
 import type { RouteObject } from "react-router-dom";
-import { General, Permissions, Settings, Users } from "../pages";
+import { General, Permissions, Roles, Settings, Users } from "../pages";
 
 export const settingsPrivateRoutes: RouteObject = {
     path: "configuraciones",
@@ -19,6 +19,10 @@ export const settingsPrivateRoutes: RouteObject = {
         {
             path: "permisos",
             element: <Permissions />
+        },
+        {
+            path: "roles",
+            element: <Roles />
         }
     ]
 }
