@@ -1,5 +1,5 @@
 import { getPagination } from "@/utils/pagination"
-import { generatePassword, hashPassword } from "../../utils/password"
+import { comparePassword, generatePassword, hashPassword } from "../../utils/password"
 import * as repo from "./user.repository"
 import * as scheme from "./user.scheme"
 import { sendUserCredentials } from "@/services/email.service"
@@ -66,13 +66,24 @@ export const putUserService = async (id: string, dto: scheme.PutUserScheme) => {
     })
 }
 
+export const putMeService = async (id: string, dto: scheme.PutMeScheme) => {
+    const { name, email } = dto
+
+    return await repo.putMeReporitory({
+        id,
+        email,
+        name
+    })
+}
+
 export const resetPasswordService = async (id: string) => {
     const plainPassword = generatePassword(12)
     const password = await hashPassword(plainPassword)
 
     const user = await repo.changePasswordRepository(
         id,
-        password
+        password,
+        true,
     )
 
 
@@ -88,6 +99,36 @@ export const resetPasswordService = async (id: string) => {
     }
 
     return user
+}
+
+export const changePasswordService = async (id: string, dto: scheme.ChangePasswordScheme) => {
+    const { newPassword, currentPassword } = dto
+
+    const user = await repo.getUserById(id)
+
+    if (!user) {
+        throw new Error("Usuario no encontrado")
+    }
+
+    const validPassword = await comparePassword(currentPassword, user.password)
+
+    if (!validPassword) {
+        throw new Error("La contraseña actual es incorrecta")
+    }
+
+    const password = await hashPassword(newPassword)
+
+    return await repo.changePasswordRepository(id, password, false)
+}
+
+export const changeMePasswordService = async (id: string, dto: scheme.ChangeMePasswordScheme) => {
+    const { password } = dto
+    const user = await repo.getUserById(id)
+    if (!user) {
+        throw new Error("Usuario no encontrado")
+    }
+    const newPassword = await hashPassword(password)
+    return await repo.changeMePasswordRepository(id, newPassword)
 }
 
 export const deleteUserService = async (id: string) => {

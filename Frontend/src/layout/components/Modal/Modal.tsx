@@ -1,11 +1,13 @@
 import { useModalStore } from "@/layout/store";
-import { Modal as ModalMantine, Stack, Text } from "@mantine/core"
+import { Modal as ModalMantine, Stack, Text } from "@mantine/core";
 import { useEffect } from "react";
 
 export const Modal = () => {
-    const { opened, closeModal, modal } = useModalStore()
+
+    const { opened, closeModal, modal } = useModalStore();
 
     useEffect(() => {
+
         if (!opened || !modal?.autoClose) return;
 
         const timer = setTimeout(() => {
@@ -13,6 +15,7 @@ export const Modal = () => {
         }, modal.autoClose);
 
         return () => clearTimeout(timer);
+
     }, [opened, modal?.autoClose, closeModal]);
 
     return (
@@ -21,26 +24,44 @@ export const Modal = () => {
             onClose={closeModal}
             centered
             size="lg"
-            transitionProps={{ transition: 'fade', duration: 200 }}
+            transitionProps={{ transition: "fade", duration: 200 }}
+
+            closeOnEscape={modal?.closeOnEscape ?? true}
+            closeOnClickOutside={modal?.closeOnClickOutside ?? true}
         >
             <ModalMantine.Overlay />
+
             <ModalMantine.Content>
-                {modal?.title &&
-                    <ModalMantine.Header >
-                        <ModalMantine.Title style={{ width: "100%", textAlign: "center" }}>
+
+                {modal?.title && (
+                    <ModalMantine.Header>
+
+                        <ModalMantine.Title
+                            style={{ width: "100%", textAlign: "center" }}
+                        >
                             {modal?.title}
+
                             {modal?.subtitle && (
                                 <Text size="sm" c="dimmed">
                                     {modal.subtitle}
                                 </Text>
                             )}
+
                         </ModalMantine.Title>
+
+                        {(modal?.withCloseButton ?? true) && (
+                            <ModalMantine.CloseButton />
+                        )}
+
                     </ModalMantine.Header>
-                }
+                )}
+
                 <ModalMantine.Body>
                     <Stack>{modal?.content}</Stack>
                 </ModalMantine.Body>
+
             </ModalMantine.Content>
-        </ModalMantine.Root >
-    )
-}
+
+        </ModalMantine.Root>
+    );
+};

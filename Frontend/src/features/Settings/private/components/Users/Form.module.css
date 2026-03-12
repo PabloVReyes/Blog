@@ -71,7 +71,6 @@
     padding: var(--mantine-spacing-md);
     transition: all 150ms ease;
     border: 2px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
-    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
     cursor: pointer;
 
     /* Quitamos el &[data-checked] automático que pone Mantine */

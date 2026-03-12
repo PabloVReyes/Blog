@@ -106,7 +106,6 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                 <Fieldset legend="Permisos"
                     style={{
                         borderColor: form.errors.permissions ? 'var(--mantine-color-red-filled)' : 'var(--mantine-color-gray-3)',
-                        backgroundColor: form.errors.permissions ? 'rgba(var(--mantine-color-red-filled-rgb), 0.05)' : undefined,
                     }}
                 >
                     {loadingPermissions ?
@@ -132,7 +131,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                                 }}
                             >
                                 <Group wrap="nowrap" align="flex-start">
-                                    <Checkbox.Indicator radius={"xs"} checked={form.values.fullAccess} />
+                                    <Checkbox.Indicator radius={"xs"} checked={form.values.fullAccess} style={{ backgroundColor: form.values.fullAccess ? "" : "transparent" }} />
                                     <div>
                                         <Text className={classes.label}>Acceso Total al Sistema</Text>
                                         <Text className={classes.description} size="sm">Este rol tendrá acceso a todas las funcionalidades sin restricciones</Text>
@@ -170,7 +169,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                                                             }}
                                                         >
                                                             <Group wrap="nowrap" align="flex-start">
-                                                                <Checkbox.Indicator radius={"xs"} />
+                                                                <Checkbox.Indicator radius={"xs"} style={{ backgroundColor: checked ? "" : "transparent" }} />
                                                                 <div>
                                                                     <Text className={classes.label}>{permiso.name}</Text>
                                                                     <Text className={classes.description} size="sm">{permiso.description}</Text>

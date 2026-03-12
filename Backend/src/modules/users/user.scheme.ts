@@ -38,7 +38,39 @@ export const putUserParamsScheme = z.object({
     id: z.uuid()
 })
 
+export const putMeScheme = z.object({
+    name: z.string(),
+    email: z.email(),
+})
+
+export type PutMeScheme = z.infer<typeof putMeScheme>
+
+export const putMeParamsScheme = z.object({
+    id: z.uuid()
+})
+
 export const resetPasswordParamsScheme = z.object({
+    id: z.uuid()
+})
+
+export const changePasswordScheme = z.object({
+    currentPassword: z.string(),
+    newPassword: z.string()
+})
+
+export type ChangePasswordScheme = z.infer<typeof changePasswordScheme>
+
+export const changePasswordParamsScheme = z.object({
+    id: z.uuid()
+})
+
+export const changeMePasswordScheme = z.object({
+    password: z.string(),
+})
+
+export type ChangeMePasswordScheme = z.infer<typeof changeMePasswordScheme>
+
+export const changeMePasswordParamsScheme = z.object({
     id: z.uuid()
 })
 

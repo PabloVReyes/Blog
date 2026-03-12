@@ -1,0 +1,21 @@
+.button {
+    width: 100%;
+    padding: var(--mantine-spacing-md);
+    border-radius: var(--mantine-radius-lg);
+    border: 1px solid light-dark(var(--mantine-color-blue-1), var(--mantine-color-blue-9));
+    background-color: light-dark(var(--mantine-color-blue-0), rgba(var(--mantine-color-blue-9-rgb), 0.2));
+    transition: background-color 200ms ease;
+
+    &:hover {
+        background-color: light-dark(var(--mantine-color-blue-1), rgba(var(--mantine-color-blue-9-rgb), 0.3));
+
+        .chevron {
+            color: var(--mantine-color-blue-filled);
+        }
+    }
+}
+
+.chevron {
+    color: var(--mantine-color-gray-5);
+    transition: color 200ms ease;
+}

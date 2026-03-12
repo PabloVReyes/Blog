@@ -14,6 +14,10 @@ export const login = async (email: string, password: string) => {
         throw new Error("Contraseña incorrecta")
     }
 
+    if (!user.active) {
+        throw new Error("Usuario desactivado")
+    }
+
     const permissions = user.roles.flatMap(r =>
         r.role.permissions.map(p => p.permission.key)
     )
@@ -36,7 +40,8 @@ export const login = async (email: string, password: string) => {
             name: user.name,
             email: user.email,
             roles,
-            permissions
+            permissions,
+            mustChangePassword: user.mustChangePassword,
         }
     }
 

@@ -20,10 +20,10 @@ model User {
   password String
   active   Boolean @default(true)
 
+  mustChangePassword Boolean @default(false)
+
   roles UserRole[]
-
   lastLoginAt DateTime?
-
   createdAt DateTime @default(now())
 }
 

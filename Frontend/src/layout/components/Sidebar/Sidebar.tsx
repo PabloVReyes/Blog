@@ -115,7 +115,7 @@ export const Sidebar = () => {
         },
         {
             id: "vacation",
-            label: "Rol vacacional",
+            label: "Rol Vacacional",
             icon: "IconBeach",
             link: "/rol-vacacional"
         },

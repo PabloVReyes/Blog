@@ -16,6 +16,7 @@ export const createUserRepository = async ({ name, email, password, roles }: Pro
                 name,
                 email,
                 password,
+                mustChangePassword: true,
                 roles: {
                     create: roles.map((rolId) => ({
                         role: {
@@ -74,6 +75,15 @@ export const getUsersRepository = async ({ skip, take, search }: PaginationProps
     }
 }
 
+export const getUserById = async (id: string) => {
+    try {
+        return await database.user.findUnique({ where: { id } })
+    } catch (error) {
+        console.error("error en getUserById")
+        throw new Error("Error en obtener usuario")
+    }
+}
+
 ////////////
 // UPDATE //
 ////////////
@@ -113,12 +123,47 @@ export const putUserReporitory = async ({ name, email, roles, id, active }: PutU
     }
 }
 
-export const changePasswordRepository = (id: string, password: string) => {
+interface PutMeRepositoryProps extends scheme.PutMeScheme {
+    id: string;
+}
+
+export const putMeReporitory = async ({ name, email, id }: PutMeRepositoryProps) => {
+    try {
+        return await database.user.update({
+            where: { id },
+            data: {
+                email,
+                name,
+            },
+        })
+    } catch (error) {
+        console.error("Error en putUserReporitory")
+        throw new Error("Error al actualizar usuario")
+    }
+}
+
+export const changePasswordRepository = (id: string, password: string, mustChangePassword: boolean) => {
     try {
         return database.user.update({
             where: { id },
             data: {
-                password
+                password,
+                mustChangePassword
+            }
+        })
+    } catch (error) {
+        console.error("error en changePasswordRepository")
+        throw new Error("Error al cambiar contraseña del usuario")
+    }
+}
+
+export const changeMePasswordRepository = (id: string, password: string) => {
+    try {
+        return database.user.update({
+            where: { id },
+            data: {
+                password,
+                mustChangePassword: false
             }
         })
     } catch (error) {

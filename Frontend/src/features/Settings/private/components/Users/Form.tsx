@@ -1,6 +1,6 @@
 import { Box, Center, Checkbox, Divider, Fieldset, Group, Loader, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
 import { ModalButtons, Switch } from "@/components";
-import { MAX_TITLE_LENGTH } from "@/constants";
+import { MAX_NAME_PERSON_LENGTH } from "@/constants";
 import { useEffect, useState } from "react";
 import { IconAlertCircle, IconCircleCheck, IconMail } from "@tabler/icons-react";
 import { fecthPermissions, fecthRoles } from "../../api";
@@ -94,10 +94,10 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                         label="Nombre"
                         description="Nombre completo del usuario"
                         placeholder="Ej. Pablo Vazquez Reyes"
-                        maxLength={MAX_TITLE_LENGTH}
+                        maxLength={MAX_NAME_PERSON_LENGTH}
                         rightSection={
                             <Text size="xs" c="dimmed">
-                                {form.values.name?.length || 0}/{MAX_TITLE_LENGTH}
+                                {form.values.name?.length || 0}/{MAX_NAME_PERSON_LENGTH}
                             </Text>
                         }
                         rightSectionWidth={40}
@@ -121,8 +121,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
 
                 <Fieldset legend="Roles"
                     style={{
-                        borderColor: form.errors.roles ? 'var(--mantine-color-red-filled)' : 'var(--mantine-color-gray-3)',
-                        backgroundColor: form.errors.roles ? 'rgba(var(--mantine-color-red-filled-rgb), 0.05)' : undefined,
+                        borderColor: form.errors.roles ? 'var(--mantine-color-red-filled)' : '',
                     }}
                 >
                     {loadingRoles
@@ -173,6 +172,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                                                     <Checkbox.Indicator
                                                         radius="xs"
                                                         checked={checked}
+                                                        style={{ backgroundColor: checked ? "" : "transparent" }}
                                                     />
                                                     <div>
                                                         <Text className={classes.label}>

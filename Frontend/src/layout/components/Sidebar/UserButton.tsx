@@ -2,6 +2,8 @@ import { IconChevronRight, IconLogout, IconSettings } from '@tabler/icons-react'
 import { Avatar, Group, Text, UnstyledButton, Box, useMantineTheme, Menu } from '@mantine/core';
 import classes from './UserButton.module.css';
 import type { User } from '@/features/auth/store/types';
+import { useModalStore } from '@/layout/store';
+import { Profile } from './Profile';
 
 interface Props {
     user: User | null;
@@ -10,6 +12,13 @@ interface Props {
 
 export const UserButton = ({ user, logout }: Props) => {
     const theme = useMantineTheme()
+    const { openModal } = useModalStore()
+
+    const handleEditProfile = () => {
+        openModal({
+            content: <Profile />
+        })
+    }
 
     return (
         <Menu shadow="md" trigger="hover" position="right-start" withArrow arrowPosition='center'>
@@ -35,6 +44,7 @@ export const UserButton = ({ user, logout }: Props) => {
             <Menu.Dropdown>
                 <Menu.Item
                     leftSection={<IconSettings size={14} />}
+                    onClick={handleEditProfile}
                 >
                     Editar Perfil
                 </Menu.Item>

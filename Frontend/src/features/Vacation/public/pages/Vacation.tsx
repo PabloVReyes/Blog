@@ -72,7 +72,7 @@ export const Vacation = () => {
 
     return (
         <Container
-            title="Rol vacacional"
+            title="Rol Vacacional"
         >
             {loading
                 ? (<Center h={"100%"}><Loader /></Center>)
