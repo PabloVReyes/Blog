@@ -15,9 +15,30 @@ router.post(
 
 router.get(
     "/",
-    // authMiddleware,
-    // requirePermission("users.read"),
-    controller.getSdandarsController
+    authMiddleware,
+    requirePermission("users.read"),
+    controller.getUsersController
+)
+
+router.put(
+    "/:id",
+    authMiddleware,
+    requirePermission("users.update"),
+    controller.putUserController
+)
+
+router.put(
+    "/reset-passwd/:id",
+    authMiddleware,
+    requirePermission("users.update"),
+    controller.resetPasswordController
+)
+
+router.delete(
+    "/:id",
+    authMiddleware,
+    requirePermission("users.delete"),
+    controller.deleteUserController
 )
 
 export default router

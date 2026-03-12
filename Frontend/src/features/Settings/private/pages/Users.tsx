@@ -30,8 +30,6 @@ export interface RoleRole {
     description: string;
 }
 
-
-
 const columns = (theme: any) => [
     {
         key: 'user',
@@ -66,17 +64,21 @@ const columns = (theme: any) => [
                 return <Text size="xs" c="dimmed">Sin roles</Text>
             }
 
-            return row.roles.map((role) => (
-                <Badge
-                    size="sm"
-                    radius="xl"
-                    leftSection={<IconShieldFilled size={12} />}
-                    className={classes.roleBadge}
-                    variant="filled"
-                >
-                    {role.role.name}
-                </Badge>
-            ))
+            return (
+                <Group justify="center" gap={5}>
+                    {row.roles.map((role) => (
+                        <Badge
+                            size="sm"
+                            radius="xl"
+                            leftSection={<IconShieldFilled size={12} />}
+                            className={classes.roleBadge}
+                            variant="filled"
+                        >
+                            {role.role.name}
+                        </Badge>
+                    ))}
+                </Group>
+            )
         }
     },
     {
@@ -128,7 +130,7 @@ const columns = (theme: any) => [
     {
         key: 'actions',
         label: 'Acciones',
-        align: 'left',
+        align: 'center',
         render: (row: Data) => {
             return <ActionsUsers {...row} />
         }
@@ -175,6 +177,20 @@ export const Users = () => {
                 titleValue="Lista de usuarios"
                 onAddElement={handleAdd}
                 labelAdd="Agregar Usuario"
+                search
+                searchPlaceholder="Buscar usuario..."
+                searchValue={search}
+                onChangeSearch={setSearch}
+                page
+                pageValue={page}
+                totalPages={totalPages}
+                totalItems={totalItems}
+                firstItem={firstItem}
+                lastItem={lastItem}
+                limit
+                limitValue={limit}
+                onChangeLimit={setLimit}
+                onChangePage={setPage}
             >
                 <Table
                     isLoading={isLoading}

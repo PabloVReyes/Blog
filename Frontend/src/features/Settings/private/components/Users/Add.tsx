@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
 import { Form } from "./Form"
-import { validateEmail, validateFile, validateName, validateSelect } from "@/utils/validators"
+import { validateEmail, validateName } from "@/utils/validators"
 import { useUserStore } from "../../store"
 
 export const AddUsers = () => {
@@ -19,13 +19,17 @@ export const AddUsers = () => {
             active: true,
             name: "",
             email: "",
-            isNew: true,
-            section: null,
-            file: null as File | null
+            roles: [] as string[]
         },
         validate: {
             name: (value) => validateName(value, { required: true }),
-            email: (value) => validateEmail(value, { required: true })
+            email: (value) => validateEmail(value, { required: true }),
+            roles: (value) => {
+                if (value.length === 0) {
+                    return "Debes seleccionar al menos un rol";
+                }
+                return null;
+            },
         }
     })
 

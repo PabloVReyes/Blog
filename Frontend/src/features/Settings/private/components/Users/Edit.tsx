@@ -5,29 +5,27 @@ import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
-import { validateFile, validateName, validateSelect } from "@/utils"
+import { validateEmail, validateName } from "@/utils"
 import { useUserStore } from "../../store"
 
 export interface Data {
-    id: number;
+    id: string;
     name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    sectionId: number;
+    email: string;
+    active: boolean;
+    lastLoginAt: Date;
     createdAt: Date;
-    updatedAt: Date;
-    section: Section;
+    roles: RoleElement[];
 }
 
-export interface Section {
-    id: number;
+export interface RoleElement {
+    role: RoleRole;
+}
+
+export interface RoleRole {
+    id: string;
     name: string;
-    createdAt: Date;
-    updatedAt: Date;
+    description: string;
 }
 
 export const Edit = (file: Data) => {
@@ -39,31 +37,27 @@ export const Edit = (file: Data) => {
         mode: "controlled",
         initialValues: {
             name: file.name,
-            description: file.description,
-            isNew: file.isNew,
-            section: String(file.sectionId),
-            file: null as File | null
+            email: file.email,
+            active: file.active,
+            roles: file.roles.map((r: any) => r.role.id)
         },
         validate: {
             name: (value) => validateName(value, { required: true }),
-            section: (value) => validateSelect(value, { required: true }),
-            file: (value) => validateFile(value, { required: true, existingFileName: file.fileName })
+            email: (value) => validateEmail(value, { required: true }),
+            roles: (value) => {
+                if (value.length === 0) {
+                    return "Debes seleccionar al menos un rol";
+                }
+                return null;
+            },
         }
     })
 
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            const formData = new FormData()
-            formData.append("name", values.name)
-            formData.append("description", values.description)
-            formData.append("isNew", String(values.isNew))
-            formData.append("section", String(values.section))
-            if (values.file) {
-                formData.append("file", values.file)
-            }
 
-            await update(file.id.toString(), formData)
+            await update(file.id.toString(), values)
 
             openModal({
                 title: "Sistema actualizado",
@@ -94,7 +88,6 @@ export const Edit = (file: Data) => {
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={file.fileName}
         />
     )
 }

@@ -5,7 +5,11 @@ export {
 } from "./Settings"
 
 export {
-    fecthUsers
+    fecthUsers,
+    addUser,
+    updateUser,
+    resetPasswordUser,
+    deleteUser
 } from "./Users"
 
 export {

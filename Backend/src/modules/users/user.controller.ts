@@ -4,16 +4,30 @@ import * as scheme from "./user.scheme"
 
 export const createUserController = async (req: Request, res: Response) => {
     try {
-        const user = await service.createUserService(req.body)
-        res.json(user)
+        const body: scheme.CreateUserScheme = scheme.createUserScheme.parse(req.body)
+        await service.createUserService(body)
+        res.json({ success: true })
     } catch (error) {
-        res.status(400).json({
-            message: error.message
-        })
+        if (error.name === "ZodError") {
+            return res.status(422).json({
+                success: false,
+                message: "Datos inválidos",
+                errors: error.flatten(),
+            });
+        }
+
+        if (error instanceof Error) {
+            return res.status(400).json({ message: error.message })
+        }
+
+        res.status(500)
+            .send({
+                msg: error.message || "Error al crear usuario"
+            })
     }
 }
 
-export const getSdandarsController: RequestHandler = async (req, res) => {
+export const getUsersController: RequestHandler = async (req, res) => {
     try {
         const dto = scheme.getUsersScheme.parse(req.query)
         const data = await service.getUsersService(dto)
@@ -26,6 +40,86 @@ export const getSdandarsController: RequestHandler = async (req, res) => {
         res.status(500)
             .send({
                 msg: error.message || "Error al obtener normas oficiales"
+            })
+    }
+}
+
+export const putUserController: RequestHandler = async (req, res) => {
+    try {
+        const params = scheme.putUserParamsScheme.parse(req.params)
+        const body: scheme.PutUserScheme = scheme.putUserScheme.parse(req.body)
+        const data = await service.putUserService(params.id, body)
+        res.json(data)
+    } catch (error) {
+        if (error.name === "ZodError") {
+            return res.status(422).json({
+                success: false,
+                message: "Datos inválidos",
+                errors: error.flatten(),
+            });
+        }
+
+        if (error instanceof Error) {
+            return res.status(400).json({ message: error.message })
+        }
+
+        res.status(500)
+            .send({
+                msg: error.message || "Error al crear rol"
+            })
+    }
+}
+
+export const resetPasswordController: RequestHandler = async (req, res) => {
+    try {
+        const params = scheme.resetPasswordParamsScheme.parse(req.params)
+        const data = await service.resetPasswordService(params.id)
+        res.json(data)
+    } catch (error) {
+        if (error.name === "ZodError") {
+            return res.status(422).json({
+                success: false,
+                message: "Datos inválidos",
+                errors: error.flatten(),
+            });
+        }
+
+        if (error instanceof Error) {
+            return res.status(400).json({ message: error.message })
+        }
+
+        res.status(500)
+            .send({
+                msg: error.message || "Error al crear rol"
+            })
+    }
+}
+
+////////////
+// DELETE //
+////////////
+
+export const deleteUserController: RequestHandler = async (req, res) => {
+    try {
+        const params = scheme.deleteUserParamsScheme.parse(req.params)
+        await service.deleteUserService(params.id)
+        res.json({ success: true })
+    } catch (error) {
+        if (error.name === "ZodError") {
+            return res.status(422).json({
+                success: false,
+                message: "Datos inválidos",
+                errors: error.flatten(),
+            });
+        }
+
+        if (error instanceof Error) {
+            return res.status(400).json({ message: error.message })
+        }
+
+        res.status(500)
+            .send({
+                msg: error.message || "Error al eliminar norma"
             })
     }
 }

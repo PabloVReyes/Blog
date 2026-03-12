@@ -1,15 +1,34 @@
 import { getPagination } from "@/utils/pagination"
-import { hashPassword } from "../../utils/password"
+import { generatePassword, hashPassword } from "../../utils/password"
 import * as repo from "./user.repository"
 import * as scheme from "./user.scheme"
+import { sendUserCredentials } from "@/services/email.service"
 
-export const createUserService = async (data) => {
-    const password = await hashPassword(data.password)
-    return await repo.createUserRepository({
-        name: data.name,
-        email: data.email,
-        password
+export const createUserService = async (dto: scheme.CreateUserScheme) => {
+    const { name, email, roles } = dto
+    const plainPassword = generatePassword(12)
+
+    const password = await hashPassword(plainPassword)
+
+    const user = await repo.createUserRepository({
+        name,
+        email,
+        password,
+        roles
     })
+
+    try {
+        await sendUserCredentials({
+            email,
+            name,
+            password: plainPassword,
+            message: "Tu cuenta fue creada correctamente."
+        })
+    } catch (error) {
+        console.error("Error enviando correo:", error)
+    }
+
+    return user
 }
 
 export const getUsersService = async (dto: scheme.GetUsersScheme) => {
@@ -33,4 +52,44 @@ export const getUsersService = async (dto: scheme.GetUsersScheme) => {
             lastItem: page && Math.min(total, limit * page)
         }
     }
+}
+
+export const putUserService = async (id: string, dto: scheme.PutUserScheme) => {
+    const { name, email, roles, active } = dto
+
+    return await repo.putUserReporitory({
+        id,
+        active,
+        email,
+        roles,
+        name
+    })
+}
+
+export const resetPasswordService = async (id: string) => {
+    const plainPassword = generatePassword(12)
+    const password = await hashPassword(plainPassword)
+
+    const user = await repo.changePasswordRepository(
+        id,
+        password
+    )
+
+
+    try {
+        await sendUserCredentials({
+            email: user.email,
+            name: user.name,
+            password: plainPassword,
+            message: "Tu contraseña fue restaurada correctamente."
+        })
+    } catch (error) {
+        console.error("Error enviando correo:", error)
+    }
+
+    return user
+}
+
+export const deleteUserService = async (id: string) => {
+    return await repo.deleteUserRepository(id)
 }

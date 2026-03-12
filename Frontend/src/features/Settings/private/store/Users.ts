@@ -1,7 +1,6 @@
 import { create } from "zustand";
-// import { addCertification, deleteCertification, fetchCertifications, updateCertification } from "../api";
 import type { UserState } from "./types";
-import { fecthUsers } from "../api";
+import { addUser, deleteUser, fecthUsers, updateUser } from "../api";
 
 export const useUserStore = create<UserState>((set, get) => ({
     page: 1,
@@ -48,7 +47,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     async add(data) {
         try {
-            // await addCertification(data)
+            await addUser(data)
             get().fetch()
             set({
                 page: 1
@@ -64,7 +63,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     async remove(id) {
         try {
-            // await deleteCertification(Number(id))
+            await deleteUser(String(id))
             get().fetch()
             set({
                 page: 1
@@ -80,17 +79,17 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     async update(id, data) {
         try {
-            // const newData = await updateCertification(Number(id), data)
-            // set((state) => ({
-            //     items: state.items.map((system: any) =>
-            //         system.id === Number(id)
-            //             ? {
-            //                 ...system,
-            //                 ...newData
-            //             }
-            //             : system
-            //     ),
-            // }))
+            const newData = await updateUser(String(id), data)
+            set((state) => ({
+                items: state.items.map((system: any) =>
+                    system.id === String(id)
+                        ? {
+                            ...system,
+                            ...newData
+                        }
+                        : system
+                ),
+            }))
         } catch (error: any) {
             const message =
                 error?.response?.data?.message ||

@@ -1,12 +1,35 @@
-import { Divider, Fieldset, FileInput, Stack, Text, TextInput } from "@mantine/core";
-import { ApiSelect, ModalButtons, Switch } from "@/components";
-import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
+import { Box, Center, Checkbox, Divider, Fieldset, Group, Loader, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
+import { ModalButtons, Switch } from "@/components";
+import { MAX_TITLE_LENGTH } from "@/constants";
 import { useEffect, useState } from "react";
-import { IconMail } from "@tabler/icons-react";
+import { IconAlertCircle, IconCircleCheck, IconMail } from "@tabler/icons-react";
+import { fecthPermissions, fecthRoles } from "../../api";
+import classes from "./Form.module.css"
+import { Alert } from "@/ui";
 
-interface Item {
-    value: string;
-    label: string;
+export interface Data {
+    id: string;
+    name: string;
+    description: string;
+    _count: Count;
+    permissions: PermissionElement[];
+}
+
+export interface Count {
+    users: number;
+    permissions: number;
+}
+
+export interface PermissionElement {
+    permission: PermissionPermission;
+}
+
+export interface PermissionPermission {
+    id: string;
+    name: string;
+    key: string;
+    description: string;
+    active: boolean;
 }
 
 interface Props {
@@ -14,32 +37,44 @@ interface Props {
     onSubmit: (values: any) => void;
     submitLabel: string;
     isLoading?: boolean;
-    fileName?: string;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
-    const [sections, setSections] = useState<Item[]>([])
-    const [loadingSections, setLoadingSections] = useState<boolean>(false)
+export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
+    const [roles, setRoles] = useState<Data[]>([])
+    const [loadingRoles, setLoadingRoles] = useState<boolean>(false)
+    const [permissions, setPermissions] = useState<number>(0)
 
-    const fecthSectionsData = async () => {
-        setLoadingSections(true)
+    const fetchRolesData = async () => {
+        setLoadingRoles(true)
         try {
-            // const res = await fetchSections();
-            // const formatted = res.data.map((item: any) => ({
-            //     value: item.id.toString(),
-            //     label: item.name
-            // }))
-
-            // setSections(formatted);
+            const res = await fecthRoles({})
+            setRoles(res.data)
         } finally {
-            setLoadingSections(false)
+            setLoadingRoles(false)
         }
     }
 
+    const fetchPermissionsData = async () => {
+        try {
+            const res = await fecthPermissions({})
+            setPermissions(res.meta.total)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     useEffect(() => {
-        fecthSectionsData()
+        fetchPermissionsData()
+        fetchRolesData()
     }, [])
+
+    const fullAccessRole = roles.find(
+        (r) => r._count.permissions === permissions
+    );
+
+    const isAdminSelected = fullAccessRole
+        ? form.values.roles.includes(fullAccessRole.id)
+        : false;
 
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
@@ -82,38 +117,118 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                         placeholder="email@example.com"
                     />
 
-                    {/* <ApiSelect
-                        withAsterisk
-                        form={form}
-                        name="section"
-                        label="Sección"
-                        description="Selecciona la sección donde se encontrara el archivo"
-                        placeholder="Sección"
-                        data={sections}
-                        loading={loadingSections}
-                        onCreate={async (name) => {
-                            const res = await addSection({ name, section: form.values.section });
-                            const newItem = { value: res.id.toString(), label: res.name };
-                            setSections((prev) => [...prev, newItem]);
-                            return newItem;
-                        }}
-                    /> */}
-
                 </Fieldset>
 
-                <Fieldset legend="Archivo">
-                    <FileInput
-                        withAsterisk
-                        label="Descarga"
-                        accept="application/pdf"
-                        description={
-                            fileName ?
-                                `El archivo cargado es: ${fileName}` :
-                                "Selecciona un archivo perteneciente a la descarga"
-                        }
-                        placeholder="Download.pdf"
-                        {...form.getInputProps("file")}
-                    />
+                <Fieldset legend="Roles"
+                    style={{
+                        borderColor: form.errors.roles ? 'var(--mantine-color-red-filled)' : 'var(--mantine-color-gray-3)',
+                        backgroundColor: form.errors.roles ? 'rgba(var(--mantine-color-red-filled-rgb), 0.05)' : undefined,
+                    }}
+                >
+                    {loadingRoles
+                        ? <Center h={"100%"}><Loader /></Center>
+                        : <Stack>
+                            <SimpleGrid cols={{ base: 1, md: 2 }} spacing={5}>
+                                {roles.length > 0 ? (
+                                    roles.map((rol, index: number) => {
+                                        const checked = form.values.roles.includes(rol.id);
+                                        return (
+                                            <Checkbox.Card
+                                                key={index}
+                                                checked={checked}
+                                                className={`${classes.root} ${checked ? classes.active : ""}`}
+                                                radius="md"
+                                                value={rol.id}
+                                                onClick={() => {
+                                                    const current = form.values.roles;
+                                                    /**
+                                                     * Si selecciona ADMIN
+                                                     */
+                                                    if (fullAccessRole && rol.id === fullAccessRole.id) {
+                                                        if (checked) {
+                                                            form.setFieldValue("roles", []);
+                                                        } else {
+                                                            form.setFieldValue("roles", [fullAccessRole.id]);
+                                                        }
+                                                        return;
+                                                    }
+                                                    /**
+                                                     * Si selecciona rol normal
+                                                     * quitar admin si estaba
+                                                     */
+                                                    let updated = current.filter(
+                                                        (id: string) => id !== fullAccessRole?.id
+                                                    );
+                                                    if (checked) {
+                                                        updated = updated.filter(
+                                                            (id: string) => id !== rol.id
+                                                        );
+                                                    } else {
+                                                        updated = [...updated, rol.id];
+                                                    }
+                                                    form.setFieldValue("roles", updated);
+                                                }}
+                                            >
+                                                <Group wrap="nowrap" align="flex-start">
+                                                    <Checkbox.Indicator
+                                                        radius="xs"
+                                                        checked={checked}
+                                                    />
+                                                    <div>
+                                                        <Text className={classes.label}>
+                                                            {rol.name}
+                                                        </Text>
+                                                        <Text className={classes.description} size="sm">
+                                                            {rol.description}
+                                                        </Text>
+                                                    </div>
+                                                </Group>
+                                            </Checkbox.Card>
+                                        );
+                                    })
+                                ) : (
+                                    <Box
+                                        style={{ gridColumn: "span 2", textAlign: "center" }}
+                                        py="xl"
+                                    >
+                                        <Text c="dimmed" fz="sm">
+                                            No hay roles disponibles. Crea roles primero.
+                                        </Text>
+                                    </Box>
+                                )}
+                            </SimpleGrid>
+                            {form.errors.roles && (
+                                <Text c="red.6" size="xs" mt={8}>
+                                    <Group gap={5} align="center">
+                                        <IconAlertCircle size={16} />
+                                        {form.errors.roles}
+                                    </Group>
+                                </Text>
+                            )}
+                            {form.values.roles.length > 0 && (
+                                <Alert
+                                    color="blue"
+                                    content={
+                                        <Group gap={5}>
+                                            <IconCircleCheck />
+                                            <Text size="sm"><strong>{form.values.roles.length}</strong>{form.values.roles.length === 1 ? " rol seleccionado" : " roles seleccionados"}</Text>
+                                        </Group>
+                                    }
+                                />
+                            )}
+                            {isAdminSelected && (
+                                <Alert
+                                    color="yellow"
+                                    content={
+                                        <Group gap={5} wrap="nowrap">
+                                            <IconAlertCircle style={{ flex: "0 0 auto" }} />
+                                            <Text size="sm"><strong>Rol con todos los permisos:</strong> Los roles con todos los permisos tienen acceso completo al sistema y no pueden combinarse con otros roles.</Text>
+                                        </Group>
+                                    }
+                                />
+                            )}
+                        </Stack>
+                    }
                 </Fieldset>
 
                 <ModalButtons

@@ -187,7 +187,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                                         </SimpleGrid>
                                         {form.errors.permissions && (
                                             <Text c="red.6" size="xs" mt={8}>
-                                                <Group gap={4} align="center">
+                                                <Group gap={5} align="center">
                                                     <IconAlertCircle size={16} />
                                                     {form.errors.permissions}
                                                 </Group>
@@ -197,9 +197,9 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                                             <Alert
                                                 color="blue"
                                                 content={
-                                                    <Group gap={4}>
+                                                    <Group gap={5}>
                                                         <IconCircleCheck />
-                                                        <Text><strong>{form.values.permissions.length}</strong>{form.values.permissions.length === 1 ? " permiso seleccionado" : " permisos seleccionados"}</Text>
+                                                        <Text size="sm"><strong>{form.values.permissions.length}</strong>{form.values.permissions.length === 1 ? " permiso seleccionado" : " permisos seleccionados"}</Text>
                                                     </Group>
                                                 }
                                             />
