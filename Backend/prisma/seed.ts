@@ -21,6 +21,7 @@ async function main() {
         { key: "users.update", name: "Actualizar usuarios", description: "Permite actualizar usuarios" },
         { key: "users.delete", name: "Eliminar usuarios", description: "Permite eliminar usuarios" },
 
+        // Roles
         { key: "roles.read", name: "Ver roles", description: "Permite ver la lista de roles" },
         { key: "roles.create", name: "Crear roles", description: "Permite crear nuevos roles" },
         { key: "roles.update", name: "Actualizar roles", description: "Permite actualizar roles" },

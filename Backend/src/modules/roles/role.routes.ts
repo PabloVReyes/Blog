@@ -10,8 +10,23 @@ router.get('/',
     requirePermission("roles.read"),
     controller.getRolesController)
 
-router.post('/', controller.postRoleController)
-router.put('/:id', controller.putRoleController)
-router.delete('/:id', controller.deleteRoleController)
+router.post('/',
+    authMiddleware,
+    requirePermission("roles.create"),
+    controller.postRoleController
+)
+router.put(
+    '/:id',
+    authMiddleware,
+    requirePermission("roles.update"),
+    controller.putRoleController
+)
+
+router.delete(
+    '/:id',
+    authMiddleware,
+    requirePermission("roles.delete"),
+    controller.deleteRoleController
+)
 
 export default router;
