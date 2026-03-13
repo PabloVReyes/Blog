@@ -35,12 +35,6 @@ router.put(
 )
 
 router.put(
-    "/change-passwd/:id",
-    authMiddleware,
-    controller.changePasswordController
-)
-
-router.put(
     "/me/profile/:id",
     authMiddleware,
     controller.putMeController
@@ -49,7 +43,7 @@ router.put(
 router.put(
     "/me/change-passwd/:id",
     authMiddleware,
-    controller.changeMePasswordController
+    controller.changePasswordController
 )
 
 router.delete(

@@ -157,21 +157,6 @@ export const changePasswordRepository = (id: string, password: string, mustChang
     }
 }
 
-export const changeMePasswordRepository = (id: string, password: string) => {
-    try {
-        return database.user.update({
-            where: { id },
-            data: {
-                password,
-                mustChangePassword: false
-            }
-        })
-    } catch (error) {
-        console.error("error en changePasswordRepository")
-        throw new Error("Error al cambiar contraseña del usuario")
-    }
-}
-
 export const deleteUserRepository = async (id: string) => {
     try {
         return await database.$transaction([

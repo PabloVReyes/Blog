@@ -2,6 +2,10 @@ import { Request, RequestHandler, Response } from "express"
 import * as service from "./user.service"
 import * as scheme from "./user.scheme"
 
+////////////
+// CREATE //
+////////////
+
 export const createUserController = async (req: Request, res: Response) => {
     try {
         const body: scheme.CreateUserScheme = scheme.createUserScheme.parse(req.body)
@@ -27,6 +31,10 @@ export const createUserController = async (req: Request, res: Response) => {
     }
 }
 
+//////////
+// READ //
+//////////
+
 export const getUsersController: RequestHandler = async (req, res) => {
     try {
         const dto = scheme.getUsersScheme.parse(req.query)
@@ -44,9 +52,18 @@ export const getUsersController: RequestHandler = async (req, res) => {
     }
 }
 
+////////////
+// UPDATE //
+////////////
+
 export const putMeController: RequestHandler = async (req, res) => {
     try {
         const params = scheme.putMeParamsScheme.parse(req.params)
+
+        if (req.user.id !== params.id) {
+            return res.status(403).json({ message: 'Acceso denegado' })
+        }
+
         const body: scheme.PutMeScheme = scheme.putMeScheme.parse(req.body)
         const data = await service.putMeService(params.id, body)
         res.json(data)
@@ -124,6 +141,11 @@ export const resetPasswordController: RequestHandler = async (req, res) => {
 export const changePasswordController: RequestHandler = async (req, res) => {
     try {
         const params = scheme.changePasswordParamsScheme.parse(req.params)
+
+        if (req.user.id !== params.id) {
+            return res.status(403).json({ message: 'Acceso denegado' })
+        }
+
         const body: scheme.ChangePasswordScheme = scheme.changePasswordScheme.parse(req.body)
         await service.changePasswordService(params.id, body)
         res.json({ success: true })
@@ -146,34 +168,6 @@ export const changePasswordController: RequestHandler = async (req, res) => {
             })
     }
 }
-
-export const changeMePasswordController: RequestHandler = async (req, res) => {
-    try {
-        const params = scheme.changeMePasswordParamsScheme.parse(req.params)
-        const body: scheme.ChangeMePasswordScheme = scheme.changeMePasswordScheme.parse(req.body)
-        await service.changeMePasswordService(params.id, body)
-        res.json({ success: true })
-    } catch (error) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear rol"
-            })
-    }
-}
-
-
 
 ////////////
 // DELETE //

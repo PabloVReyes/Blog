@@ -121,16 +121,6 @@ export const changePasswordService = async (id: string, dto: scheme.ChangePasswo
     return await repo.changePasswordRepository(id, password, false)
 }
 
-export const changeMePasswordService = async (id: string, dto: scheme.ChangeMePasswordScheme) => {
-    const { password } = dto
-    const user = await repo.getUserById(id)
-    if (!user) {
-        throw new Error("Usuario no encontrado")
-    }
-    const newPassword = await hashPassword(password)
-    return await repo.changeMePasswordRepository(id, newPassword)
-}
-
 export const deleteUserService = async (id: string) => {
     return await repo.deleteUserRepository(id)
 }

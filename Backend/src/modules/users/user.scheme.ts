@@ -68,12 +68,6 @@ export const changeMePasswordScheme = z.object({
     password: z.string(),
 })
 
-export type ChangeMePasswordScheme = z.infer<typeof changeMePasswordScheme>
-
-export const changeMePasswordParamsScheme = z.object({
-    id: z.uuid()
-})
-
 export const deleteUserParamsScheme = z.object({
     id: z.uuid()
 })

@@ -2,7 +2,7 @@ import { create } from "zustand"
 import { jwtDecode } from "jwt-decode"
 import type { User } from "./types"
 import { useModalStore } from "@/layout/store"
-import { ChangePasswordModal } from "../PasswordModal"
+import { Password } from "@/layout/components/Sidebar/Password"
 
 interface JwtPayload {
     exp: number
@@ -65,7 +65,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             useModalStore.getState().openModal({
                 title: "Cambio de contraseña requerido",
                 subtitle: "Debes establecer una nueva contraseña para continuar",
-                content: <ChangePasswordModal />,
+                content: <Password id={user.id} />,
 
                 withCloseButton: false,
                 closeOnEscape: false,
