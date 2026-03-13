@@ -23,16 +23,20 @@ export const sendUserCredentials = async ({
     password,
     message
 }: SendCredentialsParams) => {
+    const escapeHtml = (str: string) =>
+        str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&#039;')
+
     await transporter.sendMail({
         from: `"Intranet" <${process.env.SMTP_USER}>`,
         to: email,
         subject: "Credenciales de acceso",
         html: `
-      <h2>Bienvenido ${name}</h2>
+      <h2>Bienvenido ${escapeHtml(name)}</h2>
 
-      <p>${message}</p>
+      <p>${escapeHtml(message)}</p>
 
-      <p><b>Usuario:</b> ${email}</p>
+      <p><b>Usuario:</b> ${escapeHtml(email)}</p>
       <p><b>Contraseña:</b> ${password}</p>
 
       <p>Te recomendamos cambiar tu contraseña después de iniciar sesión.</p>
