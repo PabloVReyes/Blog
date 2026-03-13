@@ -1,7 +1,7 @@
 import { Container } from "@/components"
 import { Box, Button, Card, Divider, Group, SimpleGrid, Stack, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
 import { IconInput, ThemeSelect, TitleInput } from "../components"
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useSettingStore } from "../store";
 import { IconCheck, IconLetterT, IconPalette, IconSunMoon } from "@tabler/icons-react";
 import { uploadFavicon } from "../api";
@@ -9,28 +9,37 @@ import { useModalStore } from "@/layout";
 import { ColorPicker } from "../components";
 
 export const General = () => {
-    const mantineTheme = useMantineTheme()
+    const { primaryColor } = useMantineTheme()
     const [icon, setIcon] = useState<File | null>(null);
     const [loading, setLoading] = useState<boolean>(false)
-    const { color, theme, saveSetting, title, setFavicon, favicon } = useSettingStore()
+
+    // STORE
+    const title = useSettingStore((s) => s.title)
+    const theme = useSettingStore((s) => s.theme)
+    const color = useSettingStore((s) => s.color)
+    const favicon = useSettingStore((s) => s.favicon)
+    const saveSetting = useSettingStore((s) => s.saveSetting)
+    const setFavicon = useSettingStore((s) => s.setFavicon)
+
     const { openModal } = useModalStore()
-    const [initialState, setInitialState] = useState({
+
+    const [initialState, setInitialState] = useState(() => ({
         title,
         theme,
         color,
         favicon
-    });
+    }))
 
-    const hasChanges = () => {
+    const hasChanges = useMemo(() => {
         return (
             title !== initialState.title ||
             theme !== initialState.theme ||
             color !== initialState.color ||
-            icon !== null // si se seleccionó un nuevo favicon
-        );
-    };
+            icon !== null
+        )
+    }, [title, theme, color, icon, initialState])
 
-    const updateFavicon = (url: string) => {
+    const updateFavicon = useCallback((url: string) => {
         let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
         if (!link) {
             link = document.createElement("link");
@@ -38,17 +47,18 @@ export const General = () => {
             document.head.appendChild(link);
         }
         link.href = url;
-    };
+    }, [])
 
     const handleSubmit = async () => {
         try {
             setLoading(true)
-            // Actualizar nombre
-            saveSetting("title", title)
-            saveSetting("theme", theme)
-            saveSetting("color", color)
 
-            // Actualizar icono
+            await Promise.all([
+                saveSetting("title", title),
+                saveSetting("theme", theme),
+                saveSetting("color", color)
+            ])
+
             if (icon) {
                 const formData = new FormData();
                 formData.append("favicon", icon)
@@ -101,7 +111,7 @@ export const General = () => {
                             <ThemeIcon
                                 size={40}
                                 radius="md"
-                                color={mantineTheme.primaryColor}
+                                color={primaryColor}
                             >
                                 <IconLetterT size={20} />
                             </ThemeIcon>
@@ -133,7 +143,7 @@ export const General = () => {
                             <ThemeIcon
                                 size={40}
                                 radius="md"
-                                color={mantineTheme.primaryColor}
+                                color={primaryColor}
                             >
                                 <IconSunMoon size={20} />
                             </ThemeIcon>
@@ -160,7 +170,7 @@ export const General = () => {
                         <ThemeIcon
                             size={40}
                             radius="md"
-                            color={mantineTheme.primaryColor}
+                            color={primaryColor}
                         >
                             <IconPalette size={20} />
                         </ThemeIcon>
@@ -184,7 +194,7 @@ export const General = () => {
             <Group justify="flex-end">
                 <Button
                     onClick={handleSubmit}
-                    disabled={!hasChanges()}
+                    disabled={!hasChanges}
                     loading={loading}
                 >
                     Guardar

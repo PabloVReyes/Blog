@@ -11,7 +11,7 @@ import { UserButton } from "./UserButton";
 import { useAuthStore } from "@/features/auth/store";
 
 export const Sidebar = () => {
-    const { title, menu } = useSettingStore()
+    const { title } = useSettingStore()
     const { pathname } = useLocation()
     const [systems, setSystems] = useState<any[]>([])
     const [downloads, setDownloads] = useState<any[]>([])
@@ -119,7 +119,6 @@ export const Sidebar = () => {
             icon: "IconBeach",
             link: "/rol-vacacional"
         },
-        ...menu
     ]
 
     const isPrivate = pathname.startsWith("/administracion")

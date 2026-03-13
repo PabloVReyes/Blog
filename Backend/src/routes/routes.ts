@@ -1,7 +1,4 @@
 import { Router } from "express";
-import settingsRoutes from "@/routes/settings.routes"
-import pagesRoutes from "@/routes/pages.routes"
-import filesRoutes from "@/routes/files.routes"
 import directoryRoutes from "@/modules/directory/directory.routes"
 import searchRoutes from "@/routes/search.routes"
 import macroprocessRoutes from "@/modules/macroprocess/macroprocess.routes"
@@ -17,6 +14,7 @@ import authRoutes from "@/modules/auth/auth.routes"
 import usersRoutes from "@/modules/users/user.routes"
 import rolesRoutes from "@/modules/roles/role.routes"
 import permissionsRoutes from "@/modules/permissions/permission.routes"
+import settingsRoutes from "@/modules/settings/settings.routes"
 
 const router: Router = Router()
 
@@ -35,9 +33,6 @@ router.get('/', (request, response) => {
     }
 })
 
-router.use("/api/settings", settingsRoutes)
-router.use("/api/pages", pagesRoutes)
-router.use("/api/files", filesRoutes)
 router.use("/api/search", searchRoutes)
 
 // Limpio
@@ -55,5 +50,6 @@ router.use("/api/auth", authRoutes)
 router.use("/api/users", usersRoutes)
 router.use("/api/roles", rolesRoutes)
 router.use("/api/permissions", permissionsRoutes)
+router.use("/api/settings", settingsRoutes)
 
 module.exports = router;

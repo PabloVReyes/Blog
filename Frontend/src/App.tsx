@@ -31,7 +31,6 @@ export const App = () => {
 
     useEffect(() => {
         setColorScheme(theme);
-
     }, [theme])
 
     const routing = useRoutes(routes)

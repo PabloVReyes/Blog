@@ -13,7 +13,7 @@ export const TitleInput = () => {
             autoFocus
             placeholder="Título de la página"
             description="Título principal de la pagina"
-            defaultValue={title}
+            value={title}
             maxLength={MAX_LENGTH}
             onChange={(e) => setTitle(e.currentTarget.value)}
             rightSection={
