@@ -1,6 +1,6 @@
 import { Router } from "express";
 import directoryRoutes from "@/modules/directory/directory.routes"
-import searchRoutes from "@/routes/search.routes"
+import searchRoutes from "@/modules/search/search.routes"
 import macroprocessRoutes from "@/modules/macroprocess/macroprocess.routes"
 import homeRoutes from "@/modules/home/home.routes"
 import systemsRoutes from "@/modules/systems/system.routes"

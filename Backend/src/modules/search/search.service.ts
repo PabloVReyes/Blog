@@ -7,11 +7,8 @@ export const getSearchService = async (req: any) => {
 
     const skip = (page - 1) * limit;
 
-    // 🔹 Pedimos paginado real
     const [
         { data: systems, total: systemsTotal },
-        // futuro:
-        // { data: downloads, total: downloadsTotal },
     ] = await Promise.all([
         getSystemRepository({
             search,
@@ -20,7 +17,6 @@ export const getSearchService = async (req: any) => {
         }),
     ]);
 
-    // 🔹 Normalizamos estructura
     const normalized = [
         ...systems.map((s: any) => ({
             id: s.id,
@@ -35,7 +31,6 @@ export const getSearchService = async (req: any) => {
         })),
     ];
 
-    // 🔹 Orden global consistente
     normalized.sort(
         (a, b) =>
             new Date(b.createdAt).getTime() -
