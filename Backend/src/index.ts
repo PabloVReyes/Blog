@@ -35,7 +35,18 @@ class server {
     }
 
     middleware() {
-        this.app.use(cors({ origin: '*' }))
+        const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173']
+        this.app.use(cors({
+            origin: (origin, callback) => {
+                if (!origin || allowedOrigins.includes(origin)) {
+                    callback(null, true)
+                } else {
+                    callback(new Error('Not allowed by CORS'))
+                }
+            },
+            credentials: true,
+        }))
+
         this.app.use(cookieParser())
         this.app.use(responseTime())
     }
