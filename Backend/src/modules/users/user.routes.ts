@@ -2,7 +2,7 @@ import { Router } from "express"
 import * as controller from "./user.controller"
 
 import { requirePermission } from "../../middleware/permission.middleware"
-import { authMiddleware } from "../auth/auth.middleware"
+import { authMiddleware } from "../../middleware/auth.middleware"
 
 const router = Router()
 

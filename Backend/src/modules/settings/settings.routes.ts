@@ -1,7 +1,7 @@
 import * as controller from "./settings.controller"
 import { Router } from "express";
 import { uploadFavicon } from "../../middleware/uploadFavicon.middleware"
-import { authMiddleware } from "../auth/auth.middleware";
+import { authMiddleware } from "../../middleware/auth.middleware";
 import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
