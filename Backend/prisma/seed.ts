@@ -19,12 +19,18 @@ async function main() {
         { key: "users.read", name: "Ver usuarios", description: "Permite ver el apartado de usuarios" },
         { key: "users.create", name: "Crear usuarios", description: "Permite crear usuarios" },
         { key: "users.update", name: "Actualizar usuarios", description: "Permite actualizar usuarios" },
-        { key: "users.delete", name: "Eliminar usuarios", description:  "Permite eliminar usuarios" },
+        { key: "users.delete", name: "Eliminar usuarios", description: "Permite eliminar usuarios" },
 
         { key: "roles.read", name: "Ver roles", description: "Permite ver la lista de roles" },
         { key: "roles.create", name: "Crear roles", description: "Permite crear nuevos roles" },
         { key: "roles.update", name: "Actualizar roles", description: "Permite actualizar roles" },
-        { key: "roles.delete", name: "Eliminar roles", description: "Permite eliminar roles" }
+        { key: "roles.delete", name: "Eliminar roles", description: "Permite eliminar roles" },
+
+        // Permisos
+        { key: "permissions.red", name: "Ver permisos", description: "Permite ver la lista de permisos" },
+        { key: "permissions.create", name: "Crear permiso", description: "Permite crear un nuevo permiso" },
+        { key: "permissions.update", name: "Actualizar permiso", description: "Permite actualizar un permiso ya existente" },
+        { key: "permissions.delete", name: "Eliminar permiso", description: "Permite eliminar un permiso existente" }
     ]
 
     const permissionRecords = []
