@@ -33,7 +33,6 @@ router.get('/', (request, response) => {
     }
 })
 
-router.use("/api/search", searchRoutes)
 
 // Limpio
 router.use("/api/home", homeRoutes)
@@ -51,5 +50,6 @@ router.use("/api/users", usersRoutes)
 router.use("/api/roles", rolesRoutes)
 router.use("/api/permissions", permissionsRoutes)
 router.use("/api/settings", settingsRoutes)
+router.use("/api/search", searchRoutes)
 
-module.exports = router;
+export default router;

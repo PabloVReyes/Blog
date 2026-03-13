@@ -7,22 +7,9 @@ import path from "path";
 import fs from 'fs';
 import morgan from 'morgan';
 import { globalLimiter } from "./middleware/rateLimiter.middleware";
-require('dotenv').config();
-var colors = require('colors');
-
-colors.setTheme({
-    silly: 'rainbow',
-    input: 'grey',
-    verbose: 'cyan',
-    prompt: 'grey',
-    info: 'green',
-    data: 'grey',
-    help: 'cyan',
-    warn: 'yellow',
-    debug: 'blue',
-    error: 'red'
-});
-
+import 'dotenv/config'
+import colors from 'colors'
+import router from './routes/routes'
 
 class server {
     private app: Express;
@@ -74,7 +61,6 @@ class server {
     }
 
     settingRoutes() {
-        const router = require('./routes/routes')
         this.app.use('/', router)
     }
 
@@ -85,7 +71,7 @@ class server {
         this.settingDataFormProcess();
         this.settingRoutes()
         this.server.listen(this.port, () => {
-            console.log(colors.help(`http://localhost:${this.port}`))
+            console.log(colors.rainbow(`http://localhost:${this.port}`))
         })
     }
 }
