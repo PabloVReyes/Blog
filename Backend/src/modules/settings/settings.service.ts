@@ -1,6 +1,6 @@
 import * as repo from "./settings.repository"
 import path from "path";
-import fs from "fs";
+import * as scheme from "./settings.scheme"
 
 export const settingsService = async () => {
     const settings = await repo.getSettingsRepository()
@@ -11,12 +11,7 @@ export const settingsService = async () => {
     }, {} as Record<string, string>);
 }
 
-interface Props {
-    name: string
-    value: string
-}
-
-export const updateSettingsService = async (dto: Props) => {
+export const updateSettingsService = async (dto: scheme.UpdateSettingsScheme) => {
     const { name, value } = dto
     await repo.updateSettingsRepository({
         name,

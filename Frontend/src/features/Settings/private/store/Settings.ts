@@ -80,8 +80,12 @@ export const useSettingStore = create<SettingsState>()(
                         ...state,
                         [name]: value
                     }));
-                } catch (error) {
-                    console.error("Error guardando configuración:", error);
+                } catch (error: any) {
+                    const message =
+                        error?.response?.data?.message ||
+                        error?.message ||
+                        "Error desconocido"
+                    throw new Error(message)
                 }
             },
 

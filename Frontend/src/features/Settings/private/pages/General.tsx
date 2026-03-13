@@ -7,6 +7,7 @@ import { IconCheck, IconLetterT, IconPalette, IconSunMoon } from "@tabler/icons-
 import { uploadFavicon } from "../api";
 import { useModalStore } from "@/layout";
 import { ColorPicker } from "../components";
+import { Notify } from "@/ui";
 
 export const General = () => {
     const { primaryColor } = useMantineTheme()
@@ -92,8 +93,12 @@ export const General = () => {
                     </Stack>
                 ),
             });
-        } catch (error) {
-            console.error("Error al guardar la configuracion", error)
+        } catch (error: any) {
+            Notify({
+                title: "Error al guardar configuraciones",
+                type: "error",
+                message: error.message
+            })
         } finally {
             setLoading(false)
         }

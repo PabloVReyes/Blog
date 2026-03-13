@@ -28,10 +28,14 @@ async function main() {
         { key: "roles.delete", name: "Eliminar roles", description: "Permite eliminar roles" },
 
         // Permisos
-        { key: "permissions.red", name: "Ver permisos", description: "Permite ver la lista de permisos" },
+        { key: "permissions.read", name: "Ver permisos", description: "Permite ver la lista de permisos" },
         { key: "permissions.create", name: "Crear permiso", description: "Permite crear un nuevo permiso" },
         { key: "permissions.update", name: "Actualizar permiso", description: "Permite actualizar un permiso ya existente" },
-        { key: "permissions.delete", name: "Eliminar permiso", description: "Permite eliminar un permiso existente" }
+        { key: "permissions.delete", name: "Eliminar permiso", description: "Permite eliminar un permiso existente" },
+    
+        // settings
+        { key: "settings.update", name: "Actualizar configuraciones", description: "Permite actualizar las configuraciones" },
+        
     ]
 
     const permissionRecords = []

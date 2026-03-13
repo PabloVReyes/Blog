@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import * as service from "./settings.service"
+import * as scheme from "./settings.scheme"
 
 export const settingsController: RequestHandler = async (req, res) => {
     try {
@@ -15,7 +16,7 @@ export const settingsController: RequestHandler = async (req, res) => {
 
 export const updateSettingsController: RequestHandler = async (req, res) => {
     try {
-        const body = req.body
+        const body: scheme.UpdateSettingsScheme = scheme.updateSettingsScheme.parse(req.body)
         await service.updateSettingsService(body)
         res.json({ success: true })
     } catch (error: any) {

@@ -5,12 +5,14 @@ import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
-router.get('/',
+router.get(
+    '/',
     authMiddleware,
     requirePermission("roles.read"),
     controller.getRolesController)
 
-router.post('/',
+router.post(
+    '/',
     authMiddleware,
     requirePermission("roles.create"),
     controller.postRoleController
