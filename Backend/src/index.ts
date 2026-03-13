@@ -6,6 +6,7 @@ import responseTime from 'response-time';
 import path from "path";
 import fs from 'fs';
 import morgan from 'morgan';
+import { globalLimiter } from "./middleware/rateLimiter.middleware";
 require('dotenv').config();
 var colors = require('colors');
 
@@ -49,6 +50,7 @@ class server {
 
         this.app.use(cookieParser())
         this.app.use(responseTime())
+        this.app.use(globalLimiter)
     }
 
     settingPublicRoute() {
