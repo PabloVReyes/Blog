@@ -1,9 +1,9 @@
-import { getPagination } from "@/utils/pagination"
+import { getPagination } from "../../utils/pagination"
 import * as repo from "./vacations.repository"
 import * as scheme from "./vacations.scheme"
 import * as types from "./vacations.types"
-import { sanitizeFileName } from "@/utils/file"
-import path from "path"
+import { sanitizeFileName } from "../../utils/file"
+import * as path from "path"
 import { uploadsRoot } from "./path"
 
 ///
@@ -54,8 +54,8 @@ export const getVacationsService = async (dto: scheme.GetVacationssScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -77,8 +77,8 @@ export const getShiftsService = async (dto: scheme.GetShiftsScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -100,8 +100,8 @@ export const getShiftWithVacationsService = async (dto: scheme.GetShiftsWithFile
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -140,7 +140,7 @@ export const putShiftService = async (id: number, dto: scheme.PutShiftScheme) =>
 export const putVacationService = async (id: number, dto: types.VacationsUpdateDto) => {
     const { type, shift, file } = dto
 
-    const vacations = await repo.getVacationsByIdRepository(id)
+    const vacations: any = await repo.getVacationsByIdRepository(id)
 
     const props: any = {
         id,

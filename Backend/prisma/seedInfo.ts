@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { adapter } from "../src/config/prisma"
 import "dotenv/config";
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 
 const prisma = new PrismaClient({ adapter });
 
@@ -176,7 +176,7 @@ async function main() {
     const dataExtensions = JSON.parse(fs.readFileSync(filePathExtensions, 'utf8'));
 
     for (const item of dataExtensions) {
-        await prisma.ditectory.create({
+        await prisma.directory.create({
             data: {
                 name: item.nombre,
                 phone: item.extension,

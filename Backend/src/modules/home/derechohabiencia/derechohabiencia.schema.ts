@@ -15,7 +15,7 @@ export const putDerechohabienciaSchema = z.object({
     description: z.string(),
     icon: z.string(),
     color: z.string(),
-    links: z.array(linkShema).optional()
+    links: z.array(linkShema)
 })
 
 export type PutDerechohabienciaParams = z.infer<typeof putDerechohabienciaParamsSchema>;

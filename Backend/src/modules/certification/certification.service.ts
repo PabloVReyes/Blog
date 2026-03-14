@@ -1,9 +1,9 @@
 import * as scheme from "./certification.scheme"
 import * as repo from "./certification.repository"
 import * as types from "./certification.types"
-import { sanitizeFileName } from "@/utils/file"
-import { getPagination } from "@/utils/pagination"
-import path from "path"
+import { sanitizeFileName } from "../../utils/file"
+import { getPagination } from "../../utils/pagination"
+import * as path from "path"
 import { uploadsRoot } from "./path"
 
 //
@@ -18,7 +18,7 @@ export const postCertificationService = async (dto: types.CertificationCreateDto
         description: description ?? null,
         isNew,
         sectionId: section,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
+        fileName: file?.originalname ? sanitizeFileName(file?.originalname) : null,
         filePath: file?.filename ?? null,
         fileSize: file?.size ?? null,
         mimeType: file?.mimetype ?? null,
@@ -51,8 +51,8 @@ export const getSectionsWithCertificationsService = async (dto: scheme.GetSectio
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -85,8 +85,8 @@ export const getCertificationsService = async (dto: scheme.GetCertificationsSche
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -114,7 +114,7 @@ export const downloadCertificationFileService = async (id: number) => {
 export const putCertificationService = async (id: number, dto: types.CertificationUpdateDto) => {
     const { name, description, isNew, section, file } = dto
 
-    const standar = await repo.getCertificationByIdRepository(id)
+    const standar: any = await repo.getCertificationByIdRepository(id)
 
     const props: any = {
         id,

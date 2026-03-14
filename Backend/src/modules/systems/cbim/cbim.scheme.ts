@@ -10,7 +10,7 @@ export const postCbimShema = z.object({
     description: z.string(),
     sp: z.string().optional(),
     fpgc: z.string().optional(),
-    cbt_cae: z.enum(["CAE", "CBT"]).optional()
+    cbt_cae: z.enum(["CAE", "CBT"])
 })
 
 export type PostCbimSchema = z.infer<typeof postCbimShema>
@@ -37,7 +37,7 @@ export const putCbimShema = z.object({
     description: z.string(),
     sp: z.string().optional(),
     fpgc: z.string().optional(),
-    cbt_cae: z.enum(["CAE", "CBT"]).optional()
+    cbt_cae: z.enum(["CAE", "CBT"])
 })
 
 export type PutCbimSchema = z.infer<typeof putCbimShema>

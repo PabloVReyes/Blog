@@ -1,7 +1,7 @@
 import { RequestHandler } from "express"
 import * as service from "./carousel.service"
 import { deleteCarouselParamsSchema, downloadCarouselFileSchema, getCarouselSchema, PostCarouselSchema, postCarouselSchema, putCarouselParamsSchema, PutCarouselSchema, putCarouselSchema } from "./carousel.schema";
-import fs from "fs"
+import * as fs from "fs"
 
 /////////////
 // CREATED //
@@ -23,7 +23,7 @@ export const postCarouselController: RequestHandler = async (req, res) => {
         await service.postCarouselService(dto)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -81,7 +81,7 @@ export const downloadCarouselFileController: RequestHandler = async (req, res) =
 
 
         fs.createReadStream(data.filePath).pipe(res);
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -123,7 +123,7 @@ export const putCarouselController: RequestHandler = async (req, res) => {
 
         const data = await service.putCarouselService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -152,7 +152,7 @@ export const deleteCarouselController: RequestHandler = async (req, res) => {
         const params = deleteCarouselParamsSchema.parse(req.params)
         await service.deleteCarouselService(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

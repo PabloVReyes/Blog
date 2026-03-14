@@ -1,4 +1,4 @@
-import { getPagination } from "@/utils/pagination";
+import { getPagination } from "../../../utils/pagination";
 import { GetCie10Schema, PostCie10Schema, PutCie10Schema } from "./cie10.schema";
 import * as repo from "./cie10.repository"
 
@@ -40,8 +40,8 @@ export const getCie10Service = async (dto: GetCie10Schema) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }

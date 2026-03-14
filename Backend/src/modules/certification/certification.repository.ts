@@ -1,5 +1,5 @@
-import { database } from "@/config/prisma";
-import { PaginationProps } from "@/types/pagination";
+import { database } from "../../config/prisma";
+import { PaginationProps } from "../../types/pagination";
 
 ///
 // CREATE //
@@ -11,10 +11,10 @@ interface PostCertificationRepositoryProps {
     description?: string | null
     isNew: boolean;
     sectionId: number
-    fileName: string | null;
-    filePath: string | null;
-    fileSize: number | null;
-    mimeType: string | null;
+    fileName?: string | null;
+    filePath?: string | null;
+    fileSize?: number | null;
+    mimeType?: string | null;
 }
 
 export const postCertificationRepository = async ({

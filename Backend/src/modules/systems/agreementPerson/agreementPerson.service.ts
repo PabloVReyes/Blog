@@ -1,6 +1,6 @@
 import { GetAgreementPersonsSchema, PostAgreementPersonsSchema, PostZoneSchema, PutAgreementPersonsSchema } from "./agreementPersons.scheme";
 import * as repo from "./agreementPerson.repository"
-import { getPagination } from "@/utils/pagination";
+import { getPagination } from "../../../utils/pagination";
 
 ////////////
 // CREATE //
@@ -53,8 +53,8 @@ export const getAgreementPersonWithDependentsService = async (dto: GetAgreementP
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -78,8 +78,8 @@ export const getAgreementPersonService = async (dto: GetAgreementPersonsSchema) 
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (limit && page) && limit * (page - 1) + 1,
+            lastItem: (limit && page) && Math.min(total, limit * page)
         }
     }
 }
@@ -113,7 +113,7 @@ export const getZonesService = async () => {
 export const putAgreementPersonService = async (id: number, dto: PutAgreementPersonsSchema) => {
     const { name, group, zone, type, holder } = dto
 
-    const person = await repo.getAgreementPersonByIdRepository(id)
+    const person: any = await repo.getAgreementPersonByIdRepository(id)
 
     if (person.type !== type && person._count.children > 0) {
         throw new Error("No se puede modificar el tipo debido a que el titular tiene dependientes")
@@ -136,7 +136,7 @@ export const putAgreementPersonService = async (id: number, dto: PutAgreementPer
 
 export const deleteAgreementPersonService = async (id: number) => {
 
-    const person = await repo.getAgreementPersonByIdRepository(id)
+    const person: any = await repo.getAgreementPersonByIdRepository(id)
 
     if (person._count.children > 0) {
         throw new Error("No se puede eliminar el paciente de convenio debido a que tiene dependientes")

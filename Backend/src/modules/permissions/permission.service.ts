@@ -1,6 +1,6 @@
 import * as scheme from "./permission.scheme"
 import * as repo from "./permission.repository"
-import { getPagination } from "@/utils/pagination"
+import { getPagination } from "../../utils/pagination"
 
 ////////////
 // CREATE //
@@ -38,8 +38,8 @@ export const getPermissionsService = async (dto: scheme.GetPermissionsScheme) =>
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (limit && page) && limit * (page - 1) + 1,
+            lastItem: (limit && page) && Math.min(total, limit * page)
         }
     }
 }

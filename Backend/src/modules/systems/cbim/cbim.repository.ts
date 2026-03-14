@@ -1,5 +1,5 @@
-import { database } from "@/config/prisma"
-import { PaginationProps } from "@/types/pagination"
+import { database } from "../../../config/prisma"
+import { PaginationProps } from "../../../types/pagination"
 
 ////////////
 // CREATE //
@@ -9,8 +9,8 @@ interface PostCbimRepositoryProps {
     code: string;
     name: string;
     description: string;
-    sp: string | null;
-    fpgc: string | null;
+    sp: string | undefined;
+    fpgc: string | undefined;
     cbt_cae: "CAE" | "CBT";
 }
 
@@ -74,8 +74,8 @@ interface PutCbimRepositoryProps {
     code: string;
     name: string;
     description: string;
-    sp: string | null;
-    fpgc: string | null;
+    sp: string | undefined;
+    fpgc: string | undefined;
     cbt_cae: "CAE" | "CBT";
 }
 

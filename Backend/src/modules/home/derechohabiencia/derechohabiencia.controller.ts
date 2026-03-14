@@ -31,7 +31,7 @@ export const putDerechohabienciaController: RequestHandler = async (req, res) =>
         const body = putDerechohabienciaSchema.parse(req.body)
         const data = await service.putDerechohabienciaService(params.id, body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

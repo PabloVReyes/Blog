@@ -13,7 +13,7 @@ export const postDirectoryController: RequestHandler = async (req, res) => {
         const dto = { ...body }
         await service.postDirectoryService(dto)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -54,7 +54,7 @@ export const getLevelsController: RequestHandler = async (req, res) => {
     try {
         const data = await service.getLevelsService()
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         res.status(500)
             .send({
                 msg: error.message || "Error al obtener directorio telefonico"
@@ -73,7 +73,7 @@ export const putDirectoryController: RequestHandler = async (req, res) => {
         const dto = { ...body }
         const data = await service.putDirectoryService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -102,7 +102,7 @@ export const deleteDirectoryController: RequestHandler = async (req, res) => {
         const params = scheme.deleteDirectoryParamsScheme.parse(req.params)
         await service.deleteDirectoryService(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

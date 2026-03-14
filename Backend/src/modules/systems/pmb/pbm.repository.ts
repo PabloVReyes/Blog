@@ -1,5 +1,5 @@
-import { database } from "@/config/prisma"
-import { PaginationProps } from "@/types/pagination";
+import { database } from "../../../config/prisma"
+import { PaginationProps } from "../../../types/pagination";
 
 ////////////
 // CREATE //
@@ -7,10 +7,10 @@ import { PaginationProps } from "@/types/pagination";
 
 interface PostPbmReporisoryProps {
     title: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
+    fileName?: string | null;
+    filePath?: string | null;
+    fileSize?: number | null;
+    mimeType?: string | null;
 }
 
 export const postPbmRepository = async ({

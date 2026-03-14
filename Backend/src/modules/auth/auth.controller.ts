@@ -6,7 +6,7 @@ export const login = async (req: Request, res: Response) => {
         const { email, password } = req.body
         const result = await service.login(email, password)
         res.json(result)
-    } catch (error) {
+    } catch (error: any) {
         res.status(400).json({
             message: error.message
         })

@@ -1,9 +1,9 @@
 import { Router } from "express";
 import * as controller from "./carousel.controller"
-import multer from "multer";
-import path from "path";
-import fs from "fs";
-import { sanitizeFileName } from "@/utils/file";
+import * as multer from "multer";
+import * as path from "path";
+import * as fs from "fs";
+import { sanitizeFileName } from "../../../utils/file";
 
 const router: Router = Router()
 

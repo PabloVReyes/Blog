@@ -11,7 +11,7 @@ export const postCie10Controller: RequestHandler = async (req, res) => {
         const body: PostCie10Schema = postCie10Shema.parse(req.body)
         await service.postCie10Service(body)
         res.json({ sucess: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -62,7 +62,7 @@ export const putCie10Controller: RequestHandler = async (req, res) => {
         const body: PutCie10Schema = putCie10Shema.parse(req.body)
         const data = await service.putCie10Service(params.id, body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -93,7 +93,7 @@ export const deleteCie10Controller: RequestHandler = async (req, res) => {
         const params = deleteCie10ParamsSchema.parse(req.params)
         await service.deleteCie10Service(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import * as service from "./accesscard.service"
 import { deleteAccessCardParamsSchema, downloadAccessCardFileSchema, getAccesscardSchema, PostAccessCardSchema, postAccessCardShema, putAccessCardParamsSchema, PutAccessCardSchema, putAccessCardShema } from "./accesscard.schema";
-import fs from "fs"
+import * as fs from "fs"
 
 ////////////
 // CREATE //
@@ -14,7 +14,7 @@ export const postAccessCardController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         await service.postAccessCardService(dto)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -72,7 +72,7 @@ export const downloadAccessCardFileController: RequestHandler = async (req, res)
         );
 
         fs.createReadStream(data.filePath).pipe(res);
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -104,7 +104,7 @@ export const putAccessCardController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         const data = await service.putAccessCardService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -133,7 +133,7 @@ export const deleteAccessCardController: RequestHandler = async (req, res) => {
         const params = deleteAccessCardParamsSchema.parse(req.params)
         service.deleteAccessCardService(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

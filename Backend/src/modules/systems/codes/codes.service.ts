@@ -1,4 +1,4 @@
-import { getPagination } from "@/utils/pagination";
+import { getPagination } from "../../../utils/pagination";
 import * as repo from "./codes.repository"
 import { GetCodesSchema } from "./codes.schema";
 
@@ -7,7 +7,7 @@ import { GetCodesSchema } from "./codes.schema";
 //////////
 
 interface GetCodesServiceProps extends GetCodesSchema {
-    categoryId?: string;
+    categoryId: string;
 }
 
 export const getCodesService = async (dto: GetCodesServiceProps) => {
@@ -28,8 +28,8 @@ export const getCodesService = async (dto: GetCodesServiceProps) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }

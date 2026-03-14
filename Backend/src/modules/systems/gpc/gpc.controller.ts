@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { deleteGpcParamsScheme, downloadGpcFileSchema, getGpcScheme, postCicleScheme, PostCicleScheme, postGpcScheme, PostGpcScheme, putGpcParamsScheme, putGpcScheme, PutGpcScheme } from "./gpc.scheme";
 import * as service from "./gpc.service"
-import fs from "fs"
+import * as fs from "fs"
 
 ////////////
 // CREATE //
@@ -16,7 +16,7 @@ export const postGpcController: RequestHandler = async (req, res) => {
         await service.postGpcService(dto)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -41,7 +41,7 @@ export const postCicleController: RequestHandler = async (req, res) => {
         const body: PostCicleScheme = postCicleScheme.parse(req.body)
         const data = await service.postCicleService(body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -69,7 +69,7 @@ export const getCicleController: RequestHandler = async (req, res) => {
     try {
         const data = await service.getCicleService()
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -86,7 +86,7 @@ export const getGpcController: RequestHandler = async (req, res) => {
         const dto = getGpcScheme.parse(req.query)
         const data = await service.getGpcService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -103,7 +103,7 @@ export const getCicleWithGpcController: RequestHandler = async (req, res) => {
         const dto = getGpcScheme.parse(req.query)
         const data = await service.getCicleWithGpcService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -132,7 +132,7 @@ export const downloadGpcFileController: RequestHandler = async (req, res) => {
         );
 
         fs.createReadStream(data.filePath).pipe(res);
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -164,7 +164,7 @@ export const putGpcController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         const data = await service.putGpcService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -194,7 +194,7 @@ export const deleteGpcController: RequestHandler = async (req, res) => {
         await service.deleteGpcService(params.id)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

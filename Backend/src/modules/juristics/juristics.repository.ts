@@ -1,6 +1,5 @@
-import { database } from "@/config/prisma";
-import { PaginationProps } from "@/types/pagination";
-import { extend } from "zod/v4/core/util.cjs";
+import { database } from "../../config/prisma";
+import { PaginationProps } from "../../types/pagination";
 
 ////
 // CREATE /

@@ -11,7 +11,7 @@ export const postAgreementPersonController: RequestHandler = async (req, res) =>
         const body: PostAgreementPersonsSchema = postAgreementPersonsShema.parse(req.body)
         await service.postAgreementPersonService(body)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -36,7 +36,7 @@ export const postZoneController: RequestHandler = async (req, res) => {
         const body: PostZoneSchema = postZoneSchema.parse(req.body)
         const data = await service.postZoneService(body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -61,7 +61,7 @@ export const postGroupController: RequestHandler = async (req, res) => {
         const body: PostGroupSchema = postGroupSchema.parse(req.body)
         const data = await service.postGroupService(body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -159,7 +159,7 @@ export const putAgreementPersonController: RequestHandler = async (req, res) => 
         const body: PutAgreementPersonsSchema = putAgreementPersonsShema.parse(req.body)
         const data = await service.putAgreementPersonService(params.id, body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -188,7 +188,7 @@ export const deleteAgreementPersonController: RequestHandler = async (req, res) 
         const params = deleteAgreementPersonsParamsSchema.parse(req.params)
         await service.deleteAgreementPersonService(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

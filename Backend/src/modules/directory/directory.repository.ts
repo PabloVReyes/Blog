@@ -1,5 +1,5 @@
-import { database } from "@/config/prisma"
-import { PaginationProps } from "@/types/pagination"
+import { database } from "../../config/prisma"
+import { PaginationProps } from "../../types/pagination"
 
 ///
 // CREATE
@@ -23,7 +23,7 @@ export const postDirectoryRepository = async ({
     email
 }: PostDirectoryRepositoryProps) => {
     try {
-        return await database.ditectory.create({
+        return await database.directory.create({
             data: {
                 phone,
                 name,
@@ -53,7 +53,7 @@ export const getDirectoryRepository = async ({ skip, take, search }: PaginationP
         }
 
         const [data, total] = await Promise.all([
-            database.ditectory.findMany({
+            database.directory.findMany({
                 where,
                 orderBy: { phone: "asc" },
                 ...(take !== undefined && { take }),
@@ -62,7 +62,7 @@ export const getDirectoryRepository = async ({ skip, take, search }: PaginationP
                     level: true
                 }
             }),
-            database.ditectory.count({ where }),
+            database.directory.count({ where }),
         ])
 
         return { data, total }
@@ -104,7 +104,7 @@ export const putDirectoryRepository = async ({
     email
 }: PutDirectoryRepositoryProps) => {
     try {
-        return await database.ditectory.update({
+        return await database.directory.update({
             where: { id },
             data: {
                 phone,
@@ -126,7 +126,7 @@ export const putDirectoryRepository = async ({
 
 export const deleteDirectoryRepository = async (id: string) => {
     try {
-        return await database.ditectory.delete({ where: { id } })
+        return await database.directory.delete({ where: { id } })
     } catch (error) {
         console.error("Error en deleteDirectoryRepository")
         console.error("Error al eliminar directorio")

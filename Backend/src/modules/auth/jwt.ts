@@ -1,13 +1,21 @@
-import jwt from "jsonwebtoken"
+import * as jwt from "jsonwebtoken";
 
-export const generateToken = (user: any) => {
-
-    return jwt.sign(
-        user,
-        process.env.JWT_SECRET!,
-        {
-            expiresIn: process.env.JWT_EXPIRES_IN!
-        }
-    )
-
+interface AuthUser {
+    id: string;
+    email: string;
+    roles: string[];
+    permissions: string[];
 }
+
+export const generateToken = (user: AuthUser): string => {
+    const secret = process.env.JWT_SECRET;
+    const expiresIn = process.env.JWT_EXPIRES_IN;
+
+    if (!secret) throw new Error("JWT_SECRET no definido");
+    if (!expiresIn) throw new Error("JWT_EXPIRES_IN no definido");
+
+    // ✅ Forzar a any para evitar errores de tipos
+    const options: any = { expiresIn };
+
+    return jwt.sign(user, secret, options);
+};

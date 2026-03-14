@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { deleteClinicalPracticeGuidelinesParamsScheme, downloadClinicalPracticeGuidelinesFileSchema, getClinicalPracticeGuidelinesScheme, postCategorySchema, PostCategorySchema, postClinicalPracticeGuidelinesScheme, PostClinicalPracticeGuidelinesScheme, putClinicalPracticeGuidelinesParamsScheme, putClinicalPracticeGuidelinesScheme, PutClinicalPracticeGuidelinesScheme } from "./clinicalPracticeGuidelines.scheme";
 import * as service from "./clinicalPracticeGuidelines.service"
-import fs from "fs"
+import * as fs from "fs"
 
 ////////////
 // CREATE //
@@ -24,7 +24,7 @@ export const postClinicalPracticeGuidelinesController: RequestHandler = async (r
         await service.postClinicalPracticeGuidelinesService(dto)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -49,7 +49,7 @@ export const postCategoryController: RequestHandler = async (req, res) => {
         const body: PostCategorySchema = postCategorySchema.parse(req.body)
         const data = await service.postCategoryService(body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -77,7 +77,7 @@ export const downloadClinicalPracticeGuidelinesFileController: RequestHandler = 
     try {
         const params = downloadClinicalPracticeGuidelinesFileSchema.parse(req.params)
         const data = await service.downloadClinicalPracticeGuidelinesFileService(params.id, params.type)
-        
+
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
         res.setHeader(
             "Content-Disposition",
@@ -90,7 +90,7 @@ export const downloadClinicalPracticeGuidelinesFileController: RequestHandler = 
         );
 
         fs.createReadStream(data.filePath).pipe(res);
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -115,7 +115,7 @@ export const getClinicalPracticeGuidelinesController: RequestHandler = async (re
         const dto = getClinicalPracticeGuidelinesScheme.parse(req.query)
         const data = await service.getClinicalPracticeGuidelinesService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -131,7 +131,7 @@ export const getCategoryController: RequestHandler = async (req, res) => {
     try {
         const data = await service.getCategoryService()
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -165,7 +165,7 @@ export const putClinicalPracticeGuidelinesController: RequestHandler = async (re
         const data = await service.putClinicalPracticeGuidelinesService(params.id, dto)
 
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -195,7 +195,7 @@ export const deleteClinicalPracticeGuidelinesController: RequestHandler = async 
         await service.daleteClinicalPracticeGuidelinesService(params.id)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

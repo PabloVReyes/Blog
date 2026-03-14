@@ -26,7 +26,7 @@ export const getClinicalPracticeGuidelinesScheme = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
-    categoryId: z.string().uuid().optional()
+    categoryId: z.string().uuid()
 })
 
 export type GetClinicalPracticeGuidelinesScheme = z.infer<typeof getClinicalPracticeGuidelinesScheme>

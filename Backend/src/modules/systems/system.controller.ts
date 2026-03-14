@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { deleteSystemParamsSchema, downloadSystemFileSchema, getSystemSchema, postSystemSchema, PostSystemSchema, putSystemParamsSchema, putSystemSchema, PutSystemSchema } from "./system.schema";
 import * as service from "./system.service";
-import fs from "fs"
+import * as fs from "fs"
 
 ////////////
 // CREATE //
@@ -17,7 +17,7 @@ export const postSystemController: RequestHandler = async (req, res) => {
         await service.postSystemService(dto)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -76,7 +76,7 @@ export const downloadSystemFileController: RequestHandler = async (req, res) => 
 
         fs.createReadStream(data.filePath).pipe(res);
 
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -110,7 +110,7 @@ export const puySystemController: RequestHandler = async (req, res) => {
         const data = await service.putSystemService(params.id, dto)
 
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -140,7 +140,7 @@ export const deleteSystemController: RequestHandler = async (req, res) => {
         await service.deteleSystemService(params.id)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

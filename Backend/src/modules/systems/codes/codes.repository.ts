@@ -1,5 +1,5 @@
-import { database } from "@/config/prisma";
-import { PaginationProps } from "@/types/pagination";
+import { database } from "../../../config/prisma";
+import { PaginationProps } from "../../../types/pagination";
 
 //////////
 // READ //

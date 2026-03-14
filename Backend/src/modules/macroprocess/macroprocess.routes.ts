@@ -1,6 +1,6 @@
-import { sanitizeFileName } from "@/utils/file";
+import { sanitizeFileName } from "../../utils/file";
 import { Router } from "express";
-import multer from "multer";
+import * as multer from "multer";
 import * as controller from "./macroprocess.controller"
 import { uploadsRoot } from "./path";
 

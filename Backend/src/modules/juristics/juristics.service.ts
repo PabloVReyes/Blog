@@ -1,9 +1,9 @@
-import { sanitizeFileName } from "@/utils/file"
+import { sanitizeFileName } from "../../utils/file"
 import * as scheme from "./juristics.scheme"
 import * as repo from "./juristics.repository"
 import * as types from "./juristics.types"
-import { getPagination } from "@/utils/pagination"
-import path from "path"
+import { getPagination } from "../../utils/pagination"
+import * as path from "path"
 import { uploadsRoot } from "./path"
 
 ////
@@ -45,8 +45,8 @@ export const getJuristicsService = async (dto: scheme.GetJuristicsScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (limit && page) && limit * (page - 1) + 1,
+            lastItem: (limit && page) && Math.min(total, limit * page)
         }
     }
 }
@@ -74,7 +74,7 @@ export const downloadJuristicFileService = async (id: number) => {
 export const putJuristicService = async (id: number, dto: types.JuristicsUpdateDto) => {
     const { name, description, isNew, file } = dto
 
-    const Juristic = await repo.getJuristicsByIdRepository(id)
+    const Juristic: any = await repo.getJuristicsByIdRepository(id)
 
     const props: any = {
         id,

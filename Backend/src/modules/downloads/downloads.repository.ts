@@ -1,6 +1,6 @@
-import { database } from "@/config/prisma"
+import { database } from "../../config/prisma"
 import * as scheme from "./downloads.scheme"
-import { PaginationProps } from "@/types/pagination"
+import { PaginationProps } from "../../types/pagination"
 
 ////////////
 // CREATE //

@@ -5,8 +5,8 @@ import { z } from "zod"
 /////////////
 
 export const postCarouselSchema = z.object({
-    title: z.string().optional(),
-    description: z.string().optional(),
+    title: z.string(),
+    description: z.string(),
     sectionId: z.string().uuid(),
     type: z.enum(['page', 'file', 'null']),
     url: z.string().optional().nullable(),
@@ -42,8 +42,8 @@ export const downloadCarouselFileSchema = z.object({
 ////////////
 
 export const putCarouselSchema = z.object({
-    title: z.string().optional(),
-    description: z.string().optional(),
+    title: z.string(),
+    description: z.string(),
     type: z.enum(['page', 'file', 'null']),
     url: z.string().optional().nullable(),
     isActive: z.preprocess((val) => val === 'true' || val === true, z.boolean())

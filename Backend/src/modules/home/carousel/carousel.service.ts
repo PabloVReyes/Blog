@@ -1,7 +1,7 @@
-import { getPagination } from "@/utils/pagination"
+import { getPagination } from "../../../utils/pagination"
 import * as repo from "./carousel.repository"
 import { GetCarouselSchema } from "./carousel.schema"
-import { sanitizeFileName } from "@/utils/file"
+import { sanitizeFileName } from "../../../utils/file"
 import { CarouselCreateDto, CarouselUpdateDto } from "./carousel.types"
 
 /////////////
@@ -22,8 +22,8 @@ export const postCarouselService = async (dto: CarouselCreateDto) => {
 
     const props = {
         isActive: isActive,
-        title: title ?? null,
-        description: description ?? null,
+        title,
+        description,
         sectionId,
         type: contentType,
 
@@ -66,8 +66,8 @@ export const getCarouselService = async (dto: GetCarouselSchema) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }

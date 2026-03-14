@@ -1,9 +1,9 @@
 import * as scheme from "./uveh.scheme"
 import * as repo from "./uveh.repository"
 import * as types from "./uveh.types"
-import { sanitizeFileName } from "@/utils/file"
-import { getPagination } from "@/utils/pagination"
-import path from "path"
+import { sanitizeFileName } from "../../utils/file"
+import { getPagination } from "../../utils/pagination"
+import * as path from "path"
 import { uploadsRoot } from "./path"
 
 ///
@@ -62,8 +62,8 @@ export const getCategoriesWithDownloadsService = async (dto: scheme.GetCategoryW
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -85,8 +85,8 @@ export const getDownloadsService = async (dto: scheme.GetDownloadsScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -114,7 +114,7 @@ export const downloadFileService = async (id: number) => {
 export const putDownloadService = async (id: number, dto: types.DownloadsUpdateDto) => {
     const { name, description, isNew, category, file } = dto
 
-    const download = await repo.getDownloadByIdRepository(id)
+    const download: any = await repo.getDownloadByIdRepository(id)
 
     const props: any = {
         id,

@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { adapter } from "../src/config/prisma"
 import "dotenv/config";
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 import slugify from "slugify";
 
 const prisma = new PrismaClient({ adapter });

@@ -1,4 +1,4 @@
-import { sanitizeFileName } from "@/utils/file"
+import { sanitizeFileName } from "../../../utils/file"
 import * as repo from "./adverseEvents.repository"
 
 export const getAdverseEventsService = async () => {
@@ -17,7 +17,7 @@ export const getAdverseEventsService = async () => {
 ////////////
 
 export const putAdverseEventService = async (id: string, file?: Express.Multer.File) => {
-    const AdverseEvent = await repo.getAdverseEventsByIdRepository(id)
+    const AdverseEvent: any = await repo.getAdverseEventsByIdRepository(id)
 
     if (file) {
         if (AdverseEvent.filePath) {
@@ -69,7 +69,7 @@ export const deleteAdverseEventService = async (id: string) => {
 }
 
 export const downloadAdverseEventsFileService = async (type: string) => {
-    const AdverseEvent = await repo.getAdverseEventsByTypeRepository(type)
+    const AdverseEvent: any = await repo.getAdverseEventsByTypeRepository(type)
 
 
     const { fileName, filePath } = AdverseEvent

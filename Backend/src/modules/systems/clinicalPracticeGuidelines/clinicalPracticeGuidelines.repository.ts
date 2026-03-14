@@ -1,5 +1,5 @@
-import { database } from "@/config/prisma"
-import { PaginationProps } from "@/types/pagination";
+import { database } from "../../../config/prisma"
+import { PaginationProps } from "../../../types/pagination";
 
 ////////////
 // CREATE //
@@ -9,14 +9,14 @@ interface PostClinicalPracticeGuidelinesReporisoryProps {
     code: string;
     title: string;
     category: string;
-    fileNameER: string;
-    filePathER: string;
-    fileSizeER: number;
-    mimeTypeER: string;
-    fileNameRR: string;
-    filePathRR: string;
-    fileSizeRR: number;
-    mimeTypeRR: string;
+    fileNameER?: string | null;
+    filePathER?: string | null;
+    fileSizeER?: number | null;
+    mimeTypeER?: string | null;
+    fileNameRR?: string | null;
+    filePathRR?: string | null;
+    fileSizeRR?: number | null;
+    mimeTypeRR?: string | null;
 }
 
 export const postClinicalPracticeGuidelinesReporisory = async ({

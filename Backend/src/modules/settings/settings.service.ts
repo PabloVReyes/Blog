@@ -1,11 +1,11 @@
 import * as repo from "./settings.repository"
-import path from "path";
+import * as path from "path";
 import * as scheme from "./settings.scheme"
 
 export const settingsService = async () => {
     const settings = await repo.getSettingsRepository()
 
-    return settings.reduce((acc, s) => {
+    return settings.reduce((acc: any, s: any) => {
         acc[s.name] = s.value;
         return acc;
     }, {} as Record<string, string>);

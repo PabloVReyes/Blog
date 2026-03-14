@@ -1,5 +1,4 @@
-import { database } from "@/config/prisma"
-import { ca } from "zod/v4/locales";
+import { database } from "../../../config/prisma"
 
 interface PostAccessCardRepositoryProps {
     sectionId: string;

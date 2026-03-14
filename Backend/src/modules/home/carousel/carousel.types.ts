@@ -17,9 +17,9 @@ export interface CarouselCreateDto extends PostCarouselSchema, CarouselFileDto {
 export interface PostCarouselProps {
     isActive: boolean
     sectionId: string;
-    imageName: string;
-    imageUrl: string;
-    imagePath: string;
+    imageName?: string | null;
+    imageUrl?: string | null;
+    imagePath?: string | null;
     title: string;
     description: string;
     type: string;

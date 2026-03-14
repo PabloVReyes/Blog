@@ -1,9 +1,9 @@
 import * as scheme from "./standars.scheme"
 import * as repo from "./standars.repository"
 import * as types from "./standars.types"
-import { sanitizeFileName } from "@/utils/file"
-import { getPagination } from "@/utils/pagination"
-import path from "path"
+import { sanitizeFileName } from "../../utils/file"
+import { getPagination } from "../../utils/pagination"
+import * as path from "path"
 import { uploadsRoot } from "./path"
 
 /// ////////
@@ -62,8 +62,8 @@ export const getStandarsService = async (dto: scheme.GetStandarScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -91,7 +91,7 @@ export const downloadStandarFileService = async (id: number) => {
 export const putStandarService = async (id: number, dto: types.StandarUpdateDto) => {
     const { name, description, isNew, category, file } = dto
 
-    const standar = await repo.getStandarByIdRepository(id)
+    const standar: any = await repo.getStandarByIdRepository(id)
 
     const props: any = {
         id,

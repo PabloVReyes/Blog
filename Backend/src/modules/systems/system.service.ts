@@ -1,8 +1,8 @@
-import { getPagination } from "@/utils/pagination"
+import { getPagination } from "../../utils/pagination"
 import * as repo from "./system.repository"
 import { GetSystemSchema } from "./system.schema"
 import { SystemCreateDto, SystemUpdateDto } from "./systems.types"
-import { sanitizeFileName } from "@/utils/file"
+import { sanitizeFileName } from "../../utils/file"
 
 ////////////
 // CREATE //
@@ -52,8 +52,8 @@ export const getSystemService = async (dto: GetSystemSchema) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -79,7 +79,7 @@ export const downloadSystemFileService = async (id: string) => {
 export const putSystemService = async (id: string, dto: SystemUpdateDto) => {
     const { acronym, name, file, url, description, icon, type, color } = dto
 
-    const system = await repo.getSystemByIdRepository(id)
+    const system: any = await repo.getSystemByIdRepository(id)
 
     if (system.storedName && type !== "file") {
         try {
@@ -136,10 +136,10 @@ export const putSystemService = async (id: string, dto: SystemUpdateDto) => {
 // DELETE //
 ////////////
 
-export const deteleSystemService = async(id: string) => {
+export const deteleSystemService = async (id: string) => {
     const system: any = await repo.getSystemByIdRepository(id)
 
-    if(!system) {
+    if (!system) {
         throw new Error("Sistema no encontrado")
     }
 

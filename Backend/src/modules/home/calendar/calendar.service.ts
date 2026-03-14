@@ -1,4 +1,4 @@
-import { sanitizeFileName } from "@/utils/file"
+import { sanitizeFileName } from "../../../utils/file"
 import * as repo from "./calendar.repository"
 import { CalendarUpdateDto } from "./calendar.schema"
 

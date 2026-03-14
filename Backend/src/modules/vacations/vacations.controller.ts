@@ -12,7 +12,7 @@ export const postShiftController: RequestHandler = async (req, res) => {
         const dto = { ...body }
         await service.postShiftService(dto)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -39,7 +39,7 @@ export const postVacationController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         await service.postVacationService(dto)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -100,7 +100,7 @@ export const getShiftWithVacationsController: RequestHandler = async (req, res) 
         const dto = scheme.getShiftsWithFilesScheme.parse(req.query)
         const data = await service.getShiftWithVacationsService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -115,7 +115,7 @@ export const getShiftWithVacationsController: RequestHandler = async (req, res) 
 export const downloadVacationFileController: RequestHandler = async (req, res) => {
     try {
         const params = scheme.downloadVacationScheme.parse(req.params)
-        const data = await service.downloadVacationsFileService(params.id)
+        const data: any = await service.downloadVacationsFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
 
@@ -135,7 +135,7 @@ export const downloadVacationFileController: RequestHandler = async (req, res) =
         // 👇 Cualquier otro archivo → forzar descarga
         return res.download(data.filePath, data.fileName)
 
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -167,7 +167,7 @@ export const putVacationController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         const data = await service.putVacationService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -194,7 +194,7 @@ export const putShiftController: RequestHandler = async (req, res) => {
         const dto = { ...body }
         const data = await service.putShiftService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -223,7 +223,7 @@ export const deleteShiftController: RequestHandler = async (req, res) => {
         const params = scheme.deleteShiftParamsScheme.parse(req.params)
         await service.deleteShiftService(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -248,7 +248,7 @@ export const deleteVacationController: RequestHandler = async (req, res) => {
         const params = scheme.deleteVacationParamsScheme.parse(req.params)
         await service.deleteVacationService(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

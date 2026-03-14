@@ -22,9 +22,9 @@ model User {
 
   mustChangePassword Boolean @default(false)
 
-  roles UserRole[]
+  roles       UserRole[]
   lastLoginAt DateTime?
-  createdAt DateTime @default(now())
+  createdAt   DateTime   @default(now())
 }
 
 model Role {
@@ -72,14 +72,6 @@ model Setting {
   value String @db.LongText
 }
 
-model Page {
-  id        String   @id @default(uuid())
-  title     String
-  slug      String   @unique
-  content   Json
-  createdAt DateTime @default(now())
-}
-
 // Inicio
 model HomeSection {
   id         String          @id @default(uuid())
@@ -114,9 +106,9 @@ model AlertMessage {
 
 model CarouselItem {
   id          String  @id @default(uuid())
-  imageName   String
-  imageUrl    String
-  imagePath   String
+  imageName   String?
+  imageUrl    String?
+  imagePath   String?
   type        String
   title       String?
   description String? @db.LongText
@@ -208,7 +200,7 @@ enum HomeSectionType {
 }
 
 // Directorio
-model Ditectory {
+model Directory {
   id        String  @id @default(uuid())
   phone     String
   level     Level   @relation(fields: [levelId], references: [id])
@@ -223,7 +215,7 @@ model Ditectory {
 model Level {
   id          String      @id @default(uuid())
   name        String      @unique
-  ditectories Ditectory[]
+  ditectories Directory[]
 }
 
 // Sistemas de consulta
@@ -316,10 +308,10 @@ model Report {
   type  ReportType @default(MONTHLY)
   month Int? // solo para mensuales (1-12)
 
-  fileName String
-  filePath String
-  fileSize Int
-  mimeType String
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
 
   periodId String
   period   Period @relation(fields: [periodId], references: [id], onDelete: Cascade)
@@ -409,16 +401,16 @@ model ClinicalPracticeGuidelines {
   title String
 
   // Evidencias y Recomendaciones
-  fileNameER String
-  filePathER String
-  fileSizeER Int
-  mimeTypeER String
+  fileNameER String?
+  filePathER String?
+  fileSizeER Int?
+  mimeTypeER String?
 
   // Referencia Rapida
-  fileNameRR String
-  filePathRR String
-  fileSizeRR Int
-  mimeTypeRR String
+  fileNameRR String?
+  filePathRR String?
+  fileSizeRR Int?
+  mimeTypeRR String?
 
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
@@ -434,10 +426,10 @@ model pbm {
   id    String @id @default(uuid())
   title String
 
-  fileName String
-  filePath String
-  fileSize Int
-  mimeType String
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
 }
 
 model gpc {
@@ -446,10 +438,10 @@ model gpc {
   title       String
   description String @db.LongText
 
-  fileName String
-  filePath String
-  fileSize Int
-  mimeType String
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
 
   cicle   cicle  @relation(fields: [cicleId], references: [id])
   cicleId String
@@ -469,10 +461,10 @@ model CareProtocols {
   title       String
   description String
 
-  fileName String
-  filePath String
-  fileSize Int
-  mimeType String
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
 
   categoryCareProtocolsId String?
 }
@@ -634,10 +626,10 @@ model DownloadFile {
   name        String
   description String? @db.LongText
 
-  fileName String
-  filePath String
-  fileSize Int
-  mimeType String
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
 
   type FileType @default(DOCUMENT)
 
@@ -662,10 +654,10 @@ model uveh {
   description String? @db.LongText
   isNew       Boolean @default(false)
 
-  fileName String
-  filePath String
-  fileSize Int
-  mimeType String
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
 
   categoryId Int
   category   uvehCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
@@ -690,10 +682,10 @@ model standars {
   description String? @db.LongText
   isNew       Boolean @default(false)
 
-  fileName String
-  filePath String
-  fileSize Int
-  mimeType String
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
 
   categoryId Int
   category   standarsCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
@@ -718,10 +710,10 @@ model juristics {
   description String? @db.LongText
   isNew       Boolean @default(false)
 
-  fileName String
-  filePath String
-  fileSize Int
-  mimeType String
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -733,10 +725,10 @@ model Certification {
   description String? @db.LongText
   isNew       Boolean @default(false)
 
-  fileName String
-  filePath String
-  fileSize Int
-  mimeType String
+  fileName String?
+  filePath String?
+  fileSize Int?
+  mimeType String?
 
   sectionId Int
   section   CertificationSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import bcrypt from "bcrypt"
-import prompts from "prompts"
+import * as bcrypt from "bcrypt"
+import * as prompts from "prompts"
 import { adapter } from "../src/config/prisma"
 
 const prisma = new PrismaClient({ adapter })

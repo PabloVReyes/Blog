@@ -1,5 +1,5 @@
-import { database } from "@/config/prisma";
-import { PaginationProps } from "@/types/pagination";
+import { database } from "../../../config/prisma";
+import { PaginationProps } from "../../../types/pagination";
 
 ////////////
 // CREATE //
@@ -27,10 +27,10 @@ interface PostGpcRepositoryProps {
     description: string;
     cicle: string;
     orderIndex: number
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
+    fileName?: string | null;
+    filePath?: string | null;
+    fileSize?: number | null;
+    mimeType?: string | null;
 }
 
 export const postGpcRepository = async ({

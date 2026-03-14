@@ -1,14 +1,15 @@
-import express, { Express } from "express";
+import * as express from "express";
+import type { Express } from "express"
 import * as http from "http";
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import responseTime from 'response-time';
-import path from "path";
-import fs from 'fs';
-import morgan from 'morgan';
+import * as cors from 'cors';
+import * as cookieParser from 'cookie-parser';
+import * as responseTime from 'response-time';
+import * as path from "path";
+import * as fs from 'fs';
+import * as morgan from 'morgan';
 import { globalLimiter } from "./middleware/rateLimiter.middleware";
 import 'dotenv/config'
-import colors from 'colors'
+import * as colors from 'colors'
 import router from './routes/routes'
 
 class server {

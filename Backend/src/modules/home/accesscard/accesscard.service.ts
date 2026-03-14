@@ -1,7 +1,7 @@
-import { getPagination } from "@/utils/pagination"
+import { getPagination } from "../../../utils/pagination"
 import * as repo from "./accesscard.repository"
 import { GetAccessCardSchema } from "./accesscard.schema"
-import { sanitizeFileName } from "@/utils/file"
+import { sanitizeFileName } from "../../../utils/file"
 import { AccessCardCreateDto, AccessCardUpdateDto } from "./accesscard.types"
 
 ////////////
@@ -78,8 +78,8 @@ export const getAccessCardService = async (dto: GetAccessCardSchema) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit)  && limit * (page - 1) + 1,
+            lastItem: (page && limit)  && Math.min(total, limit * page)
         }
     }
 }

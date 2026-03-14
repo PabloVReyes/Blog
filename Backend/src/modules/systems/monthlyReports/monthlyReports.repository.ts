@@ -1,4 +1,4 @@
-import { database } from "@/config/prisma";
+import { database } from "../../../config/prisma";
 
 ////////////
 // CREATE //
@@ -6,13 +6,13 @@ import { database } from "@/config/prisma";
 
 interface PostMonthlyReportsRepositoryProps {
     title: string;
-    description: string;
+    description?: string | null;
     type: "MONTHLY" | "ANNUAL" | "STATISTICAL" | "EXTRA";
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    month?: number;
+    fileName?: string | null;
+    filePath?: string | null;
+    fileSize?: number | null;
+    mimeType?: string | null;
+    month?: number | null;
     year: number;
 }
 

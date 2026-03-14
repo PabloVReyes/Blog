@@ -11,7 +11,7 @@ export const postRoleController: RequestHandler = async (req, res) => {
         const body: scheme.PostRoleScheme = scheme.postRoleScheme.parse(req.body)
         await service.postRoleService(body)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -40,7 +40,7 @@ export const getRolesController: RequestHandler = async (req, res) => {
         const dto = scheme.getRolesScheme.parse(req.query)
         const data = await service.getRolesService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -62,7 +62,7 @@ export const putRoleController: RequestHandler = async (req, res) => {
         const body: scheme.PutRoleScheme = scheme.putRoleScheme.parse(req.body)
         const data = await service.putRoleService(params.id, body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -91,7 +91,7 @@ export const deleteRoleController: RequestHandler = async (req, res) => {
         const params = scheme.deleteRoleParamsScheme.parse(req.params)
         await service.deleteRoleService(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

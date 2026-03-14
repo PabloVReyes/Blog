@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import * as service from "./careProtocols.service"
 import { deleteCareProtocolsParamsScheme, downloadCareProtocolFileSchema, getCareProtocolsScheme, GetCareProtocolsScheme, postCareProtocolsSchema, PostCareProtocolsScheme, postCategoryScheme, PostCategoryScheme, putCareProtocolsParamsScheme, putCareProtocolsScheme, PutCareProtocolsScheme } from "./careProtocols.scheme";
-import fs from "fs"
+import * as fs from "fs"
 
 ////////////
 // CREATE //
@@ -16,7 +16,7 @@ export const postCareProtocolsController: RequestHandler = async (req, res) => {
         await service.postCareProtocolsService(dto)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -41,7 +41,7 @@ export const postCategoryController: RequestHandler = async (req, res) => {
         const body: PostCategoryScheme = postCategoryScheme.parse(req.body)
         const data = await service.postCategoryService(body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -69,7 +69,7 @@ export const getCategoryController: RequestHandler = async (req, res) => {
     try {
         const data = await service.getCategoryService()
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -87,7 +87,7 @@ export const getCareProtocolsController: RequestHandler = async (req, res) => {
         const data = await service.getCareProtocolsService(dto)
 
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -105,7 +105,7 @@ export const getCategoryWithCareProtocolsController: RequestHandler = async (req
         const dto = getCareProtocolsScheme.parse(req.query)
         const data = await service.getCategoryWithCareProtocolsService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -134,7 +134,7 @@ export const downloadGpcFileController: RequestHandler = async (req, res) => {
         );
 
         fs.createReadStream(data.filePath).pipe(res);
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -166,7 +166,7 @@ export const putCareProtocolsController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         const data = await service.putCareProtocolsService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -196,7 +196,7 @@ export const deleteCareProtocolController: RequestHandler = async (req, res) => 
         await service.deleteCareProtocolsService(params.id)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

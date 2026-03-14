@@ -13,7 +13,7 @@ export const postJuristicController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         await service.postJuristicService(dto)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -42,7 +42,7 @@ export const getJuristicsController: RequestHandler = async (req, res) => {
         const dto = scheme.getJuristicsScheme.parse(req.query)
         const data = await service.getJuristicsService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -57,7 +57,7 @@ export const getJuristicsController: RequestHandler = async (req, res) => {
 export const downloadJuristicFileController: RequestHandler = async (req, res) => {
     try {
         const params = scheme.downloadJuristicsScheme.parse(req.params)
-        const data = await service.downloadJuristicFileService(params.id)
+        const data: any = await service.downloadJuristicFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
 
@@ -77,7 +77,7 @@ export const downloadJuristicFileController: RequestHandler = async (req, res) =
         // 👇 Cualquier otro archivo → forzar descarga
         return res.download(data.filePath, data.fileName)
 
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -109,7 +109,7 @@ export const putJuristicController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         const data = await service.putJuristicService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -139,7 +139,7 @@ export const deleteJuristicController: RequestHandler = async (req, res) => {
         await service.deleteJuristicsService(params.id)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

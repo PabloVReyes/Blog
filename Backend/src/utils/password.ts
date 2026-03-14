@@ -1,5 +1,5 @@
-import bcrypt from "bcrypt"
-import crypto from "crypto"
+import * as bcrypt from "bcrypt"
+import * as crypto from "crypto"
 
 export const hashPassword = async (password: string) => {
     return bcrypt.hash(password, 10)
@@ -17,7 +17,7 @@ export const generatePassword = (length: number = 10): string => {
     const chars =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%"
 
-    const bytes = crypto.randomBytes(length)
+    const bytes: any = crypto.randomBytes(length)
 
     let password = ""
 

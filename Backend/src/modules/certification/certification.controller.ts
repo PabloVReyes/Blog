@@ -13,7 +13,7 @@ export const postCertificationController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         await service.postCertificationService(dto)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -38,7 +38,7 @@ export const postSectionController: RequestHandler = async (req, res) => {
         const body: scheme.PostSectionScheme = scheme.postSectionScheme.parse(req.body)
         const data = await service.postSectionService(body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -67,7 +67,7 @@ export const getSectionWithCertificationsController: RequestHandler = async (req
         const dto = scheme.getSectionWithCertificationsScheme.parse(req.query)
         const data = await service.getSectionsWithCertificationsService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -99,7 +99,7 @@ export const getCertificationsController: RequestHandler = async (req, res) => {
         const dto = scheme.getCertificationsScheme.parse(req.query)
         const data = await service.getCertificationsService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -114,7 +114,7 @@ export const getCertificationsController: RequestHandler = async (req, res) => {
 export const downloadCertificationFileController: RequestHandler = async (req, res) => {
     try {
         const params = scheme.downloadCertificationScheme.parse(req.params)
-        const data = await service.downloadCertificationFileService(params.id)
+        const data: any = await service.downloadCertificationFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
 
@@ -134,7 +134,7 @@ export const downloadCertificationFileController: RequestHandler = async (req, r
         // 👇 Cualquier otro archivo → forzar descarga
         return res.download(data.filePath, data.fileName)
 
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -166,7 +166,7 @@ export const putCertificationController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         const data = await service.putCertificationService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -196,7 +196,7 @@ export const deleteCertificationController: RequestHandler = async (req, res) =>
         await service.deleteCertificationService(params.id)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

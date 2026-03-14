@@ -19,5 +19,5 @@ export const putAdverseEventsParamsScheme = z.object({
 })
 
 export const downloadAdverseEventFileScheme = z.object({
-    type: z.string().optional()
+    type: z.string()
 })

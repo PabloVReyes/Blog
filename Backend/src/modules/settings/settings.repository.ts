@@ -1,4 +1,4 @@
-import { database } from "@/config/prisma"
+import { database } from "../../config/prisma"
 
 export const getSettingsRepository = async () => {
     try {

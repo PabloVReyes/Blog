@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { deletePBMParamsScheme, downloadPBMFileSchema, getPBMScheme, postPbmScheme, PostPbmScheme, putPBMParamsScheme, putPBMScheme, PutPBMScheme } from "./pbm.scheme";
 import * as service from "./pbm.service"
-import fs from "fs"
+import * as fs from "fs"
 
 ////////////
 // CREATE //
@@ -15,7 +15,7 @@ export const postPbmController: RequestHandler = async (req, res) => {
         await service.postPbmService(dto)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -56,7 +56,7 @@ export const downloadPBMFileController: RequestHandler = async (req, res) => {
         );
 
         fs.createReadStream(data.filePath).pipe(res);
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -81,7 +81,7 @@ export const getPBMController: RequestHandler = async (req, res) => {
         const dto = getPBMScheme.parse(req.query)
         const data = await service.getPBMService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -105,7 +105,7 @@ export const putPBMController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         const data = await service.putPBMService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -135,7 +135,7 @@ export const deletePBMController: RequestHandler = async (req, res) => {
         await service.daletePBMService(params.id)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import * as service from "./calendar.service"
 import { downloadCalendarFileParamsSchema, putCalendarParamsSchema, PutCalendarSchema, putCalendarShema } from "./calendar.schema";
-import fs from "fs"
+import * as fs from "fs"
 
 //////////
 // READ //
@@ -38,7 +38,7 @@ export const downloadCalendarFileController: RequestHandler = async (req, res) =
         );
 
         fs.createReadStream(data.filePath).pipe(res);
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -74,7 +74,7 @@ export const putCalendarController: RequestHandler = async (req, res) => {
         const data = await service.putCalendarService(params.id, dto)
 
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

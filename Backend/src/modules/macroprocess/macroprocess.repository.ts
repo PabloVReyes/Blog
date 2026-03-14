@@ -1,5 +1,5 @@
-import { database } from "@/config/prisma"
-import { PaginationProps } from "@/types/pagination"
+import { database } from "../../config/prisma"
+import { PaginationProps } from "../../types/pagination"
 
 export const getAreaWithManualsQuery = (id: string) => {
     return new Promise(async (resolve, reject) => {
@@ -107,10 +107,10 @@ export const getManualsWithAreaCountQuery = (search: string) => {
 
 interface putManualQueryProps {
     id: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
+    fileName?: string | null;
+    filePath?: string | null;
+    fileSize?: number | null;
+    mimeType?: string | null;
 }
 
 

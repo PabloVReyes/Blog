@@ -1,12 +1,12 @@
-import { database } from "@/config/prisma";
-import { PaginationProps } from "@/types/pagination";
+import { database } from "../../config/prisma";
+import { PaginationProps } from "../../types/pagination";
 
 ////////////
 // CREATE //
 ////////////
 interface PostSystemRepositoryProps {
-    acronym: string;
-    name: string;
+    acronym?: string | null;
+    name?: string | null;
     description: string;
     color: string;
     icon: string;
@@ -89,8 +89,8 @@ export const getSystemByIdRepository = async (id: string) => {
 ////////////
 interface PutSystemRepositoryProps {
     id: string;
-    acronym: string;
-    name: string;
+    acronym?: string | null;
+    name?: string | null;
     description: string;
     color: string;
     icon: string;

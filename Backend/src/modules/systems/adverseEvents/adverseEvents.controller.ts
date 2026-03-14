@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import * as service from "./adverseEvents.service"
 import { downloadAdverseEventFileScheme, putAdverseEventsParamsScheme } from "./adverseEvents.scheme";
-import fs from "fs"
+import * as fs from "fs"
 
 //////////
 // READ //
@@ -11,7 +11,7 @@ export const getAdverseEventsController: RequestHandler = async (req, res) => {
     try {
         const data = await service.getAdverseEventsService()
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -40,7 +40,7 @@ export const downloadAdverseEventsFileController: RequestHandler = async (req, r
         );
 
         fs.createReadStream(data.filePath).pipe(res);
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -70,7 +70,7 @@ export const putAdverseEventsController: RequestHandler = async (req, res) => {
         const file = req.file
         const data = await service.putAdverseEventService(params.id, file)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -99,7 +99,7 @@ export const deleteAdverseEventController: RequestHandler = async (req, res) => 
         const params = putAdverseEventsParamsScheme.parse(req.params)
         const data = await service.deleteAdverseEventService(params.id)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

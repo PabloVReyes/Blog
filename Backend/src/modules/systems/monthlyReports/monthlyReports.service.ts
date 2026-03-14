@@ -1,8 +1,8 @@
 import * as repo from "./monthlyReports.repository"
-import { getPagination } from "@/utils/pagination";
+import { getPagination } from "../../../utils/pagination";
 import { GetMonthlyReportsSchema } from "./monthlyReports.schema";
 import { MontghlyReportsCreateDto, MontghlyReportsUpdateDto } from "./monthlyReports.types";
-import { sanitizeFileName } from "@/utils/file";
+import { sanitizeFileName } from "../../../utils/file";
 
 ////////////
 // CREATE //
@@ -50,8 +50,8 @@ export const getMonthlyReportsService = async (dto: GetMonthlyReportsSchema) => 
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -80,7 +80,7 @@ export const downloadMonthlyReportFileService = async (id: string) => {
 export const putMonthlyReportsService = async (id: string, dto: MontghlyReportsUpdateDto) => {
     const { title, description, type, month, year, file } = dto
 
-    const monthlyReport = await repo.getMonthlyReportByIdRepository(id)
+    const monthlyReport: any = await repo.getMonthlyReportByIdRepository(id)
 
     const props: any = {
         id,

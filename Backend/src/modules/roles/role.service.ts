@@ -1,4 +1,4 @@
-import { getPagination } from "@/utils/pagination"
+import { getPagination } from "../../utils/pagination"
 import * as repo from "./role.repository"
 import * as scheme from "./role.scheme"
 
@@ -29,8 +29,8 @@ export const getRolesService = async (dto: scheme.GetRolesScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (limit && page) && limit * (page - 1) + 1,
+            lastItem: (limit && page) && Math.min(total, limit * page)
         }
     }
 }

@@ -1,7 +1,7 @@
 import { PbmCreateDto, PbmUpdateDto } from "./pbm.types";
 import * as repo from "./pbm.repository"
-import { sanitizeFileName } from "@/utils/file";
-import { getPagination } from "@/utils/pagination";
+import { sanitizeFileName } from "../../../utils/file";
+import { getPagination } from "../../../utils/pagination";
 import { GetPBMScheme } from "./pbm.scheme";
 
 ////////////
@@ -41,8 +41,8 @@ export const getPBMService = async (dto: GetPBMScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -67,7 +67,7 @@ export const downloadPBMFileService = async (id: string) => {
 export const putPBMService = async (id: string, dto: PbmUpdateDto) => {
     const { title, file } = dto
 
-    const PBM = await repo.getPBMByIdRepository(id)
+    const PBM: any = await repo.getPBMByIdRepository(id)
 
     const props: any = {
         id,

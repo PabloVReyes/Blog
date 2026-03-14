@@ -13,7 +13,7 @@ export const postDownloadController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         await service.postDownloadService(dto)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -38,7 +38,7 @@ export const postCategoryController: RequestHandler = async (req, res) => {
         const body: scheme.PostCategoryScheme = scheme.postCategoryScheme.parse(req.body)
         const data = await service.postCategoryService(body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -82,7 +82,7 @@ export const getCategoriesWithDownloadsController: RequestHandler = async (req, 
         const dto = scheme.getCategoryWithDownloadsScheme.parse(req.query)
         const data = await service.getCategoriesWithDownloadsService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -99,7 +99,7 @@ export const getDownloadsController: RequestHandler = async (req, res) => {
         const dto = scheme.getDownloadsScheme.parse(req.query)
         const data = await service.getDownloadsService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -114,7 +114,7 @@ export const getDownloadsController: RequestHandler = async (req, res) => {
 export const downloadFileController: RequestHandler = async (req, res) => {
     try {
         const params = scheme.downloadFileScheme.parse(req.params)
-        const data = await service.downloadFileService(params.id)
+        const data: any = await service.downloadFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
 
@@ -134,7 +134,7 @@ export const downloadFileController: RequestHandler = async (req, res) => {
         // 👇 Cualquier otro archivo → forzar descarga
         return res.download(data.filePath, data.fileName)
 
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -166,7 +166,7 @@ export const putDownloadController: RequestHandler = async (req, res) => {
         const dto = { ...body, file }
         const data = await service.putDownloadService(params.id, dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -196,7 +196,7 @@ export const deleteDownloadController: RequestHandler = async (req, res) => {
         await service.deleteDownloadService(params.id)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

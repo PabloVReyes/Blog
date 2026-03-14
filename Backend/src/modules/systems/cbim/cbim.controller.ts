@@ -11,7 +11,7 @@ export const postCbimController: RequestHandler = async (req, res) => {
         const body: PostCbimSchema = postCbimShema.parse(req.body)
         await service.postCbimService(body)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -40,7 +40,7 @@ export const getCbimController: RequestHandler = async (req, res) => {
         const dto = getCbimSchema.parse(req.query)
         const data = await service.getCbimService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -70,7 +70,7 @@ export const putCbimController: RequestHandler = async (req, res) => {
         const body: PutCbimSchema = putCbimShema.parse(req.body)
         const data = await service.putCbimService(params.id, body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -99,7 +99,7 @@ export const deleteCbimController: RequestHandler = async (req, res) => {
         const params = deleteCbimParamsSchema.parse(req.params)
         await service.deleteCbimService(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

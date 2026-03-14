@@ -1,10 +1,10 @@
 import slugify from "slugify"
 import * as scheme from "./downloads.scheme"
 import * as repo from "./downloads.repository"
-import { getPagination } from "@/utils/pagination"
+import { getPagination } from "../../utils/pagination"
 import * as types from "./downloads.types"
-import { sanitizeFileName } from "@/utils/file"
-import path from "path"
+import { sanitizeFileName } from "../../utils/file"
+import * as path from "path"
 import { uploadsRoot } from "./path"
 
 ////////////
@@ -94,8 +94,8 @@ export const getDownloadsService = async (dto: scheme.GetDownloadsScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -117,8 +117,8 @@ export const getAreasService = async (dto: scheme.GetAreaSchema) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -160,7 +160,7 @@ export const getCategoriesBySectionService = async (section: number) => {
 export const putDownloadService = async (id: number, dto: types.DownloadsUpdateDto) => {
     const { name, description, isNew, type, category, file } = dto
 
-    const download = await repo.getDownloadByIdRepository(id)
+    const download: any = await repo.getDownloadByIdRepository(id)
 
     const props: any = {
         id,

@@ -1,6 +1,6 @@
-import { sanitizeFileName } from "@/utils/file";
-import multer from "multer";
-import path from "path";
+import { sanitizeFileName } from "../../../utils/file";
+import * as multer from "multer";
+import * as path from "path";
 import { Router } from "express";
 import * as controller from "./careProtocols.controller"
 

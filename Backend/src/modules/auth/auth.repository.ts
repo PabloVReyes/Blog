@@ -1,8 +1,7 @@
+import { database } from "../../config/prisma"
 ///
 // READ
 //
-
-import { database } from "@/config/prisma"
 
 export const getUserByEmailRepository = async (email: string) => {
     try {

@@ -1,7 +1,7 @@
 import * as service from "./monthlyReports.service"
 import { RequestHandler } from "express";
 import { deleteMonthlyReportsParamsSchema, downloadMonthlyReportsFileSchema, getMonthlyReportsSchema, postMonthlyReportsSchema, PostMonthlyReportsSchema, putMonthlyReportsParamsSchema, putMonthlyReportsSchema, PutMonthlyReportsSchema } from "./monthlyReports.schema";
-import fs from "fs"
+import * as fs from "fs"
 
 ////////////
 // CREATE //
@@ -16,7 +16,7 @@ export const postMonthlyReportsController: RequestHandler = async (req, res) => 
 
         await service.postMonthlyReportsService(dto)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -91,7 +91,7 @@ export const downloadMonthlyReportsController: RequestHandler = async (req, res)
 
         fs.createReadStream(data.filePath).pipe(res);
 
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -125,7 +125,7 @@ export const putMonthlyReportsController: RequestHandler = async (req, res) => {
         const data = await service.putMonthlyReportsService(params.id, dto)
 
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -155,7 +155,7 @@ export const deteleMonthlyReportsController: RequestHandler = async (req, res) =
         await service.deleteMonthlyReportsService(params.id)
 
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

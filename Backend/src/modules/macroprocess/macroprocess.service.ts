@@ -1,7 +1,7 @@
-import { sanitizeFileName } from "@/utils/file";
+import { sanitizeFileName } from "../../utils/file";
 import * as repo from "./macroprocess.repository"
-import { getPagination } from "@/utils/pagination";
-import path from "path";
+import { getPagination } from "../../utils/pagination";
+import * as path from "path";
 import { uploadsRoot } from "./path";
 
 export const getAreaWithManualsService = async (req: any) => {
@@ -143,7 +143,7 @@ export const putManualService = async (req: any) => {
     const { id } = req.params
     const file = req.file
 
-    const manual = await repo.getManualByIdRepository(id)
+    const manual: any = await repo.getManualByIdRepository(id)
 
     const props: any = {
         id

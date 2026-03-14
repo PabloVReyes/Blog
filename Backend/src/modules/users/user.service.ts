@@ -1,8 +1,8 @@
-import { getPagination } from "@/utils/pagination"
+import { getPagination } from "../../utils/pagination"
 import { comparePassword, generatePassword, hashPassword } from "../../utils/password"
 import * as repo from "./user.repository"
 import * as scheme from "./user.scheme"
-import { sendUserCredentials } from "@/services/email.service"
+import { sendUserCredentials } from "../../services/email.service"
 
 export const createUserService = async (dto: scheme.CreateUserScheme) => {
     const { name, email, roles } = dto
@@ -48,8 +48,8 @@ export const getUsersService = async (dto: scheme.GetUsersScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }

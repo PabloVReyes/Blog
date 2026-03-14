@@ -1,6 +1,6 @@
 import { Router } from "express"
 import * as controller from "./auth.controller"
-import { loginLimiter } from "@/middleware/rateLimiter.middleware"
+import { loginLimiter } from "../../middleware/rateLimiter.middleware"
 
 const router = Router()
 

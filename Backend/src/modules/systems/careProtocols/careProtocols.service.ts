@@ -1,8 +1,8 @@
-import { sanitizeFileName } from "@/utils/file";
+import { sanitizeFileName } from "../../../utils/file";
 import * as repo from "./careProtocols.repository"
 import { CareProtocolsCreateDto, CareProtocolsUpdateDto } from "./careProtocols.types";
 import { GetCareProtocolsScheme, PostCategoryScheme } from "./careProtocols.scheme";
-import { getPagination } from "@/utils/pagination";
+import { getPagination } from "../../../utils/pagination";
 
 ////////////
 // CREATE //
@@ -58,8 +58,8 @@ export const getCareProtocolsService = async (dto: GetCareProtocolsScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -81,8 +81,8 @@ export const getCategoryWithCareProtocolsService = async (dto: GetCareProtocolsS
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -108,7 +108,7 @@ export const dowloadCareProtocolFileService = async (id: string) => {
 export const putCareProtocolsService = async (id: string, dto: CareProtocolsUpdateDto) => {
     const { title, description, category, file } = dto
 
-    const Protocol = await repo.getCareProtocolByIdRepository(id)
+    const Protocol: any = await repo.getCareProtocolByIdRepository(id)
 
     const props: any = {
         id,

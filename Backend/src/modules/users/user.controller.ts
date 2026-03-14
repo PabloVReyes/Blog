@@ -11,7 +11,7 @@ export const createUserController = async (req: Request, res: Response) => {
         const body: scheme.CreateUserScheme = scheme.createUserScheme.parse(req.body)
         await service.createUserService(body)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -40,7 +40,7 @@ export const getUsersController: RequestHandler = async (req, res) => {
         const dto = scheme.getUsersScheme.parse(req.query)
         const data = await service.getUsersService(dto)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return res.status(400).json({ message: error.message })
         }
@@ -56,7 +56,7 @@ export const getUsersController: RequestHandler = async (req, res) => {
 // UPDATE //
 ////////////
 
-export const putMeController: RequestHandler = async (req, res) => {
+export const putMeController: RequestHandler = async (req: any, res) => {
     try {
         const params = scheme.putMeParamsScheme.parse(req.params)
 
@@ -67,7 +67,7 @@ export const putMeController: RequestHandler = async (req, res) => {
         const body: scheme.PutMeScheme = scheme.putMeScheme.parse(req.body)
         const data = await service.putMeService(params.id, body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -93,7 +93,7 @@ export const putUserController: RequestHandler = async (req, res) => {
         const body: scheme.PutUserScheme = scheme.putUserScheme.parse(req.body)
         const data = await service.putUserService(params.id, body)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -118,7 +118,7 @@ export const resetPasswordController: RequestHandler = async (req, res) => {
         const params = scheme.resetPasswordParamsScheme.parse(req.params)
         const data = await service.resetPasswordService(params.id)
         res.json(data)
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -138,7 +138,7 @@ export const resetPasswordController: RequestHandler = async (req, res) => {
     }
 }
 
-export const changePasswordController: RequestHandler = async (req, res) => {
+export const changePasswordController: RequestHandler = async (req: any, res) => {
     try {
         const params = scheme.changePasswordParamsScheme.parse(req.params)
 
@@ -149,7 +149,7 @@ export const changePasswordController: RequestHandler = async (req, res) => {
         const body: scheme.ChangePasswordScheme = scheme.changePasswordScheme.parse(req.body)
         await service.changePasswordService(params.id, body)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,
@@ -178,7 +178,7 @@ export const deleteUserController: RequestHandler = async (req, res) => {
         const params = scheme.deleteUserParamsScheme.parse(req.params)
         await service.deleteUserService(params.id)
         res.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === "ZodError") {
             return res.status(422).json({
                 success: false,

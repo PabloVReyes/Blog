@@ -1,8 +1,8 @@
-import { sanitizeFileName } from "@/utils/file";
+import { sanitizeFileName } from "../../../utils/file";
 import * as repo from "./gpc.repository"
 import { GetGpcScheme, PostCicleScheme } from "./gpc.scheme";
 import { GpcCreateDto, GpcUpdateDto } from "./gpc.types";
-import { getPagination } from "@/utils/pagination";
+import { getPagination } from "../../../utils/pagination";
 
 ////////////
 // CREATE //
@@ -61,8 +61,8 @@ export const getGpcService = async (dto: GetGpcScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -84,8 +84,8 @@ export const getCicleWithGpcService = async (dto: GetGpcScheme) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -110,7 +110,7 @@ export const dowloadGpcFileService = async (id: string) => {
 export const putGpcService = async (id: string, dto: GpcUpdateDto) => {
     const { title, description, cicle, orderIndex, file } = dto
 
-    const Gpc = await repo.getGpcByIdRepositoy(id)
+    const Gpc: any = await repo.getGpcByIdRepositoy(id)
 
     const props: any = {
         id,
