@@ -4,8 +4,14 @@ import type { User } from "./types"
 import { useModalStore } from "@/layout/store"
 import { Password } from "@/layout/components/Sidebar/Password"
 
-interface JwtPayload {
-    exp: number
+const scheduleAutoLogout = (token: string, logout: () => void) => {
+    const { exp } = jwtDecode<{ exp: number }>(token)
+    const msUntilExpiry = exp * 1000 - Date.now()
+    if (msUntilExpiry <= 0) {
+        logout()
+        return
+    }
+    return setTimeout(logout, msUntilExpiry)
 }
 
 interface AuthState {
@@ -35,19 +41,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     loginOpened: false,
 
     login: (user, token) => {
-
-        const decoded = jwtDecode<JwtPayload>(token)
-
-        const expiresIn = decoded.exp * 1000 - Date.now()
-
-        if (expiresIn <= 0) {
-            get().logout()
-            return
-        }
-
-        const timer = setTimeout(() => {
-            get().logout()
-        }, expiresIn)
+        const timer = scheduleAutoLogout(token, get().logout)
+        if (!timer) return
 
         localStorage.setItem("token", token)
         localStorage.setItem("user", JSON.stringify(user))
@@ -61,7 +56,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         // 🔐 abrir modal si debe cambiar contraseña
         if (user.mustChangePassword) {
-
             useModalStore.getState().openModal({
                 title: "Cambio de contraseña requerido",
                 subtitle: "Debes establecer una nueva contraseña para continuar",
@@ -109,18 +103,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (!token || !user) return
 
         try {
-            const decoded = jwtDecode<JwtPayload>(token)
-
-            if (decoded.exp * 1000 < Date.now()) {
-                get().logout()
-                return
-            }
-
-            const expiresIn = decoded.exp * 1000 - Date.now()
-
-            const timer = setTimeout(() => {
-                get().logout()
-            }, expiresIn)
+            const timer = scheduleAutoLogout(token, get().logout)
+            if (!timer) return
 
             set({
                 token,
