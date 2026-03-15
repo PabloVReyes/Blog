@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { CalendarState } from "./types";
 import { fecthCalendar, updateCalendar } from "../api";
+import { extractErrorMessage } from "@/lib";
 
 export const useCalendarStore = create<CalendarState>((set) => ({
     page: 1,
@@ -18,11 +19,7 @@ export const useCalendarStore = create<CalendarState>((set) => ({
 
             set({ items: data })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         } finally {
             set({ isLoading: false })
         }
@@ -43,11 +40,7 @@ export const useCalendarStore = create<CalendarState>((set) => ({
                 )
             }))
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     }
 }))

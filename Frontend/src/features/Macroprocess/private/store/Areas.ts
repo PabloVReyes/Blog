@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { fetchAreas, updateArea } from "../api";
 import type { AreasState } from "./types";
+import { extractErrorMessage } from "@/lib";
 
 export const useAreasStore = create<AreasState>((set, get) => ({
     page: 1,
@@ -35,11 +36,7 @@ export const useAreasStore = create<AreasState>((set, get) => ({
                 lastItem: meta.lastItem
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         } finally {
             set({ isLoading: false })
         }
@@ -63,11 +60,7 @@ export const useAreasStore = create<AreasState>((set, get) => ({
                 ),
             }))
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     }
 }))

@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import { colorMap } from "@/utils";
 import { getSettings, updateSettings } from "../api";
 import type { ThemeType } from "./types";
+import { extractErrorMessage } from "@/lib";
 
 interface SettingsState {
     title: string;
@@ -66,7 +67,7 @@ export const useSettingStore = create<SettingsState>()(
                             : state.theme
                     }));
                 } catch (error) {
-                    console.error("Error cargando configuraciones:", error);
+                    throw new Error(extractErrorMessage(error))
                 } finally {
                     set({ isLoading: false });
                 }
@@ -81,11 +82,7 @@ export const useSettingStore = create<SettingsState>()(
                         [name]: value
                     }));
                 } catch (error: any) {
-                    const message =
-                        error?.response?.data?.message ||
-                        error?.message ||
-                        "Error desconocido"
-                    throw new Error(message)
+                    throw new Error(extractErrorMessage(error))
                 }
             },
 

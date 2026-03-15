@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { type AdverseEventsState } from "./types";
-import { addAgreementPerson, deleteAdverseEvent, deleteAgreementPerson, fetchAdverseEvents, fetchAgreementPerson, updateAdverseEvent, updateAgreementPerson } from "../api";
+import { deleteAdverseEvent, fetchAdverseEvents, updateAdverseEvent } from "../api";
+import { extractErrorMessage } from "@/lib";
 
 export const useAdverseEventsStore = create<AdverseEventsState>((set, get) => ({
     page: 1,
@@ -33,12 +34,7 @@ export const useAdverseEventsStore = create<AdverseEventsState>((set, get) => ({
                 lastItem: meta.lastItem
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         } finally {
             set({ isLoading: false })
         }
@@ -52,12 +48,7 @@ export const useAdverseEventsStore = create<AdverseEventsState>((set, get) => ({
                 page: 1
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     },
 
@@ -66,12 +57,7 @@ export const useAdverseEventsStore = create<AdverseEventsState>((set, get) => ({
             await updateAdverseEvent(id, data)
             get().fetch()
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     }
 }))

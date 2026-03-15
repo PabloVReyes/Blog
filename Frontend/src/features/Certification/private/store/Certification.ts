@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { CertificationState } from "./types";
 import { addCertification, deleteCertification, fetchCertifications, updateCertification } from "../api";
+import { extractErrorMessage } from "@/lib";
 
 export const useCertificationStore = create<CertificationState>((set, get) => ({
     page: 1,
@@ -34,12 +35,8 @@ export const useCertificationStore = create<CertificationState>((set, get) => ({
                 firstItem: meta.firstItem,
                 lastItem: meta.lastItem
             })
-        } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+        } catch (error) {
+            throw new Error(extractErrorMessage(error))
         } finally {
             set({ isLoading: false })
         }
@@ -52,12 +49,8 @@ export const useCertificationStore = create<CertificationState>((set, get) => ({
             set({
                 page: 1
             })
-        } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+        } catch (error) {
+            throw new Error(extractErrorMessage(error))
         }
     },
 
@@ -68,12 +61,8 @@ export const useCertificationStore = create<CertificationState>((set, get) => ({
             set({
                 page: 1
             })
-        } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+        } catch (error) {
+            throw new Error(extractErrorMessage(error))
         }
     },
 
@@ -90,12 +79,8 @@ export const useCertificationStore = create<CertificationState>((set, get) => ({
                         : system
                 ),
             }))
-        } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+        } catch (error) {
+            throw new Error(extractErrorMessage(error))
         }
     }
 }))

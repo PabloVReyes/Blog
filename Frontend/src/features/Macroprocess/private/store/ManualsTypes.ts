@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { fetchManualsTypes, updateManualType } from "../api";
 import type { ManualsTypesState } from "./types";
+import { extractErrorMessage } from "@/lib";
 
 export const useManualsTypesStore = create<ManualsTypesState>((set, get) => ({
     page: 1,
@@ -35,11 +36,7 @@ export const useManualsTypesStore = create<ManualsTypesState>((set, get) => ({
                 lastItem: meta.lastItem
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         } finally {
             set({ isLoading: false })
         }
@@ -63,11 +60,7 @@ export const useManualsTypesStore = create<ManualsTypesState>((set, get) => ({
                 ),
             }))
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     }
 }))

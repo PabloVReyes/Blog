@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { AlertState } from "./types";
 import { fecthAlert, updateAlert } from "../api";
+import { extractErrorMessage } from "@/lib";
 
 export const useAlertStore = create<AlertState>((set) => ({
     page: 1,
@@ -17,11 +18,7 @@ export const useAlertStore = create<AlertState>((set) => ({
 
             set({ items: data })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         } finally {
             set({ isLoading: false })
         }
@@ -42,11 +39,7 @@ export const useAlertStore = create<AlertState>((set) => ({
                 )
             }))
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     }
 }))

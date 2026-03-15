@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { type ClinicalPracticeGuidelinesState } from "./types";
 import { addGuide, deleteGuide, fetchGuides, updateGuide } from "../api";
+import { extractErrorMessage } from "@/lib";
 
 export const useClinicalPracticeGuidelinesStore = create<ClinicalPracticeGuidelinesState>((set, get) => ({
     page: 1,
@@ -35,11 +36,7 @@ export const useClinicalPracticeGuidelinesStore = create<ClinicalPracticeGuideli
                 lastItem: meta.lastItem
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         } finally {
             set({ isLoading: false })
         }
@@ -53,11 +50,7 @@ export const useClinicalPracticeGuidelinesStore = create<ClinicalPracticeGuideli
                 page: 1
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     },
 
@@ -69,11 +62,7 @@ export const useClinicalPracticeGuidelinesStore = create<ClinicalPracticeGuideli
                 page: 1
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     },
 
@@ -91,11 +80,7 @@ export const useClinicalPracticeGuidelinesStore = create<ClinicalPracticeGuideli
                 )
             }))
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     }
 }))

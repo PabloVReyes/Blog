@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { type AgreementPersonState } from "./types";
 import { addAgreementPerson, deleteAgreementPerson, fetchAgreementPerson, updateAgreementPerson } from "../api";
+import { extractErrorMessage } from "@/lib";
 
 export const useAgreementPersonStore = create<AgreementPersonState>((set, get) => ({
     page: 1,
@@ -35,12 +36,7 @@ export const useAgreementPersonStore = create<AgreementPersonState>((set, get) =
                 lastItem: meta.lastItem
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         } finally {
             set({ isLoading: false })
         }
@@ -54,12 +50,7 @@ export const useAgreementPersonStore = create<AgreementPersonState>((set, get) =
                 page: 1
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     },
 
@@ -71,12 +62,7 @@ export const useAgreementPersonStore = create<AgreementPersonState>((set, get) =
                 page: 1
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     },
 
@@ -85,12 +71,7 @@ export const useAgreementPersonStore = create<AgreementPersonState>((set, get) =
             await updateAgreementPerson(id, data)
             get().fetch()
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     }
 }))

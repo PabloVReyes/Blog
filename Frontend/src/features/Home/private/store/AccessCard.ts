@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { AccessCardState } from "./types";
 import { addAccessCard, deleteAccessCard, fecthAccessCard, updateAccessCard } from "../api";
+import { extractErrorMessage } from "@/lib";
 
 export const useAccessCardStore = create<AccessCardState>((set, get) => ({
     page: 1,
@@ -36,11 +37,7 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
                 lastItem: meta.lastItem
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         } finally {
             set({ isLoading: false })
         }
@@ -54,11 +51,7 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
                 page: 1
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     },
 
@@ -70,11 +63,7 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
                 page: 1
             })
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     },
 
@@ -93,11 +82,7 @@ export const useAccessCardStore = create<AccessCardState>((set, get) => ({
                 )
             }))
         } catch (error: any) {
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                "Error desconocido"
-            throw new Error(message)
+            throw new Error(extractErrorMessage(error))
         }
     }
 }))
