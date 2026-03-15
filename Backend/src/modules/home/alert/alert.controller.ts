@@ -1,40 +1,28 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Response, Request } from "express";
 import * as service from "./alert.service"
 import * as schema from "./alert.schema"
+import { asyncHandler } from "../../../utils/asyncHandler";
 
-export const getAlertController: RequestHandler = async (req, res) => {
-    try {
-        const data = await service.getAlertService()
-        res.json(data)
+//////////
+// READ //
+//////////
 
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
+export const getAlertController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const data = await service.getAlertService()
+    res.json(data)
+})
 
-        return res.status(400).json({
-            message: "Error en la solicitud"
-        })
-    }
-}
+////////////
+// UPDATE //
+////////////
 
-export const putAlertService: RequestHandler = async (req, res) => {
-    try {
-        const dto = schema.putAlertSchema.parse({
-            id: req.params.id,
-            ...req.body
-        })
+export const putAlertService: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const dto = schema.putAlertSchema.parse({
+        id: req.params.id,
+        ...req.body
+    })
+    const data = await service.putAlertService(dto)
+    res.json(data)
+})
 
-        const data = await service.putAlertService(dto)
-        res.json(data)
-
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        return res.status(400).json({
-            message: "Error en la solicitud"
-        })
-    }
-}
+// 41 lineas -> 26 lineas

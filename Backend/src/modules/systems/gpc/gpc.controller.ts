@@ -1,215 +1,87 @@
-import { RequestHandler } from "express";
+import { Request, RequestHandler, Response } from "express";
 import * as schema from "./gpc.schema"
 import * as service from "./gpc.service"
 import * as fs from "fs"
+import { asyncHandler } from "../../../utils/asyncHandler";
 
 ////////////
 // CREATE //
 ////////////
 
-export const postGpcController: RequestHandler = async (req, res) => {
-    try {
-        const body: schema.PostGpcSchema = schema.postGpcSchema.parse(req.body)
-        const file = req.file
-        const dto = { ...body, file }
+export const postGpcController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const body: schema.PostGpcSchema = schema.postGpcSchema.parse(req.body)
+    const file = req.file
+    const dto = { ...body, file }
+    await service.postGpcService(dto)
+    res.json({ success: true })
+})
 
-        await service.postGpcService(dto)
-
-        res.json({ success: true })
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear guia"
-            })
-    }
-}
-
-export const postCicleController: RequestHandler = async (req, res) => {
-    try {
-        const body: schema.PostCicleSchema = schema.postCicleSchema.parse(req.body)
-        const data = await service.postCicleService(body)
-        res.json(data)
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear guia"
-            })
-    }
-}
+export const postCicleController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const body: schema.PostCicleSchema = schema.postCicleSchema.parse(req.body)
+    const data = await service.postCicleService(body)
+    res.json(data)
+})
 
 //////////
 // READ //
 //////////
 
-export const getCicleController: RequestHandler = async (req, res) => {
-    try {
-        const data = await service.getCicleService()
-        res.json(data)
-    } catch (error: any) {
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
+export const getCicleController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const data = await service.getCicleService()
+    res.json(data)
+})
 
-        res.status(500)
-            .send({
-                msg: error.message || "Error al obtener categorias"
-            })
-    }
-}
+export const getGpcController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const dto = schema.getGpcSchema.parse(req.query)
+    const data = await service.getGpcService(dto)
+    res.json(data)
+})
 
-export const getGpcController: RequestHandler = async (req, res) => {
-    try {
-        const dto = schema.getGpcSchema.parse(req.query)
-        const data = await service.getGpcService(dto)
-        res.json(data)
-    } catch (error: any) {
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
+export const getCicleWithGpcController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const dto = schema.getGpcSchema.parse(req.query)
+    const data = await service.getCicleWithGpcService(dto)
+    res.json(data)
+})
 
-        res.status(500)
-            .send({
-                msg: error.message || "Error al obtener categorias"
-            })
-    }
-}
+export const downloadGpcFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.downloadGpcFileSchema.parse(req.params)
+    const data = await service.dowloadGpcFileService(params.id)
 
-export const getCicleWithGpcController: RequestHandler = async (req, res) => {
-    try {
-        const dto = schema.getGpcSchema.parse(req.query)
-        const data = await service.getCicleWithGpcService(dto)
-        res.json(data)
-    } catch (error: any) {
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+        "Content-Disposition",
+        `inline; filename="${data.fileName}"`
+    );
 
-        res.status(500)
-            .send({
-                msg: error.message || "Error al obtener categorias"
-            })
-    }
-}
+    res.setHeader(
+        "Access-Control-Expose-Headers",
+        "Content-Disposition"
+    );
 
-export const downloadGpcFileController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.downloadGpcFileSchema.parse(req.params)
-        const data = await service.dowloadGpcFileService(params.id)
-
-        res.setHeader("Content-Type", "application/pdf"); // 👈 importante
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename="${data.fileName}"`
-        );
-
-        res.setHeader(
-            "Access-Control-Expose-Headers",
-            "Content-Disposition"
-        );
-
-        fs.createReadStream(data.filePath).pipe(res);
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+    fs.createReadStream(data.filePath).pipe(res);
+})
 
 ////////////
 // UPDATE //
 ////////////
 
-export const putGpcController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.putGpcParamsSchema.parse(req.params)
-        const body: schema.PutGpcSchema = schema.putGpcSchema.parse(req.body)
-        const file = req.file
-        const dto = { ...body, file }
-        const data = await service.putGpcService(params.id, dto)
-        res.json(data)
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+export const putGpcController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.putGpcParamsSchema.parse(req.params)
+    const body: schema.PutGpcSchema = schema.putGpcSchema.parse(req.body)
+    const file = req.file
+    const dto = { ...body, file }
+    const data = await service.putGpcService(params.id, dto)
+    res.json(data)
+})
 
 ////////////
 // DELETE //
 ////////////
 
-export const deleteGpcController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.deleteGpcParamsSchema.parse(req.params)
-        await service.deleteGpcService(params.id)
+export const deleteGpcController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.deleteGpcParamsSchema.parse(req.params)
+    await service.deleteGpcService(params.id)
+    res.json({ success: true })
+})
 
-        res.json({ success: true })
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+// 215 lineas -> 86 lineas

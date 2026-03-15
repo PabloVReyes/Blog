@@ -11,6 +11,7 @@ import { globalLimiter } from "./middleware/rateLimiter.middleware";
 import 'dotenv/config'
 import * as colors from 'colors'
 import router from './routes/routes'
+import { errorHandler } from "./middleware/errorHandler.middleware";
 
 class App {
     private app: Express;
@@ -63,6 +64,7 @@ class App {
 
     settingRoutes() {
         this.app.use('/', router)
+        this.app.use(errorHandler)
     }
 
     start() {

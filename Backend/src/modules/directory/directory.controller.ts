@@ -1,123 +1,54 @@
-import { RequestHandler } from "express";
+import { Request, RequestHandler, Response } from "express";
 import * as schema from "./directory.schema"
 import * as service from "./directory.service"
+import { asyncHandler } from "../../utils/asyncHandler";
 
-///
+////////////
 // CREATE //
-//
+////////////
 
-export const postDirectoryController: RequestHandler = async (req, res) => {
-    try {
-
-        const body: schema.PostDirectorySchema = schema.postDirectorySchema.parse(req.body)
-        const dto = { ...body }
-        await service.postDirectoryService(dto)
-        res.json({ success: true })
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear descarga"
-            })
-    }
-}
+export const postDirectoryController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const body: schema.PostDirectorySchema = schema.postDirectorySchema.parse(req.body)
+    const dto = { ...body }
+    await service.postDirectoryService(dto)
+    res.json({ success: true })
+})
 
 //////////
 // READ //
 //////////
 
-export const getDirectoryController: RequestHandler = async (req, res) => {
-    try {
-        const dto = schema.getDirectorySchema.parse(req.query)
-        const data = await service.getDirectoryService(dto)
-        res.json(data)
-    } catch (error: any) {
-        res.status(500)
-            .send({
-                msg: error.message || "Error al obtener directorio telefonico"
-            })
-    }
-}
+export const getDirectoryController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const dto = schema.getDirectorySchema.parse(req.query)
+    const data = await service.getDirectoryService(dto)
+    res.json(data)
+})
 
-export const getLevelsController: RequestHandler = async (req, res) => {
-    try {
-        const data = await service.getLevelsService()
-        res.json(data)
-    } catch (error: any) {
-        res.status(500)
-            .send({
-                msg: error.message || "Error al obtener directorio telefonico"
-            })
-    }
-}
+export const getLevelsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const data = await service.getLevelsService()
+    res.json(data)
+})
 
-/////
+////////////
 // UPDATE //
-///
+////////////
 
-export const putDirectoryController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.putDirectoryParamsSchema.parse(req.params)
-        const body: schema.PutDirectorySchema = schema.putDirectorySchema.parse(req.body)
-        const dto = { ...body }
-        const data = await service.putDirectoryService(params.id, dto)
-        res.json(data)
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
+export const putDirectoryController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.putDirectoryParamsSchema.parse(req.params)
+    const body: schema.PutDirectorySchema = schema.putDirectorySchema.parse(req.body)
+    const dto = { ...body }
+    const data = await service.putDirectoryService(params.id, dto)
+    res.json(data)
+})
 
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
+////////////
+// DELETE //
+////////////
 
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear descarga"
-            })
-    }
-}
+export const deleteDirectoryController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.deleteDirectoryParamsSchema.parse(req.params)
+    await service.deleteDirectoryService(params.id)
+    res.json({ success: true })
+})
 
-////
-// DELETE
-//
-
-export const deleteDirectoryController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.deleteDirectoryParamsSchema.parse(req.params)
-        await service.deleteDirectoryService(params.id)
-        res.json({ success: true })
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear descarga"
-            })
-    }
-}
+// 123 lineas -> 52 lineas

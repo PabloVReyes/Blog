@@ -1,16 +1,16 @@
 import * as service from "./search.service"
-import { RequestHandler } from "express"
+import { Request, RequestHandler, Response } from "express"
 import * as schema from "./search.schema"
+import { asyncHandler } from "../../utils/asyncHandler"
 
-export const getSearchController: RequestHandler = async (req, res) => {
-    try {
-        const dto = schema.getSearchSchema.parse(req.query)
-        const data = await service.getSearchService(dto)
-        res.json(data)
-    } catch (error: any) {
-        res.status(500)
-            .send({
-                msg: error.message || "Error al realizar busquedas"
-            })
-    }
-}
+//////////
+// READ //
+//////////
+
+export const getSearchController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const dto = schema.getSearchSchema.parse(req.query)
+    const data = await service.getSearchService(dto)
+    res.json(data)
+})
+
+// 16 lineas -> 14 lineas

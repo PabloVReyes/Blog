@@ -1,154 +1,71 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Request, Response } from "express";
 import * as service from "./accesscard.service"
 import * as schema from "./accesscard.schema"
 import * as fs from "fs"
+import { asyncHandler } from "../../../utils/asyncHandler";
 
 ////////////
 // CREATE //
 ////////////
 
-export const postAccessCardController: RequestHandler = async (req, res) => {
-    try {
-        const body: schema.PostAccessCardSchema = schema.postAccessCardShema.parse(req.body)
-        const file = req.file
-        const dto = { ...body, file }
-        await service.postAccessCardService(dto)
-        res.json({ success: true })
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+export const postAccessCardController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const body: schema.PostAccessCardSchema = schema.postAccessCardShema.parse(req.body)
+    const file = req.file
+    const dto = { ...body, file }
+    await service.postAccessCardService(dto)
+    res.json({ success: true })
+})
 
 //////////
 // READ //
 //////////
 
-export const getAccessCardController: RequestHandler = async (req, res) => {
-    try {
-        const dto = schema.getAccesscardSchema.parse(req.query)
-        const data = await service.getAccessCardService(dto)
-        res.json(data)
-    } catch (error) {
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
+export const getAccessCardController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const dto = schema.getAccesscardSchema.parse(req.query)
+    const data = await service.getAccessCardService(dto)
+    res.json(data)
+})
 
-        return res.status(400).json({
-            message: "Error en la solicitud"
-        })
-    }
-}
+export const downloadAccessCardFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.downloadAccessCardFileSchema.parse(req.params)
+    const data = await service.downloadAccessCardFileService(params.id)
 
-export const downloadAccessCardFileController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.downloadAccessCardFileSchema.parse(req.params)
-        const data = await service.downloadAccessCardFileService(params.id)
+    res.setHeader("Content-Type", "application/pdf");
 
-        res.setHeader("Content-Type", "application/pdf"); // 👈 importante
+    res.setHeader(
+        "Content-Disposition",
+        `inline; filename="${data.fileName}"`
+    );
 
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename="${data.fileName}"`
-        );
+    res.setHeader(
+        "Access-Control-Expose-Headers",
+        "Content-Disposition"
+    );
 
-        res.setHeader(
-            "Access-Control-Expose-Headers",
-            "Content-Disposition"
-        );
-
-        fs.createReadStream(data.filePath).pipe(res);
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+    fs.createReadStream(data.filePath).pipe(res);
+})
 
 ////////////
 // UPDATE //
 ////////////
 
-export const putAccessCardController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.putAccessCardParamsSchema.parse(req.params)
-        const body: schema.PutAccessCardSchema = schema.putAccessCardShema.parse(req.body)
-        const file = req.file
-        const dto = { ...body, file }
-        const data = await service.putAccessCardService(params.id, dto)
-        res.json(data)
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+export const putAccessCardController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.putAccessCardParamsSchema.parse(req.params)
+    const body: schema.PutAccessCardSchema = schema.putAccessCardShema.parse(req.body)
+    const file = req.file
+    const dto = { ...body, file }
+    const data = await service.putAccessCardService(params.id, dto)
+    res.json(data)
+})
 
 ////////////
 // DELETE //
 ////////////
 
-export const deleteAccessCardController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.deleteAccessCardParamsSchema.parse(req.params)
-        service.deleteAccessCardService(params.id)
-        res.json({ success: true })
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
+export const deleteAccessCardController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.deleteAccessCardParamsSchema.parse(req.params)
+    service.deleteAccessCardService(params.id)
+    res.json({ success: true })
+})
 
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+// 156 lineas -> 69 lineas

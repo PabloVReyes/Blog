@@ -1,176 +1,76 @@
 import * as service from "./monthlyReports.service"
-import { RequestHandler } from "express";
+import { Request, RequestHandler, Response } from "express";
 import * as schema from './monthlyReports.schema'
 import * as fs from "fs"
+import { asyncHandler } from "../../../utils/asyncHandler";
 
 ////////////
 // CREATE //
 ////////////
 
-export const postMonthlyReportsController: RequestHandler = async (req, res) => {
-    try {
-        const body: schema.PostMonthlyReportsSchema = schema.postMonthlyReportsSchema.parse(req.body)
-        const file = req.file
-
-        const dto = { ...body, file }
-
-        await service.postMonthlyReportsService(dto)
-        res.json({ success: true })
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+export const postMonthlyReportsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const body: schema.PostMonthlyReportsSchema = schema.postMonthlyReportsSchema.parse(req.body)
+    const file = req.file
+    const dto = { ...body, file }
+    await service.postMonthlyReportsService(dto)
+    res.json({ success: true })
+})
 
 //////////
 // READ //
 //////////
 
-export const getMonthlyReportsController: RequestHandler = async (req, res) => {
-    try {
-        const dto = schema.getMonthlyReportsSchema.parse(req.query)
-        const data = await service.getMonthlyReportsService(dto)
+export const getMonthlyReportsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const dto = schema.getMonthlyReportsSchema.parse(req.query)
+    const data = await service.getMonthlyReportsService(dto)
+    res.json(data)
+})
 
-        res.json(data)
-    } catch (error) {
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
+export const getPeriodsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const data = await service.getPeriodsService()
+    res.json(data)
+})
 
-        return res.status(400).json({
-            message: "Error en la solicitud"
-        })
-    }
-}
+export const downloadMonthlyReportsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.downloadMonthlyReportsFileSchema.parse(req.params)
+    const data = await service.downloadMonthlyReportFileService(params.id)
 
-export const getPeriodsController: RequestHandler = async (req, res) => {
-    try {
-        const data = await service.getPeriodsService()
-        res.json(data)
-    } catch (error) {
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
+    res.setHeader("Content-Type", "application/pdf");
 
-        return res.status(400).json({
-            message: "Error en la solicitud"
-        })
-    }
-}
+    res.setHeader(
+        "Content-Disposition",
+        `inline; filename="${data.fileName}"`
+    );
 
-export const downloadMonthlyReportsController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.downloadMonthlyReportsFileSchema.parse(req.params)
-        const data = await service.downloadMonthlyReportFileService(params.id)
+    res.setHeader(
+        "Access-Control-Expose-Headers",
+        "Content-Disposition"
+    );
 
-        res.setHeader("Content-Type", "application/pdf"); // 👈 importante
-
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename="${data.fileName}"`
-        );
-
-        res.setHeader(
-            "Access-Control-Expose-Headers",
-            "Content-Disposition"
-        );
-
-        fs.createReadStream(data.filePath).pipe(res);
-
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+    fs.createReadStream(data.filePath).pipe(res);
+})
 
 ////////////
 // UPDATE //
 ////////////
 
-export const putMonthlyReportsController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.putMonthlyReportsParamsSchema.parse(req.params)
-        const body: schema.PutMonthlyReportsSchema = schema.putMonthlyReportsSchema.parse(req.body)
-        const file = req.file
-
-        const dto = { ...body, file }
-        const data = await service.putMonthlyReportsService(params.id, dto)
-
-        res.json(data)
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+export const putMonthlyReportsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.putMonthlyReportsParamsSchema.parse(req.params)
+    const body: schema.PutMonthlyReportsSchema = schema.putMonthlyReportsSchema.parse(req.body)
+    const file = req.file
+    const dto = { ...body, file }
+    const data = await service.putMonthlyReportsService(params.id, dto)
+    res.json(data)
+})
 
 ////////////
 // DELETE //
 ////////////
 
-export const deteleMonthlyReportsController: RequestHandler = async (req, res) => {
-    try {
-        const params = schema.deleteMonthlyReportsParamsSchema.parse(req.params)
-        await service.deleteMonthlyReportsService(params.id)
+export const deteleMonthlyReportsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const params = schema.deleteMonthlyReportsParamsSchema.parse(req.params)
+    await service.deleteMonthlyReportsService(params.id)
+    res.json({ success: true })
+})
 
-        res.json({ success: true })
-    } catch (error: any) {
-        if (error.name === "ZodError") {
-            return res.status(422).json({
-                success: false,
-                message: "Datos inválidos",
-                errors: error.flatten(),
-            });
-        }
-
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
-
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear un carrusel"
-            })
-    }
-}
+// 156 lienas -> 74 lineas

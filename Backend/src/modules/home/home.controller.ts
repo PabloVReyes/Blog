@@ -1,20 +1,14 @@
-import { RequestHandler } from "express"
+import { Request, RequestHandler, Response } from "express"
 import * as service from "./home.service"
+import { asyncHandler } from "../../utils/asyncHandler"
 
-// READ
-export const getHomeController: RequestHandler = async (req, res) => {
-    try {
-        const data = await service.getHomeSectionsService()
-        res.json(data)
+//////////
+// READ //
+//////////
 
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            return res.status(400).json({ message: error.message })
-        }
+export const getHomeController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const data = await service.getHomeSectionsService()
+    res.json(data)
+})
 
-        return res.status(400).json({
-            message: "Error en la solicitud"
-        })
-
-    }
-}
+// 20 lineas -> 12 lineas
