@@ -12,15 +12,15 @@ import 'dotenv/config'
 import * as colors from 'colors'
 import router from './routes/routes'
 
-class server {
+class App {
     private app: Express;
-    private server: any;
+    private httpServer: http.Server
     private port: number;
 
     constructor() {
         this.app = express();
         this.port = parseInt(`${process.env.PORT}`)
-        this.server = http.createServer(this.app)
+        this.httpServer = http.createServer(this.app)
     }
 
     middleware() {
@@ -65,18 +65,17 @@ class server {
         this.app.use('/', router)
     }
 
-    execute() {
+    start() {
         this.middleware();
         this.settingPublicRoute();
         this.settingLogFile();
         this.settingDataFormProcess();
         this.settingRoutes()
-        this.server.listen(this.port, () => {
+        this.httpServer.listen(this.port, () => {
             console.log(colors.rainbow(`http://localhost:${this.port}`))
         })
     }
 }
 
-const Server = new server();
-
-Server.execute();
+const app = new App()
+app.start()
