@@ -1,6 +1,7 @@
 import * as repo from "../../modules/systems/system.repository";
 import { getPagination } from "../../utils/pagination";
 import * as schema from "./search.schema"
+import * as type from "./search.types"
 
 export const getSearchService = async (dto: schema.getSearchSchema) => {
     const { page, search, limit } = dto
@@ -17,7 +18,7 @@ export const getSearchService = async (dto: schema.getSearchSchema) => {
     ]);
 
     const normalized = [
-        ...systems.map((s: any) => ({
+        ...systems.map((s: type.SearchResponse) => ({
             id: s.id,
             name: s.name,
             acronym: s.acronym,
@@ -29,6 +30,8 @@ export const getSearchService = async (dto: schema.getSearchSchema) => {
             createdAt: s.createdAt,
         })),
     ];
+
+    console.log(normalized)
 
     normalized.sort(
         (a, b) =>

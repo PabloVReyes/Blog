@@ -3,6 +3,6 @@ import { Router } from "express";
 
 const router: Router = Router()
 
-router.get("/", controller.getSearchContoller)
+router.get("/", controller.getSearchController)
 
 export default router;
