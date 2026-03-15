@@ -88,11 +88,11 @@ export const getUserById = async (id: string) => {
 // UPDATE //
 ////////////
 
-interface PutUserReporitoryProps extends schema.PutUserSchema {
+interface PutUserRepositoryProps extends schema.PutUserSchema {
     id: string
 }
 
-export const putUserReporitory = async ({ name, email, roles, id, active }: PutUserReporitoryProps) => {
+export const putUserRepository = async ({ name, email, roles, id, active }: PutUserRepositoryProps) => {
     try {
         return await database.user.update({
             where: { id },
@@ -118,7 +118,7 @@ export const putUserReporitory = async ({ name, email, roles, id, active }: PutU
             }
         })
     } catch (error) {
-        console.error("Error en putUserReporitory")
+        console.error("Error en putUserRepository")
         throw new Error("Error al actualizar usuario")
     }
 }
@@ -127,7 +127,7 @@ interface PutMeRepositoryProps extends schema.PutMeSchema {
     id: string;
 }
 
-export const putMeReporitory = async ({ name, email, id }: PutMeRepositoryProps) => {
+export const putMeRepository = async ({ name, email, id }: PutMeRepositoryProps) => {
     try {
         return await database.user.update({
             where: { id },
@@ -137,7 +137,7 @@ export const putMeReporitory = async ({ name, email, id }: PutMeRepositoryProps)
             },
         })
     } catch (error) {
-        console.error("Error en putUserReporitory")
+        console.error("Error en putUserRepository")
         throw new Error("Error al actualizar usuario")
     }
 }
