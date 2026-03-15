@@ -166,9 +166,9 @@ export const putMeRepository = async ({ name, email, id }: PutMeRepositoryProps)
     }
 }
 
-export const changePasswordRepository = (id: string, password: string, mustChangePassword: boolean) => {
+export const changePasswordRepository = async (id: string, password: string, mustChangePassword: boolean) => {
     try {
-        return database.user.update({
+        return await database.user.update({
             where: { id },
             data: {
                 password,
