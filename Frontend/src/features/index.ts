@@ -32,9 +32,9 @@ export {
 } from "./UVEH"
 
 export {
-    standarsPublicRoutes,
-    standarsPrivateRoutes
-} from "./Standars"
+    standardsPublicRoutes,
+    standardsPrivateRoutes
+} from "./Standards"
 
 export {
     juristicPrivateRoutes,

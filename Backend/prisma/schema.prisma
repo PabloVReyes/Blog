@@ -676,7 +676,7 @@ model uvehCategory {
   updatedAt DateTime @updatedAt
 }
 
-model standars {
+model standards {
   id          Int     @id @default(autoincrement())
   name        String
   description String? @db.LongText
@@ -688,17 +688,17 @@ model standars {
   mimeType String?
 
   categoryId Int
-  category   standarsCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   standardsCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model standarsCategory {
+model standardsCategory {
   id   Int    @id @default(autoincrement())
   name String
 
-  standars standars[]
+  standards standards[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
