@@ -1,4 +1,13 @@
-export const getPagination = (page?: any, limit?: any) => {
+type Pagination = {
+    skip?: number
+    take?: number
+}
+
+export const getPagination = (
+    page?: string | number,
+    limit?: string | number
+): Pagination => {
+
     const pageNumber = Number(page) || 1
     const limitNumber = Number(limit) || undefined
 
