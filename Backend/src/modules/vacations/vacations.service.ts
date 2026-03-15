@@ -1,6 +1,6 @@
 import { getPagination } from "../../utils/pagination"
 import * as repo from "./vacations.repository"
-import * as scheme from "./vacations.scheme"
+import * as schema from "./vacations.schema"
 import * as types from "./vacations.types"
 import { sanitizeFileName } from "../../utils/file"
 import * as path from "path"
@@ -10,7 +10,7 @@ import { uploadsRoot } from "./path"
 //  CREATE
 ///
 
-export const postShiftService = async (dto: scheme.PostShiftScheme) => {
+export const postShiftService = async (dto: schema.PostShiftSchema) => {
     const { name, icon, color } = dto
 
     return await repo.postShiftRepository({
@@ -37,7 +37,7 @@ export const postVacationService = async (dto: types.VacationsCreateDto) => {
 // READ //
 ////
 
-export const getVacationsService = async (dto: scheme.GetVacationssScheme) => {
+export const getVacationsService = async (dto: schema.GetVacationssSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -60,7 +60,7 @@ export const getVacationsService = async (dto: scheme.GetVacationssScheme) => {
     }
 }
 
-export const getShiftsService = async (dto: scheme.GetShiftsScheme) => {
+export const getShiftsService = async (dto: schema.GetShiftsSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -83,7 +83,7 @@ export const getShiftsService = async (dto: scheme.GetShiftsScheme) => {
     }
 }
 
-export const getShiftWithVacationsService = async (dto: scheme.GetShiftsWithFilesScheme) => {
+export const getShiftWithVacationsService = async (dto: schema.GetShiftsWithFilesSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -126,7 +126,7 @@ export const downloadVacationsFileService = async (id: number) => {
 // UPDATE
 //
 
-export const putShiftService = async (id: number, dto: scheme.PutShiftScheme) => {
+export const putShiftService = async (id: number, dto: schema.PutShiftSchema) => {
     const { name, icon, color } = dto
 
     return await repo.putShiftRepository({

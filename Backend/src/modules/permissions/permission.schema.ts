@@ -4,32 +4,32 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postPermissionsScheme = z.object({
+export const postPermissionsSchema = z.object({
     name: z.string(),
     key: z.string(),
     description: z.string(),
     active: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
 })
 
-export type PostPermissionsScheme = z.infer<typeof postPermissionsScheme>
+export type PostPermissionsSchema = z.infer<typeof postPermissionsSchema>
 
 //////////
 // READ //
 //////////
 
-export const getPermissionsScheme = z.object({
+export const getPermissionsSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional()
 })
 
-export type GetPermissionsScheme = z.infer<typeof getPermissionsScheme>
+export type GetPermissionsSchema = z.infer<typeof getPermissionsSchema>
 
 ////////////
 // UPDATE //
 ////////////
 
-export const putPermissionParamsScheme = z.object({
+export const putPermissionParamsSchema = z.object({
     id: z.string()
 })
 
@@ -37,6 +37,6 @@ export const putPermissionParamsScheme = z.object({
 // DELETE //
 ////////////
 
-export const deletePermissionParamsScheme = z.object({
+export const deletePermissionParamsSchema = z.object({
     id: z.string()
 })

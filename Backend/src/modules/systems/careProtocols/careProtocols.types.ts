@@ -1,9 +1,9 @@
-import { PostCareProtocolsScheme, PutCareProtocolsScheme } from "./careProtocols.scheme";
+import * as schema from "./careProtocols.schema";
 
-export interface CareProtocolsCreateDto extends PostCareProtocolsScheme {
+export interface CareProtocolsCreateDto extends schema.PostCareProtocolsSchema {
     file?: Express.Multer.File
 }
 
-export interface CareProtocolsUpdateDto extends PutCareProtocolsScheme {
+export interface CareProtocolsUpdateDto extends schema.PutCareProtocolsSchema {
     file?: Express.Multer.File
 }

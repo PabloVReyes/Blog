@@ -5,7 +5,7 @@ import { PaginationProps } from "../../../types/pagination";
 // READ //
 //////////
 interface GetCodesRepositoryProps extends PaginationProps{
-    categoryId: string
+    categoryId?: string
 }
 
 export const getCodesRepository = async ({ search, take, skip, categoryId }: GetCodesRepositoryProps) => {

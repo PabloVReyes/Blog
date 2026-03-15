@@ -1,5 +1,5 @@
 import { sanitizeFileName } from "../../utils/file"
-import * as scheme from "./juristics.scheme"
+import * as schema from "./juristics.schema"
 import * as repo from "./juristics.repository"
 import * as types from "./juristics.types"
 import { getPagination } from "../../utils/pagination"
@@ -28,7 +28,7 @@ export const postJuristicService = async (dto: types.JuristicsCreateDto) => {
 // READ //
 //////////
 
-export const getJuristicsService = async (dto: scheme.GetJuristicsScheme) => {
+export const getJuristicsService = async (dto: schema.GetJuristicsSchema) => {
     const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 

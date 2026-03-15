@@ -1,6 +1,6 @@
-import * as scheme from "./uveh.scheme"
+import * as schema from "./uveh.schema"
 
-export interface DownloadsCreateDto extends scheme.PostDownloadScheme {
+export interface DownloadsCreateDto extends schema.PostDownloadSchema {
     file?: Express.Multer.File
 }
 

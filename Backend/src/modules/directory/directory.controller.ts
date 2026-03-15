@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import * as scheme from "./directory.scheme"
+import * as schema from "./directory.schema"
 import * as service from "./directory.service"
 
 ///
@@ -9,7 +9,7 @@ import * as service from "./directory.service"
 export const postDirectoryController: RequestHandler = async (req, res) => {
     try {
 
-        const body: scheme.PostDirectoryScheme = scheme.postDirectoryScheme.parse(req.body)
+        const body: schema.PostDirectorySchema = schema.postDirectorySchema.parse(req.body)
         const dto = { ...body }
         await service.postDirectoryService(dto)
         res.json({ success: true })
@@ -39,7 +39,7 @@ export const postDirectoryController: RequestHandler = async (req, res) => {
 
 export const getDirectoryController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getDirectoryScheme.parse(req.query)
+        const dto = schema.getDirectorySchema.parse(req.query)
         const data = await service.getDirectoryService(dto)
         res.json(data)
     } catch (error: any) {
@@ -68,8 +68,8 @@ export const getLevelsController: RequestHandler = async (req, res) => {
 
 export const putDirectoryController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.putDirectoryParamsScheme.parse(req.params)
-        const body: scheme.PutDirectoryScheme = scheme.putDirectoryScheme.parse(req.body)
+        const params = schema.putDirectoryParamsSchema.parse(req.params)
+        const body: schema.PutDirectorySchema = schema.putDirectorySchema.parse(req.body)
         const dto = { ...body }
         const data = await service.putDirectoryService(params.id, dto)
         res.json(data)
@@ -99,7 +99,7 @@ export const putDirectoryController: RequestHandler = async (req, res) => {
 
 export const deleteDirectoryController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.deleteDirectoryParamsScheme.parse(req.params)
+        const params = schema.deleteDirectoryParamsSchema.parse(req.params)
         await service.deleteDirectoryService(params.id)
         res.json({ success: true })
     } catch (error: any) {

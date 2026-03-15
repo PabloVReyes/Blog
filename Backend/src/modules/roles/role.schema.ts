@@ -4,39 +4,39 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postRoleScheme = z.object({
+export const postRoleSchema = z.object({
     name: z.string(),
     description: z.string(),
     permissions: z.uuid().array()
 })
 
-export type PostRoleScheme = z.infer<typeof postRoleScheme>
+export type PostRoleSchema = z.infer<typeof postRoleSchema>
 
 //////////
 // READ //
 //////////
 
-export const getRolesScheme = z.object({
+export const getRolesSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional()
 })
 
-export type GetRolesScheme = z.infer<typeof getRolesScheme>
+export type GetRolesSchema = z.infer<typeof getRolesSchema>
 
 ////////////
 // UPDATE //
 ////////////
 
-export const putRoleScheme = z.object({
+export const putRoleSchema = z.object({
     name: z.string(),
     description: z.string(),
     permissions: z.uuid().array()
 })
 
-export type PutRoleScheme = z.infer<typeof putRoleScheme>
+export type PutRoleSchema = z.infer<typeof putRoleSchema>
 
-export const putRolesSchemeParams = z.object({
+export const putRolesSchemaParams = z.object({
     id: z.uuid()
 })
 
@@ -44,6 +44,6 @@ export const putRolesSchemeParams = z.object({
 // DELETE //
 ////////////
 
-export const deleteRoleParamsScheme = z.object({
+export const deleteRoleParamsSchema = z.object({
     id: z.uuid()
 }) 

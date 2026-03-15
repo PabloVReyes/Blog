@@ -1,4 +1,4 @@
-import * as scheme from "./standards.scheme"
+import * as schema from "./standards.schema"
 import * as repo from "./standards.repository"
 import * as types from "./standards.types"
 import { sanitizeFileName } from "../../utils/file"
@@ -25,7 +25,7 @@ export const postSdantardService = async (dto: types.StandarCreateDto) => {
     })
 }
 
-export const postCategoryService = async (dto: scheme.PostCategoryScheme) => {
+export const postCategoryService = async (dto: schema.PostCategorySchema) => {
     const { name } = dto
     return await repo.postCategoryRepository(name)
 }
@@ -45,7 +45,7 @@ export const getCategoriesService = async () => {
     }
 }
 
-export const getStandardsService = async (dto: scheme.GetStandardScheme) => {
+export const getStandardsService = async (dto: schema.GetStandardSchema) => {
     const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 

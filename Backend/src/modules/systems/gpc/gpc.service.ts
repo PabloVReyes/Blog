@@ -1,20 +1,20 @@
 import { sanitizeFileName } from "../../../utils/file";
 import * as repo from "./gpc.repository"
-import { GetGpcScheme, PostCicleScheme } from "./gpc.scheme";
-import { GpcCreateDto, GpcUpdateDto } from "./gpc.types";
+import * as schema from "./gpc.schema";
+import * as type from "./gpc.types";
 import { getPagination } from "../../../utils/pagination";
 
 ////////////
 // CREATE //
 ////////////
 
-export const postCicleService = async (dto: PostCicleScheme) => {
+export const postCicleService = async (dto: schema.PostCicleSchema) => {
     const { name } = dto
 
     return await repo.postCicleRepository({ name })
 }
 
-export const postGpcService = async (dto: GpcCreateDto) => {
+export const postGpcService = async (dto: type.GpcCreateDto) => {
     const { title, description, orderIndex, cicle, file } = dto
 
     return await repo.postGpcRepository({
@@ -44,7 +44,7 @@ export const getCicleService = async () => {
     }
 }
 
-export const getGpcService = async (dto: GetGpcScheme) => {
+export const getGpcService = async (dto: schema.GetGpcSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -67,7 +67,7 @@ export const getGpcService = async (dto: GetGpcScheme) => {
     }
 }
 
-export const getCicleWithGpcService = async (dto: GetGpcScheme) => {
+export const getCicleWithGpcService = async (dto: schema.GetGpcSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -107,7 +107,7 @@ export const dowloadGpcFileService = async (id: string) => {
 // UPDATE //
 ////////////
 
-export const putGpcService = async (id: string, dto: GpcUpdateDto) => {
+export const putGpcService = async (id: string, dto: type.GpcUpdateDto) => {
     const { title, description, cicle, orderIndex, file } = dto
 
     const Gpc: any = await repo.getGpcByIdRepositoy(id)

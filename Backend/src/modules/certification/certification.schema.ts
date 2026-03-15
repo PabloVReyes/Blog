@@ -4,42 +4,42 @@ import { z } from "zod"
 // CREATE
 ///
 
-export const postCertificationScheme = z.object({
+export const postCertificationSchema = z.object({
     name: z.string(),
     description: z.string().optional(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     section: z.coerce.number()
 })
 
-export type PostCertificationScheme = z.infer<typeof postCertificationScheme>
+export type PostCertificationSchema = z.infer<typeof postCertificationSchema>
 
-export const postSectionScheme = z.object({
+export const postSectionSchema = z.object({
     name: z.string()
 })
 
-export type PostSectionScheme = z.infer<typeof postSectionScheme>
+export type PostSectionSchema = z.infer<typeof postSectionSchema>
 
 //
 // READ //
 ////
 
-export const getSectionWithCertificationsScheme = z.object({
+export const getSectionWithCertificationsSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
 })
 
-export type GetSectionWithCertificationsScheme = z.infer<typeof getSectionWithCertificationsScheme>
+export type GetSectionWithCertificationsSchema = z.infer<typeof getSectionWithCertificationsSchema>
 
-export const getCertificationsScheme = z.object({
+export const getCertificationsSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional()
 })
 
-export type GetCertificationsScheme = z.infer<typeof getCertificationsScheme>
+export type GetCertificationsSchema = z.infer<typeof getCertificationsSchema>
 
-export const downloadCertificationScheme = z.object({
+export const downloadCertificationSchema = z.object({
     id: z.coerce.number()
 })
 
@@ -47,16 +47,16 @@ export const downloadCertificationScheme = z.object({
 // UPDATE //
 ///
 
-export const putCertificationScheme = z.object({
+export const putCertificationSchema = z.object({
     name: z.string(),
     description: z.string(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     section: z.coerce.number()
 })
 
-export type PutCertificationScheme = z.infer<typeof putCertificationScheme>
+export type PutCertificationSchema = z.infer<typeof putCertificationSchema>
 
-export const putCertificationParamsScheme = z.object({
+export const putCertificationParamsSchema = z.object({
     id: z.coerce.number()
 })
 
@@ -65,6 +65,6 @@ export const putCertificationParamsScheme = z.object({
 // DELETE 
 ////
 
-export const deleteCertificationParamsScheme = z.object({
+export const deleteCertificationParamsSchema = z.object({
     id: z.coerce.number()
 })

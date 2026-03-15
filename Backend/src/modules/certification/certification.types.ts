@@ -1,6 +1,6 @@
-import * as scheme from "./certification.scheme"
+import * as schema from "./certification.schema"
 
-export interface CertificationCreateDto extends scheme.PostCertificationScheme {
+export interface CertificationCreateDto extends schema.PostCertificationSchema {
     file?: Express.Multer.File
 }
 

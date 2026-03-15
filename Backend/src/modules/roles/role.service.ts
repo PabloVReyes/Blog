@@ -1,8 +1,8 @@
 import { getPagination } from "../../utils/pagination"
 import * as repo from "./role.repository"
-import * as scheme from "./role.scheme"
+import * as schema from "./role.schema"
 
-export const postRoleService = async (dto: scheme.PostRoleScheme) => {
+export const postRoleService = async (dto: schema.PostRoleSchema) => {
     const { name, description, permissions } = dto
 
     return await repo.postRoleRepository({
@@ -12,7 +12,7 @@ export const postRoleService = async (dto: scheme.PostRoleScheme) => {
     })
 }
 
-export const getRolesService = async (dto: scheme.GetRolesScheme) => {
+export const getRolesService = async (dto: schema.GetRolesSchema) => {
     const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 
@@ -35,7 +35,7 @@ export const getRolesService = async (dto: scheme.GetRolesScheme) => {
     }
 }
 
-export const putRoleService = async (id: string, dto: scheme.PutRoleScheme) => {
+export const putRoleService = async (id: string, dto: schema.PutRoleSchema) => {
     const { name, description, permissions } = dto
 
     return await repo.putRoleRepository({

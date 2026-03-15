@@ -1,4 +1,4 @@
-import * as scheme from "./certification.scheme"
+import * as schema from "./certification.schema"
 import * as repo from "./certification.repository"
 import * as types from "./certification.types"
 import { sanitizeFileName } from "../../utils/file"
@@ -25,7 +25,7 @@ export const postCertificationService = async (dto: types.CertificationCreateDto
     })
 }
 
-export const postSectionService = async (dto: scheme.PostSectionScheme) => {
+export const postSectionService = async (dto: schema.PostSectionSchema) => {
     const { name } = dto
     return await repo.postSectionRepository(name)
 }
@@ -34,7 +34,7 @@ export const postSectionService = async (dto: scheme.PostSectionScheme) => {
 // READ /
 ////
 
-export const getSectionsWithCertificationsService = async (dto: scheme.GetSectionWithCertificationsScheme) => {
+export const getSectionsWithCertificationsService = async (dto: schema.GetSectionWithCertificationsSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -68,7 +68,7 @@ export const getSectionsService = async () => {
     }
 }
 
-export const getCertificationsService = async (dto: scheme.GetCertificationsScheme) => {
+export const getCertificationsService = async (dto: schema.GetCertificationsSchema) => {
     const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 

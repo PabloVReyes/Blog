@@ -4,23 +4,23 @@ import { z } from "zod"
 // CREATED //
 /////////////
 
-export const postPbmScheme = z.object({
+export const postPbmSchema = z.object({
     title: z.string(),
 })
 
-export type PostPbmScheme = z.infer<typeof postPbmScheme>
+export type PostPbmSchema = z.infer<typeof postPbmSchema>
 
 //////////
 // READ //
 //////////
 
-export const getPBMScheme = z.object({
+export const getPBMSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
 })
 
-export type GetPBMScheme = z.infer<typeof getPBMScheme>
+export type GetPBMSchema = z.infer<typeof getPBMSchema>
 
 export const downloadPBMFileSchema = z.object({
     id: z.string().uuid(),
@@ -30,13 +30,13 @@ export const downloadPBMFileSchema = z.object({
 // UPDATE //
 ////////////
 
-export const putPBMScheme = z.object({
+export const putPBMSchema = z.object({
     title: z.string(),
 })
 
-export type PutPBMScheme = z.infer<typeof putPBMScheme>
+export type PutPBMSchema = z.infer<typeof putPBMSchema>
 
-export const putPBMParamsScheme = z.object({
+export const putPBMParamsSchema = z.object({
     id: z.string().uuid()
 })
 
@@ -44,6 +44,6 @@ export const putPBMParamsScheme = z.object({
 // DELETE //
 ////////////
 
-export const deletePBMParamsScheme = z.object({
+export const deletePBMParamsSchema = z.object({
     id: z.string().uuid()
 })

@@ -1,6 +1,6 @@
 import { RequestHandler } from "express"
 import * as service from "./carousel.service"
-import { deleteCarouselParamsSchema, downloadCarouselFileSchema, getCarouselSchema, PostCarouselSchema, postCarouselSchema, putCarouselParamsSchema, PutCarouselSchema, putCarouselSchema } from "./carousel.schema";
+import * as schema from "./carousel.schema"
 import * as fs from "fs"
 
 /////////////
@@ -9,7 +9,7 @@ import * as fs from "fs"
 
 export const postCarouselController: RequestHandler = async (req, res) => {
     try {
-        const body: PostCarouselSchema = postCarouselSchema.parse(req.body)
+        const body: schema.PostCarouselSchema = schema.postCarouselSchema.parse(req.body)
 
         const files = req.files as {
             image?: Express.Multer.File[];
@@ -49,7 +49,7 @@ export const postCarouselController: RequestHandler = async (req, res) => {
 
 export const getCarouselController: RequestHandler = async (req, res) => {
     try {
-        const dto = getCarouselSchema.parse(req.query)
+        const dto = schema.getCarouselSchema.parse(req.query)
         const data = await service.getCarouselService(dto)
         res.json(data)
     } catch (error: unknown) {
@@ -66,7 +66,7 @@ export const getCarouselController: RequestHandler = async (req, res) => {
 
 export const downloadCarouselFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadCarouselFileSchema.parse(req.params)
+        const params = schema.downloadCarouselFileSchema.parse(req.params)
         const data = await service.downloadCarouselFileService(params.id)
 
         res.setHeader(
@@ -107,9 +107,9 @@ export const downloadCarouselFileController: RequestHandler = async (req, res) =
 
 export const putCarouselController: RequestHandler = async (req, res) => {
     try {
-        const params = putCarouselParamsSchema.parse(req.params)
+        const params = schema.putCarouselParamsSchema.parse(req.params)
 
-        const body: PutCarouselSchema = putCarouselSchema.parse(req.body)
+        const body: schema.PutCarouselSchema = schema.putCarouselSchema.parse(req.body)
 
         const files = req.files as {
             image?: Express.Multer.File[]
@@ -149,7 +149,7 @@ export const putCarouselController: RequestHandler = async (req, res) => {
 
 export const deleteCarouselController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteCarouselParamsSchema.parse(req.params)
+        const params = schema.deleteCarouselParamsSchema.parse(req.params)
         await service.deleteCarouselService(params.id)
         res.json({ success: true })
     } catch (error: any) {

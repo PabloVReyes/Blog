@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { getCodesSchema } from "./codes.schema";
+import * as  schema from "./codes.schema"
 import * as service from "./codes.service"
 
 //////////
@@ -8,7 +8,7 @@ import * as service from "./codes.service"
 
 export const getCodesController: RequestHandler = async (req, res) => {
     try {
-        const dto = getCodesSchema.parse(req.query)
+        const dto = schema.getCodesSchema.parse(req.query)
         const data = await service.getCodesService(dto)
 
         res.json(data)

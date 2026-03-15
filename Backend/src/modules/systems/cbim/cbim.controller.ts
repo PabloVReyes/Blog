@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { deleteCbimParamsSchema, getCbimSchema, PostCbimSchema, postCbimShema, putCbimParamsSchema, PutCbimSchema, putCbimShema } from "./cbim.scheme";
+import * as schema from "./cbim.schema";
 import * as service from "./cbim.service"
 
 ////////////
@@ -8,7 +8,7 @@ import * as service from "./cbim.service"
 
 export const postCbimController: RequestHandler = async (req, res) => {
     try {
-        const body: PostCbimSchema = postCbimShema.parse(req.body)
+        const body: schema.PostCbimSchema = schema.postCbimSchema.parse(req.body)
         await service.postCbimService(body)
         res.json({ success: true })
     } catch (error: any) {
@@ -37,7 +37,7 @@ export const postCbimController: RequestHandler = async (req, res) => {
 
 export const getCbimController: RequestHandler = async (req, res) => {
     try {
-        const dto = getCbimSchema.parse(req.query)
+        const dto = schema.getCbimSchema.parse(req.query)
         const data = await service.getCbimService(dto)
         res.json(data)
     } catch (error: any) {
@@ -66,8 +66,8 @@ export const getCbimController: RequestHandler = async (req, res) => {
 
 export const putCbimController: RequestHandler = async (req, res) => {
     try {
-        const params = putCbimParamsSchema.parse(req.params)
-        const body: PutCbimSchema = putCbimShema.parse(req.body)
+        const params = schema.putCbimParamsSchema.parse(req.params)
+        const body: schema.PutCbimSchema = schema.putCbimSchema.parse(req.body)
         const data = await service.putCbimService(params.id, body)
         res.json(data)
     } catch (error: any) {
@@ -96,7 +96,7 @@ export const putCbimController: RequestHandler = async (req, res) => {
 
 export const deleteCbimController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteCbimParamsSchema.parse(req.params)
+        const params = schema.deleteCbimParamsSchema.parse(req.params)
         await service.deleteCbimService(params.id)
         res.json({ success: true })
     } catch (error: any) {

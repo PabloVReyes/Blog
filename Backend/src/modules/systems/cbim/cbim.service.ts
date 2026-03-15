@@ -1,12 +1,12 @@
 import { getPagination } from "../../../utils/pagination"
-import { GetCbimSchema, PostCbimSchema, PutCbimSchema } from "./cbim.scheme"
+import * as schema from "./cbim.schema"
 import * as repo from "./cbim.repository"
 
 ////////////
 // CREATE //
 ////////////
 
-export const postCbimService = async (dto: PostCbimSchema) => {
+export const postCbimService = async (dto: schema.PostCbimSchema) => {
     const { code, name, description, sp, fpgc, cbt_cae } = dto
 
     return await repo.postCbimRepository({
@@ -23,7 +23,7 @@ export const postCbimService = async (dto: PostCbimSchema) => {
 // READ //
 //////////
 
-export const getCbimService = async (dto: GetCbimSchema) => {
+export const getCbimService = async (dto: schema.GetCbimSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -50,7 +50,7 @@ export const getCbimService = async (dto: GetCbimSchema) => {
 // UPDATE //
 ////////////
 
-export const putCbimService = async (id: string, dto: PutCbimSchema) => {
+export const putCbimService = async (id: string, dto: schema.PutCbimSchema) => {
     const { code, name, description, sp, fpgc, cbt_cae } = dto
 
     return await repo.putCbimRepository({

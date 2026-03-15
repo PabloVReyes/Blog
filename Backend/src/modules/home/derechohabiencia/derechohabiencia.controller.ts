@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as service from "./derechohabiencia.service"
-import { putDerechohabienciaParamsSchema, putDerechohabienciaSchema } from "./derechohabiencia.schema";
+import * as schema from "./derechohabiencia.schema"
 
 //////////
 // READ //
@@ -27,8 +27,8 @@ export const getDerechohabienciaController: RequestHandler = async (req, res) =>
 
 export const putDerechohabienciaController: RequestHandler = async (req, res) => {
     try {
-        const params = putDerechohabienciaParamsSchema.parse(req.params)
-        const body = putDerechohabienciaSchema.parse(req.body)
+        const params = schema.putDerechohabienciaParamsSchema.parse(req.params)
+        const body = schema.putDerechohabienciaSchema.parse(req.body)
         const data = await service.putDerechohabienciaService(params.id, body)
         res.json(data)
     } catch (error: any) {

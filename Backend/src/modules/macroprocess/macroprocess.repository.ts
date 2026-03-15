@@ -1,31 +1,28 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination"
 
-export const getAreaWithManualsQuery = (id: string) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const data = await database.area.findUnique({
-                where: {
-                    id
-                },
-                include: {
-                    manuals: {
-                        include: {
-                            manualType: true
-                        },
-                        orderBy: {
-                            createdAt: "asc"
-                        }
+export const getAreaWithManualsRepository = async (id: string) => {
+    try {
+        return await database.area.findUnique({
+            where: {
+                id
+            },
+            include: {
+                manuals: {
+                    include: {
+                        manualType: true
+                    },
+                    orderBy: {
+                        createdAt: "asc"
                     }
                 }
-            })
+            }
+        })
 
-            resolve(data)
-        } catch (error) {
-            console.error("Error en getAreaWithManualsQuery", error)
-            reject([])
-        }
-    })
+    } catch (error) {
+        console.error("Error en getAreaWithManualsQuery", error)
+        throw new Error("Error al crear area")
+    }
 }
 
 export const getManualsWithAreaRepository = async ({ skip, take, search }: PaginationProps) => {
@@ -70,41 +67,6 @@ export const getManualsWithAreaRepository = async ({ skip, take, search }: Pagin
     }
 }
 
-export const getManualsWithAreaCountQuery = (search: string) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let whereCondition = {}
-
-            if (search && search.trim() != "") {
-                whereCondition = {
-                    OR: [
-                        {
-                            area: {
-                                name: { contains: search }
-                            }
-                        },
-                        {
-                            manualType: {
-                                name: { contains: search }
-                            }
-                        },
-                    ]
-                }
-            }
-
-            const data = await database.manual.count({
-                where: whereCondition,
-                orderBy: { createdAt: "desc" },
-            })
-
-            resolve(data)
-        } catch (error) {
-            console.error("Error en getManualsWithAreaCountQuery", error)
-            reject(0)
-        }
-    })
-}
-
 interface putManualQueryProps {
     id: string;
     fileName?: string | null;
@@ -131,24 +93,20 @@ export const getManualQuery = (id: string) => {
     })
 }
 
-export const getManualByTypeQuery = (type: string) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const data = await database.manual.findFirst({
-                where: {
-                    manualTypeId: type
-                },
-                include: {
-                    manualType: true
-                }
-            })
-
-            resolve(data)
-        } catch (error) {
-            console.error("error en getManualByTypeQuery", error)
-            reject([])
-        }
-    })
+export const getManualByTypeRepository = async (type: string) => {
+    try {
+        return await database.manual.findFirst({
+            where: {
+                manualTypeId: type
+            },
+            include: {
+                manualType: true
+            }
+        })
+    } catch (error) {
+        console.error("error en getManualByTypeQuery", error)
+        throw new Error("Error al obtener manual por tipo")
+    }
 }
 
 export const getManualByIdRepository = async (id: string) => {
@@ -196,24 +154,21 @@ interface putManualTypeQueryProps {
     color: string;
 }
 
-export const putManualTypeQuery = ({ id, name, code, color }: putManualTypeQueryProps) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const data = await database.manualType.update({
-                where: { id },
-                data: {
-                    id: code,
-                    name,
-                    color
-                }
-            })
+export const putManualTypeRepository = async ({ id, name, code, color }: putManualTypeQueryProps) => {
+    try {
+        return await database.manualType.update({
+            where: { id },
+            data: {
+                id: code,
+                name,
+                color
+            }
+        })
 
-            resolve(data)
-        } catch (error) {
-            console.error("Error en putManualTypeQuery", error)
-            reject(false)
-        }
-    })
+    } catch (error) {
+        console.error("Error en putManualTypeQuery", error)
+        throw new Error("Error al actualizar el tipo de manual")
+    }
 }
 
 interface getAreasQueryProps {

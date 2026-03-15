@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import * as scheme from "./uveh.scheme"
+import * as schema from "./uveh.schema"
 import * as service from "./uveh.service"
 
 ////////////
@@ -8,7 +8,7 @@ import * as service from "./uveh.service"
 
 export const postDownloadController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostDownloadScheme = scheme.postDownloadScheme.parse(req.body)
+        const body: schema.PostDownloadSchema = schema.postDownloadSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         await service.postDownloadService(dto)
@@ -35,7 +35,7 @@ export const postDownloadController: RequestHandler = async (req, res) => {
 
 export const postCategoryController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostCategoryScheme = scheme.postCategoryScheme.parse(req.body)
+        const body: schema.PostCategorySchema = schema.postCategorySchema.parse(req.body)
         const data = await service.postCategoryService(body)
         res.json(data)
     } catch (error: any) {
@@ -79,7 +79,7 @@ export const getCategoriesController: RequestHandler = async (req, res) => {
 
 export const getCategoriesWithDownloadsController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getCategoryWithDownloadsScheme.parse(req.query)
+        const dto = schema.getCategoryWithDownloadsSchema.parse(req.query)
         const data = await service.getCategoriesWithDownloadsService(dto)
         res.json(data)
     } catch (error: any) {
@@ -96,7 +96,7 @@ export const getCategoriesWithDownloadsController: RequestHandler = async (req, 
 
 export const getDownloadsController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getDownloadsScheme.parse(req.query)
+        const dto = schema.getDownloadsSchema.parse(req.query)
         const data = await service.getDownloadsService(dto)
         res.json(data)
     } catch (error: any) {
@@ -113,7 +113,7 @@ export const getDownloadsController: RequestHandler = async (req, res) => {
 
 export const downloadFileController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.downloadFileScheme.parse(req.params)
+        const params = schema.downloadFileSchema.parse(req.params)
         const data: any = await service.downloadFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
@@ -160,8 +160,8 @@ export const downloadFileController: RequestHandler = async (req, res) => {
 
 export const putDownloadController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.putDownloadParamsScheme.parse(req.params)
-        const body: scheme.PutDownloadScheme = scheme.putDownloadScheme.parse(req.body)
+        const params = schema.putDownloadParamsSchema.parse(req.params)
+        const body: schema.PutDownloadSchema = schema.putDownloadSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         const data = await service.putDownloadService(params.id, dto)
@@ -192,7 +192,7 @@ export const putDownloadController: RequestHandler = async (req, res) => {
 
 export const deleteDownloadController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.deleteDownloadParamsScheme.parse(req.params)
+        const params = schema.deleteDownloadParamsSchema.parse(req.params)
         await service.deleteDownloadService(params.id)
 
         res.json({ success: true })

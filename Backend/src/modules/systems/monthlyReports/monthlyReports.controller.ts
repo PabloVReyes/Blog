@@ -1,6 +1,6 @@
 import * as service from "./monthlyReports.service"
 import { RequestHandler } from "express";
-import { deleteMonthlyReportsParamsSchema, downloadMonthlyReportsFileSchema, getMonthlyReportsSchema, postMonthlyReportsSchema, PostMonthlyReportsSchema, putMonthlyReportsParamsSchema, putMonthlyReportsSchema, PutMonthlyReportsSchema } from "./monthlyReports.schema";
+import * as schema from './monthlyReports.schema'
 import * as fs from "fs"
 
 ////////////
@@ -9,7 +9,7 @@ import * as fs from "fs"
 
 export const postMonthlyReportsController: RequestHandler = async (req, res) => {
     try {
-        const body: PostMonthlyReportsSchema = postMonthlyReportsSchema.parse(req.body)
+        const body: schema.PostMonthlyReportsSchema = schema.postMonthlyReportsSchema.parse(req.body)
         const file = req.file
 
         const dto = { ...body, file }
@@ -42,7 +42,7 @@ export const postMonthlyReportsController: RequestHandler = async (req, res) => 
 
 export const getMonthlyReportsController: RequestHandler = async (req, res) => {
     try {
-        const dto = getMonthlyReportsSchema.parse(req.query)
+        const dto = schema.getMonthlyReportsSchema.parse(req.query)
         const data = await service.getMonthlyReportsService(dto)
 
         res.json(data)
@@ -74,7 +74,7 @@ export const getPeriodsController: RequestHandler = async (req, res) => {
 
 export const downloadMonthlyReportsController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadMonthlyReportsFileSchema.parse(req.params)
+        const params = schema.downloadMonthlyReportsFileSchema.parse(req.params)
         const data = await service.downloadMonthlyReportFileService(params.id)
 
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
@@ -117,8 +117,8 @@ export const downloadMonthlyReportsController: RequestHandler = async (req, res)
 
 export const putMonthlyReportsController: RequestHandler = async (req, res) => {
     try {
-        const params = putMonthlyReportsParamsSchema.parse(req.params)
-        const body: PutMonthlyReportsSchema = putMonthlyReportsSchema.parse(req.body)
+        const params = schema.putMonthlyReportsParamsSchema.parse(req.params)
+        const body: schema.PutMonthlyReportsSchema = schema.putMonthlyReportsSchema.parse(req.body)
         const file = req.file
 
         const dto = { ...body, file }
@@ -151,7 +151,7 @@ export const putMonthlyReportsController: RequestHandler = async (req, res) => {
 
 export const deteleMonthlyReportsController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteMonthlyReportsParamsSchema.parse(req.params)
+        const params = schema.deleteMonthlyReportsParamsSchema.parse(req.params)
         await service.deleteMonthlyReportsService(params.id)
 
         res.json({ success: true })

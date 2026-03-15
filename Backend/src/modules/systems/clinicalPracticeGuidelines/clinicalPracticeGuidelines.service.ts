@@ -1,6 +1,6 @@
-import { ClinicalPracticeGuidelinesCreateDto, ClinicalPracticeGuidelinesUpdateDto } from "./clinicalPracticeGuidelines.types";
+import * as types from "./clinicalPracticeGuidelines.types"
 import * as repo from "./clinicalPracticeGuidelines.repository"
-import { GetClinicalPracticeGuidelinesScheme, PostCategorySchema } from "./clinicalPracticeGuidelines.scheme";
+import * as schema from "./clinicalPracticeGuidelines.schema"
 import { sanitizeFileName } from "../../../utils/file";
 import { getPagination } from "../../../utils/pagination";
 
@@ -8,7 +8,7 @@ import { getPagination } from "../../../utils/pagination";
 // CREATE //
 ////////////
 
-export const postClinicalPracticeGuidelinesService = async (dto: ClinicalPracticeGuidelinesCreateDto) => {
+export const postClinicalPracticeGuidelinesService = async (dto: types.ClinicalPracticeGuidelinesCreateDto) => {
     const { title, code, category, er, rr } = dto
 
     return await repo.postClinicalPracticeGuidelinesReporisory({
@@ -26,7 +26,7 @@ export const postClinicalPracticeGuidelinesService = async (dto: ClinicalPractic
     })
 }
 
-export const postCategoryService = async (dto: PostCategorySchema) => {
+export const postCategoryService = async (dto: schema.PostCategorySchema) => {
     const { name } = dto
 
     return await repo.postCategoryRepository(name)
@@ -36,7 +36,7 @@ export const postCategoryService = async (dto: PostCategorySchema) => {
 // READ //
 //////////
 
-export const getClinicalPracticeGuidelinesService = async (dto: GetClinicalPracticeGuidelinesScheme) => {
+export const getClinicalPracticeGuidelinesService = async (dto: schema.GetClinicalPracticeGuidelinesSchema) => {
     const { page, limit, search, categoryId } = dto
     const { skip, take } = getPagination()
 
@@ -94,7 +94,7 @@ export const downloadClinicalPracticeGuidelinesFileService = async (id: string, 
 // UPDATE //
 ////////////
 
-export const putClinicalPracticeGuidelinesService = async (id: string, dto: ClinicalPracticeGuidelinesUpdateDto) => {
+export const putClinicalPracticeGuidelinesService = async (id: string, dto: types.ClinicalPracticeGuidelinesUpdateDto) => {
     const { title, code, category, rr, er } = dto
 
     const ClinicalPracticeGuideline: any = await repo.getClinicalPracticeGuidelineByIdRepository(id)

@@ -4,34 +4,34 @@ import { z } from "zod"
 // CREATE //
 ////
 
-export const postStandardScheme = z.object({
+export const postStandardSchema = z.object({
     name: z.string(),
     description: z.string().optional(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     category: z.coerce.number()
 })
 
-export type PostStandardScheme = z.infer<typeof postStandardScheme>
+export type PostStandardSchema = z.infer<typeof postStandardSchema>
 
-export const postCategoryScheme = z.object({
+export const postCategorySchema = z.object({
     name: z.string()
 })
 
-export type PostCategoryScheme = z.infer<typeof postCategoryScheme>
+export type PostCategorySchema = z.infer<typeof postCategorySchema>
 
 //
 // READ //
 ///
 
-export const getStandardScheme = z.object({
+export const getStandardSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
 })
 
-export type GetStandardScheme = z.infer<typeof getStandardScheme>
+export type GetStandardSchema = z.infer<typeof getStandardSchema>
 
-export const downloadStandardScheme = z.object({
+export const downloadStandardSchema = z.object({
     id: z.coerce.number()
 })
 
@@ -39,16 +39,16 @@ export const downloadStandardScheme = z.object({
 // UPDATE 
 //
 
-export const putStandardScheme = z.object({
+export const putStandardSchema = z.object({
     name: z.string(),
     description: z.string(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     category: z.coerce.number()
 })
 
-export type PutStandardScheme = z.infer<typeof putStandardScheme>
+export type PutStandardSchema = z.infer<typeof putStandardSchema>
 
-export const putStandarParamsScheme = z.object({
+export const putStandarParamsSchema = z.object({
     id: z.coerce.number()
 })
 
@@ -56,6 +56,6 @@ export const putStandarParamsScheme = z.object({
 // DELETE
 //
 
-export const deleteStandarParamsScheme = z.object({
+export const deleteStandarParamsSchema = z.object({
     id: z.coerce.number()
 })

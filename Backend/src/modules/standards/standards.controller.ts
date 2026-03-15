@@ -1,14 +1,14 @@
 import { RequestHandler } from "express"
-import * as scheme from "./standards.scheme"
+import * as schema from "./standards.schema"
 import * as service from "./standards.service"
 
-////
+////////////
 // CREATE //
-///
+////////////
 
 export const postStandarController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostStandardScheme = scheme.postStandardScheme.parse(req.body)
+        const body: schema.PostStandardSchema = schema.postStandardSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         await service.postSdantardService(dto)
@@ -35,7 +35,7 @@ export const postStandarController: RequestHandler = async (req, res) => {
 
 export const postCategoryController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostCategoryScheme = scheme.postCategoryScheme.parse(req.body)
+        const body: schema.PostCategorySchema = schema.postCategorySchema.parse(req.body)
         const data = await service.postCategoryService(body)
         res.json(data)
     } catch (error: any) {
@@ -79,7 +79,7 @@ export const getCategoriesController: RequestHandler = async (req, res) => {
 
 export const getSdandarsController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getStandardScheme.parse(req.query)
+        const dto = schema.getStandardSchema.parse(req.query)
         const data = await service.getStandardsService(dto)
         res.json(data)
     } catch (error: any) {
@@ -96,7 +96,7 @@ export const getSdandarsController: RequestHandler = async (req, res) => {
 
 export const downloadStandarFileController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.downloadStandardScheme.parse(req.params)
+        const params = schema.downloadStandardSchema.parse(req.params)
         const data: any = await service.downloadStandarFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
@@ -143,8 +143,8 @@ export const downloadStandarFileController: RequestHandler = async (req, res) =>
 
 export const putStandarController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.putStandarParamsScheme.parse(req.params)
-        const body: scheme.PutStandardScheme = scheme.putStandardScheme.parse(req.body)
+        const params = schema.putStandarParamsSchema.parse(req.params)
+        const body: schema.PutStandardSchema = schema.putStandardSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         const data = await service.putStandardService(params.id, dto)
@@ -175,7 +175,7 @@ export const putStandarController: RequestHandler = async (req, res) => {
 
 export const deleteStandarController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.deleteStandarParamsScheme.parse(req.params)
+        const params = schema.deleteStandarParamsSchema.parse(req.params)
         await service.deleteStandardService(params.id)
 
         res.json({ success: true })

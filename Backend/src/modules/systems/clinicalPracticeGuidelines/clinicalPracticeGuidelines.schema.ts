@@ -4,13 +4,13 @@ import { z } from "zod"
 // CREATED //
 /////////////
 
-export const postClinicalPracticeGuidelinesScheme = z.object({
+export const postClinicalPracticeGuidelinesSchema = z.object({
     title: z.string(),
     code: z.string(),
     category: z.string().uuid()
 })
 
-export type PostClinicalPracticeGuidelinesScheme = z.infer<typeof postClinicalPracticeGuidelinesScheme>
+export type PostClinicalPracticeGuidelinesSchema = z.infer<typeof postClinicalPracticeGuidelinesSchema>
 
 export const postCategorySchema = z.object({
     name: z.string()
@@ -22,14 +22,14 @@ export type PostCategorySchema = z.infer<typeof postCategorySchema>
 // READ //
 //////////
 
-export const getClinicalPracticeGuidelinesScheme = z.object({
+export const getClinicalPracticeGuidelinesSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
     categoryId: z.string().uuid()
 })
 
-export type GetClinicalPracticeGuidelinesScheme = z.infer<typeof getClinicalPracticeGuidelinesScheme>
+export type GetClinicalPracticeGuidelinesSchema = z.infer<typeof getClinicalPracticeGuidelinesSchema>
 
 export const downloadClinicalPracticeGuidelinesFileSchema = z.object({
     id: z.string().uuid(),
@@ -40,15 +40,15 @@ export const downloadClinicalPracticeGuidelinesFileSchema = z.object({
 // UPDATE //
 ////////////
 
-export const putClinicalPracticeGuidelinesScheme = z.object({
+export const putClinicalPracticeGuidelinesSchema = z.object({
     title: z.string(),
     code: z.string(),
     category: z.string().uuid()
 })
 
-export type PutClinicalPracticeGuidelinesScheme = z.infer<typeof putClinicalPracticeGuidelinesScheme>
+export type PutClinicalPracticeGuidelinesSchema = z.infer<typeof putClinicalPracticeGuidelinesSchema>
 
-export const putClinicalPracticeGuidelinesParamsScheme = z.object({
+export const putClinicalPracticeGuidelinesParamsSchema = z.object({
     id: z.string().uuid()
 })
 
@@ -56,6 +56,6 @@ export const putClinicalPracticeGuidelinesParamsScheme = z.object({
 // DELETE //
 ////////////
 
-export const deleteClinicalPracticeGuidelinesParamsScheme = z.object({
+export const deleteClinicalPracticeGuidelinesParamsSchema = z.object({
     id: z.string().uuid()
 })

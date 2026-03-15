@@ -41,7 +41,6 @@ router.put("/manuals/:id", controller.putManualTypeController)
 router.get('/manuals/:type', controller.getManualByTypeController)
 
 router.get('/', controller.getManualsWithAreaController)
-router.get('/count', controller.getManualsWithAreaCountController)
 router.get('/:id', controller.getAreaWithManualsController)
 router.put("/:id", upload.single("file"), controller.putManualController)
 router.get("/:id/download", controller.downloadManualFileController)

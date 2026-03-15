@@ -4,7 +4,7 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postDownloadScheme = z.object({
+export const postDownloadSchema = z.object({
     name: z.string(),
     description: z.string().optional(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
@@ -12,7 +12,7 @@ export const postDownloadScheme = z.object({
     category: z.coerce.number()
 })
 
-export type PostDownloadScheme = z.infer<typeof postDownloadScheme>
+export type PostDownloadSchema = z.infer<typeof postDownloadSchema>
 
 export const postAreaSchema = z.object({
     name: z.string(),
@@ -22,31 +22,31 @@ export const postAreaSchema = z.object({
 
 export type PostAreaSchema = z.infer<typeof postAreaSchema>
 
-export const postSectionScheme = z.object({
+export const postSectionSchema = z.object({
     name: z.string(),
-    area: z.coerce.number().optional()
+    area: z.coerce.number()
 })
 
-export type PostSectionScheme = z.infer<typeof postSectionScheme>
+export type PostSectionSchema = z.infer<typeof postSectionSchema>
 
-export const postCategoryScheme = z.object({
+export const postCategorySchema = z.object({
     name: z.string(),
     section: z.coerce.number()
 })
 
-export type PostCategoryScheme = z.infer<typeof postCategoryScheme>
+export type PostCategorySchema = z.infer<typeof postCategorySchema>
 
 //////////
 // READ //
 //////////
 
-export const getDownloadsScheme = z.object({
+export const getDownloadsSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
 })
 
-export type GetDownloadsScheme = z.infer<typeof getDownloadsScheme>
+export type GetDownloadsSchema = z.infer<typeof getDownloadsSchema>
 
 export const getAreaSchema = z.object({
     page: z.coerce.number().min(1).optional(),
@@ -64,11 +64,11 @@ export const getSectionsByAreaParamsSchema = z.object({
     area: z.coerce.number()
 })
 
-export const getCategoriesBySectionParamsScheme = z.object({
+export const getCategoriesBySectionParamsSchema = z.object({
     section: z.coerce.number()
 })
 
-export const downloadFileParamsScheme = z.object({
+export const downloadFileParamsSchema = z.object({
     id: z.coerce.number()
 })
 
@@ -76,7 +76,7 @@ export const downloadFileParamsScheme = z.object({
 // UPDATE //
 ////////////
 
-export const putDownloadScheme = z.object({
+export const putDownloadSchema = z.object({
     name: z.string(),
     description: z.string().optional(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
@@ -84,13 +84,13 @@ export const putDownloadScheme = z.object({
     category: z.coerce.number()
 })
 
-export type PutDownloadScheme = z.infer<typeof putDownloadScheme>
+export type PutDownloadSchema = z.infer<typeof putDownloadSchema>
 
-export const putDownloadParamsScheme = z.object({
+export const putDownloadParamsSchema = z.object({
     id: z.coerce.number()
 })
 
-export const putAreaParamsScheme = z.object({
+export const putAreaParamsSchema = z.object({
     id: z.coerce.number()
 })
 

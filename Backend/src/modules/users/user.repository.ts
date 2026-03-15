@@ -1,6 +1,6 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination";
-import * as scheme from "./user.scheme"
+import * as schema from "./user.schema"
 
 interface Props {
     name: string;
@@ -88,7 +88,7 @@ export const getUserById = async (id: string) => {
 // UPDATE //
 ////////////
 
-interface PutUserReporitoryProps extends scheme.PutUserScheme {
+interface PutUserReporitoryProps extends schema.PutUserSchema {
     id: string
 }
 
@@ -123,7 +123,7 @@ export const putUserReporitory = async ({ name, email, roles, id, active }: PutU
     }
 }
 
-interface PutMeRepositoryProps extends scheme.PutMeScheme {
+interface PutMeRepositoryProps extends schema.PutMeSchema {
     id: string;
 }
 

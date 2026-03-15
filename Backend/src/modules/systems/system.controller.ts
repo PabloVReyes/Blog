@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { deleteSystemParamsSchema, downloadSystemFileSchema, getSystemSchema, postSystemSchema, PostSystemSchema, putSystemParamsSchema, putSystemSchema, PutSystemSchema } from "./system.schema";
+import * as schema from "./system.schema"
 import * as service from "./system.service";
 import * as fs from "fs"
 
@@ -9,7 +9,7 @@ import * as fs from "fs"
 
 export const postSystemController: RequestHandler = async (req, res) => {
     try {
-        const body: PostSystemSchema = postSystemSchema.parse(req.body)
+        const body: schema.PostSystemSchema = schema.postSystemSchema.parse(req.body)
         const file = req.file
 
         const dto = { ...body, file }
@@ -43,7 +43,7 @@ export const postSystemController: RequestHandler = async (req, res) => {
 
 export const getSystemsController: RequestHandler = async (req, res) => {
     try {
-        const dto = getSystemSchema.parse(req.query)
+        const dto = schema.getSystemSchema.parse(req.query)
         const data = await service.getSystemService(dto)
         res.json(data)
     } catch (error: unknown) {
@@ -59,7 +59,7 @@ export const getSystemsController: RequestHandler = async (req, res) => {
 
 export const downloadSystemFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadSystemFileSchema.parse(req.params)
+        const params = schema.downloadSystemFileSchema.parse(req.params)
         const data = await service.downloadSystemFileService(params.id)
 
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
@@ -102,8 +102,8 @@ export const downloadSystemFileController: RequestHandler = async (req, res) => 
 
 export const puySystemController: RequestHandler = async (req, res) => {
     try {
-        const params = putSystemParamsSchema.parse(req.params)
-        const body: PutSystemSchema = putSystemSchema.parse(req.body)
+        const params = schema.putSystemParamsSchema.parse(req.params)
+        const body: schema.PutSystemSchema = schema.putSystemSchema.parse(req.body)
         const file = req.file
 
         const dto = { ...body, file }
@@ -136,7 +136,7 @@ export const puySystemController: RequestHandler = async (req, res) => {
 
 export const deleteSystemController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteSystemParamsSchema.parse(req.params)
+        const params = schema.deleteSystemParamsSchema.parse(req.params)
         await service.deteleSystemService(params.id)
 
         res.json({ success: true })

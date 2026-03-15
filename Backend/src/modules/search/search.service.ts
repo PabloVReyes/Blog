@@ -1,8 +1,8 @@
 import * as repo from "../../modules/systems/system.repository";
 import { getPagination } from "../../utils/pagination";
-import * as scheme from "./search.scheme"
+import * as schema from "./search.schema"
 
-export const getSearchService = async (dto: scheme.getSearchScheme) => {
+export const getSearchService = async (dto: schema.getSearchSchema) => {
     const { page, search, limit } = dto
     const { take, skip } = getPagination()
 

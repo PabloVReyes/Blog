@@ -1,6 +1,6 @@
-import * as scheme from "./downloads.scheme"
+import * as schema from "./downloads.schema"
 
-export interface DownloadsCreateDto extends scheme.PostDownloadScheme {
+export interface DownloadsCreateDto extends schema.PostDownloadSchema {
     file?: Express.Multer.File;
 }
 

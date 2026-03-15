@@ -1,6 +1,6 @@
-import * as scheme from "./standards.scheme"
+import * as schema from "./standards.schema"
 
-export interface StandarCreateDto extends scheme.PostStandardScheme {
+export interface StandarCreateDto extends schema.PostStandardSchema {
     file?: Express.Multer.File
 }
 

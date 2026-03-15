@@ -1,4 +1,4 @@
-import * as scheme from "./permission.scheme"
+import * as schema from "./permission.schema"
 import * as repo from "./permission.repository"
 import { getPagination } from "../../utils/pagination"
 
@@ -6,7 +6,7 @@ import { getPagination } from "../../utils/pagination"
 // CREATE //
 ////////////
 
-export const postPermissionsService = async (dto: scheme.PostPermissionsScheme) => {
+export const postPermissionsService = async (dto: schema.PostPermissionsSchema) => {
     const { name, description, active, key } = dto
 
     return await repo.postPermissionRepository({
@@ -21,7 +21,7 @@ export const postPermissionsService = async (dto: scheme.PostPermissionsScheme) 
 // READ //
 //////////
 
-export const getPermissionsService = async (dto: scheme.GetPermissionsScheme) => {
+export const getPermissionsService = async (dto: schema.GetPermissionsSchema) => {
     const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 
@@ -48,7 +48,7 @@ export const getPermissionsService = async (dto: scheme.GetPermissionsScheme) =>
 // UPDATE //
 ////////////
 
-export const putPermissionsService = async (id: string, dto: scheme.PostPermissionsScheme) => {
+export const putPermissionsService = async (id: string, dto: schema.PostPermissionsSchema) => {
     const { name, description, active, key } = dto
 
     return await repo.putPermissionRepository({

@@ -1,12 +1,12 @@
 import { database } from "../../config/prisma";
 import { PaginationProps } from "../../types/pagination";
-import * as scheme from "./permission.scheme"
+import * as schema from "./permission.schema"
 
 ////////////
 // CREATE //
 ////////////
 
-export const postPermissionRepository = async ({ name, description, active, key }: scheme.PostPermissionsScheme) => {
+export const postPermissionRepository = async ({ name, description, active, key }: schema.PostPermissionsSchema) => {
     try {
         return await database.permission.create({
             data: {
@@ -71,7 +71,7 @@ export const getPermissionsRepository = async ({ search, skip, take }: Paginatio
 ////////////
 // UPDATE //
 ////////////
-interface PutPermissionRepositoryProps extends scheme.PostPermissionsScheme {
+interface PutPermissionRepositoryProps extends schema.PostPermissionsSchema {
     id: string;
 }
 

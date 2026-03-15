@@ -4,42 +4,42 @@ import z from "zod"
 // CREATE //
 ////////////
 
-export const postDownloadScheme = z.object({
+export const postDownloadSchema = z.object({
     name: z.string(),
     description: z.string(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     category: z.coerce.number()
 })
 
-export type PostDownloadScheme = z.infer<typeof postDownloadScheme>
+export type PostDownloadSchema = z.infer<typeof postDownloadSchema>
 
-export const postCategoryScheme = z.object({
+export const postCategorySchema = z.object({
     name: z.string()
 })
 
-export type PostCategoryScheme = z.infer<typeof postCategoryScheme>
+export type PostCategorySchema = z.infer<typeof postCategorySchema>
 
 //////////
 // READ //
 //////////
 
-export const getCategoryWithDownloadsScheme = z.object({
+export const getCategoryWithDownloadsSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
 })
 
-export type GetCategoryWithDownloadsScheme = z.infer<typeof getCategoryWithDownloadsScheme>
+export type GetCategoryWithDownloadsSchema = z.infer<typeof getCategoryWithDownloadsSchema>
 
-export const getDownloadsScheme = z.object({
+export const getDownloadsSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
 })
 
-export type GetDownloadsScheme = z.infer<typeof getDownloadsScheme>
+export type GetDownloadsSchema = z.infer<typeof getDownloadsSchema>
 
-export const downloadFileScheme = z.object({
+export const downloadFileSchema = z.object({
     id: z.coerce.number()
 })
 
@@ -47,16 +47,16 @@ export const downloadFileScheme = z.object({
 // UPDATE //
 //
 
-export const putDownloadScheme = z.object({
+export const putDownloadSchema = z.object({
     name: z.string(),
     description: z.string(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     category: z.coerce.number()
 })
 
-export type PutDownloadScheme = z.infer<typeof putDownloadScheme>
+export type PutDownloadSchema = z.infer<typeof putDownloadSchema>
 
-export const putDownloadParamsScheme = z.object({
+export const putDownloadParamsSchema = z.object({
     id: z.coerce.number()
 })
 
@@ -64,6 +64,6 @@ export const putDownloadParamsScheme = z.object({
 // DELETE
 //
 
-export const deleteDownloadParamsScheme = z.object({
+export const deleteDownloadParamsSchema = z.object({
     id: z.coerce.number()
 })

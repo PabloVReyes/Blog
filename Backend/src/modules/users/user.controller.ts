@@ -1,6 +1,6 @@
 import { Request, RequestHandler, Response } from "express"
 import * as service from "./user.service"
-import * as scheme from "./user.scheme"
+import * as schema from "./user.schema"
 
 ////////////
 // CREATE //
@@ -8,7 +8,7 @@ import * as scheme from "./user.scheme"
 
 export const createUserController = async (req: Request, res: Response) => {
     try {
-        const body: scheme.CreateUserScheme = scheme.createUserScheme.parse(req.body)
+        const body: schema.CreateUserSchema = schema.createUserSchema.parse(req.body)
         await service.createUserService(body)
         res.json({ success: true })
     } catch (error: any) {
@@ -37,7 +37,7 @@ export const createUserController = async (req: Request, res: Response) => {
 
 export const getUsersController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getUsersScheme.parse(req.query)
+        const dto = schema.getUsersSchema.parse(req.query)
         const data = await service.getUsersService(dto)
         res.json(data)
     } catch (error: any) {
@@ -58,13 +58,13 @@ export const getUsersController: RequestHandler = async (req, res) => {
 
 export const putMeController: RequestHandler = async (req: any, res) => {
     try {
-        const params = scheme.putMeParamsScheme.parse(req.params)
+        const params = schema.putMeParamsSchema.parse(req.params)
 
         if (req.user.id !== params.id) {
             return res.status(403).json({ message: 'Acceso denegado' })
         }
 
-        const body: scheme.PutMeScheme = scheme.putMeScheme.parse(req.body)
+        const body: schema.PutMeSchema = schema.putMeSchema.parse(req.body)
         const data = await service.putMeService(params.id, body)
         res.json(data)
     } catch (error: any) {
@@ -89,8 +89,8 @@ export const putMeController: RequestHandler = async (req: any, res) => {
 
 export const putUserController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.putUserParamsScheme.parse(req.params)
-        const body: scheme.PutUserScheme = scheme.putUserScheme.parse(req.body)
+        const params = schema.putUserParamsSchema.parse(req.params)
+        const body: schema.PutUserSchema = schema.putUserSchema.parse(req.body)
         const data = await service.putUserService(params.id, body)
         res.json(data)
     } catch (error: any) {
@@ -115,7 +115,7 @@ export const putUserController: RequestHandler = async (req, res) => {
 
 export const resetPasswordController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.resetPasswordParamsScheme.parse(req.params)
+        const params = schema.resetPasswordParamsSchema.parse(req.params)
         const data = await service.resetPasswordService(params.id)
         res.json(data)
     } catch (error: any) {
@@ -140,13 +140,13 @@ export const resetPasswordController: RequestHandler = async (req, res) => {
 
 export const changePasswordController: RequestHandler = async (req: any, res) => {
     try {
-        const params = scheme.changePasswordParamsScheme.parse(req.params)
+        const params = schema.changePasswordParamsSchema.parse(req.params)
 
         if (req.user.id !== params.id) {
             return res.status(403).json({ message: 'Acceso denegado' })
         }
 
-        const body: scheme.ChangePasswordScheme = scheme.changePasswordScheme.parse(req.body)
+        const body: schema.ChangePasswordSchema = schema.changePasswordSchema.parse(req.body)
         await service.changePasswordService(params.id, body)
         res.json({ success: true })
     } catch (error: any) {
@@ -175,7 +175,7 @@ export const changePasswordController: RequestHandler = async (req: any, res) =>
 
 export const deleteUserController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.deleteUserParamsScheme.parse(req.params)
+        const params = schema.deleteUserParamsSchema.parse(req.params)
         await service.deleteUserService(params.id)
         res.json({ success: true })
     } catch (error: any) {

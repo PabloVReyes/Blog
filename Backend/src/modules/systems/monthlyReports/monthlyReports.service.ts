@@ -1,14 +1,14 @@
 import * as repo from "./monthlyReports.repository"
 import { getPagination } from "../../../utils/pagination";
-import { GetMonthlyReportsSchema } from "./monthlyReports.schema";
-import { MontghlyReportsCreateDto, MontghlyReportsUpdateDto } from "./monthlyReports.types";
+import * as schema from "./monthlyReports.schema"
+import * as type from "./monthlyReports.types"
 import { sanitizeFileName } from "../../../utils/file";
 
 ////////////
 // CREATE //
 ////////////
 
-export const postMonthlyReportsService = async (dto: MontghlyReportsCreateDto) => {
+export const postMonthlyReportsService = async (dto: type.MontghlyReportsCreateDto) => {
     const { title, description, type, month, year, file } = dto
 
     const props = {
@@ -32,7 +32,7 @@ export const postMonthlyReportsService = async (dto: MontghlyReportsCreateDto) =
 // READ //
 //////////
 
-export const getMonthlyReportsService = async (dto: GetMonthlyReportsSchema) => {
+export const getMonthlyReportsService = async (dto: schema.GetMonthlyReportsSchema) => {
     const { page, limit, search, year } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -77,7 +77,7 @@ export const downloadMonthlyReportFileService = async (id: string) => {
 // UPDATE //
 ////////////
 
-export const putMonthlyReportsService = async (id: string, dto: MontghlyReportsUpdateDto) => {
+export const putMonthlyReportsService = async (id: string, dto: type.MontghlyReportsUpdateDto) => {
     const { title, description, type, month, year, file } = dto
 
     const monthlyReport: any = await repo.getMonthlyReportByIdRepository(id)

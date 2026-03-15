@@ -1,6 +1,6 @@
 import * as repo from "./settings.repository"
 import * as path from "path";
-import * as scheme from "./settings.scheme"
+import * as schema from "./settings.schema"
 
 export const settingsService = async () => {
     const settings = await repo.getSettingsRepository()
@@ -11,7 +11,7 @@ export const settingsService = async () => {
     }, {} as Record<string, string>);
 }
 
-export const updateSettingsService = async (dto: scheme.UpdateSettingsScheme) => {
+export const updateSettingsService = async (dto: schema.UpdateSettingsSchema) => {
     const { name, value } = dto
     await repo.updateSettingsRepository({
         name,

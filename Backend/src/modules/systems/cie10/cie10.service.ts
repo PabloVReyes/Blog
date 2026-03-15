@@ -1,12 +1,12 @@
 import { getPagination } from "../../../utils/pagination";
-import { GetCie10Schema, PostCie10Schema, PutCie10Schema } from "./cie10.schema";
+import * as schema from "./cie10.schema"
 import * as repo from "./cie10.repository"
 
 ////////////
 // CREATE //
 ////////////
 
-export const postCie10Service = async (dto: PostCie10Schema) => {
+export const postCie10Service = async (dto: schema.PostCie10Schema) => {
     const { name, code } = dto
 
     const props = {
@@ -23,7 +23,7 @@ export const postCie10Service = async (dto: PostCie10Schema) => {
 // READ //
 //////////
 
-export const getCie10Service = async (dto: GetCie10Schema) => {
+export const getCie10Service = async (dto: schema.GetCie10Schema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -50,7 +50,7 @@ export const getCie10Service = async (dto: GetCie10Schema) => {
 // UPDATE //
 ////////////
 
-export const putCie10Service = async (id: string, dto: PutCie10Schema) => {
+export const putCie10Service = async (id: string, dto: schema.PutCie10Schema) => {
     const { name, code } = dto
 
     const props = {

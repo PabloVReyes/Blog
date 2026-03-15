@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as service from "./calendar.service"
-import { downloadCalendarFileParamsSchema, putCalendarParamsSchema, PutCalendarSchema, putCalendarShema } from "./calendar.schema";
+import * as schema from "./calendar.schema"
 import * as fs from "fs"
 
 //////////
@@ -24,7 +24,7 @@ export const getCalendarController: RequestHandler = async (req, res) => {
 
 export const downloadCalendarFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadCalendarFileParamsSchema.parse(req.params)
+        const params = schema.downloadCalendarFileParamsSchema.parse(req.params)
         const data = await service.downloadCalendarFileService(params.id)
 
         res.setHeader(
@@ -64,8 +64,8 @@ export const downloadCalendarFileController: RequestHandler = async (req, res) =
 
 export const putCalendarController: RequestHandler = async (req, res) => {
     try {
-        const params = putCalendarParamsSchema.parse(req.params)
-        const body: PutCalendarSchema = putCalendarShema.parse(req.body)
+        const params = schema.putCalendarParamsSchema.parse(req.params)
+        const body: schema.PutCalendarSchema = schema.putCalendarShema.parse(req.body)
 
         const file = req.file
 

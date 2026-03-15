@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import * as scheme from "./role.scheme"
+import * as schema from "./role.schema"
 import * as service from "./role.service"
 
 ////////////
@@ -8,7 +8,7 @@ import * as service from "./role.service"
 
 export const postRoleController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostRoleScheme = scheme.postRoleScheme.parse(req.body)
+        const body: schema.PostRoleSchema = schema.postRoleSchema.parse(req.body)
         await service.postRoleService(body)
         res.json({ success: true })
     } catch (error: any) {
@@ -37,7 +37,7 @@ export const postRoleController: RequestHandler = async (req, res) => {
 
 export const getRolesController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getRolesScheme.parse(req.query)
+        const dto = schema.getRolesSchema.parse(req.query)
         const data = await service.getRolesService(dto)
         res.json(data)
     } catch (error: any) {
@@ -58,8 +58,8 @@ export const getRolesController: RequestHandler = async (req, res) => {
 
 export const putRoleController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.putRolesSchemeParams.parse(req.params)
-        const body: scheme.PutRoleScheme = scheme.putRoleScheme.parse(req.body)
+        const params = schema.putRolesSchemaParams.parse(req.params)
+        const body: schema.PutRoleSchema = schema.putRoleSchema.parse(req.body)
         const data = await service.putRoleService(params.id, body)
         res.json(data)
     } catch (error: any) {
@@ -88,7 +88,7 @@ export const putRoleController: RequestHandler = async (req, res) => {
 
 export const deleteRoleController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.deleteRoleParamsScheme.parse(req.params)
+        const params = schema.deleteRoleParamsSchema.parse(req.params)
         await service.deleteRoleService(params.id)
         res.json({ success: true })
     } catch (error: any) {

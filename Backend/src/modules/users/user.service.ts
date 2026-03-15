@@ -1,10 +1,10 @@
 import { getPagination } from "../../utils/pagination"
 import { comparePassword, generatePassword, hashPassword } from "../../utils/password"
 import * as repo from "./user.repository"
-import * as scheme from "./user.scheme"
+import * as schema from "./user.schema"
 import { sendUserCredentials } from "../../services/email.service"
 
-export const createUserService = async (dto: scheme.CreateUserScheme) => {
+export const createUserService = async (dto: schema.CreateUserSchema) => {
     const { name, email, roles } = dto
     const plainPassword = generatePassword(12)
 
@@ -31,7 +31,7 @@ export const createUserService = async (dto: scheme.CreateUserScheme) => {
     return user
 }
 
-export const getUsersService = async (dto: scheme.GetUsersScheme) => {
+export const getUsersService = async (dto: schema.GetUsersSchema) => {
     const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 
@@ -54,7 +54,7 @@ export const getUsersService = async (dto: scheme.GetUsersScheme) => {
     }
 }
 
-export const putUserService = async (id: string, dto: scheme.PutUserScheme) => {
+export const putUserService = async (id: string, dto: schema.PutUserSchema) => {
     const { name, email, roles, active } = dto
 
     return await repo.putUserReporitory({
@@ -66,7 +66,7 @@ export const putUserService = async (id: string, dto: scheme.PutUserScheme) => {
     })
 }
 
-export const putMeService = async (id: string, dto: scheme.PutMeScheme) => {
+export const putMeService = async (id: string, dto: schema.PutMeSchema) => {
     const { name, email } = dto
 
     return await repo.putMeReporitory({
@@ -101,7 +101,7 @@ export const resetPasswordService = async (id: string) => {
     return user
 }
 
-export const changePasswordService = async (id: string, dto: scheme.ChangePasswordScheme) => {
+export const changePasswordService = async (id: string, dto: schema.ChangePasswordSchema) => {
     const { newPassword, currentPassword } = dto
 
     const user = await repo.getUserById(id)

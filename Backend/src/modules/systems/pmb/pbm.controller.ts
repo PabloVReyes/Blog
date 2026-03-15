@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { deletePBMParamsScheme, downloadPBMFileSchema, getPBMScheme, postPbmScheme, PostPbmScheme, putPBMParamsScheme, putPBMScheme, PutPBMScheme } from "./pbm.scheme";
+import * as schema from "./pbm.schema"
 import * as service from "./pbm.service"
 import * as fs from "fs"
 
@@ -9,7 +9,7 @@ import * as fs from "fs"
 
 export const postPbmController: RequestHandler = async (req, res) => {
     try {
-        const body: PostPbmScheme = postPbmScheme.parse(req.body)
+        const body: schema.PostPbmSchema = schema.postPbmSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         await service.postPbmService(dto)
@@ -41,7 +41,7 @@ export const postPbmController: RequestHandler = async (req, res) => {
 
 export const downloadPBMFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadPBMFileSchema.parse(req.params)
+        const params = schema.downloadPBMFileSchema.parse(req.params)
         const data = await service.downloadPBMFileService(params.id)
 
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
@@ -78,7 +78,7 @@ export const downloadPBMFileController: RequestHandler = async (req, res) => {
 
 export const getPBMController: RequestHandler = async (req, res) => {
     try {
-        const dto = getPBMScheme.parse(req.query)
+        const dto = schema.getPBMSchema.parse(req.query)
         const data = await service.getPBMService(dto)
         res.json(data)
     } catch (error: any) {
@@ -99,8 +99,8 @@ export const getPBMController: RequestHandler = async (req, res) => {
 
 export const putPBMController: RequestHandler = async (req, res) => {
     try {
-        const params = putPBMParamsScheme.parse(req.params)
-        const body: PutPBMScheme = putPBMScheme.parse(req.body)
+        const params = schema.putPBMParamsSchema.parse(req.params)
+        const body: schema.PutPBMSchema = schema.putPBMSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         const data = await service.putPBMService(params.id, dto)
@@ -131,7 +131,7 @@ export const putPBMController: RequestHandler = async (req, res) => {
 
 export const deletePBMController: RequestHandler = async (req, res) => {
     try {
-        const params = deletePBMParamsScheme.parse(req.params)
+        const params = schema.deletePBMParamsSchema.parse(req.params)
         await service.daletePBMService(params.id)
 
         res.json({ success: true })

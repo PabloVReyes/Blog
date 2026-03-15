@@ -1,46 +1,15 @@
 import * as service from "./macroprocess.service"
 import { RequestHandler } from "express";
+import * as schema from "./macroprocess.schema"
 
-export const getAreaWithManualsController: RequestHandler = async (req, res) => {
-    try {
-        const data = await service.getAreaWithManualsService(req)
-        res.json(data)
-    } catch (error: any) {
-        res.status(500)
-            .send({
-                msg: error.message || "Error al crear obtener area"
-            })
-    }
-}
-
-export const getManualByTypeController: RequestHandler = async (req, res) => {
-    try {
-        const data = await service.getManualByTypeService(req)
-        res.json(data)
-    } catch (error: any) {
-        res.status(500)
-            .send({
-                msg: error.message || "Error al obtener manual por tipo"
-            })
-    }
-}
-
-
-export const putManualController: RequestHandler = async (req, res) => {
-    try {
-        const data = await service.putManualService(req)
-        res.json(data)
-    } catch (error: any) {
-        res.status(500)
-            .send({
-                msg: error.message || "Error al actualizar manual"
-            })
-    }
-}
+//////////
+// READ //
+//////////
 
 export const downloadManualFileController: RequestHandler = async (req, res) => {
     try {
-        const data: any = await service.downloadManualFileService(req)
+        const params = schema.downloadManualFileParamsSchema.parse(req.params)
+        const data: any = await service.downloadManualFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
 
@@ -80,37 +49,36 @@ export const downloadManualFileController: RequestHandler = async (req, res) => 
     }
 }
 
-export const deleteManualController: RequestHandler = async (req, res) => {
+export const getManualByTypeController: RequestHandler = async (req, res) => {
     try {
-        const data = await service.deleteManualService(req)
+        const params = schema.getManualsByTypeParamsSchema.parse(req.params)
+        const data = await service.getManualByTypeService(params.type)
         res.json(data)
     } catch (error: any) {
         res.status(500)
             .send({
-                msg: error.message || "Error eliminar el manual"
+                msg: error.message || "Error al obtener manual por tipo"
             })
     }
 }
 
-export const putManualTypeController: RequestHandler = async (req, res) => {
+export const getAreaWithManualsController: RequestHandler = async (req, res) => {
     try {
-        const data = await service.putManualTypeService(req)
+        const params = schema.getAreaWithManualsParamsSchema.parse(req.query)
+        const data = await service.getAreaWithManualsService(params.id)
         res.json(data)
     } catch (error: any) {
         res.status(500)
             .send({
-                msg: error.message || "Error al actualizar tipo de manual"
+                msg: error.message || "Error al crear obtener area"
             })
     }
 }
-
-//////////
-// READ //
-//////////
 
 export const getAreasController: RequestHandler = async (req, res) => {
     try {
-        const data = await service.getAreasService(req)
+        const query = schema.getAreasSchema.parse(req.query)
+        const data = await service.getAreasService(query)
         res.json(data)
     } catch (error: any) {
         res.status(500)
@@ -122,7 +90,8 @@ export const getAreasController: RequestHandler = async (req, res) => {
 
 export const getManualsTypeController: RequestHandler = async (req, res) => {
     try {
-        const data = await service.getManualsTypeService(req)
+        const query = schema.getManualsTypeSchema.parse(req.query)
+        const data = await service.getManualsTypeService(query)
         res.json(data)
     } catch (error: any) {
         res.status(500)
@@ -134,7 +103,8 @@ export const getManualsTypeController: RequestHandler = async (req, res) => {
 
 export const getManualsWithAreaController: RequestHandler = async (req, res) => {
     try {
-        const data = await service.getManualsWithAreaService(req)
+        const query = schema.getManualsTypeSchema.parse(req.query)
+        const data = await service.getManualsWithAreaService(query)
         res.json(data)
     } catch (error: any) {
         res.status(500)
@@ -144,22 +114,37 @@ export const getManualsWithAreaController: RequestHandler = async (req, res) => 
     }
 }
 
-export const getManualsWithAreaCountController: RequestHandler = async (req, res) => {
+////////////
+// UPDATE //
+////////////
+
+export const putManualTypeController: RequestHandler = async (req, res) => {
     try {
-        const data = await service.getManualsWithAreaCountService(req)
+        const params = schema.putManualTypeParamsSchema.parse(req.params)
+        const body: schema.PutManualTypeSchema = schema.putManualTypeSchema.parse(req.body)
+        const data = await service.putManualTypeService(params.id, body)
         res.json(data)
     } catch (error: any) {
         res.status(500)
             .send({
-                msg: error.message || "Error al obtener manuales"
+                msg: error.message || "Error al actualizar tipo de manual"
             })
     }
 }
 
-
-////////////
-// UPDATE //
-////////////
+export const putManualController: RequestHandler = async (req, res) => {
+    try {
+        const params = schema.putManualParamsSchema.parse(req.params)
+        const file = req.file
+        const data = await service.putManualService(params.id, file)
+        res.json(data)
+    } catch (error: any) {
+        res.status(500)
+            .send({
+                msg: error.message || "Error al actualizar manual"
+            })
+    }
+}
 
 export const putAreaController: RequestHandler = async (req, res) => {
     try {
@@ -169,6 +154,23 @@ export const putAreaController: RequestHandler = async (req, res) => {
         res.status(500)
             .send({
                 msg: error.message || "Error al actualizar area"
+            })
+    }
+}
+
+////////////
+// DELETE //
+////////////
+
+export const deleteManualController: RequestHandler = async (req, res) => {
+    try {
+        const params = schema.deleteManualParamsSchema.parse(req.params)
+        const data = await service.deleteManualService(params.id)
+        res.json(data)
+    } catch (error: any) {
+        res.status(500)
+            .send({
+                msg: error.message || "Error eliminar el manual"
             })
     }
 }

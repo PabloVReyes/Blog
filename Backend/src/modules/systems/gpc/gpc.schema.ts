@@ -4,32 +4,32 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postCicleScheme = z.object({
+export const postCicleSchema = z.object({
     name: z.string()
 })
 
-export type PostCicleScheme = z.infer<typeof postCicleScheme>
+export type PostCicleSchema = z.infer<typeof postCicleSchema>
 
-export const postGpcScheme = z.object({
+export const postGpcSchema = z.object({
     title: z.string(),
     description: z.string(),
     cicle: z.string().uuid(),
     orderIndex: z.coerce.number()
 })
 
-export type PostGpcScheme = z.infer<typeof postGpcScheme>
+export type PostGpcSchema = z.infer<typeof postGpcSchema>
 
 //////////
 // READ //
 //////////
 
-export const getGpcScheme = z.object({
+export const getGpcSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
 })
 
-export type GetGpcScheme = z.infer<typeof getGpcScheme>
+export type GetGpcSchema = z.infer<typeof getGpcSchema>
 
 export const downloadGpcFileSchema = z.object({
     id: z.string().uuid(),
@@ -40,16 +40,16 @@ export const downloadGpcFileSchema = z.object({
 // UPDATE //
 ////////////
 
-export const putGpcScheme = z.object({
+export const putGpcSchema = z.object({
     title: z.string(),
     description: z.string(),
     cicle: z.string().uuid(),
     orderIndex: z.coerce.number()
 })
 
-export type PutGpcScheme = z.infer<typeof putGpcScheme>
+export type PutGpcSchema = z.infer<typeof putGpcSchema>
 
-export const putGpcParamsScheme = z.object({
+export const putGpcParamsSchema = z.object({
     id: z.string().uuid()
 })
 
@@ -57,6 +57,6 @@ export const putGpcParamsScheme = z.object({
 // DELETE //
 ////////////
 
-export const deleteGpcParamsScheme = z.object({
+export const deleteGpcParamsSchema = z.object({
     id: z.string().uuid()
 })

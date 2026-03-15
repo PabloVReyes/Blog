@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { deleteClinicalPracticeGuidelinesParamsScheme, downloadClinicalPracticeGuidelinesFileSchema, getClinicalPracticeGuidelinesScheme, postCategorySchema, PostCategorySchema, postClinicalPracticeGuidelinesScheme, PostClinicalPracticeGuidelinesScheme, putClinicalPracticeGuidelinesParamsScheme, putClinicalPracticeGuidelinesScheme, PutClinicalPracticeGuidelinesScheme } from "./clinicalPracticeGuidelines.scheme";
+import * as schema from "./clinicalPracticeGuidelines.schema"
 import * as service from "./clinicalPracticeGuidelines.service"
 import * as fs from "fs"
 
@@ -9,7 +9,7 @@ import * as fs from "fs"
 
 export const postClinicalPracticeGuidelinesController: RequestHandler = async (req, res) => {
     try {
-        const body: PostClinicalPracticeGuidelinesScheme = postClinicalPracticeGuidelinesScheme.parse(req.body)
+        const body: schema.PostClinicalPracticeGuidelinesSchema = schema.postClinicalPracticeGuidelinesSchema.parse(req.body)
 
         const files = req.files as {
             er?: Express.Multer.File[];
@@ -46,7 +46,7 @@ export const postClinicalPracticeGuidelinesController: RequestHandler = async (r
 
 export const postCategoryController: RequestHandler = async (req, res) => {
     try {
-        const body: PostCategorySchema = postCategorySchema.parse(req.body)
+        const body: schema.PostCategorySchema = schema.postCategorySchema.parse(req.body)
         const data = await service.postCategoryService(body)
         res.json(data)
     } catch (error: any) {
@@ -75,7 +75,7 @@ export const postCategoryController: RequestHandler = async (req, res) => {
 
 export const downloadClinicalPracticeGuidelinesFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadClinicalPracticeGuidelinesFileSchema.parse(req.params)
+        const params = schema.downloadClinicalPracticeGuidelinesFileSchema.parse(req.params)
         const data = await service.downloadClinicalPracticeGuidelinesFileService(params.id, params.type)
 
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
@@ -112,7 +112,7 @@ export const downloadClinicalPracticeGuidelinesFileController: RequestHandler = 
 
 export const getClinicalPracticeGuidelinesController: RequestHandler = async (req, res) => {
     try {
-        const dto = getClinicalPracticeGuidelinesScheme.parse(req.query)
+        const dto = schema.getClinicalPracticeGuidelinesSchema.parse(req.query)
         const data = await service.getClinicalPracticeGuidelinesService(dto)
         res.json(data)
     } catch (error: any) {
@@ -149,8 +149,8 @@ export const getCategoryController: RequestHandler = async (req, res) => {
 
 export const putClinicalPracticeGuidelinesController: RequestHandler = async (req, res) => {
     try {
-        const params = putClinicalPracticeGuidelinesParamsScheme.parse(req.params)
-        const body: PutClinicalPracticeGuidelinesScheme = putClinicalPracticeGuidelinesScheme.parse(req.body)
+        const params = schema.putClinicalPracticeGuidelinesParamsSchema.parse(req.params)
+        const body: schema.PutClinicalPracticeGuidelinesSchema = schema.putClinicalPracticeGuidelinesSchema.parse(req.body)
 
         const files = req.files as {
             er?: Express.Multer.File[];
@@ -191,7 +191,7 @@ export const putClinicalPracticeGuidelinesController: RequestHandler = async (re
 
 export const deleteClinicalPracticeGuidelinesController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteClinicalPracticeGuidelinesParamsScheme.parse(req.params)
+        const params = schema.deleteClinicalPracticeGuidelinesParamsSchema.parse(req.params)
         await service.daleteClinicalPracticeGuidelinesService(params.id)
 
         res.json({ success: true })

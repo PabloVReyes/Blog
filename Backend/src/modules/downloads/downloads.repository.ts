@@ -1,5 +1,5 @@
 import { database } from "../../config/prisma"
-import * as scheme from "./downloads.scheme"
+import * as schema from "./downloads.schema"
 import { PaginationProps } from "../../types/pagination"
 
 ////////////
@@ -48,7 +48,7 @@ export const postDownloadRepository = async ({
     }
 }
 
-interface PostAreaRepositoryProps extends scheme.PostAreaSchema {
+interface PostAreaRepositoryProps extends schema.PostAreaSchema {
     slug: string
 }
 
@@ -68,7 +68,7 @@ export const postAreaRepository = async ({ name, icon, color, slug }: PostAreaRe
     }
 }
 
-export const postSectionRepository = async ({ name, areaId }) => {
+export const postSectionRepository = async ({ name, areaId }: { name: string, areaId: number }) => {
     try {
         return await database.downloadSection.create({
             data: {
@@ -82,7 +82,7 @@ export const postSectionRepository = async ({ name, areaId }) => {
     }
 }
 
-export const postCategoryRepository = async ({ name, sectionId }) => {
+export const postCategoryRepository = async ({ name, sectionId }: { name: string, sectionId: number }) => {
     try {
         return await database.downloadCategory.create({
             data: {
@@ -220,7 +220,7 @@ export const getAreaWithDownloadsRepository = async (slug: string) => {
     }
 };
 
-export const getSectionByAreaRepository = async ({ areaId }) => {
+export const getSectionByAreaRepository = async (areaId: number) => {
     try {
         const [data, total] = await Promise.all([
             database.downloadSection.findMany({
@@ -242,7 +242,7 @@ export const getSectionByAreaRepository = async ({ areaId }) => {
     }
 }
 
-export const getCategoriesBySectionRepository = async ({ sectionId }) => {
+export const getCategoriesBySectionRepository = async (sectionId: number) => {
     try {
         const [data, total] = await Promise.all([
             database.downloadCategory.findMany({

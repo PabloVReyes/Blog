@@ -1,14 +1,14 @@
 import { RequestHandler } from "express"
-import * as scheme from "./juristics.scheme"
+import * as schema from "./juristics.schema"
 import * as service from "./juristics.service"
 
-///
+////////////
 // CREATE //
-////
+////////////
 
 export const postJuristicController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostJuristicScheme = scheme.postJuristicScheme.parse(req.body)
+        const body: schema.PostJuristicSchema = schema.postJuristicSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         await service.postJuristicService(dto)
@@ -39,7 +39,7 @@ export const postJuristicController: RequestHandler = async (req, res) => {
 
 export const getJuristicsController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getJuristicsScheme.parse(req.query)
+        const dto = schema.getJuristicsSchema.parse(req.query)
         const data = await service.getJuristicsService(dto)
         res.json(data)
     } catch (error: any) {
@@ -56,7 +56,7 @@ export const getJuristicsController: RequestHandler = async (req, res) => {
 
 export const downloadJuristicFileController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.downloadJuristicsScheme.parse(req.params)
+        const params = schema.downloadJuristicsSchema.parse(req.params)
         const data: any = await service.downloadJuristicFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
@@ -103,8 +103,8 @@ export const downloadJuristicFileController: RequestHandler = async (req, res) =
 
 export const putJuristicController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.putJuristicsParamsScheme.parse(req.params)
-        const body: scheme.PutJuristicsScheme = scheme.putJuristicsScheme.parse(req.body)
+        const params = schema.putJuristicsParamsSchema.parse(req.params)
+        const body: schema.PutJuristicsSchema = schema.putJuristicsSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         const data = await service.putJuristicService(params.id, dto)
@@ -135,7 +135,7 @@ export const putJuristicController: RequestHandler = async (req, res) => {
 
 export const deleteJuristicController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.deleteJuristicsParamsScheme.parse(req.params)
+        const params = schema.deleteJuristicsParamsSchema.parse(req.params)
         await service.deleteJuristicsService(params.id)
 
         res.json({ success: true })

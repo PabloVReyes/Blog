@@ -1,5 +1,5 @@
 import { RequestHandler } from "express"
-import * as scheme from "./certification.scheme"
+import * as schema from "./certification.schema"
 import * as service from "./certification.service"
 
 ///
@@ -8,7 +8,7 @@ import * as service from "./certification.service"
 
 export const postCertificationController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostCertificationScheme = scheme.postCertificationScheme.parse(req.body)
+        const body: schema.PostCertificationSchema = schema.postCertificationSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         await service.postCertificationService(dto)
@@ -35,7 +35,7 @@ export const postCertificationController: RequestHandler = async (req, res) => {
 
 export const postSectionController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostSectionScheme = scheme.postSectionScheme.parse(req.body)
+        const body: schema.PostSectionSchema = schema.postSectionSchema.parse(req.body)
         const data = await service.postSectionService(body)
         res.json(data)
     } catch (error: any) {
@@ -64,7 +64,7 @@ export const postSectionController: RequestHandler = async (req, res) => {
 
 export const getSectionWithCertificationsController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getSectionWithCertificationsScheme.parse(req.query)
+        const dto = schema.getSectionWithCertificationsSchema.parse(req.query)
         const data = await service.getSectionsWithCertificationsService(dto)
         res.json(data)
     } catch (error: any) {
@@ -96,7 +96,7 @@ export const getSectionsController: RequestHandler = async (req, res) => {
 
 export const getCertificationsController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getCertificationsScheme.parse(req.query)
+        const dto = schema.getCertificationsSchema.parse(req.query)
         const data = await service.getCertificationsService(dto)
         res.json(data)
     } catch (error: any) {
@@ -113,7 +113,7 @@ export const getCertificationsController: RequestHandler = async (req, res) => {
 
 export const downloadCertificationFileController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.downloadCertificationScheme.parse(req.params)
+        const params = schema.downloadCertificationSchema.parse(req.params)
         const data: any = await service.downloadCertificationFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
@@ -160,8 +160,8 @@ export const downloadCertificationFileController: RequestHandler = async (req, r
 
 export const putCertificationController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.putCertificationParamsScheme.parse(req.params)
-        const body: scheme.PutCertificationScheme = scheme.putCertificationScheme.parse(req.body)
+        const params = schema.putCertificationParamsSchema.parse(req.params)
+        const body: schema.PutCertificationSchema = schema.putCertificationSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         const data = await service.putCertificationService(params.id, dto)
@@ -192,7 +192,7 @@ export const putCertificationController: RequestHandler = async (req, res) => {
 
 export const deleteCertificationController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.deleteCertificationParamsScheme.parse(req.params)
+        const params = schema.deleteCertificationParamsSchema.parse(req.params)
         await service.deleteCertificationService(params.id)
 
         res.json({ success: true })

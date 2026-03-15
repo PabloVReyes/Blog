@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as service from "./adverseEvents.service"
-import { downloadAdverseEventFileScheme, putAdverseEventsParamsScheme } from "./adverseEvents.scheme";
+import * as schema from "./adverseEvents.schema";
 import * as fs from "fs"
 
 //////////
@@ -25,7 +25,7 @@ export const getAdverseEventsController: RequestHandler = async (req, res) => {
 
 export const downloadAdverseEventsFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadAdverseEventFileScheme.parse(req.params)
+        const params = schema.downloadAdverseEventFileSchema.parse(req.params)
         const data = await service.downloadAdverseEventsFileService(params.type)
 
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
@@ -66,7 +66,7 @@ export const downloadAdverseEventsFileController: RequestHandler = async (req, r
 
 export const putAdverseEventsController: RequestHandler = async (req, res) => {
     try {
-        const params = putAdverseEventsParamsScheme.parse(req.params)
+        const params = schema.putAdverseEventsParamsSchema.parse(req.params)
         const file = req.file
         const data = await service.putAdverseEventService(params.id, file)
         res.json(data)
@@ -96,7 +96,7 @@ export const putAdverseEventsController: RequestHandler = async (req, res) => {
 
 export const deleteAdverseEventController: RequestHandler = async (req, res) => {
     try {
-        const params = putAdverseEventsParamsScheme.parse(req.params)
+        const params = schema.putAdverseEventsParamsSchema.parse(req.params)
         const data = await service.deleteAdverseEventService(params.id)
         res.json(data)
     } catch (error: any) {

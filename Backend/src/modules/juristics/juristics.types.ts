@@ -1,6 +1,6 @@
-import * as scheme from "./juristics.scheme"
+import * as schema from "./juristics.schema"
 
-export interface JuristicsCreateDto extends scheme.PostJuristicScheme {
+export interface JuristicsCreateDto extends schema.PostJuristicSchema {
     file?: Express.Multer.File;
 }
 

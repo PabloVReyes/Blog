@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { deleteCie10ParamsSchema, getCie10Schema, PostCie10Schema, postCie10Shema, putCie10ParamsSchema, PutCie10Schema, putCie10Shema } from "./cie10.schema";
+import * as schema from "./cie10.schema"
 import * as service from "./cie10.service"
 
 ////////////
@@ -8,7 +8,7 @@ import * as service from "./cie10.service"
 
 export const postCie10Controller: RequestHandler = async (req, res) => {
     try {
-        const body: PostCie10Schema = postCie10Shema.parse(req.body)
+        const body: schema.PostCie10Schema = schema.postCie10Schema.parse(req.body)
         await service.postCie10Service(body)
         res.json({ sucess: true })
     } catch (error: any) {
@@ -37,7 +37,7 @@ export const postCie10Controller: RequestHandler = async (req, res) => {
 
 export const getCie10Controller: RequestHandler = async (req, res) => {
     try {
-        const dto = getCie10Schema.parse(req.query)
+        const dto = schema.getCie10Schema.parse(req.query)
         const data = await service.getCie10Service(dto)
 
         res.json(data)
@@ -58,8 +58,8 @@ export const getCie10Controller: RequestHandler = async (req, res) => {
 
 export const putCie10Controller: RequestHandler = async (req, res) => {
     try {
-        const params = putCie10ParamsSchema.parse(req.params)
-        const body: PutCie10Schema = putCie10Shema.parse(req.body)
+        const params = schema.putCie10ParamsSchema.parse(req.params)
+        const body: schema.PutCie10Schema = schema.putCie10Schema.parse(req.body)
         const data = await service.putCie10Service(params.id, body)
         res.json(data)
     } catch (error: any) {
@@ -90,7 +90,7 @@ export const putCie10Controller: RequestHandler = async (req, res) => {
 
 export const deleteCie10Controller: RequestHandler = async (req, res) => {
     try {
-        const params = deleteCie10ParamsSchema.parse(req.params)
+        const params = schema.deleteCie10ParamsSchema.parse(req.params)
         await service.deleteCie10Service(params.id)
         res.json({ success: true })
     } catch (error: any) {

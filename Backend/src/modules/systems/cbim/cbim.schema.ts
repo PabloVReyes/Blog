@@ -4,7 +4,7 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postCbimShema = z.object({
+export const postCbimSchema = z.object({
     code: z.string(),
     name: z.string(),
     description: z.string(),
@@ -13,7 +13,7 @@ export const postCbimShema = z.object({
     cbt_cae: z.enum(["CAE", "CBT"])
 })
 
-export type PostCbimSchema = z.infer<typeof postCbimShema>
+export type PostCbimSchema = z.infer<typeof postCbimSchema>
 
 //////////
 // READ //
@@ -31,7 +31,7 @@ export type GetCbimSchema = z.infer<typeof getCbimSchema>
 // UPDATE //
 ////////////
 
-export const putCbimShema = z.object({
+export const putCbimSchema = z.object({
     code: z.string(),
     name: z.string(),
     description: z.string(),
@@ -40,7 +40,7 @@ export const putCbimShema = z.object({
     cbt_cae: z.enum(["CAE", "CBT"])
 })
 
-export type PutCbimSchema = z.infer<typeof putCbimShema>
+export type PutCbimSchema = z.infer<typeof putCbimSchema>
 
 export const putCbimParamsSchema = z.object({
     id: z.string().uuid()

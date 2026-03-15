@@ -1,14 +1,14 @@
-import { PbmCreateDto, PbmUpdateDto } from "./pbm.types";
 import * as repo from "./pbm.repository"
 import { sanitizeFileName } from "../../../utils/file";
 import { getPagination } from "../../../utils/pagination";
-import { GetPBMScheme } from "./pbm.scheme";
+import * as schema from "./pbm.schema"
+import * as type from "./pbm.types"
 
 ////////////
 // CREATE //
 ////////////
 
-export const postPbmService = async (dto: PbmCreateDto) => {
+export const postPbmService = async (dto: type.PbmCreateDto) => {
     const { title, file } = dto
 
     return await repo.postPbmRepository({
@@ -24,7 +24,7 @@ export const postPbmService = async (dto: PbmCreateDto) => {
 // READ //
 //////////
 
-export const getPBMService = async (dto: GetPBMScheme) => {
+export const getPBMService = async (dto: schema.GetPBMSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination()
 
@@ -64,7 +64,7 @@ export const downloadPBMFileService = async (id: string) => {
 // UPDATE //
 ////////////
 
-export const putPBMService = async (id: string, dto: PbmUpdateDto) => {
+export const putPBMService = async (id: string, dto: type.PbmUpdateDto) => {
     const { title, file } = dto
 
     const PBM: any = await repo.getPBMByIdRepository(id)

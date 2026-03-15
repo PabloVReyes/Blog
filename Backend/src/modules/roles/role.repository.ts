@@ -1,12 +1,12 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination"
-import * as scheme from "./role.scheme"
+import * as schema from "./role.schema"
 
 ////////////
 // CREATE //
 ////////////
 
-export const postRoleRepository = async ({ name, description, permissions }: scheme.PostRoleScheme) => {
+export const postRoleRepository = async ({ name, description, permissions }: schema.PostRoleSchema) => {
     try {
         return await database.role.create({
             data: {
@@ -77,7 +77,7 @@ export const getRolesRepository = async ({ skip, take, search }: PaginationProps
 ////
 // UPDATE //
 ///
-interface PutRoleRepositoryProps extends scheme.PutRoleScheme {
+interface PutRoleRepositoryProps extends schema.PutRoleSchema {
     id: string;
 }
 

@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as service from "./alert.service"
-import { putAlertSchema } from "./alert.schema";
+import * as schema from "./alert.schema"
 
 export const getAlertController: RequestHandler = async (req, res) => {
     try {
@@ -20,7 +20,7 @@ export const getAlertController: RequestHandler = async (req, res) => {
 
 export const putAlertService: RequestHandler = async (req, res) => {
     try {
-        const dto = putAlertSchema.parse({
+        const dto = schema.putAlertSchema.parse({
             id: req.params.id,
             ...req.body
         })

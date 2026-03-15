@@ -1,14 +1,14 @@
 import { sanitizeFileName } from "../../../utils/file";
 import * as repo from "./careProtocols.repository"
 import { CareProtocolsCreateDto, CareProtocolsUpdateDto } from "./careProtocols.types";
-import { GetCareProtocolsScheme, PostCategoryScheme } from "./careProtocols.scheme";
+import * as schema from "./careProtocols.schema";
 import { getPagination } from "../../../utils/pagination";
 
 ////////////
 // CREATE //
 ////////////
 
-export const postCategoryService = async (dto: PostCategoryScheme) => {
+export const postCategoryService = async (dto: schema.PostCategorySchema) => {
     const { name } = dto;
     return await repo.postCategoryRepository(name)
 }
@@ -41,7 +41,7 @@ export const getCategoryService = async () => {
     }
 }
 
-export const getCareProtocolsService = async (dto: GetCareProtocolsScheme) => {
+export const getCareProtocolsService = async (dto: schema.GetCareProtocolsSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -64,7 +64,7 @@ export const getCareProtocolsService = async (dto: GetCareProtocolsScheme) => {
     }
 }
 
-export const getCategoryWithCareProtocolsService = async (dto: GetCareProtocolsScheme) => {
+export const getCategoryWithCareProtocolsService = async (dto: schema.GetCareProtocolsSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 

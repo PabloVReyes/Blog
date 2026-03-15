@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as service from "./careProtocols.service"
-import { deleteCareProtocolsParamsScheme, downloadCareProtocolFileSchema, getCareProtocolsScheme, GetCareProtocolsScheme, postCareProtocolsSchema, PostCareProtocolsScheme, postCategoryScheme, PostCategoryScheme, putCareProtocolsParamsScheme, putCareProtocolsScheme, PutCareProtocolsScheme } from "./careProtocols.scheme";
+import * as schema from "./careProtocols.schema";
 import * as fs from "fs"
 
 ////////////
@@ -9,7 +9,7 @@ import * as fs from "fs"
 
 export const postCareProtocolsController: RequestHandler = async (req, res) => {
     try {
-        const body: PostCareProtocolsScheme = postCareProtocolsSchema.parse(req.body)
+        const body: schema.PostCareProtocolsSchema = schema.postCareProtocolsSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
 
@@ -38,7 +38,7 @@ export const postCareProtocolsController: RequestHandler = async (req, res) => {
 
 export const postCategoryController: RequestHandler = async (req, res) => {
     try {
-        const body: PostCategoryScheme = postCategoryScheme.parse(req.body)
+        const body: schema.PostCategorySchema = schema.postCategorySchema.parse(req.body)
         const data = await service.postCategoryService(body)
         res.json(data)
     } catch (error: any) {
@@ -83,7 +83,7 @@ export const getCategoryController: RequestHandler = async (req, res) => {
 
 export const getCareProtocolsController: RequestHandler = async (req, res) => {
     try {
-        const dto = getCareProtocolsScheme.parse(req.query)
+        const dto = schema.getCareProtocolsSchema.parse(req.query)
         const data = await service.getCareProtocolsService(dto)
 
         res.json(data)
@@ -102,7 +102,7 @@ export const getCareProtocolsController: RequestHandler = async (req, res) => {
 
 export const getCategoryWithCareProtocolsController: RequestHandler = async (req, res) => {
     try {
-        const dto = getCareProtocolsScheme.parse(req.query)
+        const dto = schema.getCareProtocolsSchema.parse(req.query)
         const data = await service.getCategoryWithCareProtocolsService(dto)
         res.json(data)
     } catch (error: any) {
@@ -119,7 +119,7 @@ export const getCategoryWithCareProtocolsController: RequestHandler = async (req
 
 export const downloadGpcFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadCareProtocolFileSchema.parse(req.params)
+        const params = schema.downloadCareProtocolFileSchema.parse(req.params)
         const data = await service.dowloadCareProtocolFileService(params.id)
 
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
@@ -160,8 +160,8 @@ export const downloadGpcFileController: RequestHandler = async (req, res) => {
 
 export const putCareProtocolsController: RequestHandler = async (req, res) => {
     try {
-        const params = putCareProtocolsParamsScheme.parse(req.params)
-        const body: PutCareProtocolsScheme = putCareProtocolsScheme.parse(req.body)
+        const params = schema.putCareProtocolsParamsSchema.parse(req.params)
+        const body: schema.PutCareProtocolsSchema = schema.putCareProtocolsSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         const data = await service.putCareProtocolsService(params.id, dto)
@@ -192,7 +192,7 @@ export const putCareProtocolsController: RequestHandler = async (req, res) => {
 
 export const deleteCareProtocolController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteCareProtocolsParamsScheme.parse(req.params)
+        const params = schema.deleteCareProtocolsParamsSchema.parse(req.params)
         await service.deleteCareProtocolsService(params.id)
 
         res.json({ success: true })

@@ -1,14 +1,14 @@
 import { getPagination } from "../../utils/pagination"
 import * as repo from "./system.repository"
-import { GetSystemSchema } from "./system.schema"
-import { SystemCreateDto, SystemUpdateDto } from "./systems.types"
+import * as schema from "./system.schema"
+import * as type from "./systems.types"
 import { sanitizeFileName } from "../../utils/file"
 
 ////////////
 // CREATE //
 ////////////
 
-export const postSystemService = async (dto: SystemCreateDto) => {
+export const postSystemService = async (dto: type.SystemCreateDto) => {
     const { name, acronym, description, icon, url, file, color, type } = dto
 
     const props = {
@@ -35,7 +35,7 @@ export const postSystemService = async (dto: SystemCreateDto) => {
 // READ //
 //////////
 
-export const getSystemService = async (dto: GetSystemSchema) => {
+export const getSystemService = async (dto: schema.GetSystemSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -76,7 +76,7 @@ export const downloadSystemFileService = async (id: string) => {
 ////////////
 
 
-export const putSystemService = async (id: string, dto: SystemUpdateDto) => {
+export const putSystemService = async (id: string, dto: type.SystemUpdateDto) => {
     const { acronym, name, file, url, description, icon, type, color } = dto
 
     const system: any = await repo.getSystemByIdRepository(id)

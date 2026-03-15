@@ -3,21 +3,13 @@ import * as repo from "./macroprocess.repository"
 import { getPagination } from "../../utils/pagination";
 import * as path from "path";
 import { uploadsRoot } from "./path";
-
-export const getAreaWithManualsService = async (req: any) => {
-    const { id } = req.params;
-    const data = repo.getAreaWithManualsQuery(id)
-    return data
-}
-
-
+import * as schema from "./macroprocess.schema"
 
 //////////
 // READ //
 //////////
 
-export const downloadManualFileService = async (req: any) => {
-    const { id } = req.params
+export const downloadManualFileService = async (id: string) => {
     const Standar = await repo.getManualByIdRepository(id)
 
     if (!Standar || !Standar.filePath) {
@@ -33,16 +25,16 @@ export const downloadManualFileService = async (req: any) => {
     }
 }
 
-export const getManualByTypeService = async (req: any) => {
-    const { type } = req.params
-
-    const data = await repo.getManualByTypeQuery(type)
-
-    return data
+export const getAreaWithManualsService = async (id: string) => {
+    return await repo.getAreaWithManualsRepository(id)
 }
 
-export const getManualsWithAreaService = async (req: any) => {
-    const { page, limit, search } = req.query
+export const getManualByTypeService = async (type: string) => {
+    return await repo.getManualByTypeRepository(type)
+}
+
+export const getManualsWithAreaService = async (dto: schema.GetManualsWithAreaSchema) => {
+    const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 
     const { data, total } = await repo.getManualsWithAreaRepository({
@@ -58,22 +50,14 @@ export const getManualsWithAreaService = async (req: any) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
 
-export const getManualsWithAreaCountService = async (req: any) => {
-    const { search } = req.query
-
-    const data = repo.getManualsWithAreaCountQuery(search)
-
-    return data
-}
-
-export const getManualsTypeService = async (req: any) => {
-    const { page, limit, search } = req.query
+export const getManualsTypeService = async (dto: schema.GetManualsTypeSchema) => {
+    const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 
     const { data, total } = await repo.getManualsTypeRepository({
@@ -89,15 +73,14 @@ export const getManualsTypeService = async (req: any) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
 
-export const putManualTypeService = async (req: any) => {
-    const { id } = req.params
-    const { code, name, color } = req.body
+export const putManualTypeService = async (id: string, dto: schema.PutManualTypeSchema) => {
+    const { code, name, color } = dto
 
     const props = {
         id,
@@ -106,12 +89,11 @@ export const putManualTypeService = async (req: any) => {
         color
     }
 
-    const data = repo.putManualTypeQuery(props)
-    return data
+    return await repo.putManualTypeRepository(props)
 }
 
-export const getAreasService = async (req: any) => {
-    const { page, limit, search } = req.query
+export const getAreasService = async (dto: schema.GetAreasSchema) => {
+    const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 
     const { data, total } = await repo.getAreasRepository({
@@ -127,8 +109,8 @@ export const getAreasService = async (req: any) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: page && limit * (page - 1) + 1,
-            lastItem: page && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -139,10 +121,7 @@ export const getAreasService = async (req: any) => {
 // UPDATE //
 ////////////
 
-export const putManualService = async (req: any) => {
-    const { id } = req.params
-    const file = req.file
-
+export const putManualService = async (id: string, file?: Express.Multer.File) => {
     const manual: any = await repo.getManualByIdRepository(id)
 
     const props: any = {
@@ -187,8 +166,7 @@ export const putAreaService = async (req: any) => {
 // DELETE //
 ////////////
 
-export const deleteManualService = async (req: any) => {
-    const { id } = req.params
+export const deleteManualService = async (id: string) => {
     const manual = await repo.getManualByIdRepository(id)
 
     if (!manual) {

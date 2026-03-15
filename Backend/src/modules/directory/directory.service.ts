@@ -1,12 +1,12 @@
-import * as scheme from "./directory.scheme"
+import * as schema from "./directory.schema"
 import * as repo from "./directory.repository"
 import { getPagination } from "../../utils/pagination"
 
-///
-// CREATE
-///
+////////////
+// CREATE //
+////////////
 
-export const postDirectoryService = async (dto: scheme.PostDirectoryScheme) => {
+export const postDirectoryService = async (dto: schema.PostDirectorySchema) => {
     const { phone, name, level, boss, secretary, email } = dto
 
     return await repo.postDirectoryRepository({
@@ -22,7 +22,7 @@ export const postDirectoryService = async (dto: scheme.PostDirectoryScheme) => {
 //////////
 // READ //
 //////////
-export const getDirectoryService = async (dto: scheme.GetDirectoryScheme) => {
+export const getDirectoryService = async (dto: schema.GetDirectorySchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -56,7 +56,7 @@ export const getLevelsService = async () => {
     }
 }
 
-export const putDirectoryService = async (id: string, dto: scheme.PutDirectoryScheme) => {
+export const putDirectoryService = async (id: string, dto: schema.PutDirectorySchema) => {
     const { phone, name, level, boss, secretary, email } = dto
 
     return await repo.putDirectoryRepository({

@@ -1,4 +1,4 @@
-import { deleteAgreementPersonsParamsSchema, getAgreementPersonsSchema, PostAgreementPersonsSchema, postAgreementPersonsShema, postGroupSchema, PostGroupSchema, postZoneSchema, PostZoneSchema, putAgreementPersonsParamsSchema, PutAgreementPersonsSchema, putAgreementPersonsShema } from "./agreementPersons.scheme";
+import * as schema from "./agreementPersons.schema";
 import { RequestHandler } from "express";
 import * as service from "./agreementPerson.service"
 
@@ -8,7 +8,7 @@ import * as service from "./agreementPerson.service"
 
 export const postAgreementPersonController: RequestHandler = async (req, res) => {
     try {
-        const body: PostAgreementPersonsSchema = postAgreementPersonsShema.parse(req.body)
+        const body: schema.PostAgreementPersonsSchema = schema.postAgreementPersonsShema.parse(req.body)
         await service.postAgreementPersonService(body)
         res.json({ success: true })
     } catch (error: any) {
@@ -33,7 +33,7 @@ export const postAgreementPersonController: RequestHandler = async (req, res) =>
 
 export const postZoneController: RequestHandler = async (req, res) => {
     try {
-        const body: PostZoneSchema = postZoneSchema.parse(req.body)
+        const body: schema.PostZoneSchema = schema.postZoneSchema.parse(req.body)
         const data = await service.postZoneService(body)
         res.json(data)
     } catch (error: any) {
@@ -58,7 +58,7 @@ export const postZoneController: RequestHandler = async (req, res) => {
 
 export const postGroupController: RequestHandler = async (req, res) => {
     try {
-        const body: PostGroupSchema = postGroupSchema.parse(req.body)
+        const body: schema.PostGroupSchema = schema.postGroupSchema.parse(req.body)
         const data = await service.postGroupService(body)
         res.json(data)
     } catch (error: any) {
@@ -88,7 +88,7 @@ export const postGroupController: RequestHandler = async (req, res) => {
 
 export const getAgreementPersonWithDependentsController: RequestHandler = async (req, res) => {
     try {
-        const dto = getAgreementPersonsSchema.parse(req.query)
+        const dto = schema.getAgreementPersonsSchema.parse(req.query)
         const data = await service.getAgreementPersonWithDependentsService(dto)
         res.json(data)
     } catch (error: unknown) {
@@ -104,7 +104,7 @@ export const getAgreementPersonWithDependentsController: RequestHandler = async 
 
 export const getAgreementPersonController: RequestHandler = async (req, res) => {
     try {
-        const dto = getAgreementPersonsSchema.parse(req.query)
+        const dto = schema.getAgreementPersonsSchema.parse(req.query)
         const data = await service.getAgreementPersonService(dto)
         res.json(data)
     } catch (error: unknown) {
@@ -155,8 +155,8 @@ export const getZonesController: RequestHandler = async (req, res) => {
 
 export const putAgreementPersonController: RequestHandler = async (req, res) => {
     try {
-        const params = putAgreementPersonsParamsSchema.parse(req.params)
-        const body: PutAgreementPersonsSchema = putAgreementPersonsShema.parse(req.body)
+        const params = schema.putAgreementPersonsParamsSchema.parse(req.params)
+        const body: schema.PutAgreementPersonsSchema = schema.putAgreementPersonsShema.parse(req.body)
         const data = await service.putAgreementPersonService(params.id, body)
         res.json(data)
     } catch (error: any) {
@@ -185,7 +185,7 @@ export const putAgreementPersonController: RequestHandler = async (req, res) => 
 
 export const deleteAgreementPersonController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteAgreementPersonsParamsSchema.parse(req.params)
+        const params = schema.deleteAgreementPersonsParamsSchema.parse(req.params)
         await service.deleteAgreementPersonService(params.id)
         res.json({ success: true })
     } catch (error: any) {

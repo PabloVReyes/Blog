@@ -1,10 +1,10 @@
 import { email, z } from "zod"
 
-///
+////////////
 // CREATE //
-///
+////////////
 
-export const postDirectoryScheme = z.object({
+export const postDirectorySchema = z.object({
     phone: z.string(),
     name: z.string(),
     level: z.string(),
@@ -13,25 +13,25 @@ export const postDirectoryScheme = z.object({
     email: z.email()
 })
 
-export type PostDirectoryScheme = z.infer<typeof postDirectoryScheme>
+export type PostDirectorySchema = z.infer<typeof postDirectorySchema>
 
-/////
+//////////
 // READ //
-/////
+//////////
 
-export const getDirectoryScheme = z.object({
+export const getDirectorySchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
 })
 
-export type GetDirectoryScheme = z.infer<typeof getDirectoryScheme>
+export type GetDirectorySchema = z.infer<typeof getDirectorySchema>
 
-////
+////////////
 // UPDATE //
-////
+////////////
 
-export const putDirectoryScheme = z.object({
+export const putDirectorySchema = z.object({
     phone: z.string(),
     name: z.string(),
     level: z.string(),
@@ -40,16 +40,16 @@ export const putDirectoryScheme = z.object({
     email: z.email()
 })
 
-export type PutDirectoryScheme = z.infer<typeof putDirectoryScheme>
+export type PutDirectorySchema = z.infer<typeof putDirectorySchema>
 
-export const putDirectoryParamsScheme = z.object({
+export const putDirectoryParamsSchema = z.object({
     id: z.string().uuid()
 })
 
-///
-// DELETE
-///
+////////////
+// DELETE //
+////////////
 
-export const deleteDirectoryParamsScheme = z.object({
+export const deleteDirectoryParamsSchema = z.object({
     id: z.string().uuid()
 })

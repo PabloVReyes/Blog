@@ -1,4 +1,4 @@
-import * as scheme from "./uveh.scheme"
+import * as schema from "./uveh.schema"
 import * as repo from "./uveh.repository"
 import * as types from "./uveh.types"
 import { sanitizeFileName } from "../../utils/file"
@@ -25,7 +25,7 @@ export const postDownloadService = async (dto: types.DownloadsCreateDto) => {
     })
 }
 
-export const postCategoryService = async (dto: scheme.PostCategoryScheme) => {
+export const postCategoryService = async (dto: schema.PostCategorySchema) => {
     const { name } = dto
     return await repo.postCategoryRepository(name)
 }
@@ -45,7 +45,7 @@ export const getCategoriesService = async () => {
     }
 }
 
-export const getCategoriesWithDownloadsService = async (dto: scheme.GetCategoryWithDownloadsScheme) => {
+export const getCategoriesWithDownloadsService = async (dto: schema.GetCategoryWithDownloadsSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -68,7 +68,7 @@ export const getCategoriesWithDownloadsService = async (dto: scheme.GetCategoryW
     }
 }
 
-export const getDownloadsService = async (dto: scheme.GetDownloadsScheme) => {
+export const getDownloadsService = async (dto: schema.GetDownloadsSchema) => {
     const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 

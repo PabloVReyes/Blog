@@ -4,12 +4,12 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postCie10Shema = z.object({
+export const postCie10Schema = z.object({
     code: z.string(),
     name: z.string()
 })
 
-export type PostCie10Schema = z.infer<typeof postCie10Shema>
+export type PostCie10Schema = z.infer<typeof postCie10Schema>
 
 //////////
 // READ //
@@ -27,12 +27,12 @@ export type GetCie10Schema = z.infer<typeof getCie10Schema>
 // UPDATE //
 ////////////
 
-export const putCie10Shema = z.object({
+export const putCie10Schema = z.object({
     code: z.string(),
     name: z.string()
 })
 
-export type PutCie10Schema = z.infer<typeof putCie10Shema>
+export type PutCie10Schema = z.infer<typeof putCie10Schema>
 
 export const putCie10ParamsSchema = z.object({
     id: z.string()

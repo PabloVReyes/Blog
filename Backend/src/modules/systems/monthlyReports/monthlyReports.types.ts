@@ -1,9 +1,9 @@
-import { PostMonthlyReportsSchema, PutMonthlyReportsSchema } from "./monthlyReports.schema";
+import * as schema from "./monthlyReports.schema"
 
-export interface MontghlyReportsCreateDto extends PostMonthlyReportsSchema {
+export interface MontghlyReportsCreateDto extends schema.PostMonthlyReportsSchema {
     file?: Express.Multer.File;
 }
 
-export interface MontghlyReportsUpdateDto extends PutMonthlyReportsSchema {
+export interface MontghlyReportsUpdateDto extends schema.PutMonthlyReportsSchema {
     file?: Express.Multer.File;
 }

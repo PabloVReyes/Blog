@@ -1,5 +1,5 @@
 import * as service from "./vacations.service"
-import * as scheme from "./vacations.scheme"
+import * as schema from "./vacations.schema"
 import { RequestHandler } from "express"
 
 //
@@ -8,7 +8,7 @@ import { RequestHandler } from "express"
 
 export const postShiftController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostShiftScheme = scheme.postShiftScheme.parse(req.body)
+        const body: schema.PostShiftSchema = schema.postShiftSchema.parse(req.body)
         const dto = { ...body }
         await service.postShiftService(dto)
         res.json({ success: true })
@@ -34,7 +34,7 @@ export const postShiftController: RequestHandler = async (req, res) => {
 
 export const postVacationController: RequestHandler = async (req, res) => {
     try {
-        const body: scheme.PostVacationScheme = scheme.postVacationScheme.parse(req.body)
+        const body: schema.PostVacationSchema = schema.postVacationSchema.parse(req.body)
         const file = req.file;
         const dto = { ...body, file }
         await service.postVacationService(dto)
@@ -65,7 +65,7 @@ export const postVacationController: RequestHandler = async (req, res) => {
 
 export const getVacationsController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getVacationsScheme.parse(req.query)
+        const dto = schema.getVacationsSchema.parse(req.query)
         const data = await service.getVacationsService(dto)
         res.json(data)
     } catch (error: unknown) {
@@ -81,7 +81,7 @@ export const getVacationsController: RequestHandler = async (req, res) => {
 
 export const getShilftsController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getShiftsScheme.parse(req.query)
+        const dto = schema.getShiftsSchema.parse(req.query)
         const data = await service.getShiftsService(dto)
         res.json(data)
     } catch (error: unknown) {
@@ -97,7 +97,7 @@ export const getShilftsController: RequestHandler = async (req, res) => {
 
 export const getShiftWithVacationsController: RequestHandler = async (req, res) => {
     try {
-        const dto = scheme.getShiftsWithFilesScheme.parse(req.query)
+        const dto = schema.getShiftsWithFilesSchema.parse(req.query)
         const data = await service.getShiftWithVacationsService(dto)
         res.json(data)
     } catch (error: any) {
@@ -114,7 +114,7 @@ export const getShiftWithVacationsController: RequestHandler = async (req, res) 
 
 export const downloadVacationFileController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.downloadVacationScheme.parse(req.params)
+        const params = schema.downloadVacationSchema.parse(req.params)
         const data: any = await service.downloadVacationsFileService(params.id)
 
         const mimeType = data.mimeType || "application/octet-stream"
@@ -161,8 +161,8 @@ export const downloadVacationFileController: RequestHandler = async (req, res) =
 
 export const putVacationController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.PutVacationParamsScheme.parse(req.params)
-        const body: scheme.PutVacationScheme = scheme.putVacationScheme.parse(req.body)
+        const params = schema.PutVacationParamsSchema.parse(req.params)
+        const body: schema.PutVacationSchema = schema.putVacationSchema.parse(req.body)
         const file = req.file;
         const dto = { ...body, file }
         const data = await service.putVacationService(params.id, dto)
@@ -189,8 +189,8 @@ export const putVacationController: RequestHandler = async (req, res) => {
 
 export const putShiftController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.PutShiftParamsScheme.parse(req.params)
-        const body: scheme.PutShiftScheme = scheme.putShiftScheme.parse(req.body)
+        const params = schema.PutShiftParamsSchema.parse(req.params)
+        const body: schema.PutShiftSchema = schema.putShiftSchema.parse(req.body)
         const dto = { ...body }
         const data = await service.putShiftService(params.id, dto)
         res.json(data)
@@ -220,7 +220,7 @@ export const putShiftController: RequestHandler = async (req, res) => {
 
 export const deleteShiftController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.deleteShiftParamsScheme.parse(req.params)
+        const params = schema.deleteShiftParamsSchema.parse(req.params)
         await service.deleteShiftService(params.id)
         res.json({ success: true })
     } catch (error: any) {
@@ -245,7 +245,7 @@ export const deleteShiftController: RequestHandler = async (req, res) => {
 
 export const deleteVacationController: RequestHandler = async (req, res) => {
     try {
-        const params = scheme.deleteVacationParamsScheme.parse(req.params)
+        const params = schema.deleteVacationParamsSchema.parse(req.params)
         await service.deleteVacationService(params.id)
         res.json({ success: true })
     } catch (error: any) {

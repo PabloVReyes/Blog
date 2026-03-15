@@ -5,11 +5,11 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postCategoryScheme = z.object({
+export const postCategorySchema = z.object({
     name: z.string()
 })
 
-export type PostCategoryScheme = z.infer<typeof postCategoryScheme>
+export type PostCategorySchema = z.infer<typeof postCategorySchema>
 
 export const postCareProtocolsSchema = z.object({
     title: z.string(),
@@ -17,19 +17,19 @@ export const postCareProtocolsSchema = z.object({
     category: z.string().uuid()
 })
 
-export type PostCareProtocolsScheme = z.infer<typeof postCareProtocolsSchema>
+export type PostCareProtocolsSchema = z.infer<typeof postCareProtocolsSchema>
 
 //////////
 // READ //
 //////////
 
-export const getCareProtocolsScheme = z.object({
+export const getCareProtocolsSchema = z.object({
     page: z.coerce.number().min(1).optional(),
     limit: z.coerce.number().min(1).max(100).optional(),
     search: z.string().optional(),
 })
 
-export type GetCareProtocolsScheme = z.infer<typeof getCareProtocolsScheme>
+export type GetCareProtocolsSchema = z.infer<typeof getCareProtocolsSchema>
 
 export const downloadCareProtocolFileSchema = z.object({
     id: z.string().uuid(),
@@ -39,15 +39,15 @@ export const downloadCareProtocolFileSchema = z.object({
 // UPDATE //
 ////////////
 
-export const putCareProtocolsScheme = z.object({
+export const putCareProtocolsSchema = z.object({
     title: z.string(),
     description: z.string(),
     category: z.string().uuid()
 })
 
-export type PutCareProtocolsScheme = z.infer<typeof putCareProtocolsScheme>
+export type PutCareProtocolsSchema = z.infer<typeof putCareProtocolsSchema>
 
-export const putCareProtocolsParamsScheme = z.object({
+export const putCareProtocolsParamsSchema = z.object({
     id: z.string().uuid()
 })
 
@@ -55,6 +55,6 @@ export const putCareProtocolsParamsScheme = z.object({
 // DELETE //
 ////////////
 
-export const deleteCareProtocolsParamsScheme = z.object({
+export const deleteCareProtocolsParamsSchema = z.object({
     id: z.string().uuid()
 })

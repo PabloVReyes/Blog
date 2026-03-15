@@ -1,16 +1,12 @@
 import { getPagination } from "../../../utils/pagination";
 import * as repo from "./codes.repository"
-import { GetCodesSchema } from "./codes.schema";
+import * as schema from "./codes.schema"
 
 //////////
 // READ //
 //////////
 
-interface GetCodesServiceProps extends GetCodesSchema {
-    categoryId: string;
-}
-
-export const getCodesService = async (dto: GetCodesServiceProps) => {
+export const getCodesService = async (dto: schema.GetCodesSchema) => {
     const { page, limit, search, categoryId } = dto
     const { skip, take } = getPagination(page, limit)
 

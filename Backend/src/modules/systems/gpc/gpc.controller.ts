@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { deleteGpcParamsScheme, downloadGpcFileSchema, getGpcScheme, postCicleScheme, PostCicleScheme, postGpcScheme, PostGpcScheme, putGpcParamsScheme, putGpcScheme, PutGpcScheme } from "./gpc.scheme";
+import * as schema from "./gpc.schema"
 import * as service from "./gpc.service"
 import * as fs from "fs"
 
@@ -9,7 +9,7 @@ import * as fs from "fs"
 
 export const postGpcController: RequestHandler = async (req, res) => {
     try {
-        const body: PostGpcScheme = postGpcScheme.parse(req.body)
+        const body: schema.PostGpcSchema = schema.postGpcSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
 
@@ -38,7 +38,7 @@ export const postGpcController: RequestHandler = async (req, res) => {
 
 export const postCicleController: RequestHandler = async (req, res) => {
     try {
-        const body: PostCicleScheme = postCicleScheme.parse(req.body)
+        const body: schema.PostCicleSchema = schema.postCicleSchema.parse(req.body)
         const data = await service.postCicleService(body)
         res.json(data)
     } catch (error: any) {
@@ -83,7 +83,7 @@ export const getCicleController: RequestHandler = async (req, res) => {
 
 export const getGpcController: RequestHandler = async (req, res) => {
     try {
-        const dto = getGpcScheme.parse(req.query)
+        const dto = schema.getGpcSchema.parse(req.query)
         const data = await service.getGpcService(dto)
         res.json(data)
     } catch (error: any) {
@@ -100,7 +100,7 @@ export const getGpcController: RequestHandler = async (req, res) => {
 
 export const getCicleWithGpcController: RequestHandler = async (req, res) => {
     try {
-        const dto = getGpcScheme.parse(req.query)
+        const dto = schema.getGpcSchema.parse(req.query)
         const data = await service.getCicleWithGpcService(dto)
         res.json(data)
     } catch (error: any) {
@@ -117,7 +117,7 @@ export const getCicleWithGpcController: RequestHandler = async (req, res) => {
 
 export const downloadGpcFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadGpcFileSchema.parse(req.params)
+        const params = schema.downloadGpcFileSchema.parse(req.params)
         const data = await service.dowloadGpcFileService(params.id)
 
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
@@ -158,8 +158,8 @@ export const downloadGpcFileController: RequestHandler = async (req, res) => {
 
 export const putGpcController: RequestHandler = async (req, res) => {
     try {
-        const params = putGpcParamsScheme.parse(req.params)
-        const body: PutGpcScheme = putGpcScheme.parse(req.body)
+        const params = schema.putGpcParamsSchema.parse(req.params)
+        const body: schema.PutGpcSchema = schema.putGpcSchema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         const data = await service.putGpcService(params.id, dto)
@@ -190,7 +190,7 @@ export const putGpcController: RequestHandler = async (req, res) => {
 
 export const deleteGpcController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteGpcParamsScheme.parse(req.params)
+        const params = schema.deleteGpcParamsSchema.parse(req.params)
         await service.deleteGpcService(params.id)
 
         res.json({ success: true })

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as controller from "./accesscard.controller"
-import * as  multer from "multer";
+import * as multer from "multer";
 import * as path from "path";
 import { sanitizeFileName } from "../../../utils/file";
 

@@ -1,5 +1,5 @@
 import slugify from "slugify"
-import * as scheme from "./downloads.scheme"
+import * as schema from "./downloads.schema"
 import * as repo from "./downloads.repository"
 import { getPagination } from "../../utils/pagination"
 import * as types from "./downloads.types"
@@ -27,7 +27,7 @@ export const postDownloadService = async (dto: types.DownloadsCreateDto) => {
     })
 }
 
-export const postAreaService = async (dto: scheme.PostAreaSchema) => {
+export const postAreaService = async (dto: schema.PostAreaSchema) => {
     const { name, icon, color } = dto
     const slug = slugify(name, { lower: true, strict: true })
 
@@ -39,7 +39,7 @@ export const postAreaService = async (dto: scheme.PostAreaSchema) => {
     })
 }
 
-export const postSectionService = async (dto: scheme.PostSectionScheme) => {
+export const postSectionService = async (dto: schema.PostSectionSchema) => {
     const { name, area } = dto
     return await repo.postSectionRepository({
         name,
@@ -47,7 +47,7 @@ export const postSectionService = async (dto: scheme.PostSectionScheme) => {
     })
 }
 
-export const postCategoryService = async (dto: scheme.PostCategoryScheme) => {
+export const postCategoryService = async (dto: schema.PostCategorySchema) => {
     const { name, section } = dto
 
     return await repo.postCategoryRepository({
@@ -77,7 +77,7 @@ export const downloadFileService = async (id: number) => {
     }
 }
 
-export const getDownloadsService = async (dto: scheme.GetDownloadsScheme) => {
+export const getDownloadsService = async (dto: schema.GetDownloadsSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -100,7 +100,7 @@ export const getDownloadsService = async (dto: scheme.GetDownloadsScheme) => {
     }
 }
 
-export const getAreasService = async (dto: scheme.GetAreaSchema) => {
+export const getAreasService = async (dto: schema.GetAreaSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
@@ -128,9 +128,9 @@ export const getAreaWithDownloadsService = async (slug: string) => {
 }
 
 export const getSectionsByAreaService = async (area: number) => {
-    const { data, total } = await repo.getSectionByAreaRepository({
-        areaId: area
-    })
+    const { data, total } = await repo.getSectionByAreaRepository(
+        area
+    )
 
     return {
         data,
@@ -141,9 +141,9 @@ export const getSectionsByAreaService = async (area: number) => {
 }
 
 export const getCategoriesBySectionService = async (section: number) => {
-    const { data, total } = await repo.getCategoriesBySectionRepository({
-        sectionId: section
-    })
+    const { data, total } = await repo.getCategoriesBySectionRepository(
+        section
+    )
 
     return {
         data,
@@ -193,7 +193,7 @@ export const putDownloadService = async (id: number, dto: types.DownloadsUpdateD
     return await repo.putDownloadRepository(props)
 }
 
-export const putAreaService = async (id: number, dto: scheme.PutAreaSchema) => {
+export const putAreaService = async (id: number, dto: schema.PutAreaSchema) => {
     const { name, icon, color } = dto
     const slug = slugify(name, { lower: true, strict: true })
 

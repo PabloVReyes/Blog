@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as service from "./accesscard.service"
-import { deleteAccessCardParamsSchema, downloadAccessCardFileSchema, getAccesscardSchema, PostAccessCardSchema, postAccessCardShema, putAccessCardParamsSchema, PutAccessCardSchema, putAccessCardShema } from "./accesscard.schema";
+import * as schema from "./accesscard.schema"
 import * as fs from "fs"
 
 ////////////
@@ -9,7 +9,7 @@ import * as fs from "fs"
 
 export const postAccessCardController: RequestHandler = async (req, res) => {
     try {
-        const body: PostAccessCardSchema = postAccessCardShema.parse(req.body)
+        const body: schema.PostAccessCardSchema = schema.postAccessCardShema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         await service.postAccessCardService(dto)
@@ -40,7 +40,7 @@ export const postAccessCardController: RequestHandler = async (req, res) => {
 
 export const getAccessCardController: RequestHandler = async (req, res) => {
     try {
-        const dto = getAccesscardSchema.parse(req.query)
+        const dto = schema.getAccesscardSchema.parse(req.query)
         const data = await service.getAccessCardService(dto)
         res.json(data)
     } catch (error) {
@@ -56,7 +56,7 @@ export const getAccessCardController: RequestHandler = async (req, res) => {
 
 export const downloadAccessCardFileController: RequestHandler = async (req, res) => {
     try {
-        const params = downloadAccessCardFileSchema.parse(req.params)
+        const params = schema.downloadAccessCardFileSchema.parse(req.params)
         const data = await service.downloadAccessCardFileService(params.id)
 
         res.setHeader("Content-Type", "application/pdf"); // 👈 importante
@@ -98,8 +98,8 @@ export const downloadAccessCardFileController: RequestHandler = async (req, res)
 
 export const putAccessCardController: RequestHandler = async (req, res) => {
     try {
-        const params = putAccessCardParamsSchema.parse(req.params)
-        const body: PutAccessCardSchema = putAccessCardShema.parse(req.body)
+        const params = schema.putAccessCardParamsSchema.parse(req.params)
+        const body: schema.PutAccessCardSchema = schema.putAccessCardShema.parse(req.body)
         const file = req.file
         const dto = { ...body, file }
         const data = await service.putAccessCardService(params.id, dto)
@@ -130,7 +130,7 @@ export const putAccessCardController: RequestHandler = async (req, res) => {
 
 export const deleteAccessCardController: RequestHandler = async (req, res) => {
     try {
-        const params = deleteAccessCardParamsSchema.parse(req.params)
+        const params = schema.deleteAccessCardParamsSchema.parse(req.params)
         service.deleteAccessCardService(params.id)
         res.json({ success: true })
     } catch (error: any) {

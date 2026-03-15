@@ -1,4 +1,4 @@
-import { GetAgreementPersonsSchema, PostAgreementPersonsSchema, PostZoneSchema, PutAgreementPersonsSchema } from "./agreementPersons.scheme";
+import { GetAgreementPersonsSchema, PostAgreementPersonsSchema, PostZoneSchema, PutAgreementPersonsSchema } from "./agreementPersons.schema";
 import * as repo from "./agreementPerson.repository"
 import { getPagination } from "../../../utils/pagination";
 
