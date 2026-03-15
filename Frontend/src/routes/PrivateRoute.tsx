@@ -10,9 +10,9 @@ export function PrivateRoute() {
 
     useEffect(() => {
         if (!isAuthenticated) {
-            openLogin();
+            openLogin()
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, openLogin])
 
     if (!isAuthenticated) {
         return <Navigate to="/" replace />;
