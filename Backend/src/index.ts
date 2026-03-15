@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as morgan from 'morgan';
 import { globalLimiter } from "./middleware/rateLimiter.middleware";
 import 'dotenv/config'
-import * as colors from 'colors'
+import chalk from 'chalk'
 import router from './routes/routes'
 import { errorHandler } from "./middleware/errorHandler.middleware";
 
@@ -74,7 +74,7 @@ class App {
         this.settingDataFormProcess();
         this.settingRoutes()
         this.httpServer.listen(this.port, () => {
-            console.log(colors.rainbow(`http://localhost:${this.port}`))
+            console.log(chalk.bgCyanBright(`http://localhost:${this.port}`))
         })
     }
 }
