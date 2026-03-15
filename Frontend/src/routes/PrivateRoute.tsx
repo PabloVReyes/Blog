@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "@/features/auth/store";
 
 export function PrivateRoute() {
-    const isAuthenticated = useAuthStore((s) => s.isAuthenticated());
+    const isAuthenticated = useAuthStore((s) => !!s.token)
     const openLogin = useAuthStore((s) => s.openLogin);
 
     useEffect(() => {
