@@ -94,21 +94,45 @@ interface PutUserRepositoryProps extends schema.PutUserSchema {
 
 export const putUserRepository = async ({ name, email, roles, id, active }: PutUserRepositoryProps) => {
     try {
-        return await database.user.update({
-            where: { id },
-            data: {
-                active,
-                email,
-                name,
-                roles: {
-                    deleteMany: {},
-                    create: roles.map((rolId) => ({
-                        role: {
-                            connect: { id: rolId }
-                        }
-                    }))
+        const currentRoles = await database.userRole.findMany({
+            where: { userId: id },
+            select: { roleId: true }
+        })
+
+        const currentIds = currentRoles.map(r => r.roleId)
+
+        const toAdd = roles.filter(roleId => !currentIds.includes(roleId))
+        const toRemove = currentIds.filter(roleId => !roles.includes(roleId))
+
+        await database.$transaction([
+
+            database.user.update({
+                where: { id },
+                data: {
+                    name,
+                    email,
+                    active
                 }
-            },
+            }),
+
+            database.userRole.deleteMany({
+                where: {
+                    userId: id,
+                    roleId: { in: toRemove }
+                }
+            }),
+
+            database.userRole.createMany({
+                data: toAdd.map(roleId => ({
+                    userId: id,
+                    roleId
+                }))
+            })
+
+        ])
+
+        return database.user.findUnique({
+            where: { id },
             include: {
                 roles: {
                     include: {

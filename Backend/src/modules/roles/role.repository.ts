@@ -83,23 +83,47 @@ interface PutRoleRepositoryProps extends schema.PutRoleSchema {
 
 export const putRoleRepository = async ({ id, name, description, permissions }: PutRoleRepositoryProps) => {
     try {
-        return await database.role.update({
-            where: {
-                id
-            },
-            data: {
-                name,
-                description,
-                permissions: {
-                    deleteMany: {},
+        const currentPermissions = await database.rolePermission.findMany({
+            where: { roleId: id },
+            select: { permissionId: true }
+        })
 
-                    create: permissions.map((permissionId) => ({
-                        permission: {
-                            connect: { id: permissionId }
-                        }
-                    }))
-                },
-            },
+        const currentIds = currentPermissions.map(p => p.permissionId)
+
+        const currentSet = new Set(currentIds)
+        const newSet = new Set(permissions)
+
+        const toAdd = permissions.filter(id => !currentSet.has(id))
+        const toRemove = currentIds.filter(id => !newSet.has(id))
+
+        await database.$transaction([
+
+            database.role.update({
+                where: { id },
+                data: {
+                    name,
+                    description
+                }
+            }),
+
+            database.rolePermission.deleteMany({
+                where: {
+                    roleId: id,
+                    permissionId: { in: toRemove }
+                }
+            }),
+
+            database.rolePermission.createMany({
+                data: toAdd.map(permissionId => ({
+                    roleId: id,
+                    permissionId
+                }))
+            })
+
+        ])
+
+        return database.role.findUnique({
+            where: { id },
             include: {
                 permissions: {
                     include: {
