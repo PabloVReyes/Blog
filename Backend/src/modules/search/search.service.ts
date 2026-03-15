@@ -1,16 +1,15 @@
-import { getSystemRepository } from "../../modules/systems/system.repository";
+import * as repo from "../../modules/systems/system.repository";
+import { getPagination } from "../../utils/pagination";
+import * as scheme from "./search.scheme"
 
-export const getSearchService = async (req: any) => {
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
-    const search = req.query.search || "";
-
-    const skip = (page - 1) * limit;
+export const getSearchService = async (dto: scheme.getSearchScheme) => {
+    const { page, search, limit } = dto
+    const { take, skip } = getPagination()
 
     const [
         { data: systems, total: systemsTotal },
     ] = await Promise.all([
-        getSystemRepository({
+        repo.getSystemRepository({
             search,
             take: limit,
             skip,

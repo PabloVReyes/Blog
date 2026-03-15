@@ -68,6 +68,7 @@ export const Header = ({ isMobile, mobileOpen, toggleSidebar }: Props) => {
                 <Group gap={5} ml={"xs"}>
                     {isMobile && (
                         <Burger
+                            color="var(--mantine-primary-color-contrast)"
                             opened={mobileOpen}
                             onClick={toggleSidebar}
                             size="md"
