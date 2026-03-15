@@ -31,8 +31,6 @@ export const getSearchService = async (dto: schema.getSearchSchema) => {
         })),
     ];
 
-    console.log(normalized)
-
     normalized.sort(
         (a, b) =>
             new Date(b.createdAt).getTime() -
