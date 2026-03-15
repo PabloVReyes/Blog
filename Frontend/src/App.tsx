@@ -17,14 +17,16 @@ const updateFavicon = (url: string) => {
 export const App = () => {
     const { title, favicon, theme } = useSettingStore()
     const { setColorScheme } = useMantineColorScheme();
-    
-    useEffect(() => {
-        document.title = title ? title : 'Sin título';
 
-        if (favicon) {
-            updateFavicon(`${import.meta.env.VITE_API_URL}${favicon}`);
-        }
+    useEffect(() => {
+        document.title = title || 'Sin titulo'
     }, [title])
+
+    useEffect(() => {
+        if (favicon) {
+            updateFavicon(`${import.meta.env.VITE_API_URL}${favicon}`)
+        }
+    }, [favicon])
 
     useEffect(() => {
         setColorScheme(theme);
