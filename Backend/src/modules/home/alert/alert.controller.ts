@@ -16,7 +16,7 @@ export const getAlertController: RequestHandler = asyncHandler(async (req: Reque
 // UPDATE //
 ////////////
 
-export const putAlertService: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const putAlertController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const dto = schema.putAlertSchema.parse({
         id: req.params.id,
         ...req.body

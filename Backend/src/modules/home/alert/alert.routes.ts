@@ -4,6 +4,6 @@ import * as controller from "./alert.controller"
 const router: Router = Router()
 
 router.get("/", controller.getAlertController)
-router.put("/:id", controller.putAlertService)
+router.put("/:id", controller.putAlertController)
 
 export default router;

@@ -2,7 +2,7 @@ import { Divider, FileInput, Stack, Text, TextInput } from "@mantine/core";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { ApiSelect, ModalButtons } from "@/components";
 import { useEffect, useState } from "react";
-import { addCicle, fetchCicle } from "../../api";
+import { addCycle, fetchCycle } from "../../api";
 
 interface Item {
     value: string;
@@ -15,32 +15,32 @@ interface Props {
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string;
-    initialCicle?: Item | null;
+    initialCycle?: Item | null;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName, initialCicle }: Props) => {
-    const [cicles, setCicles] = useState<Item[]>([]);
-    const [loadingCicles, setLoadingCicles] = useState<boolean>(false);
+export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName, initialCycle }: Props) => {
+    const [cycles, setCycles] = useState<Item[]>([]);
+    const [loadingCycles, setLoadingCycles] = useState<boolean>(false);
 
     useEffect(() => {
-        fetchCiclesData();
+        fetchCyclesData();
     }, []);
 
-    const fetchCiclesData = async () => {
-        setLoadingCicles(true);
+    const fetchCyclesData = async () => {
+        setLoadingCycles(true);
         try {
-            const res = await fetchCicle();
+            const res = await fetchCycle();
             const formatted = res.data.map((item: any) => ({
                 value: item.id.toString(),
                 label: item.name,
             }));
             // incluir valor inicial si no existe en la lista
-            if (initialCicle && !formatted.find((i: any) => i.value === initialCicle.value)) {
-                formatted.unshift(initialCicle);
+            if (initialCycle && !formatted.find((i: any) => i.value === initialCycle.value)) {
+                formatted.unshift(initialCycle);
             }
-            setCicles(formatted);
+            setCycles(formatted);
         } finally {
-            setLoadingCicles(false);
+            setLoadingCycles(false);
         }
     };
 
@@ -84,17 +84,17 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName, initial
 
                     <ApiSelect
                         form={form}
-                        name="cicle"
+                        name="cycle"
                         label="Ciclo"
                         description="Seleccionar el ciclo el cual pertenece el algoritmo"
                         placeholder="Ciclo..."
-                        data={cicles}
-                        loading={loadingCicles}
-                        initialItem={initialCicle}
+                        data={cycles}
+                        loading={loadingCycles}
+                        initialItem={initialCycle}
                         onCreate={async (name) => {
-                            const res = await addCicle({ name });
+                            const res = await addCycle({ name });
                             const newItem = { value: res.id.toString(), label: res.name };
-                            setCicles((prev) => [...prev, newItem]);
+                            setCycles((prev) => [...prev, newItem]);
                             return newItem;
                         }}
                     />

@@ -4,7 +4,7 @@ export const putDerechohabienciaParamsSchema = z.object({
     id: z.string().uuid()
 })
 
-export const linkShema = z.object({
+export const linkSchema = z.object({
     id: z.string().uuid(),
     title: z.string(),
     url: z.string().url()
@@ -15,7 +15,7 @@ export const putDerechohabienciaSchema = z.object({
     description: z.string(),
     icon: z.string(),
     color: z.string(),
-    links: z.array(linkShema)
+    links: z.array(linkSchema)
 })
 
 export type PutDerechohabienciaParams = z.infer<typeof putDerechohabienciaParamsSchema>;

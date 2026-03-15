@@ -18,14 +18,14 @@ export const AddGCP = () => {
         initialValues: {
             title: "",
             description: "",
-            cicle: "",
+            cycle: "",
             orderIndex: 1,
             file: null as File | null,
         },
         validate: {
             title: validateTitle,
             description: validateDescription,
-            cicle: (value) => validateSelect(value, { required: true }),
+            cycle: (value) => validateSelect(value, { required: true }),
             orderIndex: (value) => validateOrder(value, { required: true }),
             file: (value) => validatePdf(value, { required: true })
         }
@@ -38,7 +38,7 @@ export const AddGCP = () => {
             const formData = new FormData();
             formData.append("title", values.title)
             formData.append("description", values.description)
-            formData.append("cicle", values.cicle)
+            formData.append("cycle", values.cycle)
             formData.append("orderIndex", String(values.orderIndex))
 
             if (values.file) {

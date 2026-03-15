@@ -16,9 +16,9 @@ export const postGpcController: RequestHandler = asyncHandler(async (req: Reques
     res.json({ success: true })
 })
 
-export const postCicleController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const body: schema.PostCicleSchema = schema.postCicleSchema.parse(req.body)
-    const data = await service.postCicleService(body)
+export const postCycleController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const body: schema.PostCycleSchema = schema.postCycleSchema.parse(req.body)
+    const data = await service.postCycleService(body)
     res.json(data)
 })
 
@@ -26,8 +26,8 @@ export const postCicleController: RequestHandler = asyncHandler(async (req: Requ
 // READ //
 //////////
 
-export const getCicleController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const data = await service.getCicleService()
+export const getCycleController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const data = await service.getCycleService()
     res.json(data)
 })
 
@@ -37,9 +37,9 @@ export const getGpcController: RequestHandler = asyncHandler(async (req: Request
     res.json(data)
 })
 
-export const getCicleWithGpcController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const getCycleWithGpcController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const dto = schema.getGpcSchema.parse(req.query)
-    const data = await service.getCicleWithGpcService(dto)
+    const data = await service.getCycleWithGpcService(dto)
     res.json(data)
 })
 

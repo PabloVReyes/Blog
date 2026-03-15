@@ -4,9 +4,9 @@ import { GetCarouselSchema } from "./carousel.schema"
 import { sanitizeFileName } from "../../../utils/file"
 import { CarouselCreateDto, CarouselUpdateDto } from "./carousel.types"
 
-/////////////
-// CREATED //
-/////////////
+////////////
+// CREATE //
+////////////
 
 export const postCarouselService = async (dto: CarouselCreateDto) => {
     const { title, description, sectionId, type, url, isActive, imageFile, contentFile } = dto

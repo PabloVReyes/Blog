@@ -36,7 +36,7 @@ export const downloadCalendarFileController: RequestHandler = asyncHandler(async
 
 export const putCalendarController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.putCalendarParamsSchema.parse(req.params)
-    const body: schema.PutCalendarSchema = schema.putCalendarShema.parse(req.body)
+    const body: schema.PutCalendarSchema = schema.putCalendarSchema.parse(req.body)
     const file = req.file
     const dto = { ...body, file }
     const data = await service.putCalendarService(params.id, dto)

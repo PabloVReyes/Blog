@@ -136,7 +136,7 @@ export const putSystemService = async (id: string, dto: type.SystemUpdateDto) =>
 // DELETE //
 ////////////
 
-export const deteleSystemService = async (id: string) => {
+export const deleteSystemService = async (id: string) => {
     const system: any = await repo.getSystemByIdRepository(id)
 
     if (!system) {

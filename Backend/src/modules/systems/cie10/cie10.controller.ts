@@ -10,7 +10,7 @@ import { asyncHandler } from "../../../utils/asyncHandler";
 export const postCie10Controller: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const body: schema.PostCie10Schema = schema.postCie10Schema.parse(req.body)
     await service.postCie10Service(body)
-    res.json({ sucess: true })
+    res.json({ success: true })
 })
 
 //////////

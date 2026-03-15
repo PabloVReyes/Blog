@@ -35,7 +35,7 @@ router.get("/reports/", controller.getMonthlyReportsController)
 router.get("/reports/:id/download", controller.downloadMonthlyReportsController)
 router.post("/reports/", upload.single("file"), controller.postMonthlyReportsController)
 router.put("/reports/:id", upload.single("file"), controller.putMonthlyReportsController)
-router.delete("/reports/:id", controller.deteleMonthlyReportsController)
+router.delete("/reports/:id", controller.deleteMonthlyReportsController)
 
 router.get("/periods/", controller.getPeriodsController)
 

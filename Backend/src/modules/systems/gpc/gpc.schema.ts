@@ -4,16 +4,16 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postCicleSchema = z.object({
+export const postCycleSchema = z.object({
     name: z.string()
 })
 
-export type PostCicleSchema = z.infer<typeof postCicleSchema>
+export type PostCycleSchema = z.infer<typeof postCycleSchema>
 
 export const postGpcSchema = z.object({
     title: z.string(),
     description: z.string(),
-    cicle: z.string().uuid(),
+    cycle: z.string().uuid(),
     orderIndex: z.coerce.number()
 })
 
@@ -43,7 +43,7 @@ export const downloadGpcFileSchema = z.object({
 export const putGpcSchema = z.object({
     title: z.string(),
     description: z.string(),
-    cicle: z.string().uuid(),
+    cycle: z.string().uuid(),
     orderIndex: z.coerce.number()
 })
 

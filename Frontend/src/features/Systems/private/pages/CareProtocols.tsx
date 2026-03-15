@@ -20,7 +20,7 @@ const columns = [
         align: 'left',
     },
     {
-        key: "cicle",
+        key: "cycle",
         label: "Ciclo",
         align: 'center',
         miw: "150px",

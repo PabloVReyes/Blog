@@ -16,7 +16,7 @@ interface Meta {
 }
 
 interface GPCS {
-    cicleId: string;
+    cycleId: string;
     description: string;
     fileName: string;
     filePath: string;
@@ -83,7 +83,7 @@ export const GPC = () => {
                 ? (<Center h={"100%"}><Loader /></Center>)
                 : data.data?.length > 0
                     ?
-                    data.data.map((cicle, index: number) => {
+                    data.data.map((cycle, index: number) => {
                         const colors = getCicloColor(index, theme.primaryColor)
                         return (
                             <Stack>
@@ -102,21 +102,21 @@ export const GPC = () => {
                                         }}
                                     >
                                         <Group justify="space-between">
-                                            <Text fw={700}>{cicle.name}</Text>
+                                            <Text fw={700}>{cycle.name}</Text>
                                             <Badge
                                                 variant="filled"
                                                 px={"12px"}
                                                 py={"4px"}
                                                 color={`${colors.badge}`}
                                             >
-                                                {cicle._count.gpcs}{" "}
-                                                {cicle._count.gpcs === 1 ? "algoritmo" : "algoritmos"}
+                                                {cycle._count.gpcs}{" "}
+                                                {cycle._count.gpcs === 1 ? "algoritmo" : "algoritmos"}
                                             </Badge>
                                         </Group>
                                     </Card.Section>
                                 </Card>
 
-                                {cicle.gpcs.map((item, indexGPC: number) => (
+                                {cycle.gpcs.map((item, indexGPC: number) => (
                                     <GPCAlgorithms {...item} key={indexGPC} color={colors.bg} />
                                 ))}
                             </Stack>

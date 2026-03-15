@@ -74,7 +74,7 @@ class App {
         this.settingDataFormProcess();
         this.settingRoutes()
         this.httpServer.listen(this.port, () => {
-            console.log(chalk.bgCyanBright(`http://localhost:${this.port}`))
+            console.log(chalk.greenBright(`http://localhost:${this.port}`))
         })
     }
 }

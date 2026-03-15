@@ -49,7 +49,7 @@ export const downloadSystemFileController: RequestHandler = asyncHandler(async (
 // UPDATE //
 ////////////
 
-export const puySystemController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const putSystemController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.putSystemParamsSchema.parse(req.params)
     const body: schema.PutSystemSchema = schema.putSystemSchema.parse(req.body)
     const file = req.file
@@ -64,7 +64,7 @@ export const puySystemController: RequestHandler = asyncHandler(async (req: Requ
 
 export const deleteSystemController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.deleteSystemParamsSchema.parse(req.params)
-    await service.deteleSystemService(params.id)
+    await service.deleteSystemService(params.id)
     res.json({ success: true })
 })
 

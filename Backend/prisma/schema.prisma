@@ -84,7 +84,7 @@ model HomeSection {
   carouselItems    CarouselItem[]
   accessCards      AccessCardItem[]
   calendar         CalendarConfig?
-  derechoambiencia DerechohabienciaConfig?
+  derechohabiencia DerechohabienciaConfig?
   alert            AlertMessage?
   createdAt        DateTime                @default(now())
   updatedAt        DateTime                @updatedAt
@@ -443,13 +443,13 @@ model gpc {
   fileSize Int?
   mimeType String?
 
-  cicle   cicle  @relation(fields: [cicleId], references: [id])
-  cicleId String
+  cycle   cycle  @relation(fields: [cycleId], references: [id])
+  cycleId String
 
-  @@unique([cicleId, orderIndex])
+  @@unique([cycleId, orderIndex])
 }
 
-model cicle {
+model cycle {
   id   String @id @default(uuid())
   name String
   gpcs gpc[]

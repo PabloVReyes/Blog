@@ -5,19 +5,19 @@ import { PaginationProps } from "../../../types/pagination";
 // CREATE //
 ////////////
 
-interface PostCicleRepositoryProps {
+interface PostCycleRepositoryProps {
     name: string;
 }
 
-export const postCicleRepository = async ({ name }: PostCicleRepositoryProps) => {
+export const postCycleRepository = async ({ name }: PostCycleRepositoryProps) => {
     try {
-        return await database.cicle.create({
+        return await database.cycle.create({
             data: {
                 name
             }
         })
     } catch (error) {
-        console.error("Error en postCicleRepository")
+        console.error("Error en postCycleRepository")
         throw new Error("Error al crear ciclo")
     }
 }
@@ -25,7 +25,7 @@ export const postCicleRepository = async ({ name }: PostCicleRepositoryProps) =>
 interface PostGpcRepositoryProps {
     title: string;
     description: string;
-    cicle: string;
+    cycle: string;
     orderIndex: number
     fileName?: string | null;
     filePath?: string | null;
@@ -36,7 +36,7 @@ interface PostGpcRepositoryProps {
 export const postGpcRepository = async ({
     title,
     description,
-    cicle,
+    cycle,
     orderIndex,
     fileName,
     filePath,
@@ -51,7 +51,7 @@ export const postGpcRepository = async ({
             // Desplazar índices dentro del mismo ciclo
             await tx.gpc.updateMany({
                 where: {
-                    cicleId: cicle,
+                    cycleId: cycle,
                     orderIndex: {
                         gte: newIndex,
                     },
@@ -68,7 +68,7 @@ export const postGpcRepository = async ({
                 data: {
                     title,
                     description,
-                    cicleId: cicle,
+                    cycleId: cycle,
                     orderIndex: newIndex,
                     fileName,
                     filePath,
@@ -89,23 +89,23 @@ export const postGpcRepository = async ({
 // READ //
 //////////
 
-export const getCicleRepository = async () => {
+export const getCycleRepository = async () => {
     try {
         const [data, total] = await Promise.all([
-            database.cicle.findMany({
+            database.cycle.findMany({
                 orderBy: { name: "asc" }
             }),
-            database.cicle.count(),
+            database.cycle.count(),
         ])
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCicleRepository")
+        console.error("Error en getCycleRepository")
         throw new Error("Error al obtener los ciclos")
     }
 }
 
-export const getCicleWithGpcRepository = async ({ search, take, skip }: PaginationProps) => {
+export const getCycleWithGpcRepository = async ({ search, take, skip }: PaginationProps) => {
     try {
         const where = {
             gpcs: {
@@ -119,7 +119,7 @@ export const getCicleWithGpcRepository = async ({ search, take, skip }: Paginati
         }
 
         const [data, total] = await Promise.all([
-            database.cicle.findMany({
+            database.cycle.findMany({
                 where,
                 orderBy: {
                     name: "asc",
@@ -135,12 +135,12 @@ export const getCicleWithGpcRepository = async ({ search, take, skip }: Paginati
                     gpcs: true
                 }
             }),
-            database.cicle.count({ where }),
+            database.cycle.count({ where }),
         ])
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCicleWithGpcRepository")
+        console.error("Error en getCycleWithGpcRepository")
         throw new Error("Error al obtener ciclos con algoritmos")
     }
 }
@@ -164,7 +164,7 @@ export const getGpcRepository = async ({ search, take, skip }: PaginationProps) 
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
-                    cicle: true
+                    cycle: true
                 }
             }),
             database.gpc.count({ where }),
@@ -198,7 +198,7 @@ export const putGpcRepository = async ({
     id,
     title,
     description,
-    cicle,
+    cycle,
     fileName,
     filePath,
     fileSize,
@@ -210,14 +210,14 @@ export const putGpcRepository = async ({
             data: {
                 title,
                 description,
-                cicleId: cicle,
+                cycleId: cycle,
                 fileName,
                 filePath,
                 fileSize,
                 mimeType
             },
             include: {
-                cicle: true
+                cycle: true
             }
         })
     } catch (error) {

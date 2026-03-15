@@ -1,9 +1,9 @@
 import { database } from "../../../config/prisma"
 import { GetCarouselProps, PostCarouselProps } from "./carousel.types"
 
-/////////////
-// CREATED //
-/////////////
+////////////
+// CREATE //
+////////////
 
 export const postCarouselRepository = async ({
     sectionId,
@@ -183,7 +183,7 @@ export const deleteCarouselRepository = async (id: string) => {
         })
 
     } catch (error) {
-        console.error("error en deteleCarouselRepository", error)
+        console.error("error en deleteCarouselRepository", error)
         throw new Error("Error al eliminar el elemento del carrusel")
     }
 }

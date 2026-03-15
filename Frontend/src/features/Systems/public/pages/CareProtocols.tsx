@@ -16,7 +16,7 @@ interface Meta {
 }
 
 interface CareProtocols {
-    cicleId: string;
+    cycleId: string;
     description: string;
     fileName: string;
     filePath: string;

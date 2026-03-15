@@ -8,7 +8,7 @@ import { asyncHandler } from "../../../utils/asyncHandler";
 ////////////
 
 export const postAgreementPersonController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const body: schema.PostAgreementPersonsSchema = schema.postAgreementPersonsShema.parse(req.body)
+    const body: schema.PostAgreementPersonsSchema = schema.postAgreementPersonsSchema.parse(req.body)
     await service.postAgreementPersonService(body)
     res.json({ success: true })
 })
@@ -58,7 +58,7 @@ export const getZonesController: RequestHandler = asyncHandler(async (req: Reque
 
 export const putAgreementPersonController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.putAgreementPersonsParamsSchema.parse(req.params)
-    const body: schema.PutAgreementPersonsSchema = schema.putAgreementPersonsShema.parse(req.body)
+    const body: schema.PutAgreementPersonsSchema = schema.putAgreementPersonsSchema.parse(req.body)
     const data = await service.putAgreementPersonService(params.id, body)
     res.json(data)
 })

@@ -19,7 +19,7 @@ export const getHomeRepository = async () => {
                     orderIndex: "asc"
                 }
             },
-            derechoambiencia: {
+            derechohabiencia: {
                 include: {
                     links: {
                         orderBy: {

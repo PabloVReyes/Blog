@@ -107,7 +107,7 @@ async function main() {
             type: "DERECHOHABIENCIA",
             title: "Derechohabiencia",
             orderIndex: 3,
-            derechoambiencia: {
+            derechohabiencia: {
                 create: {
                     color: "blue",
                     icon: "IconSearch",

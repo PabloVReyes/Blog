@@ -7,7 +7,7 @@ import monthlyReportsRoutes from "./monthlyReports/monthlyReports.routes"
 import agreementPersonRoutes from "./agreementPerson/agreementPerson.routes"
 import cbimRoutes from "./cbim/cbim.routes"
 import clinicalPracticeGuidelinesRoutes from "./clinicalPracticeGuidelines/clinicalPracticeGuidelines.routes"
-import pbmRoutes from "./pmb/pbm.routes"
+import pbmRoutes from "./pbm/pbm.routes"
 import gpcRoutes from "./gpc/gpc.routes"
 import careProtocolsRoutes from "./careProtocols/careProtocols.routes"
 import codesRoutes from "./codes/codes.routes"
@@ -43,7 +43,7 @@ export const upload = multer({
 
 router.get("/", controller.getSystemsController)
 router.get("/:id/download", controller.downloadSystemFileController)
-router.put("/:id", upload.single("file"), controller.puySystemController)
+router.put("/:id", upload.single("file"), controller.putSystemController)
 router.post("/", upload.single("file"), controller.postSystemController)
 router.delete("/:id", controller.deleteSystemController)
 

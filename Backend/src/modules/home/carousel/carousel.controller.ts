@@ -4,9 +4,9 @@ import * as schema from "./carousel.schema"
 import * as fs from "fs"
 import { asyncHandler } from "../../../utils/asyncHandler"
 
-/////////////
-// CREATED //
-/////////////
+////////////
+// CREATE //
+////////////
 
 export const postCarouselController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const body: schema.PostCarouselSchema = schema.postCarouselSchema.parse(req.body)

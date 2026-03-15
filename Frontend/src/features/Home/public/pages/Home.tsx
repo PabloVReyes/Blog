@@ -75,7 +75,7 @@ export const Home = () => {
                         <Stack gap="md">
                             {calendarSection && <Calendar  {...calendarSection.calendar} />}
                             {derechoSection && (
-                                <Derechohabiencia {...derechoSection.derechoambiencia} />
+                                <Derechohabiencia {...derechoSection.derechohabiencia} />
                             )}
                         </Stack>
                     </Grid.Col>

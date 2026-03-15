@@ -4,7 +4,7 @@ import { z } from "zod"
 // UPDATE //
 ////////////
 
-export const putCalendarShema = z.object({
+export const putCalendarSchema = z.object({
     title: z.string(),
     description: z.string().optional(),
     year: z.coerce.number().int().min(1900).max(2100),
@@ -12,7 +12,7 @@ export const putCalendarShema = z.object({
     color: z.string(),
 })
 
-export type PutCalendarSchema = z.infer<typeof putCalendarShema>
+export type PutCalendarSchema = z.infer<typeof putCalendarSchema>
 
 export interface CalendarUpdateDto extends PutCalendarSchema {
     file?: Express.Multer.File;

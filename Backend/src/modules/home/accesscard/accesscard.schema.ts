@@ -4,7 +4,7 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postAccessCardShema = z.object({
+export const postAccessCardSchema = z.object({
     isActive: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     sectionId: z.string().uuid(),
     title: z.string(),
@@ -15,7 +15,7 @@ export const postAccessCardShema = z.object({
     icon: z.string()
 })
 
-export type PostAccessCardSchema = z.infer<typeof postAccessCardShema>
+export type PostAccessCardSchema = z.infer<typeof postAccessCardSchema>
 
 //////////
 // READ //
@@ -43,7 +43,7 @@ export const downloadAccessCardFileSchema = z.object({
 // UPDATE //
 ////////////
 
-export const putAccessCardShema = z.object({
+export const putAccessCardSchema = z.object({
     isActive: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     title: z.string(),
     description: z.string(),
@@ -53,7 +53,7 @@ export const putAccessCardShema = z.object({
     icon: z.string()
 })
 
-export type PutAccessCardSchema = z.infer<typeof putAccessCardShema>
+export type PutAccessCardSchema = z.infer<typeof putAccessCardSchema>
 
 export const putAccessCardParamsSchema = z.object({
     id: z.string().uuid()

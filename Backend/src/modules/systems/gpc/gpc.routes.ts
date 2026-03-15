@@ -38,8 +38,8 @@ router.get("/algorithms/:id/download", controller.downloadGpcFileController)
 router.put("/algorithms/:id", upload.single("file"), controller.putGpcController)
 router.delete("/algorithms/:id", controller.deleteGpcController)
 
-router.post("/cicles", controller.postCicleController)
-router.get("/cicles-algorithms", controller.getCicleWithGpcController)
-router.get("/cicles", controller.getCicleController)
+router.post("/cycles", controller.postCycleController)
+router.get("/cycles-algorithms", controller.getCycleWithGpcController)
+router.get("/cycles", controller.getCycleController)
 
 export default router;

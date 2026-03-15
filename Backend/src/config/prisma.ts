@@ -2,7 +2,7 @@ import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
 
-const adapter = new PrismaMariaDb(
+export const adapter = new PrismaMariaDb(
     {
         host: process.env.DB_HOST,
         port: Number(process.env.DB_PORT),

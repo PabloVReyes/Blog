@@ -46,13 +46,13 @@ const columns = (theme: any) => [
         align: 'left',
     },
     {
-        key: "cicle",
+        key: "cycle",
         label: "Ciclo",
         align: 'center',
         miw: "150px",
         render: (row: any) => {
             return (
-                <Badge variant="filled"  size="sm">{row.cicle.name}</Badge>
+                <Badge variant="filled"  size="sm">{row.cycle.name}</Badge>
             )
         }
     },

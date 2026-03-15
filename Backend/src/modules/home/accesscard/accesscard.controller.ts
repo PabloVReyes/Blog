@@ -9,7 +9,7 @@ import { asyncHandler } from "../../../utils/asyncHandler";
 ////////////
 
 export const postAccessCardController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const body: schema.PostAccessCardSchema = schema.postAccessCardShema.parse(req.body)
+    const body: schema.PostAccessCardSchema = schema.postAccessCardSchema.parse(req.body)
     const file = req.file
     const dto = { ...body, file }
     await service.postAccessCardService(dto)
@@ -51,7 +51,7 @@ export const downloadAccessCardFileController: RequestHandler = asyncHandler(asy
 
 export const putAccessCardController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.putAccessCardParamsSchema.parse(req.params)
-    const body: schema.PutAccessCardSchema = schema.putAccessCardShema.parse(req.body)
+    const body: schema.PutAccessCardSchema = schema.putAccessCardSchema.parse(req.body)
     const file = req.file
     const dto = { ...body, file }
     const data = await service.putAccessCardService(params.id, dto)

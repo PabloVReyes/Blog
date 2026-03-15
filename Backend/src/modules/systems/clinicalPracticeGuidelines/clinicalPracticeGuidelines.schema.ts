@@ -1,8 +1,8 @@
 import { z } from "zod"
 
-/////////////
-// CREATED //
-/////////////
+////////////
+// CREATE //
+////////////
 
 export const postClinicalPracticeGuidelinesSchema = z.object({
     title: z.string(),

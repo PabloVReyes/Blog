@@ -8,7 +8,7 @@ import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
 import { validateDescription, validateOrder, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
 
-export const Edit = ({ id, title, fileName, description, cicle, orderIndex }: any) => {
+export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: any) => {
     const { openModal } = useModalStore()
     const { update } = useGPCStore()
     const [loading, setLoading] = useState<boolean>(false)
@@ -19,13 +19,13 @@ export const Edit = ({ id, title, fileName, description, cicle, orderIndex }: an
             title,
             description,
             orderIndex,
-            cicle: String(cicle.id),
+            cycle: String(cycle.id),
             file: null as File | null,
         },
         validate: {
             title: validateTitle,
             description: validateDescription,
-            cicle: (value) => validateSelect(value, { required: true }),
+            cycle: (value) => validateSelect(value, { required: true }),
             orderIndex: (value) => validateOrder(value, { required: true }),
             file: (value) => validatePdf(value, { required: true, existingFileName: fileName })
         }
@@ -38,7 +38,7 @@ export const Edit = ({ id, title, fileName, description, cicle, orderIndex }: an
             const formData = new FormData();
             formData.append("title", values.title)
             formData.append("description", values.description)
-            formData.append("cicle", values.cicle)
+            formData.append("cycle", values.cycle)
             formData.append("orderIndex", String(values.orderIndex))
 
             if (values.file) {
@@ -77,9 +77,9 @@ export const Edit = ({ id, title, fileName, description, cicle, orderIndex }: an
             submitLabel="Editar"
             isLoading={loading}
             fileName={fileName}
-            initialCicle={{
-                value: cicle?.id?.toString(),
-                label: cicle?.name
+            initialCycle={{
+                value: cycle?.id?.toString(),
+                label: cycle?.name
             }}
         />
     )

@@ -55,8 +55,8 @@ export {
 } from "./PBM"
 
 export {
-    addCicle,
-    fetchCicle,
+    addCycle,
+    fetchCycle,
     addGPC,
     fetchGPC,
     updateGPC,

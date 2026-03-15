@@ -8,19 +8,19 @@ import { getPagination } from "../../../utils/pagination";
 // CREATE //
 ////////////
 
-export const postCicleService = async (dto: schema.PostCicleSchema) => {
+export const postCycleService = async (dto: schema.PostCycleSchema) => {
     const { name } = dto
 
-    return await repo.postCicleRepository({ name })
+    return await repo.postCycleRepository({ name })
 }
 
 export const postGpcService = async (dto: type.GpcCreateDto) => {
-    const { title, description, orderIndex, cicle, file } = dto
+    const { title, description, orderIndex, cycle, file } = dto
 
     return await repo.postGpcRepository({
         title,
         description,
-        cicle,
+        cycle,
         orderIndex,
         fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
         filePath: file?.path ?? null,
@@ -34,8 +34,8 @@ export const postGpcService = async (dto: type.GpcCreateDto) => {
 // READ //
 //////////
 
-export const getCicleService = async () => {
-    const { data, total } = await repo.getCicleRepository()
+export const getCycleService = async () => {
+    const { data, total } = await repo.getCycleRepository()
     return {
         data,
         meta: {
@@ -67,11 +67,11 @@ export const getGpcService = async (dto: schema.GetGpcSchema) => {
     }
 }
 
-export const getCicleWithGpcService = async (dto: schema.GetGpcSchema) => {
+export const getCycleWithGpcService = async (dto: schema.GetGpcSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
-    const { data, total } = await repo.getCicleWithGpcRepository({
+    const { data, total } = await repo.getCycleWithGpcRepository({
         skip,
         take,
         search
@@ -108,7 +108,7 @@ export const dowloadGpcFileService = async (id: string) => {
 ////////////
 
 export const putGpcService = async (id: string, dto: type.GpcUpdateDto) => {
-    const { title, description, cicle, orderIndex, file } = dto
+    const { title, description, cycle, orderIndex, file } = dto
 
     const Gpc: any = await repo.getGpcByIdRepositoy(id)
 
@@ -116,7 +116,7 @@ export const putGpcService = async (id: string, dto: type.GpcUpdateDto) => {
         id,
         title,
         description,
-        cicle,
+        cycle,
         orderIndex
     }
 

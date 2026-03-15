@@ -4,7 +4,7 @@ import { z } from "zod"
 // CREATE //
 ////////////
 
-export const postAgreementPersonsShema = z.object({
+export const postAgreementPersonsSchema = z.object({
     name: z.string(),
     group: z.coerce.number(),
     zone: z.coerce.number(),
@@ -12,7 +12,7 @@ export const postAgreementPersonsShema = z.object({
     holder: z.coerce.number().optional()
 })
 
-export type PostAgreementPersonsSchema = z.infer<typeof postAgreementPersonsShema>
+export type PostAgreementPersonsSchema = z.infer<typeof postAgreementPersonsSchema>
 
 export const postZoneSchema = z.object({
     name: z.string()
@@ -45,7 +45,7 @@ export type GetAgreementPersonsSchema = z.infer<typeof getAgreementPersonsSchema
 // UPDATE //
 ////////////
 
-export const putAgreementPersonsShema = z.object({
+export const putAgreementPersonsSchema = z.object({
     name: z.string(),
     group: z.coerce.number(),
     zone: z.coerce.number(),
@@ -53,7 +53,7 @@ export const putAgreementPersonsShema = z.object({
     holder: z.coerce.number().optional()
 })
 
-export type PutAgreementPersonsSchema = z.infer<typeof putAgreementPersonsShema>
+export type PutAgreementPersonsSchema = z.infer<typeof putAgreementPersonsSchema>
 
 export const putAgreementPersonsParamsSchema = z.object({
     id: z.coerce.number()

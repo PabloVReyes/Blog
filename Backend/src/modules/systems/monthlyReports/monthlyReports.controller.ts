@@ -67,7 +67,7 @@ export const putMonthlyReportsController: RequestHandler = asyncHandler(async (r
 // DELETE //
 ////////////
 
-export const deteleMonthlyReportsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const deleteMonthlyReportsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.deleteMonthlyReportsParamsSchema.parse(req.params)
     await service.deleteMonthlyReportsService(params.id)
     res.json({ success: true })
