@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateCodeMedicine, validateName, validatePresentation } from "@/utils"
 import { useCBIMStore } from "../../store"
 
 export const AddCBIM = () => {
-    const { openModal } = useModalStore()
     const { add } = useCBIMStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -34,22 +30,8 @@ export const AddCBIM = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await add(values)
-
-            openModal({
-                title: "Sistema agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Medicamento Creado", "El medicamento fue creado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -70,3 +52,5 @@ export const AddCBIM = () => {
         />
     )
 }
+
+// 72 lineas -> 54 lineas

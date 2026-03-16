@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
 import { useCBIMStore } from "../../store"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateCodeMedicine, validateName, validatePresentation } from "@/utils"
 
 export const Edit = ({ id, name, code, description, cbt_cae, sp, fpgc }: any) => {
-    const { openModal } = useModalStore()
     const { update } = useCBIMStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -33,21 +29,8 @@ export const Edit = ({ id, name, code, description, cbt_cae, sp, fpgc }: any) =>
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await update(id, values)
-
-            openModal({
-                title: "Sistema actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Medicamento Editado", "El medicamento fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -68,3 +51,5 @@ export const Edit = ({ id, name, code, description, cbt_cae, sp, fpgc }: any) =>
         />
     )
 }
+
+// 70 lineas -> 53 lineas

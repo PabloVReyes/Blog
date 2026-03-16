@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
 import { useClinicalPracticeGuidelinesStore } from "../../store"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateCode, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
 
 export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: any) => {
-    const { openModal } = useModalStore()
     const { update } = useClinicalPracticeGuidelinesStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -34,34 +30,18 @@ export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: any)
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             const formData = new FormData();
             formData.append("code", values.code)
             formData.append("title", values.title)
             formData.append("category", values.category)
-
             if (values.er) {
                 formData.append("er", values.er!)
             }
-
             if (values.rr) {
                 formData.append("rr", values.rr!)
             }
-
             await update(id, formData)
-
-            openModal({
-                title: "Guía actualizada",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            La guía se actualizo correctamente
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Guía de Práctica Clínica Editada", "La guía de práctica clínica fue editada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -88,3 +68,5 @@ export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: any)
         />
     )
 }
+
+// 90 lineas -> 70 lineas

@@ -1,12 +1,10 @@
 import { IconSelect, ModalButtons, Switch } from "@/components"
-import { useModalStore } from "@/layout"
 import { Divider, Select, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconCheck } from "@tabler/icons-react"
 import styles from "./Edit.module.css"
 import { useAlertStore } from "../../store"
 import { useState } from "react"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateColor, validateDescription, validateIcon, validateTitle } from "@/utils"
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_AUTHOR_LENGTH } from "@/constants"
 
@@ -18,7 +16,6 @@ const options = [
 ];
 
 export const Edit = ({ id, icon, isActive, title, description, author, color }: any) => {
-    const { openModal } = useModalStore()
     const { update } = useAlertStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -43,21 +40,8 @@ export const Edit = ({ id, icon, isActive, title, description, author, color }: 
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await update(id, values)
-
-            openModal({
-                title: "Alerta Actualizada",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            la alerta se ha actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Alerta Editada", "La alerta fue editada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -165,3 +149,5 @@ export const Edit = ({ id, icon, isActive, title, description, author, color }: 
         </form>
     )
 }
+
+// 167 lineas -> 151 lineas

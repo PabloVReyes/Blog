@@ -1,10 +1,9 @@
 import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled, IconCheck } from "@tabler/icons-react"
+import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
 import { useGPCStore } from "../../store"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 
 interface Props {
@@ -13,7 +12,6 @@ interface Props {
 }
 
 export const Delete = ({ id, name }: Props) => {
-    const { openModal } = useModalStore()
     const { remove } = useGPCStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -29,22 +27,8 @@ export const Delete = ({ id, name }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-
             await remove(id)
-
-            openModal({
-                title: "Informe eliminado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El informe ha sido eliminado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Algoritmo GPC Eliminado", "El algoritmo GPC fue eliminado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -104,3 +88,5 @@ export const Delete = ({ id, name }: Props) => {
         </form>
     )
 }
+
+// 106 lineas -> 90 lineas

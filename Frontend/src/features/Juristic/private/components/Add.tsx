@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateName } from "@/utils/validators"
 import { useJuristicStore } from "../store"
 
 export const Add = () => {
-    const { openModal } = useModalStore()
     const { add } = useJuristicStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -30,7 +26,6 @@ export const Add = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             const formData = new FormData()
             formData.append("name", values.name)
             formData.append("description", values.description)
@@ -38,22 +33,8 @@ export const Add = () => {
             if (values.file) {
                 formData.append("file", values.file)
             }
-
             await add(formData)
-
-            openModal({
-                title: "Área agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El área ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Dispoición Juridica Creada", "La disposición juridica fue creada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -74,3 +55,5 @@ export const Add = () => {
         />
     )
 }
+
+// 78 lineas -> 57 lineas

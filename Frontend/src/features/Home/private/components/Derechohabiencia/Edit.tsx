@@ -2,15 +2,13 @@ import { ColorSelect, IconSelect, ModalButtons } from "@/components"
 import { Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import * as TablerIcons from "@tabler/icons-react";
 import { formRootRule, useForm } from "@mantine/form"
-import { useModalStore } from "@/layout";
 import { useDerechohabienciaStore } from "../../store";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 import { validateColor, validateDescription, validateIcon, validateTitle, validateUrl } from "@/utils";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { useState } from "react";
 
 export const Edit = ({ id, icon, color, title, description, links }: any) => {
-    const { openModal } = useModalStore()
     const { update } = useDerechohabienciaStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -46,19 +44,7 @@ export const Edit = ({ id, icon, color, title, description, links }: any) => {
         try {
             setLoading(true)
             await update(id, values)
-
-            openModal({
-                title: "Carrusel actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <TablerIcons.IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El carrusel ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Segunda Sección Editada", "La segunda sección fue editada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -176,3 +162,5 @@ export const Edit = ({ id, icon, color, title, description, links }: any) => {
         </form>
     )
 }
+
+// 178 lineas -> 164 lineas

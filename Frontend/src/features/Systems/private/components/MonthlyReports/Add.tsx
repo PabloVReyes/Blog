@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validatePdf, validateTitle, validateYear } from "@/utils/validators"
 import { useMonthlyReportsStore } from "../../store"
 
 export const AddMonthlyReports = () => {
-    const { openModal } = useModalStore()
     const { add } = useMonthlyReportsStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -33,39 +29,19 @@ export const AddMonthlyReports = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             const formData = new FormData();
             formData.append("title", values.title)
-
             if (values.description.trim() !== "") {
                 formData.append("description", values.description)
             }
-
             formData.append("type", values.type)
-
             if (values.type === "MONTHLY") {
                 formData.append("month", values.month)
             }
-
             formData.append("year", values.year)
-
             formData.append("file", values.file!)
-
             await add(formData)
-
-            openModal({
-                title: "Sistema agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Reporte Mensual Creado", "El reporte mensual fue creado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -86,3 +62,5 @@ export const AddMonthlyReports = () => {
         />
     )
 }
+
+// 88 lineas  -> 64 lineas

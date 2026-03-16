@@ -1,10 +1,9 @@
-import { useModalStore } from "@/layout";
 import { Alert, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled, IconCheck } from "@tabler/icons-react"
+import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react";
 import { useAccessCardStore } from "../../store";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 import { ModalButtons } from "@/components";
 
 interface Props {
@@ -13,7 +12,6 @@ interface Props {
 }
 
 export const Delete = ({ id, title }: Props) => {
-    const { openModal } = useModalStore()
     const { remove } = useAccessCardStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -31,18 +29,7 @@ export const Delete = ({ id, title }: Props) => {
         try {
             setLoading(true)
             await remove(id)
-            openModal({
-                title: "Acceso Rápido Eliminado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            el acceso rápido se ha eliminado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Acceso Rápido Eliminado", "El acceso rápido fue eliminado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -97,3 +84,5 @@ export const Delete = ({ id, title }: Props) => {
         </form>
     )
 }
+
+// 100 lineas  -> 86 lineas

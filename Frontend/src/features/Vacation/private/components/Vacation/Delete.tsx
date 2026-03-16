@@ -1,9 +1,8 @@
 import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled, IconCheck } from "@tabler/icons-react"
+import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { useVacationStore } from "../../store"
 
@@ -14,7 +13,6 @@ interface Props {
 }
 
 export const Delete = ({ id, type, shift }: Props) => {
-    const { openModal } = useModalStore()
     const { remove } = useVacationStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -30,22 +28,8 @@ export const Delete = ({ id, type, shift }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-
             await remove(id)
-
-            openModal({
-                title: "Permiso eliminado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El permiso ha sido eliminado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Vacaciones Eliminadas", "Las vacaciones fueron eliminadas correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -105,3 +89,5 @@ export const Delete = ({ id, type, shift }: Props) => {
         </form>
     )
 }
+
+// 109 lineas -> 91 lineas

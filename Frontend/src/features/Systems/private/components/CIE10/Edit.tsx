@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
 import { useCIE10Store } from "../../store"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateCode, validateName } from "@/utils/validators"
 
 export const Edit = ({ id, name }: any) => {
-    const { openModal } = useModalStore()
     const { update } = useCIE10Store()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -28,21 +24,8 @@ export const Edit = ({ id, name }: any) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await update(id, values)
-
-            openModal({
-                title: "Sistema actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Enfemedad Editada", "La enfermedad fue editada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -63,3 +46,5 @@ export const Edit = ({ id, name }: any) => {
         />
     )
 }
+
+// 65 lineas

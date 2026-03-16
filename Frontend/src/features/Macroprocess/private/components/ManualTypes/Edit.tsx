@@ -1,11 +1,9 @@
-import { useModalStore } from "@/layout";
-import { Button, Divider, Group, Stack, Text, TextInput } from "@mantine/core"
+import { Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react";
-import { ColorSelect } from "@/components";
+import { ColorSelect, ModalButtons } from "@/components";
 import { useManualsTypesStore } from "../../store";
-import { IconCheck } from "@tabler/icons-react";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 import { validateCode, validateName } from "@/utils";
 
 const MAX_CODE_LENGTH = 10
@@ -13,7 +11,6 @@ const MAX_NAME_LENGTH = 50
 
 export const Edit = ({ id, name, color }: any) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { closeModal, openModal } = useModalStore()
     const { update } = useManualsTypesStore()
 
     const form = useForm({
@@ -32,27 +29,8 @@ export const Edit = ({ id, name, color }: any) => {
 
     const handleSubmit = async (values: typeof form.values) => {
         try {
-            const props = {
-                code: values.code,
-                name: values.name,
-                color: values.color
-            }
-
-            await update(id, props)
-
-            openModal({
-                title: "Tipo de manual editado",
-                subtitle: "El tipo de manual ha sido editado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            el tipo de manual se ha editado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            await update(id, values)
+            showSuccessModal("Tipo de manual editado", "El tipo de manual fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -107,21 +85,13 @@ export const Edit = ({ id, name, color }: any) => {
                     form={form}
                 />
 
-                <Group justify="flex-end" gap={5}>
-                    <Button
-                        variant="outline"
-                        onClick={closeModal}
-                    >
-                        Cerrar
-                    </Button>
-                    <Button
-                        type="submit"
-                        loading={loading}
-                    >
-                        Editar
-                    </Button>
-                </Group>
+                <ModalButtons
+                    label="Editar"
+                    loading={loading}
+                />
             </Stack>
         </form>
     )
 }
+
+// 127 lineas -> 95 lineas

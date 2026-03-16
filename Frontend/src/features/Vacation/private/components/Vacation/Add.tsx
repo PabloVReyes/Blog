@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateSelect } from "@/utils/validators"
 import { useVacationStore } from "../../store"
 
 export const AddVacation = () => {
-    const { openModal } = useModalStore()
     const { add } = useVacationStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -30,29 +26,14 @@ export const AddVacation = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             const formData = new FormData()
             formData.append("type", values.type)
             formData.append("shift", String(values.shift))
             if (values.file) {
                 formData.append("file", values.file)
             }
-
             await add(formData)
-
-            openModal({
-                title: "Área agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El área ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Vacaciones Creadas", "Las vacaciones fueron creadas correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -73,3 +54,5 @@ export const AddVacation = () => {
         />
     )
 }
+
+// 75 lineas -> 56 lineas

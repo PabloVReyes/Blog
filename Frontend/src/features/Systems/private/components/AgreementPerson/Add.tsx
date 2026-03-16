@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateName, validateSelect } from "@/utils/validators"
 import { useAgreementPersonStore } from "../../store"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 
 export const AddAgreementPerson = () => {
-    const { openModal } = useModalStore()
     const { add } = useAgreementPersonStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -33,22 +29,8 @@ export const AddAgreementPerson = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await add(values)
-
-            openModal({
-                title: "Sistema agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Paciente de Convenio Creado", "El paciente de convenio fue creado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -69,3 +51,5 @@ export const AddAgreementPerson = () => {
         />
     )
 }
+
+// 71 lineas -> 53 lineas

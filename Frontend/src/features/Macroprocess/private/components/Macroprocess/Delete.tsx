@@ -1,10 +1,10 @@
-import { useModalStore } from "@/layout";
-import { Alert, Button, Group, Stack, Text, TextInput } from "@mantine/core"
+import { Alert, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled, IconCheck } from "@tabler/icons-react"
+import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useMacroprocessStore } from "../../store";
 import { useState } from "react";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
+import { ModalButtons } from "@/components";
 
 interface Props {
     id: string;
@@ -13,7 +13,6 @@ interface Props {
 }
 
 export const Delete = ({ id, name, area }: Props) => {
-    const { openModal, closeModal } = useModalStore()
     const { remove } = useMacroprocessStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -31,19 +30,7 @@ export const Delete = ({ id, name, area }: Props) => {
         try {
             setLoading(true)
             await remove(id)
-            openModal({
-                title: "Archivo Eliminado",
-                subtitle: "Archivo eliminado correctamente",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            el archivo se ha eliminado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Macroproceso Eliminado", "El macroproceso fue eliminado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -90,21 +77,13 @@ export const Delete = ({ id, name, area }: Props) => {
                     {...form.getInputProps("value")}
                 />
 
-                <Group justify="flex-end" gap={5}>
-                    <Button
-                        variant="outline"
-                        onClick={closeModal}
-                    >
-                        Cancelar
-                    </Button>
-                    <Button
-                        type="submit"
-                        loading={loading}
-                    >
-                        Eliminar
-                    </Button>
-                </Group>
+                <ModalButtons
+                    loading={loading}
+                    label="Eliminar"
+                />
             </Stack>
         </form>
     )
 }
+
+// 110 lineas -> 87 lineas

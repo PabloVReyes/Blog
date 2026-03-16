@@ -1,10 +1,7 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
 import { useStandardsStore } from "../store"
 
@@ -38,7 +35,6 @@ export interface Meta {
 }
 
 export const Edit = (file: Data) => {
-    const { openModal } = useModalStore()
     const { update } = useStandardsStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -69,21 +65,8 @@ export const Edit = (file: Data) => {
             if (values.file) {
                 formData.append("file", values.file)
             }
-
             await update(file.id.toString(), formData)
-
-            openModal({
-                title: "Sistema actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Norma Oficial Editada", "La norma oficial fue editada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -105,3 +88,5 @@ export const Edit = (file: Data) => {
         />
     )
 }
+
+// 107 lineas -> 90 lineas

@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateEmail, validateExtension, validateName, validateSelect } from "@/utils/validators"
 import { useDirectoryStore } from "../store"
 
 export const Add = () => {
-    const { openModal } = useModalStore()
     const { add } = useDirectoryStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -37,22 +33,8 @@ export const Add = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await add(values)
-
-            openModal({
-                title: "Área agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El área ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Extensión Telefónica creada", "Se ha creado una nueva extensión telefónica")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -73,3 +55,5 @@ export const Add = () => {
         />
     )
 }
+
+// 75 lineas -> 57 lineas

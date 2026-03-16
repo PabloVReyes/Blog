@@ -1,13 +1,9 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateSelect } from "@/utils"
 import { useVacationStore } from "../../store"
-// import { useJuristicStore } from "../store"
 
 export interface Data {
     id: number;
@@ -30,9 +26,7 @@ export interface Shift {
     updatedAt: Date;
 }
 
-
 export const Edit = (file: Data) => {
-    const { openModal } = useModalStore()
     const { update } = useVacationStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -61,19 +55,7 @@ export const Edit = (file: Data) => {
             }
 
             await update(file.id.toString(), formData)
-
-            openModal({
-                title: "Sistema actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Vacaciones Editadas", "Las vacaciones fueron editadas correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -95,3 +77,5 @@ export const Edit = (file: Data) => {
         />
     )
 }
+
+// 96 lineas -> 79 lineas

@@ -2,16 +2,14 @@ import { ColorSelect, IconSelect, ModalButtons } from "@/components"
 import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import * as TablerIcons from "@tabler/icons-react";
 import { useForm } from "@mantine/form"
-import { useModalStore } from "@/layout";
 import { useCalendarStore } from "../../store";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 import { validateColor, validateDescription, validateIcon, validateTitle, validateYear } from "@/utils";
 import { useState } from "react";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 
 export const Edit = ({ id, icon, color, title, description, year, fileName }: any) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { openModal } = useModalStore()
     const { update } = useCalendarStore()
 
     const form = useForm({
@@ -40,32 +38,17 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: an
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             const formData = new FormData()
             formData.append("title", values.title)
             formData.append("description", values.description)
             formData.append("year", values.year)
             formData.append("color", values.color)
             formData.append("icon", values.icon)
-
             if (values.file) {
                 formData.append("file", values.file!)
             }
-
             await update(id, formData)
-
-            openModal({
-                title: "Primera Sección Actualizada",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <TablerIcons.IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            La primera sección ha sido actualizada correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Primera Sección Editada", "La primera sección fue editada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",

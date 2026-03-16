@@ -1,10 +1,7 @@
-import { useModalStore } from "@/layout";
-import { Stack, Text } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react";
-import * as TablerIcons from "@tabler/icons-react";
 import { useAccessCardStore } from "../../store";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 import { Form } from "./Form";
 import { validateColor, validateDescription, validateIcon, validatePdf, validateTitle, validateUrl } from "@/utils";
 
@@ -13,7 +10,6 @@ interface Props {
 }
 
 export const AddAccessCard = ({ sectionId }: Props) => {
-    const { openModal } = useModalStore()
     const { add } = useAccessCardStore()
     const [active, setActive] = useState(0);
     const [loading, setLoading] = useState<boolean>(false)
@@ -44,7 +40,6 @@ export const AddAccessCard = ({ sectionId }: Props) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             const formData = new FormData();
             formData.append("isActive", String(values.isActive))
             formData.append("title", values.title)
@@ -53,31 +48,16 @@ export const AddAccessCard = ({ sectionId }: Props) => {
             formData.append("description", values.description)
             formData.append("url", values.url)
             formData.append("sectionId", sectionId)
-
             if (active === 0) {
                 formData.append("type", "page")
             } else if (active === 1) {
                 formData.append("type", "file")
             }
-
             if (active === 1 && values.file) {
                 formData.append("file", values.file!)
             }
-
             await add(formData)
-
-            openModal({
-                title: "Acceso Rápido Agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <TablerIcons.IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            el acceso rápido se ha agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Acceso Rápido Creado", "El aceeso rápido fue creado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",

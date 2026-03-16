@@ -1,16 +1,13 @@
-import { useModalStore } from "@/layout";
-import { Button, Group, Stack, Text, TextInput } from "@mantine/core"
+import { Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react";
 import { useAreasStore } from "../../store";
-import { IconCheck } from "@tabler/icons-react";
-import { Notify } from "@/ui";
-
-const MAX_NAME_LENGTH = 150
+import { Notify, showSuccessModal } from "@/ui";
+import { MAX_TITLE_LENGTH } from "@/constants";
+import { ModalButtons } from "@/components";
 
 export const Edit = ({ id, name }: any) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { closeModal, openModal } = useModalStore()
     const { update } = useAreasStore()
 
     const form = useForm({
@@ -28,22 +25,8 @@ export const Edit = ({ id, name }: any) => {
             const props = {
                 name: values.name,
             }
-
             await update(id, props)
-
-            openModal({
-                title: "Área editada",
-                subtitle: "El área ha sido editada",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            el área se ha editado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Área Editada", "El área fue editada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -63,31 +46,23 @@ export const Edit = ({ id, name }: any) => {
                     label="Nombre"
                     description="Nombre del área"
                     placeholder="Procedimientos"
-                    maxLength={MAX_NAME_LENGTH}
+                    maxLength={MAX_TITLE_LENGTH}
                     rightSection={
                         <Text size="xs" c="dimmed">
-                            {form.values.name?.length || 0}/{MAX_NAME_LENGTH}
+                            {form.values.name?.length || 0}/{MAX_TITLE_LENGTH}
                         </Text>
                     }
                     {...form.getInputProps("name")}
                     rightSectionWidth={50}
                 />
 
-                <Group justify="flex-end" gap={5}>
-                    <Button
-                        variant="outline"
-                        onClick={closeModal}
-                    >
-                        Cerrar
-                    </Button>
-                    <Button
-                        type="submit"
-                        loading={loading}
-                    >
-                        Editar
-                    </Button>
-                </Group>
+                <ModalButtons
+                    label="Editar"
+                    loading={loading}
+                />
             </Stack>
         </form>
     )
 }
+
+// 93 lineas -> 66 lineas

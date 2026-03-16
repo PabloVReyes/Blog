@@ -1,17 +1,13 @@
-import { useModalStore } from "@/layout"
-import { Stack, Text } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react"
 import { useCarouselStore } from "../../store"
-import { IconCheck } from "@tabler/icons-react"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validateTitle, validateUrl, validatePdf, validateImage } from "@/utils"
 
 const typeOptions = ["null", "page", "file"] as const;
 
 export const Edit = ({ id, title, description, fileName, imageName, type, url, isActive }: any) => {
-    const { openModal } = useModalStore()
     const { update } = useCarouselStore()
     const [loading, setLoading] = useState<boolean>(false)
     const initialActive = typeOptions.indexOf(type ?? "null");
@@ -64,19 +60,7 @@ export const Edit = ({ id, title, description, fileName, imageName, type, url, i
             }
 
             await update(id, formData)
-
-            openModal({
-                title: "Carrusel actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El carrusel ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Carrusel Editado", "El carrusel fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -101,3 +85,5 @@ export const Edit = ({ id, title, description, fileName, imageName, type, url, i
         />
     )
 }
+
+// 104 lineas -> 87 lineas

@@ -1,10 +1,8 @@
 import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled, IconCheck } from "@tabler/icons-react"
+import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
-// import { useSystemsStore } from "../../store"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { useDownloadsStore } from "../../store"
 
@@ -14,7 +12,6 @@ interface Props {
 }
 
 export const Delete = ({ id, name }: Props) => {
-    const { openModal } = useModalStore()
     const { remove } = useDownloadsStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -30,22 +27,8 @@ export const Delete = ({ id, name }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-
             await remove(id)
-
-            openModal({
-                title: "Permiso eliminado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El permiso ha sido eliminado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Descarga Eliminada", "La descarga fue eliminada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",

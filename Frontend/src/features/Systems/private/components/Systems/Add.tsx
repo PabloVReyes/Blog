@@ -1,16 +1,12 @@
 import { useForm } from "@mantine/form"
 import type { SystemProps } from "@/features/Systems/types"
 import { useSystemsStore } from "../../store"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
 
 export const AddSystem = () => {
-    const { openModal } = useModalStore()
     const { add } = useSystemsStore();
     const [loading, setLoading] = useState<boolean>(false)
     const [active, setActive] = useState(0);
@@ -70,19 +66,7 @@ export const AddSystem = () => {
 
             await add(formData)
 
-            openModal({
-                title: "Sistema agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Sistema Creado", "El sistema fue creado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -105,3 +89,5 @@ export const AddSystem = () => {
         />
     )
 }
+
+// 107 lineas -> 91 lineas

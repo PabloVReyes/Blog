@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateEmail, validateName } from "@/utils/validators"
 import { useUserStore } from "../../store"
 
 export const AddUsers = () => {
-    const { openModal } = useModalStore()
     const { add } = useUserStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -36,22 +32,8 @@ export const AddUsers = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await add(values)
-
-            openModal({
-                title: "Área agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El área ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Usuario Creado", "El usuario fue creado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -72,3 +54,5 @@ export const AddUsers = () => {
         />
     )
 }
+
+// 74 lineas -> 56 lineas

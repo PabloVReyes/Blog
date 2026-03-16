@@ -1,11 +1,10 @@
-import { useModalStore } from "@/layout";
-import { Button, FileInput, Group, Stack, Text } from "@mantine/core"
+import { FileInput, Stack } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useMacroprocessStore } from "../../store";
 import { useState } from "react";
-import { IconCheck } from "@tabler/icons-react";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 import { validatePdf } from "@/utils";
+import { ModalButtons } from "@/components";
 
 interface Props {
     id: string,
@@ -14,8 +13,6 @@ interface Props {
 
 export const Edit = ({ id, fileName }: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { openModal } = useModalStore()
-    const { closeModal } = useModalStore()
     const { update } = useMacroprocessStore()
 
     const form = useForm({
@@ -33,22 +30,8 @@ export const Edit = ({ id, fileName }: Props) => {
             setLoading(true)
             const formData = new FormData();
             formData.append("file", values.file!);
-
             await update(id, formData)
-
-            openModal({
-                title: "Manual editado",
-                subtitle: "El manual ha sido editado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            el manual se ha editado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Macroproceso Editado", "El macroproceso fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -77,21 +60,13 @@ export const Edit = ({ id, fileName }: Props) => {
                     {...form.getInputProps("file")}
                 />
 
-                <Group justify="flex-end" gap={5}>
-                    <Button
-                        variant="outline"
-                        onClick={closeModal}
-                    >
-                        Cerrar
-                    </Button>
-                    <Button
-                        type="submit"
-                        loading={loading}
-                    >
-                        Editar
-                    </Button>
-                </Group>
+                <ModalButtons
+                    label="Editar"
+                    loading={loading}
+                />
             </Stack>
         </form>
     )
 }
+
+// 97 lineas -> 70 lineas

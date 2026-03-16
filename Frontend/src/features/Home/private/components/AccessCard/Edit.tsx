@@ -1,18 +1,14 @@
-import { useModalStore } from "@/layout";
 import { useForm } from "@mantine/form"
 import { useState } from "react";
-import * as TablerIcons from "@tabler/icons-react";
 import { useAccessCardStore } from "../../store";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 import { validateDescription, validatePdf, validateTitle, validateUrl } from "@/utils";
 import { Form } from "./Form";
-import { Stack, Text } from "@mantine/core";
 
 const typeOptions = ["page", "file"] as const;
 
 
 export const Edit = ({ id, title, description, icon, color, type, url, fileName, isActive }: any) => {
-    const { openModal } = useModalStore()
     const { update } = useAccessCardStore()
     const initialActive = typeOptions.indexOf(type ?? "page");
     const [active, setActive] = useState(initialActive);
@@ -61,19 +57,7 @@ export const Edit = ({ id, title, description, icon, color, type, url, fileName,
             }
 
             await update(id, formData)
-
-            openModal({
-                title: "Acceso Rápido Actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <TablerIcons.IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            el acceso rápido se ha actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Acceso Rápido Editado", "El acceso rápido fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -97,3 +81,5 @@ export const Edit = ({ id, title, description, icon, color, type, url, fileName,
         />
     )
 }
+
+// 99 lienas -> 83 lineas 

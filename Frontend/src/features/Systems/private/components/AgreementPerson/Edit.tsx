@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form";
 import { Form } from "./Form";
 import { useAgreementPersonStore } from "../../store";
-import { Stack, Text } from "@mantine/core";
-import { IconCheck } from "@tabler/icons-react";
 import { useState } from "react";
-import { useModalStore } from "@/layout";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 import { validateName, validateSelect } from "@/utils/validators";
 
 export const Edit = (person: any) => {
-    const { openModal } = useModalStore();
     const { update } = useAgreementPersonStore();
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -34,19 +30,7 @@ export const Edit = (person: any) => {
         try {
             setLoading(true);
             await update(person.id, values);
-
-            openModal({
-                title: "Paciente de Convenio actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El Paciente de Convenio ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Paciente de Convenio Editado", "El paciente de convenio fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -80,3 +64,5 @@ export const Edit = (person: any) => {
         />
     );
 };
+
+// 82 lineas -> 66 lineas

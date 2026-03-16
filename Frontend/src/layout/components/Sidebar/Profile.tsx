@@ -3,14 +3,14 @@ import { useAuthStore } from "@/features/auth/store"
 import { validateName } from "@/utils"
 import { Box, Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon, UnstyledButton } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconCheck, IconChevronRight, IconKey, IconMail } from "@tabler/icons-react"
+import { IconChevronRight, IconKey, IconMail } from "@tabler/icons-react"
 import classes from "./Profile.module.css"
 import { useModalStore } from "@/layout/store"
 import { Password } from "./Password"
 import { ModalButtons } from "@/components"
 import { useState } from "react"
 import { updateMe } from "@/layout/api"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 
 export const Profile = () => {
     const { openModal } = useModalStore()
@@ -42,19 +42,7 @@ export const Profile = () => {
         try {
             await updateMe(user.id, values)
             await updateUser(values)
-
-            openModal({
-                title: "Área agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El área ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Perfil Actualizado", "El perfil fue actualizado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -139,3 +127,5 @@ export const Profile = () => {
         </form>
     )
 }
+
+// 141 lineas -> 129 lineas

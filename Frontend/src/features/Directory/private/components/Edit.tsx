@@ -1,10 +1,7 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateEmail, validateExtension, validateName, validateSelect } from "@/utils"
 import { useDirectoryStore } from "../store"
 
@@ -25,7 +22,6 @@ export interface Level {
 }
 
 export const Edit = (file: Data) => {
-    const { openModal } = useModalStore()
     const { update } = useDirectoryStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -52,21 +48,8 @@ export const Edit = (file: Data) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await update(file.id, values)
-
-            openModal({
-                title: "Sistema actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Extensión Telefónica Editada", "La extensión telefónica ha sido editada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -87,3 +70,5 @@ export const Edit = (file: Data) => {
         />
     )
 }
+
+// 89 lineas -> 72 lineas

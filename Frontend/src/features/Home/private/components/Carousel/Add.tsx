@@ -1,11 +1,8 @@
-import { useModalStore } from "@/layout";
-import { Stack, Text } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useCarouselStore } from "../../store";
-import { IconCheck } from "@tabler/icons-react";
 import { useState } from "react";
 import { Form } from "./Form";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 import { validateDescription, validateImage, validatePdf, validateTitle, validateUrl } from "@/utils";
 
 interface Props {
@@ -13,7 +10,6 @@ interface Props {
 }
 
 export const AddCarousel = ({ sectionId }: Props) => {
-    const { openModal } = useModalStore()
     const { add } = useCarouselStore()
     const [loading, setLoading] = useState<boolean>(false)
     const [active, setActive] = useState(0);
@@ -47,7 +43,6 @@ export const AddCarousel = ({ sectionId }: Props) => {
             formData.append("description", values.description)
             formData.append("url", values.url)
             formData.append("sectionId", sectionId)
-
             if (active === 1) {
                 formData.append("type", "page")
             } else if (active === 2) {
@@ -55,30 +50,14 @@ export const AddCarousel = ({ sectionId }: Props) => {
             } else {
                 formData.append("type", "null")
             }
-
             if (values.image) {
                 formData.append("image", values.image!)
             }
-
             if (active === 2 && values.file) {
                 formData.append("file", values.file)
             }
-
             await add(formData)
-
-            openModal({
-                title: "Carrusel agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El carrusel se ha agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Carrusel Creado", "El carrusel fue creado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -101,3 +80,5 @@ export const AddCarousel = ({ sectionId }: Props) => {
         />
     )
 }
+
+// 103 lineas -> 83 lineas

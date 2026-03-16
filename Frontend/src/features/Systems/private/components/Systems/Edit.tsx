@@ -2,11 +2,8 @@ import { useForm } from "@mantine/form"
 import { type SystemProps } from "../../../types"
 import { Form } from "./Form"
 import { useSystemsStore } from "../../store"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
 
 interface Props extends SystemProps {
@@ -17,7 +14,6 @@ interface Props extends SystemProps {
 const typeOptions = ["page", "file"] as const;
 
 export const Edit = ({ id, icon, color, name, description, url, acronym, type, fileName }: Props) => {
-    const { openModal } = useModalStore()
     const { update } = useSystemsStore()
     const initialActive = typeOptions.indexOf(type ?? "page");
     const [active, setActive] = useState(initialActive);
@@ -77,18 +73,7 @@ export const Edit = ({ id, icon, color, name, description, url, acronym, type, f
 
             await update(id, formData)
 
-            openModal({
-                title: "Sistema actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Sistema Editado", "El sistema fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -112,3 +97,5 @@ export const Edit = ({ id, icon, color, name, description, url, acronym, type, f
         />
     )
 }
+
+// 114 lineas -> 99 lineas

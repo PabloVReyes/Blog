@@ -3,11 +3,10 @@ import { Box, Button, Card, Divider, Group, SimpleGrid, Stack, Text, ThemeIcon, 
 import { IconInput, ThemeSelect, TitleInput } from "../components"
 import { useCallback, useMemo, useState } from "react";
 import { useSettingStore } from "../store";
-import { IconCheck, IconLetterT, IconPalette, IconSunMoon } from "@tabler/icons-react";
+import { IconLetterT, IconPalette, IconSunMoon } from "@tabler/icons-react";
 import { uploadFavicon } from "../api";
-import { useModalStore } from "@/layout";
 import { ColorPicker } from "../components";
-import { Notify } from "@/ui";
+import { Notify, showSuccessModal } from "@/ui";
 
 export const General = () => {
     const { primaryColor } = useMantineTheme()
@@ -21,8 +20,6 @@ export const General = () => {
     const favicon = useSettingStore((s) => s.favicon)
     const saveSetting = useSettingStore((s) => s.saveSetting)
     const setFavicon = useSettingStore((s) => s.setFavicon)
-
-    const { openModal } = useModalStore()
 
     const [initialState, setInitialState] = useState(() => ({
         title,
@@ -80,19 +77,7 @@ export const General = () => {
                 color
             })
 
-            openModal({
-                title: "Configuraciones guardadas",
-                subtitle: "Configuraciones guardadas correctamente",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            las configuraciones se han aplicado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Configuraciones Guardadas", "Las configuraciones fueron guardadas correctamente")
         } catch (error: any) {
             Notify({
                 title: "Error al guardar configuraciones",
@@ -140,7 +125,6 @@ export const General = () => {
                         />
                     </Stack>
                 </Card>
-
 
                 <Card>
                     <Card.Section>
@@ -208,3 +192,5 @@ export const General = () => {
         </Container>
     )
 }
+
+// 201 lineas -> 194 lineas

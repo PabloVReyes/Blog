@@ -1,9 +1,8 @@
 import { Divider, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertCircle, IconCheck, IconMail } from "@tabler/icons-react"
+import { IconAlertCircle, IconMail } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Alert, Notify } from "@/ui"
+import { Alert, Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { resetPasswordUser } from "../../api"
 
@@ -14,7 +13,6 @@ interface Props {
 }
 
 export const ResetPassword = ({ id, name, email }: Props) => {
-    const { openModal } = useModalStore()
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -29,22 +27,8 @@ export const ResetPassword = ({ id, name, email }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-
             await resetPasswordUser(id)
-
-            openModal({
-                title: "Permiso eliminado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El permiso ha sido eliminado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Contraseña Restablecida", "La contraseña fue restablecida correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -104,3 +88,5 @@ export const ResetPassword = ({ id, name, email }: Props) => {
         </form>
     )
 }
+
+// 106 lineas -> 90 lineas

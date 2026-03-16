@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateCode, validateName } from "@/utils/validators"
 import { useCIE10Store } from "../../store"
 
 export const AddCIE10 = () => {
-    const { openModal } = useModalStore()
     const { add } = useCIE10Store();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -28,22 +24,8 @@ export const AddCIE10 = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            
             await add(values)
-
-            openModal({
-                title: "Sistema agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Enfermedad Creada", "La enfermedad fue creada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -64,3 +46,5 @@ export const AddCIE10 = () => {
         />
     )
 }
+
+// 66 lineas -> 48 lineas

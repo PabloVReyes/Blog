@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateColor, validateIcon, validateName } from "@/utils/validators"
 import { useShifthStore } from "../../store"
 
 export const AddShift = () => {
-    const { openModal } = useModalStore()
     const { add } = useShifthStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -30,22 +26,8 @@ export const AddShift = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await add(values)
-
-            openModal({
-                title: "Área agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El área ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Turno Creado", "El turno fue creado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -66,3 +48,5 @@ export const AddShift = () => {
         />
     )
 }
+
+// 68 lineas -> 60 lineas

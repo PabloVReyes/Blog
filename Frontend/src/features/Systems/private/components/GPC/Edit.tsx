@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
 import { useGPCStore } from "../../store"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateDescription, validateOrder, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
 
 export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: any) => {
-    const { openModal } = useModalStore()
     const { update } = useGPCStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -46,19 +42,7 @@ export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: an
             }
 
             await update(id, formData)
-
-            openModal({
-                title: "Guía actualizada",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            La guía se actualizo correctamente
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Algoritmo GPC Editado", "El algoritmo GPC fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -84,3 +68,5 @@ export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: an
         />
     )
 }
+
+// 86 lineas -> 70 lineas

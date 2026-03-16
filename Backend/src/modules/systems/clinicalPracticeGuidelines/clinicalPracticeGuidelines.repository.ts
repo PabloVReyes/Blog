@@ -76,7 +76,7 @@ export const postCategoryRepository = async (name: string) => {
 //////////
 
 interface GetClinicalPracticeGuidelinesRepositoryProps extends PaginationProps {
-    categoryId: string;
+    categoryId?: string;
 }
 
 export const getClinicalPracticeGuidelinesRepository = async ({ search, take, skip, categoryId }: GetClinicalPracticeGuidelinesRepositoryProps) => {

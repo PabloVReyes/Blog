@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateName, validateSelect } from "@/utils/validators"
 import { useStandardsStore } from "../store"
 
 export const Add = () => {
-    const { openModal } = useModalStore()
     const { add } = useStandardsStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -43,20 +39,7 @@ export const Add = () => {
             }
 
             await add(formData)
-
-            openModal({
-                title: "Área agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El área ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Norma Oficial Creada", "La norma oficial fue creada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -77,3 +60,5 @@ export const Add = () => {
         />
     )
 }
+
+// 79 lineas -> 62 lineas

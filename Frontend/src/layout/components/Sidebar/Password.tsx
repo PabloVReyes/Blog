@@ -1,7 +1,6 @@
 import { ModalButtons } from "@/components"
 import { changePasswordUser } from "@/layout/api"
-import { useModalStore } from "@/layout/store"
-import { Alert, Notify } from "@/ui"
+import { Alert, Notify, showSuccessModal } from "@/ui"
 import {
     Divider,
     Group,
@@ -50,7 +49,6 @@ function getStrength(password: string) {
 
 export const Password = ({ id }: { id: string }) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { openModal } = useModalStore()
     const form = useForm({
         mode: "controlled",
         initialValues: {
@@ -104,19 +102,7 @@ export const Password = ({ id }: { id: string }) => {
         setLoading(true)
         try {
             await changePasswordUser(id, values)
-
-            openModal({
-                title: "Área agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El área ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Contraseña Actualizada", "La contraseña fue actualizada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -201,3 +187,5 @@ export const Password = ({ id }: { id: string }) => {
         </Stack>
     )
 }
+
+// 203 lineas

@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateName, validateSelect } from "@/utils/validators"
 import { useDownloadsStore } from "../../store"
 
 export const AddDownloads = () => {
-    const { openModal } = useModalStore()
     const { add } = useDownloadsStore();
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -50,20 +46,7 @@ export const AddDownloads = () => {
             }
 
             await add(formData)
-
-            openModal({
-                title: "Área agregado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El área ha sido agregado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
-
+            showSuccessModal("Descarga agregada", "La descarga se agrego correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -84,3 +67,5 @@ export const AddDownloads = () => {
         />
     )
 }
+
+// 86 lineas -> 69 lineas

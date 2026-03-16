@@ -1,10 +1,7 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
 import { useCertificationStore } from "../store"
 
@@ -31,7 +28,6 @@ export interface Section {
 }
 
 export const Edit = (file: Data) => {
-    const { openModal } = useModalStore()
     const { update } = useCertificationStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -65,18 +61,7 @@ export const Edit = (file: Data) => {
 
             await update(file.id.toString(), formData)
 
-            openModal({
-                title: "Sistema actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Certificación Editada", "La certificación ha sido editada correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",

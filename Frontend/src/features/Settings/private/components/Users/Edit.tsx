@@ -1,10 +1,7 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validateEmail, validateName } from "@/utils"
 import { useUserStore } from "../../store"
 
@@ -29,7 +26,6 @@ export interface RoleRole {
 }
 
 export const Edit = (file: Data) => {
-    const { openModal } = useModalStore()
     const { update } = useUserStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -56,21 +52,8 @@ export const Edit = (file: Data) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             await update(file.id.toString(), values)
-
-            openModal({
-                title: "Sistema actualizado",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            El sistema ha sido actualizado correctamente.
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Usuario Editado", "El usuario fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -91,3 +74,5 @@ export const Edit = (file: Data) => {
         />
     )
 }
+
+// 93 lineas -> 76 lineas

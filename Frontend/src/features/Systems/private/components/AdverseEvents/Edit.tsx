@@ -1,15 +1,11 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
 import { useAdverseEventsStore } from "../../store"
-import { Stack, Text } from "@mantine/core"
-import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
-import { useModalStore } from "@/layout"
-import { Notify } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf } from "@/utils/validators"
 
 export const Edit = ({ id, fileName }: any) => {
-    const { openModal } = useModalStore()
     const { update } = useAdverseEventsStore()
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -26,27 +22,12 @@ export const Edit = ({ id, fileName }: any) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-
             const formData = new FormData();
-
             if (values.file) {
                 formData.append("file", values.file!)
             }
-
             await update(id, formData)
-
-            openModal({
-                title: "Guía actualizada",
-                autoClose: 2500,
-                content: (
-                    <Stack align="center" p="xl">
-                        <IconCheck size={60} color="green" />
-                        <Text ta="center">
-                            La guía se actualizo correctamente
-                        </Text>
-                    </Stack>
-                ),
-            });
+            showSuccessModal("Evento Adverso Editado", "El evento adverso fue editado correctamente")
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -68,3 +49,5 @@ export const Edit = ({ id, fileName }: any) => {
         />
     )
 }
+
+// 70 lineas -> 51 lineas
