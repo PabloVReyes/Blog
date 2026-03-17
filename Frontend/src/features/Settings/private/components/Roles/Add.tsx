@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validateName } from "@/utils/validators"
-import { useRolesStore } from "../../store"
+import { useSettingsRolesStore } from "@/stores"
 
 export const AddRoles = () => {
-    const { add } = useRolesStore();
+    const add = useSettingsRolesStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -32,7 +32,7 @@ export const AddRoles = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await add(values)
+            await add?.(values)
             showSuccessModal("Rol Creado", "El rol fue creado correctamente")
         } catch (error: any) {
             Notify({

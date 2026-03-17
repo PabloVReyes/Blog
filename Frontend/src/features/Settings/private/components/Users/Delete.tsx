@@ -4,7 +4,7 @@ import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
-import { useUserStore } from "../../store"
+import { useSettingsUsersStore } from "@/stores"
 
 interface Props {
     id: string
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Delete = ({ id, name }: Props) => {
-    const { remove } = useUserStore()
+    const remove = useSettingsUsersStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -27,7 +27,7 @@ export const Delete = ({ id, name }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Usuario Eliminado", "El usuario fue eliminado correctamente")
         } catch (error: any) {
             Notify({

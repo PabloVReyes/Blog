@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validateKeyPermission, validateName } from "@/utils/validators"
-import { usePermissionsStore } from "../../store"
+import { useSettingsPermissionsStore } from "@/stores"
 
 export const AddPermissions = () => {
-    const { add } = usePermissionsStore();
+    const add = useSettingsPermissionsStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -27,7 +27,7 @@ export const AddPermissions = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await add(values)
+            await add?.(values)
             showSuccessModal("Permiso Creado", "El permiso fue creado correctamente")
         } catch (error: any) {
             Notify({

@@ -1,9 +1,9 @@
 import { Container, Panel, Table } from "@/components"
 import { Badge, Text } from "@mantine/core"
 import { useEffect } from "react"
-import { useMacroprocessStore } from "../store"
 import { Notify } from "@/ui"
 import { ActionsMacroprocess } from "../components"
+import { useMacroprocessStore } from "@/stores"
 
 export const columns = [
     {
@@ -87,7 +87,7 @@ export const Macroprocess = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

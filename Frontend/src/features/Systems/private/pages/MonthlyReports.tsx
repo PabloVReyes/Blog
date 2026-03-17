@@ -2,10 +2,10 @@ import { Container, Panel, Table } from "@/components"
 import { useModalStore } from "@/layout"
 import { ActionsMonthlyReports, AddMonthlyReports } from "../components"
 import { useEffect } from "react"
-import { useMonthlyReportsStore } from "../store"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { useDebouncedValue } from "@mantine/hooks"
+import { useSystemsMonthlyReportsStore } from "@/stores"
 
 const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
@@ -91,7 +91,7 @@ const columns = [
 
 export const MonthlyReports = () => {
     const { openModal } = useModalStore()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useMonthlyReportsStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSystemsMonthlyReportsStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -100,7 +100,7 @@ export const MonthlyReports = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateName, validateSelect } from "@/utils/validators"
-import { useCertificationStore } from "../store"
+import { useCertificationStore } from "@/stores"
 
 export const Add = () => {
-    const { add } = useCertificationStore();
+    const add = useCertificationStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -38,7 +38,7 @@ export const Add = () => {
                 formData.append("file", values.file)
             }
 
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Certificación creada", "La certificación ha sido creada correctamente")
 
         } catch (error: any) {

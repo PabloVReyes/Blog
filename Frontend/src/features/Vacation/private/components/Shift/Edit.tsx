@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateColor, validateIcon, validateName } from "@/utils"
-import { useShifthStore } from "../../store"
+import { useVacationShiftStore } from "@/stores"
 
 export interface Data {
     id: number;
@@ -15,7 +15,7 @@ export interface Data {
 }
 
 export const Edit = (file: Data) => {
-    const { update } = useShifthStore()
+    const update = useVacationShiftStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -35,7 +35,7 @@ export const Edit = (file: Data) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update(file.id.toString(), values)
+            await update?.(file.id.toString(), values)
             showSuccessModal("Turno Editado", "El turno fue editado correctamente")
         } catch (error: any) {
             Notify({

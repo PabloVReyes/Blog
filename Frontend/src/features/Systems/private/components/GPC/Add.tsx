@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validateOrder, validatePdf, validateSelect, validateTitle } from "@/utils"
-import { useGPCStore } from "../../store"
+import { useSystemsGPCStore } from "@/stores"
 
 export const AddGCP = () => {
-    const { add } = useGPCStore();
+    const add = useSystemsGPCStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -39,7 +39,7 @@ export const AddGCP = () => {
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Algoritmo GPC Creado", "El algoritmo GPC fue creado correctamente")
         } catch (error: any) {
             Notify({

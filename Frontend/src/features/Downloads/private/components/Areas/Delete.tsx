@@ -4,7 +4,7 @@ import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
-import { useAreasStore } from "../../store"
+import { useDownloadAreasStore } from "@/stores"
 
 interface Props {
     id: string
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Delete = ({ id, name }: Props) => {
-    const { remove } = useAreasStore()
+    const remove = useDownloadAreasStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -27,7 +27,7 @@ export const Delete = ({ id, name }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Área Eliminada", "El área se ha eliminado correctamente")
         } catch (error: any) {
             Notify({

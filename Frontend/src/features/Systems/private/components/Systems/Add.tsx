@@ -1,13 +1,13 @@
 import { useForm } from "@mantine/form"
 import type { SystemProps } from "@/features/Systems/types"
-import { useSystemsStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
+import { useSystemsStore } from "@/stores"
 
 export const AddSystem = () => {
-    const { add } = useSystemsStore();
+    const add = useSystemsStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
     const [active, setActive] = useState(0);
 
@@ -64,7 +64,7 @@ export const AddSystem = () => {
                 formData.append("file", values.file!)
             }
 
-            await add(formData)
+            await add?.(formData)
 
             showSuccessModal("Sistema Creado", "El sistema fue creado correctamente")
         } catch (error: any) {

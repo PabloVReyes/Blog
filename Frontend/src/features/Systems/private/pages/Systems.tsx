@@ -1,12 +1,12 @@
 import { Container, Panel, Table } from "@/components"
 import { Text, ThemeIcon } from "@mantine/core"
-import { useSystemsStore } from "../store"
 import { useEffect } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
 import * as TablerIcons from "@tabler/icons-react"
 import { ActionsSystems, AddSystem } from "../components"
 import { useDebouncedValue } from "@mantine/hooks"
+import { useSystemsStore } from "@/stores"
 
 const columns = [
     {
@@ -107,7 +107,7 @@ export const Systems = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

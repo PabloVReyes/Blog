@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateEmail, validateExtension, validateName, validateSelect } from "@/utils"
-import { useDirectoryStore } from "../store"
+import { useDirectoryStore } from "@/stores"
 
 export interface Data {
     id: string;
@@ -22,7 +22,7 @@ export interface Level {
 }
 
 export const Edit = (file: Data) => {
-    const { update } = useDirectoryStore()
+    const update = useDirectoryStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm<any>({
@@ -31,24 +31,24 @@ export const Edit = (file: Data) => {
             phone: file.phone,
             name: file.name,
             level: String(file.levelId),
-            boss: file.boss,
-            secretary: file.secretary,
-            email: file.email
+            boss: file.boss ?? "",
+            secretary: file.secretary ?? "",
+            email: file.email ?? ""
         },
         validate: {
             phone: (value) => validateExtension(value, { required: true }),
             name: (value) => validateName(value, { required: true }),
             level: (value) => validateSelect(value, { required: true }),
-            boss: (value) => validateName(value, { required: true }),
-            secretary: (value) => validateName(value, { required: true }),
-            email: (value) => validateEmail(value, { required: true }),
+            boss: (value, values) => validateName(value, { required: values.boss && values.boss.length > 3 }),
+            secretary: (value, values) => validateName(value, { required: values.secretary && values.secretary.length > 3 }),
+            email: (value, values) => validateEmail(value, { required: values.email && values.email.length > 3 }),
         }
     })
 
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update(file.id, values)
+            await update?.(file.id, values)
             showSuccessModal("Extensión Telefónica Editada", "La extensión telefónica ha sido editada correctamente")
         } catch (error: any) {
             Notify({

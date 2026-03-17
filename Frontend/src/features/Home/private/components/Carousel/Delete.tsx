@@ -2,9 +2,9 @@ import { Alert, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react";
-import { useCarouselStore } from "../../store";
 import { Notify, showSuccessModal } from "@/ui";
 import { ModalButtons } from "@/components";
+import { useHomeCarouselStore } from "@/stores";
 
 interface Props {
     id: string;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Delete = ({ id, title }: Props) => {
-    const { remove } = useCarouselStore()
+    const remove = useHomeCarouselStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -28,7 +28,7 @@ export const Delete = ({ id, title }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true)
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Carrusel Eliminado", "El carrusel fue eliminado correctamente")
         } catch (error: any) {
             Notify({

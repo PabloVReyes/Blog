@@ -3,10 +3,10 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateColor, validateIcon, validateName } from "@/utils/validators"
-import { useAreasStore } from "../../store"
+import { useDownloadAreasStore } from "@/stores"
 
 export const Edit = ({ id, icon, color, name }: any) => {
-    const { update } = useAreasStore()
+    const update = useDownloadAreasStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm<any>({
@@ -26,7 +26,7 @@ export const Edit = ({ id, icon, color, name }: any) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update(id, values)
+            await update?.(id, values)
             showSuccessModal("Área Editada", "El áerea se ha editado correctamente")
         } catch (error: any) {
             Notify({

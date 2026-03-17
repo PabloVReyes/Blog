@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateName, validateSelect } from "@/utils/validators"
-import { useUVEHStore } from "../store"
+import { useUVEHStore } from "@/stores"
 
 export const Add = () => {
-    const { add } = useUVEHStore();
+    const add = useUVEHStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -38,7 +38,7 @@ export const Add = () => {
                 formData.append("file", values.file)
             }
 
-            await add(formData)
+            await add?.(formData)
 
             showSuccessModal("UVEH Creado", "UVEH fue creado correctamente")
         } catch (error: any) {

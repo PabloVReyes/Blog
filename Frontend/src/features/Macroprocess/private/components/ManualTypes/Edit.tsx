@@ -2,16 +2,16 @@ import { Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react";
 import { ColorSelect, ModalButtons } from "@/components";
-import { useManualsTypesStore } from "../../store";
 import { Notify, showSuccessModal } from "@/ui";
 import { validateCode, validateName } from "@/utils";
+import { useMacroprocessManualTypeStore } from "@/stores";
 
 const MAX_CODE_LENGTH = 10
 const MAX_NAME_LENGTH = 50
 
 export const Edit = ({ id, name, color }: any) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { update } = useManualsTypesStore()
+    const update = useMacroprocessManualTypeStore(s => s.update)
 
     const form = useForm({
         mode: "controlled",
@@ -29,7 +29,7 @@ export const Edit = ({ id, name, color }: any) => {
 
     const handleSubmit = async (values: typeof form.values) => {
         try {
-            await update(id, values)
+            await update?.(id, values)
             showSuccessModal("Tipo de manual editado", "El tipo de manual fue editado correctamente")
         } catch (error: any) {
             Notify({

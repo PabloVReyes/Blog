@@ -1,9 +1,9 @@
 import { Container, Panel, Table } from "@/components"
-import { useAreasStore } from "../store"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Badge, Text } from "@mantine/core"
 import { ActionsAreas } from "../components"
+import { useMacroprocessAreaStore } from "@/stores"
 
 export const columns = [
     {
@@ -37,7 +37,7 @@ export const columns = [
 ]
 
 export const Areas = () => {
-    const { fetch, items, setLimit, setPage, lastItem, firstItem, totalItems, totalPages, isLoading, page, search, limit, setSearch } = useAreasStore()
+    const { fetch, items, setLimit, setPage, lastItem, firstItem, totalItems, totalPages, isLoading, page, search, limit, setSearch } = useMacroprocessAreaStore()
 
     useEffect(() => {
         handleFetch()
@@ -45,7 +45,7 @@ export const Areas = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

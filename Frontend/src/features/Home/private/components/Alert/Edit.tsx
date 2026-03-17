@@ -2,11 +2,11 @@ import { IconSelect, ModalButtons, Switch } from "@/components"
 import { Divider, Select, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import styles from "./Edit.module.css"
-import { useAlertStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateColor, validateDescription, validateIcon, validateTitle } from "@/utils"
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_AUTHOR_LENGTH } from "@/constants"
+import { useHomeAlertStore } from "@/stores"
 
 const options = [
     { label: "Informativo", value: "blue" },
@@ -16,7 +16,7 @@ const options = [
 ];
 
 export const Edit = ({ id, icon, isActive, title, description, author, color }: any) => {
-    const { update } = useAlertStore()
+    const update = useHomeAlertStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -40,7 +40,7 @@ export const Edit = ({ id, icon, isActive, title, description, author, color }: 
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update(id, values)
+            await update?.(id, values)
             showSuccessModal("Alerta Editada", "La alerta fue editada correctamente")
         } catch (error: any) {
             Notify({

@@ -1,10 +1,10 @@
 import { useForm } from "@mantine/form"
 import { type SystemProps } from "../../../types"
 import { Form } from "./Form"
-import { useSystemsStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
+import { useSystemsStore } from "@/stores"
 
 interface Props extends SystemProps {
     id: string
@@ -14,7 +14,7 @@ interface Props extends SystemProps {
 const typeOptions = ["page", "file"] as const;
 
 export const Edit = ({ id, icon, color, name, description, url, acronym, type, fileName }: Props) => {
-    const { update } = useSystemsStore()
+    const update = useSystemsStore(s => s.update)
     const initialActive = typeOptions.indexOf(type ?? "page");
     const [active, setActive] = useState(initialActive);
     const [loading, setLoading] = useState<boolean>(false)
@@ -71,7 +71,7 @@ export const Edit = ({ id, icon, color, name, description, url, acronym, type, f
                 formData.append("file", values.file!)
             }
 
-            await update(id, formData)
+            await update?.(id, formData)
 
             showSuccessModal("Sistema Editado", "El sistema fue editado correctamente")
         } catch (error: any) {

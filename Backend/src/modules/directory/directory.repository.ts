@@ -9,9 +9,9 @@ interface PostDirectoryRepositoryProps {
     phone: string;
     name: string;
     levelId: string;
-    boss: string;
-    secretary: string;
-    email: string;
+    boss?: string;
+    secretary?: string;
+    email?: string;
 }
 
 export const postDirectoryRepository = async ({

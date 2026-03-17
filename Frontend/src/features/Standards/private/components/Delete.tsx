@@ -4,7 +4,7 @@ import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
-import { useStandardsStore } from "../store"
+import { useStandardsStore } from "@/stores"
 
 interface Props {
     id: string
@@ -27,7 +27,7 @@ export const Delete = ({ id, name }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Norma Oficial Eliminada", "La norma oficial fue eliminada correctamente")
         } catch (error: any) {
             Notify({

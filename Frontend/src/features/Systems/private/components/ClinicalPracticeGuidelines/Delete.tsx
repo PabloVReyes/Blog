@@ -2,9 +2,9 @@ import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
-import { useClinicalPracticeGuidelinesStore } from "../../store"
 import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
+import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
 
 interface Props {
     id: string
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const Delete = ({ id, name, code }: Props) => {
-    const { remove } = useClinicalPracticeGuidelinesStore()
+    const remove = useSystemsClinicalPracticeGuidelinesStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -28,7 +28,7 @@ export const Delete = ({ id, name, code }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Guía de Práctica Clínica Eliminada", "La guía de práctica clínica fue eliminada correctamente")
         } catch (error: any) {
             Notify({

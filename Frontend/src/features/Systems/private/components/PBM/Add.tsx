@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validatePdf, validateTitle } from "@/utils/validators"
-import { usePBMStore } from "../../store"
+import { useSystemsPBMStore } from "@/stores"
 
 export const AddPBM = () => {
-    const { add } = usePBMStore();
+    const add = useSystemsPBMStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -29,7 +29,7 @@ export const AddPBM = () => {
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Algoritmo PBM Creado", "El algoritmo PBM fue creado correctamente")
         } catch (error: any) {
             Notify({

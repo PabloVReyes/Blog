@@ -1,10 +1,10 @@
 import { Panel, Table } from "@/components"
 import { ThemeIcon, Table as TableMantine, Text } from "@mantine/core"
-import { useDerechohabienciaStore } from "../store"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import * as TableIcons from "@tabler/icons-react"
 import { ActionsDerechohabiencia } from "../components"
+import { useHomeDerechohabienciaStore } from "@/stores"
 
 const columns = [
     {
@@ -80,7 +80,7 @@ const columns = [
 ]
 
 export const Derechohabiencia = () => {
-    const { fetch, items, isLoading } = useDerechohabienciaStore()
+    const { fetch, items, isLoading } = useHomeDerechohabienciaStore()
 
     useEffect(() => {
         handleFetch()
@@ -88,7 +88,7 @@ export const Derechohabiencia = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

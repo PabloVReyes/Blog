@@ -3,10 +3,10 @@ import { useModalStore } from "@/layout"
 import { ActionsShift, AddShift } from "../components"
 import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
-import { useShifthStore } from "../store"
 import { Notify } from "@/ui"
 import { ThemeIcon } from "@mantine/core"
 import * as TablerIcons from "@tabler/icons-react";
+import { useVacationShiftStore } from "@/stores"
 
 const columns = [
     {
@@ -47,7 +47,7 @@ const columns = [
 export const Shift = () => {
     const { openModal } = useModalStore()
 
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useShifthStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useVacationShiftStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export const Shift = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

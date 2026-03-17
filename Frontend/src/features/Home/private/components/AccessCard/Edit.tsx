@@ -1,15 +1,15 @@
 import { useForm } from "@mantine/form"
 import { useState } from "react";
-import { useAccessCardStore } from "../../store";
 import { Notify, showSuccessModal } from "@/ui";
 import { validateDescription, validatePdf, validateTitle, validateUrl } from "@/utils";
 import { Form } from "./Form";
+import { useHomeAccessCardStore } from "@/stores";
 
 const typeOptions = ["page", "file"] as const;
 
 
 export const Edit = ({ id, title, description, icon, color, type, url, fileName, isActive }: any) => {
-    const { update } = useAccessCardStore()
+    const update = useHomeAccessCardStore(s => s.update)
     const initialActive = typeOptions.indexOf(type ?? "page");
     const [active, setActive] = useState(initialActive);
     const [loading, setLoading] = useState<boolean>(false)
@@ -56,7 +56,7 @@ export const Edit = ({ id, title, description, icon, color, type, url, fileName,
                 formData.append("file", values.file!)
             }
 
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Acceso Rápido Editado", "El acceso rápido fue editado correctamente")
         } catch (error: any) {
             Notify({

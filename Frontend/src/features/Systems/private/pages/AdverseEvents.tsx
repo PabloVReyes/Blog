@@ -1,10 +1,10 @@
 import { Container, Panel, Table } from "@/components"
-import { useAdverseEventsStore } from "../store"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { ActionsAdverseEvents } from "../components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Text } from "@mantine/core"
+import { useSystemsAdverseEventsStore } from "@/stores"
 
 const columns = [
     {
@@ -52,7 +52,7 @@ export const AdverseEvents = () => {
         limit,
         items,
         isLoading,
-    } = useAdverseEventsStore()
+    } = useSystemsAdverseEventsStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -61,7 +61,7 @@ export const AdverseEvents = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

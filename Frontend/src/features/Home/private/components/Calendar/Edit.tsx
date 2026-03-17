@@ -2,15 +2,15 @@ import { ColorSelect, IconSelect, ModalButtons } from "@/components"
 import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import * as TablerIcons from "@tabler/icons-react";
 import { useForm } from "@mantine/form"
-import { useCalendarStore } from "../../store";
 import { Notify, showSuccessModal } from "@/ui";
 import { validateColor, validateDescription, validateIcon, validateTitle, validateYear } from "@/utils";
 import { useState } from "react";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
+import { useHomeCalendarStore } from "@/stores";
 
 export const Edit = ({ id, icon, color, title, description, year, fileName }: any) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { update } = useCalendarStore()
+    const update = useHomeCalendarStore(s => s.update)
 
     const form = useForm({
         mode: 'controlled',
@@ -47,7 +47,7 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: an
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Primera Sección Editada", "La primera sección fue editada correctamente")
         } catch (error: any) {
             Notify({

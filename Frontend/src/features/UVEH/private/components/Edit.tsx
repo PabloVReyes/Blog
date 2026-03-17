@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
-import { useUVEHStore } from "../store"
+import { useUVEHStore } from "@/stores"
 
 export interface Data {
     id: number;
@@ -35,7 +35,7 @@ export interface Meta {
 }
 
 export const Edit = (file: Data) => {
-    const { update } = useUVEHStore()
+    const update = useUVEHStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -66,7 +66,7 @@ export const Edit = (file: Data) => {
                 formData.append("file", values.file)
             }
 
-            await update(file.id.toString(), formData)
+            await update?.(file.id.toString(), formData)
             showSuccessModal("UVEH Editado", "UVEH fue editado correctamente")
         } catch (error: any) {
             Notify({

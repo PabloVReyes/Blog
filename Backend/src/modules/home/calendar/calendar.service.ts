@@ -7,7 +7,13 @@ import { CalendarUpdateDto } from "./calendar.schema"
 //////////
 
 export const getCalendarService = async () => {
-    return await repo.getCalendarRepository()
+    const data = await repo.getCalendarRepository()
+    return {
+        data,
+        meta: {
+            total: 1
+        }
+    }
 }
 
 export const downloadCalendarFileService = async (id: string) => {

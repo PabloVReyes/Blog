@@ -1,10 +1,10 @@
 import { Panel, Table } from "@/components"
 import { Badge } from "@mantine/core"
 import { useEffect } from "react"
-import { useAlertStore } from "../store"
 import { Notify } from "@/ui"
 import * as TablerIcons from "@tabler/icons-react";
 import { ActionsAlert } from "../components"
+import { useHomeAlertStore } from "@/stores"
 
 export const columns = [
     {
@@ -80,7 +80,7 @@ export const columns = [
 ]
 
 export const Alert = () => {
-    const { fetch, items, isLoading } = useAlertStore()
+    const { fetch, items, isLoading } = useHomeAlertStore()
 
     useEffect(() => {
         handleFetch()
@@ -88,7 +88,7 @@ export const Alert = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

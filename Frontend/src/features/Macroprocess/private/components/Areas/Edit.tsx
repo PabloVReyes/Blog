@@ -1,14 +1,14 @@
 import { Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react";
-import { useAreasStore } from "../../store";
 import { Notify, showSuccessModal } from "@/ui";
 import { MAX_TITLE_LENGTH } from "@/constants";
 import { ModalButtons } from "@/components";
+import { useMacroprocessAreaStore } from "@/stores";
 
 export const Edit = ({ id, name }: any) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { update } = useAreasStore()
+    const update = useMacroprocessAreaStore(s => s.update)
 
     const form = useForm({
         mode: "controlled",
@@ -25,7 +25,7 @@ export const Edit = ({ id, name }: any) => {
             const props = {
                 name: values.name,
             }
-            await update(id, props)
+            await update?.(id, props)
             showSuccessModal("Área Editada", "El área fue editada correctamente")
         } catch (error: any) {
             Notify({

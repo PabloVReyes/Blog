@@ -5,7 +5,7 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
-import { useCertificationStore } from "../store"
+import { useCertificationStore } from "@/stores"
 
 
 export interface Data {
@@ -69,14 +69,26 @@ const columns = [
 
 export const Certification = () => {
     const { openModal } = useModalStore()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useCertificationStore()
+    const {
+        items,
+        fetch,
+        setSearch,
+        search,
+        isLoading,
+        page,
+        limit,
+        totalItems,
+        totalPages,
+        setLimit,
+        firstItem,
+        lastItem,
+        setPage
+    } = useCertificationStore()
     const [debounced] = useDebouncedValue(search, 500)
 
-    useEffect(() => {
-        handleFetch()
-    }, [debounced, page, limit])
-
     const handleFetch = async () => {
+        if (!fetch) return
+
         try {
             await fetch()
         } catch (error: any) {
@@ -88,11 +100,16 @@ export const Certification = () => {
         }
     }
 
+    useEffect(() => {
+        handleFetch()
+    }, [debounced, page, limit])
+
     const handleAdd = () => {
         openModal({
             content: <Add />
         })
     }
+
 
     return (
         <Container

@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { useMonthlyReportsStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf, validateTitle, validateYear } from "@/utils/validators"
+import { useSystemsMonthlyReportsStore } from "@/stores"
 
 export const Edit = ({ id, title, fileName, description, type, month, period }: any) => {
-    const { update } = useMonthlyReportsStore()
+    const update = useSystemsMonthlyReportsStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -43,7 +43,7 @@ export const Edit = ({ id, title, fileName, description, type, month, period }: 
                 formData.append("file", values.file!)
             }
 
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Reporte Mensual Editado", "El reporte mensual fue editado correctamente")
         } catch (error: any) {
             Notify({

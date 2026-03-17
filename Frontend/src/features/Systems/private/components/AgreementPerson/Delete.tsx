@@ -2,9 +2,9 @@ import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
-import { useAgreementPersonStore } from "../../store"
 import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
+import { useSystemsAgreementPersonStore } from "@/stores"
 
 interface Props {
     id: number
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Delete = ({ id, name }: Props) => {
-    const { remove } = useAgreementPersonStore()
+    const remove = useSystemsAgreementPersonStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -27,7 +27,7 @@ export const Delete = ({ id, name }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Paciente de Convenio Eliminado", "El paciente de convenio fue eliminado correctamente")
         } catch (error: any) {
             Notify({

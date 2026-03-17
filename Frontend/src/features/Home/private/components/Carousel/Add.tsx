@@ -1,16 +1,16 @@
 import { useForm } from "@mantine/form"
-import { useCarouselStore } from "../../store";
 import { useState } from "react";
 import { Form } from "./Form";
 import { Notify, showSuccessModal } from "@/ui";
 import { validateDescription, validateImage, validatePdf, validateTitle, validateUrl } from "@/utils";
+import { useHomeCarouselStore } from "@/stores";
 
 interface Props {
     sectionId: string;
 }
 
 export const AddCarousel = ({ sectionId }: Props) => {
-    const { add } = useCarouselStore()
+    const add = useHomeCarouselStore(s => s.add)
     const [loading, setLoading] = useState<boolean>(false)
     const [active, setActive] = useState(0);
 
@@ -56,7 +56,7 @@ export const AddCarousel = ({ sectionId }: Props) => {
             if (active === 2 && values.file) {
                 formData.append("file", values.file)
             }
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Carrusel Creado", "El carrusel fue creado correctamente")
         } catch (error: any) {
             Notify({

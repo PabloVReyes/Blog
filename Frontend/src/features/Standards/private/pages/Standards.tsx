@@ -1,11 +1,11 @@
 import { Container, Panel, Table } from "@/components"
 import { useModalStore } from "@/layout"
 import { Actions, Add } from "../components"
-import { useStandardsStore } from "../store"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
+import { useStandardsStore } from "@/stores"
 
 
 export interface Data {
@@ -109,7 +109,7 @@ export const Standards = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

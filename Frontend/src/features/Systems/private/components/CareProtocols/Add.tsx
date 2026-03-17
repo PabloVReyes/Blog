@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validatePdf, validateSelect, validateTitle } from "@/utils"
-import { useCareProtocolsStore } from "../../store"
+import { useSystemsCareProtocolsApiStore } from "@/stores"
 
 export const AddCareProtocols = () => {
-    const { add } = useCareProtocolsStore();
+    const add = useSystemsCareProtocolsApiStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -35,7 +35,7 @@ export const AddCareProtocols = () => {
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Protocolo de Atención Creado", "El protocolo de atención fue creado correctamente")
         } catch (error: any) {
             Notify({

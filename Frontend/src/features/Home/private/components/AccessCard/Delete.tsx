@@ -2,9 +2,9 @@ import { Alert, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react";
-import { useAccessCardStore } from "../../store";
 import { Notify, showSuccessModal } from "@/ui";
 import { ModalButtons } from "@/components";
+import { useHomeAccessCardStore } from "@/stores";
 
 interface Props {
     id: string;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Delete = ({ id, title }: Props) => {
-    const { remove } = useAccessCardStore()
+    const remove = useHomeAccessCardStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -28,7 +28,7 @@ export const Delete = ({ id, title }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true)
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Acceso Rápido Eliminado", "El acceso rápido fue eliminado correctamente")
         } catch (error: any) {
             Notify({

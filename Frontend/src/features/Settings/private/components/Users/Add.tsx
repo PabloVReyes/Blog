@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateEmail, validateName } from "@/utils/validators"
-import { useUserStore } from "../../store"
+import { useSettingsUsersStore } from "@/stores"
 
 export const AddUsers = () => {
-    const { add } = useUserStore();
+    const add = useSettingsUsersStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -32,7 +32,7 @@ export const AddUsers = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await add(values)
+            await add?.(values)
             showSuccessModal("Usuario Creado", "El usuario fue creado correctamente")
         } catch (error: any) {
             Notify({

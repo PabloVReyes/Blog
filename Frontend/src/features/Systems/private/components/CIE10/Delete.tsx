@@ -2,9 +2,9 @@ import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
-import { useCIE10Store } from "../../store"
 import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
+import { useSystemsCIE10Store } from "@/stores"
 
 interface Props {
     id: string
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Delete = ({ id, name }: Props) => {
-    const { remove } = useCIE10Store()
+    const remove = useSystemsCIE10Store(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -27,7 +27,7 @@ export const Delete = ({ id, name }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Enfermedad Eliminada", "La enfermedad fue eliminada correctamente")
         } catch (error: any) {
             Notify({

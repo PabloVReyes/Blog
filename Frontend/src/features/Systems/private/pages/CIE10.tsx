@@ -1,10 +1,10 @@
 import { Container, Panel, Table } from "@/components"
-import { useCIE10Store } from "../store"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { ActionsCIE10, AddCIE10 } from "../components"
 import { useModalStore } from "@/layout"
 import { useDebouncedValue } from "@mantine/hooks"
+import { useSystemsCIE10Store } from "@/stores"
 
 const columns = [
     {
@@ -43,7 +43,7 @@ export const CIE10 = () => {
         firstItem, 
         lastItem, 
         setPage 
-    } = useCIE10Store()
+    } = useSystemsCIE10Store()
     const { openModal } = useModalStore()
     const [debounced] = useDebouncedValue(search, 500)
 
@@ -53,7 +53,7 @@ export const CIE10 = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

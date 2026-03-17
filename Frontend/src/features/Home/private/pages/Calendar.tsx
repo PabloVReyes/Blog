@@ -1,10 +1,10 @@
 import { Panel, Table } from "@/components"
 import { Badge, Text, ThemeIcon } from "@mantine/core"
-import { useCalendarStore } from "../store"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import * as TableIcons from "@tabler/icons-react"
 import { ActionsCalendar } from "../components"
+import { useHomeCalendarStore } from "@/stores"
 
 const columns = [
     {
@@ -80,7 +80,7 @@ const columns = [
 ]
 
 export const Calendar = () => {
-    const { items, fetch, isLoading } = useCalendarStore()
+    const { items, fetch, isLoading } = useHomeCalendarStore()
 
     useEffect(() => {
         handleFetch()
@@ -88,7 +88,7 @@ export const Calendar = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
-import { useStandardsStore } from "../store"
+import { useStandardsStore } from "@/stores"
 
 export interface Data {
     id: number;
@@ -35,7 +35,7 @@ export interface Meta {
 }
 
 export const Edit = (file: Data) => {
-    const { update } = useStandardsStore()
+    const update = useStandardsStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -65,7 +65,7 @@ export const Edit = (file: Data) => {
             if (values.file) {
                 formData.append("file", values.file)
             }
-            await update(file.id.toString(), formData)
+            await update?.(file.id.toString(), formData)
             showSuccessModal("Norma Oficial Editada", "La norma oficial fue editada correctamente")
         } catch (error: any) {
             Notify({

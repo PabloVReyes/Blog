@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
-import { useCertificationStore } from "../store"
+import { useCertificationStore } from "@/stores"
 
 export interface Data {
     id: number;
@@ -28,7 +28,7 @@ export interface Section {
 }
 
 export const Edit = (file: Data) => {
-    const { update } = useCertificationStore()
+    const update = useCertificationStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -59,7 +59,7 @@ export const Edit = (file: Data) => {
                 formData.append("file", values.file)
             }
 
-            await update(file.id.toString(), formData)
+            await update?.(file.id.toString(), formData)
 
             showSuccessModal("Certificación Editada", "La certificación ha sido editada correctamente")
         } catch (error: any) {

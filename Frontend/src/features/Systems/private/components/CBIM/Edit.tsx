@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { useCBIMStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateCodeMedicine, validateName, validatePresentation } from "@/utils"
+import { useSystemsCBIMStore } from "@/stores"
 
 export const Edit = ({ id, name, code, description, cbt_cae, sp, fpgc }: any) => {
-    const { update } = useCBIMStore()
+    const update = useSystemsCBIMStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -29,7 +29,7 @@ export const Edit = ({ id, name, code, description, cbt_cae, sp, fpgc }: any) =>
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update(id, values)
+            await update?.(id, values)
             showSuccessModal("Medicamento Editado", "El medicamento fue editado correctamente")
         } catch (error: any) {
             Notify({

@@ -5,8 +5,7 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
-import { useJuristicStore } from "../store"
-
+import { useJuristicStore } from "@/stores"
 
 export interface Data {
     id: number;
@@ -21,7 +20,6 @@ export interface Data {
     createdAt: Date;
     updatedAt: Date;
 }
-
 
 const columns = [
     {
@@ -78,7 +76,7 @@ export const Juristic = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

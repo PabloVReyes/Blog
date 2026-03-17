@@ -2,9 +2,9 @@ import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
-import { useSystemsStore } from "../../store"
 import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
+import { useSystemsStore } from "@/stores"
 
 interface Props {
     id: string
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Delete = ({ id, name }: Props) => {
-    const { remove } = useSystemsStore()
+    const remove = useSystemsStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -27,7 +27,7 @@ export const Delete = ({ id, name }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Sistema Eliminado", "El sistema fue eliminado correctamente")
         } catch (error: any) {
             Notify({

@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateSelect } from "@/utils"
-import { useVacationStore } from "../../store"
+import { useVacationStore } from "@/stores"
 
 export interface Data {
     id: number;
@@ -27,7 +27,7 @@ export interface Shift {
 }
 
 export const Edit = (file: Data) => {
-    const { update } = useVacationStore()
+    const update = useVacationStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -54,7 +54,7 @@ export const Edit = (file: Data) => {
                 formData.append("file", values.file)
             }
 
-            await update(file.id.toString(), formData)
+            await update?.(file.id.toString(), formData)
             showSuccessModal("Vacaciones Editadas", "Las vacaciones fueron editadas correctamente")
         } catch (error: any) {
             Notify({

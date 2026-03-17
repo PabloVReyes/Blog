@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateSelect } from "@/utils/validators"
-import { useVacationStore } from "../../store"
+import { useVacationStore } from "@/stores"
 
 export const AddVacation = () => {
-    const { add } = useVacationStore();
+    const add = useVacationStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -32,7 +32,7 @@ export const AddVacation = () => {
             if (values.file) {
                 formData.append("file", values.file)
             }
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Vacaciones Creadas", "Las vacaciones fueron creadas correctamente")
         } catch (error: any) {
             Notify({

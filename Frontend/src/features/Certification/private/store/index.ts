@@ -1,1 +1,0 @@
-export { useCertificationStore } from "./Certification"

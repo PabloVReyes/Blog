@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { useAdverseEventsStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf } from "@/utils/validators"
+import { useSystemsAdverseEventsStore } from "@/stores"
 
 export const Edit = ({ id, fileName }: any) => {
-    const { update } = useAdverseEventsStore()
+    const update = useSystemsAdverseEventsStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -26,7 +26,7 @@ export const Edit = ({ id, fileName }: any) => {
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Evento Adverso Editado", "El evento adverso fue editado correctamente")
         } catch (error: any) {
             Notify({

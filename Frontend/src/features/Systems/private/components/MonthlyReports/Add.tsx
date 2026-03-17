@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validatePdf, validateTitle, validateYear } from "@/utils/validators"
-import { useMonthlyReportsStore } from "../../store"
+import { useSystemsMonthlyReportsStore } from "@/stores"
 
 export const AddMonthlyReports = () => {
-    const { add } = useMonthlyReportsStore();
+    const add = useSystemsMonthlyReportsStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -40,7 +40,7 @@ export const AddMonthlyReports = () => {
             }
             formData.append("year", values.year)
             formData.append("file", values.file!)
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Reporte Mensual Creado", "El reporte mensual fue creado correctamente")
         } catch (error: any) {
             Notify({

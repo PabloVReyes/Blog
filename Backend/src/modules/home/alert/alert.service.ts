@@ -3,7 +3,12 @@ import { PutAlertSchema } from "./alert.schema"
 
 export const getAlertService = async () => {
     const data = await repo.getAlertRepository()
-    return data
+    return {
+        data,
+        meta: {
+            total: 1,
+        }
+    }
 }
 
 export const putAlertService = async (dto: PutAlertSchema) => {

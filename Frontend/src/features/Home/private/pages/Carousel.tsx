@@ -1,5 +1,4 @@
 import { Text } from "@mantine/core"
-import { useCarouselStore } from "../store"
 import { Panel, Table } from "@/components"
 import { useEffect } from "react"
 import { useModalStore } from "@/layout"
@@ -7,6 +6,7 @@ import { ActionsCarousel, AddCarousel } from "../components"
 import { Notify } from "@/ui"
 import { IconEye, IconEyeOff } from "@tabler/icons-react"
 import { useDebouncedValue } from "@mantine/hooks"
+import { useHomeCarouselStore } from "@/stores"
 
 const columns = [
     {
@@ -75,7 +75,7 @@ const columns = [
 
 export const Carousel = ({ id }: any) => {
     const { openModal } = useModalStore()
-    const { fetch, items, search, setSearch, limit, setLimit, page, setPage, totalPages, totalItems, firstItem, lastItem, isLoading } = useCarouselStore()
+    const { fetch, items, search, setSearch, limit, setLimit, page, setPage, totalPages, totalItems, firstItem, lastItem, isLoading } = useHomeCarouselStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -84,7 +84,7 @@ export const Carousel = ({ id }: any) => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

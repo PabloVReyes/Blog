@@ -1,11 +1,11 @@
 import { Container, Panel, Table } from "@/components"
 import { useModalStore } from "@/layout"
 import { ActionsPBM, AddPBM } from "../components"
-import { usePBMStore } from "../store"
 import { Notify } from "@/ui"
 import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Text } from "@mantine/core"
+import { useSystemsPBMStore } from "@/stores"
 
 const columns = [
     {
@@ -55,7 +55,7 @@ export const PBM = () => {
         firstItem,
         lastItem,
         setPage
-    } = usePBMStore()
+    } = useSystemsPBMStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export const PBM = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

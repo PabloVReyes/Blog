@@ -1,9 +1,9 @@
 import { Container, Panel, Table } from "@/components"
-import { useManualsTypesStore } from "../store"
 import { useEffect } from "react"
 import { Badge, Text } from "@mantine/core"
 import { Notify } from "@/ui"
 import { ActionsManualTypes } from "../components"
+import { useMacroprocessManualTypeStore } from "@/stores"
 
 export const columns = [
     {
@@ -49,7 +49,7 @@ export const columns = [
 ]
 
 export const ManualsTypes = () => {
-    const { fetch, items, setLimit, setPage, lastItem, firstItem, totalItems, totalPages, isLoading, page, search, limit, setSearch } = useManualsTypesStore()
+    const { fetch, items, setLimit, setPage, lastItem, firstItem, totalItems, totalPages, isLoading, page, search, limit, setSearch } = useMacroprocessManualTypeStore()
 
     useEffect(() => {
         handleFetch()
@@ -57,7 +57,7 @@ export const ManualsTypes = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

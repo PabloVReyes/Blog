@@ -2,14 +2,14 @@ import { ColorSelect, IconSelect, ModalButtons } from "@/components"
 import { Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import * as TablerIcons from "@tabler/icons-react";
 import { formRootRule, useForm } from "@mantine/form"
-import { useDerechohabienciaStore } from "../../store";
 import { Notify, showSuccessModal } from "@/ui";
 import { validateColor, validateDescription, validateIcon, validateTitle, validateUrl } from "@/utils";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { useState } from "react";
+import { useHomeDerechohabienciaStore } from "@/stores";
 
 export const Edit = ({ id, icon, color, title, description, links }: any) => {
-    const { update } = useDerechohabienciaStore()
+    const update = useHomeDerechohabienciaStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -43,7 +43,7 @@ export const Edit = ({ id, icon, color, title, description, links }: any) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update(id, values)
+            await update?.(id, values)
             showSuccessModal("Segunda Sección Editada", "La segunda sección fue editada correctamente")
         } catch (error: any) {
             Notify({

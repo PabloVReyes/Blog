@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateCode, validateName } from "@/utils/validators"
-import { useCIE10Store } from "../../store"
+import { useSystemsCIE10Store } from "@/stores"
 
 export const AddCIE10 = () => {
-    const { add } = useCIE10Store();
+    const add = useSystemsCIE10Store(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -24,7 +24,7 @@ export const AddCIE10 = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await add(values)
+            await add?.(values)
             showSuccessModal("Enfermedad Creada", "La enfermedad fue creada correctamente")
         } catch (error: any) {
             Notify({

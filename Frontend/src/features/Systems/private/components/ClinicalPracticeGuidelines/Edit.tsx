@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { useClinicalPracticeGuidelinesStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateCode, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
+import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
 
 export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: any) => {
-    const { update } = useClinicalPracticeGuidelinesStore()
+    const update = useSystemsClinicalPracticeGuidelinesStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -40,7 +40,7 @@ export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: any)
             if (values.rr) {
                 formData.append("rr", values.rr!)
             }
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Guía de Práctica Clínica Editada", "La guía de práctica clínica fue editada correctamente")
         } catch (error: any) {
             Notify({

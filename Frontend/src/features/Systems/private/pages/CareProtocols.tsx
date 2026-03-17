@@ -1,11 +1,11 @@
 import { Container, Panel, Table } from "@/components"
 import { useModalStore } from "@/layout"
 import { ActionsCareProtocols, AddCareProtocols } from "../components"
-import { useCareProtocolsStore } from "../store"
 import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Notify } from "@/ui"
 import { Badge, Text } from "@mantine/core"
+import { useSystemsCareProtocolsApiStore } from "@/stores"
 
 
 const columns = [
@@ -57,7 +57,7 @@ const columns = [
 
 export const CareProtocols = () => {
     const { openModal } = useModalStore()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useCareProtocolsStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSystemsCareProtocolsApiStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     const handleAdd = () => {
@@ -72,7 +72,7 @@ export const CareProtocols = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

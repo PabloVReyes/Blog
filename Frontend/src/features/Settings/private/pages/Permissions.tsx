@@ -1,6 +1,5 @@
 import { Container, Panel } from "@/components"
 import { useModalStore } from "@/layout"
-import { usePermissionsStore } from "../store"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
@@ -8,6 +7,7 @@ import { Badge, Box, Card, Center, Code, Divider, Group, Loader, SimpleGrid, Sta
 import { IconCircleCheck, IconKey, IconShield, IconXboxX } from "@tabler/icons-react"
 import classes from "./Permissions.module.css"
 import { ActionsPermissions, AddPermissions } from "../components"
+import { useSettingsPermissionsStore } from "@/stores"
 
 export interface Data {
     id: string;
@@ -35,7 +35,7 @@ export interface RoleRole {
 
 export const Permissions = () => {
     const { openModal } = useModalStore()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = usePermissionsStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSettingsPermissionsStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export const Permissions = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -94,7 +94,7 @@ export const Permissions = () => {
                             <Text ta="center" size="sm" c="dimmed">No se encontraron resultados.</Text>
                         </Card>
                         : <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
-                            {items.map((permiso: Data, index: number) => (
+                            {items.map((permiso: any, index: number) => (
                                 <Card withBorder shadow="sm" className={classes.card} key={index}>
                                     <Card.Section p="lg">
                                         {/* Header */}
@@ -151,7 +151,7 @@ export const Permissions = () => {
                                             <Group gap={8}>
                                                 {permiso._count.roles < 1 ?
                                                     <Text size="xs" c="dimmed">Sin roles</Text>
-                                                    : permiso.roles.map((rol, index: number) => (
+                                                    : permiso.roles.map((rol: any, index: number) => (
                                                         <Badge
                                                             key={index}
                                                             radius="sm"

@@ -1,10 +1,10 @@
 import { FileInput, Stack } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { useMacroprocessStore } from "../../store";
 import { useState } from "react";
 import { Notify, showSuccessModal } from "@/ui";
 import { validatePdf } from "@/utils";
 import { ModalButtons } from "@/components";
+import { useMacroprocessStore } from "@/stores";
 
 interface Props {
     id: string,
@@ -13,7 +13,7 @@ interface Props {
 
 export const Edit = ({ id, fileName }: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
-    const { update } = useMacroprocessStore()
+    const update = useMacroprocessStore(s => s.update)
 
     const form = useForm({
         mode: "controlled",
@@ -30,7 +30,7 @@ export const Edit = ({ id, fileName }: Props) => {
             setLoading(true)
             const formData = new FormData();
             formData.append("file", values.file!);
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Macroproceso Editado", "El macroproceso fue editado correctamente")
         } catch (error: any) {
             Notify({

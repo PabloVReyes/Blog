@@ -1,7 +1,6 @@
 import { Container, Panel, Table } from "@/components";
 import { useModalStore } from "@/layout";
 import { useDebouncedValue } from "@mantine/hooks";
-import { useUserStore } from "../store";
 import { useEffect } from "react";
 import { Notify } from "@/ui";
 import { Avatar, Badge, Box, Group, Text, useMantineTheme } from "@mantine/core";
@@ -9,6 +8,7 @@ import { IconCircleCheck, IconMail, IconShieldFilled, IconXboxX } from "@tabler/
 import classes from "./Users.module.css"
 import { formatLocalDate } from "@/utils";
 import { ActionsUsers, AddUsers } from "../components";
+import { useSettingsUsersStore } from "@/stores";
 
 export interface Data {
     id: string;
@@ -141,7 +141,7 @@ const columns = (theme: any) => [
 export const Users = () => {
     const { openModal } = useModalStore()
     const theme = useMantineTheme()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useUserStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSettingsUsersStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -150,7 +150,7 @@ export const Users = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

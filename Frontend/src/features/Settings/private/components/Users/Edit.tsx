@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateEmail, validateName } from "@/utils"
-import { useUserStore } from "../../store"
+import { useSettingsUsersStore } from "@/stores"
 
 export interface Data {
     id: string;
@@ -26,7 +26,7 @@ export interface RoleRole {
 }
 
 export const Edit = (file: Data) => {
-    const { update } = useUserStore()
+    const update = useSettingsUsersStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -52,7 +52,7 @@ export const Edit = (file: Data) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update(file.id.toString(), values)
+            await update?.(file.id.toString(), values)
             showSuccessModal("Usuario Editado", "El usuario fue editado correctamente")
         } catch (error: any) {
             Notify({

@@ -63,7 +63,6 @@ export const getAccessCardService = async (dto: GetAccessCardSchema) => {
     const { page, limit, search, isActive } = dto
     const { skip, take } = getPagination(page, limit)
 
-
     const { data, total } = await repo.getAccessCardRepository({
         skip,
         take,

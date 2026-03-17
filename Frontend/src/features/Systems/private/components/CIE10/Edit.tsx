@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { useCIE10Store } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateCode, validateName } from "@/utils/validators"
+import { useSystemsCIE10Store } from "@/stores"
 
 export const Edit = ({ id, name }: any) => {
-    const { update } = useCIE10Store()
+    const update = useSystemsCIE10Store(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -24,7 +24,7 @@ export const Edit = ({ id, name }: any) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update(id, values)
+            await update?.(id, values)
             showSuccessModal("Enfemedad Editada", "La enfermedad fue editada correctamente")
         } catch (error: any) {
             Notify({

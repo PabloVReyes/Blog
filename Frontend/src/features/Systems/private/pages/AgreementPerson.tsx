@@ -1,11 +1,11 @@
 import { Container, Panel, Table } from "@/components"
-import { useAgreementPersonStore } from "../store"
 import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Notify } from "@/ui"
 import { Text, Table as TableMantine, Badge } from "@mantine/core"
 import { ActionsAgreementPerson, AddAgreementPerson } from "../components"
 import { useModalStore } from "@/layout"
+import { useSystemsAgreementPersonStore } from "@/stores"
 
 const columns = [
     {
@@ -40,7 +40,6 @@ const columns = [
         align: 'left',
         miw: "150px",
         render: (row: any) => {
-            // Usamos directamente el enum de tu base de datos
             const isTitular = row.type === "HOLDER";
 
             return (
@@ -61,8 +60,6 @@ const columns = [
         render: (row: any) => {
             const isTitular = row.type === "HOLDER";
 
-            // 1. Usamos directamente las propiedades que vienen en tu JSON
-            // Si es Holder, mostramos sus dependientes. Si es Dependent, sus titulares.
             const relatives = isTitular ? row.dependents : row.holders;
 
             const relativeRows = relatives?.map((person: any, index: number) => (
@@ -131,7 +128,7 @@ export const AgreementPerson = () => {
         firstItem,
         lastItem,
         setPage
-    } = useAgreementPersonStore()
+    } = useSystemsAgreementPersonStore()
     const [debounced] = useDebouncedValue(search, 500)
 
 
@@ -141,7 +138,7 @@ export const AgreementPerson = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

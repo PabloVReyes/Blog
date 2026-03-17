@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateDescription, validateKeyPermission, validateName } from "@/utils"
-import { usePermissionsStore } from "../../store"
+import { useSettingsPermissionsStore } from "@/stores"
 
 export interface Data {
     id: string;
@@ -30,7 +30,7 @@ export interface RoleRole {
 }
 
 export const Edit = (file: Data) => {
-    const { update } = usePermissionsStore()
+    const update = useSettingsPermissionsStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -51,7 +51,7 @@ export const Edit = (file: Data) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update(file.id.toString(), values)
+            await update?.(file.id.toString(), values)
             showSuccessModal("Permiso Editado", "El permiso fue editado correctamente")
         } catch (error: any) {
             Notify({

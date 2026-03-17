@@ -1,10 +1,10 @@
 import { Alert, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertTriangleFilled } from "@tabler/icons-react"
-import { useMacroprocessStore } from "../../store";
 import { useState } from "react";
 import { Notify, showSuccessModal } from "@/ui";
 import { ModalButtons } from "@/components";
+import { useMacroprocessStore } from "@/stores";
 
 interface Props {
     id: string;
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const Delete = ({ id, name, area }: Props) => {
-    const { remove } = useMacroprocessStore()
+    const remove = useMacroprocessStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -29,7 +29,7 @@ export const Delete = ({ id, name, area }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true)
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Macroproceso Eliminado", "El macroproceso fue eliminado correctamente")
         } catch (error: any) {
             Notify({

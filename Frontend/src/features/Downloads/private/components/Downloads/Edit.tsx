@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
-import { useDownloadsStore } from "../../store"
+import { useDownloadStore } from "@/stores"
 
 export interface Datum {
     id: number;
@@ -55,7 +55,7 @@ export interface Meta {
 }
 
 export const Edit = (file: Datum) => {
-    const { update } = useDownloadsStore()
+    const update = useDownloadStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm<any>({
@@ -93,7 +93,7 @@ export const Edit = (file: Datum) => {
                 formData.append("file", values.file)
             }
 
-            await update(file.id.toString(), formData)
+            await update?.(file.id.toString(), formData)
             showSuccessModal("Descarga Editada", "La descarga fue editada correctamente")
         } catch (error: any) {
             Notify({

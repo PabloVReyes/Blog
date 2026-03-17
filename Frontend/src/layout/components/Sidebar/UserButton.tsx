@@ -41,7 +41,7 @@ export const UserButton = ({ user, logout }: Props) => {
                     </Group>
                 </UnstyledButton>
             </Menu.Target>
-            <Menu.Dropdown>
+            <Menu.Dropdown style={{zIndex: 999}}>
                 <Menu.Item
                     leftSection={<IconSettings size={14} />}
                     onClick={handleEditProfile}

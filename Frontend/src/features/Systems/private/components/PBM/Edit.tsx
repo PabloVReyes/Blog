@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { usePBMStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf, validateTitle } from "@/utils/validators"
+import { useSystemsPBMStore } from "@/stores"
 
 export const Edit = ({ id, title, fileName }: any) => {
-    const { update } = usePBMStore()
+    const update = useSystemsPBMStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -29,7 +29,7 @@ export const Edit = ({ id, title, fileName }: any) => {
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Algoritmo PBM Editado", "El algoritmo PBM fue editado correctamente")
         } catch (error: any) {
             Notify({

@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateName } from "@/utils/validators"
-import { useJuristicStore } from "../store"
+import { useJuristicStore } from "@/stores"
 
 export const Add = () => {
-    const { add } = useJuristicStore();
+    const add = useJuristicStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -33,7 +33,7 @@ export const Add = () => {
             if (values.file) {
                 formData.append("file", values.file)
             }
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Dispoición Juridica Creada", "La disposición juridica fue creada correctamente")
         } catch (error: any) {
             Notify({

@@ -1,14 +1,14 @@
 import { useForm } from "@mantine/form"
 import { useState } from "react"
-import { useCarouselStore } from "../../store"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validateTitle, validateUrl, validatePdf, validateImage } from "@/utils"
+import { useHomeCarouselStore } from "@/stores"
 
 const typeOptions = ["null", "page", "file"] as const;
 
 export const Edit = ({ id, title, description, fileName, imageName, type, url, isActive }: any) => {
-    const { update } = useCarouselStore()
+    const update = useHomeCarouselStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
     const initialActive = typeOptions.indexOf(type ?? "null");
     const [active, setActive] = useState(initialActive);
@@ -59,7 +59,7 @@ export const Edit = ({ id, title, description, fileName, imageName, type, url, i
                 formData.append("file", values.file!)
             }
 
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Carrusel Editado", "El carrusel fue editado correctamente")
         } catch (error: any) {
             Notify({

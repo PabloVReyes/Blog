@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form";
 import { Form } from "./Form";
-import { useAgreementPersonStore } from "../../store";
 import { useState } from "react";
 import { Notify, showSuccessModal } from "@/ui";
 import { validateName, validateSelect } from "@/utils/validators";
+import { useSystemsAgreementPersonStore } from "@/stores";
 
 export const Edit = (person: any) => {
-    const { update } = useAgreementPersonStore();
+    const update = useSystemsAgreementPersonStore(s => s.update);
     const [loading, setLoading] = useState<boolean>(false);
 
     const form = useForm({
@@ -22,14 +22,14 @@ export const Edit = (person: any) => {
             name: (value) => validateName(value, { required: true }),
             group: (value) => validateSelect(value, { required: true }),
             zone: (value) => validateSelect(value, { required: true }),
-            holder: (value, values) => validateSelect(value, { required: values.type === "DEPENDENT"})
+            holder: (value, values) => validateSelect(value, { required: values.type === "DEPENDENT" })
         },
     });
 
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true);
-            await update(person.id, values);
+            await update?.(person.id, values);
             showSuccessModal("Paciente de Convenio Editado", "El paciente de convenio fue editado correctamente")
         } catch (error: any) {
             Notify({

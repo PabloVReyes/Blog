@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { useGPCStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateDescription, validateOrder, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
+import { useSystemsGPCStore } from "@/stores"
 
 export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: any) => {
-    const { update } = useGPCStore()
+    const update = useSystemsGPCStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -41,7 +41,7 @@ export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: an
                 formData.append("file", values.file!)
             }
 
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Algoritmo GPC Editado", "El algoritmo GPC fue editado correctamente")
         } catch (error: any) {
             Notify({

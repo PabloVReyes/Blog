@@ -1,16 +1,16 @@
 import { useForm } from "@mantine/form"
 import { useState } from "react";
-import { useAccessCardStore } from "../../store";
 import { Notify, showSuccessModal } from "@/ui";
 import { Form } from "./Form";
 import { validateColor, validateDescription, validateIcon, validatePdf, validateTitle, validateUrl } from "@/utils";
+import { useHomeAccessCardStore } from "@/stores";
 
 interface Props {
     sectionId: string;
 }
 
 export const AddAccessCard = ({ sectionId }: Props) => {
-    const { add } = useAccessCardStore()
+    const add = useHomeAccessCardStore(s => s.add)
     const [active, setActive] = useState(0);
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -56,7 +56,7 @@ export const AddAccessCard = ({ sectionId }: Props) => {
             if (active === 1 && values.file) {
                 formData.append("file", values.file!)
             }
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Acceso Rápido Creado", "El aceeso rápido fue creado correctamente")
         } catch (error: any) {
             Notify({

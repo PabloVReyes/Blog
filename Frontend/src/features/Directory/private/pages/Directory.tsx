@@ -1,5 +1,4 @@
 import { Container, Panel, Table } from "@/components"
-import { useDirectoryStore } from "../store"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
@@ -7,6 +6,7 @@ import { Actions, Add } from "../components"
 import { useModalStore } from "@/layout"
 import { Badge, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
 import { colorMap } from "@/utils"
+import { useDirectoryStore } from "@/stores"
 
 
 const columns = (theme: any) => [
@@ -103,7 +103,7 @@ export const Directory = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

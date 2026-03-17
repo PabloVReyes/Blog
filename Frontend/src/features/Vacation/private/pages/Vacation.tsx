@@ -5,8 +5,7 @@ import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { ActionsVacation, AddVacation } from "../components"
-import { useVacationStore } from "../store"
-
+import { useVacationStore } from "@/stores"
 
 export interface Data {
     id: number;
@@ -21,7 +20,6 @@ export interface Data {
     createdAt: Date;
     updatedAt: Date;
 }
-
 
 const columns = [
     {
@@ -81,7 +79,7 @@ export const Vacation = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

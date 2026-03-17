@@ -5,8 +5,14 @@ import { PutDerechohabienciaBody, PutDerechohabienciaParams } from "./derechohab
 // READ //
 //////////
 
-export const getDerechohabienciaService = async() => {
-    return await repo.getDerechohacienciaRepository()
+export const getDerechohabienciaService = async () => {
+    const data = await repo.getDerechohacienciaRepository()
+    return {
+        data,
+        meta: {
+            total: 1
+        }
+    }
 }
 
 ////////////

@@ -1,11 +1,11 @@
 import { Container, Panel, Table } from "@/components"
 import { useModalStore } from "@/layout"
 import { ActionsClinicalPracticeGuidelines, AddClinicalPracticeGuidelines } from "../components"
-import { useClinicalPracticeGuidelinesStore } from "../store"
 import { Notify } from "@/ui"
 import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Badge, Text } from "@mantine/core"
+import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
 
 const columns = [
     {
@@ -72,7 +72,7 @@ const columns = [
 
 export const ClinicalPracticeGuidelines = () => {
     const { openModal } = useModalStore()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useClinicalPracticeGuidelinesStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSystemsClinicalPracticeGuidelinesStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -81,7 +81,7 @@ export const ClinicalPracticeGuidelines = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

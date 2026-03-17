@@ -105,7 +105,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
 
                 <Fieldset legend="Permisos"
                     style={{
-                        borderColor: form.errors.permissions ? 'var(--mantine-color-red-filled)' : 'var(--mantine-color-gray-3)',
+                        borderColor: form.errors.permissions ? 'var(--mantine-color-red-filled)' : 'light-dark(oklch(92.8% 0.006 264.531), oklch(37.3% 0.034 259.733))',
                     }}
                 >
                     {loadingPermissions ?

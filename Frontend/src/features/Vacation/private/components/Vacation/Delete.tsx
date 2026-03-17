@@ -4,7 +4,7 @@ import { IconAlertTriangleFilled } from "@tabler/icons-react"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
-import { useVacationStore } from "../../store"
+import { useVacationStore } from "@/stores"
 
 interface Props {
     id: string
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const Delete = ({ id, type, shift }: Props) => {
-    const { remove } = useVacationStore()
+    const remove = useVacationStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -28,7 +28,7 @@ export const Delete = ({ id, type, shift }: Props) => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await remove(id)
+            await remove?.(id)
             showSuccessModal("Vacaciones Eliminadas", "Las vacaciones fueron eliminadas correctamente")
         } catch (error: any) {
             Notify({

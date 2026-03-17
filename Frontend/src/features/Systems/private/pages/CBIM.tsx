@@ -4,9 +4,9 @@ import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { Highlight } from "@/utils"
-import { useCBIMStore } from "../store"
 import { ActionsCBIM, AddCBIM } from "../components"
 import { useModalStore } from "@/layout"
+import { useSystemsCBIMStore } from "@/stores"
 
 const columns = (search: string) => [
     {
@@ -110,7 +110,7 @@ export const CBIM = () => {
         firstItem,
         lastItem,
         setPage
-    } = useCBIMStore()
+    } = useSystemsCBIMStore()
 
     const [debounced] = useDebouncedValue(search, 500)
 
@@ -125,7 +125,7 @@ export const CBIM = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

@@ -1,11 +1,11 @@
 import { Container, Panel, Table } from "@/components"
 import { useModalStore } from "@/layout"
-import { useDownloadsStore } from "../store"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { ActionsDownloads, AddDownloads } from "../components"
+import { useDownloadStore } from "@/stores"
 
 export interface Datum {
     id: number;
@@ -131,7 +131,7 @@ const columns = [
 
 export const Downloads = () => {
     const { openModal } = useModalStore()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useDownloadsStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useDownloadStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -140,7 +140,7 @@ export const Downloads = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

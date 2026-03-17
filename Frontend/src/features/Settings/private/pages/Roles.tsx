@@ -1,6 +1,5 @@
 import { Container, Panel } from "@/components"
 import { useModalStore } from "@/layout"
-import { useRolesStore } from "../store"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
@@ -8,6 +7,7 @@ import { Box, Card, Center, Divider, Group, Loader, SimpleGrid, Text } from "@ma
 import { IconCircleCheck, IconKey, IconShield, IconUsers } from "@tabler/icons-react"
 import classes from "./Permissions.module.css"
 import { ActionsRoles, AddRoles } from "../components"
+import { useSettingsRolesStore } from "@/stores"
 
 export interface Data {
     id: string;
@@ -36,7 +36,7 @@ export interface PermissionPermission {
 
 export const Roles = () => {
     const { openModal } = useModalStore()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useRolesStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSettingsRolesStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export const Roles = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",
@@ -95,7 +95,7 @@ export const Roles = () => {
                             <Text ta="center" size="sm" c="dimmed">No se encontraron resultados.</Text>
                         </Card>
                         : <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
-                            {items.map((rol: Data, index: number) => (
+                            {items.map((rol: any, index: number) => (
                                 <Card withBorder shadow="sm" className={classes.card} key={index}>
                                     <Card.Section withBorder>
                                         {/* Header */}
@@ -148,7 +148,7 @@ export const Roles = () => {
                                                     <Text size="xs" c="dimmed">Sin permisos</Text>
                                                 ) : (
                                                     <>
-                                                        {rol.permissions.slice(0, 3).map((permission, index: number) => (
+                                                        {rol.permissions.slice(0, 3).map((permission: any, index: number) => (
                                                             <Group key={index} gap="xs" mb={4}>
                                                                 <IconCircleCheck size={16} className={classes.keyIcon} />
                                                                 <Text size="sm">

@@ -1,12 +1,12 @@
 import { Panel, Table } from "@/components"
 import { Text, ThemeIcon } from "@mantine/core"
 import { useEffect } from "react"
-import { useAccessCardStore } from "../store"
 import { useModalStore } from "@/layout"
 import { ActionsAccessCard, AddAccessCard } from "../components"
 import { Notify } from "@/ui"
 import * as TableIcons from "@tabler/icons-react"
 import { useDebouncedValue } from "@mantine/hooks"
+import { useHomeAccessCardStore } from "@/stores"
 
 const columns = [
     {
@@ -98,7 +98,7 @@ const columns = [
 
 export const AccessCard = ({ id }: any) => {
     const { openModal } = useModalStore()
-    const { fetch, items, search, setSearch, page, limit, setLimit, totalPages, totalItems, firstItem, lastItem, setPage, isLoading } = useAccessCardStore()
+    const { fetch, items, search, setSearch, page, limit, setLimit, totalPages, totalItems, firstItem, lastItem, setPage, isLoading } = useHomeAccessCardStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -107,7 +107,7 @@ export const AccessCard = ({ id }: any) => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

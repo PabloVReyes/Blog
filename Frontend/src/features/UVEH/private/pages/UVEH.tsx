@@ -2,10 +2,10 @@ import { Container, Panel, Table } from "@/components"
 import { useModalStore } from "@/layout"
 import { Actions, Add } from "../components"
 import { useDebouncedValue } from "@mantine/hooks"
-import { useUVEHStore } from "../store"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
+import { useUVEHStore } from "@/stores"
 
 export interface Data {
     id: number;
@@ -95,7 +95,7 @@ export const UVEH = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

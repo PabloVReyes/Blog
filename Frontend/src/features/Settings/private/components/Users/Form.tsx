@@ -121,7 +121,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
 
                 <Fieldset legend="Roles"
                     style={{
-                        borderColor: form.errors.roles ? 'var(--mantine-color-red-filled)' : '',
+                        borderColor: form.errors.roles ? 'var(--mantine-color-red-filled)' : 'light-dark(oklch(92.8% 0.006 264.531), oklch(37.3% 0.034 259.733))',
                     }}
                 >
                     {loadingRoles

@@ -4,9 +4,9 @@ import { ActionsAreas, AddArea } from "../components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
-import { useAreasStore } from "../store"
 import * as TablerIcons from "@tabler/icons-react"
 import { Text, ThemeIcon } from "@mantine/core"
+import { useDownloadAreasStore } from "@/stores"
 
 const columns = [
     {
@@ -55,7 +55,7 @@ const columns = [
 
 export const Areas = () => {
     const { openModal } = useModalStore()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useAreasStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useDownloadAreasStore()
     const [debounced] = useDebouncedValue(search, 500)
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export const Areas = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

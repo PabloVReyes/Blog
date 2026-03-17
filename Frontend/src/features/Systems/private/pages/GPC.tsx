@@ -1,13 +1,13 @@
 import { Container, Panel, Table } from "@/components"
 import { useModalStore } from "@/layout"
 import { ActionsGCP, AddGCP } from "../components"
-import { useGPCStore } from "../store"
 import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Notify } from "@/ui"
 import { Badge, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
 import * as TablerIcons from "@tabler/icons-react"
 import { colorMap } from "@/utils"
+import { useSystemsGPCStore } from "@/stores"
 
 
 const columns = (theme: any) => [
@@ -52,7 +52,7 @@ const columns = (theme: any) => [
         miw: "150px",
         render: (row: any) => {
             return (
-                <Badge variant="filled"  size="sm">{row.cycle.name}</Badge>
+                <Badge variant="filled" size="sm">{row.cycle.name}</Badge>
             )
         }
     },
@@ -83,7 +83,7 @@ const columns = (theme: any) => [
 
 export const GPC = () => {
     const { openModal } = useModalStore()
-    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useGPCStore()
+    const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSystemsGPCStore()
     const [debounced] = useDebouncedValue(search, 500)
     const theme = useMantineTheme()
 
@@ -99,7 +99,7 @@ export const GPC = () => {
 
     const handleFetch = async () => {
         try {
-            await fetch()
+            await fetch?.()
         } catch (error: any) {
             Notify({
                 type: "error",

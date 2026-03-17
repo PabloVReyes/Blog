@@ -1,12 +1,12 @@
 import { useForm } from "@mantine/form"
 import { Form } from "./Form"
-import { useCareProtocolsStore } from "../../store"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateDescription, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
+import { useSystemsCareProtocolsApiStore } from "@/stores"
 
 export const Edit = ({ id, title, fileName, description, category }: any) => {
-    const { update } = useCareProtocolsStore()
+    const update = useSystemsCareProtocolsApiStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -35,7 +35,7 @@ export const Edit = ({ id, title, fileName, description, category }: any) => {
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await update(id, formData)
+            await update?.(id, formData)
             showSuccessModal("Protocolo de Atención Editado", "El protocolo de atención fue editado correctamente")
         } catch (error: any) {
             Notify({

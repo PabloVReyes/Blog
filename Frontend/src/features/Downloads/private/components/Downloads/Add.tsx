@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateName, validateSelect } from "@/utils/validators"
-import { useDownloadsStore } from "../../store"
+import { useDownloadStore } from "@/stores"
 
 export const AddDownloads = () => {
-    const { add } = useDownloadsStore();
+    const add = useDownloadStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -45,7 +45,7 @@ export const AddDownloads = () => {
                 formData.append("file", values.file)
             }
 
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Descarga agregada", "La descarga se agrego correctamente")
         } catch (error: any) {
             Notify({

@@ -3,7 +3,7 @@ import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName } from "@/utils"
-import { useJuristicStore } from "../store"
+import { useJuristicStore } from "@/stores"
 
 export interface Data {
     id: number;
@@ -35,7 +35,7 @@ export interface Meta {
 }
 
 export const Edit = (file: Data) => {
-    const { update } = useJuristicStore()
+    const update = useJuristicStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -62,7 +62,7 @@ export const Edit = (file: Data) => {
             if (values.file) {
                 formData.append("file", values.file)
             }
-            await update(file.id.toString(), formData)
+            await update?.(file.id.toString(), formData)
             showSuccessModal("Disposición Juridica Editada", "La dispisición juridica fue editada correctamente")
         } catch (error: any) {
             Notify({

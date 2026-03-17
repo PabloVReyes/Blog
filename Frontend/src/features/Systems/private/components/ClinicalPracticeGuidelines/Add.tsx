@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateCode, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
-import { useClinicalPracticeGuidelinesStore } from "../../store"
+import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
 
 export const AddClinicalPracticeGuidelines = () => {
-    const { add } = useClinicalPracticeGuidelinesStore();
+    const add = useSystemsClinicalPracticeGuidelinesStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -40,7 +40,7 @@ export const AddClinicalPracticeGuidelines = () => {
             if (values.rr) {
                 formData.append("rr", values.rr!)
             }
-            await add(formData)
+            await add?.(formData)
             showSuccessModal("Guía de Práctica Clínica Creada", "La guía de práctica clínica fue creada correctamente")
         } catch (error: any) {
             Notify({

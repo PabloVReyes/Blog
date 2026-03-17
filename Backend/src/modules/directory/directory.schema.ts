@@ -8,9 +8,9 @@ export const postDirectorySchema = z.object({
     phone: z.string(),
     name: z.string(),
     level: z.string(),
-    boss: z.string(),
-    secretary: z.string(),
-    email: z.email()
+    boss: z.string().optional(),
+    secretary: z.string().optional(),
+    email: z.string().optional()
 })
 
 export type PostDirectorySchema = z.infer<typeof postDirectorySchema>
@@ -35,9 +35,9 @@ export const putDirectorySchema = z.object({
     phone: z.string(),
     name: z.string(),
     level: z.string(),
-    boss: z.string(),
-    secretary: z.string(),
-    email: z.email()
+    boss: z.string().optional(),
+    secretary: z.string().optional(),
+    email: z.string().optional()
 })
 
 export type PutDirectorySchema = z.infer<typeof putDirectorySchema>

@@ -3,10 +3,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateName, validateSelect } from "@/utils/validators"
-import { useAgreementPersonStore } from "../../store"
+import { useSystemsAgreementPersonStore } from "@/stores"
 
 export const AddAgreementPerson = () => {
-    const { add } = useAgreementPersonStore();
+    const add = useSystemsAgreementPersonStore(s => s.add);
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -29,7 +29,7 @@ export const AddAgreementPerson = () => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await add(values)
+            await add?.(values)
             showSuccessModal("Paciente de Convenio Creado", "El paciente de convenio fue creado correctamente")
         } catch (error: any) {
             Notify({
