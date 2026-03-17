@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateColor, validateIcon, validateName } from "@/utils/validators"
 import { useDownloadAreasStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddArea = () => {
     const add = useDownloadAreasStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -23,22 +21,17 @@ export const AddArea = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await add?.(values)
-            showSuccessModal("Área creada", "El área se ha creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar área",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
+            await add(values)
+        },
+        {
+            successTitle: "Área Creada",
+            successMessage: "El área fue creada correctamente",
+            errorTitle: "Error al crear el área"
         }
-    }
-
+    )
     return (
         <Form
             form={form}
@@ -49,4 +42,4 @@ export const AddArea = () => {
     )
 }
 
-// 68 lineas -> 50 lineas 
+// 68 lineas -> 50 lineas -> 43 lineas

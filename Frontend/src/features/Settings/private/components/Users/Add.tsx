@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateEmail, validateName } from "@/utils/validators"
 import { useSettingsUsersStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddUsers = () => {
     const add = useSettingsUsersStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -29,21 +27,17 @@ export const AddUsers = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await add?.(values)
-            showSuccessModal("Usuario Creado", "El usuario fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar área",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
+            await add(values)
+        },
+        {
+            successTitle: "Usuario Creado",
+            successMessage: "El usuario fue creado correctamente",
+            errorTitle: "Error al crear usuario"
         }
-    }
+    )
 
     return (
         <Form
@@ -55,4 +49,4 @@ export const AddUsers = () => {
     )
 }
 
-// 74 lineas -> 56 lineas
+// 74 lineas -> 56 lineas -> 50 lineas

@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validateKeyPermission, validateName } from "@/utils/validators"
 import { useSettingsPermissionsStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddPermissions = () => {
     const add = useSettingsPermissionsStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -24,21 +22,17 @@ export const AddPermissions = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await add?.(values)
-            showSuccessModal("Permiso Creado", "El permiso fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar área",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
+            await add(values)
+        },
+        {
+            successTitle: "Permiso Creado",
+            successMessage: "El permiso fue creado correctamente",
+            errorTitle: "Error al crear el permiso"
         }
-    }
+    )
 
     return (
         <Form
@@ -50,4 +44,4 @@ export const AddPermissions = () => {
     )
 }
 
-// 68 lineas
+// 68 lineas -> 45 lineas

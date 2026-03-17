@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateEmail, validateExtension, validateName, validateSelect } from "@/utils/validators"
 import { useDirectoryStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const Add = () => {
     const add = useDirectoryStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -30,21 +28,17 @@ export const Add = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await add?.(values)
-            showSuccessModal("Extensión Telefónica creada", "Se ha creado una nueva extensión telefónica")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar área",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
+            await add(values)
+        },
+        {
+            successTitle: "Extensión Telefónica creada",
+            successMessage: "Se ha creado una nueva extensión telefónica",
+            errorTitle: "Error al crear extensión"
         }
-    }
+    )
 
     return (
         <Form
@@ -56,4 +50,4 @@ export const Add = () => {
     )
 }
 
-// 75 lineas -> 57 lineas
+// 75 lineas -> 57 lineas -> 51 lineas

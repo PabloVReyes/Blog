@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateName, validateSelect } from "@/utils/validators"
 import { useCertificationStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const Add = () => {
     const add = useCertificationStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -25,32 +23,28 @@ export const Add = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
 
             const formData = new FormData()
             formData.append("name", values.name)
             formData.append("description", values.description)
             formData.append("isNew", String(values.isNew))
             formData.append("section", String(values.section))
+
             if (values.file) {
                 formData.append("file", values.file)
             }
 
-            await add?.(formData)
-            showSuccessModal("Certificación creada", "La certificación ha sido creada correctamente")
-
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar área",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+            await add(formData)
+        },
+        {
+            successTitle: "Certificación creada",
+            successMessage: "La certificación ha sido creada correctamente",
+            errorTitle: "Error al agregar certificación"
         }
-    }
+    )
 
     return (
         <Form
@@ -62,4 +56,4 @@ export const Add = () => {
     )
 }
 
-// 79 lineas -> 65 lineas
+// 79 lineas -> 65 lineas -> 57 lineas

@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validatePdf, validateTitle } from "@/utils/validators"
 import { useSystemsPBMStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddPBM = () => {
     const add = useSystemsPBMStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -21,26 +19,22 @@ export const AddPBM = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
             const formData = new FormData();
             formData.append("title", values.title)
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await add?.(formData)
-            showSuccessModal("Algoritmo PBM Creado", "El algoritmo PBM fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar sistema",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+            await add(formData)
+        },
+        {
+            successTitle: "Algoritmo PBM Creado",
+            successMessage: "El algoritmo PBM fue creado correctamente",
+            errorTitle: "Error al crear algoritmo PBM"
         }
-    }
+    )
 
     return (
         <Form
@@ -52,4 +46,4 @@ export const AddPBM = () => {
     )
 }
 
-// 73 lineas -> 53 lineas
+// 73 lineas -> 53 lineas -> 47 lineas

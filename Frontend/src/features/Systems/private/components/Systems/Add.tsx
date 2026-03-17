@@ -1,14 +1,13 @@
 import { useForm } from "@mantine/form"
 import type { SystemProps } from "@/features/Systems/types"
 import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
 import { useSystemsStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddSystem = () => {
     const add = useSystemsStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
     const [active, setActive] = useState(0);
 
     const form = useForm<SystemProps>({
@@ -33,10 +32,9 @@ export const AddSystem = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
             const formData = new FormData();
             if (values.acronym && values.acronym.trim() !== "") {
                 formData.append("acronym", values.acronym)
@@ -64,19 +62,14 @@ export const AddSystem = () => {
                 formData.append("file", values.file!)
             }
 
-            await add?.(formData)
-
-            showSuccessModal("Sistema Creado", "El sistema fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar sistema",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+            await add(formData)
+        },
+        {
+            successTitle: "Sistema Creado",
+            successMessage: "El sistema fue creado correctamente",
+            errorTitle: "Error al crear el sistema"
         }
-    }
+    )
 
     return (
         <Form
@@ -90,4 +83,4 @@ export const AddSystem = () => {
     )
 }
 
-// 107 lineas -> 91 lineas
+// 107 lineas -> 91 lineas -> 84 lineas

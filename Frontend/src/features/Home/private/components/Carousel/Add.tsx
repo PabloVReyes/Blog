@@ -1,9 +1,9 @@
 import { useForm } from "@mantine/form"
 import { useState } from "react";
 import { Form } from "./Form";
-import { Notify, showSuccessModal } from "@/ui";
 import { validateDescription, validateImage, validatePdf, validateTitle, validateUrl } from "@/utils";
 import { useHomeCarouselStore } from "@/stores";
+import { useFormSubmit } from "@/hooks";
 
 interface Props {
     sectionId: string;
@@ -11,7 +11,6 @@ interface Props {
 
 export const AddCarousel = ({ sectionId }: Props) => {
     const add = useHomeCarouselStore(s => s.add)
-    const [loading, setLoading] = useState<boolean>(false)
     const [active, setActive] = useState(0);
 
 
@@ -34,9 +33,9 @@ export const AddCarousel = ({ sectionId }: Props) => {
         },
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
             const formData = new FormData();
             formData.append("isActive", String(values.isActive))
             formData.append("title", values.title)
@@ -56,18 +55,14 @@ export const AddCarousel = ({ sectionId }: Props) => {
             if (active === 2 && values.file) {
                 formData.append("file", values.file)
             }
-            await add?.(formData)
-            showSuccessModal("Carrusel Creado", "El carrusel fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar carrusel",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+            await add(formData)
+        },
+        {
+            successTitle: "Carrusel Creado",
+            successMessage: "El carrousel fue creado correctamente",
+            errorTitle: "Error al crear carrousel"
         }
-    }
+    )
 
     return (
         <Form
@@ -81,4 +76,4 @@ export const AddCarousel = ({ sectionId }: Props) => {
     )
 }
 
-// 103 lineas -> 83 lineas
+// 103 lineas -> 83 lineas -> 77 lineas

@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateName, validateSelect } from "@/utils/validators"
 import { useSystemsAgreementPersonStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddAgreementPerson = () => {
     const add = useSystemsAgreementPersonStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -26,21 +24,17 @@ export const AddAgreementPerson = () => {
         },
     });
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await add?.(values)
-            showSuccessModal("Paciente de Convenio Creado", "El paciente de convenio fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al editar paciente de convenio",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
+            await add(values)
+        },
+        {
+            successTitle: "Paciente de Convenio Creado",
+            successMessage: "El paciente de convenio fue creado correctamente",
+            errorTitle: "Error al crear paciente de convenio"
         }
-    }
+    )
 
     return (
         <Form
@@ -52,4 +46,4 @@ export const AddAgreementPerson = () => {
     )
 }
 
-// 71 lineas -> 53 lineas
+// 71 lineas -> 53 lineas -> 47 lineas

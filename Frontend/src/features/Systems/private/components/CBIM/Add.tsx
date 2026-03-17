@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateCodeMedicine, validateName, validatePresentation } from "@/utils"
 import { useSystemsCBIMStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddCBIM = () => {
     const add = useSystemsCBIMStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -27,21 +25,17 @@ export const AddCBIM = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await add?.(values)
-            showSuccessModal("Medicamento Creado", "El medicamento fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar sistema",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
+            await add(values)
+        },
+        {
+            successTitle: "Medicamento Creado",
+            successMessage: "El medicamento fue creado correctamente",
+            errorTitle: "Error al crear el medicamento"
         }
-    }
+    )
 
     return (
         <Form
@@ -53,4 +47,4 @@ export const AddCBIM = () => {
     )
 }
 
-// 72 lineas -> 54 lineas
+// 72 lineas -> 54 lineas -> 48 lineas

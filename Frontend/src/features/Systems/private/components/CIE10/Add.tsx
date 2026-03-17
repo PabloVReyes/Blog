@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateCode, validateName } from "@/utils/validators"
 import { useSystemsCIE10Store } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddCIE10 = () => {
     const add = useSystemsCIE10Store(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -21,21 +19,17 @@ export const AddCIE10 = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await add?.(values)
-            showSuccessModal("Enfermedad Creada", "La enfermedad fue creada correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar sistema",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+    const {handleSubmit, loading} = useFormSubmit<typeof form.values>(
+        async(values) => {
+            if(!add) throw new Error("Add no definido")
+            await add(values)
+        },
+        {
+            successTitle: "Enfermedad Creada",
+            successMessage: "La enfermedad fue creada correctamente",
+            errorTitle: "Error al crear enfermedad"
         }
-    }
+    )
 
     return (
         <Form
@@ -47,4 +41,4 @@ export const AddCIE10 = () => {
     )
 }
 
-// 66 lineas -> 48 lineas
+// 66 lineas -> 48 lineas -> 42 lineas

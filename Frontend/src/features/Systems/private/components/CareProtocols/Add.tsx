@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validatePdf, validateSelect, validateTitle } from "@/utils"
 import { useSystemsCareProtocolsApiStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddCareProtocols = () => {
     const add = useSystemsCareProtocolsApiStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -25,9 +23,9 @@ export const AddCareProtocols = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
             const formData = new FormData();
             formData.append("title", values.title)
             formData.append("description", values.description)
@@ -35,18 +33,14 @@ export const AddCareProtocols = () => {
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await add?.(formData)
-            showSuccessModal("Protocolo de Atención Creado", "El protocolo de atención fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar sistema",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+            await add(formData)
+        },
+        {
+            successTitle: "Protocolo de Atención Creado",
+            successMessage: "El protocolo de atención fue creado correctamente",
+            errorTitle: "Error al crear protocolo de atención"
         }
-    }
+    )
 
     return (
         <Form
@@ -58,4 +52,4 @@ export const AddCareProtocols = () => {
     )
 }
 
-// 79 lineas -> 59 lineas
+// 79 lineas -> 59 lineas -> 53 lineas

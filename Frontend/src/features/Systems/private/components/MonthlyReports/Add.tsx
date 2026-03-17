@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validatePdf, validateTitle, validateYear } from "@/utils/validators"
 import { useSystemsMonthlyReportsStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddMonthlyReports = () => {
     const add = useSystemsMonthlyReportsStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -26,9 +24,9 @@ export const AddMonthlyReports = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
             const formData = new FormData();
             formData.append("title", values.title)
             if (values.description.trim() !== "") {
@@ -40,18 +38,14 @@ export const AddMonthlyReports = () => {
             }
             formData.append("year", values.year)
             formData.append("file", values.file!)
-            await add?.(formData)
-            showSuccessModal("Reporte Mensual Creado", "El reporte mensual fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar sistema",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+            await add(formData)
+        },
+        {
+            successTitle: "Reporte Mensual Creado",
+            successMessage: "El reporte mensual fue creado correctamente",
+            errorTitle: "Error al crear reporte mensual"
         }
-    }
+    )
 
     return (
         <Form
@@ -63,4 +57,4 @@ export const AddMonthlyReports = () => {
     )
 }
 
-// 88 lineas  -> 64 lineas
+// 88 lineas  -> 64 lineas -> 58 lineas

@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateFile, validateName, validateSelect } from "@/utils/validators"
 import { useUVEHStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const Add = () => {
     const add = useUVEHStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -25,10 +23,9 @@ export const Add = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
             const formData = new FormData()
             formData.append("name", values.name)
             formData.append("description", values.description)
@@ -37,20 +34,14 @@ export const Add = () => {
             if (values.file) {
                 formData.append("file", values.file)
             }
-
-            await add?.(formData)
-
-            showSuccessModal("UVEH Creado", "UVEH fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar área",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+            await add(formData)
+        },
+        {
+            successTitle: "UVEH Creado",
+            successMessage: "UVEH fue creado correctamente",
+            errorTitle: "Error al crear UVEH"
         }
-    }
+    )
 
     return (
         <Form
@@ -62,4 +53,4 @@ export const Add = () => {
     )
 }
 
-// 79 lineas -> 62 lineas
+// 79 lineas -> 62 lineas -> 54 lineas

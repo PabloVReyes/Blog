@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validateName } from "@/utils/validators"
 import { useSettingsRolesStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddRoles = () => {
     const add = useSettingsRolesStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -29,21 +27,17 @@ export const AddRoles = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await add?.(values)
-            showSuccessModal("Rol Creado", "El rol fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar área",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
+            await add(values)
+        },
+        {
+            successTitle: "Rol Creado",
+            successMessage: "El rol fue creado correctamente",
+            errorTitle: "Error al crear rol"
         }
-    }
+    )
 
     return (
         <Form
@@ -55,4 +49,4 @@ export const AddRoles = () => {
     )
 }
 
-// 74 lineas -> 56 lineas
+// 74 lineas -> 56 lineas -> 50 lineas

@@ -1,13 +1,11 @@
 import { useForm } from "@mantine/form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validateOrder, validatePdf, validateSelect, validateTitle } from "@/utils"
 import { useSystemsGPCStore } from "@/stores"
+import { useFormSubmit } from "@/hooks"
 
 export const AddGCP = () => {
     const add = useSystemsGPCStore(s => s.add);
-    const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
@@ -27,9 +25,9 @@ export const AddGCP = () => {
         }
     })
 
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
+    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
+        async (values) => {
+            if (!add) throw new Error("Add no definido")
             const formData = new FormData();
             formData.append("title", values.title)
             formData.append("description", values.description)
@@ -39,18 +37,14 @@ export const AddGCP = () => {
             if (values.file) {
                 formData.append("file", values.file!)
             }
-            await add?.(formData)
-            showSuccessModal("Algoritmo GPC Creado", "El algoritmo GPC fue creado correctamente")
-        } catch (error: any) {
-            Notify({
-                type: "error",
-                title: "Error al agregar sistema",
-                message: error.message
-            })
-        } finally {
-            setLoading(false)
+            await add(formData)
+        },
+        {
+            successTitle: "Algoritmo GPC Creado",
+            successMessage: "El algoritmo GPC fue creado correctamente",
+            errorTitle: "Error al crear algoritmo GPC"
         }
-    }
+    )
 
     return (
         <Form
@@ -62,4 +56,4 @@ export const AddGCP = () => {
     )
 }
 
-// 82 lineas -> 93 lineas
+// 82 lineas -> 93 lineas -> 57 lineas
