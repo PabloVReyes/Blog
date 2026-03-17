@@ -21,7 +21,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     const [sections, setSections] = useState<Item[]>([])
     const [loadingSections, setLoadingSections] = useState<boolean>(false)
 
-    const fecthSectionsData = async () => {
+    const fetchSectionsData = async () => {
         setLoadingSections(true)
         try {
             const res = await fetchSections();
@@ -38,7 +38,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
 
 
     useEffect(() => {
-        fecthSectionsData()
+        fetchSectionsData()
     }, [])
 
     return (

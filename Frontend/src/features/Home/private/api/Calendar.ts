@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios.client"
 
-export const fecthCalendar = async () => {
+export const fetchCalendar = async () => {
     const response = await api.get(`/api/home/calendar`)
     return response.data
 }

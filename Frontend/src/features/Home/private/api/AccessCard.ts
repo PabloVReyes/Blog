@@ -5,7 +5,7 @@ export const addAccessCard = async (body: any) => {
     return response.data
 }
 
-export const fecthAccessCard = async ({ search, page, limit }: { search?: string, page?: number, limit?: number }) => {
+export const fetchAccessCard = async ({ search, page, limit }: { search?: string, page?: number, limit?: number }) => {
     const response = await api.get(`/api/home/accesscard?page=${page}&limit=${limit}&search=${search}`)
     return response.data
 }

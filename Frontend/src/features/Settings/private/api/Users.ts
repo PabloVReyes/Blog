@@ -1,6 +1,6 @@
 import { api } from "@/lib"
 
-export const fecthUsers = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
+export const fetchUsers = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
     const params = new URLSearchParams()
 
     if (page) params.append("page", String(page))

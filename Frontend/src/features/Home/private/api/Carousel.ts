@@ -5,7 +5,7 @@ export const addCarousel = async (body: any) => {
     return response.data
 }
 
-export const fecthCarousel = async ({ search, page, limit }: { search?: string, page?: number, limit?: number }) => {
+export const fetchCarousel = async ({ search, page, limit }: { search?: string, page?: number, limit?: number }) => {
     const response = await api.get(`/api/home/carousel?page=${page}&limit=${limit}&search=${search}`)
     return response.data
 }

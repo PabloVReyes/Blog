@@ -3,7 +3,7 @@ import { ModalButtons, Switch } from "@/components";
 import { MAX_NAME_PERSON_LENGTH } from "@/constants";
 import { useEffect, useState } from "react";
 import { IconAlertCircle, IconCircleCheck, IconMail } from "@tabler/icons-react";
-import { fecthPermissions, fecthRoles } from "../../api";
+import { fetchPermissions, fetchRoles } from "../../api";
 import classes from "./Form.module.css"
 import { Alert } from "@/ui";
 
@@ -47,7 +47,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
     const fetchRolesData = async () => {
         setLoadingRoles(true)
         try {
-            const res = await fecthRoles({})
+            const res = await fetchRoles({})
             setRoles(res.data)
         } finally {
             setLoadingRoles(false)
@@ -56,7 +56,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
 
     const fetchPermissionsData = async () => {
         try {
-            const res = await fecthPermissions({})
+            const res = await fetchPermissions({})
             setPermissions(res.meta.total)
         } catch (error) {
             console.error(error)

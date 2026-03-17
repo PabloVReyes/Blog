@@ -5,7 +5,7 @@ export const fetchAreas = async () => {
     return response.data
 }
 
-export const fecthArea = async (slug?: string) => {
+export const fetchArea = async (slug?: string) => {
     const response = await api.get(`/api/downloads/areas/${slug}`)
     return response.data
 }

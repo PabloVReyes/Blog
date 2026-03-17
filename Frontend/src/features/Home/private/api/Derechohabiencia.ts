@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios.client"
 
-export const fecthDerechohabiencia = async () => {
+export const fetchDerechohabiencia = async () => {
     const response = await api.get(`/api/home/derechohabiencia`)
     return response.data
 }

@@ -15,7 +15,7 @@ export const addCareProtocols = async (body: any) => {
     return response.data
 }
 
-export const fecthCareProtocols = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
+export const fetchCareProtocols = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
     const response = await api.get(`/api/systems/care-protocols/protocols?page=${page}&limit=${limit}&search=${search}`)
     return response.data
 }

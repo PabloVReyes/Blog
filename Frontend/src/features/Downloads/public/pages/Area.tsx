@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { fecthArea } from "../api"
+import { fetchArea } from "../api"
 import { Notify } from "@/ui"
 import { Card, Center, Group, Loader, Stack, Tabs, Text, useMantineTheme } from "@mantine/core"
 import { Container } from "@/components"
@@ -68,7 +68,7 @@ export const Area = () => {
     const handleFetch = async () => {
         try {
             setLoading(true)
-            const response = await fecthArea(slug);
+            const response = await fetchArea(slug);
             setData(response);
         } catch (error: any) {
             Notify({

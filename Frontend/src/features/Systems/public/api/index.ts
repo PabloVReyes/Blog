@@ -4,7 +4,7 @@ export {
 } from "./Systems"
 
 export {
-    fecthCIE10
+    fetchCIE10
 } from "./CIE10"
 
 export {
@@ -20,7 +20,7 @@ export {
 } from "./AgreementPerson"
 
 export {
-    fecthCBIM
+    fetchCBIM
 } from "./CBIM"
 
 export {

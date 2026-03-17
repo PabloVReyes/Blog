@@ -3,7 +3,7 @@ import { AccessCard, Calendar, Carousel, Derechohabiencia } from "../components"
 import { Alert } from "@/ui";
 import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
-import { fecthHomeSections } from "../api";
+import { fetchHomeSections } from "../api";
 import * as TablerIcons from "@tabler/icons-react";
 
 export const Home = () => {
@@ -11,7 +11,7 @@ export const Home = () => {
     const [data, setData] = useState<any[]>([]);
 
     useEffect(() => {
-        fecthHomeSections().then(setData);
+        fetchHomeSections().then(setData);
     }, []);
 
     if (data.length === 0) return <Center h={"100%"}><Loader /></Center>;

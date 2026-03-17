@@ -5,7 +5,7 @@ export {
 } from "./Settings"
 
 export {
-    fecthUsers,
+    fetchUsers,
     addUser,
     updateUser,
     resetPasswordUser,
@@ -13,14 +13,14 @@ export {
 } from "./Users"
 
 export {
-    fecthPermissions,
+    fetchPermissions,
     addPermission,
     updatePermission,
     deletePermission
 } from "./Permissions"
 
 export {
-    fecthRoles,
+    fetchRoles,
     addRole,
     updateRoles,
     deleteRole

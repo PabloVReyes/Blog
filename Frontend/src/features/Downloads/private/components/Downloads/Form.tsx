@@ -29,7 +29,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     const [categories, setCategories] = useState<Item[]>([])
     const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
 
-    const fecthAreasData = async () => {
+    const fetchAreasData = async () => {
         try {
             const areasResp = await fetchAreas({})
             setAreas(areasResp.data || [])
@@ -39,7 +39,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
         }
     }
 
-    const fecthSectionsData = async () => {
+    const fetchSectionsData = async () => {
         setLoadingSections(true)
         try {
             const res = await fetchSections(form.values.area);
@@ -54,7 +54,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
         }
     }
 
-    const fecthCategoriesData = async () => {
+    const fetchCategoriesData = async () => {
         setLoadingCategories(true)
         try {
             const res = await fetchCategories(form.values.section);
@@ -70,15 +70,15 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     }
 
     useEffect(() => {
-        fecthSectionsData()
+        fetchSectionsData()
     }, [form.values.area])
 
     useEffect(() => {
-        fecthCategoriesData()
+        fetchCategoriesData()
     }, [form.values.section])
 
     useEffect(() => {
-        fecthAreasData();
+        fetchAreasData();
     }, []);
 
     return (

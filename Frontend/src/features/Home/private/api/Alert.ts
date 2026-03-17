@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios.client"
 
-export const fecthAlert = async () => {
+export const fetchAlert = async () => {
     const response = await api.get(`/api/home/alert`)
     return response.data
 }

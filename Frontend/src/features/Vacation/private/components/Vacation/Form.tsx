@@ -20,18 +20,18 @@ interface Shift {
 export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
     const [shifts, setShifts] = useState<Shift[]>([])
 
-    const fecthShiftsData = async () => {
+    const fetchShiftsData = async () => {
         try {
             const areasResp = await fetchShifts({})
             setShifts(areasResp.data || [])
         } catch (erro: any) {
-            console.error("Error en fecthShiftsData")
+            console.error("Error en fetchShiftsData")
             setShifts([])
         }
     }
 
     useEffect(() => {
-        fecthShiftsData();
+        fetchShiftsData();
     }, []);
 
     return (

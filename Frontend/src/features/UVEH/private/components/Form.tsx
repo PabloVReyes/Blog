@@ -21,7 +21,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     const [categories, setCategories] = useState<Item[]>([])
     const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
 
-    const fecthCategoriesData = async () => {
+    const fetchCategoriesData = async () => {
         setLoadingCategories(true)
         try {
             const res = await fetchCategories();
@@ -38,7 +38,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
 
 
     useEffect(() => {
-        fecthCategoriesData()
+        fetchCategoriesData()
     }, [])
 
     return (

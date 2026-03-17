@@ -60,27 +60,27 @@ export const crudApiRegistry = {
         remove: downloadApi.deleteDownload
     },
     homeAccessCard: {
-        fetch: homeAccessCardApi.fecthAccessCard,
+        fetch: homeAccessCardApi.fetchAccessCard,
         add: homeAccessCardApi.addAccessCard,
         update: homeAccessCardApi.updateAccessCard,
         remove: homeAccessCardApi.deleteAccessCard
     },
     homeAlert: {
-        fetch: homeAlertApi.fecthAlert,
+        fetch: homeAlertApi.fetchAlert,
         update: homeAlertApi.updateAlert
     },
     homeCalendar: {
-        fetch: homeCalendarApi.fecthCalendar,
+        fetch: homeCalendarApi.fetchCalendar,
         update: homeCalendarApi.updateCalendar
     },
     homeCarousel: {
-        fetch: homeCarouselApi.fecthCarousel,
+        fetch: homeCarouselApi.fetchCarousel,
         add: homeCarouselApi.addCarousel,
         update: homeCarouselApi.updateCarousel,
         remove: homeCarouselApi.deleteCarousel
     },
     homeDerechohabiencia: {
-        fetch: homeDerechohabienciaApi.fecthDerechohabiencia,
+        fetch: homeDerechohabienciaApi.fetchDerechohabiencia,
         update: homeDerechohabienciaApi.updateDerechohabiencia
     },
     juristic: {
@@ -103,19 +103,19 @@ export const crudApiRegistry = {
         update: macroprocessManualTypeApi.updateManualType
     },
     settingsPermissions: {
-        fetch: settingsPermissionsApi.fecthPermissions,
+        fetch: settingsPermissionsApi.fetchPermissions,
         add: settingsPermissionsApi.addPermission,
         update: settingsPermissionsApi.updatePermission,
         remove: settingsPermissionsApi.deletePermission
     },
     settingsUsers: {
-        fetch: settingsUsersApi.fecthUsers,
+        fetch: settingsUsersApi.fetchUsers,
         add: settingsUsersApi.addUser,
         update: settingsUsersApi.updateUser,
         remove: settingsUsersApi.deleteUser
     },
     settingsRoles: {
-        fetch: settingsRolesApi.fecthRoles,
+        fetch: settingsRolesApi.fetchRoles,
         add: settingsRolesApi.addRole,
         update: settingsRolesApi.updateRoles,
         remove: settingsRolesApi.deleteRole
@@ -138,19 +138,19 @@ export const crudApiRegistry = {
         remove: systemsAgreementPersonApi.deleteAgreementPerson
     },
     systemsCareProtocolsApi: {
-        fetch: systemsCareProtocolsApi.fecthCareProtocols,
+        fetch: systemsCareProtocolsApi.fetchCareProtocols,
         add: systemsCareProtocolsApi.addCareProtocols,
         update: systemsCareProtocolsApi.updateCareProtocols,
         remove: systemsCareProtocolsApi.deleteCareProtocols
     },
     systemsCBIM: {
-        fetch: systemsCBIMApi.fecthCBIM,
+        fetch: systemsCBIMApi.fetchCBIM,
         add: systemsCBIMApi.addCBIM,
         update: systemsCBIMApi.updateCBIM,
         remove: systemsCBIMApi.deleteCBIM
     },
     systemsCIE10: {
-        fetch: systemsCIE10Api.fecthCIE10,
+        fetch: systemsCIE10Api.fetchCIE10,
         add: systemsCIE10Api.addCIE10,
         update: systemsCIE10Api.updateCIE10,
         remove: systemsCIE10Api.deleteCIE10

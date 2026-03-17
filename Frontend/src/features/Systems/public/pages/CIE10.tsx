@@ -1,7 +1,7 @@
 import { Container, Panel, Table } from "@/components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect, useState } from "react"
-import { fecthCIE10 } from "../api"
+import { fetchCIE10 } from "../api"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { Highlight } from "@/utils"
@@ -55,7 +55,7 @@ export const CIE10 = () => {
     const handleFetch = async () => {
         try {
             setLoading(true)
-            await fecthCIE10({ page, limit, search }).then(setData)
+            await fetchCIE10({ page, limit, search }).then(setData)
         } catch (error: any) {
             Notify({
                 type: "error",

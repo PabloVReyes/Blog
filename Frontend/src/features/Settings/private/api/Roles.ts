@@ -1,6 +1,6 @@
 import { api } from "@/lib"
 
-export const fecthRoles = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
+export const fetchRoles = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
     const params = new URLSearchParams()
 
     if (page) params.append("page", String(page))

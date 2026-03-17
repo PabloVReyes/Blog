@@ -1,7 +1,7 @@
 import { Container, Panel, Table } from "@/components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect, useState } from "react"
-import { fecthCBIM } from "../api"
+import { fetchCBIM } from "../api"
 import { Alert, Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { Highlight } from "@/utils"
@@ -104,7 +104,7 @@ export const CBIM = () => {
     const handleFetch = async () => {
         try {
             setLoading(true)
-            await fecthCBIM({ page, limit, search }).then(setData)
+            await fetchCBIM({ page, limit, search }).then(setData)
         } catch (error: any) {
             Notify({
                 type: "error",

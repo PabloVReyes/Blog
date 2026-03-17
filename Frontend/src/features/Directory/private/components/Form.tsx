@@ -20,18 +20,18 @@ interface Level {
 export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
     const [levels, setLevents] = useState<Level[]>([])
 
-    const fecthLevelsData = async () => {
+    const fetchLevelsData = async () => {
         try {
             const areasResp = await fetchLevels()
             setLevents(areasResp.data || [])
         } catch (erro: any) {
-            console.error("Error en fecthLevelsData")
+            console.error("Error en fetchLevelsData")
             setLevents([])
         }
     }
 
     useEffect(() => {
-        fecthLevelsData();
+        fetchLevelsData();
     }, []);
 
     return (

@@ -6,7 +6,7 @@ export {
 } from "./Systems"
 
 export {
-    fecthCIE10,
+    fetchCIE10,
     addCIE10,
     updateCIE10,
     deleteCIE10
@@ -32,7 +32,7 @@ export {
 } from "./AgreementPerson"
 
 export {
-    fecthCBIM,
+    fetchCBIM,
     updateCBIM,
     addCBIM,
     deleteCBIM
@@ -67,7 +67,7 @@ export {
     fetchCareCategory,
     addCareCategory,
     addCareProtocols,
-    fecthCareProtocols,
+    fetchCareProtocols,
     updateCareProtocols,
     deleteCareProtocols
 } from "./CareProtocols"

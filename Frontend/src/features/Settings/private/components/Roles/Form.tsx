@@ -4,7 +4,7 @@ import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import classes from "./Form.module.css"
 import { IconAlertCircle, IconCircleCheck } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { fecthPermissions } from "../../api";
+import { fetchPermissions } from "../../api";
 import { Alert } from "@/ui";
 
 interface Props {
@@ -45,7 +45,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
     const fetchPermissionData = async () => {
         setLoadingPermissions(true)
         try {
-            const res = await fecthPermissions({})
+            const res = await fetchPermissions({})
             setPermissions(res.data)
         } finally {
             setLoadingPermissions(false)
