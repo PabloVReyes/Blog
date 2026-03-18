@@ -5,7 +5,7 @@ import { z } from "zod"
 //////////
 
 export const getAreaWithManualsParamsSchema = z.object({
-    id: z.uuid()
+    id: z.string()
 })
 
 export const getManualsByTypeParamsSchema = z.object({

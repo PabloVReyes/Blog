@@ -4,7 +4,7 @@ import styles from "./Table.module.css"
 interface Props {
     columns: any[]
     isLoading?: boolean
-    data: any[]
+    data: any[] | undefined
 }
 
 export const Table = ({ columns, isLoading = false, data }: Props) => {

@@ -1,0 +1,1 @@
+export { getTablerIcon } from "./getTablerIcon"

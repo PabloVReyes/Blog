@@ -5,6 +5,7 @@ import { fetchCBIM } from "../api"
 import { Alert, Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { Highlight } from "@/utils"
+import * as types from "../types/CBIM"
 
 const columns = (search: string) => [
     {
@@ -12,7 +13,7 @@ const columns = (search: string) => [
         label: "Clave",
         align: "left",
         miw: 100,
-        render: (row: any) => {
+        render: (row: types.Datum) => {
             return (
                 <Text size="sm">
                     <Highlight text={row.code} query={search} />
@@ -25,7 +26,7 @@ const columns = (search: string) => [
         key: 'name',
         label: 'Nombre',
         align: 'left',
-        render: (row: any) => {
+        render: (row: types.Datum) => {
             return (
                 <Text size="sm">
                     <Highlight text={row.name} query={search} />
@@ -37,7 +38,7 @@ const columns = (search: string) => [
         key: 'description',
         label: 'Presentación',
         align: 'left',
-        render: (row: any) => {
+        render: (row: types.Datum) => {
             return (
                 <Text size="sm">
                     <Highlight text={row.description} query={search} />
@@ -49,7 +50,7 @@ const columns = (search: string) => [
         key: 'sp',
         label: 'SP',
         align: 'left',
-        render: (row: any) => {
+        render: (row: types.Datum) => {
             if (!row.sp) {
                 return <Text size="xs" c="dimmed">--</Text>
             }
@@ -65,7 +66,7 @@ const columns = (search: string) => [
         key: 'fpgc',
         label: 'FPGC',
         align: 'center',
-        render: (row: any) => {
+        render: (row: types.Datum) => {
             if (!row.fpgc) {
                 return <Text size="xs" c="dimmed">--</Text>
             }
@@ -86,8 +87,8 @@ const columns = (search: string) => [
 
 export const CBIM = () => {
     const [search, setSearch] = useState<string>("")
-    const [data, setData]: any = useState<any[]>([])
-    const [page, setPage]: any = useState<number>(1)
+    const [data, setData] = useState<types.Data | null>(null)
+    const [page, setPage] = useState<number>(1)
     const [limit, setLimit] = useState<number>(10)
     const [debounced] = useDebouncedValue(search, 500)
     const [loading, setLoading] = useState<boolean>(false)
@@ -105,11 +106,11 @@ export const CBIM = () => {
         try {
             setLoading(true)
             await fetchCBIM({ page, limit, search }).then(setData)
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener Cuadro Basico de Medicamentos",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)
@@ -130,16 +131,16 @@ export const CBIM = () => {
                 limitValue={limit}
                 onChangeLimit={setLimit}
                 page
-                firstItem={data?.meta?.firstItem}
-                lastItem={data?.meta?.lastItem}
-                totalItems={data?.meta?.total}
-                totalPages={data?.meta?.totalPages}
+                firstItem={data?.meta.firstItem ?? 0}
+                lastItem={data?.meta?.lastItem ?? 0}
+                totalItems={data?.meta?.total ?? 0}
+                totalPages={data?.meta?.totalPages ?? 0}
                 onChangePage={setPage}
                 pageValue={page}
             >
                 <Table
                     columns={columns(search)}
-                    data={data.data}
+                    data={data?.data}
                     isLoading={loading}
                 />
             </Panel>

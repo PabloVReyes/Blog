@@ -7,44 +7,18 @@ import { fetchAgreementPerson, fetchGroups, fetchZones } from "../api"
 import { IconUser, IconUsers } from "@tabler/icons-react"
 import styles from "./AgreementPerson.module.css"
 import { colorMap, Highlight } from "@/utils"
-
-interface Zone {
-    id: Number
-    name: string
-}
-
-interface AgreementMeta {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-    firstItem: number;
-    lastItem: number;
-}
-
-interface AgreementPerson {
-    id: number;
-    name: string;
-    zone: Zone;
-    group: Zone;
-    dependents: AgreementPerson[]
-}
-
-interface AgreementData {
-    data: AgreementPerson[];
-    meta: AgreementMeta;
-}
+import * as types from "../types/AgreementPerson"
 
 export const AgreementPerson = () => {
     const theme = useMantineTheme();
 
-    const [data, setData] = useState<AgreementData>({
+    const [data, setData] = useState<types.Data>({
         data: [],
         meta: { total: 0, page: 1, limit: 10, totalPages: 0, firstItem: 0, lastItem: 0 },
     });
 
-    const [groups, setGroups] = useState<Zone[]>([]);
-    const [zones, setZones] = useState<Zone[]>([]);
+    const [groups, setGroups] = useState<types.Group[]>([]);
+    const [zones, setZones] = useState<types.Zone[]>([]);
     const [page, setPage] = useState<number>(1);
     const [limit, setLimit] = useState<number>(10);
     const [search, setSearch] = useState<string>("");
@@ -63,7 +37,7 @@ export const AgreementPerson = () => {
 
             setGroups(groupsResp.data || []);
             setZones(zonesResp.data || []);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Error fetching filters:", error);
             setGroups([]);
             setZones([]);
@@ -83,26 +57,25 @@ export const AgreementPerson = () => {
             });
             setData(response);
 
-            // Abrir automáticamente los titulares que tengan dependientes coincidentes
             if (search) {
                 const searchLower = search.toLowerCase();
                 const expandIds = response.data
                     .filter(
-                        (person: any) =>
+                        (person: types.Datum) =>
                             person.name.toLowerCase().includes(searchLower) ||
-                            person.dependents.some((dep: any) => dep.name.toLowerCase().includes(searchLower))
+                            person.dependents.some((dep: types.Dependent) => dep.name.toLowerCase().includes(searchLower))
                     )
-                    .map((person: any) => person.id.toString());
+                    .map((person: types.Datum) => person.id.toString());
 
                 setOpenedItems(expandIds);
             } else {
                 setOpenedItems([]);
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener datos",
-                message: error.message || "Error desconocido",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         }
         finally {
@@ -122,15 +95,13 @@ export const AgreementPerson = () => {
     useEffect(() => {
         const trimmed = debounced.trim();
 
-        setPage(1);          // reinicia a la primera página siempre
-        setOpenedItems([]);  // cerrar todos los acordeones
+        setPage(1);          
+        setOpenedItems([]);  
 
         if (debounced && trimmed === "") {
-            // Usuario escribió solo espacios → no hacemos fetch
             return;
         }
 
-        // Si trimmed tiene contenido o es vacío real, hacemos fetch
         handleFetch(trimmed || undefined);
     }, [debounced]);
 

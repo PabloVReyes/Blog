@@ -35,7 +35,7 @@ export const getManualByTypeController: RequestHandler = asyncHandler(async (req
 })
 
 export const getAreaWithManualsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.getAreaWithManualsParamsSchema.parse(req.query)
+    const params = schema.getAreaWithManualsParamsSchema.parse(req.params)
     const data = await service.getAreaWithManualsService(params.id)
     res.json(data)
 })

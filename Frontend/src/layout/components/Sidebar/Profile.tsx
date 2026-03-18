@@ -12,17 +12,26 @@ import { useState } from "react"
 import { updateMe } from "@/layout/api"
 import { Notify, showSuccessModal } from "@/ui"
 
+type ProfileFormValues = {
+    name: string;
+    email: string
+}
+
 export const Profile = () => {
     const { openModal } = useModalStore()
     const [loading, setLoading] = useState<boolean>(false)
-    const user: any = useAuthStore(state => state.user)
+    const user = useAuthStore(state => state.user)
     const updateUser = useAuthStore(state => state.updateUser)
 
-    const form = useForm({
+    if (!user) {
+        throw new Error("Usuario no cargado")
+    }
+
+    const form = useForm<ProfileFormValues>({
         mode: "controlled",
         initialValues: {
-            name: user.name,
-            email: user.email
+            name: user?.name ?? "",
+            email: user?.email ?? ""
         },
         validate: {
             name: (value) => validateName(value, { required: true })
@@ -30,6 +39,8 @@ export const Profile = () => {
     })
 
     const handlePassword = () => {
+
+
         openModal({
             content: <Password
                 id={user.id}
@@ -37,19 +48,17 @@ export const Profile = () => {
         })
     }
 
-    const handleSubmit = async (values: typeof form.values) => {
+    const handleSubmit = async (values: ProfileFormValues) => {
         setLoading(true)
         try {
             await updateMe(user.id, values)
             await updateUser(values)
             showSuccessModal("Perfil Actualizado", "El perfil fue actualizado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al cambiar contraseña",
-                message: error?.response?.data?.message ||
-                    error?.message ||
-                    "Error desconocido"
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)
