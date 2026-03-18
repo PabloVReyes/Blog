@@ -1,4 +1,4 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const addCareCategory = async (body: any) => {
     const response = await api.post(`/api/systems/care-protocols/categorys`, body)
@@ -16,7 +16,7 @@ export const addCareProtocols = async (body: any) => {
 }
 
 export const fetchCareProtocols = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/care-protocols/protocols?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/systems/care-protocols/protocols?${buildParams({page, limit, search})}`)
     return response.data
 }
 

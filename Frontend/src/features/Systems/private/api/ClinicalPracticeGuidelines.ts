@@ -1,4 +1,4 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const fetchCategorys = async () => {
     const response = await api.get(`/api/systems/clinical-practice-guidelines/category`)
@@ -11,7 +11,7 @@ export const addCategory = async (body: any) => {
 }
 
 export const fetchGuides = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/clinical-practice-guidelines/guides?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/systems/clinical-practice-guidelines/guides?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

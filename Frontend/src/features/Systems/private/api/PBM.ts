@@ -1,4 +1,4 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const addPBM = async (body: any) => {
     const response = await api.post(`/api/systems/pbm`, body)
@@ -6,7 +6,7 @@ export const addPBM = async (body: any) => {
 }
 
 export const fetchPBM = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/pbm?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/systems/pbm?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

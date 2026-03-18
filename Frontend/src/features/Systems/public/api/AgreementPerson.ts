@@ -1,13 +1,8 @@
+import { buildParams } from "@/lib";
 import { api } from "@/lib/axios.client"
 
 export const fetchAgreementPerson = async ({ page, limit, search, groupId, zoneId }: { page?: number, limit?: number, search?: string, groupId?: string | undefined, zoneId?: string | undefined }) => {
-    let url = `/api/systems/agreement-person/persons-dependents?page=${page ?? 1}&limit=${limit ?? 10}`;
-
-    if (search) url += `&search=${encodeURIComponent(search)}`;
-    if (groupId && groupId !== "all") url += `&groupId=${groupId}`;
-    if (zoneId && zoneId !== "all") url += `&zoneId=${zoneId}`;
-
-    const response = await api.get(url);
+    const response = await api.get(`/api/systems/agreement-person/persons-dependents?${buildParams({ page, limit, search, groupId, zoneId })}`);
     return response.data;
 }
 
@@ -21,3 +16,5 @@ export const fetchZones = async () => {
     const response = await api.get(`/api/systems/agreement-person/zones`)
     return response.data
 }
+
+// 23 lineas -> 18 lineas

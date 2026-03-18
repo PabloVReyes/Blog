@@ -1,5 +1,6 @@
 import { api } from "@/lib/axios.client"
 import type { SystemProps } from "../../types"
+import { buildParams } from "@/lib"
 
 export const addMonthlyReports = async (body: SystemProps) => {
     const response = await api.post(`/api/systems/monthly-reports/reports`, body)
@@ -7,7 +8,7 @@ export const addMonthlyReports = async (body: SystemProps) => {
 }
 
 export const fetchMonthlyReports = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/monthly-reports/reports/?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/systems/monthly-reports/reports?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

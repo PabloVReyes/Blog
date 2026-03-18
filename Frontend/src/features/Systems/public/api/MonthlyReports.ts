@@ -1,7 +1,8 @@
+import { buildParams } from "@/lib"
 import { api } from "@/lib/axios.client"
 
-export const fetchMonthlyReports = async (year?: number | null, search?: string) => {
-    const response = await api.get(`/api/systems/monthly-reports/reports?year=${year}&search=${search}`)
+export const fetchMonthlyReports = async (year?: number, search?: string) => {
+    const response = await api.get(`/api/systems/monthly-reports/reports?${buildParams({ year, search })}`)
     return response.data
 }
 

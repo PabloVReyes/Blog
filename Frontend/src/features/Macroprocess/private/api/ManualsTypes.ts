@@ -1,7 +1,8 @@
+import { buildParams } from "@/lib"
 import { api } from "@/lib/axios.client"
 
 export const fetchManualsTypes = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/macroprocess/manuals?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/macroprocess/manuals?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

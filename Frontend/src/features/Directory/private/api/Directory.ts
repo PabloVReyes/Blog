@@ -1,3 +1,4 @@
+import { buildParams } from "@/lib";
 import { api } from "@/lib/axios.client"
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 }
 
 export const fetchDirectory = async ({ page, limit, search }: Props) => {
-    const response = await api.get(`/api/directory?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/directory?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

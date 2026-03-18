@@ -1,12 +1,8 @@
+import { buildParams } from "@/lib";
 import { api } from "@/lib/axios.client"
 
 export const fetchPatientSafety = async ({ search, categoryId }: { search?: string, categoryId?: string | undefined }) => {
-    let url = `/api/systems/codes?`;
-
-    if (search) url += `&search=${encodeURIComponent(search)}`;
-    if (categoryId && categoryId !== "all") url += `&categoryId=${categoryId}`;
-
-    const response = await api.get(url);
+    const response = await api.get(`/api/systems/codes?${buildParams({ search, categoryId })}`);
     return response.data;
 }
 

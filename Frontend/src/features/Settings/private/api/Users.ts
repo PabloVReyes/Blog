@@ -1,15 +1,7 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const fetchUsers = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const params = new URLSearchParams()
-
-    if (page) params.append("page", String(page))
-    if (limit) params.append("limit", String(limit))
-    if (search) params.append("search", search)
-
-    const url = `/api/users?${params.toString()}`
-
-    const response = await api.get(url)
+    const response = await api.get(`/api/users?${buildParams({ page, limit, search })}`)
     return response.data
 }
 
@@ -33,3 +25,5 @@ export const deleteUser = async (id: string) => {
     const response = await api.delete(`/api/users/${id}`)
     return response.data
 }
+
+// 35 lineas -> 27 lineas

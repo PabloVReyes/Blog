@@ -1,7 +1,8 @@
+import { buildParams } from "@/lib"
 import { api } from "@/lib/axios.client"
 
 export const fetchAreas = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/macroprocess/areas?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/macroprocess/areas?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

@@ -1,3 +1,4 @@
+import { buildParams } from "@/lib"
 import { api } from "@/lib/axios.client"
 
 export const addAccessCard = async (body: any) => {
@@ -6,7 +7,7 @@ export const addAccessCard = async (body: any) => {
 }
 
 export const fetchAccessCard = async ({ search, page, limit }: { search?: string, page?: number, limit?: number }) => {
-    const response = await api.get(`/api/home/accesscard?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/home/accesscard?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

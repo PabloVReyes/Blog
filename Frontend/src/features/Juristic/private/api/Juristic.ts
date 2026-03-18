@@ -1,4 +1,4 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const addJuristic = async (body: any) => {
     const response = await api.post(`/api/juristics/`, body)
@@ -6,15 +6,7 @@ export const addJuristic = async (body: any) => {
 }
 
 export const fetchJuristics = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const params = new URLSearchParams()
-
-    if (page) params.append("page", String(page))
-    if (limit) params.append("limit", String(limit))
-    if (search) params.append("search", search)
-
-    const url = `/api/juristics?${params.toString()}`
-
-    const response = await api.get(url)
+    const response = await api.get(`/api/juristics?${buildParams({ page, limit, search })}`)
     return response.data
 }
 
@@ -28,3 +20,4 @@ export const deleteJuristic = async (id: number) => {
     return response.data
 }
 
+// 29 lineas -> 21 lineas

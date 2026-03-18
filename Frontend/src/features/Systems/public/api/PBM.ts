@@ -1,9 +1,7 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const fetchPBM = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    let url = `/api/systems/pbm?page=${page}&limit=${limit}`
-    if (search) url += `&search=${encodeURIComponent(search)}`;
-    const response = await api.get(url)
+    const response = await api.get(`/api/systems/pbm?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

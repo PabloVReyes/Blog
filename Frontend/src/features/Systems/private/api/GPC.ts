@@ -1,4 +1,4 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const addCycle = async (body: any) => {
     const response = await api.post(`/api/systems/gpc/cycles`, body)
@@ -16,7 +16,7 @@ export const addGPC = async (body: any) => {
 }
 
 export const fetchGPC = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/gpc/algorithms?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/systems/gpc/algorithms?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

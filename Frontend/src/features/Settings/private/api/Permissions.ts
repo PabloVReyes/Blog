@@ -1,15 +1,7 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const fetchPermissions = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const params = new URLSearchParams()
-
-    if (page) params.append("page", String(page))
-    if (limit) params.append("limit", String(limit))
-    if (search) params.append("search", search)
-
-    const url = `/api/permissions?${params.toString()}`
-
-    const response = await api.get(url)
+    const response = await api.get(`/api/permissions?${buildParams({ page, limit, search })}`)
     return response.data
 }
 
@@ -27,3 +19,5 @@ export const deletePermission = async (id: string) => {
     const response = await api.delete(`/api/permissions/${id}`)
     return response.data
 }
+
+// 29 lineas -> 21 lineas

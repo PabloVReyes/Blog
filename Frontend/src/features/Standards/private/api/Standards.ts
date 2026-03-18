@@ -1,4 +1,4 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const addStandar = async (body: any) => {
     const response = await api.post(`/api/standards/`, body)
@@ -6,15 +6,7 @@ export const addStandar = async (body: any) => {
 }
 
 export const fetchStandards = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const params = new URLSearchParams()
-
-    if (page) params.append("page", String(page))
-    if (limit) params.append("limit", String(limit))
-    if (search) params.append("search", search)
-
-    const url = `/api/standards?${params.toString()}`
-
-    const response = await api.get(url)
+    const response = await api.get(`/api/standards?${buildParams({ page, limit, search })}`)
     return response.data
 }
 
@@ -28,3 +20,4 @@ export const deleteStandard = async (id: number) => {
     return response.data
 }
 
+// 29 lineas -> 21 lineas

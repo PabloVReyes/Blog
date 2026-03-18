@@ -1,3 +1,4 @@
+import { buildParams } from "@/lib"
 import { api } from "@/lib/axios.client"
 
 export const addCarousel = async (body: any) => {
@@ -6,7 +7,7 @@ export const addCarousel = async (body: any) => {
 }
 
 export const fetchCarousel = async ({ search, page, limit }: { search?: string, page?: number, limit?: number }) => {
-    const response = await api.get(`/api/home/carousel?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/home/carousel?${buildParams({ page, limit, search })}`)
     return response.data
 }
 

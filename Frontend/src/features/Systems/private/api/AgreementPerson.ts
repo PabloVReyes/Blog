@@ -1,10 +1,9 @@
-import { api } from "@/lib"
+import { api, buildParams } from "@/lib"
 
 export const fetchAgreementPerson = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/agreement-person?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/systems/agreement-person?${buildParams({ page, limit, search })}`)
     return response.data
 }
-
 
 export const addAgreementPerson = async (body: any) => {
     const response = await api.post(`/api/systems/agreement-person`, body)
@@ -12,7 +11,7 @@ export const addAgreementPerson = async (body: any) => {
 }
 
 export const fetchAgreementPersonHolders = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/agreement-person/persons-dependents?page=${page}&limit=${limit}&search=${search}`)
+    const response = await api.get(`/api/systems/agreement-person/persons-dependents?${buildParams({ page, limit, search })}`)
     return response.data
 }
 
