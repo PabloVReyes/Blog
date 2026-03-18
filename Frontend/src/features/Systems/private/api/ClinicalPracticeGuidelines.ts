@@ -1,4 +1,5 @@
-import { api, buildParams } from "@/lib"
+import { api, createCrudApi } from "@/lib"
+import type { ClinicalPracticeGuide, ClinicalPracticeGuideFilters } from "../types/clinicalPracticeGuide.types"
 
 export const fetchCategorys = async () => {
     const response = await api.get(`/api/systems/clinical-practice-guidelines/category`)
@@ -10,22 +11,11 @@ export const addCategory = async (body: any) => {
     return response.data
 }
 
-export const fetchGuides = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/clinical-practice-guidelines/guides?${buildParams({ page, limit, search })}`)
-    return response.data
-}
+export const systemsClinicalPracticeGuidelinesApi = createCrudApi<
+    ClinicalPracticeGuide,
+    FormData,
+    FormData,
+    ClinicalPracticeGuideFilters
+>("api/systems/clinical-practice-guidelines/guides")
 
-export const addGuide = async (body: any) => {
-    const response = await api.post(`/api/systems/clinical-practice-guidelines/guides`, body)
-    return response.data
-}
-
-export const updateGuide = async (id: string, body: any) => {
-    const response = await api.put(`/api/systems/clinical-practice-guidelines/guides/${id}`, body)
-    return response.data
-}
-
-export const deleteGuide = async (id: string) => {
-    const response = await api.delete(`/api/systems/clinical-practice-guidelines/guides/${id}`)
-    return response.data
-}
+// 32 lineas -> 19 lineas

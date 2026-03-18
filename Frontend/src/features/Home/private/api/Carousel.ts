@@ -1,22 +1,11 @@
-import { buildParams } from "@/lib"
-import { api } from "@/lib/axios.client"
+import { createCrudApi } from "@/lib"
+import type { AlertFilters, Alert } from "../types/alert.types"
 
-export const addCarousel = async (body: any) => {
-    const response = await api.post(`/api/home/carousel`, body)
-    return response.data
-}
+export const homeCarouselApi = createCrudApi<
+    Alert,
+    Partial<Alert>,
+    Partial<Alert>,
+    AlertFilters
+>("api/home/carousel")
 
-export const fetchCarousel = async ({ search, page, limit }: { search?: string, page?: number, limit?: number }) => {
-    const response = await api.get(`/api/home/carousel?${buildParams({ page, limit, search })}`)
-    return response.data
-}
-
-export const updateCarousel = async (id: string, body: any) => {
-    const response = await api.put(`/api/home/carousel/${id}`, body)
-    return response.data
-}
-
-export const deleteCarousel = async (id: string) => {
-    const response = await api.delete(`/api/home/carousel/${id}`)
-    return response.data
-}
+// 23 lineas -> 9 lineas

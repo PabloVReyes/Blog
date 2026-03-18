@@ -1,4 +1,5 @@
-import { api, buildParams } from "@/lib"
+import { api, createCrudApi } from "@/lib"
+import type { CareProtocols, CareProtocolsFilters } from "../types/careProtocols.types"
 
 export const addCareCategory = async (body: any) => {
     const response = await api.post(`/api/systems/care-protocols/categorys`, body)
@@ -10,23 +11,11 @@ export const fetchCareCategory = async () => {
     return response.data
 }
 
-export const addCareProtocols = async (body: any) => {
-    const response = await api.post(`/api/systems/care-protocols/protocols`, body)
-    return response.data
-}
+export const systemsCareProtocolsApi = createCrudApi<
+    CareProtocols,
+    FormData,
+    FormData,
+    CareProtocolsFilters
+>("api/systems/care-protocols/protocols")
 
-export const fetchCareProtocols = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/care-protocols/protocols?${buildParams({page, limit, search})}`)
-    return response.data
-}
-
-export const updateCareProtocols = async (id: string, body: any) => {
-    const response = await api.put(`/api/systems/care-protocols/protocols/${id}`, body)
-    return response.data
-}
-
-export const deleteCareProtocols = async (id: string) => {
-    const response = await api.delete(`/api/systems/care-protocols/protocols/${id}`)
-    return response.data
-}
-
+// 33 lineas -> 19 lineas

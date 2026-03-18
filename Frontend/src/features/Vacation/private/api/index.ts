@@ -1,13 +1,7 @@
 export {
-    addShift,
-    fetchShifts,
-    deleteShift,
-    updateShift
+    vacationShiftApi
 } from "./Shift"
 
 export {
-    addVacation,
-    fetchVacations,
-    updateVacation,
-    deleteVacation
+    vacationApi
 } from './Vacation'

@@ -5,7 +5,6 @@ export { registerStoreReset, resetAllStores } from "./storeResetRegistry"
 export { createCrudStore } from "./createCrudStore"
 
 export const {
-    useUsersStore,
     useCertificationStore,
     useDirectoryStore,
     useDownloadAreasStore,

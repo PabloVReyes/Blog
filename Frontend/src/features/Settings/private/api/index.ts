@@ -5,23 +5,14 @@ export {
 } from "./Settings"
 
 export {
-    fetchUsers,
-    addUser,
-    updateUser,
+    settingsUsersApi,
     resetPasswordUser,
-    deleteUser
 } from "./Users"
 
 export {
-    fetchPermissions,
-    addPermission,
-    updatePermission,
-    deletePermission
+    settingsPermissionsApi
 } from "./Permissions"
 
 export {
-    fetchRoles,
-    addRole,
-    updateRoles,
-    deleteRole
+    settingsRolesApi
 } from "./Roles"

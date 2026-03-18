@@ -188,7 +188,6 @@ export const catMessages = [
     "Buen match",
     "Sincronía perfecta",
     "Eso conecta",
-    "Todo fluye",
     "Buen momentum",
     "Energía positiva",
     "Modo zen 🧘",
@@ -238,7 +237,6 @@ export const catMessages = [
     "Modo creativo",
     "Modo ninja 🥷",
     "Modo hacker 😎",
-    "Modo zen",
     "Modo focus",
     "Modo turbo",
     "Modo chill",
@@ -257,7 +255,6 @@ export const catMessages = [
     "Gran futuro",
     "Buen presente",
     "Sigue soñando",
-    "Sigue creando",
     "Sigue intentando",
     "Sigue creciendo",
     "Sigue avanzando",
@@ -293,6 +290,5 @@ export const catMessages = [
     "Estoy monitoreando",
     "Nada fuera de control",
     "Sistema feliz",
-    "Usuario feliz",
-    "Gato feliz 🐱",
+    "Gato feliz 🐱"
 ];

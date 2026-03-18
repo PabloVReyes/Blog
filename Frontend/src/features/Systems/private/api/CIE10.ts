@@ -1,23 +1,11 @@
-import { buildParams } from "@/lib"
-import { api } from "@/lib/axios.client"
+import { createCrudApi } from "@/lib"
+import type { CIE10Filters, CIE10 } from "../types/CIE10.types"
 
-export const fetchCIE10 = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/cie-10?${buildParams({ page, limit, search })}`)
-    return response.data
-}
+export const systemsCIE10Api = createCrudApi<
+    CIE10,
+    Partial<CIE10>,
+    Partial<CIE10>,
+    CIE10Filters
+>("api/systems/cie-10")
 
-export const addCIE10 = async (body: any) => {
-    const response = await api.post(`/api/systems/cie-10`, body)
-    return response.data
-}
-
-export const updateCIE10 = async (id: string, body: any) => {
-    const response = await api.put(`/api/systems/cie-10/${id}`, body)
-    return response.data
-}
-
-export const deleteCIE10 = async (id: string) => {
-    const response = await api.delete(`/api/systems/cie-10/${id}`)
-    return response.data
-}
-
+// 24 lineas -> 9 lineas

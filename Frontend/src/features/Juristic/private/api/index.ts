@@ -1,6 +1,3 @@
 export {
-    addJuristic,
-    fetchJuristics,
-    deleteJuristic,
-    updateJuristic
+    juristicApi
 } from "./Juristic"

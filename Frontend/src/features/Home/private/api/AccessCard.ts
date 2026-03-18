@@ -1,22 +1,11 @@
-import { buildParams } from "@/lib"
-import { api } from "@/lib/axios.client"
+import { createCrudApi } from "@/lib"
+import type { AccessCardFilters } from "../types/accessCard.types"
 
-export const addAccessCard = async (body: any) => {
-    const response = await api.post(`/api/home/accesscard`, body)
-    return response.data
-}
+export const homeAccessCardApi = createCrudApi<
+    AccessCardFilters,
+    FormData,
+    FormData,
+    AccessCardFilters
+>("api/home/accesscard")
 
-export const fetchAccessCard = async ({ search, page, limit }: { search?: string, page?: number, limit?: number }) => {
-    const response = await api.get(`/api/home/accesscard?${buildParams({ page, limit, search })}`)
-    return response.data
-}
-
-export const updateAccessCard = async (id: string, body: any) => {
-    const response = await api.put(`/api/home/accesscard/${id}`, body)
-    return response.data
-}
-
-export const deleteAccessCard = async (id: string) => {
-    const response = await api.delete(`/api/home/accesscard/${id}`)
-    return response.data
-}
+// 22 lineas -> 9 lineas

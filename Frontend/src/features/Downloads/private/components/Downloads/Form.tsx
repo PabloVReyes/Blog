@@ -2,7 +2,7 @@ import { Divider, Fieldset, FileInput, Select, Stack, Text, TextInput } from "@m
 import { ApiSelect, ModalButtons, Switch } from "@/components";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { useEffect, useState } from "react";
-import { addCategory, addSections, fetchAreas, fetchCategories, fetchSections } from "../../api";
+import { addCategory, addSections, downloadAreaApi, fetchCategories, fetchSections } from "../../api";
 
 interface Item {
     value: string;
@@ -29,9 +29,9 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     const [categories, setCategories] = useState<Item[]>([])
     const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
 
-    const fetchAreasData = async () => {
+    const fecthAreasData = async () => {
         try {
-            const areasResp = await fetchAreas({})
+            const areasResp = await downloadAreaApi.fetch({})
             setAreas(areasResp.data || [])
         } catch (erro: any) {
             console.error("Error en fetchAreas")
@@ -39,7 +39,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
         }
     }
 
-    const fetchSectionsData = async () => {
+    const fecthSectionsData = async () => {
         setLoadingSections(true)
         try {
             const res = await fetchSections(form.values.area);
@@ -54,7 +54,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
         }
     }
 
-    const fetchCategoriesData = async () => {
+    const fecthCategoriesData = async () => {
         setLoadingCategories(true)
         try {
             const res = await fetchCategories(form.values.section);
@@ -70,15 +70,15 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     }
 
     useEffect(() => {
-        fetchSectionsData()
+        fecthSectionsData()
     }, [form.values.area])
 
     useEffect(() => {
-        fetchCategoriesData()
+        fecthCategoriesData()
     }, [form.values.section])
 
     useEffect(() => {
-        fetchAreasData();
+        fecthAreasData();
     }, []);
 
     return (

@@ -1,4 +1,5 @@
-import { api, buildParams } from "@/lib"
+import { api, createCrudApi } from "@/lib"
+import type { GPC, GPCFilters } from "../types/GPC.types"
 
 export const addCycle = async (body: any) => {
     const response = await api.post(`/api/systems/gpc/cycles`, body)
@@ -10,23 +11,11 @@ export const fetchCycle = async () => {
     return response.data
 }
 
-export const addGPC = async (body: any) => {
-    const response = await api.post(`/api/systems/gpc/algorithms`, body)
-    return response.data
-}
+export const systemsGPCApi = createCrudApi<
+    GPC,
+    FormData,
+    FormData,
+    GPCFilters
+>("/api/systems/gpc/algorithms")
 
-export const fetchGPC = async ({ page, limit, search }: { page?: number, limit?: number, search?: string }) => {
-    const response = await api.get(`/api/systems/gpc/algorithms?${buildParams({ page, limit, search })}`)
-    return response.data
-}
-
-export const updateGPC = async (id: string, body: any) => {
-    const response = await api.put(`/api/systems/gpc/algorithms/${id}`, body)
-    return response.data
-}
-
-export const deleteGPC = async (id: string) => {
-    const response = await api.delete(`/api/systems/gpc/algorithms/${id}`)
-    return response.data
-}
-
+// 19 lineas

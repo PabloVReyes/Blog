@@ -1,28 +1,11 @@
-import { buildParams } from "@/lib";
-import { api } from "@/lib/axios.client"
+import { createCrudApi } from "@/lib";
+import type { Directory, DirectoryFilters } from "../types/directory.types";
 
-interface Props {
-    page: number;
-    limit: number;
-    search: string;
-}
+export const directoryApi = createCrudApi<
+    Directory,
+    Partial<Directory>,
+    Partial<Directory>,
+    DirectoryFilters
+>("/api/directory")
 
-export const fetchDirectory = async ({ page, limit, search }: Props) => {
-    const response = await api.get(`/api/directory?${buildParams({ page, limit, search })}`)
-    return response.data
-}
-
-export const addDirectory = async (body: any) => {
-    const response = await api.post(`/api/directory`, body)
-    return response.data
-}
-
-export const updateDirectory = async (id: string, body: any) => {
-    const response = await api.put(`/api/directory/${id}`, body)
-    return response.data
-}
-
-export const deleteDirectory = async (id: string) => {
-    const response = await api.delete(`/api/directory/${id}`)
-    return response.data
-}
+// 30 lineas -> 9 lineas

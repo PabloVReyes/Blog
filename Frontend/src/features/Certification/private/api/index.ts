@@ -1,8 +1,5 @@
 export {
-    addCertification,
-    fetchCertifications,
-    deleteCertification,
-    updateCertification
+    certificationApi,
 } from "./Certification"
 
 export {

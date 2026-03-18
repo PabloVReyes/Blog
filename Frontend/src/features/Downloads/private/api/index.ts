@@ -1,8 +1,5 @@
 export {
-    addArea,
-    fetchAreas,
-    updateArea,
-    deleteArea
+    downloadAreaApi,
 } from "./Areas"
 
 export {
@@ -16,8 +13,5 @@ export {
 } from "./Categories"
 
 export {
-    addDownload,
-    fetchDownloads,
-    updateDownload,
-    deleteDownload
+    downloadApi
 } from "./Downloads"

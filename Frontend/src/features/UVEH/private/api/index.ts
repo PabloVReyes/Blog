@@ -4,8 +4,5 @@ export {
 } from "./Categories"
 
 export {
-    addDownload,
-    fetchDownloads,
-    updateDownload,
-    deleteDownload
+    UVEHApi
 } from "./UVEH"

@@ -1,7 +1,7 @@
 import { Divider, Fieldset, FileInput, Select, Stack } from "@mantine/core";
 import { ModalButtons } from "@/components";
 import { useEffect, useState } from "react";
-import { fetchShifts } from "../../api";
+import { vacationShiftApi } from "../../api";
 
 
 interface Props {
@@ -22,7 +22,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
 
     const fetchShiftsData = async () => {
         try {
-            const areasResp = await fetchShifts({})
+            const areasResp = await vacationShiftApi.fetch({})
             setShifts(areasResp.data || [])
         } catch (erro: any) {
             console.error("Error en fetchShiftsData")

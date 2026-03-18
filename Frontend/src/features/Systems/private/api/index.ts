@@ -1,75 +1,48 @@
 export {
-    addSystem,
-    fetchSystems,
-    updateSystem,
-    deleteSystem
+    systemsApi
 } from "./Systems"
 
 export {
-    fetchCIE10,
-    addCIE10,
-    updateCIE10,
-    deleteCIE10
+    systemsCIE10Api
 } from "./CIE10"
 
 export {
-    addMonthlyReports,
-    fetchMonthlyReports,
-    updateMonthlyReports,
-    deleteMonthlyReports
+    systemsMonthlyReportsApi
 } from "./MonthlyReports"
 
 export {
-    fetchAgreementPerson,
+    systemsAgreementPersonApi,
     fetchAgreementPersonHolders,
     fetchGroups,
     fetchZones,
     addGroup,
     addZone,
-    updateAgreementPerson,
-    deleteAgreementPerson,
-    addAgreementPerson
 } from "./AgreementPerson"
 
 export {
-    fetchCBIM,
-    updateCBIM,
-    addCBIM,
-    deleteCBIM
+    systemsCBIMApi
 } from "./CBIM"
 
 export {
     fetchCategorys,
     addCategory,
-    addGuide,
-    fetchGuides,
-    updateGuide,
-    deleteGuide
+    systemsClinicalPracticeGuidelinesApi
 } from "./ClinicalPracticeGuidelines"
 
 export {
-    addPBM,
-    fetchPBM,
-    updatePBM,
-    deletePBM
+    systemsPBMApi
 } from "./PBM"
 
 export {
     addCycle,
     fetchCycle,
-    addGPC,
-    fetchGPC,
-    updateGPC,
-    deleteGPC
+    systemsGPCApi
 } from "./GPC"
 
 export {
     fetchCareCategory,
     addCareCategory,
-    addCareProtocols,
-    fetchCareProtocols,
-    updateCareProtocols,
-    deleteCareProtocols
+    systemsCareProtocolsApi
 } from "./CareProtocols"
 
 export {

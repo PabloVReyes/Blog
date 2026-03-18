@@ -15,11 +15,7 @@ interface PageCache<T> {
 }
 
 export interface CrudApi<T, Id, CreateDTO, UpdateDTO> {
-    fetch?: (params: {
-        page: number
-        limit: number
-        search: string
-    }) => Promise<{ data: T[]; meta: Meta }>
+    fetch?: (params: unknown) => Promise<{ data: T[]; meta: Meta }>
 
     add?: (dto: CreateDTO) => Promise<void>
     update?: (id: Id, dto: UpdateDTO) => Promise<T>

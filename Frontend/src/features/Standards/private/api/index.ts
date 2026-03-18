@@ -4,8 +4,5 @@ export {
 } from "./Categories"
 
 export {
-    addStandar,
-    fetchStandards,
-    deleteStandard,
-    updateStandard
+    standardsApi
 } from "./Standards"

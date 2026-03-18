@@ -1,8 +1,5 @@
 export {
-    fetchDirectory,
-    addDirectory,
-    updateDirectory,
-    deleteDirectory
+    directoryApi
 } from "./Directory"
 
 export { fetchLevels } from "./Levels"

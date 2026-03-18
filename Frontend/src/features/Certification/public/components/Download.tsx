@@ -1,6 +1,6 @@
 import { Badge, Button, Card, Flex, Group, Image, Stack, Text, ThemeIcon, Title } from "@mantine/core"
 import classes from "./Download.module.css"
-import { colorMap, formatFileSize, resolveFileMeta } from "@/utils"
+import { formatFileSize, resolveFileMeta } from "@/utils"
 import { IconAward, IconDownload, IconExternalLink } from "@tabler/icons-react"
 import { downloadFile } from "../api"
 
@@ -75,7 +75,7 @@ export const Download = ({ id, color, name, description, fileSize, mimeType, fil
                             variant="light"
                             className={`${classes.iconWrapper}`}
                             style={{
-                                '--icon-rgb': colorMap[color] || "#40c057" // fallback green
+                                '--icon-rgb': `${color}` || "#40c057" // fallback green
                             } as React.CSSProperties}
                         >
                             <IconAward size={28} />
