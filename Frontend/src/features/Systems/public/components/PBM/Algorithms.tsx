@@ -4,7 +4,13 @@ import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-reac
 import { colorMap, formatFileSize } from "@/utils"
 import { downloadPBM } from "../../api"
 
-export const PBMAlgorithms = ({ id, title, fileSize }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    fileSize: number
+}
+
+export const PBMAlgorithms = ({ id, title, fileSize }: Props) => {
     const theme = useMantineTheme()
 
     const download = async (id: string) => {

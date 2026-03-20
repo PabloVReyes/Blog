@@ -7,7 +7,7 @@ import { ModalButtons } from "@/components"
 import { useDownloadStore } from "@/stores"
 
 interface Props {
-    id: string
+    id: number
     name: string
 }
 
@@ -29,11 +29,11 @@ export const Delete = ({ id, name }: Props) => {
             setLoading(true);
             await remove?.(id)
             showSuccessModal("Descarga Eliminada", "La descarga fue eliminada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al eliminar permiso",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

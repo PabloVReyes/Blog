@@ -7,7 +7,7 @@ import { ModalButtons } from "@/components"
 import { useJuristicStore } from "@/stores"
 
 interface Props {
-    id: string
+    id: number
     name: string
 }
 
@@ -28,12 +28,12 @@ export const Delete = ({ id, name }: Props) => {
         try {
             setLoading(true);
             await remove?.(id)
-            showSuccessModal("Dispoición Juridica Eliminada", "La dispoición juridica fue eliminada correctamente")
-        } catch (error: any) {
+            showSuccessModal("Disposición Juridica Eliminada", "La dispoición juridica fue eliminada correctamente")
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al eliminar permiso",
-                message: error.message
+                title: "Error al eliminar disposición juridica",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

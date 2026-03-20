@@ -5,7 +5,13 @@ import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf, validateTitle } from "@/utils/validators"
 import { useSystemsPBMStore } from "@/stores"
 
-export const Edit = ({ id, title, fileName }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    fileName: string
+}
+
+export const Edit = ({ id, title, fileName }: Props) => {
     const update = useSystemsPBMStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -31,11 +37,11 @@ export const Edit = ({ id, title, fileName }: any) => {
             }
             await update?.(id, formData)
             showSuccessModal("Algoritmo PBM Editado", "El algoritmo PBM fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar el algoritmo",
-                message: error.message
+                title: "Error al editar algoritmo PBM",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

@@ -45,7 +45,7 @@ export type GetManualsWithAreaSchema = z.infer<typeof getManualsWithAreaSchema>
 ////////////
 
 export const putManualParamsSchema = z.object({
-    id: z.uuid()
+    id: z.string()
 })
 
 export const putManualTypeSchema = z.object({
@@ -57,7 +57,7 @@ export const putManualTypeSchema = z.object({
 export type PutManualTypeSchema = z.infer<typeof putManualTypeSchema>
 
 export const putManualTypeParamsSchema = z.object({
-    id: z.uuid()
+    id: z.string()
 })
 
 ////////////

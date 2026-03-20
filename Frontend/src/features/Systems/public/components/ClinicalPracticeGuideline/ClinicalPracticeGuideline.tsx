@@ -4,7 +4,19 @@ import { colorMap } from "@/utils"
 import { IconDownload, IconFileText } from "@tabler/icons-react"
 import { downloadGuide } from "../../api"
 
-export const ClinicalPracticeGuideline = ({ id, title, code, category }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    code: string;
+    category: Category
+}
+
+export interface Category {
+    id: string;
+    name: string;
+}
+
+export const ClinicalPracticeGuideline = ({ id, title, code, category }: Props) => {
     const theme = useMantineTheme()
 
     const download = async (id: string, type: string) => {

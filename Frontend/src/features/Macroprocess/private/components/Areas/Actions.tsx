@@ -3,7 +3,17 @@ import { IconEdit } from "@tabler/icons-react"
 import { useModalStore } from "@/layout"
 import { Edit } from "./Edit"
 
-export const ActionsAreas = ({ id, ...props }: any) => {
+export interface Props {
+    id: string;
+    name: string;
+    category: string;
+    manager: null;
+    description: null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export const ActionsAreas = ({ id, ...props }: Props) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

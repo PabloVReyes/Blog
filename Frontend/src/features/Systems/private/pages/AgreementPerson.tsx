@@ -6,8 +6,26 @@ import { Text, Table as TableMantine, Badge } from "@mantine/core"
 import { ActionsAgreementPerson, AddAgreementPerson } from "../components"
 import { useModalStore } from "@/layout"
 import { useSystemsAgreementPersonStore } from "@/stores"
+import type { Column } from "@/types"
 
-const columns = [
+export interface Row {
+    id: number;
+    name: string;
+    type: string;
+    zoneId: number;
+    groupId: number;
+    zone: Group;
+    group: Group;
+    dependents: Row[];
+    holders: Row[];
+}
+
+export interface Group {
+    id: number;
+    name: string;
+}
+
+const columns: Column<Row>[] = [
     {
         key: 'id',
         label: 'No. Convenio',
@@ -22,7 +40,7 @@ const columns = [
         key: 'zone',
         label: 'Zona',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <Text size="sm">{row.zone.name}</Text>
         }
     },
@@ -30,7 +48,7 @@ const columns = [
         key: 'group',
         label: 'Grupo',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <Text size="sm">{row.group.name}</Text>
         }
     },
@@ -38,8 +56,8 @@ const columns = [
         key: 'type',
         label: 'Tipo',
         align: 'left',
-        miw: "150px",
-        render: (row: any) => {
+        miw: 150,
+        render: (row) => {
             const isTitular = row.type === "HOLDER";
 
             return (
@@ -57,12 +75,12 @@ const columns = [
         key: 'children',
         label: 'Titular/Dependiente',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             const isTitular = row.type === "HOLDER";
 
             const relatives = isTitular ? row.dependents : row.holders;
 
-            const relativeRows = relatives?.map((person: any, index: number) => (
+            const relativeRows = relatives?.map((person, index: number) => (
                 <TableMantine.Tr key={`${person.id}-${index}`}>
                     <TableMantine.Th
                         style={{
@@ -105,7 +123,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsAgreementPerson {...row} />
         }
     },
@@ -139,11 +157,11 @@ export const AgreementPerson = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener pacientes de convenio",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

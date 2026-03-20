@@ -5,18 +5,26 @@ import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Notify } from "@/ui"
 import { ThemeIcon } from "@mantine/core"
-import * as TablerIcons from "@tabler/icons-react";
 import { useVacationShiftStore } from "@/stores"
+import { getTablerIcon } from "@/helpers"
+import type { Column } from "@/types"
 
-const columns = [
+export interface Row {
+    id: number;
+    name: string;
+    icon: string;
+    color: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+const columns: Column<Row>[] = [
     {
         key: "icon",
         label: "Icono",
         align: 'left',
-        render: (row: any) => {
-            const Icon =
-                row.icon &&
-                (TablerIcons as any)[row.icon];
+        render: (row) => {
+            const Icon = getTablerIcon(row.icon)
 
             return (
                 <ThemeIcon
@@ -38,7 +46,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsShift {...row} />
         }
     },
@@ -57,11 +65,11 @@ export const Shift = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener turnos",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

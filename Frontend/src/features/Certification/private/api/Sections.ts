@@ -5,7 +5,11 @@ export const fetchSections = async () => {
     return response.data
 }
 
-export const addSection = async (body: any) => {
+interface Props {
+    name: string
+}
+
+export const addSection = async (body: Props) => {
     const response = await api.post(`/api/certification/sections`, body)
     return response.data
 }

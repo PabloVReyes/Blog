@@ -67,11 +67,11 @@ export const Edit = (file: Data) => {
             }
             await update?.(file.id.toString(), formData)
             showSuccessModal("Norma Oficial Editada", "La norma oficial fue editada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar sistema",
-                message: error.message
+                title: "Error al editar norma oficial",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

@@ -3,14 +3,20 @@ import styles from "./Algorithms.module.css"
 import { IconDownload, IconExternalLink } from "@tabler/icons-react"
 import { formatFileSize } from "@/utils"
 import { downloadGPC } from "../../api"
-import * as TablerIcons from "@tabler/icons-react"
+import { getTablerIcon } from "@/helpers"
 
-export const GPCAlgorithms = ({ id, title, fileSize, orderIndex, color, description }: any) => {
-    const Icon =
-        orderIndex &&
-        (TablerIcons as any)[`IconHexagonNumber${orderIndex}Filled`];
+interface Props {
+    id: string;
+    title: string;
+    fileSize: number;
+    orderIndex: number;
+    color: string;
+    description: string;
+}
 
-
+export const GPCAlgorithms = ({ id, title, fileSize, orderIndex, color, description }: Props) => {
+    const Icon = getTablerIcon(`IconHexagonNumber${orderIndex}Filled`)
+        
     const download = async (id: string) => {
         try {
             const response = await downloadGPC(id)

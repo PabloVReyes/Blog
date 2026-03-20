@@ -6,10 +6,10 @@ import { Delete } from "./Delete"
 
 export interface Data {
     id: string;
-    fileName: string;
-    filePath: string;
-    fileSize: string;
-    mimeType: number;
+    fileName: string | null;
+    filePath: string | null;
+    fileSize: string | null;
+    mimeType: number | null;
     areaId: string;
     manualTypeId: string;
     createdAt: Date;
@@ -22,8 +22,8 @@ export interface Area {
     id: string;
     name: string;
     category: string;
-    manager: null;
-    description: null;
+    manager: null | string;
+    description: null | string;
     createdAt: Date;
     updatedAt: Date;
 }

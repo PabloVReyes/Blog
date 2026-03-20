@@ -56,11 +56,11 @@ export const Edit = (file: Data) => {
 
             await update?.(file.id.toString(), formData)
             showSuccessModal("Vacaciones Editadas", "Las vacaciones fueron editadas correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar sistema",
-                message: error.message
+                title: "Error al editar vacaciones",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

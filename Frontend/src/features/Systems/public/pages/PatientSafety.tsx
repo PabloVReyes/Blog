@@ -6,6 +6,7 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { fetchCategoryPatientSafety, fetchPatientSafety } from "../api"
 import * as TablerIcons from "@tabler/icons-react"
 import classes from "./PatientSafety.module.css"
+import { getTablerIcon } from "@/helpers"
 
 const messages = [
     { title: "Emergencias Médicas", content: "Códigos para atención inmediata de situaciones médicas críticas que ponen en riesgo la vida del paciente.", color: "blue" as "blue" | "emerald" | "red" | "yellow" | "orange" | "cyan" },
@@ -19,32 +20,41 @@ interface Zone {
     name: string
 }
 
-interface AgreementMeta {
+export interface Data {
+    data: Datum[];
+    meta: Meta;
+}
+
+export interface Datum {
+    id: string;
+    name: string;
+    code: string;
+    color: string;
+    icon: string;
+    description: string;
+    categoryCodesId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    category: Category;
+}
+
+export interface Category {
+    id: string;
+    name: string;
+}
+
+export interface Meta {
     total: number;
     page: number;
     limit: number;
     totalPages: number;
-    firstItem: number;
-    lastItem: number;
 }
 
-interface AgreementPerson {
-    id: number;
-    name: string;
-    zone: Zone;
-    group: Zone;
-    dependents: AgreementPerson[]
-}
-
-interface AgreementData {
-    data: AgreementPerson[];
-    meta: AgreementMeta;
-}
 
 export const PatientSafety = () => {
-    const [data, setData] = useState<AgreementData>({
+    const [data, setData] = useState<Data>({
         data: [],
-        meta: { total: 0, page: 1, limit: 10, totalPages: 0, firstItem: 0, lastItem: 0 },
+        meta: { total: 0, page: 1, limit: 10, totalPages: 0 },
     });
 
     const [categorys, setCategorys] = useState<Zone[]>([]);
@@ -54,13 +64,16 @@ export const PatientSafety = () => {
 
     const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-    // Traer grupos y zonas
     const fetchFilters = async () => {
         try {
             const categorysResp = await fetchCategoryPatientSafety();
             setCategorys(categorysResp.data || []);
-        } catch (error: any) {
-            console.error("Error fetching filters:", error);
+        } catch (error: unknown) {
+            Notify({
+                type: "error",
+                title: "Error al obtener categorias",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            })
             setCategorys([]);
         }
     };
@@ -74,11 +87,11 @@ export const PatientSafety = () => {
                 categoryId: selectedCategory !== "all" ? selectedCategory : undefined
             });
             setData(response);
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener datos",
-                message: error.message || "Error desconocido",
+                title: "Error al obtener códigos",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         }
         finally {
@@ -98,11 +111,9 @@ export const PatientSafety = () => {
         const trimmed = debounced.trim();
 
         if (debounced && trimmed === "") {
-            // Usuario escribió solo espacios → no hacemos fetch
             return;
         }
 
-        // Si trimmed tiene contenido o es vacío real, hacemos fetch
         handleFetch(trimmed || undefined);
     }, [debounced]);
 
@@ -179,10 +190,8 @@ export const PatientSafety = () => {
                 :
                 <SimpleGrid cols={{ md: 3, sm: 2, xs: 1 }} spacing={"lg"}>
                     {
-                        data.data.map((code: any) => {
-                            const Icon =
-                                code.icon &&
-                                (TablerIcons as any)[code.icon];
+                        data.data.map((code) => {
+                            const Icon = getTablerIcon(code.icon)
 
                             const isDarkColor = ["NEGRO", "CAFÉ", "MORADO"].includes(code.code);
                             const isLightColor = ["BLANCO", "AMARILLO", "ÁMBAR"].includes(code.code);

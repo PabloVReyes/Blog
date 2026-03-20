@@ -8,9 +8,39 @@ import { fetchMonthlyReports, fetchPeriods } from "../api";
 import { Notify } from "@/ui";
 import { useDebouncedValue } from "@mantine/hooks";
 
-interface ReportsReponse {
-    data: any[]
-    meta: { total: number }
+export interface ReportsResponse {
+    data: Datum[];
+    meta: Meta;
+}
+
+export interface Datum {
+    id: string;
+    title: string;
+    description: string;
+    type: string;
+    month: number;
+    fileName: string;
+    filePath: string;
+    fileSize: number;
+    mimeType: string;
+    periodId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    period: Period;
+}
+
+export interface Period {
+    id: string;
+    year: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface Meta {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
 }
 
 interface Priod {
@@ -25,7 +55,7 @@ export const MonthlyReports = () => {
     const [loadingPeriods, setLoadingPeriods] = useState<boolean>(false)
     const [loadingReports, setLoadinReports] = useState<boolean>(false)
     const [periods, setPeriods] = useState<Priod[]>([])
-    const [reportsResponse, setReportsResponse] = useState<ReportsReponse | null>(null)
+    const [reportsResponse, setReportsResponse] = useState<ReportsResponse | null>(null)
     const [selectedPeriod, setSelectedPeriod] = useState<number | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [debounced] = useDebouncedValue(searchTerm, 500)
@@ -47,11 +77,11 @@ export const MonthlyReports = () => {
                     setSelectedPeriod(Number(dayjs().format("YYYY")));
                 }
 
-            } catch (error: any) {
+            } catch (error: unknown) {
                 Notify({
                     type: "error",
                     title: "Error al obtener periodos",
-                    message: error.message
+                    message: error instanceof Error ? error.message : "Error desconocido"
                 });
             } finally {
                 setLoadingPeriods(false);
@@ -71,11 +101,11 @@ export const MonthlyReports = () => {
                 const reportsRes = await fetchMonthlyReports(selectedPeriod, searchTerm);
                 setReportsResponse(reportsRes);
 
-            } catch (error: any) {
+            } catch (error: unknown) {
                 Notify({
                     type: "error",
                     title: "Error al obtener informes mensuales",
-                    message: error.message
+                    message: error instanceof Error ? error.message : "Error desconocido"
                 });
             } finally {
                 setLoadinReports(false);
@@ -129,7 +159,7 @@ export const MonthlyReports = () => {
                                     ? <Text size="sm" c="dimmed">
                                         No se encontraron periodos
                                     </Text>
-                                    : periods.map((period: any, index: number) => {
+                                    : periods.map((period, index: number) => {
                                         const active = selectedPeriod === period.year;
 
                                         return (

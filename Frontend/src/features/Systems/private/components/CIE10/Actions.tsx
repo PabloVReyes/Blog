@@ -1,13 +1,12 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import type { SystemProps } from "../../../types"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
-interface Props extends SystemProps {
+export interface Props {
     id: string;
-    fileName: string;
+    name: string;
 }
 
 export const ActionsCIE10 = ({ id, ...props }: Props) => {

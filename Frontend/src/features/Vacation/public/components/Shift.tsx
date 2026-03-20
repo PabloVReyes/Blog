@@ -1,8 +1,8 @@
 import { Card, Center, Group, Button, Text } from "@mantine/core";
 import { IconDownload, IconHelp } from "@tabler/icons-react";
 import classes from "./Shift.module.css";
-import * as TablerIcons from "@tabler/icons-react";
 import { downloadFile } from "../api";
+import { getTablerIcon } from "@/helpers";
 
 export interface Data {
     id: number;
@@ -27,8 +27,7 @@ export interface File {
 
 export const Shift = (shift: Data) => {
 
-    const Icon =
-        shift.icon && (TablerIcons as Record<string, any>)[shift.icon];
+    const Icon = getTablerIcon(shift.icon)
 
     const calendar = shift.files.find((f) => f.type === "CALENDAR");
     const index = shift.files.find((f) => f.type === "INDEX");

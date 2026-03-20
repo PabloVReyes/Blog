@@ -2,19 +2,41 @@ import { Panel, Table } from "@/components"
 import { ThemeIcon, Table as TableMantine, Text } from "@mantine/core"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
-import * as TableIcons from "@tabler/icons-react"
 import { ActionsDerechohabiencia } from "../components"
 import { useHomeDerechohabienciaStore } from "@/stores"
+import type { Column } from "@/types"
+import { getTablerIcon } from "@/helpers"
 
-const columns = [
+export interface Row {
+    id: string;
+    title: string;
+    icon: string;
+    color: string;
+    description: string;
+    sectionId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    links: Link[];
+}
+
+export interface Link {
+    id: string;
+    title: string;
+    url: string;
+    orderIndex: number;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    derechohabienciaConfigId: string;
+}
+
+const columns: Column<Row>[] = [
     {
         key: "icon",
         label: "Icono",
         align: "center",
-        render: (row: any) => {
-            const Icon =
-                row.icon &&
-                (TableIcons as any)[row.icon];
+        render: (row) => {
+            const Icon = getTablerIcon(row.icon)
             return (
                 <ThemeIcon
                     size={50}
@@ -44,8 +66,8 @@ const columns = [
         key: 'links',
         label: 'Links',
         align: 'left',
-        render: (row: any) => {
-            const rows = row.links.map((link: any, index: number) => (
+        render: (row) => {
+            const rows = row.links.map((link, index: number) => (
                 <TableMantine.Tr key={index}>
                     <TableMantine.Th
                         style={{
@@ -73,7 +95,7 @@ const columns = [
         key: 'actions',
         label: "Acciones",
         align: "center",
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsDerechohabiencia {...row} />
         }
     }
@@ -89,11 +111,11 @@ export const Derechohabiencia = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener segunda sección",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

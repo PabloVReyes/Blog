@@ -40,7 +40,7 @@ export const Edit = (file: Data) => {
             name: file.name,
             description: file.description,
             fullAccess: false,
-            permissions: file.permissions.map((p: any) => p.permission.id)
+            permissions: file.permissions.map((p) => p.permission.id)
         },
         validate: {
             name: (value) => validateName(value, { required: true }),
@@ -59,11 +59,11 @@ export const Edit = (file: Data) => {
             setLoading(true)
             await update?.(file.id.toString(), values)
             showSuccessModal("Rol Editado", "El rol fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar sistema",
-                message: error.message
+                title: "Error al editar rol",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

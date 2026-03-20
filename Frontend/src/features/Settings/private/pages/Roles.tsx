@@ -46,11 +46,11 @@ export const Roles = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener descargas",
-                message: error.message
+                title: "Error al obtener roles",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

@@ -5,7 +5,21 @@ import { Notify, showSuccessModal } from "@/ui"
 import { validateCode, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
 import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
 
-export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    code: string;
+    category: Category;
+    fileNameER: string;
+    fileNameRR: string;
+}
+
+export interface Category {
+    id: string;
+    name: string;
+}
+
+export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: Props) => {
     const update = useSystemsClinicalPracticeGuidelinesStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -42,11 +56,11 @@ export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: any)
             }
             await update?.(id, formData)
             showSuccessModal("Guía de Práctica Clínica Editada", "La guía de práctica clínica fue editada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar la guía",
-                message: error.message
+                title: "Error al editar guía de práctica clínica",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

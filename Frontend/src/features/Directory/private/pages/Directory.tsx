@@ -8,20 +8,34 @@ import { Badge, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
 import { colorMap } from "@/utils"
 import { useDirectoryStore } from "@/stores"
 
+export interface Row {
+    id: string;
+    phone: string;
+    boss: null;
+    email: null;
+    name: string;
+    secretary: null;
+    levelId: string;
+    level: Level;
+}
 
-const columns = (theme: any) => [
+export interface Level {
+    id: string;
+    name: string;
+}
+
+const columns = (primaryColor: string) => [
     {
         key: "phone",
         label: "Extención",
         align: 'center',
-        render: (row: any) => {
+        render: (row: Row) => {
             return (
                 <ThemeIcon
                     size={50}
-                    color={row.color}
                     variant="light"
                     style={{
-                        '--icon-rgb': colorMap[theme.primaryColor] || "#40c057" // fallback green
+                        '--icon-rgb': colorMap[primaryColor] || "#40c057" // fallback green
                     } as React.CSSProperties}
                     className="themeIcon"
                 >
@@ -40,7 +54,7 @@ const columns = (theme: any) => [
         label: "Nivel",
         align: 'left',
         miw: "200px",
-        render: (row: any) => {
+        render: (row: Row) => {
             return <Badge size="sm">{row.level.name}</Badge>
         }
     },
@@ -49,7 +63,7 @@ const columns = (theme: any) => [
         label: "Jefe(a)",
         align: 'left',
         miw: "150px",
-        render: (row: any) => {
+        render: (row: Row) => {
             if (!row.boss) {
                 return <Text size="xs" c="dimmed">Sin Jefe(a)</Text>
             }
@@ -61,7 +75,7 @@ const columns = (theme: any) => [
         key: "secretary",
         label: "Secretario(a)",
         align: 'left',
-        render: (row: any) => {
+        render: (row: Row) => {
             if (!row.secretary) {
                 return <Text size="xs" c="dimmed">Sin Secretario(a)</Text>
             }
@@ -73,7 +87,7 @@ const columns = (theme: any) => [
         key: "email",
         label: "Correo Electronico",
         align: 'left',
-        render: (row: any) => {
+        render: (row: Row) => {
             if (!row.email) {
                 return <Text size="xs" c="dimmed">Sin Correo Electronico</Text>
             }
@@ -85,7 +99,7 @@ const columns = (theme: any) => [
         key: "actions",
         label: "Acciones",
         align: "center",
-        render: (row: any) => {
+        render: (row: Row) => {
             return <Actions {...row} />
         }
     }
@@ -95,7 +109,7 @@ export const Directory = () => {
     const { openModal } = useModalStore()
     const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useDirectoryStore()
     const [debounced] = useDebouncedValue(search, 500)
-    const theme = useMantineTheme()
+    const { primaryColor } = useMantineTheme()
 
     useEffect(() => {
         handleFetch()
@@ -104,11 +118,11 @@ export const Directory = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener algoritmos GPC",
-                message: error.message
+                title: "Error al obtener Directorio",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }
@@ -145,7 +159,7 @@ export const Directory = () => {
                 <Table
                     isLoading={isLoading}
                     data={items}
-                    columns={columns(theme)}
+                    columns={columns(primaryColor)}
                 />
             </Panel>
         </Container>

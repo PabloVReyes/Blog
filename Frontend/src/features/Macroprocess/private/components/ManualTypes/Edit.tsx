@@ -9,7 +9,13 @@ import { useMacroprocessManualTypeStore } from "@/stores";
 const MAX_CODE_LENGTH = 10
 const MAX_NAME_LENGTH = 50
 
-export const Edit = ({ id, name, color }: any) => {
+interface Props {
+    id: string;
+    name: string;
+    color: string;
+}
+
+export const Edit = ({ id, name, color }: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
     const update = useMacroprocessManualTypeStore(s => s.update)
 
@@ -31,11 +37,11 @@ export const Edit = ({ id, name, color }: any) => {
         try {
             await update?.(id, values)
             showSuccessModal("Tipo de manual editado", "El tipo de manual fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al editar manual",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)
@@ -81,7 +87,6 @@ export const Edit = ({ id, name, color }: any) => {
                 <Divider />
 
                 <ColorSelect
-                    type="default"
                     form={form}
                 />
 

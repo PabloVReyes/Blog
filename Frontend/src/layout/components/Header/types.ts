@@ -1,7 +1,7 @@
 export interface SearchsItemsProps {
     title: string;
     description: string;
-    icon: any;
+    icon: string;
     color: string;
     badge?: string;
 }

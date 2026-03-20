@@ -1,14 +1,24 @@
 import { ColorSelect, IconSelect, ModalButtons } from "@/components"
 import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
-import * as TablerIcons from "@tabler/icons-react";
 import { useForm } from "@mantine/form"
 import { Notify, showSuccessModal } from "@/ui";
 import { validateColor, validateDescription, validateIcon, validateTitle, validateYear } from "@/utils";
 import { useState } from "react";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 import { useHomeCalendarStore } from "@/stores";
+import { getTablerIcon } from "@/helpers";
 
-export const Edit = ({ id, icon, color, title, description, year, fileName }: any) => {
+interface Props {
+    id: string;
+    icon: string;
+    color: string;
+    title: string;
+    description: string;
+    year: string;
+    fileName?: string | null
+}
+
+export const Edit = ({ id, icon, color, title, description, year, fileName }: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
     const update = useHomeCalendarStore(s => s.update)
 
@@ -31,9 +41,7 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: an
         }
     })
 
-    const Icon =
-        form.values.icon &&
-        (TablerIcons as any)[form.values.icon];
+    const Icon = getTablerIcon(form.values.icon)
 
     const handleSubmit = async (values: typeof form.values) => {
         try {
@@ -41,7 +49,7 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: an
             const formData = new FormData()
             formData.append("title", values.title)
             formData.append("description", values.description)
-            formData.append("year", values.year)
+            formData.append("year", String(values.year))
             formData.append("color", values.color)
             formData.append("icon", values.icon)
             if (values.file) {
@@ -49,11 +57,11 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: an
             }
             await update?.(id, formData)
             showSuccessModal("Primera Sección Editada", "La primera sección fue editada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar primera sección",
-                message: error.message
+                title: "Error al editar primera sección",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)
@@ -136,7 +144,6 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: an
                         />
 
                         <ColorSelect
-                            type="default"
                             form={form}
                         />
                         <Divider orientation="vertical" />

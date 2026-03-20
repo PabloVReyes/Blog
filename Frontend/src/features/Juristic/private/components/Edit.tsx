@@ -5,7 +5,7 @@ import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName } from "@/utils"
 import { useJuristicStore } from "@/stores"
 
-export interface Data {
+export interface Props {
     id: number;
     name: string;
     description: string;
@@ -14,27 +14,11 @@ export interface Data {
     filePath: string;
     fileSize: number;
     mimeType: string;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    category: Category;
-}
-
-export interface Category {
-    id: number;
-    name: string;
     createdAt: Date;
     updatedAt: Date;
 }
 
-export interface Meta {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-}
-
-export const Edit = (file: Data) => {
+export const Edit = (file: Props) => {
     const update = useJuristicStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -64,11 +48,11 @@ export const Edit = (file: Data) => {
             }
             await update?.(file.id.toString(), formData)
             showSuccessModal("Disposición Juridica Editada", "La dispisición juridica fue editada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar sistema",
-                message: error.message
+                title: "Error al editar disposición juridica",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

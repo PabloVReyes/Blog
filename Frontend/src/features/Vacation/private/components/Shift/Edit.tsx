@@ -37,11 +37,11 @@ export const Edit = (file: Data) => {
             setLoading(true)
             await update?.(file.id.toString(), values)
             showSuccessModal("Turno Editado", "El turno fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar sistema",
-                message: error.message
+                title: "Error al editar turno",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

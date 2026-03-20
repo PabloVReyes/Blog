@@ -3,7 +3,7 @@ import type { ReactNode, ReactElement, CSSProperties } from "react";
 import React from "react";
 
 interface Props {
-    color?: "blue" | "emerald" | "red" | "yellow" | "orange" | "cyan";
+    color?: string;
     title?: string | ReactNode;
     content: string | ReactNode;
 }

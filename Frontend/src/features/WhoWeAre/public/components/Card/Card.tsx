@@ -1,14 +1,17 @@
 import { Card as MantineCard, Stack, Text, ThemeIcon, Title } from "@mantine/core"
 import styles from "./Card.module.css"
+import { getTablerIcon } from "@/helpers";
+import type { ReactNode } from "react";
 
 interface Props {
-    Icon: any;
+    icon: string;
     title: string;
     color: string;
-    content: any;
+    content: ReactNode;
 }
 
-export const Card = ({ Icon, title, content, color }: Props) => {
+export const Card = ({ icon, title, content, color }: Props) => {
+    const Icon = getTablerIcon(icon)
     return (
         <MantineCard padding={"lg"} h={"100%"}>
             <Stack>

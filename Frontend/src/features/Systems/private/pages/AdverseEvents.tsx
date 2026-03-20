@@ -5,8 +5,20 @@ import { ActionsAdverseEvents } from "../components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Text } from "@mantine/core"
 import { useSystemsAdverseEventsStore } from "@/stores"
+import type { Column } from "@/types"
 
-const columns = [
+interface Row {
+    id: string;
+    title: string;
+    type: string;
+    fileName: null | string;
+    filePath: null | string;
+    fileSize: null | string;
+    mimeType: null | string;
+}
+
+
+const columns: Column<Row>[] = [
     {
         key: 'title',
         label: 'Título',
@@ -16,7 +28,7 @@ const columns = [
         key: 'file',
         label: 'Nombre',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.fileName) {
                 return (
                     <Text size="xs" c="dimmed">Sin archivo</Text>
@@ -37,7 +49,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsAdverseEvents {...row} />
         }
     },
@@ -62,11 +74,11 @@ export const AdverseEvents = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener registros de CIE-10",
-                message: error.message
+                title: "Error al obtener registros de Eventos Adversos",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

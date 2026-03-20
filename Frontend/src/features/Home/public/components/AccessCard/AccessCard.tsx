@@ -10,11 +10,40 @@ import {
 } from "@mantine/core"
 import styles from "./AccessCard.module.css"
 import { IconArrowNarrowRight } from "@tabler/icons-react"
-import * as TablerIcons from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { downloadAccessCard } from "../../api";
+import { getTablerIcon } from "@/helpers";
 
-export const AccessCard = ({ accessCards }: any) => {
+interface AccessCardProps {
+    id: string;
+    title: string;
+    badge: null;
+    color: string;
+    description: string;
+    icon: string;
+    url: string;
+    type: string;
+    fileName: null;
+    storedName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    orderIndex: number;
+    isActive: boolean;
+    sectionId: string;
+}
+
+interface Props {
+    accessCards: AccessCardProps[]
+}
+
+interface handleNavigateProps {
+    type: string;
+    url: string;
+    id: string
+}
+
+export const AccessCard = ({ accessCards }: Props) => {
     const navigate = useNavigate();
 
     const download = async (id: string) => {
@@ -40,7 +69,7 @@ export const AccessCard = ({ accessCards }: any) => {
         }
     };
 
-    const handleNavigate = ({ type, url, id }: any) => {
+    const handleNavigate = ({ type, url, id }: handleNavigateProps) => {
         if (type === "page") {
             if (!url) return;
 
@@ -63,10 +92,8 @@ export const AccessCard = ({ accessCards }: any) => {
             </Title>
 
             <SimpleGrid cols={{ md: 2, sm: 2, xs: 1, lg: 4 }}>
-                {accessCards.map((system: any, index: number) => {
-                    const Icon =
-                        system.icon &&
-                        (TablerIcons as any)[system.icon];
+                {accessCards.map((system, index: number) => {
+                    const Icon = getTablerIcon(system.icon)
 
                     return (
                         <Card

@@ -6,8 +6,30 @@ import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Badge, Text } from "@mantine/core"
 import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
+import type { Column } from "@/types"
 
-const columns = [
+export interface Row {
+    id: string;
+    code: string;
+    title: string;
+    fileNameER: string;
+    filePathER: string;
+    fileSizeER: number;
+    mimeTypeER: string;
+    fileNameRR: string;
+    filePathRR: string;
+    fileSizeRR: number;
+    mimeTypeRR: string;
+    categoryId: string;
+    category: Category;
+}
+
+export interface Category {
+    id: string;
+    name: string;
+}
+
+const columns: Column<Row>[] = [
     {
         key: 'code',
         label: 'Clave',
@@ -22,8 +44,8 @@ const columns = [
         key: "cateogry",
         label: "Categoria",
         align: 'center',
-        miw: "150px",
-        render: (row: any) => {
+        miw: 150,
+        render: (row) => {
             return (
                 <Badge variant="filled" size="sm">{row.category.name}</Badge>
             )
@@ -33,7 +55,7 @@ const columns = [
         key: "er",
         label: "Guía de Evidencias y Recomendaciones",
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Text size="sm"
                     style={{
@@ -48,7 +70,7 @@ const columns = [
         key: "rr",
         label: "Guía de Referencia Rápida",
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Text size="sm"
                     style={{
@@ -63,7 +85,7 @@ const columns = [
         key: "actions",
         label: "Acciones",
         align: "center",
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsClinicalPracticeGuidelines {...row} />
         }
     }
@@ -82,11 +104,11 @@ export const ClinicalPracticeGuidelines = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener informes mensuales",
-                message: error.message
+                title: "Error al guías de practica clínica",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

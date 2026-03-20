@@ -5,8 +5,14 @@ import { ActionsCIE10, AddCIE10 } from "../components"
 import { useModalStore } from "@/layout"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useSystemsCIE10Store } from "@/stores"
+import type { Column } from "@/types"
 
-const columns = [
+export interface Row {
+    id:   string;
+    name: string;
+}
+
+const columns: Column<Row>[] = [
     {
         key: 'id',
         label: 'Clave',
@@ -21,7 +27,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsCIE10 {...row} />
         }
     },
@@ -29,20 +35,20 @@ const columns = [
 
 
 export const CIE10 = () => {
-    const { 
-        fetch, 
-        search, 
-        page, 
-        limit, 
-        items, 
-        isLoading, 
-        setSearch, 
-        setLimit, 
-        totalItems, 
-        totalPages, 
-        firstItem, 
-        lastItem, 
-        setPage 
+    const {
+        fetch,
+        search,
+        page,
+        limit,
+        items,
+        isLoading,
+        setSearch,
+        setLimit,
+        totalItems,
+        totalPages,
+        firstItem,
+        lastItem,
+        setPage
     } = useSystemsCIE10Store()
     const { openModal } = useModalStore()
     const [debounced] = useDebouncedValue(search, 500)
@@ -54,11 +60,11 @@ export const CIE10 = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener registros de CIE-10",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

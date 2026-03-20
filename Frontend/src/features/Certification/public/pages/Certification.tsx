@@ -61,14 +61,13 @@ export const Certification = () => {
 
             const response = await fetchCertifications();
             setData(response);
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener datos",
-                message: error.message || "Error desconocido",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         }
-
         finally {
             setLoading(false)
         }
@@ -90,10 +89,11 @@ export const Certification = () => {
                     data.data.map((section, index: number) => {
                         const colors = getCicloColor(index, theme.primaryColor)
                         return (
-                            <Stack>
+                            <Stack
+                                key={index}
+                            >
                                 <Card
                                     p={16}
-                                    key={index}
                                     style={{
                                         border: "none",
                                     }}

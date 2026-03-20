@@ -6,9 +6,9 @@ import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { useCertificationStore } from "@/stores"
+import type { Column } from "@/types"
 
-
-export interface Data {
+export interface Row {
     id: number;
     name: string;
     description: string;
@@ -17,13 +17,21 @@ export interface Data {
     filePath: string;
     fileSize: number;
     mimeType: string;
-    categoryId: number;
+    sectionId: number;
+    createdAt: Date;
+    updatedAt: Date;
+    section: Section;
+}
+
+export interface Section {
+    id: number;
+    name: string;
     createdAt: Date;
     updatedAt: Date;
 }
 
 
-const columns = [
+const columns: Column<Row>[] = [
     {
         key: 'name',
         label: 'Nombre',
@@ -33,7 +41,7 @@ const columns = [
         key: 'description',
         label: 'Descripción',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.description) {
                 return <Text size="xs" c="dimmed">------</Text>
             }
@@ -45,7 +53,7 @@ const columns = [
         key: 'file',
         label: 'Archivo',
         align: 'center',
-        render: (row: Data) => {
+        render: (row) => {
             return (
                 <Text size="sm"
                     style={{
@@ -60,7 +68,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <Actions {...row} />
         }
     },
@@ -91,11 +99,11 @@ export const Certification = () => {
 
         try {
             await fetch()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener descargas",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

@@ -30,11 +30,11 @@ export const Delete = ({ id, title }: Props) => {
             setLoading(true)
             await remove?.(id)
             showSuccessModal("Carrusel Eliminado", "El carrusel fue eliminado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al eliminar carrusel",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

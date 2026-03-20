@@ -17,6 +17,13 @@ interface Props {
     fileName?: string;
 }
 
+export interface Categories {
+    id: number;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
     const [categories, setCategories] = useState<Item[]>([])
     const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
@@ -25,7 +32,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
         setLoadingCategories(true)
         try {
             const res = await fetchCategories();
-            const formatted = res.data.map((item: any) => ({
+            const formatted = res.data.map((item: Categories) => ({
                 value: item.id.toString(),
                 label: item.name
             }))
@@ -97,7 +104,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                         data={categories}
                         loading={loadingCategories}
                         onCreate={async (name) => {
-                            const res = await addCategory({ name, section: form.values.section });
+                            const res = await addCategory({ name });
                             const newItem = { value: res.id.toString(), label: res.name };
                             setCategories((prev) => [...prev, newItem]);
                             return newItem;

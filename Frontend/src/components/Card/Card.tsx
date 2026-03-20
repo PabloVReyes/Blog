@@ -9,15 +9,15 @@ interface Props {
     name: string;
     badge?: string;
     description?: string;
-    icon?: any
+    icon?: string
     color?: string
     url?: string
     submitLabel?: string;
     phone?: string;
-    boss?: string;
+    boss?: string | null;
     level?: string;
-    secretary?: string;
-    email?: string;
+    secretary?: string | null;
+    email?: string | null;
     acronym?: string;
 }
 

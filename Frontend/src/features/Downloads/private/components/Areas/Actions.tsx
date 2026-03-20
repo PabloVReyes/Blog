@@ -4,7 +4,18 @@ import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
-export const ActionsAreas = ({ id, ...props }: any) => {
+interface Props {
+    id: string;
+    name: string;
+    slug: string;
+    icon: string;
+    color: string;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export const ActionsAreas = ({ id, ...props }: Props) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

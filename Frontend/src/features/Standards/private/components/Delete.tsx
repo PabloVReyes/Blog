@@ -7,7 +7,7 @@ import { ModalButtons } from "@/components"
 import { useStandardsStore } from "@/stores"
 
 interface Props {
-    id: string
+    id: number
     name: string
 }
 
@@ -29,11 +29,11 @@ export const Delete = ({ id, name }: Props) => {
             setLoading(true);
             await remove?.(id)
             showSuccessModal("Norma Oficial Eliminada", "La norma oficial fue eliminada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al eliminar permiso",
-                message: error.message
+                title: "Error al eliminar norma oficial",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

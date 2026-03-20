@@ -5,7 +5,21 @@ import { Notify, showSuccessModal } from "@/ui"
 import { validateDescription, validateOrder, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
 import { useSystemsGPCStore } from "@/stores"
 
-export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    fileName: string;
+    description: string;
+    cycle: Cycle;
+    orderIndex: number;
+}
+
+export interface Cycle {
+    id: string;
+    name: string;
+}
+
+export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: Props) => {
     const update = useSystemsGPCStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -43,11 +57,11 @@ export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: an
 
             await update?.(id, formData)
             showSuccessModal("Algoritmo GPC Editado", "El algoritmo GPC fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar el algoritmo",
-                message: error.message
+                title: "Error al actualizar el algoritmo GPC",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

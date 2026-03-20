@@ -103,13 +103,11 @@ export const Password = ({ id }: { id: string }) => {
         try {
             await changePasswordUser(id, values)
             showSuccessModal("Contraseña Actualizada", "La contraseña fue actualizada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al cambiar contraseña",
-                message: error?.response?.data?.message ||
-                    error?.message ||
-                    "Error desconocido"
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

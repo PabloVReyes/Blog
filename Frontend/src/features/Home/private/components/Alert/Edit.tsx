@@ -15,7 +15,17 @@ const options = [
     { label: "Error", value: "red" },
 ];
 
-export const Edit = ({ id, icon, isActive, title, description, author, color }: any) => {
+interface Props {
+    id: string;
+    icon: string;
+    isActive: boolean;
+    title: string;
+    description: string;
+    author: string;
+    color: string
+}
+
+export const Edit = ({ id, icon, isActive, title, description, author, color }: Props) => {
     const update = useHomeAlertStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -42,11 +52,11 @@ export const Edit = ({ id, icon, isActive, title, description, author, color }: 
             setLoading(true)
             await update?.(id, values)
             showSuccessModal("Alerta Editada", "La alerta fue editada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar alerta",
-                message: error.message
+                title: "Error al editar alerta",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

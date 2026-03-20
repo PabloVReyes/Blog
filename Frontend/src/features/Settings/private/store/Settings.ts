@@ -81,7 +81,7 @@ export const useSettingStore = create<SettingsState>()(
                         ...state,
                         [name]: value
                     }));
-                } catch (error: any) {
+                } catch (error: unknown) {
                     throw new Error(extractErrorMessage(error))
                 }
             },

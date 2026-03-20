@@ -1,11 +1,19 @@
 import { Divider, Fieldset, FileInput, Stack, Text, TextInput } from "@mantine/core";
 import { ModalButtons, Switch } from "@/components";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
+import { type UseFormReturnType } from "@mantine/form";
 
+// 1. Interfaz para los valores del formulario de descarga simple
+export interface SimpleDownloadFormValues {
+    name: string;
+    description: string;
+    isNew: boolean;
+    file: File | null;
+}
 
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<SimpleDownloadFormValues>;
+    onSubmit: (values: SimpleDownloadFormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string;
@@ -14,29 +22,29 @@ interface Props {
 export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
-            <Stack>
-                <Fieldset legend="Información">
+            <Stack gap="md">
+                <Fieldset legend="Información del Documento">
                     <TextInput
                         withAsterisk
                         label="Nombre"
-                        description="Nombre del Área"
-                        placeholder="Ej. Dirección"
+                        description="Título identificador del archivo"
+                        placeholder="Ej. Manual de Organización"
                         maxLength={MAX_TITLE_LENGTH}
                         rightSection={
                             <Text size="xs" c="dimmed">
                                 {form.values.name?.length || 0}/{MAX_TITLE_LENGTH}
                             </Text>
                         }
-                        rightSectionWidth={40}
+                        rightSectionWidth={45}
                         {...form.getInputProps("name")}
                     />
 
-                    <Divider />
+                    <Divider my="sm" />
 
                     <TextInput
                         label="Descripción"
-                        description="Descripción optional del documento"
-                        placeholder="Ej. Documento que contiene información"
+                        description="Breve detalle sobre el contenido (opcional)"
+                        placeholder="Ej. Contiene los lineamientos actualizados del área"
                         maxLength={MAX_DESCRIPTION_LENGTH}
                         rightSection={
                             <Text size="xs" c="dimmed">
@@ -47,28 +55,28 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                         {...form.getInputProps("description")}
                     />
 
-                    <Divider />
+                    <Divider my="sm" />
 
                     <Switch
-                        label="Nuevo"
-                        description='Si esta opción esta activada, aparecera un mensaje de "nuevo" a un costado del documento'
-                        value={form.values.isNew}
+                        label="Marcar como 'Nuevo'"
+                        description='Muestra una etiqueta visual de novedad al costado del nombre'
+                        checked={form.values.isNew} // IMPORTANTE: Usar checked para booleanos
                         {...form.getInputProps("isNew", { type: "checkbox" })}
                     />
-
                 </Fieldset>
 
-                <Fieldset legend="Archivo">
+                <Fieldset legend="Archivo adjunto">
                     <FileInput
                         withAsterisk
-                        label="Descarga"
+                        label="Documento PDF"
                         accept="application/pdf"
                         description={
                             fileName ?
-                                `El archivo cargado es: ${fileName}` :
-                                "Selecciona un archivo perteneciente a la descarga"
+                                `Archivo actual: ${fileName}` :
+                                "Selecciona el archivo PDF que los usuarios podrán descargar"
                         }
-                        placeholder="Download.pdf"
+                        placeholder="Click para seleccionar PDF"
+                        clearable
                         {...form.getInputProps("file")}
                     />
                 </Fieldset>
@@ -79,5 +87,5 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                 />
             </Stack>
         </form>
-    )
-}
+    );
+};

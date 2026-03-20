@@ -7,7 +7,7 @@ import { ModalButtons } from "@/components"
 import { useSystemsGPCStore } from "@/stores"
 
 interface Props {
-    id: string
+    id: string | number
     name: string
 }
 
@@ -29,11 +29,11 @@ export const Delete = ({ id, name }: Props) => {
             setLoading(true);
             await remove?.(id)
             showSuccessModal("Algoritmo GPC Eliminado", "El algoritmo GPC fue eliminado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al eliminar informe",
-                message: error.message
+                title: "Error al eliminar algoritmo GPC",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

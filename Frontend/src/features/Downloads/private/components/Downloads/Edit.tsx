@@ -5,15 +5,15 @@ import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
 import { useDownloadStore } from "@/stores"
 
-export interface Datum {
+export interface Props {
     id: number;
     name: string;
-    description: null | string;
+    description: string;
     fileName: string;
     filePath: string;
     fileSize: number;
     mimeType: string;
-    type: "DOCUMENT" | "IMAGE";
+    type: string;
     isNew: boolean;
     isActive: boolean;
     order: null;
@@ -47,18 +47,11 @@ export interface Area {
     updatedAt: Date;
 }
 
-export interface Meta {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-}
-
-export const Edit = (file: Datum) => {
+export const Edit = (file: Props) => {
     const update = useDownloadStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
-    const form = useForm<any>({
+    const form = useForm({
         mode: "controlled",
         initialValues: {
             name: file.name,
@@ -95,11 +88,11 @@ export const Edit = (file: Datum) => {
 
             await update?.(file.id.toString(), formData)
             showSuccessModal("Descarga Editada", "La descarga fue editada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar sistema",
-                message: error.message
+                title: "Error al actualizar descarga",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

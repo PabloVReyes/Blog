@@ -50,7 +50,7 @@ export const columns: Column<AlertRow>[] = [
         align: 'center',
         render: (row) => {
             const Icon = getTablerIcon(row.icon)
-            return <Icon size={16}/>
+            return <Icon size={16} />
         }
     },
     {
@@ -84,7 +84,7 @@ export const columns: Column<AlertRow>[] = [
         key: 'actions',
         label: "Acciones",
         align: "center",
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsAlert {...row} />
         }
     }
@@ -100,11 +100,11 @@ export const Alert = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener alertas",
-                message: error.message
+                title: "Error al obtener alerta",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

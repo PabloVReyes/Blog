@@ -29,11 +29,11 @@ export const ResetPassword = ({ id, name, email }: Props) => {
             setLoading(true);
             await resetPasswordUser(id)
             showSuccessModal("Contraseña Restablecida", "La contraseña fue restablecida correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al eliminar permiso",
-                message: error.message
+                title: "Error al restablecer contraseña",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

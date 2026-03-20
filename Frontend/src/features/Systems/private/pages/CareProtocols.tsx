@@ -6,9 +6,28 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { Notify } from "@/ui"
 import { Badge, Text } from "@mantine/core"
 import { useSystemsCareProtocolsApiStore } from "@/stores"
+import type { Column } from "@/types"
+
+export interface Row {
+    id: string;
+    title: string;
+    description: string;
+    fileName: string;
+    filePath: string;
+    fileSize: number;
+    mimeType: string;
+    categoryCareProtocolsId: string;
+    category: Category;
+}
+
+export interface Category {
+    id: string;
+    name: string;
+}
 
 
-const columns = [
+
+const columns: Column<Row>[] = [
     {
         key: "title",
         label: "Título",
@@ -23,8 +42,8 @@ const columns = [
         key: "cycle",
         label: "Ciclo",
         align: 'center',
-        miw: "150px",
-        render: (row: any) => {
+        miw: 150,
+        render: (row) => {
             return (
                 <Badge variant="filled" size="sm">{row.category.name}</Badge>
             )
@@ -34,7 +53,7 @@ const columns = [
         key: "algorithm",
         label: "Algoritmo",
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Text size="sm"
                     style={{
@@ -49,7 +68,7 @@ const columns = [
         key: "actions",
         label: "Acciones",
         align: "center",
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsCareProtocols {...row} />
         }
     }
@@ -73,11 +92,11 @@ export const CareProtocols = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener Protocolos de Atención",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

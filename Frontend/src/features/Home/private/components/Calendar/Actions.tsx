@@ -3,7 +3,24 @@ import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 
-export const ActionsCalendar = ({id, ...props}: any) => {
+export interface Props {
+    id: string
+    year: string;
+    title: string;
+    icon: string;
+    color: string;
+    description: string;
+    sectionId: string;
+    fileName?: null | string;
+    storedName?: null | string;
+    filePath?: null | string;
+    fileSize?: null | number;
+    mimeType?: null | string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export const ActionsCalendar = ({ id, ...props }: Props) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

@@ -3,20 +3,38 @@ import { Text, ThemeIcon } from "@mantine/core"
 import { useEffect } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
-import * as TablerIcons from "@tabler/icons-react"
 import { ActionsSystems, AddSystem } from "../components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useSystemsStore } from "@/stores"
+import type { Column } from "@/types"
+import { getTablerIcon } from "@/helpers"
 
-const columns = [
+export interface Row {
+    id: string;
+    acronym: string;
+    name: string;
+    description: string;
+    color: string;
+    icon: string;
+    url: string;
+    type: null;
+    fileName: null;
+    storedName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+const columns: Column<Row>[] = [
     {
         key: 'icon',
         label: 'Icono',
         align: 'center',
-        render: (row: any) => {
-            const Icon =
-                row.icon &&
-                (TablerIcons as any)[row.icon];
+        render: (row) => {
+            const Icon = getTablerIcon(row.icon)
+
             return (
                 <ThemeIcon
                     size={50}
@@ -36,7 +54,7 @@ const columns = [
         key: 'acronym',
         label: 'Nombre corto',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.acronym) {
                 return <Text size="xs" c="dimmed">------</Text>
             }
@@ -58,7 +76,7 @@ const columns = [
         key: 'url',
         label: 'Enlace',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.url) {
                 return <Text size="xs" c="dimmed">Sin enlace</Text>
             }
@@ -70,7 +88,7 @@ const columns = [
         key: "file",
         label: "Archivo",
         align: "left",
-        render: (row: any) => {
+        render: (row) => {
             if (!row.fileName) {
                 return <Text size="xs" c="dimmed">Sin archivo</Text>
             }
@@ -90,7 +108,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsSystems {...row} />
         }
     },
@@ -108,11 +126,11 @@ export const Systems = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener sistemas",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

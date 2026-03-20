@@ -4,19 +4,31 @@ import { ActionsAreas, AddArea } from "../components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
-import * as TablerIcons from "@tabler/icons-react"
 import { Text, ThemeIcon } from "@mantine/core"
 import { useDownloadAreasStore } from "@/stores"
+import type { Column } from "@/types"
+import { getTablerIcon } from "@/helpers"
 
-const columns = [
+export interface Row {
+    id: string;
+    name: string;
+    slug: string;
+    icon: string;
+    color: string;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+
+const columns: Column<Row>[] = [
     {
         key: 'icon',
         label: 'Icono',
         align: 'center',
-        render: (row: any) => {
-            const Icon =
-                row.icon &&
-                (TablerIcons as any)[row.icon];
+        render: (row) => {
+            const Icon = getTablerIcon(row.icon)
+
             return (
                 <ThemeIcon
                     size={50}
@@ -37,7 +49,7 @@ const columns = [
         key: 'slug',
         label: 'URL',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Text size="sm">{`/${row.slug}`}</Text>
             )
@@ -47,7 +59,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsAreas {...row} />
         }
     },
@@ -65,11 +77,11 @@ export const Areas = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener areas",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

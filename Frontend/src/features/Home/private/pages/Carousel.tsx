@@ -7,8 +7,31 @@ import { Notify } from "@/ui"
 import { IconEye, IconEyeOff } from "@tabler/icons-react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useHomeCarouselStore } from "@/stores"
+import type { Column } from "@/types"
 
-const columns = [
+export interface Row {
+    id: string;
+    imageName: string;
+    imageUrl: string;
+    imagePath: string;
+    type: string;
+    title: string;
+    description: string;
+    orderIndex: number;
+    isActive: boolean;
+    url: null;
+    fileName: string;
+    storedName: string;
+    filePath: string;
+    fileSize: number;
+    mimeType: string;
+    sectionId: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+
+const columns: Column<Row>[] = [
     {
         key: 'title',
         label: 'Titulo',
@@ -23,7 +46,7 @@ const columns = [
         key: 'url',
         label: 'Enlace',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.url) {
                 return <Text size="xs" c="dimmed">Sin enlace</Text>
             }
@@ -35,7 +58,7 @@ const columns = [
         key: 'file',
         label: 'Archivo',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.fileName) {
                 return <Text size="xs" c="dimmed">Sin archivo</Text>
             }
@@ -55,7 +78,7 @@ const columns = [
         key: 'view',
         label: 'Visible',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             if (row.isActive) {
                 return <IconEye />
             } else {
@@ -67,13 +90,17 @@ const columns = [
         key: 'actions',
         label: "Acciones",
         align: "center",
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsCarousel {...row} />
         }
     }
 ]
 
-export const Carousel = ({ id }: any) => {
+interface Props {
+    id: string
+}
+
+export const Carousel = ({ id }: Props) => {
     const { openModal } = useModalStore()
     const { fetch, items, search, setSearch, limit, setLimit, page, setPage, totalPages, totalItems, firstItem, lastItem, isLoading } = useHomeCarouselStore()
     const [debounced] = useDebouncedValue(search, 500)
@@ -85,11 +112,11 @@ export const Carousel = ({ id }: any) => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener carrusel",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

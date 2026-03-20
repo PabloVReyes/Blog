@@ -32,11 +32,11 @@ export const Edit = ({ id, fileName }: Props) => {
             formData.append("file", values.file!);
             await update?.(id, formData)
             showSuccessModal("Macroproceso Editado", "El macroproceso fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al editar manual",
-                message: error.message
+                title: "Error al editar macroproceso",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

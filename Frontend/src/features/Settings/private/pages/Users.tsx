@@ -30,7 +30,7 @@ export interface RoleRole {
     description: string;
 }
 
-const columns = (theme: any) => [
+const columns = (primaryColor: string) => [
     {
         key: 'user',
         label: 'Usuario',
@@ -38,7 +38,7 @@ const columns = (theme: any) => [
         render: (row: Data) => {
             return (
                 <Group gap="sm" wrap="nowrap">
-                    <Avatar radius="xl" alt={row.name} name={row.name} color={theme.primaryColor} variant="filled" />
+                    <Avatar radius="xl" alt={row.name} name={row.name} color={primaryColor} variant="filled" />
                     <Box>
                         <Text fw={500} size="sm" lh={1.2} c="bright">
                             {row.name}
@@ -140,7 +140,7 @@ const columns = (theme: any) => [
 
 export const Users = () => {
     const { openModal } = useModalStore()
-    const theme = useMantineTheme()
+    const { primaryColor } = useMantineTheme()
     const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSettingsUsersStore()
     const [debounced] = useDebouncedValue(search, 500)
 
@@ -151,11 +151,11 @@ export const Users = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener descargas",
-                message: error.message
+                title: "Error al obtener usuarios",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }
@@ -195,7 +195,7 @@ export const Users = () => {
                 <Table
                     isLoading={isLoading}
                     data={items}
-                    columns={columns(theme)}
+                    columns={columns(primaryColor)}
                 />
             </Panel>
         </Container>

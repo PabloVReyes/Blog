@@ -29,11 +29,11 @@ export const Delete = ({ id, phone }: Props) => {
             setLoading(true);
             await remove?.(id)
             showSuccessModal("Extensión Telefónica Eliminada", "La extensión telefónica ha sido eliminada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al eliminar permiso",
-                message: error.message
+                title: "Error al eliminar extensión telefónica",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

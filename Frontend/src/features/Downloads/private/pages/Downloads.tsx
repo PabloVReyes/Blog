@@ -6,16 +6,17 @@ import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { ActionsDownloads, AddDownloads } from "../components"
 import { useDownloadStore } from "@/stores"
+import type { Column } from "@/types"
 
-export interface Datum {
+export interface Row {
     id: number;
     name: string;
-    description: null | string;
+    description: string;
     fileName: string;
     filePath: string;
     fileSize: number;
     mimeType: string;
-    type: "DOCUMENT" | "IMAGE";
+    type: string;
     isNew: boolean;
     isActive: boolean;
     order: null;
@@ -30,12 +31,12 @@ export interface Category {
     name: string;
     order: null;
     isActive: boolean;
-    sectionId?: number;
+    sectionId: number;
     createdAt: Date;
     updatedAt: Date;
-    section?: Category;
-    areaId?: number;
-    area?: Area;
+    section: Category;
+    areaId: number;
+    area: Area;
 }
 
 export interface Area {
@@ -49,14 +50,8 @@ export interface Area {
     updatedAt: Date;
 }
 
-export interface Meta {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-}
 
-const columns = [
+const columns: Column<Row>[] = [
     {
         key: 'name',
         label: 'Nombre',
@@ -66,7 +61,7 @@ const columns = [
         key: 'description',
         label: 'Descripción',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.description) {
                 return <Text size="xs" c="dimmed">------</Text>
             }
@@ -78,7 +73,7 @@ const columns = [
         key: 'area',
         label: 'Área',
         align: 'center',
-        render: (row: Datum) => {
+        render: (row) => {
             return (
                 <Text size="sm" >{row.category.section?.area?.name}</Text>
             )
@@ -88,7 +83,7 @@ const columns = [
         key: 'section',
         label: 'Sección',
         align: 'center',
-        render: (row: Datum) => {
+        render: (row) => {
             return (
                 <Text size="sm">{row.category.section?.name}</Text>
             )
@@ -98,7 +93,7 @@ const columns = [
         key: 'category',
         label: 'Categoria',
         align: 'center',
-        render: (row: Datum) => {
+        render: (row) => {
             return (
                 <Text size="sm">{row.category?.name}</ Text>
             )
@@ -108,7 +103,7 @@ const columns = [
         key: 'file',
         label: 'Archivo',
         align: 'center',
-        render: (row: Datum) => {
+        render: (row) => {
             return (
                 <Text size="sm"
                     style={{
@@ -123,7 +118,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsDownloads {...row} />
         }
     },
@@ -141,11 +136,11 @@ export const Downloads = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener areas",
-                message: error.message
+                title: "Error al obtener descargas",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

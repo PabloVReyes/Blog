@@ -53,10 +53,44 @@ const bottomSections = [
     { key: "manuales", numberColums: 1, showMain: false, showExtras: true }
 ] as const;
 
-type SelectedArea = {
-    area: any
-    loading: boolean
+export interface SelectedArea {
+    area: Area;
+    loading: boolean;
 }
+
+export interface Area {
+    id: string;
+    name: string;
+    category: string;
+    manager: string;
+    description: string;
+    createdAt: Date;
+    updatedAt: Date;
+    manuals: Manual[];
+}
+
+export interface Manual {
+    id: string;
+    fileName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    areaId: string;
+    manualTypeId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    manualType: ManualType;
+}
+
+export interface ManualType {
+    id: string;
+    name: string;
+    color: string;
+    category: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 
 export const MainAreas = ({ setActiveTab }: Props) => {
     const [selectedArea, setSelectedArea] = useState<SelectedArea | null>(null)

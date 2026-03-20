@@ -4,7 +4,15 @@ import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-reac
 import { formatFileSize } from "@/utils"
 import { downloadProtocol } from "../../api"
 
-export const Protocol = ({ id, title, fileSize, color, description }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    fileSize: number;
+    color: string;
+    description: string;
+}
+
+export const Protocol = ({ id, title, fileSize, color, description }: Props) => {
     const download = async (id: string) => {
         try {
             const response = await downloadProtocol(id)

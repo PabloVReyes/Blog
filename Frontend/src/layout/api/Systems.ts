@@ -5,7 +5,7 @@ export const fetchSystems = async () => {
     return response.data.data
 }
 
-export const downloadSystem = async (id: string) => {
+export const downloadSystem = async (id: string | number) => {
     const response = await api.get(`/api/systems/${id}/download`, {
         responseType: "blob" // 👈 CLAVE
     })

@@ -5,7 +5,20 @@ import { Notify, showSuccessModal } from "@/ui"
 import { validateDescription, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
 import { useSystemsCareProtocolsApiStore } from "@/stores"
 
-export const Edit = ({ id, title, fileName, description, category }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    fileName: string;
+    description: string;
+    category: Category;
+}
+
+export interface Category {
+    id: string;
+    name: string;
+}
+
+export const Edit = ({ id, title, fileName, description, category }: Props) => {
     const update = useSystemsCareProtocolsApiStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -37,11 +50,11 @@ export const Edit = ({ id, title, fileName, description, category }: any) => {
             }
             await update?.(id, formData)
             showSuccessModal("Protocolo de Atención Editado", "El protocolo de atención fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar el algoritmo",
-                message: error.message
+                title: "Error al editar protocolo de atención",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

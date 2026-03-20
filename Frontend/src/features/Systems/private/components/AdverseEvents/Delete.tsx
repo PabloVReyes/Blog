@@ -29,11 +29,11 @@ export const Delete = ({ id, name }: Props) => {
             setLoading(true);
             await remove?.(id)
             showSuccessModal("Evento Adverso Eliminado", "El evento adverso fue eliminado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al eliminar informe",
-                message: error.message
+                title: "Error al eliminar evento adverso",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

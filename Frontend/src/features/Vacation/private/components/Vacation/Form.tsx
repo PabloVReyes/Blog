@@ -2,18 +2,26 @@ import { Divider, Fieldset, FileInput, Select, Stack } from "@mantine/core";
 import { ModalButtons } from "@/components";
 import { useEffect, useState } from "react";
 import { vacationShiftApi } from "../../api";
+import { Notify } from "@/ui";
+import type { UseFormReturnType } from "@mantine/form";
 
+export interface VacationShiftFormValues {
+    type: "CALENDAR" | "INDEX" | "";
+    shift: string;
+    file: File | null;
+}
 
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    // Tipamos el form de Mantine correctamente
+    form: UseFormReturnType<VacationShiftFormValues>;
+    onSubmit: (values: VacationShiftFormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string;
 }
 
 interface Shift {
-    id: string;
+    id: string | number;
     name: string;
 }
 
@@ -24,8 +32,12 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
         try {
             const areasResp = await vacationShiftApi.fetch({})
             setShifts(areasResp.data || [])
-        } catch (erro: any) {
-            console.error("Error en fetchShiftsData")
+        } catch (error: unknown) {
+            Notify({
+                type: "error",
+                title: "Error al ontener turnos",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            });
             setShifts([])
         }
     }
@@ -60,7 +72,6 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                         classNames={{
                             option: "optionSelect"
                         }}
-                        form={form}
                         name="shift"
                         label="Turno"
                         data={[

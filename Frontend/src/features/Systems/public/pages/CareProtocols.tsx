@@ -56,11 +56,11 @@ export const CareProtocols = () => {
 
             const response = await fetchCareCategory();
             setData(response);
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener datos",
-                message: error.message || "Error desconocido",
+                title: "Error al obtener protocolos",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         }
 

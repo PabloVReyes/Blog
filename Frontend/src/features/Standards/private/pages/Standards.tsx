@@ -6,9 +6,10 @@ import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { useStandardsStore } from "@/stores"
+import type { Column } from "@/types"
 
 
-export interface Data {
+export interface Row {
     id: number;
     name: string;
     description: string;
@@ -30,7 +31,7 @@ export interface Category {
     updatedAt: Date;
 }
 
-const columns = [
+const columns: Column<Row>[] = [
     {
         key: 'name',
         label: 'Nombre',
@@ -40,7 +41,7 @@ const columns = [
         key: 'description',
         label: 'Descripción',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.description) {
                 return <Text size="xs" c="dimmed">------</Text>
             }
@@ -52,7 +53,7 @@ const columns = [
         key: 'category',
         label: 'Categoria',
         align: 'center',
-        render: (row: Data) => {
+        render: (row) => {
             return (
                 <Text size="sm">{row.category?.name}</ Text>
             )
@@ -62,7 +63,7 @@ const columns = [
         key: 'file',
         label: 'Archivo',
         align: 'center',
-        render: (row: Data) => {
+        render: (row) => {
             return (
                 <Text size="sm"
                     style={{
@@ -77,7 +78,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <Actions {...row} />
         }
     },
@@ -86,20 +87,20 @@ const columns = [
 
 export const Standards = () => {
     const { openModal } = useModalStore()
-    const { 
-        items, 
-        fetch, 
+    const {
+        items,
+        fetch,
         setSearch,
-        search, 
-        isLoading, 
-        page, 
-        limit, 
-        totalItems, 
-        totalPages, 
-        setLimit, 
-        firstItem, 
-        lastItem, 
-        setPage 
+        search,
+        isLoading,
+        page,
+        limit,
+        totalItems,
+        totalPages,
+        setLimit,
+        firstItem,
+        lastItem,
+        setPage
     } = useStandardsStore()
     const [debounced] = useDebouncedValue(search, 500)
 
@@ -110,11 +111,11 @@ export const Standards = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener descargas",
-                message: error.message
+                title: "Error al obtener normas oficiales",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

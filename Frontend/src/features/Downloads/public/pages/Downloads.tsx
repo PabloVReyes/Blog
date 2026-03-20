@@ -5,38 +5,47 @@ import { Areas } from "../components"
 import { useEffect, useState } from "react";
 import { fetchAreas } from "../api";
 
-interface Meta {
+export interface Data {
+    data: Datum[];
+    meta: Meta;
+}
+
+export interface Datum {
+    id: number;
+    name: string;
+    slug: string;
+    icon: string;
+    color: string;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface Meta {
     total: number;
     page: number;
     limit: number;
     totalPages: number;
-    firstItem: number;
-    lastItem: number;
 }
 
-interface DataMeta {
-    data: any[]
-    meta: Meta
-}
 
 export const Downloads = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    const [data, setData] = useState<DataMeta>({
+    const [data, setData] = useState<Data>({
         data: [],
-        meta: { total: 0, page: 1, limit: 10, totalPages: 0, firstItem: 0, lastItem: 0 },
+        meta: { total: 0, page: 1, limit: 10, totalPages: 0 },
     });
-
 
     const handleFetch = async () => {
         try {
             setLoading(true)
             const response = await fetchAreas();
             setData(response);
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener datos",
-                message: error.message || "Error desconocido",
+                title: "Error al obtener descargas",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         }
         finally {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getAreaById } from '../api'
 
 export function useArea(areaId: string) {
-    const [area, setArea] = useState<any>(null)
+    const [area, setArea] = useState(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {

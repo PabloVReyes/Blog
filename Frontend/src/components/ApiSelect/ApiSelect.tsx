@@ -1,14 +1,15 @@
 import { Combobox, InputBase, Loader, useCombobox } from "@mantine/core";
-import { useState } from "react";
+import { type UseFormReturnType } from "@mantine/form";
+import { useState, type ChangeEvent, useMemo } from "react";
 
 interface Item {
     value: string;
     label: string;
 }
 
-interface Props {
-    form: any;
-    name: string;
+interface Props<T> {
+    form: UseFormReturnType<T>;
+    name: keyof T; // Eliminamos '& string' para mayor compatibilidad
     label: string;
     placeholder?: string;
     description?: string;
@@ -17,11 +18,11 @@ interface Props {
     loading?: boolean;
     required?: boolean;
     withAsterisk?: boolean;
-    initialItem?: Item | null; // valor inicial
-    onChange?: (value: string | null) => void; // 👈 NUEVO
+    initialItem?: Item | null;
+    onChange?: (value: string | null) => void;
 }
 
-export function ApiSelect({
+export function ApiSelect<T>({
     form,
     name,
     label,
@@ -34,34 +35,40 @@ export function ApiSelect({
     withAsterisk,
     initialItem,
     onChange
-}: Props) {
+}: Props<T>) {
     const combobox = useCombobox();
     const [search, setSearch] = useState("");
 
-    // Valor seleccionado inicial
-    const selectedValue = form.values[name];
-    const selectedItem = data.find((item) => item.value === selectedValue) || initialItem || null;
+    // Obtenemos el valor actual del form de forma segura
+    const rawValue = form.values[name];
+    const selectedValue = rawValue !== null && rawValue !== undefined ? String(rawValue) : "";
 
-    const filtered = data.filter((item) =>
+    // Buscamos el ítem seleccionado para mostrar el label en el input
+    const selectedItem = useMemo(() => {
+        return data.find((item: Item) => item.value === selectedValue) || initialItem || null;
+    }, [data, selectedValue, initialItem]);
+
+    const filtered = data.filter((item: Item) =>
         item.label.toLowerCase().includes(search.toLowerCase())
     );
 
     const handleSubmit = async (val: string) => {
-        let newValue: string | null = null;
+        let finalValue: string | null = null;
 
         if (val === "$create" && onCreate) {
             if (!search) return;
             const newItem = await onCreate(search);
-            if (newItem) {
-                newValue = newItem.value;
-            }
+            finalValue = newItem ? newItem.value : null;
         } else {
-            newValue = val;
+            finalValue = val;
         }
 
-        if (newValue !== null) {
-            form.setFieldValue(name, newValue);
-            onChange?.(newValue); // 👈 dispara callback externo
+        if (finalValue !== null) {
+            const isNumberField = typeof rawValue === 'number';
+            const valueToSave = isNumberField ? Number(finalValue) : finalValue;
+
+            form.setFieldValue(name as any, valueToSave as any);
+            onChange?.(finalValue);
         }
 
         setSearch("");
@@ -69,12 +76,7 @@ export function ApiSelect({
     };
 
     return (
-        <Combobox store={combobox} onOptionSubmit={handleSubmit}
-
-            classNames={{
-                option: "optionSelect"
-            }}
-        >
+        <Combobox store={combobox} onOptionSubmit={handleSubmit}>
             <Combobox.Target>
                 <InputBase
                     withAsterisk={withAsterisk}
@@ -82,11 +84,13 @@ export function ApiSelect({
                     label={label}
                     placeholder={placeholder}
                     required={required}
-                    error={form.errors[name]}
+                    error={form.errors[name as string] as React.ReactNode}
+                    // Si el dropdown está abierto, mostramos lo que el usuario escribe (search)
+                    // Si está cerrado, mostramos el label del ítem seleccionado
                     value={combobox.dropdownOpened ? search : selectedItem?.label || ""}
                     onFocus={() => combobox.openDropdown()}
                     onClick={() => combobox.openDropdown()}
-                    onChange={(e) => {
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         setSearch(e.currentTarget.value);
                         combobox.openDropdown();
                     }}
@@ -100,20 +104,20 @@ export function ApiSelect({
 
             <Combobox.Dropdown>
                 <Combobox.Options>
-                    {filtered.map((item) => (
-                        <Combobox.Option key={item.value} value={item.value}>
-                            {item.label}
-                        </Combobox.Option>
-                    ))}
+                    {filtered.length > 0 ? (
+                        filtered.map((item: Item) => (
+                            <Combobox.Option key={item.value} value={item.value}>
+                                {item.label}
+                            </Combobox.Option>
+                        ))
+                    ) : !search && !loading ? (
+                        <Combobox.Empty>No encontrado</Combobox.Empty>
+                    ) : null}
 
-                    {search && !filtered.some((i) => i.label === search) && onCreate && (
+                    {search && !filtered.some((i: Item) => i.label === search) && onCreate && (
                         <Combobox.Option value="$create">
                             + Crear "{search}"
                         </Combobox.Option>
-                    )}
-
-                    {filtered.length === 0 && !search && !loading && (
-                        <Combobox.Empty>No encontrado</Combobox.Empty>
                     )}
                 </Combobox.Options>
             </Combobox.Dropdown>

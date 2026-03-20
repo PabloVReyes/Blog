@@ -20,7 +20,24 @@ const selectType = (type: string) => {
     }
 }
 
-export const MonthyReport = ({ id, title, description, month, fileSize, type, period }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    description: string;
+    month: number;
+    fileSize: number;
+    type: string;
+    period: Period;
+}
+
+export interface Period {
+    id: string;
+    year: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export const MonthyReport = ({ id, title, description, month, fileSize, type, period }: Props) => {
     const theme = useMantineTheme()
 
     const download = async (id: string) => {

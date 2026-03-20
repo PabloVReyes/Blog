@@ -7,10 +7,44 @@ import { downloadManual } from "../api";
 interface Props {
     opened: boolean
     onClose: () => void;
-    area?: any
+    area?: Area
     loading: boolean | undefined;
     color: string
 }
+
+export interface Area {
+    id: string;
+    name: string;
+    category: string;
+    manager: string;
+    description: null;
+    createdAt: Date;
+    updatedAt: Date;
+    manuals: Manual[];
+}
+
+export interface Manual {
+    id: string;
+    fileName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    areaId: string;
+    manualTypeId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    manualType: ManualType;
+}
+
+export interface ManualType {
+    id: string;
+    name: string;
+    color: string;
+    category: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 
 export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
     const download = async (id: string) => {
@@ -98,7 +132,7 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
                                 </Group>
                                 {area?.manuals &&
                                     <SimpleGrid cols={{ sm: 1, md: 2 }}>
-                                        {area?.manuals.map((manual: any, index: number) => (
+                                        {area?.manuals.map((manual, index: number) => (
                                             <UnstyledButton
                                                 key={index}
                                                 p={"sm"}
@@ -121,11 +155,11 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
                             <Alert
                                 color="emerald"
                                 content={
-                                <Text size="sm">
-                                    <Text fw={700} span size="sm">Información: </Text>Para documentación específica, manuales
-                                    de procedimientos, formatos o contacto directo con esta área,
-                                    consulta al responsable del área.
-                                </Text>
+                                    <Text size="sm">
+                                        <Text fw={700} span size="sm">Información: </Text>Para documentación específica, manuales
+                                        de procedimientos, formatos o contacto directo con esta área,
+                                        consulta al responsable del área.
+                                    </Text>
                                 }
                             />
                         </Stack>

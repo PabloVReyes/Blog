@@ -55,11 +55,11 @@ export const Standards = () => {
 
             const response = await fetchStandards();
             setData(response);
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener datos",
-                message: error.message || "Error desconocido",
+                title: "Error al obtener normas oficiales",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         }
 

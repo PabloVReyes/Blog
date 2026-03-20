@@ -2,12 +2,37 @@ import { Carousel as MantineCarousel } from '@mantine/carousel';
 import classes from './Carousel.module.css'
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef } from 'react';
-// import { getCarousel } from '@/api/carousel';
 import { Image, Text, Title } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { downloadCarousel } from '../../api';
+import { Notify } from '@/ui';
 
-export const Carousel = ({ items }: any) => {
+export interface Items {
+    id: string;
+    imageName: string;
+    imageUrl: string;
+    imagePath: string;
+    type: string;
+    title: string;
+    description: string;
+    orderIndex: number;
+    isActive: boolean;
+    url: string;
+    fileName: null | string;
+    storedName: null | string;
+    filePath: null | string;
+    fileSize: number | null;
+    mimeType: null | string;
+    sectionId: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+interface Props {
+    items: Items[]
+}
+
+export const Carousel = ({ items }: Props) => {
     const navigate = useNavigate();
 
     const download = async (id: string) => {
@@ -35,12 +60,22 @@ export const Carousel = ({ items }: any) => {
             link.remove();
             window.URL.revokeObjectURL(link.href);
 
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
+        } catch (error: unknown) {
+            Notify({
+                type: "error",
+                title: "Error al descargar el archivo",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            });
         }
     };
 
-    const handleNavigate = ({ type, url, id }: any) => {
+    interface HandleNavigateProps {
+        type: string;
+        url: string;
+        id: string;
+    }
+
+    const handleNavigate = ({ type, url, id }: HandleNavigateProps) => {
         if (type === "page") {
             if (!url) return;
 
@@ -95,7 +130,7 @@ export const Carousel = ({ items }: any) => {
                 </MantineCarousel.Slide>
             )}
 
-            {items.map((item: any, index: number) => (
+            {items.map((item, index: number) => (
                 <MantineCarousel.Slide
                     key={index}
                     style={{

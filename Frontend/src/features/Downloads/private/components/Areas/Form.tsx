@@ -1,21 +1,19 @@
 import { Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core";
-import * as TablerIcons from "@tabler/icons-react";
 import { ColorSelect, IconSelect, ModalButtons } from "@/components";
 import type { SystemProps } from "@/features/Systems/types";
 import { MAX_TITLE_LENGTH } from "@/constants";
+import { getTablerIcon } from "@/helpers";
+import type { UseFormReturnType } from "@mantine/form";
 
 interface Props {
-    form: any;
+    form: UseFormReturnType<SystemProps>;
     onSubmit: (values: SystemProps) => void;
     submitLabel: string;
     isLoading?: boolean;
-    fileName?: string;
 }
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
-    const Icon =
-        form.values.icon &&
-        (TablerIcons as any)[form.values.icon];
+    const Icon = getTablerIcon(form.values.icon)
 
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
@@ -44,7 +42,6 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                             form={form}
                         />
                         <ColorSelect
-                            type="default"
                             form={form}
                         />
                         <Divider orientation="vertical" />

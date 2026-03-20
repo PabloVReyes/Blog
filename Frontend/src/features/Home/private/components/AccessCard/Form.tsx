@@ -1,31 +1,51 @@
-import { ColorSelect, IconSelect, IndicatorGroup, ModalButtons, Switch } from "@/components"
-import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants"
-import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
-import * as TablerIcons from "@tabler/icons-react";
+import { ColorSelect, IconSelect, IndicatorGroup, ModalButtons, Switch } from "@/components";
+import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
+import { getTablerIcon } from "@/helpers";
+import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core";
+import { type UseFormReturnType } from "@mantine/form";
+import React from "react";
 
-interface Props {
-    form: any
-    activeIndex: number
-    submitLabel: string
-    setActiveIndex: (index: number) => void
-    onSubmit: (values: any) => void
-    isLoading?: boolean
-    fileName?: string
+export interface QuickAccessFormValues {
+    isActive: boolean;
+    title: string;
+    description: string;
+    icon: string;
+    color: string;
+    url?: string;
+    file?: File | null;
+    [key: string]: unknown;
 }
 
-export const Form = ({ form, activeIndex, submitLabel, setActiveIndex, onSubmit, isLoading, fileName }: Props) => {
-    const Icon =
-        form.values.icon &&
-        (TablerIcons as any)[form.values.icon];
+interface Props<T extends QuickAccessFormValues> {
+    form: UseFormReturnType<T>;
+    activeIndex: number;
+    submitLabel: string;
+    setActiveIndex: (index: number) => void;
+    onSubmit: (values: T) => void;
+    isLoading?: boolean;
+    fileName?: string | null;
+}
+
+export const Form = <T extends QuickAccessFormValues>({
+    form,
+    activeIndex,
+    submitLabel,
+    setActiveIndex,
+    onSubmit,
+    isLoading,
+    fileName
+}: Props<T>) => {
+
+    const Icon = getTablerIcon(form.values.icon)
 
     return (
-        <form onSubmit={form.onSubmit(onSubmit)} >
+        <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>
                 <Fieldset legend="Sistema">
                     <Switch
                         label="Visible"
                         withAsterisk
-                        value={form.values.isActive}
+                        checked={form.values.isActive as boolean}
                         {...form.getInputProps("isActive", { type: "checkbox" })}
                         description="El acceso rápido es visible"
                     />
@@ -41,7 +61,7 @@ export const Form = ({ form, activeIndex, submitLabel, setActiveIndex, onSubmit,
                         maxLength={MAX_TITLE_LENGTH}
                         rightSection={
                             <Text size="xs" c="dimmed">
-                                {form.values.title?.length || 0}/{MAX_TITLE_LENGTH}
+                                {(form.values.title as string)?.length || 0}/{MAX_TITLE_LENGTH}
                             </Text>
                         }
                         rightSectionWidth={40}
@@ -58,7 +78,7 @@ export const Form = ({ form, activeIndex, submitLabel, setActiveIndex, onSubmit,
                         maxLength={MAX_DESCRIPTION_LENGTH}
                         rightSection={
                             <Text size="xs" c="dimmed">
-                                {form.values.description?.length || 0}/{MAX_DESCRIPTION_LENGTH}
+                                {(form.values.description as string)?.length || 0}/{MAX_DESCRIPTION_LENGTH}
                             </Text>
                         }
                         rightSectionWidth={50}
@@ -67,25 +87,20 @@ export const Form = ({ form, activeIndex, submitLabel, setActiveIndex, onSubmit,
 
                 <Fieldset legend="Icono">
                     <Group justify="space-between" align="center" wrap="nowrap">
-                        <IconSelect
-                            form={form}
-                        />
+                        <IconSelect form={form} />
+                        <ColorSelect form={form} />
 
-                        <ColorSelect
-                            type="default"
-                            form={form}
-                        />
                         <Divider orientation="vertical" />
+
                         <ThemeIcon
                             size={56}
-                            color={form.values.color}
+                            color={form.values.color as string}
                             variant="light"
                             style={{
-                                '--icon-rgb': form.values.color || "#40c057" // fallback green
+                                '--icon-rgb': (form.values.color as string) || "#40c057"
                             } as React.CSSProperties}
-                            className="themeIcon"
                         >
-                            {Icon ? <Icon /> : null}
+                            {Icon ? <Icon size={32} stroke={1.5} /> : null}
                         </ThemeIcon>
                     </Group>
                 </Fieldset>
@@ -99,38 +114,36 @@ export const Form = ({ form, activeIndex, submitLabel, setActiveIndex, onSubmit,
                         onChange={setActiveIndex}
                     />
 
-                    {activeIndex === 0 &&
+                    {activeIndex === 0 && (
                         <div>
                             <Divider />
-
                             <TextInput
                                 withAsterisk
                                 label="URL"
-                                description="Ingresa la URL a la que se dirigirá el usuario al hacer clic en la imagen del carrusel"
+                                description="Ingresa la URL a la que se dirigirá el usuario"
                                 placeholder="https://ejemplo.com"
                                 {...form.getInputProps("url")}
                             />
                         </div>
-                    }
+                    )}
 
-                    {activeIndex === 1 &&
+                    {activeIndex === 1 && (
                         <div>
                             <Divider />
-
                             <FileInput
                                 withAsterisk
                                 label="Archivo"
                                 description={
                                     fileName ?
                                         `El archivo cargado es ${fileName}` :
-                                        "Selecciona un archivo que se descargará al hacer clic en la imagen del carrusel"
+                                        "Selecciona un archivo para descargar"
                                 }
                                 accept=".pdf"
                                 placeholder="archivo.pdf"
                                 {...form.getInputProps("file")}
                             />
                         </div>
-                    }
+                    )}
                 </Fieldset>
 
                 <ModalButtons
@@ -138,6 +151,6 @@ export const Form = ({ form, activeIndex, submitLabel, setActiveIndex, onSubmit,
                     loading={isLoading}
                 />
             </Stack>
-        </form >
-    )
-}
+        </form>
+    );
+};

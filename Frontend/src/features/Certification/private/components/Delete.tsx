@@ -7,7 +7,7 @@ import { ModalButtons } from "@/components"
 import { useCertificationStore } from "@/stores"
 
 interface Props {
-    id: string
+    id: number
     name: string
 }
 
@@ -28,12 +28,12 @@ export const Delete = ({ id, name }: Props) => {
         try {
             setLoading(true);
             await remove?.(id)
-            showSuccessModal("Certificación eliminada", "La certificación ha sido eliminada correctamente")
-        } catch (error: any) {
+            showSuccessModal("Certificado eliminado", "El certificado fue eliminado correctamente")
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al eliminar permiso",
-                message: error.message
+                title: "Error al eliminar certificado",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

@@ -5,7 +5,11 @@ export const fetchCategories = async () => {
     return response.data
 }
 
-export const addCategory = async (body: any) => {
+interface Props {
+    name: string;
+}
+
+export const addCategory = async (body: Props) => {
     const response = await api.post(`/api/uveh/categories`, body)
     return response.data
 }

@@ -29,11 +29,11 @@ export const Delete = ({ id, name }: Props) => {
             setLoading(true);
             await remove?.(id)
             showSuccessModal("Permiso Eliminado", "El permiso fue eliminado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al eliminar permiso",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

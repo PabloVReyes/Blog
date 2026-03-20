@@ -9,7 +9,7 @@ import { IconInfoCircle } from "@tabler/icons-react";
 import { SupportAreas } from "./SupportAreas";
 
 export const Macroprocess = () => {
-    const [activeTab, setActiveTab] = useState<any>("macroprocess")
+    const [activeTab, setActiveTab] = useState<string | null>("macroprocess")
 
     return (
         <Container

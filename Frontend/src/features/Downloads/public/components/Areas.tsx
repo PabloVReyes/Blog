@@ -1,14 +1,19 @@
 import { ActionIcon, Stack, Text } from "@mantine/core"
 import classes from "./Areas.module.css"
-import * as TablerIcons from "@tabler/icons-react"
 import { useNavigate } from "react-router-dom"
+import { getTablerIcon } from "@/helpers"
 
-export const Areas = ({ color, icon, name, slug }: any) => {
+interface Props {
+    color: string;
+    icon: string;
+    name: string;
+    slug: string
+}
+
+export const Areas = ({ color, icon, name, slug }: Props) => {
     const navigate = useNavigate()
 
-    const Icon =
-        icon &&
-        (TablerIcons as any)[icon];
+    const Icon = getTablerIcon(icon)
 
     return (
         <Stack
@@ -24,7 +29,7 @@ export const Areas = ({ color, icon, name, slug }: any) => {
                 color={color}
                 className={`${classes.circle} ${color}`}
             >
-                <Icon size={40}/>
+                <Icon size={40} />
             </ActionIcon>
 
             <Text

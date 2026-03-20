@@ -68,10 +68,44 @@ interface Props {
     setActiveTab: (area: string) => void;
 }
 
-type SelectedArea = {
-    area: any
-    loading: boolean
+export interface SelectedArea {
+    area: Area;
+    loading: boolean;
 }
+
+export interface Area {
+    id: string;
+    name: string;
+    category: string;
+    manager: string;
+    description: null;
+    createdAt: Date;
+    updatedAt: Date;
+    manuals: Manual[];
+}
+
+export interface Manual {
+    id: string;
+    fileName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    areaId: string;
+    manualTypeId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    manualType: ManualType;
+}
+
+export interface ManualType {
+    id: string;
+    name: string;
+    color: string;
+    category: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 
 
 export const SupportAreas = ({ setActiveTab }: Props) => {

@@ -35,7 +35,7 @@ export const Edit = (file: Data) => {
             name: file.name,
             email: file.email,
             active: file.active,
-            roles: file.roles.map((r: any) => r.role.id)
+            roles: file.roles.map((r) => r.role.id)
         },
         validate: {
             name: (value) => validateName(value, { required: true }),
@@ -54,11 +54,11 @@ export const Edit = (file: Data) => {
             setLoading(true)
             await update?.(file.id.toString(), values)
             showSuccessModal("Usuario Editado", "El usuario fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar sistema",
-                message: error.message
+                title: "Error al editar usuario",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

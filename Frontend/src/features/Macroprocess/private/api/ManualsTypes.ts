@@ -6,7 +6,13 @@ export const fetchManualsTypes = async ({ page, limit, search }: { page?: number
     return response.data
 }
 
-export const updateManualType = async (id: string, body: any) => {
+export interface Props {
+    code:  string;
+    name:  string;
+    color: string;
+}
+
+export const updateManualType = async (id: string, body: Props) => {
     const response = await api.put(`/api/macroprocess/manuals/${id}`, body)
     return response.data
 }

@@ -7,8 +7,19 @@ import { useHomeAccessCardStore } from "@/stores";
 
 const typeOptions = ["page", "file"] as const;
 
+interface Props {
+    id: string;
+    title: string;
+    description: string;
+    icon: string;
+    color: string;
+    type: "page" | "file";
+    url: string
+    fileName?: string | null;
+    isActive: boolean
+}
 
-export const Edit = ({ id, title, description, icon, color, type, url, fileName, isActive }: any) => {
+export const Edit = ({ id, title, description, icon, color, type, url, fileName, isActive }: Props) => {
     const update = useHomeAccessCardStore(s => s.update)
     const initialActive = typeOptions.indexOf(type ?? "page");
     const [active, setActive] = useState(initialActive);
@@ -39,7 +50,7 @@ export const Edit = ({ id, title, description, icon, color, type, url, fileName,
             setLoading(true)
 
             const formData = new FormData();
-            formData.append("isActive", values.isActive)
+            formData.append("isActive", String(values.isActive))
             formData.append("title", values.title)
             formData.append("color", values.color)
             formData.append("icon", values.icon)
@@ -58,11 +69,11 @@ export const Edit = ({ id, title, description, icon, color, type, url, fileName,
 
             await update?.(id, formData)
             showSuccessModal("Acceso Rápido Editado", "El acceso rápido fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar acceso rápido",
-                message: error.message
+                title: "Error al editar acceso rápido",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

@@ -1,11 +1,23 @@
 import { Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/core"
 import styles from "./Derechohabiencia.module.css"
 import * as TablerIcons from "@tabler/icons-react";
+import { getTablerIcon } from "@/helpers";
 
-export const Derechohabiencia = ({ color, icon, title, description, links }: any) => {
-    const Icon =
-        icon &&
-        (TablerIcons as any)[icon];
+interface Props {
+    color: string;
+    icon: string;
+    title: string;
+    description: string;
+    links: Link[];
+}
+
+interface Link {
+    url: string;
+    title: string;
+}
+
+export const Derechohabiencia = ({ color, icon, title, description, links }: Props) => {
+    const Icon = getTablerIcon(icon)
 
     return (
         <Card padding={"lg"} h={"100%"}>
@@ -27,7 +39,7 @@ export const Derechohabiencia = ({ color, icon, title, description, links }: any
                 </Text>
 
                 <Stack gap={"xs"} mt={"auto"}>
-                    {links.map((link: any, index: number) => (
+                    {links.map((link, index: number) => (
                         <Button
                             key={index}
                             variant="light"

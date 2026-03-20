@@ -1,5 +1,4 @@
 import {
-    Badge,
     Button,
     Card,
     Divider,
@@ -18,10 +17,23 @@ import styles from "./Search.module.css"
 import * as TablerIcons from "@tabler/icons-react"
 import { useNavigate } from "react-router-dom"
 import { useModalStore } from "@/layout/store"
+import { getTablerIcon } from "@/helpers"
+
+export interface Data {
+    id: string;
+    name: string;
+    acronym: null | string;
+    description: string;
+    icon: string;
+    color: string;
+    url: string;
+    type: string;
+    createdAt: Date;
+}
 
 export const Search = () => {
     const [query, setQuery] = useState("")
-    const [data, setData] = useState<any[]>([])
+    const [data, setData] = useState<Data[]>([])
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
@@ -57,7 +69,7 @@ export const Search = () => {
 
                 // 🔥 Evitar duplicados por ID
                 const ids = new Set(prev.map(i => i.id))
-                const filtered = newData.filter((i: any) => !ids.has(i.id))
+                const filtered = newData.filter((i: Data) => !ids.has(i.id))
 
                 return [...prev, ...filtered]
             })
@@ -165,9 +177,7 @@ export const Search = () => {
     // RENDER ITEMS
     // ==============================
     const items = data.map((search) => {
-        const Icon =
-            search.icon &&
-            (TablerIcons as any)[search.icon]
+        const Icon = getTablerIcon(search.icon)
 
         return (
             <Card
@@ -198,16 +208,6 @@ export const Search = () => {
                                     {search.acronym && `${search.acronym} - `}
                                     {search.name}
                                 </Title>
-
-                                {search.badge && (
-                                    <Badge
-                                        color="red"
-                                        size="xs"
-                                        variant="filled"
-                                    >
-                                        {search.badge}
-                                    </Badge>
-                                )}
                             </Group>
 
                             <Text size="sm">

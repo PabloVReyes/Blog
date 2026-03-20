@@ -1,9 +1,9 @@
 import type { UseFormReturnType } from "@mantine/form"
 import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core";
-import * as TablerIcons from "@tabler/icons-react";
 import { ColorSelect, IconSelect, IndicatorGroup, ModalButtons } from "@/components";
 import type { SystemProps } from "@/features/Systems/types";
 import { MAX_ACRONYM_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
+import { getTablerIcon } from "@/helpers";
 
 interface Props {
     form: UseFormReturnType<SystemProps>;
@@ -12,13 +12,11 @@ interface Props {
     isLoading?: boolean;
     activeIndex: number,
     setActiveIndex: (index: number) => void
-    fileName?: string;
+    fileName?: string | null;
 }
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading, activeIndex, setActiveIndex, fileName }: Props) => {
-    const Icon =
-        form.values.icon &&
-        (TablerIcons as any)[form.values.icon];
+    const Icon = getTablerIcon(form.values.icon)
 
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
@@ -83,7 +81,6 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, activeIndex, setA
                             form={form}
                         />
                         <ColorSelect
-                            type="default"
                             form={form}
                         />
                         <Divider orientation="vertical" />

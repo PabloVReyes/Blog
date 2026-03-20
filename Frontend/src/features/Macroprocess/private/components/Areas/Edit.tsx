@@ -6,7 +6,12 @@ import { MAX_TITLE_LENGTH } from "@/constants";
 import { ModalButtons } from "@/components";
 import { useMacroprocessAreaStore } from "@/stores";
 
-export const Edit = ({ id, name }: any) => {
+interface Props {
+    id: string;
+    name: string;
+}
+
+export const Edit = ({ id, name }: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
     const update = useMacroprocessAreaStore(s => s.update)
 
@@ -27,11 +32,11 @@ export const Edit = ({ id, name }: any) => {
             }
             await update?.(id, props)
             showSuccessModal("Área Editada", "El área fue editada correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al editar el área",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

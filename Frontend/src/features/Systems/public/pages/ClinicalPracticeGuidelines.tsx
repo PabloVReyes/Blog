@@ -45,8 +45,12 @@ export const ClinicalPracticeGuidelines = () => {
         try {
             const categorysResp = await fetchCategorys();
             setCategorys(categorysResp.data || []);
-        } catch (error: any) {
-            console.error("Error fetching filters:", error);
+        } catch (error: unknown) {
+            Notify({
+                type: "error",
+                title: "Error al obtener categorias",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            })
             setCategorys([]);
         }
     };
@@ -62,11 +66,11 @@ export const ClinicalPracticeGuidelines = () => {
                 categoryId: selectedCategory !== "all" ? selectedCategory : undefined,
             });
             setData(response);
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener datos",
-                message: error.message || "Error desconocido",
+                title: "Error al obtener guías de práctica clínica",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         }
         finally {

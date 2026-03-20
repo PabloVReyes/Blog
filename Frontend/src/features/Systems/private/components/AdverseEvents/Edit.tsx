@@ -5,7 +5,12 @@ import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf } from "@/utils/validators"
 import { useSystemsAdverseEventsStore } from "@/stores"
 
-export const Edit = ({ id, fileName }: any) => {
+interface Props {
+    id: string;
+    fileName?: string
+}
+
+export const Edit = ({ id, fileName }: Props) => {
     const update = useSystemsAdverseEventsStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -28,11 +33,11 @@ export const Edit = ({ id, fileName }: any) => {
             }
             await update?.(id, formData)
             showSuccessModal("Evento Adverso Editado", "El evento adverso fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar el algoritmo",
-                message: error.message
+                title: "Error al editar evento adverso",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

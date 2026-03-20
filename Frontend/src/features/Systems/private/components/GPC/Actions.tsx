@@ -4,7 +4,26 @@ import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
-export const ActionsGCP = ({ id, ...props }: any) => {
+export interface Props {
+    id: string | number
+    orderIndex: number;
+    title: string;
+    description: string;
+    fileName: string;
+    filePath: string;
+    fileSize: number;
+    mimeType: string;
+    cycleId: string;
+    cycle: Cycle;
+}
+
+export interface Cycle {
+    id: string;
+    name: string;
+}
+
+
+export const ActionsGCP = ({ id, ...props }: Props) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

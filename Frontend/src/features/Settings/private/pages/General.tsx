@@ -78,11 +78,11 @@ export const General = () => {
             })
 
             showSuccessModal("Configuraciones Guardadas", "Las configuraciones fueron guardadas correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 title: "Error al guardar configuraciones",
                 type: "error",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

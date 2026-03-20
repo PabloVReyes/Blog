@@ -1,11 +1,28 @@
-import { Badge, Button, Card, Flex, Group, Image, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
 import classes from "./Download.module.css"
 import { formatFileSize, resolveFileMeta } from "@/utils"
 import { IconAward, IconDownload, IconExternalLink } from "@tabler/icons-react"
 import { downloadFile } from "../api"
 
-export const Download = ({ id, color, name, description, fileSize, mimeType, fileName, isNew, type, filePath }: any) => {
-    const download = async (id: string) => {
+export interface Props {
+    id: number;
+    name: string;
+    description: string;
+    isNew: boolean;
+    fileName: string;
+    filePath: string;
+    fileSize: number;
+    mimeType: string;
+    sectionId: number;
+    createdAt: Date;
+    updatedAt: Date;
+    color: string;
+}
+
+export const Download = (item: Props) => {
+    const { id, color, name, description, fileSize, mimeType, fileName, isNew } = item
+
+    const download = async (id: number) => {
         try {
             const response = await downloadFile(id)
 
@@ -35,7 +52,7 @@ export const Download = ({ id, color, name, description, fileSize, mimeType, fil
         }
     };
 
-    const view = async (id: string) => {
+    const view = async (id: number) => {
         try {
             const response = await downloadFile(id)
 
@@ -65,22 +82,16 @@ export const Download = ({ id, color, name, description, fileSize, mimeType, fil
         >
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
-                    {type === "IMAGE"
-                        ? <Image
-                            className={classes.image}
-                            src={`${`${import.meta.env.VITE_API_URL}/uploads/downloads/${filePath}`}`}
-                        />
-                        : <ThemeIcon
-                            size={56}
-                            variant="light"
-                            className={`${classes.iconWrapper}`}
-                            style={{
-                                '--icon-rgb': `${color}` || "#40c057" // fallback green
-                            } as React.CSSProperties}
-                        >
-                            <IconAward size={28} />
-                        </ThemeIcon>
-                    }
+                    <ThemeIcon
+                        size={56}
+                        variant="light"
+                        className={`${classes.iconWrapper}`}
+                        style={{
+                            '--icon-rgb': `${color}` || "#40c057" // fallback green
+                        } as React.CSSProperties}
+                    >
+                        <IconAward size={28} />
+                    </ThemeIcon>
 
                     <Stack gap={5} style={{ flex: 1 }}>
                         <Group>

@@ -2,12 +2,33 @@ import { Button, SimpleGrid, Stack } from "@mantine/core";
 import { downloadManual } from "../api";
 
 interface Props {
-    manuals: any[];
+    manuals: Manuals[];
     numberColums?: number
 }
 
-export const ExtraManuals = ({ manuals, numberColums }: Props) => {
+export interface Manuals {
+    id: string;
+    fileName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    areaId: string;
+    manualTypeId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    manualType: ManualType;
+}
 
+export interface ManualType {
+    id: string;
+    name: string;
+    color: string;
+    category: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export const ExtraManuals = ({ manuals, numberColums }: Props) => {
     const extras = manuals.filter(
         m => m.manualType.category === "EXTRA"
     );
@@ -42,7 +63,6 @@ export const ExtraManuals = ({ manuals, numberColums }: Props) => {
         }
     };
 
-    // igual que en ManualsGrid → indexados por manualType.id
     const byType = extras.reduce((acc, m) => {
         acc[m.manualType.id] = m;
         return acc;
@@ -51,12 +71,10 @@ export const ExtraManuals = ({ manuals, numberColums }: Props) => {
     const hasFile = (typeId: string) =>
         byType[typeId] && byType[typeId].filePath;
 
-    // ids de manuales EXTRA (ordenados como quieras)
     const extraTypes = [...new Set(
         extras.map(m => m.manualType.id)
     )];
 
-    // dividir en columnas de 2
     const columns: string[][] = [];
 
     for (let i = 0; i < extraTypes.length; i += 2) {

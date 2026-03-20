@@ -30,11 +30,11 @@ export const Delete = ({ id, name, code }: Props) => {
             setLoading(true);
             await remove?.(id)
             showSuccessModal("Medicamento Eliminado", "El medicamento fue eliminado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al eliminar medicamento",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);

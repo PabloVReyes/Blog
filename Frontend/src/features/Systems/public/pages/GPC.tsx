@@ -57,11 +57,11 @@ export const GPC = () => {
 
             const response = await fetchGPC();
             setData(response);
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener datos",
-                message: error.message || "Error desconocido",
+                title: "Error al obtener algoritmos GPC",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         }
 

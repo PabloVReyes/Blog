@@ -7,7 +7,18 @@ import { useHomeCarouselStore } from "@/stores"
 
 const typeOptions = ["null", "page", "file"] as const;
 
-export const Edit = ({ id, title, description, fileName, imageName, type, url, isActive }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    description: string;
+    fileName?: string | null;
+    imageName: string;
+    type: "page" | "file";
+    url: string;
+    isActive: boolean
+}
+
+export const Edit = ({ id, title, description, fileName, imageName, type, url, isActive }: Props) => {
     const update = useHomeCarouselStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
     const initialActive = typeOptions.indexOf(type ?? "null");
@@ -61,11 +72,11 @@ export const Edit = ({ id, title, description, fileName, imageName, type, url, i
 
             await update?.(id, formData)
             showSuccessModal("Carrusel Editado", "El carrusel fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar carrusel",
-                message: error.message
+                title: "Error al editar carrusel",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

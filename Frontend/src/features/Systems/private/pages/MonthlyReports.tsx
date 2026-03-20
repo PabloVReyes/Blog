@@ -6,10 +6,34 @@ import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useSystemsMonthlyReportsStore } from "@/stores"
+import type { Column } from "@/types"
 
 const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-const columns = [
+export interface Row {
+    id: string;
+    title: string;
+    description: string;
+    type: string;
+    month: number;
+    fileName: string;
+    filePath: string;
+    fileSize: number;
+    mimeType: string;
+    periodId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    period: Period;
+}
+
+export interface Period {
+    id: string;
+    year: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+const columns: Column<Row>[] = [
     {
         key: 'title',
         label: 'Título',
@@ -19,7 +43,7 @@ const columns = [
         key: "description",
         label: "Descripción",
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.description) {
                 return <Text size="xs" c="dimmed">------</Text>
             }
@@ -31,7 +55,7 @@ const columns = [
         key: "type",
         label: "Tipo",
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             switch (row.type) {
                 case "MONTHLY":
                     return <Text size="sm">Mensual</Text>
@@ -48,7 +72,7 @@ const columns = [
         key: "month",
         label: "Mes",
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.month) {
                 return <Text size="xs" c="dimmed">------</Text>
             }
@@ -60,7 +84,7 @@ const columns = [
         key: "year",
         label: "Año",
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <Text size="sm">{row.period.year}</Text>
         }
     },
@@ -68,7 +92,7 @@ const columns = [
         key: "file",
         label: "Archivo",
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <Text
                 style={{
                     overflowWrap: "anywhere",
@@ -83,7 +107,7 @@ const columns = [
         key: "actions",
         label: "Acciones",
         align: "center",
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsMonthlyReports {...row} />
         }
     }
@@ -101,11 +125,11 @@ export const MonthlyReports = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener informes mensuales",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

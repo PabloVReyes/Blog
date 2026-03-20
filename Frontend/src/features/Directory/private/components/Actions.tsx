@@ -4,7 +4,25 @@ import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
-export const Actions = ({ id, ...props }: any) => {
+interface Props {
+    id: string;
+    phone: string;
+    boss: string | null;
+    email: string | null;
+    name: string;
+    secretary: null | null;
+    levelId: string;
+    level: Level;
+}
+
+export interface Level {
+    id: string;
+    name: string;
+}
+
+
+export const Actions = (data: Props) => {
+    const { id, phone, boss, email, name, secretary, levelId } = data
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
@@ -12,7 +30,12 @@ export const Actions = ({ id, ...props }: any) => {
             content: (
                 <Edit
                     id={id}
-                    {...props}
+                    phone={phone}
+                    boss={boss}
+                    email={email}
+                    name={name}
+                    secretary={secretary}
+                    levelId={levelId}
                 />
             )
         })
@@ -23,7 +46,7 @@ export const Actions = ({ id, ...props }: any) => {
             content: (
                 <Delete
                     id={id}
-                    phone={props.phone}
+                    phone={phone}
                 />
             )
         })

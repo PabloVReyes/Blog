@@ -5,7 +5,12 @@ export const fetchCategories = async (section: number) => {
     return response.data
 }
 
-export const addCategory = async (body: any) => {
+export interface Data {
+    name: string;
+    section: string;
+}
+
+export const addCategory = async (body: Data) => {
     const response = await api.post(`/api/downloads/categories`, body)
     return response.data
 }

@@ -2,13 +2,34 @@ import { Button, Group } from "@mantine/core";
 import { downloadManual } from "../api";
 
 interface Props {
-    manuals: any[];
+    manuals: Manuals[];
+}
+
+export interface Manuals {
+    id: string;
+    fileName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    areaId: string;
+    manualTypeId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    manualType: ManualType;
+}
+
+export interface ManualType {
+    id: string;
+    name: string;
+    color: string;
+    category: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const ORDER = ["MO", "MP", "DxSit", "PT"];
 
 export const ManualsGrid = ({ manuals }: Props) => {
-
     const byType = manuals.reduce((acc, m) => {
         acc[m.manualType.id] = m;
         return acc;

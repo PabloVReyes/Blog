@@ -8,8 +8,106 @@ import { Derechohabiencia } from "./Derechohabiencia"
 import { Calendar } from "./Calendar"
 import { AccessCard } from "./AcessCard"
 
+export interface Sections {
+    id: string;
+    key: string;
+    title: string;
+    type: string;
+    isActive: boolean;
+    orderIndex: number;
+    createdAt: Date;
+    updatedAt: Date;
+    carouselItems: CarouselItem[];
+    accessCards: AccessCard[];
+    derechohabiencia: Alert | null;
+    alert: Alert | null;
+    calendar: Calendar | null;
+}
+
+export interface AccessCard {
+    id: string;
+    title: string;
+    badge: null;
+    color: string;
+    description: string;
+    icon: string;
+    url: string;
+    type: string;
+    fileName: null;
+    storedName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    orderIndex: number;
+    isActive: boolean;
+    sectionId: string;
+}
+
+export interface Alert {
+    id: string;
+    title: string;
+    description: string;
+    author?: string;
+    color: string;
+    icon: string;
+    isActive?: boolean;
+    sectionId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    links?: Link[];
+}
+
+export interface Link {
+    id: string;
+    title: string;
+    url: string;
+    orderIndex: number;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    derechohabienciaConfigId: string;
+}
+
+export interface Calendar {
+    id: string;
+    year: number;
+    title: string;
+    icon: string;
+    color: string;
+    description: string;
+    sectionId: string;
+    fileName: null;
+    storedName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface CarouselItem {
+    id: string;
+    imageName: string;
+    imageUrl: string;
+    imagePath: string;
+    type: string;
+    title: string;
+    description: string;
+    orderIndex: number;
+    isActive: boolean;
+    url: null;
+    fileName: null | string;
+    storedName: null | string;
+    filePath: null | string;
+    fileSize: number | null;
+    mimeType: null | string;
+    sectionId: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 export const Home = () => {
-    const [sections, setSections] = useState<any[]>([])
+    const [sections, setSections] = useState<Sections[]>([])
     const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {

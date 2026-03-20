@@ -1,8 +1,35 @@
 import { Divider, Fieldset, FileInput, Select, Stack, Text, TextInput } from "@mantine/core";
 import { ApiSelect, ModalButtons, Switch } from "@/components";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { addCategory, addSections, downloadAreaApi, fetchCategories, fetchSections } from "../../api";
+import { Notify } from "@/ui";
+import type { UseFormReturnType } from "@mantine/form";
+
+export interface Section {
+    id: number;
+    name: string;
+    isActive: boolean;
+    areaId: number;
+}
+
+export interface Category {
+    id: number;
+    name: string;
+    isActive: boolean;
+    sectionId: number;
+}
+
+export interface DownloadFormValues {
+    name: string;
+    description: string;
+    isNew: boolean;
+    type: "DOCUMENT" | "IMAGE" | "";
+    area: number;
+    section: number | null;
+    category: string | null;
+    file: File | null;
+}
 
 interface Item {
     value: string;
@@ -10,13 +37,13 @@ interface Item {
 }
 
 interface Area {
-    id: string;
+    id: number;
     name: string;
 }
 
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<DownloadFormValues>;
+    onSubmit: (values: DownloadFormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string;
@@ -29,21 +56,24 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     const [categories, setCategories] = useState<Item[]>([])
     const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
 
-    const fecthAreasData = async () => {
+    const fetchAreasData = useCallback(async () => {
         try {
-            const areasResp = await downloadAreaApi.fetch({})
-            setAreas(areasResp.data || [])
-        } catch (erro: any) {
-            console.error("Error en fetchAreas")
-            setAreas([])
+            const areasResp = await downloadAreaApi.fetch({});
+            setAreas(areasResp.data || []);
+        } catch (error: unknown) {
+            Notify({
+                type: "error",
+                title: "Error al obtener áreas",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            });
         }
-    }
+    }, []);
 
     const fecthSectionsData = async () => {
         setLoadingSections(true)
         try {
             const res = await fetchSections(form.values.area);
-            const formatted = res.data.map((item: any) => ({
+            const formatted = res.data.map((item: Section) => ({
                 value: item.id.toString(),
                 label: item.name
             }))
@@ -57,8 +87,8 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     const fecthCategoriesData = async () => {
         setLoadingCategories(true)
         try {
-            const res = await fetchCategories(form.values.section);
-            const formatted = res.data.map((item: any) => ({
+            const res = await fetchCategories(form.values.section ?? 0);
+            const formatted = res.data.map((item: Category) => ({
                 value: item.id.toString(),
                 label: item.name
             }))
@@ -77,9 +107,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
         fecthCategoriesData()
     }, [form.values.section])
 
-    useEffect(() => {
-        fecthAreasData();
-    }, []);
+    useEffect(() => { fetchAreasData(); }, [fetchAreasData]);
 
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
@@ -149,7 +177,6 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                         classNames={{
                             option: "optionSelect"
                         }}
-                        form={form}
                         name="area"
                         label="Área"
                         data={[
@@ -160,7 +187,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                         withAsterisk
                         {...form.getInputProps("area")}
                         onChange={(value) => {
-                            form.setFieldValue("area", value);
+                            form.setFieldValue("area", Number(value));
                             form.setFieldValue("section", null);
                             form.setFieldValue("category", null);
                             setSections([]);
@@ -181,13 +208,14 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                                 data={sections}
                                 loading={loadingSections}
                                 onCreate={async (name) => {
-                                    const res = await addSections({ name, area: form.values.area });
+                                    const res = await addSections({ name, area: String(form.values.area) });
                                     const newItem = { value: res.id.toString(), label: res.name };
                                     setSections((prev) => [...prev, newItem]);
                                     return newItem;
                                 }}
                                 onChange={(value) => {
-                                    form.setFieldValue("section", value);
+                                    const numericValue = value ? Number(value) : null;
+                                    form.setFieldValue("section", numericValue);
                                     form.setFieldValue("category", null);
                                     setCategories([]);
                                 }}
@@ -208,7 +236,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                                 data={categories}
                                 loading={loadingCategories}
                                 onCreate={async (name) => {
-                                    const res = await addCategory({ name, section: form.values.section });
+                                    const res = await addCategory({ name, section: String(form.values.section) });
                                     const newItem = { value: res.id.toString(), label: res.name };
                                     setCategories((prev) => [...prev, newItem]);
                                     return newItem;

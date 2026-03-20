@@ -4,7 +4,33 @@ import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
-export const ActionsPermissions = ({ id, key, ...props }: any) => {
+export interface Props {
+    id: string;
+    key: string;
+    name: string;
+    description: string;
+    active: boolean;
+    _count: Count;
+    roles: RoleElement[];
+    permissionKey: string;
+}
+
+export interface Count {
+    roles: number;
+}
+
+export interface RoleElement {
+    role: RoleRole;
+}
+
+export interface RoleRole {
+    id: string;
+    name: string;
+    description: string;
+}
+
+
+export const ActionsPermissions = ({ id, key, ...props }: Props) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

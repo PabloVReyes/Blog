@@ -6,8 +6,18 @@ import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Text } from "@mantine/core"
 import { useSystemsPBMStore } from "@/stores"
+import type { Column } from "@/types"
 
-const columns = [
+interface Row {
+    id:       string;
+    title:    string;
+    fileName: string;
+    filePath: string;
+    fileSize: number;
+    mimeType: string;
+}
+
+const columns: Column<Row>[] = [
     {
         key: 'title',
         label: 'Título',
@@ -17,7 +27,7 @@ const columns = [
         key: 'file',
         label: 'Algoritmo',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Text size="sm"
                     style={{
@@ -32,7 +42,7 @@ const columns = [
         key: "actions",
         label: "Acciones",
         align: "center",
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsPBM {...row} />
         }
     }
@@ -65,11 +75,11 @@ export const PBM = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener algoritmos",
-                message: error.message
+                title: "Error al obtener algoritmos PBM",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

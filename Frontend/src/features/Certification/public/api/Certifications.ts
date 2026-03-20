@@ -5,7 +5,7 @@ export const fetchCertifications = async () => {
     return response.data
 }
 
-export const downloadFile = async (id: string) => {
+export const downloadFile = async (id: number) => {
     const response = await api.get(`/api/certification/download/${id}`, {
         responseType: "blob" // 👈 CLAVE
     })

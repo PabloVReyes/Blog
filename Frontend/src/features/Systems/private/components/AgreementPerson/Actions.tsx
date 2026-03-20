@@ -1,16 +1,27 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import type { SystemProps } from "../../../types"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
-interface Props extends SystemProps {
+interface Props {
+    name: string;
+    type: string;
+    zoneId: number;
+    groupId: number;
+    zone: Group;
+    group: Group;
+    dependents?: Props[];
+    holders?: Props[];
     id: number;
-    fileName: string;
 }
 
-export const ActionsAgreementPerson = ({ id, ...props }: Props) => {
+interface Group {
+    id: number;
+    name: string;
+}
+
+export const ActionsAgreementPerson = ({id, name, zone, groupId, group, zoneId, type }: Props) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
@@ -18,7 +29,12 @@ export const ActionsAgreementPerson = ({ id, ...props }: Props) => {
             content: (
                 <Edit
                     id={id}
-                    {...props}
+                    name={name}
+                    groupId={groupId}
+                    group={group}
+                    zone={zone}
+                    zoneId={zoneId}
+                    type={type}
                 />
             )
         })
@@ -29,7 +45,7 @@ export const ActionsAgreementPerson = ({ id, ...props }: Props) => {
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    name={name}
                 />
             )
         })

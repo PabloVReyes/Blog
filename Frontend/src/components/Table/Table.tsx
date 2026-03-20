@@ -1,36 +1,46 @@
-import { Card, Loader, Table as MantineTable, Text } from "@mantine/core"
+import { Card, Loader, Table as MantineTable, Text, Center } from "@mantine/core"
 import styles from "./Table.module.css"
+import { type ReactNode } from "react"
 
-interface Props {
-    columns: any[]
-    isLoading?: boolean
-    data: any[] | undefined
+export interface ColumnProps<T> {
+    key: string;
+    label: string;
+    align?: "left" | "center" | "right";
+    miw?: number | string;
+    render?: (row: T) => ReactNode;
 }
 
-export const Table = ({ columns, isLoading = false, data }: Props) => {
+interface Props<T> {
+    columns: ColumnProps<T>[];
+    isLoading?: boolean;
+    data: T[] | undefined;
+}
+
+export const Table = <T extends Record<string, any>>({
+    columns,
+    isLoading = false,
+    data
+}: Props<T>) => {
 
     const renderRows = () => {
         if (isLoading) {
             return (
                 <MantineTable.Tr>
-                    <MantineTable.Td
-                        colSpan={columns.length}
-                        className={styles.loaderCell}
-                    >
-                        <Loader />
+                    <MantineTable.Td colSpan={columns.length}>
+                        <Center py="xl" className={styles.loaderCell}>
+                            <Loader size="sm" />
+                        </Center>
                     </MantineTable.Td>
                 </MantineTable.Tr>
             )
         }
 
+        // Estado vacío
         if (!data || data.length === 0) {
             return (
                 <MantineTable.Tr>
-                    <MantineTable.Td
-                        colSpan={columns.length}
-                        className={styles.empty}
-                    >
-                        <Text size="sm" c="dimmed">
+                    <MantineTable.Td colSpan={columns.length} className={styles.empty}>
+                        <Text size="sm" c="dimmed" ta="center" py="xl">
                             No se encontraron resultados
                         </Text>
                     </MantineTable.Td>
@@ -38,22 +48,21 @@ export const Table = ({ columns, isLoading = false, data }: Props) => {
             )
         }
 
-        return data.map((row, rowIndex: number) => (
+        return data.map((row, rowIndex) => (
             <MantineTable.Tr
-                key={rowIndex}
-                className={`${styles.row} ${rowIndex % 2 === 0 ? styles.rowEven : styles.rowOdd
-                    }`}
+                key={row.id || rowIndex}
+                className={`${styles.row} ${rowIndex % 2 === 0 ? styles.rowEven : styles.rowOdd}`}
             >
-                {columns.map((col, colIndex: number) => (
+                {columns.map((col, colIndex) => (
                     <MantineTable.Td
-                        key={colIndex}
+                        key={`${rowIndex}-${colIndex}`}
                         miw={col.miw}
                         className={styles.td}
-                        style={{ textAlign: col.align }}
+                        style={{ textAlign: col.align || "left" }}
                     >
                         {col.render
                             ? col.render(row)
-                            : String(row[col.key as typeof row] ?? "")
+                            : String(row[col.key] ?? "")
                         }
                     </MantineTable.Td>
                 ))}
@@ -62,16 +71,16 @@ export const Table = ({ columns, isLoading = false, data }: Props) => {
     }
 
     return (
-        <Card p={0} withBorder className={styles.wrapper}>
+        <Card p={0} withBorder className={styles.wrapper} radius="md">
             <MantineTable.ScrollContainer minWidth={800} type="native">
-                <MantineTable verticalSpacing={0} highlightOnHover>
+                <MantineTable verticalSpacing="sm" highlightOnHover withColumnBorders={false}>
                     <MantineTable.Thead className={styles.thead}>
                         <MantineTable.Tr>
-                            {columns.map((item, index: number) => (
+                            {columns.map((item, index) => (
                                 <MantineTable.Th
                                     key={index}
                                     className={styles.th}
-                                    style={{ textAlign: item.align }}
+                                    style={{ textAlign: item.align || "left" }}
                                 >
                                     {item.label}
                                 </MantineTable.Th>

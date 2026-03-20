@@ -2,8 +2,19 @@ import { Badge, Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/cor
 import styles from "./Calendar.module.css"
 import { downloadCalendar } from "../../api";
 import * as TablerIcons from "@tabler/icons-react";
+import { getTablerIcon } from "@/helpers";
 
-export const Calendar = ({ id, title, color, year, description, fileName, icon }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    color: string;
+    year: number;
+    description: string;
+    fileName?: string | null;
+    icon: string
+}
+
+export const Calendar = ({ id, title, color, year, description, fileName, icon }: Props) => {
     const download = async (id: string) => {
         try {
             const response = await downloadCalendar(id)
@@ -34,9 +45,7 @@ export const Calendar = ({ id, title, color, year, description, fileName, icon }
         }
     };
 
-    const Icon =
-        icon &&
-        (TablerIcons as any)[icon];
+    const Icon = getTablerIcon(icon)
 
     return (
         <Card padding={"lg"} h={"100%"}>

@@ -4,13 +4,23 @@ import { Badge, Text } from "@mantine/core"
 import { Notify } from "@/ui"
 import { ActionsManualTypes } from "../components"
 import { useMacroprocessManualTypeStore } from "@/stores"
+import type { Column } from "@/types"
 
-export const columns = [
+export interface Row {
+    id: string;
+    name: string;
+    color: string;
+    category: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+const columns: Column<Row>[] = [
     {
         key: 'code',
         label: 'Codigo',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Badge variant="filled" color={row.color} size="sm">
                     {row.id}
@@ -22,7 +32,7 @@ export const columns = [
         key: 'name',
         label: 'Nombre',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Text size="sm">{row.name}</Text>
             )
@@ -32,7 +42,7 @@ export const columns = [
         key: 'category',
         label: 'Categoria',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Badge variant="filled" size="sm">{row.category === "STANDARD" ? "Principal" : "Extra"}</Badge>
             )
@@ -42,7 +52,7 @@ export const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsManualTypes {...row} />
         }
     },
@@ -58,11 +68,11 @@ export const ManualsTypes = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener sistemas",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

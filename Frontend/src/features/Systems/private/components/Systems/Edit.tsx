@@ -6,10 +6,24 @@ import { Notify, showSuccessModal } from "@/ui"
 import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
 import { useSystemsStore } from "@/stores"
 
-interface Props extends SystemProps {
-    id: string
-    fileName: string;
+export interface Props {
+    id: string;
+    acronym: string;
+    name: string;
+    description: string;
+    color: string;
+    icon: string;
+    url: string;
+    type: null;
+    fileName: null | string | undefined;
+    storedName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    createdAt: Date;
+    updatedAt: Date;
 }
+
 
 const typeOptions = ["page", "file"] as const;
 
@@ -74,11 +88,11 @@ export const Edit = ({ id, icon, color, name, description, url, acronym, type, f
             await update?.(id, formData)
 
             showSuccessModal("Sistema Editado", "El sistema fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar sistema",
-                message: error.message
+                title: "Error al editar sistema",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

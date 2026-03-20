@@ -5,18 +5,35 @@ import { Notify, showSuccessModal } from "@/ui";
 import { validateName, validateSelect } from "@/utils/validators";
 import { useSystemsAgreementPersonStore } from "@/stores";
 
-export const Edit = (person: any) => {
+interface Props {
+    name: string;
+    type: string;
+    zoneId: number;
+    groupId: number;
+    zone: Group;
+    group: Group;
+    dependents?: Props[];
+    holders?: Props[];
+    id?: number;
+}
+
+interface Group {
+    id: number;
+    name: string;
+}
+
+export const Edit = ({ name, groupId, zoneId, type, holders, id, zone, group }: Props) => {
     const update = useSystemsAgreementPersonStore(s => s.update);
     const [loading, setLoading] = useState<boolean>(false);
 
     const form = useForm({
         mode: "controlled",
         initialValues: {
-            name: person.name,
-            group: person.groupId?.toString() || null,
-            zone: person.zoneId?.toString() || null,
-            type: person.type as "HOLDER" | "DEPENDENT",
-            holder: person.holders?.[0]?.id?.toString() || null,
+            name: name,
+            group: groupId?.toString() || null,
+            zone: zoneId?.toString() || null,
+            type: type as "HOLDER" | "DEPENDENT",
+            holder: holders?.[0]?.id?.toString() || null,
         },
         validate: {
             name: (value) => validateName(value, { required: true }),
@@ -29,13 +46,13 @@ export const Edit = (person: any) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true);
-            await update?.(person.id, values);
+            await update?.(id, values);
             showSuccessModal("Paciente de Convenio Editado", "El paciente de convenio fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al actualizar Paciente de Convenio",
-                message: error.message,
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);
@@ -49,18 +66,13 @@ export const Edit = (person: any) => {
             submitLabel="Editar"
             isLoading={loading}
             initialGroup={{
-                value: person.group?.id?.toString(),
-                label: person.group?.name,
+                value: group?.id?.toString(),
+                label: group?.name,
             }}
             initialZone={{
-                value: person.zone?.id?.toString(),
-                label: person.zone?.name,
+                value: zone?.id?.toString(),
+                label: zone?.name,
             }}
-            initialHolder={
-                person.holders?.[0]
-                    ? { value: person.holders[0].id.toString(), label: person.holders[0].name }
-                    : null
-            }
         />
     );
 };

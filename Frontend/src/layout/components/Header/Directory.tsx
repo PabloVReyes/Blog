@@ -9,9 +9,25 @@ import { useEffect, useRef, useState } from "react";
 import { getDirectory } from "@/layout/api";
 import { Card } from "@/components";
 
+export interface Data {
+    id: string;
+    phone: string;
+    boss?: null | string;
+    email?: null | string;
+    name: string;
+    secretary?: null | string;
+    levelId: string;
+    level: Level;
+}
+
+export interface Level {
+    id: string;
+    name: string;
+}
+
 export const Directory = () => {
     const [query, setQuery] = useState("");
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<Data[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);

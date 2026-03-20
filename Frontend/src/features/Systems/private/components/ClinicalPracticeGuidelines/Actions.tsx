@@ -4,7 +4,28 @@ import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
-export const ActionsClinicalPracticeGuidelines = ({ id, ...props }: any) => {
+export interface Props {
+    id: string;
+    code: string;
+    title: string;
+    fileNameER: string;
+    filePathER: string;
+    fileSizeER: number;
+    mimeTypeER: string;
+    fileNameRR: string;
+    filePathRR: string;
+    fileSizeRR: number;
+    mimeTypeRR: string;
+    categoryId: string;
+    category: Category;
+}
+
+export interface Category {
+    id: string;
+    name: string;
+}
+
+export const ActionsClinicalPracticeGuidelines = ({ id, ...props }: Props) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

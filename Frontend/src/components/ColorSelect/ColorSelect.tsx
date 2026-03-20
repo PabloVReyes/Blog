@@ -1,15 +1,18 @@
 import { ColorInput } from "@mantine/core"
 import { colors } from "../../utils/colors"
+import { type UseFormReturnType } from "@mantine/form";
 
-interface Props {
-    type: "settings" | "default"
-    form?: any
-    useStore?: any
+interface BaseForm {
+    color: string;
 }
 
-export const ColorSelect = ({
+interface Props<T extends BaseForm> {
+    form?: UseFormReturnType<T>;
+}
+
+export const ColorSelect = <T extends BaseForm>({
     form,
-}: Props) => {
+}: Props<T>) => {
     return (
         <ColorInput
             style={{ flex: '1 1 auto' }}
@@ -19,7 +22,9 @@ export const ColorSelect = ({
             placeholder="Ej. Red"
             swatches={colors}
             withPicker={false}
-            {...form.getInputProps("color")}
+            {...form?.getInputProps("color")}
         />
-    )
-}
+    );
+};
+
+// 28 lineas

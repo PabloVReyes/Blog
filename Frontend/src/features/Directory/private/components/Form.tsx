@@ -3,19 +3,30 @@ import { ModalButtons } from "@/components";
 import { MAX_NAME_PERSON_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { useEffect, useState } from "react";
 import { fetchLevels } from "../api";
+import { Notify } from "@/ui";
+import { type UseFormReturnType } from "@mantine/form";
+
+export interface DirectoryFormValues {
+    phone: string;
+    name: string;
+    level: string;
+    boss: string;
+    secretary: string;
+    email: string;
+}
 
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    // Tipamos el formulario de Mantine
+    form: UseFormReturnType<DirectoryFormValues>;
+    onSubmit: (values: DirectoryFormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
 }
 
 interface Level {
-    id: string;
+    id: string | number;
     name: string;
 }
-
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
     const [levels, setLevents] = useState<Level[]>([])
@@ -24,8 +35,12 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
         try {
             const areasResp = await fetchLevels()
             setLevents(areasResp.data || [])
-        } catch (erro: any) {
-            console.error("Error en fetchLevelsData")
+        } catch (error: unknown) {
+            Notify({
+                type: "error",
+                title: "Error al obtener niveles",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            });
             setLevents([])
         }
     }
@@ -73,11 +88,9 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                     <Divider />
 
                     <Select
-
                         classNames={{
                             option: "optionSelect"
                         }}
-                        form={form}
                         name="level"
                         label="Nivel"
                         data={[

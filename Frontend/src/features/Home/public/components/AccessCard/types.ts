@@ -1,6 +1,6 @@
 export interface CardsProps {
     color: string;
-    icon: any
+    icon: string
     title: string;
     badge?: string;
     description?: string;

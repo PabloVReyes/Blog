@@ -1,56 +1,55 @@
-import { Autocomplete, Group, Text } from '@mantine/core';
+import { Autocomplete, Group, Text, type ComboboxStringItem } from '@mantine/core';
 import * as TablerIcons from '@tabler/icons-react';
-import styles from "./IconSelect.module.css"
+import { type UseFormReturnType } from '@mantine/form';
+import styles from "./IconSelect.module.css";
 
-interface IconOption {
-    value: string;
-    label: string;
+type TablerIconName = keyof typeof TablerIcons;
+type TablerIconComponent = React.FC<TablerIcons.IconProps>;
+
+interface IconFormBase {
+    icon: string;
 }
 
-interface Props {
-    form: any; // formulario de Mantine
+interface Props<T extends IconFormBase> {
+    form: UseFormReturnType<T>;
 }
 
-export const IconSelect = ({ form }: Props) => {
-    const iconNames = Object.keys(TablerIcons)
+export const IconSelect = <T extends IconFormBase>({ form }: Props<T>) => {
+    const iconNames = (Object.keys(TablerIcons) as TablerIconName[])
         .filter((name) => name.startsWith('Icon'))
         .sort();
 
-    const data: IconOption[] = iconNames.map((name) => ({
-        value: name,
-        label: name,
-    }));
-
     const iconProps = form.getInputProps('icon');
 
-    // Icono a mostrar a la izquierda del input según el valor del formulario
-    const SelectedIcon: any = iconProps.value ? (TablerIcons as any)[iconProps.value] : null;
+    const SelectedIcon = (
+        iconProps.value && iconProps.value in TablerIcons
+            ? TablerIcons[iconProps.value as TablerIconName]
+            : null
+    ) as TablerIconComponent | null;
 
     return (
         <Autocomplete
-            classNames={{
-                option: styles.option,
-            }}
+            classNames={{ option: styles.option }}
             withAsterisk
             label="Icono"
             description="Icono que representa al elemento"
             placeholder="Escribe nombre del icono..."
-            data={data.map((i) => i.label)}
-            value={iconProps.value} // valor del formulario
-            onChange={(val) => iconProps.onChange(val)}
+            data={iconNames}
             limit={10}
             maxDropdownHeight={200}
             leftSection={SelectedIcon ? <SelectedIcon size={20} stroke={1.5} /> : null}
-            renderOption={({ option }: any) => {
-                const ItemIcon: any = (TablerIcons as any)[option.value];
+            renderOption={({ option }: { option: ComboboxStringItem }) => {
+                const IconName = option.value as TablerIconName;
+                const ItemIcon = TablerIcons[IconName] as TablerIconComponent;
+
                 return (
-                    <Group gap="xs" className={styles.option}>
+                    <Group gap="xs">
                         {ItemIcon && <ItemIcon size={18} stroke={1.5} />}
-                        <Text size='sm'>{option.label}</Text>
+                        <Text size='sm'>{option.value}</Text>
                     </Group>
                 );
             }}
-            {...iconProps} // aplica validaciones y errores del formulario
+            {...iconProps}
         />
     );
 };

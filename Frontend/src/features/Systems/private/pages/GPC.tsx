@@ -5,28 +5,42 @@ import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Notify } from "@/ui"
 import { Badge, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
-import * as TablerIcons from "@tabler/icons-react"
 import { colorMap } from "@/utils"
 import { useSystemsGPCStore } from "@/stores"
+import { getTablerIcon } from "@/helpers"
 
+export interface Row {
+    id: string;
+    orderIndex: number;
+    title: string;
+    description: string;
+    fileName: string;
+    filePath: string;
+    fileSize: number;
+    mimeType: string;
+    cycleId: string;
+    cycle: Cycle;
+}
 
-const columns = (theme: any) => [
+export interface Cycle {
+    id: string;
+    name: string;
+}
+
+const columns = (primaryColor: string) => [
     {
         key: "orderIndex",
         label: "Prioridad",
         align: 'left',
-        render: (row: any) => {
-            const Icon =
-                row.orderIndex &&
-                (TablerIcons as any)[`IconHexagonNumber${row.orderIndex}Filled`];
+        render: (row: Row) => {
+            const Icon = getTablerIcon(`IconHexagonNumber${row.orderIndex}Filled`)
 
             return (
                 <ThemeIcon
                     size={50}
-                    color={row.color}
                     variant="light"
                     style={{
-                        '--icon-rgb': colorMap[theme.primaryColor] || "#40c057" // fallback green
+                        '--icon-rgb': colorMap[primaryColor] || "#40c057" // fallback green
                     } as React.CSSProperties}
                     className="themeIcon"
                 >
@@ -50,7 +64,7 @@ const columns = (theme: any) => [
         label: "Ciclo",
         align: 'center',
         miw: "150px",
-        render: (row: any) => {
+        render: (row: Row) => {
             return (
                 <Badge variant="filled" size="sm">{row.cycle.name}</Badge>
             )
@@ -60,7 +74,7 @@ const columns = (theme: any) => [
         key: "algorithm",
         label: "Algoritmo",
         align: 'left',
-        render: (row: any) => {
+        render: (row: Row) => {
             return (
                 <Text size="sm"
                     style={{
@@ -75,7 +89,7 @@ const columns = (theme: any) => [
         key: "actions",
         label: "Acciones",
         align: "center",
-        render: (row: any) => {
+        render: (row: Row) => {
             return <ActionsGCP {...row} />
         }
     }
@@ -85,7 +99,7 @@ export const GPC = () => {
     const { openModal } = useModalStore()
     const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSystemsGPCStore()
     const [debounced] = useDebouncedValue(search, 500)
-    const theme = useMantineTheme()
+    const { primaryColor } = useMantineTheme()
 
     const handleAdd = () => {
         openModal({
@@ -100,11 +114,11 @@ export const GPC = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener algoritmos GPC",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }
@@ -137,7 +151,7 @@ export const GPC = () => {
                 <Table
                     isLoading={isLoading}
                     data={items}
-                    columns={columns(theme)}
+                    columns={columns(primaryColor)}
                 />
             </Panel>
         </Container>

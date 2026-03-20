@@ -4,7 +4,20 @@ import { formatFileSize, resolveFileMeta } from "@/utils"
 import { IconDownload, IconExternalLink } from "@tabler/icons-react"
 import { downloadFile } from "../api"
 
-export const Download = ({ id, color, name, description, fileSize, mimeType, fileName, isNew, type, filePath }: any) => {
+interface Props {
+    id: string;
+    color: string;
+    name: string;
+    description: string;
+    fileSize: number;
+    mimeType: string;
+    fileName: string;
+    isNew: boolean;
+    type: string;
+    filePath: string;
+}
+
+export const Download = ({ id, color, name, description, fileSize, mimeType, fileName, isNew, type, filePath }: Props) => {
     const download = async (id: string) => {
         try {
             const response = await downloadFile(id)

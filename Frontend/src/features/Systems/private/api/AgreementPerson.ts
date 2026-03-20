@@ -23,14 +23,22 @@ export const fetchZones = async () => {
     return response.data
 }
 
-export const addGroup = async (body: any) => {
+interface AddGroupProps {
+    name: string
+}
+
+export const addGroup = async (body: AddGroupProps) => {
     const response = await api.post(`/api/systems/agreement-person/groups`, body)
     return response.data
 }
 
-export const addZone = async (body: any) => {
+interface AddZoneProps {
+    name: string
+}
+
+export const addZone = async (body: AddZoneProps) => {
     const response = await api.post(`/api/systems/agreement-person/zones`, body)
     return response.data
 }
 
-// 48 lineas -> 34 lineas
+// 48 lineas -> 42 lineas

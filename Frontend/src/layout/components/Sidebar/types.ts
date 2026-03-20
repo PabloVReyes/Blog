@@ -1,7 +1,9 @@
+// types.ts
 export interface MenuItem {
-    id: string;
+    id?: string | number;
     label: string;
-    icon: string;         
-    link?: string;
+    icon?: string;
+    link: string;
+    type?: string;
     children?: MenuItem[];
 }

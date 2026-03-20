@@ -9,12 +9,28 @@ import { useEffect, useState } from "react";
 import { fetchDownloads, fetchSystems } from "@/layout/api";
 import { UserButton } from "./UserButton";
 import { useAuthStore } from "@/features/auth/store";
+import type { MenuItem } from "./types";
+
+interface System {
+    id: string | number;
+    name: string;
+    acronym?: string;
+    type?: string;
+    url: string;
+}
+
+interface DownloadArea {
+    id: string | number;
+    name: string;
+    icon: string;
+    slug: string;
+}
 
 export const Sidebar = () => {
     const { title } = useSettingStore()
     const { pathname } = useLocation()
-    const [systems, setSystems] = useState<any[]>([])
-    const [downloads, setDownloads] = useState<any[]>([])
+    const [systems, setSystems] = useState<System[]>([])
+    const [downloads, setDownloads] = useState<DownloadArea[]>([])
     const user = useAuthStore(state => state.user)
     const logout = useAuthStore((s) => s.logout)
     const navigate = useNavigate()
@@ -31,7 +47,7 @@ export const Sidebar = () => {
             .then(setDownloads)
     }, [])
 
-    const home: any = [
+    const home: MenuItem[] = [
         {
             id: 'inicio',
             label: 'Inicio',
@@ -123,7 +139,7 @@ export const Sidebar = () => {
 
     const isPrivate = pathname.startsWith("/administracion")
 
-    const menuItems: any = isPrivate ? paths : mapTreeToMenu(home)
+    const menuItems = isPrivate ? paths : mapTreeToMenu(home)
 
     return (
         <nav className={classes.sidebar}>
@@ -138,8 +154,12 @@ export const Sidebar = () => {
 
             <ScrollArea className={classes.links}>
                 <div className={classes.linksInner}>
-                    {menuItems.map((item: any) => (
-                        <LinksGroup {...item} isPrivate={isPrivate} key={item.label} />
+                    {menuItems.map((item) => (
+                        <LinksGroup
+                            {...item}
+                            isPrivate={isPrivate}
+                            key={`${item.id}-${item.label}`}
+                        />
                     ))}
                 </div>
             </ScrollArea>

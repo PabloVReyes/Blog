@@ -4,13 +4,48 @@ import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { ActionsMacroprocess } from "../components"
 import { useMacroprocessStore } from "@/stores"
+import type { Column } from "@/types"
 
-export const columns = [
+export interface Row {
+    id: string;
+    fileName: null;
+    filePath: null;
+    fileSize: null;
+    mimeType: null;
+    areaId: string;
+    manualTypeId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    area: Area;
+    manualType: ManualType;
+}
+
+export interface Area {
+    id: string;
+    name: string;
+    category: string;
+    manager: null;
+    description: null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface ManualType {
+    id: string;
+    name: string;
+    color: string;
+    category: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+
+export const columns: Column<Row>[] = [
     {
         key: 'code',
         label: 'Codigo',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Badge variant="filled" color={row.manualType.color} size="sm">
                     {row.manualType.id}
@@ -22,7 +57,7 @@ export const columns = [
         key: 'manualType',
         label: 'Tipo',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Text size="sm">{row.manualType.name}</Text>
             )
@@ -32,7 +67,7 @@ export const columns = [
         key: 'area',
         label: 'Área',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Text size="sm">{row.area.name}</Text>
             )
@@ -42,7 +77,7 @@ export const columns = [
         key: 'category',
         label: 'Categoria',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return (
                 <Badge variant="filled" size="sm">{row.area.category === "main" ? "Área principal" : "Área de apoyo"}</Badge>
             )
@@ -52,7 +87,7 @@ export const columns = [
         key: 'fileName',
         label: 'Archivo',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (!row.fileName) {
                 return <Text size="xs" c="dimmed">Sin archivo</Text>
             }
@@ -72,7 +107,7 @@ export const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsMacroprocess {...row} />
         }
     },
@@ -88,11 +123,11 @@ export const Macroprocess = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener sistemas",
-                message: error.message
+                title: "Error al obtener macroproceso",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

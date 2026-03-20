@@ -3,7 +3,30 @@ import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 
-export const ActionsDerechohabiencia = ({ id, ...props }: any) => {
+export interface Props {
+    id: string;
+    title: string;
+    icon: string;
+    color: string;
+    description: string;
+    sectionId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    links: Link[];
+}
+
+export interface Link {
+    id: string;
+    title: string;
+    url: string;
+    orderIndex: number;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    derechohabienciaConfigId: string;
+}
+
+export const ActionsDerechohabiencia = ({ id, ...props }: Props) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

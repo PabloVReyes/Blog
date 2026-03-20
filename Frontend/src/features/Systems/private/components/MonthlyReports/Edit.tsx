@@ -5,7 +5,24 @@ import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf, validateTitle, validateYear } from "@/utils/validators"
 import { useSystemsMonthlyReportsStore } from "@/stores"
 
-export const Edit = ({ id, title, fileName, description, type, month, period }: any) => {
+interface Props {
+    id: string;
+    title: string;
+    fileName: string;
+    description: string;
+    type: string;
+    month: string;
+    period: Period;
+}
+
+export interface Period {
+    id: string;
+    year: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export const Edit = ({ id, title, fileName, description, type, month, period }: Props) => {
     const update = useSystemsMonthlyReportsStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -45,11 +62,11 @@ export const Edit = ({ id, title, fileName, description, type, month, period }: 
 
             await update?.(id, formData)
             showSuccessModal("Reporte Mensual Editado", "El reporte mensual fue editado correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al actualizar sistema",
-                message: error.message
+                title: "Error al editar reporte mensual",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)

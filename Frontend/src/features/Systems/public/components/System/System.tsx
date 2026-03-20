@@ -3,13 +3,23 @@ import * as TablerIcons from "@tabler/icons-react";
 import { downloadSystem } from "../../api";
 import styles from './System.module.css'
 import { useNavigate } from "react-router-dom";
+import { getTablerIcon } from "@/helpers";
 
-export const System = ({ id, icon, color, name, acronym, description, url, type }: any) => {
+interface Props {
+    id: string;
+    icon: string;
+    color: string;
+    name: string;
+    acronym: string;
+    description: string;
+    url: string;
+    type: string;
+}
+
+export const System = ({ id, icon, color, name, acronym, description, url, type }: Props) => {
     const navigate = useNavigate()
 
-    const Icon =
-        icon &&
-        (TablerIcons as any)[icon];
+    const Icon = getTablerIcon(icon)
 
     const download = async (id: string) => {
         try {

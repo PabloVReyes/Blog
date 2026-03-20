@@ -3,22 +3,16 @@ import { IconChevronRight } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, matchPath } from "react-router-dom";
 import styles from "./LinksGroup.module.css";
-import * as TablerIcons from "@tabler/icons-react";
-import { type IconProps } from "@tabler/icons-react";
 import { downloadSystem } from "@/layout/api";
-
-type TablerIconComponent = React.FC<IconProps>;
+import { getTablerIcon } from "@/helpers";
+import type { MenuItem } from "./types";
 
 interface Props {
+    id?: string | number;
     link?: string;
-    icon: keyof typeof TablerIcons;
+    icon?: string;
     label: string;
-    children?: {
-        id: string;
-        label: string;
-        link: string;
-        type: "page" | "file";
-    }[];
+    children?: MenuItem[]
     isPrivate: boolean;
 }
 
@@ -58,8 +52,7 @@ export const LinksGroup = ({
         }))
         : [];
 
-    const IconComponent =
-        TablerIcons[icon] as unknown as TablerIconComponent;
+    const IconComponent = getTablerIcon(icon)
 
     const isExactRoot =
         baseLink &&
@@ -82,7 +75,7 @@ export const LinksGroup = ({
         setOpened(groupActive);
     }, [groupActive]);
 
-    const download = async (id: string) => {
+    const download = async (id: string | number) => {
         try {
             const response = await downloadSystem(id);
             const blob = new Blob([response.data], {
@@ -179,7 +172,9 @@ export const LinksGroup = ({
                                     className={styles.link}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        download(child.id);
+                                        if (child.id !== undefined) {
+                                            download(child.id);
+                                        }
                                     }}
                                 >
                                     {child.label}

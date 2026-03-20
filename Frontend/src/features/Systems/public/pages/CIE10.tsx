@@ -6,13 +6,37 @@ import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { Highlight } from "@/utils"
 
+export interface Row {
+    id: string;
+    name: string;
+}
+
+export interface Data {
+    data: Datum[];
+    meta: Meta;
+}
+
+export interface Datum {
+    id: string;
+    name: string;
+}
+
+export interface Meta {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    firstItem: number;
+    lastItem: number;
+}
+
 const columns = (search: string) => [
     {
         key: "id",
         label: "Clave",
         align: "left",
         miw: 100,
-        render: (row: any) => {
+        render: (row: Row) => {
             return (
                 <Text size="sm">
                     <Highlight text={row.id} query={search} />
@@ -25,7 +49,7 @@ const columns = (search: string) => [
         key: 'name',
         label: 'Nombre',
         align: 'left',
-        render: (row: any) => {
+        render: (row: Row) => {
             return (
                 <Text size="sm">
                     <Highlight text={row.name} query={search} />
@@ -37,8 +61,8 @@ const columns = (search: string) => [
 
 export const CIE10 = () => {
     const [search, setSearch] = useState<string>("")
-    const [data, setData]: any = useState<any[]>([])
-    const [page, setPage]: any = useState<number>(1)
+    const [data, setData] = useState<Data>()
+    const [page, setPage] = useState<number>(1)
     const [limit, setLimit] = useState<number>(10)
     const [debounced] = useDebouncedValue(search, 500)
     const [loading, setLoading] = useState<boolean>(false)
@@ -56,11 +80,11 @@ export const CIE10 = () => {
         try {
             setLoading(true)
             await fetchCIE10({ page, limit, search }).then(setData)
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener alertas",
-                message: error.message
+                title: "Error al obtener enfermedades",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         } finally {
             setLoading(false)
@@ -82,16 +106,16 @@ export const CIE10 = () => {
                 limitValue={limit}
                 onChangeLimit={setLimit}
                 page
-                firstItem={data?.meta?.firstItem}
-                lastItem={data?.meta?.lastItem}
-                totalItems={data?.meta?.total}
-                totalPages={data?.meta?.totalPages}
+                firstItem={data?.meta?.firstItem ?? 0}
+                lastItem={data?.meta?.lastItem ?? 0}
+                totalItems={data?.meta?.total ?? 0}
+                totalPages={data?.meta?.totalPages ?? 0}
                 onChangePage={setPage}
                 pageValue={page}
             >
                 <Table
                     columns={columns(search)}
-                    data={data.data}
+                    data={data?.data}
                     isLoading={loading}
                 />
             </Panel>

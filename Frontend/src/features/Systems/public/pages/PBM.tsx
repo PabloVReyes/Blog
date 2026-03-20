@@ -42,11 +42,11 @@ export const PBM = () => {
                 search: searchValue,
             });
             setData(response);
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener algoritmos",
-                message: error.message || "Error desconocido",
+                title: "Error al obtener algoritmos PBM",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         }
         finally {

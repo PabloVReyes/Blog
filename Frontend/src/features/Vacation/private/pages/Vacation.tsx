@@ -6,27 +6,36 @@ import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { ActionsVacation, AddVacation } from "../components"
 import { useVacationStore } from "@/stores"
+import type { Column } from "@/types"
 
-export interface Data {
+export interface Row {
     id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
     fileName: string;
     filePath: string;
     fileSize: number;
     mimeType: string;
-    categoryId: number;
+    type: string;
+    shiftId: number;
+    createdAt: Date;
+    shift: Shift;
+}
+
+export interface Shift {
+    id: number;
+    name: string;
+    icon: string;
+    color: string;
     createdAt: Date;
     updatedAt: Date;
 }
 
-const columns = [
+
+const columns: Column<Row>[] = [
     {
         key: 'shift',
         label: 'Turno',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             return <Text size="sm">{row.shift.name}</Text>
         }
     },
@@ -34,7 +43,7 @@ const columns = [
         key: 'type',
         label: 'Tipo',
         align: 'left',
-        render: (row: any) => {
+        render: (row) => {
             if (row.type === "CALENDAR") {
                 return <Text size="sm">Calendario</Text>
             }
@@ -46,7 +55,7 @@ const columns = [
         key: 'file',
         label: 'Archivo',
         align: 'left',
-        render: (row: Data) => {
+        render: (row) => {
             return (
                 <Text size="sm"
                     style={{
@@ -61,7 +70,7 @@ const columns = [
         key: 'actions',
         label: 'Acciones',
         align: 'center',
-        render: (row: any) => {
+        render: (row) => {
             return <ActionsVacation {...row} />
         }
     },
@@ -80,11 +89,11 @@ export const Vacation = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener descargas",
-                message: error.message
+                title: "Error al obtener vacaciones",
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

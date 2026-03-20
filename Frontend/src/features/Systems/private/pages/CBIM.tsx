@@ -8,13 +8,26 @@ import { ActionsCBIM, AddCBIM } from "../components"
 import { useModalStore } from "@/layout"
 import { useSystemsCBIMStore } from "@/stores"
 
+export interface Row {
+    id: string;
+    code: string;
+    name: string;
+    description: string;
+    sp: null;
+    fpgc: null;
+    cbt_cae: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+
 const columns = (search: string) => [
     {
         key: "code",
         label: "Clave",
         align: "left",
         miw: 100,
-        render: (row: any) => {
+        render: (row: Row) => {
             return (
                 <Text size="sm">
                     <Highlight text={row.code} query={search} />
@@ -27,7 +40,7 @@ const columns = (search: string) => [
         key: 'name',
         label: 'Nombre',
         align: 'left',
-        render: (row: any) => {
+        render: (row: Row) => {
             return (
                 <Text size="sm">
                     <Highlight text={row.name} query={search} />
@@ -39,7 +52,7 @@ const columns = (search: string) => [
         key: 'description',
         label: 'Presentación',
         align: 'left',
-        render: (row: any) => {
+        render: (row: Row) => {
             return (
                 <Text size="sm">
                     <Highlight text={row.description} query={search} />
@@ -51,7 +64,7 @@ const columns = (search: string) => [
         key: 'sp',
         label: 'SP',
         align: 'left',
-        render: (row: any) => {
+        render: (row: Row) => {
             if (!row.sp) {
                 return <Text size="xs" c="dimmed">--</Text>
             }
@@ -67,7 +80,7 @@ const columns = (search: string) => [
         key: 'fpgc',
         label: 'FPGC',
         align: 'center',
-        render: (row: any) => {
+        render: (row: Row) => {
             if (!row.fpgc) {
                 return <Text size="xs" c="dimmed">--</Text>
             }
@@ -88,7 +101,7 @@ const columns = (search: string) => [
         key: 'actions',
         label: 'Acciones',
         align: 'center',
-        render: (row: any) => {
+        render: (row: Row) => {
             return <ActionsCBIM {...row} />
         }
     },
@@ -126,11 +139,11 @@ export const CBIM = () => {
     const handleFetch = async () => {
         try {
             await fetch?.()
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener registros del Cuadro Basico de Medicamentos",
-                message: error.message
+                message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
     }

@@ -1,14 +1,19 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import type { SystemProps } from "../../../types"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
-interface Props extends SystemProps {
-    id: string;
-    fileName: string;
-    code: string;
+export interface Props {
+    id:          string;
+    code:        string;
+    name:        string;
+    description: string;
+    sp:          null;
+    fpgc:        null;
+    cbt_cae:     string;
+    createdAt:   Date;
+    updatedAt:   Date;
 }
 
 export const ActionsCBIM = ({ id, ...props }: Props) => {

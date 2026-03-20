@@ -7,7 +7,7 @@ import { ModalButtons } from "@/components"
 import { useVacationStore } from "@/stores"
 
 interface Props {
-    id: string
+    id: number
     type: string,
     shift: string;
 }
@@ -30,11 +30,11 @@ export const Delete = ({ id, type, shift }: Props) => {
             setLoading(true);
             await remove?.(id)
             showSuccessModal("Vacaciones Eliminadas", "Las vacaciones fueron eliminadas correctamente")
-        } catch (error: any) {
+        } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al eliminar permiso",
-                message: error.message
+                title: "Error al eliminar vacaciones",
+                message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
             setLoading(false);
