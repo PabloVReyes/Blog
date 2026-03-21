@@ -1,3 +1,5 @@
+import 'dotenv/config'
+import './config/env'
 import * as express from "express";
 import type { Express } from "express"
 import * as http from "http";
@@ -8,7 +10,6 @@ import * as path from "path";
 import * as fs from 'fs';
 import * as morgan from 'morgan';
 import { globalLimiter } from "./middleware/rateLimiter.middleware";
-import 'dotenv/config'
 import chalk from 'chalk'
 import router from './routes/routes'
 import { errorHandler } from "./middleware/errorHandler.middleware";

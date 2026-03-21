@@ -7,5 +7,6 @@ export const mapTreeToMenu = (items: any[]): MenuItem[] =>
         label: item.label || item.id,
         icon: item.icon || 'IconCircle',
         link: item.link ? item.link : "",
+        file: item.file ? item.file : null,
         children: item.children ? mapTreeToMenu(item.children) : [],
     }));

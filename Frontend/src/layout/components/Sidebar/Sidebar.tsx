@@ -10,6 +10,7 @@ import { fetchDownloads, fetchSystems } from "@/layout/api";
 import { UserButton } from "./UserButton";
 import { useAuthStore } from "@/features/auth/store";
 import type { MenuItem } from "./types";
+import type { FileData } from "@/types";
 
 interface System {
     id: string | number;
@@ -17,6 +18,7 @@ interface System {
     acronym?: string;
     type?: string;
     url: string;
+    file: FileData | null;
 }
 
 interface DownloadArea {
@@ -84,6 +86,7 @@ export const Sidebar = () => {
                 label: system.acronym ? system.acronym : system.name,
                 icon: "IconDatabase",
                 type: system.type,
+                file: system?.file,
                 link: `${system.url}`,
             }))
         },
@@ -122,7 +125,7 @@ export const Sidebar = () => {
             label: "Descargar Información",
             icon: "IconDownload",
             link: "/descargas",
-            children: downloads.map((area) => ({
+            children: downloads.map((area: any) => ({
                 id: area.id,
                 label: area.name,
                 icon: area.icon,

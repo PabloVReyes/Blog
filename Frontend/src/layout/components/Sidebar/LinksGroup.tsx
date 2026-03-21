@@ -3,9 +3,9 @@ import { IconChevronRight } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, matchPath } from "react-router-dom";
 import styles from "./LinksGroup.module.css";
-import { downloadSystem } from "@/layout/api";
 import { getTablerIcon } from "@/helpers";
 import type { MenuItem } from "./types";
+import { useDownloadFile } from "@/hooks";
 
 interface Props {
     id?: string | number;
@@ -24,12 +24,12 @@ export const LinksGroup = ({
     isPrivate,
 }: Props) => {
     const { pathname } = useLocation();
+    const { view } = useDownloadFile()
     const hasLinks = Array.isArray(children) && children.length > 0;
     const prefix = isPrivate ? "/administracion" : "";
-
     const isExternal = (url?: string) =>
         !!url && /^(https?:\/\/|\/\/|mailto:|tel:)/i.test(url);
-
+    console.log(children)
     const joinPaths = (...paths: (string | undefined)[]) =>
         "/" +
         paths
@@ -74,24 +74,6 @@ export const LinksGroup = ({
     useEffect(() => {
         setOpened(groupActive);
     }, [groupActive]);
-
-    const download = async (id: string | number) => {
-        try {
-            const response = await downloadSystem(id);
-            const blob = new Blob([response.data], {
-                type: "application/pdf",
-            });
-
-            const url = window.URL.createObjectURL(blob);
-            window.open(url, "_blank");
-
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
 
     const Content = (
         <>
@@ -173,7 +155,7 @@ export const LinksGroup = ({
                                     onClick={(e) => {
                                         e.preventDefault();
                                         if (child.id !== undefined) {
-                                            download(child.id);
+                                            view(child.file?.id ?? "#");
                                         }
                                     }}
                                 >
