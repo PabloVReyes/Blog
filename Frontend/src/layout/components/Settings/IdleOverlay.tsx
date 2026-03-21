@@ -5,16 +5,16 @@ import SpaceCatAnimation from "@/assets/space_cat.json";
 
 interface Props {
     isOnline: boolean;
-    isBlockedPort: boolean;
+    disableIdleDetector: boolean;
 }
 
-export const IdleOverlay = ({ isOnline, isBlockedPort }: Props) => {
+export const IdleOverlay = ({ isOnline, disableIdleDetector }: Props) => {
     const [show, setShow] = useState(false);
     const [rotation, setRotation] = useState(0);
     const timer = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
-        if (!isOnline || isBlockedPort) return;
+        if (!isOnline || disableIdleDetector) return;
 
         const reset = () => {
             if (timer.current) clearTimeout(timer.current);
@@ -35,7 +35,7 @@ export const IdleOverlay = ({ isOnline, isBlockedPort }: Props) => {
             if (timer.current) clearTimeout(timer.current);
             window.removeEventListener("mousemove", reset);
         };
-    }, [isOnline, isBlockedPort]);
+    }, [isOnline, disableIdleDetector]);
 
     const getRandomRotation = () => {
         const randomStep = Math.floor(Math.random() * 360) + 90;

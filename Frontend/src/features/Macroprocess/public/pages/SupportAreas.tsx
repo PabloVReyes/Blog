@@ -106,8 +106,6 @@ export interface ManualType {
     updatedAt: Date;
 }
 
-
-
 export const SupportAreas = ({ setActiveTab }: Props) => {
     const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -262,7 +260,6 @@ export const SupportAreas = ({ setActiveTab }: Props) => {
                             >
                                 Áreas Principales
                             </Button>
-
 
                             {manualsLoading ? (
                                 <Loader size="sm" />

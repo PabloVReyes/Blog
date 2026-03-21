@@ -1,5 +1,5 @@
 import { Badge, Flex, Group, Card as MantineCard, Stack, Text, ThemeIcon, Title, useMantineTheme } from "@mantine/core"
-import styles from "./Card.module.css"
+import clasess from "./Card.module.css"
 import { useNavigate } from "react-router-dom";
 import { colorMap } from "../../utils/colors";
 
@@ -55,7 +55,7 @@ export const Card = ({
                 cursor: card === "system" ? "pointer" : "default",
                 position: "relative",
             }}
-            className={styles.group}
+            className={clasess.group}
         >
             {card === "directory" &&
                 <Flex justify="space-between" align="flex-start">
@@ -63,7 +63,7 @@ export const Card = ({
                         <ThemeIcon
                             size={56}
                             variant="light"
-                            className={`${styles.iconWrapper}`}
+                            className={`${clasess.iconWrapper}`}
                             style={{
                                 '--icon-rgb': `${colorMap[theme.primaryColor]}` || "#40c057" // fallback green
                             } as React.CSSProperties}
@@ -76,7 +76,7 @@ export const Card = ({
                                 <Title order={5}>{name}</Title>
 
                                 {level && (
-                                    <Badge size="xs" className={styles.rating}>
+                                    <Badge size="xs" className={clasess.rating}>
                                         {level}
                                     </Badge>
                                 )}

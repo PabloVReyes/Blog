@@ -16,8 +16,7 @@ interface SettingsProps {
 export const Settings = ({ scrollContainer }: SettingsProps) => {
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-    const BLOCKED_PORT = "5174";
-    const isBlockedPort = window.location.port === BLOCKED_PORT;
+    const disableIdleDetector = import.meta.env.VITE_DISABLE_IDLE_DETECTOR === 'true'
 
     const [menuOpened, setMenuOpened] = useState(false);
     const [showTop, setShowTop] = useState(false);
@@ -76,7 +75,7 @@ export const Settings = ({ scrollContainer }: SettingsProps) => {
             <OfflineOverlay isOnline={isOnline} />
             <IdleOverlay
                 isOnline={isOnline}
-                isBlockedPort={isBlockedPort}
+                disableIdleDetector={disableIdleDetector}
             />
         </Affix>
     );
