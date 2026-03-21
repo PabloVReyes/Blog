@@ -1,60 +1,25 @@
 import { Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/core";
 import * as TablerIcons from "@tabler/icons-react";
-import { downloadSystem } from "../../api";
 import styles from './System.module.css'
 import { useNavigate } from "react-router-dom";
 import { getTablerIcon } from "@/helpers";
+import type { SystemData } from "@/features/Systems/types/systems.types";
+import { useDownloadFile } from "@/hooks";
 
-interface Props {
-    id: string;
-    icon: string;
-    color: string;
-    name: string;
-    acronym: string;
-    description: string;
-    url: string;
-    type: string;
-}
-
-export const System = ({ id, icon, color, name, acronym, description, url, type }: Props) => {
+export const System = ({ icon, color, name, acronym, description, url, type, file }: SystemData) => {
     const navigate = useNavigate()
+    const { view } = useDownloadFile()
 
     const Icon = getTablerIcon(icon)
 
-    const download = async (id: string) => {
-        try {
-            const response = await downloadSystem(id)
-
-            const blob = new Blob([response.data], {
-                type: "application/pdf",
-            });
-
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
     const handleNavigate = () => {
         if (type === "file") {
-            download(id)
+            view(file.id)
         } else {
             if (!url) return;
-
-            // externa
             if (url.startsWith("http")) {
                 window.open(url, "_blank"); // o window.location.href = url;
             } else {
-                // interna SPA
                 const newUrl = `/sistemas-de-consulta${url}`
                 navigate(newUrl);
             }

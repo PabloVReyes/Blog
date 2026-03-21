@@ -17,7 +17,7 @@ import { sanitizeFileName } from "../../utils/file";
 const router: Router = Router()
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, "../../../uploads/systems"),
+    destination: path.join(__dirname, "../../../uploads"),
     filename: (req, file, cb) => {
         const safeName = sanitizeFileName(file.originalname);
 

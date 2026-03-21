@@ -1,13 +1,13 @@
 import { Container } from "@/components"
 import { useEffect, useState } from "react"
-import { type SystemProps } from "../../types"
 import { fetchSystems } from "../api"
 import { SimpleGrid } from "@mantine/core"
 import { Alert } from "@/ui"
 import { System } from "../components"
+import type { SystemData } from "../../types/systems.types"
 
 export const Systems = () => {
-    const [data, setData] = useState<SystemProps[] | []>([])
+    const [data, setData] = useState<SystemData[] | []>([])
 
     useEffect(() => {
         fetchSystems()
@@ -23,10 +23,7 @@ export const Systems = () => {
                 {data.map((item, index: number) => (
                     <System
                         key={index}
-                        card="system"
-                        variant="vertical"
                         {...item}
-                        submitLabel="Acceder al sistema"
                     />
                 ))}
             </SimpleGrid>

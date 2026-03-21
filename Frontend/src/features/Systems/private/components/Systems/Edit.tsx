@@ -1,39 +1,21 @@
 import { useForm } from "@mantine/form"
-import { type SystemProps } from "../../../types"
 import { Form } from "./Form"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
 import { useSystemsStore } from "@/stores"
-
-export interface Props {
-    id: string;
-    acronym: string;
-    name: string;
-    description: string;
-    color: string;
-    icon: string;
-    url: string;
-    type: null;
-    fileName: null | string | undefined;
-    storedName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    createdAt: Date;
-    updatedAt: Date;
-}
+import type { SystemData } from "@/features/Systems/types/systems.types"
 
 
 const typeOptions = ["page", "file"] as const;
 
-export const Edit = ({ id, icon, color, name, description, url, acronym, type, fileName }: Props) => {
+export const Edit = ({ id, icon, color, name, description, url, acronym, type, file }: SystemData) => {
     const update = useSystemsStore(s => s.update)
     const initialActive = typeOptions.indexOf(type ?? "page");
     const [active, setActive] = useState(initialActive);
     const [loading, setLoading] = useState<boolean>(false)
 
-    const form = useForm<SystemProps>({
+    const form = useForm({
         mode: "controlled",
         initialValues: {
             acronym,
@@ -51,7 +33,7 @@ export const Edit = ({ id, icon, color, name, description, url, acronym, type, f
             icon: validateIcon,
             color: validateColor,
             url: (values) => validateUrl(values, { required: active === 0 }),
-            file: (values) => validatePdf(values, { required: active === 1, existingFileName: fileName })
+            file: (values) => validatePdf(values, { required: active === 1, existingFileName: file?.name })
         }
     })
 
@@ -105,7 +87,7 @@ export const Edit = ({ id, icon, color, name, description, url, acronym, type, f
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={fileName}
+            fileName={file?.name}
             activeIndex={active}
             setActiveIndex={setActive}
         />

@@ -4,7 +4,7 @@ import { downloadFileUtil } from "@/utils";
 export const useDownloadFile = () => {
     const download = async (fileId: string) => {
         try {
-            await downloadFileUtil(fileId);
+            await downloadFileUtil(fileId, "download");
         } catch (error) {
             Notify({
                 type: "error",
@@ -14,5 +14,17 @@ export const useDownloadFile = () => {
         }
     };
 
-    return { download };
+    const view = async (fileId: string) => {
+        try {
+            await downloadFileUtil(fileId, "view");
+        } catch {
+            Notify({
+                type: "error",
+                title: "Error al visualizar",
+                message: "No se pudo abrir el archivo"
+            });
+        }
+    };
+
+    return { download, view };
 };

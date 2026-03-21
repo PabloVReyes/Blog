@@ -143,7 +143,7 @@ export const putCarouselService = async (id: string, dto: CarouselUpdateDto) => 
 ////////////
 
 export const deleteCarouselService = async (id: string) => {
-    const carousel: any = await repo.getCarouselByIdRepository(id)
+    const carousel = await repo.getCarouselByIdRepository(id)
 
     if (!carousel) {
         throw new Error("Carousel no encontrado")

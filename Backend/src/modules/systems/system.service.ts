@@ -11,6 +11,10 @@ import { sanitizeFileName } from "../../utils/file"
 export const postSystemService = async (dto: type.SystemCreateDto) => {
     const { name, acronym, description, icon, url, file, color, type } = dto
 
+    if (type === "file" && !file) {
+        throw new Error("El archivo PDF el requerido")
+    }
+
     const props = {
         acronym: acronym ?? null,
         name: name ?? null,
@@ -19,11 +23,15 @@ export const postSystemService = async (dto: type.SystemCreateDto) => {
         icon,
         type,
         url: type === "page" ? url ?? null : null,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        storedName: file?.filename ?? null,
-        filePath: file?.path ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        file:
+            type === "file" && file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     }
 
     await repo.postSystemRepository(props)
@@ -75,41 +83,22 @@ export const downloadSystemFileService = async (id: string) => {
 // UPDATE //
 ////////////
 
-
 export const putSystemService = async (id: string, dto: type.SystemUpdateDto) => {
     const { acronym, name, file, url, description, icon, type, color } = dto
 
-    const system: any = await repo.getSystemByIdRepository(id)
+    const existingItem = await repo.getSystemByIdRepository(id)
 
-    if (system.storedName && type !== "file") {
-        try {
-            if (system.filePath) {
-                const fs = await import("fs/promises");
-                await fs.unlink(system.filePath).catch(() => { });
-            }
-        } catch (error) {
-            console.error("Error eliminando archivo anterior:", error);
-        }
+    if (!existingItem) {
+        throw new Error("El sistema no existe")
     }
 
-    if (system.storedName && file) {
-        try {
-            if (system.filePath) {
-                const fs = await import("fs/promises");
-                await fs.unlink(system.filePath).catch(() => { });
-            }
-        } catch (error) {
-            console.error("Error reemplazando archivo anterior:", error);
-        }
-    }
-
-    if (type === "file" && !file && !system.storedName) {
-        throw new Error("El archivo PDF es requerido");
+    if (type === "file" && !file) {
+        throw new Error("El archivo es requerido")
     }
 
     const props = {
         name: name ?? null,
-        description: description ?? null,
+        description: description,
         acronym: acronym ?? null,
         id,
         type,
@@ -117,16 +106,15 @@ export const putSystemService = async (id: string, dto: type.SystemUpdateDto) =>
         color,
 
         url: type === "page" ? url ?? null : null, // solo URL si es página
-        fileName:
-            type === "file"
-                ? file?.originalname
-                    ? sanitizeFileName(file.originalname)
-                    : system.fileName
-                : null, // null si es "page" o "null"
-        storedName: type === "file" ? file?.filename ?? system.storedName : null,
-        filePath: type === "file" ? file?.path ?? system.filePath : null,
-        fileSize: type === "file" ? file?.size ?? system.fileSize : null,
-        mimeType: type === "file" ? file?.mimetype ?? system.mimeType : null,
+        file:
+            type === "file" && file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     };
 
     return await repo.putSystemRepository(props)
@@ -137,15 +125,10 @@ export const putSystemService = async (id: string, dto: type.SystemUpdateDto) =>
 ////////////
 
 export const deleteSystemService = async (id: string) => {
-    const system: any = await repo.getSystemByIdRepository(id)
+    const system = await repo.getSystemByIdRepository(id)
 
     if (!system) {
         throw new Error("Sistema no encontrado")
-    }
-
-    if (system.filePath) {
-        const fs = await import("fs/promises");
-        await fs.unlink(system.filePath).catch(() => { });
     }
 
     await repo.deleteSystemRepository(id)

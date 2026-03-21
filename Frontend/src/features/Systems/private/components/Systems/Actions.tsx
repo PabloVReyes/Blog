@@ -3,26 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { SystemData } from "@/features/Systems/types/systems.types"
 
-export interface Props {
-    id: string;
-    acronym: string;
-    name: string;
-    description: string;
-    color: string;
-    icon: string;
-    url: string;
-    type: null;
-    fileName: null;
-    storedName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const ActionsSystems = ({ id, ...props }: Props) => {
+export const ActionsSystems = ({ id, ...props }: SystemData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

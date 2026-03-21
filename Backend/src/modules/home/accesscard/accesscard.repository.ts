@@ -221,7 +221,34 @@ export const putAccessCardRepository = async ({ id, type, color, icon, title, de
 
 export const deleteAccessCardRepository = async (id: string) => {
     try {
-        return await database.accessCardItem.delete({ where: { id } })
+        return await database.$transaction(async (tx) => {
+            const current = await tx.accessCardItem.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (error) {
+                    console.warn("No se pudo eliminar archivo:", error)
+                }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.accessCardItem.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         console.error("Error en deleteAccessCardRepository", error)
         throw new Error("Error al eliminar la access card")

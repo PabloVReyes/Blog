@@ -119,7 +119,6 @@ export const putAccessCardService = async (id: string, dto: AccessCardUpdateDto)
                     mimeType: file.mimetype
                 }
                 : null
-
     };
 
     return await repo.putAccessCardRepository(props)
@@ -130,15 +129,10 @@ export const putAccessCardService = async (id: string, dto: AccessCardUpdateDto)
 ////////////
 
 export const deleteAccessCardService = async (id: string) => {
-    const accessCard: any = await repo.getAccessCardByIdRepository(id)
+    const accessCard = await repo.getAccessCardByIdRepository(id)
 
     if (!accessCard) {
         throw new Error("Access Card no encontrado")
-    }
-
-    if (accessCard.filePath) {
-        const fs = await import("fs/promises");
-        await fs.unlink(accessCard.filePath).catch(() => { });
     }
 
     await repo.deleteAccessCardRepository(id)

@@ -8,26 +8,9 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { useSystemsStore } from "@/stores"
 import type { Column } from "@/types"
 import { getTablerIcon } from "@/helpers"
+import type { SystemData } from "../../types/systems.types"
 
-export interface Row {
-    id: string;
-    acronym: string;
-    name: string;
-    description: string;
-    color: string;
-    icon: string;
-    url: string;
-    type: null;
-    fileName: null;
-    storedName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-const columns: Column<Row>[] = [
+const columns: Column<SystemData>[] = [
     {
         key: 'icon',
         label: 'Icono',
@@ -89,7 +72,7 @@ const columns: Column<Row>[] = [
         label: "Archivo",
         align: "left",
         render: (row) => {
-            if (!row.fileName) {
+            if (!row.file) {
                 return <Text size="xs" c="dimmed">Sin archivo</Text>
             }
 
@@ -100,7 +83,7 @@ const columns: Column<Row>[] = [
                 }}
                 size="sm"
             >
-                {row.fileName}
+                {row.file.name}
             </Text>
         }
     },

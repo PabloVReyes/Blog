@@ -201,7 +201,10 @@ enum HomeSectionType {
   ACCESS_CARD
 }
 
-// Directorio
+////////////////
+// DIRECTORIO //
+////////////////
+
 model Directory {
   id        String  @id @default(uuid())
   phone     String
@@ -220,7 +223,10 @@ model Level {
   ditectories Directory[]
 }
 
-// Sistemas de consulta
+//////////////////////////
+// SISTEMAS DE CONSULTA //
+//////////////////////////
+
 model Systems {
   id          String  @id @unique @default(uuid())
   acronym     String?
@@ -229,13 +235,10 @@ model Systems {
   color       String
   icon        String
   url         String?
+  type        String?
 
-  type       String?
-  fileName   String?
-  storedName String?
-  filePath   String?
-  fileSize   Int?
-  mimeType   String?
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -797,6 +800,7 @@ model File {
   carouselItems   CarouselItem[]
   calendarConfigs CalendarConfig[]
   accessCardItems AccessCardItem[]
+  systems         Systems[]
 }
 
 // 798 lineas
