@@ -1,4 +1,4 @@
-import { getPagination } from "../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as repo from "./system.repository"
 import * as schema from "./system.schema"
 import * as type from "./systems.types"
@@ -55,14 +55,7 @@ export const getSystemService = async (dto: schema.GetSystemSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

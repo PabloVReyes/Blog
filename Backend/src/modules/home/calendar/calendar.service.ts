@@ -2,6 +2,7 @@ import * as path from "path"
 import { sanitizeFileName } from "../../../utils/file"
 import * as repo from "./calendar.repository"
 import { CalendarUpdateDto } from "./calendar.schema"
+import { buildPaginationMeta } from "../../../utils/pagination"
 
 //////////
 // READ //
@@ -11,9 +12,7 @@ export const getCalendarService = async () => {
     const data = await repo.getCalendarRepository()
     return {
         data,
-        meta: {
-            total: 1
-        }
+        meta: buildPaginationMeta(1)
     }
 }
 

@@ -1,3 +1,4 @@
+import { buildPaginationMeta } from "../../../utils/pagination"
 import * as repo from "./derechohabiencia.repository"
 import { PutDerechohabienciaBody, PutDerechohabienciaParams } from "./derechohabiencia.schema"
 
@@ -9,9 +10,7 @@ export const getDerechohabienciaService = async () => {
     const data = await repo.getDerechohacienciaRepository()
     return {
         data,
-        meta: {
-            total: 1
-        }
+        meta: buildPaginationMeta(1)
     }
 }
 

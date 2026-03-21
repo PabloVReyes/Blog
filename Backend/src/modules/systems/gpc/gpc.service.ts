@@ -2,7 +2,7 @@ import { sanitizeFileName } from "../../../utils/file";
 import * as repo from "./gpc.repository"
 import * as schema from "./gpc.schema";
 import * as type from "./gpc.types";
-import { getPagination } from "../../../utils/pagination";
+import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 
 ////////////
 // CREATE //
@@ -38,9 +38,7 @@ export const getCycleService = async () => {
     const { data, total } = await repo.getCycleRepository()
     return {
         data,
-        meta: {
-            total,
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 
@@ -56,14 +54,7 @@ export const getGpcService = async (dto: schema.GetGpcSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -79,14 +70,7 @@ export const getCycleWithGpcService = async (dto: schema.GetGpcSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

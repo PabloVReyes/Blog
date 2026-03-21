@@ -1,6 +1,6 @@
 import { sanitizeFileName } from "../../utils/file";
 import * as repo from "./macroprocess.repository"
-import { getPagination } from "../../utils/pagination";
+import { buildPaginationMeta, getPagination } from "../../utils/pagination";
 import * as path from "path";
 import { uploadsRoot } from "./path";
 import * as schema from "./macroprocess.schema"
@@ -45,14 +45,7 @@ export const getManualsWithAreaService = async (dto: schema.GetManualsWithAreaSc
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -68,14 +61,7 @@ export const getManualsTypeService = async (dto: schema.GetManualsTypeSchema) =>
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -104,14 +90,7 @@ export const getAreasService = async (dto: schema.GetAreasSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

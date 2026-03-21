@@ -1,4 +1,4 @@
-import { getPagination } from "../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as repo from "./vacations.repository"
 import * as schema from "./vacations.schema"
 import * as types from "./vacations.types"
@@ -49,14 +49,7 @@ export const getVacationsService = async (dto: schema.GetVacationssSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -72,14 +65,7 @@ export const getShiftsService = async (dto: schema.GetShiftsSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -95,14 +81,7 @@ export const getShiftWithVacationsService = async (dto: schema.GetShiftsWithFile
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

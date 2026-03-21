@@ -1,7 +1,7 @@
 import slugify from "slugify"
 import * as schema from "./downloads.schema"
 import * as repo from "./downloads.repository"
-import { getPagination } from "../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as types from "./downloads.types"
 import { sanitizeFileName } from "../../utils/file"
 import * as path from "path"
@@ -89,14 +89,7 @@ export const getDownloadsService = async (dto: schema.GetDownloadsSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -112,14 +105,7 @@ export const getAreasService = async (dto: schema.GetAreaSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -134,9 +120,7 @@ export const getSectionsByAreaService = async (area: number) => {
 
     return {
         data,
-        meta: {
-            total
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 
@@ -147,9 +131,7 @@ export const getCategoriesBySectionService = async (section: number) => {
 
     return {
         data,
-        meta: {
-            total
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 
@@ -230,3 +212,5 @@ export const deleteDownloadService = async (id: number) => {
 
     return await repo.deleteDownloadRepository(id)
 }
+
+// 242 lineas -> 214 lineas

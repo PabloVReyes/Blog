@@ -2,7 +2,7 @@ import { sanitizeFileName } from "../../utils/file"
 import * as schema from "./juristics.schema"
 import * as repo from "./juristics.repository"
 import * as types from "./juristics.types"
-import { getPagination } from "../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as path from "path"
 import { uploadsRoot } from "./path"
 
@@ -40,14 +40,7 @@ export const getJuristicsService = async (dto: schema.GetJuristicsSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (limit && page) && limit * (page - 1) + 1,
-            lastItem: (limit && page) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

@@ -1,6 +1,6 @@
 import * as schema from "./directory.schema"
 import * as repo from "./directory.repository"
-import { getPagination } from "../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 
 ////////////
 // CREATE //
@@ -34,14 +34,7 @@ export const getDirectoryService = async (dto: schema.GetDirectorySchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (limit && page) && limit * (page - 1) + 1,
-            lastItem: (limit && page) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -50,9 +43,7 @@ export const getLevelsService = async () => {
 
     return {
         data,
-        meta: {
-            total
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 
@@ -77,3 +68,5 @@ export const putDirectoryService = async (id: string, dto: schema.PutDirectorySc
 export const deleteDirectoryService = async (id: string) => {
     return await repo.deleteDirectoryRepository(id)
 }
+
+// 70 lineas

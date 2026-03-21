@@ -1,6 +1,6 @@
 import * as schema from "./permission.schema"
 import * as repo from "./permission.repository"
-import { getPagination } from "../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 
 ////////////
 // CREATE //
@@ -33,14 +33,7 @@ export const getPermissionsService = async (dto: schema.GetPermissionsSchema) =>
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (limit && page) && limit * (page - 1) + 1,
-            lastItem: (limit && page) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

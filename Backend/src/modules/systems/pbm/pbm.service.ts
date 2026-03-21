@@ -1,6 +1,6 @@
 import * as repo from "./pbm.repository"
 import { sanitizeFileName } from "../../../utils/file";
-import { getPagination } from "../../../utils/pagination";
+import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import * as schema from "./pbm.schema"
 import * as type from "./pbm.types"
 
@@ -36,14 +36,7 @@ export const getPBMService = async (dto: schema.GetPBMSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

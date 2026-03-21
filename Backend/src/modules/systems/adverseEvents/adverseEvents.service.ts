@@ -1,4 +1,5 @@
 import { sanitizeFileName } from "../../../utils/file"
+import { buildPaginationMeta } from "../../../utils/pagination"
 import * as repo from "./adverseEvents.repository"
 
 export const getAdverseEventsService = async () => {
@@ -6,9 +7,7 @@ export const getAdverseEventsService = async () => {
 
     return {
         data,
-        meta: {
-            total
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 

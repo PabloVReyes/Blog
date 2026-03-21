@@ -2,7 +2,7 @@ import * as schema from "./uveh.schema"
 import * as repo from "./uveh.repository"
 import * as types from "./uveh.types"
 import { sanitizeFileName } from "../../utils/file"
-import { getPagination } from "../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as path from "path"
 import { uploadsRoot } from "./path"
 
@@ -39,9 +39,7 @@ export const getCategoriesService = async () => {
 
     return {
         data,
-        meta: {
-            total
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 
@@ -57,14 +55,7 @@ export const getCategoriesWithDownloadsService = async (dto: schema.GetCategoryW
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -80,14 +71,7 @@ export const getDownloadsService = async (dto: schema.GetDownloadsSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

@@ -1,4 +1,4 @@
-import { getPagination } from "../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as repo from "./role.repository"
 import * as schema from "./role.schema"
 
@@ -24,14 +24,7 @@ export const getRolesService = async (dto: schema.GetRolesSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (limit && page) && limit * (page - 1) + 1,
-            lastItem: (limit && page) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

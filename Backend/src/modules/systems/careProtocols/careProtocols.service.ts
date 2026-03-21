@@ -2,7 +2,7 @@ import { sanitizeFileName } from "../../../utils/file";
 import * as repo from "./careProtocols.repository"
 import { CareProtocolsCreateDto, CareProtocolsUpdateDto } from "./careProtocols.types";
 import * as schema from "./careProtocols.schema";
-import { getPagination } from "../../../utils/pagination";
+import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 
 ////////////
 // CREATE //
@@ -35,9 +35,7 @@ export const getCategoryService = async () => {
     const { data, total } = await repo.getCategoryRepository()
     return {
         data,
-        meta: {
-            total
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 
@@ -53,14 +51,7 @@ export const getCareProtocolsService = async (dto: schema.GetCareProtocolsSchema
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -76,14 +67,7 @@ export const getCategoryWithCareProtocolsService = async (dto: schema.GetCarePro
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 

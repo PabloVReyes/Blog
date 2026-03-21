@@ -2,7 +2,7 @@ import * as schema from "./certification.schema"
 import * as repo from "./certification.repository"
 import * as types from "./certification.types"
 import { sanitizeFileName } from "../../utils/file"
-import { getPagination } from "../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as path from "path"
 import { uploadsRoot } from "./path"
 
@@ -30,9 +30,9 @@ export const postSectionService = async (dto: schema.PostSectionSchema) => {
     return await repo.postSectionRepository(name)
 }
 
-////
-// READ /
-////
+//////////
+// READ //
+//////////
 
 export const getSectionsWithCertificationsService = async (dto: schema.GetSectionWithCertificationsSchema) => {
     const { page, limit, search } = dto
@@ -43,17 +43,10 @@ export const getSectionsWithCertificationsService = async (dto: schema.GetSectio
         take,
         search
     })
-
+    
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -62,9 +55,7 @@ export const getSectionsService = async () => {
 
     return {
         data,
-        meta: {
-            total
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 
@@ -80,14 +71,7 @@ export const getCertificationsService = async (dto: schema.GetCertificationsSche
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -167,3 +151,5 @@ export const deleteCertificationService = async (id: number) => {
 
     await repo.deleteCertificationRepository(id)
 }
+
+// 169 lineas -> 152 lineas

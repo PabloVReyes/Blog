@@ -1,6 +1,6 @@
 import { GetAgreementPersonsSchema, PostAgreementPersonsSchema, PostZoneSchema, PutAgreementPersonsSchema } from "./agreementPersons.schema";
 import * as repo from "./agreementPerson.repository"
-import { getPagination } from "../../../utils/pagination";
+import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 
 ////////////
 // CREATE //
@@ -48,14 +48,7 @@ export const getAgreementPersonWithDependentsService = async (dto: GetAgreementP
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -73,14 +66,7 @@ export const getAgreementPersonService = async (dto: GetAgreementPersonsSchema) 
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (limit && page) && limit * (page - 1) + 1,
-            lastItem: (limit && page) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
@@ -89,9 +75,7 @@ export const getGroupService = async () => {
 
     return {
         data,
-        meta: {
-            total,
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 
@@ -100,9 +84,7 @@ export const getZonesService = async () => {
 
     return {
         data,
-        meta: {
-            total,
-        }
+        meta: buildPaginationMeta(total)
     }
 }
 

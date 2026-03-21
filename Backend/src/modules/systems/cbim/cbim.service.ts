@@ -1,4 +1,4 @@
-import { getPagination } from "../../../utils/pagination"
+import { buildPaginationMeta, getPagination } from "../../../utils/pagination"
 import * as schema from "./cbim.schema"
 import * as repo from "./cbim.repository"
 
@@ -35,14 +35,7 @@ export const getCbimService = async (dto: schema.GetCbimSchema) => {
 
     return {
         data,
-        meta: {
-            total,
-            page: page ?? 1,
-            limit: limit ?? total,
-            totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit) && limit * (page - 1) + 1,
-            lastItem: (page && limit) && Math.min(total, limit * page)
-        }
+        meta: buildPaginationMeta(total, page, limit)
     }
 }
 
