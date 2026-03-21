@@ -4,22 +4,11 @@ import { Notify, showSuccessModal } from "@/ui";
 import { validateDescription, validatePdf, validateTitle, validateUrl } from "@/utils";
 import { Form } from "./Form";
 import { useHomeAccessCardStore } from "@/stores";
+import type { AccessCardData } from "@/features/Home/types/accessCard.types";
 
 const typeOptions = ["page", "file"] as const;
 
-interface Props {
-    id: string;
-    title: string;
-    description: string;
-    icon: string;
-    color: string;
-    type: "page" | "file";
-    url: string
-    fileName?: string | null;
-    isActive: boolean
-}
-
-export const Edit = ({ id, title, description, icon, color, type, url, fileName, isActive }: Props) => {
+export const Edit = ({ id, title, description, icon, color, type, url, file, isActive }: AccessCardData) => {
     const update = useHomeAccessCardStore(s => s.update)
     const initialActive = typeOptions.indexOf(type ?? "page");
     const [active, setActive] = useState(initialActive);
@@ -41,7 +30,7 @@ export const Edit = ({ id, title, description, icon, color, type, url, fileName,
             title: validateTitle,
             description: validateDescription,
             url: (value) => validateUrl(value, { required: active === 0 }),
-            file: (value) => validatePdf(value, { required: active === 1, existingFileName: fileName })
+            file: (value) => validatePdf(value, { required: active === 1, existingFileName: file?.name })
         },
     })
 
@@ -55,7 +44,10 @@ export const Edit = ({ id, title, description, icon, color, type, url, fileName,
             formData.append("color", values.color)
             formData.append("icon", values.icon)
             formData.append("description", values.description)
-            formData.append("url", values.url)
+
+            if (values.url) {
+                formData.append("url", values.url)
+            }
 
             if (active === 0) {
                 formData.append("type", "page")
@@ -87,7 +79,7 @@ export const Edit = ({ id, title, description, icon, color, type, url, fileName,
             setActiveIndex={setActive}
             onSubmit={handleSubmit}
             submitLabel="Editar"
-            fileName={fileName}
+            fileName={file?.name}
             isLoading={loading}
         />
     )

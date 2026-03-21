@@ -9,67 +9,29 @@ import {
     SimpleGrid
 } from "@mantine/core"
 import styles from "./AccessCard.module.css"
-import { IconArrowNarrowRight } from "@tabler/icons-react"
+import { IconArrowNarrowRight, IconDownload } from "@tabler/icons-react"
 import { useNavigate } from "react-router-dom";
-import { downloadAccessCard } from "../../api";
 import { getTablerIcon } from "@/helpers";
-
-interface AccessCardProps {
-    id: string;
-    title: string;
-    badge: null;
-    color: string;
-    description: string;
-    icon: string;
-    url: string;
-    type: string;
-    fileName: null;
-    storedName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    orderIndex: number;
-    isActive: boolean;
-    sectionId: string;
-}
+import { useDownloadFile } from "@/hooks";
+import type { AccessCardData } from "@/features/Home/types/accessCard.types";
 
 interface Props {
-    accessCards: AccessCardProps[]
+    accessCards: AccessCardData[]
 }
 
 interface handleNavigateProps {
     type: string;
-    url: string;
-    id: string
+    url: string | null;
+    file: {
+        id: string
+    }
 }
 
 export const AccessCard = ({ accessCards }: Props) => {
     const navigate = useNavigate();
+    const { download } = useDownloadFile()
 
-    const download = async (id: string) => {
-        try {
-            const response = await downloadAccessCard(id)
-
-            const blob = new Blob([response.data], {
-                type: "application/pdf",
-            });
-
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
-    const handleNavigate = ({ type, url, id }: handleNavigateProps) => {
+    const handleNavigate = ({ type, url, file }: handleNavigateProps) => {
         if (type === "page") {
             if (!url) return;
 
@@ -81,7 +43,7 @@ export const AccessCard = ({ accessCards }: Props) => {
                 navigate(url);
             }
         } else {
-            download(id)
+            download(file.id)
         }
     };
 
@@ -103,7 +65,7 @@ export const AccessCard = ({ accessCards }: Props) => {
                             withBorder
                             style={{ cursor: "pointer", position: "relative" }}
                             className={styles.group}
-                            onClick={() => handleNavigate({ ...system })}
+                            onClick={() => handleNavigate({...system})}
                         >
                             <Stack gap={"xs"} h={"100%"}>
                                 {system.badge && (
@@ -138,17 +100,22 @@ export const AccessCard = ({ accessCards }: Props) => {
                                     </Text>
                                 )}
 
-
                                 <Button
                                     mt={"auto"}
                                     variant="subtle"
                                     px={0}
                                     className={styles.action}
                                     rightSection={
-                                        <IconArrowNarrowRight
-                                            size={20}
-                                            className={styles.arrow}
-                                        />
+                                        system.type === "page" ?
+                                            <IconArrowNarrowRight
+                                                size={20}
+                                                className={styles.arrow}
+                                            />
+                                            :
+                                            <IconDownload
+                                                size={20}
+                                                className={styles.download}
+                                            />
                                     }
                                 >
                                     {system.type === "page" ? "Acceder" : "Descargar"}

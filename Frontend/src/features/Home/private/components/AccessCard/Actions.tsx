@@ -3,27 +3,9 @@ import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
+import type { AccessCardData } from "@/features/Home/types/accessCard.types"
 
-export interface Props {
-    id: string
-    title: string;
-    badge: null;
-    color: string;
-    description: string;
-    icon: string;
-    url: string;
-    type: "page" | "file";
-    fileName: null | string;
-    storedName: null | string;
-    filePath: null | string;
-    fileSize: null | number;
-    mimeType: null | string;
-    orderIndex: number;
-    isActive: boolean;
-    sectionId: string;
-}
-
-export const ActionsAccessCard = ({ id, ...props }: Props) => {
+export const ActionsAccessCard = ({ id, ...props }: AccessCardData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

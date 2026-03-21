@@ -11,30 +11,30 @@ import { AccessCardCreateDto, AccessCardUpdateDto } from "./accesscard.types"
 export const postAccessCardService = async (dto: AccessCardCreateDto) => {
     const { title, description, sectionId, type, url, icon, color, isActive, file } = dto
 
-    const contentType: 'page' | 'file' | 'null' =
-        type === 'page' ? 'page' :
-            type === 'file' ? 'file' :
-                'null';
-
     if (type === "file" && !file) {
         throw new Error("El archivo PDF es requerido");
     }
 
     const props = {
-        title: title ?? null,
-        description: description ?? null,
+        title,
+        description,
         sectionId,
-        type: contentType,
+        type,
         icon,
         color,
         isActive,
 
-        url: contentType === 'page' ? url ?? null : null,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        storedName: file?.filename ?? null,
-        filePath: file?.path ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        url: type === 'page' ? url ?? null : null,
+
+        file:
+            type === "file" && file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     };
 
     await repo.postAccessCardRepository(props)
@@ -45,7 +45,7 @@ export const postAccessCardService = async (dto: AccessCardCreateDto) => {
 export const downloadAccessCardFileService = async (id: string) => {
     const accessCard: any = await repo.getAccessCardByIdRepository(id)
 
-    if(!accessCard || !accessCard.filePath) {
+    if (!accessCard || !accessCard.filePath) {
         throw new Error("Archivo no encontrado")
     }
 
@@ -77,8 +77,8 @@ export const getAccessCardService = async (dto: GetAccessCardSchema) => {
             page: page ?? 1,
             limit: limit ?? total,
             totalPages: limit ? Math.ceil(total / limit) : 1,
-            firstItem: (page && limit)  && limit * (page - 1) + 1,
-            lastItem: (page && limit)  && Math.min(total, limit * page)
+            firstItem: (page && limit) && limit * (page - 1) + 1,
+            lastItem: (page && limit) && Math.min(total, limit * page)
         }
     }
 }
@@ -90,61 +90,39 @@ export const getAccessCardService = async (dto: GetAccessCardSchema) => {
 export const putAccessCardService = async (id: string, dto: AccessCardUpdateDto) => {
     const { title, description, type, url, icon, color, isActive, file } = dto
 
-    const existingItem: any = await repo.getAccessCardByIdRepository(id)
+    const existingItem = await repo.getAccessCardByIdRepository(id)
 
-    // 🔥 Si antes tenía archivo y ahora ya no será tipo file → eliminarlo
-    if (existingItem.storedName && type !== "file") {
-        try {
-            if (existingItem.filePath) {
-                const fs = await import("fs/promises");
-                await fs.unlink(existingItem.filePath).catch(() => { });
-            }
-        } catch (error) {
-            console.error("Error eliminando archivo anterior:", error);
-        }
+    if (!existingItem) {
+        throw new Error("El Acceso Rapido no existe")
     }
 
-    // 🔥 Si es tipo file y subieron uno nuevo → eliminar el anterior
-    if (existingItem.storedName && file) {
-        try {
-            if (existingItem.filePath) {
-                const fs = await import("fs/promises");
-                await fs.unlink(existingItem.filePath).catch(() => { });
-            }
-        } catch (error) {
-            console.error("Error reemplazando archivo anterior:", error);
-        }
-    }
-
-    if (type === "file" && !file && !existingItem.storedName) {
-        throw new Error("El archivo PDF es requerido");
+    if (type === "file" && !file) {
+        throw new Error("El archivo es requerido")
     }
 
     const props = {
-        title: title ?? null,
-        description: description ?? null,
+        title,
+        description,
         id,
         type,
         icon,
         color,
         isActive,
 
-        url: type === "page" ? url ?? null : null, // solo URL si es página
-        fileName:
-            type === "file"
-                ? file?.originalname
-                    ? sanitizeFileName(file.originalname)
-                    : existingItem.fileName
-                : null, // null si es "page" o "null"
-        storedName: type === "file" ? file?.filename ?? existingItem.storedName : null,
-        filePath: type === "file" ? file?.path ?? existingItem.filePath : null,
-        fileSize: type === "file" ? file?.size ?? existingItem.fileSize : null,
-        mimeType: type === "file" ? file?.mimetype ?? existingItem.mimeType : null,
+        url: type === "page" ? url ?? null : null, 
+        file:
+            type === "file" && file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
+
     };
 
-    const data = await repo.putAccessCardRepository(props)
-
-    return data
+    return await repo.putAccessCardRepository(props)
 }
 
 ////////////

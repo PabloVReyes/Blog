@@ -28,6 +28,15 @@
     transform: translateX(2px);
 }
 
+.download {
+    transition: transform 200ms ease;
+}
+
+.group:hover .download {
+    transform: translateY(2px);
+}
+
+
 .group:hover .action {
     gap: 1px;
 }

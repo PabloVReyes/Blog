@@ -132,23 +132,22 @@ model CarouselItem {
 }
 
 model AccessCardItem {
-  id          String      @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   badge       String?
   color       String
-  description String?     @db.LongText
+  description String? @db.LongText
   icon        String?
   url         String?
   type        String?
-  fileName    String?
-  storedName  String?
-  filePath    String?
-  fileSize    Int?
-  mimeType    String?
-  orderIndex  Int
-  isActive    Boolean     @default(true)
-  sectionId   String
-  section     HomeSection @relation(fields: [sectionId], references: [id])
+
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
+
+  orderIndex Int
+  isActive   Boolean     @default(true)
+  sectionId  String
+  section    HomeSection @relation(fields: [sectionId], references: [id])
 }
 
 model CalendarConfig {
@@ -784,7 +783,7 @@ model ShiftFile {
 }
 
 model File {
-  id       String @id @default(uuid())
+  id       String  @id @default(uuid())
   name     String?
   path     String?
   size     Int?
@@ -793,9 +792,11 @@ model File {
   url      String?
   provider String?
 
-  createdAt       DateTime         @default(now())
+  createdAt DateTime @default(now())
+
   carouselItems   CarouselItem[]
   calendarConfigs CalendarConfig[]
+  accessCardItems AccessCardItem[]
 }
 
 // 798 lineas

@@ -11,7 +11,7 @@ export interface QuickAccessFormValues {
     description: string;
     icon: string;
     color: string;
-    url?: string;
+    url?: string | null;
     file?: File | null;
     [key: string]: unknown;
 }

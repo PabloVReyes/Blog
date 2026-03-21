@@ -20,6 +20,9 @@ export const getHomeRepository = async () => {
                 },
                 orderBy: {
                     orderIndex: "asc"
+                },
+                include: {
+                    file: true
                 }
             },
             derechohabiencia: {

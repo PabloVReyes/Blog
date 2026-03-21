@@ -47,9 +47,7 @@ export const postCarouselService = async (dto: CarouselCreateDto) => {
                 : null
     };
 
-    await repo.postCarouselRepository(props)
-
-    return true
+    return await repo.postCarouselRepository(props)
 }
 
 //////////
