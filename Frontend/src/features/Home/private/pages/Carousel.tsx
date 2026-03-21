@@ -26,7 +26,6 @@ const columns: Column<CarouselData>[] = [
         label: 'Enlace',
         align: 'left',
         render: (row) => {
-            console.log(row)
             if (!row.url) {
                 return <Text size="xs" c="dimmed">Sin enlace</Text>
             }

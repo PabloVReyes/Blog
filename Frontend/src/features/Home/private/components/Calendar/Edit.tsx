@@ -7,18 +7,10 @@ import { useState } from "react";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 import { useHomeCalendarStore } from "@/stores";
 import { getTablerIcon } from "@/helpers";
+import type { CalendarData } from "@/features/Home/types/calendar.types";
 
-interface Props {
-    id: string;
-    icon: string;
-    color: string;
-    title: string;
-    description: string;
-    year: string;
-    fileName?: string | null
-}
 
-export const Edit = ({ id, icon, color, title, description, year, fileName }: Props) => {
+export const Edit = ({ id, icon, color, title, description, year, file }: CalendarData) => {
     const [loading, setLoading] = useState<boolean>(false)
     const update = useHomeCalendarStore(s => s.update)
 
@@ -115,7 +107,7 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: Pr
                         maxLength={MAX_YEAR_LENGTH}
                         rightSection={
                             <Text size="xs" c="dimmed">
-                                {form.values.year?.length || 0}/{MAX_YEAR_LENGTH}
+                                {form.values.year?.toString().length || 0}/{MAX_YEAR_LENGTH}
                             </Text>
                         }
                         rightSectionWidth={30}
@@ -126,8 +118,8 @@ export const Edit = ({ id, icon, color, title, description, year, fileName }: Pr
                     <FileInput
                         label="Archivo"
                         description={
-                            fileName ?
-                                `Archivo cargado: ${fileName}` :
+                            file?.name ?
+                                `Archivo cargado: ${file?.name}` :
                                 "Selecciona un archivo PDF"
                         }
                         placeholder="Manual de procedimientos PDF"

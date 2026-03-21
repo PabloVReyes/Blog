@@ -8,8 +8,9 @@ export interface CarouselFormValues {
     title: string;
     description: string;
     image: File | null;
-    url?: string;
-    file?: File | null;
+    type: "page" | "file" | "null"
+    url: string | null;
+    file: File | null;
 }
 
 interface Props {

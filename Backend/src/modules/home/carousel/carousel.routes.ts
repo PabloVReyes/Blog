@@ -12,9 +12,9 @@ const storage = multer.diskStorage({
         let uploadPath = "";
 
         if (file.fieldname === "image") {
-            uploadPath = path.join(__dirname, "../../../../uploads/carousel/images");
+            uploadPath = path.join(__dirname, "../../../../uploads");
         } else if (file.fieldname === "file") {
-            uploadPath = path.join(__dirname, "../../../../uploads/carousel/files");
+            uploadPath = path.join(__dirname, "../../../../uploads");
         } else {
             return cb(new Error("Campo de archivo no válido"), "");
         }

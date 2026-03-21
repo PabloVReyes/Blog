@@ -26,7 +26,7 @@ export const validateCode = (value: string) =>
 
 // Validación de URL con opciones para requerirla o permitir solo relativas
 export const validateUrl = (
-    value: string,
+    value: string | null,
     options?: {
         required?: boolean;
         allowRelative?: boolean;

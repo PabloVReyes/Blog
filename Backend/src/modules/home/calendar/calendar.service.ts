@@ -1,3 +1,4 @@
+import * as path from "path"
 import { sanitizeFileName } from "../../../utils/file"
 import * as repo from "./calendar.repository"
 import { CalendarUpdateDto } from "./calendar.schema"
@@ -16,18 +17,6 @@ export const getCalendarService = async () => {
     }
 }
 
-export const downloadCalendarFileService = async (id: string) => {
-    const calendar: any = await repo.getCalendarByIdRepository(id)
-    if (!calendar || !calendar.filePath) {
-        throw new Error("Archivo no encontrado")
-    }
-
-    return {
-        filePath: calendar.filePath,
-        fileName: calendar.fileName
-    }
-}
-
 ////////////
 // UPDATE //
 ////////////
@@ -35,7 +24,7 @@ export const downloadCalendarFileService = async (id: string) => {
 export const putCalendarService = async (id: string, dto: CalendarUpdateDto) => {
     const { title, description, year, icon, color, file } = dto
 
-    const calendar: any = await repo.getCalendarByIdRepository(id)
+    const calendar = await repo.getCalendarByIdRepository(id)
 
     if (!calendar) {
         throw new Error("Calendario no encontrado")
@@ -47,27 +36,15 @@ export const putCalendarService = async (id: string, dto: CalendarUpdateDto) => 
         description,
         color,
         icon,
-        year
-    }
-
-    // Si hay archivo, agregamos los datos
-    if (file) {
-        if (calendar.storedName) {
-            try {
-                if (calendar.filePath) {
-                    const fs = await import("fs/promises");
-                    await fs.unlink(calendar.filePath).catch(() => { });
-                }
-            } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+        year,
+        file: file
+            ? {
+                name: sanitizeFileName(file.originalname),
+                path: file.filename,
+                size: file.size,
+                mimeType: file.mimetype
             }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.storedName = file.filename;
-        props.filePath = file.path;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+            : calendar.file
     }
 
     return await repo.putCalendarRepository(props)

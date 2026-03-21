@@ -6,25 +6,9 @@ import { ActionsCalendar } from "../components"
 import { useHomeCalendarStore } from "@/stores"
 import type { Column } from "@/types"
 import { getTablerIcon } from "@/helpers"
+import type { CalendarData } from "../../types/calendar.types"
 
-export interface Row {
-    id: string;
-    year: number;
-    title: string;
-    icon: string;
-    color: string;
-    description: string;
-    sectionId: string;
-    fileName: null;
-    storedName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-const columns: Column<Row>[] = [
+const columns: Column<CalendarData>[] = [
     {
         key: "icon",
         label: "Icono",
@@ -70,7 +54,7 @@ const columns: Column<Row>[] = [
         label: 'Archivo',
         align: 'left',
         render: (row) => {
-            if (!row.fileName) {
+            if (!row.file) {
                 return <Text size="xs" c="dimmed">Sin archivo</Text>
             }
 
@@ -81,7 +65,7 @@ const columns: Column<Row>[] = [
                 }}
                 size="sm"
             >
-                {row.fileName}
+                {row.file.name}
             </Text>
         }
     },

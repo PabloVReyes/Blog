@@ -3,30 +3,9 @@ import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
+import type { CarouselData } from "@/features/Home/types/carousel.types"
 
-export interface Props {
-    id: string
-    imageName: string;
-    imageUrl: string;
-    imagePath: string;
-    type: "page" | "file";
-    title: string;
-    description: string;
-    orderIndex: number;
-    isActive: boolean;
-    url: string | null;
-    fileName?: null | string;
-    storedName?: null | string;
-    filePath?: null | string;
-    fileSize?: null | number;
-    mimeType?: null | string;
-    sectionId: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-export const ActionsCarousel = ({ id, ...props }: Props) => {
+export const ActionsCarousel = ({ id, ...props }: CarouselData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

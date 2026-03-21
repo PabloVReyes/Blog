@@ -1,3 +1,5 @@
+import type { FileData } from "@/types";
+
 export interface CarouselData {
     id: string;
     imageName: string;
@@ -13,16 +15,11 @@ export interface CarouselData {
     sectionId: string;
     createdAt: Date;
     updatedAt: Date;
-    file: File;
+    file: FileData;
 }
 
-export interface File {
-    id: string;
-    name: string | null;
-    path: string | null;
-    size: number | null;
-    mimeType: string | null;
-    url: string | null;
-    provider: null;
-    createdAt: Date;
+export interface CarouselFilters {
+    page?: number;
+    limit?: number;
+    search?: string;
 }

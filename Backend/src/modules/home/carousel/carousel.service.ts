@@ -3,6 +3,7 @@ import * as repo from "./carousel.repository"
 import { GetCarouselSchema } from "./carousel.schema"
 import { sanitizeFileName } from "../../../utils/file"
 import { CarouselCreateDto, CarouselUpdateDto } from "./carousel.types"
+import * as path from "path"
 
 ////////////
 // CREATE //
@@ -27,7 +28,7 @@ export const postCarouselService = async (dto: CarouselCreateDto) => {
             : null,
 
         imageUrl: imageFile
-            ? `/uploads/carousel/images/${imageFile.filename}`
+            ? `/uploads/${imageFile.filename}`
             : null,
 
         imagePath:
@@ -39,7 +40,7 @@ export const postCarouselService = async (dto: CarouselCreateDto) => {
             type === "file" && contentFile
                 ? {
                     name: sanitizeFileName(contentFile.originalname),
-                    path: contentFile.path,
+                    path: contentFile.filename,
                     size: contentFile.size,
                     mimeType: contentFile.mimetype
                 }
@@ -104,27 +105,6 @@ export const putCarouselService = async (id: string, dto: CarouselUpdateDto) => 
         throw new Error("El elemento no existe");
     }
 
-    if (existingItem.file && (type !== "file" || contentFile)) {
-        try {
-            if (existingItem.file.path) {
-                const fs = await import("fs/promises");
-                await fs.unlink(existingItem.file.path).catch(() => { });
-            }
-        } catch (error) {
-            console.error("Error al eliminar archivo anterior", error)
-            throw new Error("Error eliminando archivo anterior")
-        }
-    }
-
-    if (existingItem.imagePath && imageFile) {
-        try {
-            const fs = await import("fs/promises");
-            await fs.unlink(existingItem.imagePath).catch(() => { });
-        } catch (error) {
-            console.error("Error eliminando imagen anterior:", error);
-        }
-    }
-
     if (type === "file" && !contentFile && !existingItem.fileId) {
         throw new Error("El archivo es requerido");
     }
@@ -136,17 +116,13 @@ export const putCarouselService = async (id: string, dto: CarouselUpdateDto) => 
         description,
         type,
 
-        imageName: imageFile
-            ? sanitizeFileName(imageFile.originalname)
-            : existingItem.imageName,
-
-        imageUrl: imageFile
-            ? `/uploads/carousel/images/${imageFile.filename}`
-            : existingItem.imageUrl,
-
-        imagePath: imageFile
-            ? imageFile.path
-            : existingItem.imagePath,
+        image: imageFile
+            ? {
+                name: sanitizeFileName(imageFile.originalname),
+                path: imageFile.path,
+                url: `/uploads/${imageFile.filename}`
+            }
+            : undefined,
 
         url: type === "page" ? url ?? null : null,
 
@@ -154,7 +130,7 @@ export const putCarouselService = async (id: string, dto: CarouselUpdateDto) => 
             type === "file" && contentFile
                 ? {
                     name: sanitizeFileName(contentFile.originalname),
-                    path: contentFile.path,
+                    path: contentFile.filename,
                     size: contentFile.size,
                     mimeType: contentFile.mimetype
                 }
@@ -173,16 +149,6 @@ export const deleteCarouselService = async (id: string) => {
 
     if (!carousel) {
         throw new Error("Carousel no encontrado")
-    }
-
-    if (carousel.imagePath) {
-        const fs = await import("fs/promises");
-        await fs.unlink(carousel.imagePath).catch(() => { });
-    }
-
-    if (carousel.filePath) {
-        const fs = await import("fs/promises");
-        await fs.unlink(carousel.filePath).catch(() => { });
     }
 
     await repo.deleteCarouselRepository(id)

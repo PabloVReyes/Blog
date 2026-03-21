@@ -32,7 +32,11 @@ export const getHomeRepository = async () => {
                 }
             },
             alert: true,
-            calendar: true
+            calendar: {
+                include: {
+                    file: true
+                }
+            }
         },
         orderBy: {
             orderIndex: "asc"

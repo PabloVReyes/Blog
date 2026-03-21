@@ -1,52 +1,14 @@
 import { Badge, Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/core"
 import styles from "./Calendar.module.css"
-import { downloadCalendar } from "../../api";
 import * as TablerIcons from "@tabler/icons-react";
 import { getTablerIcon } from "@/helpers";
+import { useDownloadFile } from "@/hooks";
+import type { CalendarData } from "@/features/Home/types/calendar.types";
 
-interface Props {
-    id: string;
-    title: string;
-    color: string;
-    year: number;
-    description: string;
-    fileName?: string | null;
-    icon: string
-}
 
-export const Calendar = ({ id, title, color, year, description, fileName, icon }: Props) => {
-    const download = async (id: string) => {
-        try {
-            const response = await downloadCalendar(id)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
+export const Calendar = ({ title, color, year, description, file, icon }: CalendarData) => {
+    const { download } = useDownloadFile()
     const Icon = getTablerIcon(icon)
-
     return (
         <Card padding={"lg"} h={"100%"}>
             <Stack h={"100%"}>
@@ -75,8 +37,8 @@ export const Calendar = ({ id, title, color, year, description, fileName, icon }
                     leftSection={
                         <TablerIcons.IconFileDownload size={18} />
                     }
-                    disabled={!fileName}
-                    onClick={() => download(id)}
+                    disabled={!file?.path}
+                    onClick={() => download(file.id)}
                 >
                     Descargar PDF
                 </Button>

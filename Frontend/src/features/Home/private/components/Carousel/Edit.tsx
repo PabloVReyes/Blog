@@ -4,21 +4,11 @@ import { Notify, showSuccessModal } from "@/ui"
 import { Form } from "./Form"
 import { validateDescription, validateTitle, validateUrl, validatePdf, validateImage } from "@/utils"
 import { useHomeCarouselStore } from "@/stores"
+import type { CarouselData } from "@/features/Home/types/carousel.types"
 
 const typeOptions = ["null", "page", "file"] as const;
 
-interface Props {
-    id: string;
-    title: string;
-    description: string;
-    fileName?: string | null;
-    imageName: string;
-    type: "page" | "file";
-    url: string | null;
-    isActive: boolean
-}
-
-export const Edit = ({ id, title, description, fileName, imageName, type, url, isActive }: Props) => {
+export const Edit = ({ id, title, description, file, imageName, type, url, isActive }: CarouselData) => {
     const update = useHomeCarouselStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
     const initialActive = typeOptions.indexOf(type ?? "null");
@@ -39,7 +29,7 @@ export const Edit = ({ id, title, description, fileName, imageName, type, url, i
             title: validateTitle,
             description: validateDescription,
             url: (value) => validateUrl(value, { required: active === 1 }),
-            file: (value) => validatePdf(value, { required: active === 2 }),
+            file: (value) => validatePdf(value, { required: active === 2, existingFileName: file?.name }),
             image: (value) => validateImage(value, { required: false })
         },
     })
@@ -52,7 +42,10 @@ export const Edit = ({ id, title, description, fileName, imageName, type, url, i
             formData.append("isActive", String(values.isActive))
             formData.append("title", values.title)
             formData.append("description", values.description)
-            formData.append("url", values.url)
+            
+            if(values.url) {
+                formData.append("url", values.url)
+            }
 
             if (values.image) {
                 formData.append("image", values.image!)
@@ -90,7 +83,7 @@ export const Edit = ({ id, title, description, fileName, imageName, type, url, i
             setActiveIndex={setActive}
             onSubmit={handleSubmit}
             submitLabel="Editar"
-            fileName={fileName}
+            fileName={file?.name}
             imageName={imageName}
             isLoading={loading}
         />

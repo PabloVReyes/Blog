@@ -109,15 +109,10 @@ export function createCrudStore<
             },
 
             async setPage(page) {
-
                 const { limit, search, cache } = get()
-
                 const key = `${page}-${limit}-${search}`
-
                 const cached = cache[key]
-
                 if (cached && Date.now() - cached.timestamp < cacheTTL) {
-
                     set(state => ({
                         ...state,
                         page,
@@ -127,12 +122,9 @@ export function createCrudStore<
                         firstItem: cached.meta.firstItem,
                         lastItem: cached.meta.lastItem
                     }))
-
                     return
                 }
-
                 set(state => ({ ...state, page }))
-
                 if (api.fetch) {
                     await actions.fetch?.()
                 }
@@ -156,19 +148,13 @@ export function createCrudStore<
         if (api.fetch) {
 
             actions.fetch = async () => {
-
                 const currentRequest = ++requestId
-
                 const { page, limit, search, cache } = get()
-
                 const key = `${page}-${limit}-${search}`
-
                 const cached = cache[key]
-
                 if (cached && Date.now() - cached.timestamp < cacheTTL) {
                     return
                 }
-
                 set(state => ({ ...state, isLoading: true }))
 
                 try {

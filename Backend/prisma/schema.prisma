@@ -785,10 +785,10 @@ model ShiftFile {
 
 model File {
   id       String @id @default(uuid())
-  name     String
-  path     String
-  size     Int
-  mimeType String
+  name     String?
+  path     String?
+  size     Int?
+  mimeType String?
 
   url      String?
   provider String?

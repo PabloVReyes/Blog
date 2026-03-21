@@ -34,7 +34,7 @@ export const createCrudApi = <
                 ).toString()
                 : ""
 
-            const { data } = await api.get(`${basePath}${query ? `?${query}` : ""}`)
+            const { data } = await api.get<{ data: T[] }>(`${basePath}${query ? `?${query}` : ""}`)
             return data
         },
 

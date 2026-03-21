@@ -83,6 +83,6 @@ export const crudApiRegistry = {
     UVEH: UVEHApi,
     vacationShift: vacationShiftApi,
     vacation: vacationApi
-}
+} as const
 
 // 206 lineas -> 88 lineas

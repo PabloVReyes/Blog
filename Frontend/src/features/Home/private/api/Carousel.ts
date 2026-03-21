@@ -1,11 +1,11 @@
 import { createCrudApi } from "@/lib"
-import type { AlertFilters, Alert } from "../types/alert.types"
+import type { CarouselData, CarouselFilters } from "../../types/carousel.types"
 
 export const homeCarouselApi = createCrudApi<
-    Alert,
-    Partial<Alert>,
-    Partial<Alert>,
-    AlertFilters
+    CarouselData,
+    FormData,
+    FormData,
+    CarouselFilters
 >("api/home/carousel")
 
 // 23 lineas -> 9 lineas

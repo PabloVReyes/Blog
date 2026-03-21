@@ -13,23 +13,6 @@ export const getCalendarController: RequestHandler = asyncHandler(async (req: Re
     res.json(data)
 })
 
-export const downloadCalendarFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadCalendarFileParamsSchema.parse(req.params)
-    const data = await service.downloadCalendarFileService(params.id)
-
-    res.setHeader(
-        "Content-Disposition",
-        `attachment; filename="${data.fileName}"`
-    );
-
-    res.setHeader(
-        "Access-Control-Expose-Headers",
-        "Content-Disposition"
-    );
-
-    fs.createReadStream(data.filePath).pipe(res);
-})
-
 ////////////
 // UPDATE //
 ////////////

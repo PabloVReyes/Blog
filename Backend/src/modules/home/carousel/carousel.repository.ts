@@ -1,6 +1,7 @@
 import { database } from "../../../config/prisma"
 import { GetCarouselProps, PostCarouselProps } from "./carousel.types"
-
+import * as fs from 'fs/promises'
+import * as path from 'path'
 ////////////
 // CREATE //
 ////////////
@@ -125,9 +126,11 @@ type PutCarouselRepositoryProps = {
     type: string;
     url?: string | null;
 
-    imageName?: string | null;
-    imageUrl?: string | null;
-    imagePath?: string | null;
+    image?: {
+        name?: string | null;
+        url?: string | null;
+        path?: string | null;
+    }
 
     file?: {
         name?: string;
@@ -137,45 +140,88 @@ type PutCarouselRepositoryProps = {
     } | null;
 };
 
-export const putCarouselRepository = async ({
-    isActive,
-    id,
-    imageName,
-    imageUrl,
-    title,
-    description,
-    type,
-    url,
-    file,
-    imagePath
-}: PutCarouselRepositoryProps) => {
+
+
+export const putCarouselRepository = async (props: PutCarouselRepositoryProps) => {
+    const {
+        id,
+        isActive,
+        title,
+        description,
+        type,
+        url,
+        file,
+        image
+    } = props;
+
     try {
         return await database.$transaction(async (tx) => {
-            const currentItem = await tx.carouselItem.findUnique({
+
+            const current = await tx.carouselItem.findUnique({
                 where: { id },
                 include: { file: true }
             });
 
-            if (!currentItem) {
+            if (!current) {
                 throw new Error("CarouselItem no encontrado");
             }
 
-            let fileId: string | null = currentItem.fileId;
+            let fileId = current.fileId;
+            let imagePath: any = current.imagePath;
+            let imageName: any = current.imageName;
+            let imageUrl: any = current.imageUrl;
+
+            const uploadsPath = path.join(process.cwd(), 'uploads');
 
             if (type === "file") {
                 if (file) {
-                    const newFile = await tx.file.create({
-                        data: {
-                            name: file.name,
-                            path: file.path,
-                            size: file.size,
-                            mimeType: file.mimeType
+                    if (current.file?.path) {
+                        try {
+                            await fs.unlink(path.join(uploadsPath, current.file.path));
+                        } catch (e) {
+                            console.warn("No se pudo eliminar archivo:", e);
                         }
+
+                        await tx.file.delete({
+                            where: { id: current.file.id }
+                        });
+                    }
+
+                    const newFile = await tx.file.create({
+                        data: file
                     });
+
                     fileId = newFile.id;
                 }
+
             } else {
+                if (current.file?.path) {
+                    try {
+                        await fs.unlink(path.join(uploadsPath, current.file.path));
+                    } catch (e) {
+                        console.warn("No se pudo eliminar archivo:", e);
+                    }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    });
+                }
+
                 fileId = null;
+            }
+
+            if (image) {
+                if (current.imagePath) {
+                    try {
+                        await fs.unlink(current.imagePath);
+                    } catch (e) {
+                        console.warn("No se pudo eliminar imagen:", e);
+                    }
+                }
+
+                imagePath = image.path;
+                imageName = image.name;
+                imageUrl = image.url;
             }
 
             return await tx.carouselItem.update({
@@ -185,12 +231,11 @@ export const putCarouselRepository = async ({
                     title,
                     description,
                     type,
-
-                    imageName,
-                    imageUrl,
-                    imagePath,
                     url: type === "page" ? url : null,
-                    fileId
+                    fileId,
+                    imagePath,
+                    imageName,
+                    imageUrl
                 },
                 include: {
                     file: true
@@ -202,7 +247,7 @@ export const putCarouselRepository = async ({
         console.error("error en putCarouselRepository", error)
         throw new Error("Error en putCarouselRepository")
     }
-}
+};
 
 ////////////
 // DELETE //
@@ -210,8 +255,42 @@ export const putCarouselRepository = async ({
 
 export const deleteCarouselRepository = async (id: string) => {
     try {
-        return await database.carouselItem.delete({
-            where: { id }
+        return await database.$transaction(async (tx) => {
+
+            const current = await tx.carouselItem.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Carousel no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.imagePath) {
+                try {
+                    await fs.unlink(current.imagePath)
+                } catch (error) {
+                    console.warn("No se pudo eliminar imagen:", error)
+                }
+            }
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (error) {
+                    console.warn("No se pudo eliminar archivo:", error)
+                }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.carouselItem.delete({
+                where: { id }
+            })
         })
 
     } catch (error) {
