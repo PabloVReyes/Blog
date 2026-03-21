@@ -4,90 +4,37 @@ import Autoplay from 'embla-carousel-autoplay';
 import { useRef } from 'react';
 import { Image, Text, Title } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-import { downloadCarousel } from '../../api';
-import { Notify } from '@/ui';
-
-export interface Items {
-    id: string;
-    imageName: string;
-    imageUrl: string;
-    imagePath: string;
-    type: string;
-    title: string;
-    description: string;
-    orderIndex: number;
-    isActive: boolean;
-    url: string;
-    fileName: null | string;
-    storedName: null | string;
-    filePath: null | string;
-    fileSize: number | null;
-    mimeType: null | string;
-    sectionId: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
+import type { CarouselData } from '@/features/Home/types/carousel.types';
+import { useDownloadFile } from '@/hooks';
 
 interface Props {
-    items: Items[]
+    items: CarouselData[]
 }
 
 export const Carousel = ({ items }: Props) => {
+    const { download } = useDownloadFile()
+
     const navigate = useNavigate();
 
-    const download = async (id: string) => {
-        try {
-            const response = await downloadCarousel(id)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error: unknown) {
-            Notify({
-                type: "error",
-                title: "Error al descargar el archivo",
-                message: error instanceof Error ? error.message : "Error desconocido"
-            });
-        }
-    };
-
     interface HandleNavigateProps {
-        type: string;
-        url: string;
-        id: string;
+        type: string | null;
+        url: string | null;
+        file: {
+            id: string;
+        };
     }
 
-    const handleNavigate = ({ type, url, id }: HandleNavigateProps) => {
+    const handleNavigate = ({ type, url, file }: HandleNavigateProps) => {
         if (type === "page") {
             if (!url) return;
 
-            // externa
             if (url.startsWith("http")) {
-                window.open(url, "_blank"); // o window.location.href = url;
+                window.open(url, "_blank");
             } else {
-                // interna SPA
                 navigate(url);
             }
         } else {
-            download(id)
+            download(file.id)
         }
     };
 

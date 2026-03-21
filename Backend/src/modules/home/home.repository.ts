@@ -9,6 +9,9 @@ export const getHomeRepository = async () => {
                 },
                 orderBy: {
                     orderIndex: "desc"
+                },
+                include: {
+                    file: true
                 }
             },
             accessCards: {

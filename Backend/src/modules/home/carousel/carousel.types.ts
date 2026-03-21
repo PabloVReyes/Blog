@@ -26,11 +26,12 @@ export interface PostCarouselProps {
 
     url: string | null;
 
-    fileName: string | null;
-    storedName: string | null;
-    filePath: string | null;
-    fileSize: number | null;
-    mimeType: string | null;
+    file?: {
+        name?: string;
+        path: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
 }
 
-export interface CarouselUpdateDto extends PutCarouselSchema, CarouselFileDto {}
+export interface CarouselUpdateDto extends PutCarouselSchema, CarouselFileDto { }

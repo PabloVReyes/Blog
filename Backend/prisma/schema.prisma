@@ -72,7 +72,12 @@ model Setting {
   value String @db.LongText
 }
 
-// Inicio
+// Limpiando base de datos
+
+////////////
+// INICIO //
+////////////
+
 model HomeSection {
   id         String          @id @default(uuid())
   key        String          @unique
@@ -115,11 +120,9 @@ model CarouselItem {
   orderIndex  Int     @default(0)
   isActive    Boolean @default(true)
   url         String?
-  fileName    String?
-  storedName  String?
-  filePath    String?
-  fileSize    Int?
-  mimeType    String?
+
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 
   sectionId String
   section   HomeSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
@@ -149,21 +152,21 @@ model AccessCardItem {
 }
 
 model CalendarConfig {
-  id          String      @id @default(uuid())
+  id          String  @id @default(uuid())
   year        Int
   title       String
   icon        String
   color       String
-  description String?     @db.LongText
-  sectionId   String      @unique
-  fileName    String?
-  storedName  String?
-  filePath    String?
-  fileSize    Int?
-  mimeType    String?
-  section     HomeSection @relation(fields: [sectionId], references: [id])
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?   @updatedAt
+  description String? @db.LongText
+
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
+
+  sectionId String      @unique
+  section   HomeSection @relation(fields: [sectionId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model DerechohabienciaConfig {
@@ -779,3 +782,20 @@ model ShiftFile {
 
   @@unique([type, shiftId]) // Solo un CALENDAR y un INDEX por jornada
 }
+
+model File {
+  id       String @id @default(uuid())
+  name     String
+  path     String
+  size     Int
+  mimeType String
+
+  url      String?
+  provider String?
+
+  createdAt       DateTime         @default(now())
+  carouselItems   CarouselItem[]
+  calendarConfigs CalendarConfig[]
+}
+
+// 798 lineas

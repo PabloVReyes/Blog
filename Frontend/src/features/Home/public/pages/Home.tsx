@@ -5,6 +5,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { fetchHomeSections } from "../api";
 import { getTablerIcon } from "@/helpers";
+import type { CarouselData } from "../../types/carousel.types";
 
 export interface Data {
     id: string;
@@ -15,7 +16,7 @@ export interface Data {
     orderIndex: number;
     createdAt: Date;
     updatedAt: Date;
-    carouselItems: CarouselItem[];
+    carouselItems: CarouselData[];
     accessCards: AccessCard[];
     derechohabiencia: Alert;
     alert: Alert | null;
@@ -83,27 +84,6 @@ export interface Calendar {
     updatedAt: Date;
 }
 
-export interface CarouselItem {
-    id: string;
-    imageName: string;
-    imageUrl: string;
-    imagePath: string;
-    type: string;
-    title: string;
-    description: string;
-    orderIndex: number;
-    isActive: boolean;
-    url: null;
-    fileName: null | string;
-    storedName: null | string;
-    filePath: null | string;
-    fileSize: number | null;
-    mimeType: null | string;
-    sectionId: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
 export const Home = () => {
     const isDesktop = useMediaQuery("(min-width: 1400px)");
     const [data, setData] = useState<Data[]>([]);
@@ -114,7 +94,6 @@ export const Home = () => {
 
     if (data.length === 0) return <Center h={"100%"}><Loader /></Center>;
 
-    // Tomamos las secciones por tipo para mantener el orden exacto
     const alertSection = data.find((s) => s.type === "ALERT" && s.alert?.isActive);
     const carouselSection = data.find((s) => s.type === "CAROUSEL");
     const calendarSection = data.find((s) => s.type === "CALENDAR");

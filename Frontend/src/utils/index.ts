@@ -41,3 +41,7 @@ export {
 export {
     formatLocalDate
 } from "./date"
+
+export {
+    downloadFileUtil
+} from "./downloadFile"

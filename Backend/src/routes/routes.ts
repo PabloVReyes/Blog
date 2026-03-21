@@ -15,6 +15,7 @@ import usersRoutes from "../modules/users/user.routes"
 import rolesRoutes from "../modules/roles/role.routes"
 import permissionsRoutes from "../modules/permissions/permission.routes"
 import settingsRoutes from "../modules/settings/settings.routes"
+import filesRoutes from "../modules/files/files.routes"
 
 const router: Router = Router()
 
@@ -51,5 +52,6 @@ router.use("/api/roles", rolesRoutes)
 router.use("/api/permissions", permissionsRoutes)
 router.use("/api/settings", settingsRoutes)
 router.use("/api/search", searchRoutes)
+router.use("/api/files", filesRoutes)
 
 export default router;

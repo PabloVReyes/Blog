@@ -15,44 +15,47 @@ export const postCarouselRepository = async ({
     description,
     type,
     url,
-    fileName,
-    storedName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PostCarouselProps) => {
     try {
-        const lastItem = await database.carouselItem.findFirst({
-            where: { sectionId },
-            orderBy: { orderIndex: "desc" }
-        });
+        return await database.$transaction(async (tx) => {
+            const lastItem = await tx.carouselItem.findFirst({
+                where: { sectionId },
+                orderBy: { orderIndex: "desc" }
+            });
 
-        await database.carouselItem.create({
-            data: {
-                isActive,
-                type,
-                imageName,
-                imageUrl,
-                title,
-                description,
-                sectionId,
-                imagePath,
+            let fileId: string | null = null;
 
-                // si es página
-                url: type === "page" ? url : null,
-
-                // si es archivo
-                fileName: type === "file" ? fileName : null,
-                storedName: type === "file" ? storedName : null,
-                filePath: type === "file" ? filePath : null,
-                fileSize: type === "file" ? fileSize : null,
-                mimeType: type === "file" ? mimeType : null,
-
-                orderIndex: lastItem ? lastItem.orderIndex + 1 : 0
+            if (type === "file" && file) {
+                const createdFile = await tx.file.create({
+                    data: {
+                        name: file.name,
+                        path: file.path,
+                        size: file.size,
+                        mimeType: file.mimeType
+                    }
+                });
+                fileId = createdFile.id;
             }
-        });
 
-        return true;
+            return await tx.carouselItem.create({
+                data: {
+                    isActive,
+                    type,
+                    imageName,
+                    imageUrl,
+                    imagePath,
+                    title,
+                    description,
+                    sectionId,
+                    url: type === "page" ? url : null,
+                    fileId,
+                    orderIndex: lastItem
+                        ? lastItem.orderIndex + 1
+                        : 0
+                }
+            });
+        });
     } catch (error) {
         console.error("error en postCarouselRepository", error);
         throw new Error("Error al crear el elemento del carrusel");
@@ -82,6 +85,9 @@ export const getCarouselRepository = async ({ isActive, take, skip, search }: Ge
                 orderBy: { orderIndex: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
+                include: {
+                    file: true
+                }
             }),
             database.carouselItem.count({ where }),
         ])
@@ -95,7 +101,12 @@ export const getCarouselRepository = async ({ isActive, take, skip, search }: Ge
 
 export const getCarouselByIdRepository = async (id: string) => {
     try {
-        return await database.carouselItem.findUnique({ where: { id } })
+        return await database.carouselItem.findUnique({
+            where: { id },
+            include: {
+                file: true
+            }
+        })
     } catch (error) {
         console.error("error en getCarouselByIdRepository", error)
         throw new Error("Error al obtener carousel")
@@ -106,23 +117,25 @@ export const getCarouselByIdRepository = async (id: string) => {
 // UPDATE //
 ////////////
 
-interface PutCarouselRepositoryProps {
-    isActive: boolean;
+type PutCarouselRepositoryProps = {
     id: string;
-    imageName: string;
-    imageUrl: string;
-    title: string;
-    description: string;
+    isActive: boolean;
+    title?: string;
+    description?: string;
     type: string;
-    imagePath: string | null;
-    url: string | null;
+    url?: string | null;
 
-    fileName: string | null;
-    storedName: string | null;
-    filePath: string | null;
-    fileSize: number | null;
-    mimeType: string | null;
-}
+    imageName?: string | null;
+    imageUrl?: string | null;
+    imagePath?: string | null;
+
+    file?: {
+        name?: string;
+        path: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
+};
 
 export const putCarouselRepository = async ({
     isActive,
@@ -133,38 +146,57 @@ export const putCarouselRepository = async ({
     description,
     type,
     url,
-    fileName,
-    storedName,
-    filePath,
-    fileSize,
-    mimeType,
+    file,
     imagePath
 }: PutCarouselRepositoryProps) => {
     try {
-        return await database.carouselItem.update({
-            where: {
-                id
-            },
-            data: {
-                isActive,
-                type,
-                imageName,
-                imageUrl,
-                title,
-                description,
-                imagePath,
+        return await database.$transaction(async (tx) => {
+            const currentItem = await tx.carouselItem.findUnique({
+                where: { id },
+                include: { file: true }
+            });
 
-                // si es página
-                url: type === "page" ? url : null,
-
-                // si es archivo
-                fileName: type === "file" ? fileName : null,
-                storedName: type === "file" ? storedName : null,
-                filePath: type === "file" ? filePath : null,
-                fileSize: type === "file" ? fileSize : null,
-                mimeType: type === "file" ? mimeType : null,
+            if (!currentItem) {
+                throw new Error("CarouselItem no encontrado");
             }
-        })
+
+            let fileId: string | null = currentItem.fileId;
+
+            if (type === "file") {
+                if (file) {
+                    const newFile = await tx.file.create({
+                        data: {
+                            name: file.name,
+                            path: file.path,
+                            size: file.size,
+                            mimeType: file.mimeType
+                        }
+                    });
+                    fileId = newFile.id;
+                }
+            } else {
+                fileId = null;
+            }
+
+            return await tx.carouselItem.update({
+                where: { id },
+                data: {
+                    isActive,
+                    title,
+                    description,
+                    type,
+
+                    imageName,
+                    imageUrl,
+                    imagePath,
+                    url: type === "page" ? url : null,
+                    fileId
+                },
+                include: {
+                    file: true
+                }
+            });
+        });
 
     } catch (error) {
         console.error("error en putCarouselRepository", error)

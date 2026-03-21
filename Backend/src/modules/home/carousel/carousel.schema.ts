@@ -7,7 +7,7 @@ import { z } from "zod"
 export const postCarouselSchema = z.object({
     title: z.string(),
     description: z.string(),
-    sectionId: z.string().uuid(),
+    sectionId: z.uuid(),
     type: z.enum(['page', 'file', 'null']),
     url: z.string().optional().nullable(),
     isActive: z.preprocess((val) => val === 'true' || val === true, z.boolean())

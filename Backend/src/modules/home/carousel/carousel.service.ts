@@ -11,11 +11,6 @@ import { CarouselCreateDto, CarouselUpdateDto } from "./carousel.types"
 export const postCarouselService = async (dto: CarouselCreateDto) => {
     const { title, description, sectionId, type, url, isActive, imageFile, contentFile } = dto
 
-    const contentType: 'page' | 'file' | 'null' =
-        type === 'page' ? 'page' :
-            type === 'file' ? 'file' :
-                'null';
-
     if (type === "file" && !contentFile) {
         throw new Error("El archivo PDF es requerido");
     }
@@ -25,18 +20,30 @@ export const postCarouselService = async (dto: CarouselCreateDto) => {
         title,
         description,
         sectionId,
-        type: contentType,
+        type,
 
-        imageName: imageFile ? sanitizeFileName(imageFile.originalname) : null,
-        imageUrl: imageFile ? `/uploads/carousel/images/${imageFile.filename}` : null,
-        imagePath: imageFile?.path ?? null,
+        imageName: imageFile
+            ? sanitizeFileName(imageFile.originalname)
+            : null,
 
-        url: contentType === 'page' ? url ?? null : null,
-        fileName: contentFile?.originalname ? sanitizeFileName(contentFile.originalname) : null,
-        storedName: contentFile?.filename ?? null,
-        filePath: contentFile?.path ?? null,
-        fileSize: contentFile?.size ?? null,
-        mimeType: contentFile?.mimetype ?? null,
+        imageUrl: imageFile
+            ? `/uploads/carousel/images/${imageFile.filename}`
+            : null,
+
+        imagePath:
+            imageFile?.path ?? null,
+
+        url: type === 'page' ? url ?? null : null,
+
+        file:
+            type === "file" && contentFile
+                ? {
+                    name: sanitizeFileName(contentFile.originalname),
+                    path: contentFile.path,
+                    size: contentFile.size,
+                    mimeType: contentFile.mimetype
+                }
+                : null
     };
 
     await repo.postCarouselRepository(props)
@@ -74,14 +81,13 @@ export const getCarouselService = async (dto: GetCarouselSchema) => {
 
 export const downloadCarouselFileService = async (id: string) => {
     const file = await repo.getCarouselByIdRepository(id)
-
-    if (!file || !file.storedName || !file.filePath) {
+    if (!file?.file || !file.file.path) {
         throw new Error("Archivo no encontrado");
     }
 
     return {
-        filePath: file.filePath,
-        fileName: file.fileName
+        filePath: file.file.path,
+        fileName: file.file.name
     }
 }
 
@@ -92,81 +98,70 @@ export const downloadCarouselFileService = async (id: string) => {
 export const putCarouselService = async (id: string, dto: CarouselUpdateDto) => {
     const { title, description, type, url, isActive, imageFile, contentFile } = dto;
 
-    const existingItem: any = await repo.getCarouselByIdRepository(id);
+    const existingItem = await repo.getCarouselByIdRepository(id);
 
     if (!existingItem) {
         throw new Error("El elemento no existe");
     }
 
-    // 🔥 Si antes tenía archivo y ahora ya no será tipo file → eliminarlo
-    if (existingItem.storedName && type !== "file") {
+    if (existingItem.file && (type !== "file" || contentFile)) {
         try {
-            if (existingItem.filePath) {
+            if (existingItem.file.path) {
                 const fs = await import("fs/promises");
-                await fs.unlink(existingItem.filePath).catch(() => { });
+                await fs.unlink(existingItem.file.path).catch(() => { });
             }
         } catch (error) {
-            console.error("Error eliminando archivo anterior:", error);
+            console.error("Error al eliminar archivo anterior", error)
+            throw new Error("Error eliminando archivo anterior")
         }
     }
 
-    // 🔥 Si es tipo file y subieron uno nuevo → eliminar el anterior
-    if (existingItem.storedName && contentFile) {
-        try {
-            if (existingItem.filePath) {
-                const fs = await import("fs/promises");
-                await fs.unlink(existingItem.filePath).catch(() => { });
-            }
-        } catch (error) {
-            console.error("Error reemplazando archivo anterior:", error);
-        }
-    }
-
-    // Actualizar la imagen si es que la suben
     if (existingItem.imagePath && imageFile) {
         try {
-            if (existingItem.imagePath) {
-                const fs = await import("fs/promises");
-                await fs.unlink(existingItem.imagePath).catch(() => { });
-            }
+            const fs = await import("fs/promises");
+            await fs.unlink(existingItem.imagePath).catch(() => { });
         } catch (error) {
-            console.error("Error reemplazando archivo anterior:", error);
+            console.error("Error eliminando imagen anterior:", error);
         }
     }
 
-    // Validaciones según tipo
-    if (type === "file" && !contentFile && !existingItem.storedName) {
-        throw new Error("El archivo PDF es requerido");
+    if (type === "file" && !contentFile && !existingItem.fileId) {
+        throw new Error("El archivo es requerido");
     }
 
-    // Construimos el objeto actualizado
     const props = {
-        isActive,
         id,
+        isActive,
         title,
         description,
         type,
 
-        imageName: imageFile ? sanitizeFileName(imageFile.originalname) : existingItem.imageName,
-        imageUrl: imageFile ? `/uploads/carousel/images/${imageFile.filename}` : existingItem.imageUrl,
-        imagePath: imageFile ? imageFile.path : existingItem.imagePath,
+        imageName: imageFile
+            ? sanitizeFileName(imageFile.originalname)
+            : existingItem.imageName,
 
-        url: type === "page" ? url ?? null : null, // solo URL si es página
-        fileName:
-            type === "file"
-                ? contentFile?.originalname
-                    ? sanitizeFileName(contentFile.originalname)
-                    : existingItem.fileName
-                : null, // null si es "page" o "null"
-        storedName: type === "file" ? contentFile?.filename ?? existingItem.storedName : null,
-        filePath: type === "file" ? contentFile?.path ?? existingItem.filePath : null,
-        fileSize: type === "file" ? contentFile?.size ?? existingItem.fileSize : null,
-        mimeType: type === "file" ? contentFile?.mimetype ?? existingItem.mimeType : null,
+        imageUrl: imageFile
+            ? `/uploads/carousel/images/${imageFile.filename}`
+            : existingItem.imageUrl,
+
+        imagePath: imageFile
+            ? imageFile.path
+            : existingItem.imagePath,
+
+        url: type === "page" ? url ?? null : null,
+
+        file:
+            type === "file" && contentFile
+                ? {
+                    name: sanitizeFileName(contentFile.originalname),
+                    path: contentFile.path,
+                    size: contentFile.size,
+                    mimeType: contentFile.mimetype
+                }
+                : null
     };
 
-    const data = await repo.putCarouselRepository(props);
-
-    return data;
+    return await repo.putCarouselRepository(props);
 };
 
 ////////////
@@ -195,3 +190,4 @@ export const deleteCarouselService = async (id: string) => {
     return true
 }
 
+// 195 lineas

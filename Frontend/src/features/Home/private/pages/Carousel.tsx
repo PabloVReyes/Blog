@@ -8,30 +8,9 @@ import { IconEye, IconEyeOff } from "@tabler/icons-react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useHomeCarouselStore } from "@/stores"
 import type { Column } from "@/types"
+import type { CarouselData } from "../../types/carousel.types"
 
-export interface Row {
-    id: string;
-    imageName: string;
-    imageUrl: string;
-    imagePath: string;
-    type: string;
-    title: string;
-    description: string;
-    orderIndex: number;
-    isActive: boolean;
-    url: null;
-    fileName: string;
-    storedName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    sectionId: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-const columns: Column<Row>[] = [
+const columns: Column<CarouselData>[] = [
     {
         key: 'title',
         label: 'Titulo',
@@ -47,6 +26,7 @@ const columns: Column<Row>[] = [
         label: 'Enlace',
         align: 'left',
         render: (row) => {
+            console.log(row)
             if (!row.url) {
                 return <Text size="xs" c="dimmed">Sin enlace</Text>
             }
@@ -59,7 +39,7 @@ const columns: Column<Row>[] = [
         label: 'Archivo',
         align: 'left',
         render: (row) => {
-            if (!row.fileName) {
+            if (!row.file) {
                 return <Text size="xs" c="dimmed">Sin archivo</Text>
             }
 
@@ -70,7 +50,7 @@ const columns: Column<Row>[] = [
                 }}
                 size="sm"
             >
-                {row.fileName}
+                {row.file.name}
             </Text>
         }
     },

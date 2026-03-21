@@ -14,7 +14,7 @@ interface Props {
     fileName?: string | null;
     imageName: string;
     type: "page" | "file";
-    url: string;
+    url: string | null;
     isActive: boolean
 }
 

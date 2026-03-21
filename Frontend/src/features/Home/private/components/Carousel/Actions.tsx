@@ -14,7 +14,7 @@ export interface Props {
     description: string;
     orderIndex: number;
     isActive: boolean;
-    url: string;
+    url: string | null;
     fileName?: null | string;
     storedName?: null | string;
     filePath?: null | string;
