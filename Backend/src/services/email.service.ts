@@ -37,7 +37,7 @@ export const sendUserCredentials = async ({
       <p>${escapeHtml(message)}</p>
 
       <p><b>Usuario:</b> ${escapeHtml(email)}</p>
-      <p><b>Contraseña:</b> ${password}</p>
+      <p><b>Contraseña:</b> ${escapeHtml(password)}</p>
 
       <p>Te recomendamos cambiar tu contraseña después de iniciar sesión.</p>
     `
