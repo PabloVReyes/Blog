@@ -5,14 +5,14 @@ import * as type from "./search.types"
 
 export const getSearchService = async (dto: schema.getSearchSchema) => {
     const { page, search, limit } = dto
-    const { take, skip } = getPagination()
+    const { take, skip } = getPagination(page, limit)
 
     const [
         { data: systems, total: systemsTotal },
     ] = await Promise.all([
         repo.getSystemRepository({
             search,
-            take: limit,
+            take,
             skip,
         }),
     ]);
