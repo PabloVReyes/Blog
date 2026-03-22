@@ -8,7 +8,7 @@ import { sanitizeFileName } from "../../../utils/file";
 const router: Router = Router()
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, "../../../../uploads/gpc"),
+    destination: path.join(__dirname, "../../../../uploads"),
     filename: (req, file, cb) => {
         const safeName = sanitizeFileName(file.originalname);
 
@@ -34,7 +34,6 @@ export const upload = multer({
 
 router.post("/algorithms", upload.single("file"), controller.postGpcController)
 router.get("/algorithms", controller.getGpcController)
-router.get("/algorithms/:id/download", controller.downloadGpcFileController)
 router.put("/algorithms/:id", upload.single("file"), controller.putGpcController)
 router.delete("/algorithms/:id", controller.deleteGpcController)
 

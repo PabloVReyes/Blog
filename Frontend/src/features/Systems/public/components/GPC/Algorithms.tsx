@@ -2,80 +2,24 @@ import { Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@manti
 import styles from "./Algorithms.module.css"
 import { IconDownload, IconExternalLink } from "@tabler/icons-react"
 import { formatFileSize } from "@/utils"
-import { downloadGPC } from "../../api"
 import { getTablerIcon } from "@/helpers"
+import { useDownloadFile } from "@/hooks"
+import type { GPCData } from "@/features/Systems/types/gpc.types"
 
-interface Props {
-    id: string;
-    title: string;
-    fileSize: number;
-    orderIndex: number;
+interface Props extends GPCData {
     color: string;
-    description: string;
 }
 
-export const GPCAlgorithms = ({ id, title, fileSize, orderIndex, color, description }: Props) => {
+export const GPCAlgorithms = ({ title, orderIndex, file, description, color }: Props) => {
+    const { download, view } = useDownloadFile()
     const Icon = getTablerIcon(`IconHexagonNumber${orderIndex}Filled`)
-        
-    const download = async (id: string) => {
-        try {
-            const response = await downloadGPC(id)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
-    const view = async (id: string) => {
-        try {
-            const response = await downloadGPC(id)
-
-            const blob = new Blob([response.data], {
-                type: "application/pdf",
-            });
-
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
 
     return (
         <Card
             className={styles.group}
         >
             <Flex justify="space-between" align="flex-start">
-                <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
+                <Flex gap="md" align="center" style={{ flex: 1 }}>
                     <ThemeIcon
                         size={56}
                         variant="light"
@@ -93,7 +37,7 @@ export const GPCAlgorithms = ({ id, title, fileSize, orderIndex, color, descript
                             {description}
                         </Text>
                         <Text size="xs" c="dimmed">
-                            {formatFileSize(fileSize)}
+                            {formatFileSize(file?.size ?? 0)}
                         </Text>
                     </Stack>
                 </Flex>
@@ -105,7 +49,7 @@ export const GPCAlgorithms = ({ id, title, fileSize, orderIndex, color, descript
                         p={6}
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => download(id)}
+                        onClick={() => download(file?.id ?? "")}
                     >
                         <IconDownload size={20} />
                     </Button>
@@ -115,7 +59,7 @@ export const GPCAlgorithms = ({ id, title, fileSize, orderIndex, color, descript
                         color="gray"
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => view(id)}
+                        onClick={() => view(file?.id ?? "")}
                     >
                         <IconExternalLink size={20} />
                     </Button>

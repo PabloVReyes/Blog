@@ -42,8 +42,8 @@ export const NotFound = () => {
 
                     <Alert
                         content={
-                            <Stack gap={4}>
-                                <Text size="sm" w={500}>Sugerencias:</Text>
+                            <Stack gap={4} align="center">
+                                <Text size="sm" ta="center" w={500} fw={700}>Sugerencias</Text>
                                 <Stack gap={2}>
                                     <Text size="sm">• Verifica que la URL esté correctamente escrita</Text>
                                     <Text size="sm">• Regresa a la página anterior o al inicio</Text>

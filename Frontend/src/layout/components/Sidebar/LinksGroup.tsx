@@ -29,7 +29,6 @@ export const LinksGroup = ({
     const prefix = isPrivate ? "/administracion" : "";
     const isExternal = (url?: string) =>
         !!url && /^(https?:\/\/|\/\/|mailto:|tel:)/i.test(url);
-    console.log(children)
     const joinPaths = (...paths: (string | undefined)[]) =>
         "/" +
         paths

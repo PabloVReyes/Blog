@@ -42,19 +42,6 @@ export const postAccessCardService = async (dto: AccessCardCreateDto) => {
     return true
 }
 
-export const downloadAccessCardFileService = async (id: string) => {
-    const accessCard: any = await repo.getAccessCardByIdRepository(id)
-
-    if (!accessCard || !accessCard.filePath) {
-        throw new Error("Archivo no encontrado")
-    }
-
-    return {
-        filePath: accessCard.filePath,
-        fileName: accessCard.fileName
-    }
-}
-
 //////////
 // READ //
 //////////

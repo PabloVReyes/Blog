@@ -19,7 +19,6 @@ const storage = multer.diskStorage({
             return cb(new Error("Campo de archivo no válido"), "");
         }
 
-        // 🔹 Crear carpeta automáticamente si no existe
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
@@ -58,7 +57,6 @@ export const upload = multer({
 });
 
 router.get("/", controller.getCarouselController)
-router.get("/:id/download", controller.downloadCarouselFileController)
 router.post("/", upload.fields([{ name: "image", maxCount: 1 }, { name: "file", maxCount: 1 }]), controller.postCarouselController)
 router.put("/:id", upload.fields([{ name: "image", maxCount: 1 }, { name: "file", maxCount: 1 }]), controller.putCarouselController)
 router.delete("/:id", controller.deleteCarouselController)

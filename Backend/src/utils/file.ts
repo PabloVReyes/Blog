@@ -17,5 +17,5 @@ export const sanitizeFileName = (original: string): string => {
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/[^a-zA-Z0-9-_]/g, '_')
         .toLowerCase()
-    return `${base}_${crypto.randomUUID()}${ext}`
+    return `${base}${ext}`
 }

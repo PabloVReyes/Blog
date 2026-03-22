@@ -1,6 +1,8 @@
+import * as path from "path"
 import { database } from "../../../config/prisma";
 import { PaginationProps } from "../../../types/pagination";
 import { logger } from "../../../utils/logger";
+import * as fs from "fs/promises";
 
 ////////////
 // CREATE //
@@ -34,10 +36,12 @@ interface PostGpcRepositoryProps {
     description: string;
     cycle: string;
     orderIndex: number
-    fileName?: string | null;
-    filePath?: string | null;
-    fileSize?: number | null;
-    mimeType?: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
 }
 
 export const postGpcRepository = async ({
@@ -45,10 +49,7 @@ export const postGpcRepository = async ({
     description,
     cycle,
     orderIndex,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PostGpcRepositoryProps) => {
     try {
         return await database.$transaction(async (tx) => {
@@ -69,16 +70,23 @@ export const postGpcRepository = async ({
                 },
             })
 
+            let fileId: string | null = null
+
+            if (file) {
+                const createFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = createFile.id
+            }
+
             const gpc = await tx.gpc.create({
                 data: {
                     title,
                     description,
                     cycleId: cycle,
                     orderIndex: newIndex,
-                    fileName,
-                    filePath,
-                    fileSize,
-                    mimeType
+                    fileId
                 }
             })
 
@@ -107,7 +115,7 @@ export const getCycleRepository = async () => {
     try {
         const [data, total] = await Promise.all([
             database.cycle.findMany({
-                orderBy: { name: "asc" }
+                orderBy: { name: "asc" },
             }),
             database.cycle.count(),
         ])
@@ -145,7 +153,11 @@ export const getCycleWithGpcRepository = async ({ search, take, skip }: Paginati
                 ...(skip !== undefined && { skip }),
                 include: {
                     _count: { select: { gpcs: true } },
-                    gpcs: true
+                    gpcs: {
+                        include: {
+                            file: true
+                        }
+                    },
                 }
             }),
             database.cycle.count({ where }),
@@ -180,7 +192,10 @@ export const getGpcRepository = async ({ search, take, skip }: PaginationProps) 
                 orderBy: { id: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
-                include: { cycle: true }
+                include: {
+                    cycle: true,
+                    file: true
+                }
             }),
             database.gpc.count({ where }),
         ])
@@ -230,24 +245,54 @@ export const putGpcRepository = async ({
     title,
     description,
     cycle,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PutGpcRepositoryProps) => {
     try {
-        return await database.gpc.update({
-            where: { id },
-            data: {
-                title,
-                description,
-                cycleId: cycle,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
-            },
-            include: { cycle: true }
+        return await database.$transaction(async (tx) => {
+            const current = await tx.gpc.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Altoritmo no encontrado")
+            }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            return await tx.gpc.update({
+                where: { id },
+                data: {
+                    title,
+                    description,
+                    cycleId: cycle,
+                    fileId
+                },
+                include: {
+                    cycle: true,
+                    file: true
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -269,7 +314,32 @@ export const putGpcRepository = async ({
 
 export const deleteGpcRepository = async (id: string) => {
     try {
-        return await database.gpc.delete({ where: { id } })
+        return database.$transaction(async (tx) => {
+            const current = await tx.gpc.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.gpc.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         logger.error(
             {

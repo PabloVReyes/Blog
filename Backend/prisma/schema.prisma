@@ -443,12 +443,10 @@ model gpc {
   title       String
   description String @db.LongText
 
-  fileName String?
-  filePath String?
-  fileSize Int?
-  mimeType String?
+  fileId  String?
+  file    File?   @relation(fields: [fileId], references: [id])
 
-  cycle   cycle  @relation(fields: [cycleId], references: [id])
+  cycle   cycle   @relation(fields: [cycleId], references: [id])
   cycleId String
 
   @@unique([cycleId, orderIndex])
@@ -801,6 +799,7 @@ model File {
   calendarConfigs CalendarConfig[]
   accessCardItems AccessCardItem[]
   systems         Systems[]
+  gpcs            gpc[]
 }
 
 // 798 lineas

@@ -124,7 +124,5 @@ export const deleteSystemService = async (id: string) => {
         throw new Error("Sistema no encontrado")
     }
 
-    await repo.deleteSystemRepository(id)
-
-    return true
+    return await repo.deleteSystemRepository(id)
 }

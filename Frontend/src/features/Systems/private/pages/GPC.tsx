@@ -8,31 +8,15 @@ import { Badge, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
 import { colorMap } from "@/utils"
 import { useSystemsGPCStore } from "@/stores"
 import { getTablerIcon } from "@/helpers"
+import type { GPCData } from "../../types/gpc.types"
+import type { Column } from "@/types"
 
-export interface Row {
-    id: string;
-    orderIndex: number;
-    title: string;
-    description: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    cycleId: string;
-    cycle: Cycle;
-}
-
-export interface Cycle {
-    id: string;
-    name: string;
-}
-
-const columns = (primaryColor: string) => [
+const columns = (primaryColor: string): Column<GPCData>[] => [
     {
         key: "orderIndex",
         label: "Prioridad",
         align: 'left',
-        render: (row: Row) => {
+        render: (row) => {
             const Icon = getTablerIcon(`IconHexagonNumber${row.orderIndex}Filled`)
 
             return (
@@ -63,8 +47,8 @@ const columns = (primaryColor: string) => [
         key: "cycle",
         label: "Ciclo",
         align: 'center',
-        miw: "150px",
-        render: (row: Row) => {
+        miw: 150,
+        render: (row) => {
             return (
                 <Badge variant="filled" size="sm">{row.cycle.name}</Badge>
             )
@@ -74,14 +58,14 @@ const columns = (primaryColor: string) => [
         key: "algorithm",
         label: "Algoritmo",
         align: 'left',
-        render: (row: Row) => {
+        render: (row) => {
             return (
                 <Text size="sm"
                     style={{
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileName}</Text>
+                >{row.file?.name}</Text>
             )
         }
     },
@@ -89,7 +73,7 @@ const columns = (primaryColor: string) => [
         key: "actions",
         label: "Acciones",
         align: "center",
-        render: (row: Row) => {
+        render: (row) => {
             return <ActionsGCP {...row} />
         }
     }

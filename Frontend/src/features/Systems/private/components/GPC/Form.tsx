@@ -14,7 +14,7 @@ interface Props {
     onSubmit: (values: any) => void;
     submitLabel: string;
     isLoading?: boolean;
-    fileName?: string;
+    fileName?: string | null;
     initialCycle?: Item | null;
 }
 

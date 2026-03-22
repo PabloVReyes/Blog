@@ -23,10 +23,15 @@ export const postGpcService = async (dto: type.GpcCreateDto) => {
         description,
         cycle,
         orderIndex,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        filePath: file?.path ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     })
 
 }
@@ -75,19 +80,6 @@ export const getCycleWithGpcService = async (dto: schema.GetGpcSchema) => {
     }
 }
 
-export const dowloadGpcFileService = async (id: string) => {
-    const GPC = await repo.getGpcByIdRepositoy(id)
-
-    if (!GPC || !GPC.filePath) {
-        throw new Error("Algoritmo no encontrado")
-    }
-
-    return {
-        filePath: GPC.filePath,
-        fileName: GPC.fileName
-    }
-}
-
 ////////////
 // UPDATE //
 ////////////
@@ -95,34 +87,27 @@ export const dowloadGpcFileService = async (id: string) => {
 export const putGpcService = async (id: string, dto: type.GpcUpdateDto) => {
     const { title, description, cycle, orderIndex, file } = dto
 
-    const Gpc: any = await repo.getGpcByIdRepositoy(id)
+    const existingItem = await repo.getGpcByIdRepositoy(id)
+
+    if (!existingItem) {
+        throw new Error("El sistema no existe")
+    }
 
     const props: any = {
         id,
         title,
         description,
         cycle,
-        orderIndex
-    }
-
-    if (file) {
-        if (Gpc.filePath) {
-            try {
-                if (Gpc.filePath) {
-                    const fs = await import("fs/promises");
-                    await fs.unlink(Gpc.filePath).catch(() => { });
+        orderIndex,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
                 }
-
-
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.filePath = file.path;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+                : null
     }
 
     return await repo.putGpcRepository(props)
@@ -137,11 +122,6 @@ export const deleteGpcService = async (id: string) => {
 
     if (!GPC) {
         throw new Error("Algoritmo no encontrada")
-    }
-
-    if (GPC.filePath) {
-        const fs = await import("fs/promises");
-        await fs.unlink(GPC.filePath).catch(() => { });
     }
 
     return await repo.deleteGpcRepository(id)

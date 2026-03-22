@@ -16,26 +16,28 @@ async function main() {
     */
 
     const permissions = [
-        { key: "users.read", name: "Ver usuarios", description: "Permite ver el apartado de usuarios" },
-        { key: "users.create", name: "Crear usuarios", description: "Permite crear usuarios" },
-        { key: "users.update", name: "Actualizar usuarios", description: "Permite actualizar usuarios" },
-        { key: "users.delete", name: "Eliminar usuarios", description: "Permite eliminar usuarios" },
+        { key: "users.read", name: "Ver Usuarios", description: "Permite ver el apartado de usuarios" },
+        { key: "users.create", name: "Crear Usuarios", description: "Permite crear usuarios" },
+        { key: "users.update", name: "Actualizar Usuarios", description: "Permite actualizar usuarios" },
+        { key: "users.delete", name: "Eliminar Usuarios", description: "Permite eliminar usuarios" },
 
         // Roles
-        { key: "roles.read", name: "Ver roles", description: "Permite ver la lista de roles" },
-        { key: "roles.create", name: "Crear roles", description: "Permite crear nuevos roles" },
-        { key: "roles.update", name: "Actualizar roles", description: "Permite actualizar roles" },
-        { key: "roles.delete", name: "Eliminar roles", description: "Permite eliminar roles" },
+        { key: "roles.read", name: "Ver Roles", description: "Permite ver la lista de roles" },
+        { key: "roles.create", name: "Crear Roles", description: "Permite crear nuevos roles" },
+        { key: "roles.update", name: "Actualizar Roles", description: "Permite actualizar roles" },
+        { key: "roles.delete", name: "Eliminar Roles", description: "Permite eliminar roles" },
 
         // Permisos
-        { key: "permissions.read", name: "Ver permisos", description: "Permite ver la lista de permisos" },
-        { key: "permissions.create", name: "Crear permiso", description: "Permite crear un nuevo permiso" },
-        { key: "permissions.update", name: "Actualizar permiso", description: "Permite actualizar un permiso ya existente" },
-        { key: "permissions.delete", name: "Eliminar permiso", description: "Permite eliminar un permiso existente" },
-    
+        { key: "permissions.read", name: "Ver Permisos", description: "Permite ver la lista de permisos" },
+        { key: "permissions.create", name: "Crear Permiso", description: "Permite crear un nuevo permiso" },
+        { key: "permissions.update", name: "Actualizar Permiso", description: "Permite actualizar un permiso ya existente" },
+        { key: "permissions.delete", name: "Eliminar Permiso", description: "Permite eliminar un permiso existente" },
+
         // settings
-        { key: "settings.update", name: "Actualizar configuraciones", description: "Permite actualizar las configuraciones" },
-        
+        { key: "settings.update", name: "Actualizar Configuraciones", description: "Permite actualizar las configuraciones" },
+
+        // Inicio
+        { key: "alert.update", name: "Actualizar Alerta", description: "Permite actualizar la alerta de inicio" },
     ]
 
     const permissionRecords = []

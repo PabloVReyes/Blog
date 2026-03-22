@@ -4,22 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateDescription, validateOrder, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
 import { useSystemsGPCStore } from "@/stores"
+import type { GPCData } from "@/features/Systems/types/gpc.types"
 
-interface Props {
-    id: string;
-    title: string;
-    fileName: string;
-    description: string;
-    cycle: Cycle;
-    orderIndex: number;
-}
-
-export interface Cycle {
-    id: string;
-    name: string;
-}
-
-export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: Props) => {
+export const Edit = ({ id, title, file, description, cycle, orderIndex }: GPCData) => {
     const update = useSystemsGPCStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -37,7 +24,7 @@ export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: Pr
             description: validateDescription,
             cycle: (value) => validateSelect(value, { required: true }),
             orderIndex: (value) => validateOrder(value, { required: true }),
-            file: (value) => validatePdf(value, { required: true, existingFileName: fileName })
+            file: (value) => validatePdf(value, { required: true, existingFileName: file?.name })
         }
     })
 
@@ -74,7 +61,7 @@ export const Edit = ({ id, title, fileName, description, cycle, orderIndex }: Pr
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={fileName}
+            fileName={file?.name}
             initialCycle={{
                 value: cycle?.id?.toString(),
                 label: cycle?.name

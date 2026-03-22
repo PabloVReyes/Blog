@@ -71,18 +71,6 @@ export const getCarouselService = async (dto: GetCarouselSchema) => {
     }
 }
 
-export const downloadCarouselFileService = async (id: string) => {
-    const file = await repo.getCarouselByIdRepository(id)
-    if (!file?.file || !file.file.path) {
-        throw new Error("Archivo no encontrado");
-    }
-
-    return {
-        filePath: file.file.path,
-        fileName: file.file.name
-    }
-}
-
 ////////////
 // UPDATE //
 ////////////

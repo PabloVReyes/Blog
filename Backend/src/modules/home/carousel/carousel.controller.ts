@@ -31,23 +31,6 @@ export const getCarouselController: RequestHandler = asyncHandler(async (req: Re
     res.json(data)
 })
 
-export const downloadCarouselFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadCarouselFileSchema.parse(req.params)
-    const data = await service.downloadCarouselFileService(params.id)
-
-    res.setHeader(
-        "Content-Disposition",
-        `attachment; filename="${data.fileName}"`
-    );
-
-    res.setHeader(
-        "Access-Control-Expose-Headers",
-        "Content-Disposition"
-    );
-
-    fs.createReadStream(data.filePath).pipe(res);
-})
-
 ////////////
 // UPDATE //
 ////////////

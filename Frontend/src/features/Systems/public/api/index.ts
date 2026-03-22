@@ -36,7 +36,6 @@ export {
 
 export {
     fetchGPC,
-    downloadGPC
 } from "./GPC"
 
 export {

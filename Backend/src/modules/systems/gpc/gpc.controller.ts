@@ -43,24 +43,6 @@ export const getCycleWithGpcController: RequestHandler = asyncHandler(async (req
     res.json(data)
 })
 
-export const downloadGpcFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadGpcFileSchema.parse(req.params)
-    const data = await service.dowloadGpcFileService(params.id)
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-        "Content-Disposition",
-        `inline; filename="${data.fileName}"`
-    );
-
-    res.setHeader(
-        "Access-Control-Expose-Headers",
-        "Content-Disposition"
-    );
-
-    fs.createReadStream(data.filePath).pipe(res);
-})
-
 ////////////
 // UPDATE //
 ////////////

@@ -5,6 +5,7 @@ import { Alert, Notify } from "@/ui";
 import { Badge, Card, Center, Group, Loader, Stack, Text, useMantineTheme } from "@mantine/core";
 import { getCicloColor } from "@/utils";
 import { GPCAlgorithms } from "../components";
+import type { GPCData } from "../../types/gpc.types";
 
 interface Meta {
     total: number;
@@ -15,20 +16,8 @@ interface Meta {
     lastItem: number;
 }
 
-interface GPCS {
-    cycleId: string;
-    description: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    id: string;
-    mimeType: string;
-    orderIndex: number;
-    title: string;
-}
-
 interface Data {
-    gpcs: GPCS[]
+    gpcs: GPCData[]
     id: string;
     name: string;
     _count: {
@@ -47,6 +36,8 @@ export const GPC = () => {
         data: [],
         meta: { total: 0, page: 1, limit: 10, totalPages: 0, firstItem: 0, lastItem: 0 },
     });
+
+    console.log(data)
 
 
     const [loading, setLoading] = useState<boolean>(false);

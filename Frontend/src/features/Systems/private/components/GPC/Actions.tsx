@@ -3,27 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { GPCData } from "@/features/Systems/types/gpc.types"
 
-export interface Props {
-    id: string | number
-    orderIndex: number;
-    title: string;
-    description: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    cycleId: string;
-    cycle: Cycle;
-}
-
-export interface Cycle {
-    id: string;
-    name: string;
-}
-
-
-export const ActionsGCP = ({ id, ...props }: Props) => {
+export const ActionsGCP = ({ id, ...props }: GPCData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

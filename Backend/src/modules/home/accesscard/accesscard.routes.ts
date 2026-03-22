@@ -32,7 +32,6 @@ export const upload = multer({
 });
 
 router.get("/", controller.getAccessCardController)
-router.get("/:id/download", controller.downloadAccessCardFileController)
 router.post("/", upload.single("file"), controller.postAccessCardController)
 router.put("/:id", upload.single("file"), controller.putAccessCardController)
 router.delete("/:id", controller.deleteAccessCardController)
