@@ -266,11 +266,11 @@ model ManualType {
 }
 
 model Manual {
-  id           String  @id @unique @default(uuid())
-  fileName     String?
-  filePath     String?
-  fileSize     Int?
-  mimeType     String?
+  id String @id @unique @default(uuid())
+
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
+
   areaId       String
   manualTypeId String
 
@@ -443,10 +443,10 @@ model gpc {
   title       String
   description String @db.LongText
 
-  fileId  String?
-  file    File?   @relation(fields: [fileId], references: [id])
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 
-  cycle   cycle   @relation(fields: [cycleId], references: [id])
+  cycle   cycle  @relation(fields: [cycleId], references: [id])
   cycleId String
 
   @@unique([cycleId, orderIndex])
@@ -800,6 +800,7 @@ model File {
   accessCardItems AccessCardItem[]
   systems         Systems[]
   gpcs            gpc[]
+  manuals         Manual[]
 }
 
 // 798 lineas

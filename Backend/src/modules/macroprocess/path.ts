@@ -1,3 +1,3 @@
 import * as path from "path";
 
-export const uploadsRoot = path.join(__dirname, "../../../uploads/macroprocess");
+export const uploadsRoot = path.join(__dirname, "../../../uploads");

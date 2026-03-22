@@ -7,7 +7,8 @@ import { useArea, useManualMap } from "../hook";
 import { AreaSection, Modal } from "../components";
 import { useMediaQuery } from "@mantine/hooks";
 import { useMemo, useState } from "react";
-import { downloadManual } from "../api";
+import { useDownloadFile } from "@/hooks";
+import type { AreaData } from "../../types/areas.types";
 
 const MANUAL_KEYS = {
     sica: "NSICA",
@@ -68,70 +69,13 @@ interface Props {
     setActiveTab: (area: string) => void;
 }
 
-export interface SelectedArea {
-    area: Area;
-    loading: boolean;
-}
-
-export interface Area {
-    id: string;
-    name: string;
-    category: string;
-    manager: string;
-    description: null;
-    createdAt: Date;
-    updatedAt: Date;
-    manuals: Manual[];
-}
-
-export interface Manual {
-    id: string;
-    fileName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    areaId: string;
-    manualTypeId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    manualType: ManualType;
-}
-
-export interface ManualType {
-    id: string;
-    name: string;
-    color: string;
-    category: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
 export const SupportAreas = ({ setActiveTab }: Props) => {
     const isMobile = useMediaQuery("(max-width: 768px)");
-
+    const {download} = useDownloadFile()
     const manualTypes = Object.values(MANUAL_KEYS);
     const { manuals, loading: manualsLoading } = useManualMap(manualTypes);
 
-    const [selectedArea, setSelectedArea] = useState<SelectedArea | null>(null)
-
-    const download = async (id: string) => {
-        try {
-            const response = await downloadManual(id);
-            const disposition = response.headers["content-disposition"];
-            const fileName = disposition?.split("filename=")[1]?.replace(/"/g, "") || "manual.pdf";
-
-            const blob = new Blob([response.data], { type: response.headers["content-type"] });
-            const link = document.createElement("a");
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
+    const [selectedArea, setSelectedArea] = useState<AreaData | null>(null)
 
     const theme = useMantineTheme()
 
@@ -145,7 +89,7 @@ export const SupportAreas = ({ setActiveTab }: Props) => {
     const modalColor = useMemo(() => {
         if (!selectedArea) return 'gray'
 
-        switch (selectedArea.area.id) {
+        switch (selectedArea.area?.id) {
             case 'MAIN_RPBI':
                 return 'red'
             case 'MAIN_PLAN_EMERGENCIA':
@@ -272,7 +216,7 @@ export const SupportAreas = ({ setActiveTab }: Props) => {
                                         disabled={!manuals[MANUAL_KEYS.sica].storedName}
                                         size={56}
                                         variant="light"
-                                        onClick={() => manuals[MANUAL_KEYS.sica] && download(manuals[MANUAL_KEYS.sica].id)}
+                                        onClick={() => manuals[MANUAL_KEYS.sica] && download(manuals[MANUAL_KEYS.sica].fileId)}
                                         style={{
                                             '--icon-rgb': `${colorMap[theme.primaryColor]}`
                                         } as React.CSSProperties}

@@ -1,8 +1,8 @@
 import { Box, Button, Container, Loader, Stack, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { downloadManual } from "../api";
 import { useManualMap } from "../hook";
 import { ManualButton } from "../components";
+import { useDownloadFile } from "@/hooks";
 
 interface Props {
     setActiveTab: (area: string) => void;
@@ -24,6 +24,7 @@ export const Diagram = ({ setActiveTab }: Props) => {
     const manualTypes = Object.values(MANUAL_KEYS);
     const { manuals, loading } = useManualMap(manualTypes);
     const isMobile = useMediaQuery("(max-width: 1240px)");
+    const { download } = useDownloadFile()
 
     if (loading) {
         return (
@@ -33,42 +34,12 @@ export const Diagram = ({ setActiveTab }: Props) => {
         );
     }
 
-    const download = async (id: string) => {
-        try {
-            const response = await downloadManual(id)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
     return (
         <Stack>
             <ManualButton
                 manual={manuals[MANUAL_KEYS.vigilancia]}
                 size={isMobile ? "md" : "xl"}
-                onClick={() => download(manuals[MANUAL_KEYS.vigilancia].id)}
+                onClick={() => download(manuals[MANUAL_KEYS.vigilancia].fileId)}
             />
             <Box
                 style={{
@@ -85,7 +56,7 @@ export const Diagram = ({ setActiveTab }: Props) => {
                     manual={manuals[MANUAL_KEYS.seguridadPaciente]}
                     size={isMobile ? "md" : "xl"}
                     rotate={isMobile ? 0 : -90}
-                    onClick={() => download(manuals[MANUAL_KEYS.seguridadPaciente].id)}
+                    onClick={() => download(manuals[MANUAL_KEYS.seguridadPaciente].fileId)}
                 />
 
                 {/* Centro */}
@@ -102,7 +73,7 @@ export const Diagram = ({ setActiveTab }: Props) => {
                             manual={manuals[MANUAL_KEYS[key as keyof typeof MANUAL_KEYS]]}
                             size={isMobile ? "md" : "xl"}
                             onClick={() =>
-                                download(manuals[MANUAL_KEYS[key as keyof typeof MANUAL_KEYS]].id)
+                                download(manuals[MANUAL_KEYS[key as keyof typeof MANUAL_KEYS]].fileId)
                             }
                         />
                     ))}
@@ -114,7 +85,7 @@ export const Diagram = ({ setActiveTab }: Props) => {
                     manual={manuals[MANUAL_KEYS.formacion]}
                     size={isMobile ? "md" : "xl"}
                     rotate={isMobile ? 0 : 90}
-                    onClick={() => download(manuals[MANUAL_KEYS.formacion].id)}
+                    onClick={() => download(manuals[MANUAL_KEYS.formacion].fileId)}
                 />
 
             </Box>
@@ -122,7 +93,7 @@ export const Diagram = ({ setActiveTab }: Props) => {
             <ManualButton
                 manual={manuals[MANUAL_KEYS.soporte]}
                 size={isMobile ? "md" : "xl"}
-                onClick={() => download(manuals[MANUAL_KEYS.soporte].id)}
+                onClick={() => download(manuals[MANUAL_KEYS.soporte].fileId)}
             />
 
             <Button

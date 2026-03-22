@@ -1,1 +1,1 @@
-export { getAreaById, downloadManual, getManual } from "./Macroprocess"
+export { getAreaById, getManual } from "./Macroprocess"

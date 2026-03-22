@@ -3,41 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { useModalStore } from "@/layout"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
+import type { MacroprocessData } from "@/features/Macroprocess/types/macroprocess.types"
 
-export interface Data {
-    id: string;
-    fileName: string | null;
-    filePath: string | null;
-    fileSize: string | null;
-    mimeType: number | null;
-    areaId: string;
-    manualTypeId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    area: Area;
-    manualType: ManualType;
-}
-
-export interface Area {
-    id: string;
-    name: string;
-    category: string;
-    manager: null | string;
-    description: null | string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface ManualType {
-    id: string;
-    name: string;
-    color: string;
-    category: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const ActionsMacroprocess = (macroprocess: Data) => {
+export const ActionsMacroprocess = (macroprocess: MacroprocessData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
@@ -45,14 +13,14 @@ export const ActionsMacroprocess = (macroprocess: Data) => {
             content: (
                 <Edit
                     id={macroprocess.id}
-                    fileName={macroprocess.fileName}
+                    fileName={macroprocess.file?.name}
                 />
             )
         })
     }
 
     const handleDelete = () => {
-        if (!macroprocess.fileName) {
+        if (!macroprocess.file) {
             return null
         }
 

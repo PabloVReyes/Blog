@@ -7,27 +7,6 @@ import { asyncHandler } from "../../utils/asyncHandler";
 // READ //
 //////////
 
-export const downloadManualFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadManualFileParamsSchema.parse(req.params)
-    const data: any = await service.downloadManualFileService(params.id)
-
-    const mimeType = data.mimeType || "application/octet-stream"
-
-    res.setHeader("Content-Type", mimeType)
-    res.setHeader("Access-Control-Expose-Headers", "Content-Disposition")
-
-    if (mimeType === "application/pdf") {
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename="${data.fileName}"`
-        )
-
-        return res.sendFile(data.filePath)
-    }
-
-    return res.download(data.filePath, data.fileName)
-})
-
 export const getManualByTypeController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.getManualsByTypeParamsSchema.parse(req.params)
     const data = await service.getManualByTypeService(params.type)

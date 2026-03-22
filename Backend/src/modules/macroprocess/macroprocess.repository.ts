@@ -1,6 +1,8 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination"
 import { logger } from "../../utils/logger"
+import * as path from "path"
+import * as fs from "fs/promises"
 
 //////////
 // READ //
@@ -15,7 +17,8 @@ export const getAreaWithManualsRepository = async (id: string) => {
             include: {
                 manuals: {
                     include: {
-                        manualType: true
+                        manualType: true,
+                        file: true
                     },
                     orderBy: {
                         createdAt: "asc"
@@ -66,7 +69,8 @@ export const getManualsWithAreaRepository = async ({ skip, take, search }: Pagin
                 ...(skip !== undefined && { skip }),
                 include: {
                     area: true,
-                    manualType: true
+                    manualType: true,
+                    file: true
                 }
             }),
             database.manual.count({ where }),
@@ -118,7 +122,8 @@ export const getManualByTypeRepository = async (type: string) => {
                 manualTypeId: type
             },
             include: {
-                manualType: true
+                manualType: true,
+                file: true
             }
         })
     } catch (error) {
@@ -259,10 +264,12 @@ export const putManualTypeRepository = async ({ id, name, code, color }: putManu
 
 interface putManualQueryProps {
     id: string;
-    fileName?: string | null;
-    filePath?: string | null;
-    fileSize?: number | null;
-    mimeType?: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null
 }
 
 interface putAreaQueryProps {
@@ -295,35 +302,108 @@ export const putAreaRepository = ({ id, name }: putAreaQueryProps) => {
     })
 }
 
-export const putManualRepository = ({ id, fileName, filePath, fileSize, mimeType }: putManualQueryProps) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const data = await database.manual.update({
-                where: {
-                    id
-                },
-                data: {
-                    fileName,
-                    filePath,
-                    fileSize,
-                    mimeType
-                },
-                include: {
-                    manualType: true
-                }
+export const putManualRepository = async ({ id, file }: putManualQueryProps) => {
+    try {
+        return await database.$transaction(async (tx) => {
+            const current = await tx.manual.findUnique({
+                where: { id },
+                include: { file: true }
             })
 
-            resolve(data)
-        } catch (error) {
-            logger.error(
-                {
-                    error,
-                    operation: "putManualRepository",
-                    entity: "Macroprocess Manual"
+            if (!current) {
+                throw new Error("Manual no encontrado")
+            }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            return await tx.manual.update({
+                where: { id },
+                data: {
+                    fileId
                 },
-                "Error updating macroprocess manual"
-            )
-            reject(false)
-        }
-    })
+                include: {
+                    file: true
+                }
+            })
+        })
+    } catch (error) {
+        logger.error(
+            {
+                error,
+                operation: "putManualRepository",
+                entity: "Macroprocess Manual"
+            },
+            "Error updating macroprocess manual"
+        )
+        throw new Error("Error al actualizar manual")
+    }
+}
+
+////////////
+// DELETE //
+////////////
+
+export const deleteManualRepository = async (id: string) => {
+    try {
+        return await database.$transaction(async (tx) => {
+            const current = await tx.manual.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Manual no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.manual.update({
+                where: { id },
+                data: {
+                    fileId: null
+                }
+            })
+        })
+    } catch (error) {
+        logger.error(
+            {
+                error,
+                operation: "deleteManualRepository",
+                entity: "Macroprocess",
+                id
+            },
+            "Error deleting manual"
+        )
+        throw new Error("Error al eliminar manual")
+    }
 }

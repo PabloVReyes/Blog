@@ -10,22 +10,6 @@ import { logger } from "../../utils/logger";
 // READ //
 //////////
 
-export const downloadManualFileService = async (id: string) => {
-    const Standar = await repo.getManualByIdRepository(id)
-
-    if (!Standar || !Standar.filePath) {
-        throw new Error("Norma no encontrada")
-    }
-
-    const obsolutePath = path.join(uploadsRoot, Standar.filePath)
-
-    return {
-        filePath: obsolutePath,
-        fileName: Standar.fileName,
-        mimeType: Standar.mimeType
-    }
-}
-
 export const getAreaWithManualsService = async (id: string) => {
     return await repo.getAreaWithManualsRepository(id)
 }
@@ -102,31 +86,29 @@ export const getAreasService = async (dto: schema.GetAreasSchema) => {
 ////////////
 
 export const putManualService = async (id: string, file?: Express.Multer.File) => {
-    const manual: any = await repo.getManualByIdRepository(id)
+    const existingItem = await repo.getManualByIdRepository(id)
 
-    const props: any = {
-        id
+    if (!existingItem) {
+        throw new Error("El manual no existe")
     }
 
-    if (file) {
-        if (manual.filePath) {
-            try {
-                if (manual.filePath) {
-                    const obsolutePath = path.join(uploadsRoot, manual.filePath)
-                    const fs = await import("fs/promises");
-                    await fs.unlink(obsolutePath).catch(() => { });
+    if (!file) {
+        throw new Error("El archivo es requerido")
+    }
+
+
+
+    const props = {
+        id,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
                 }
-
-
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.filePath = file.filename;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+                : null
     }
 
     return await repo.putManualRepository(props)
@@ -153,17 +135,5 @@ export const deleteManualService = async (id: string) => {
         throw new Error("Manual no encontrado")
     }
 
-    if (manual.filePath) {
-        const obsolutePath = path.join(uploadsRoot, manual.filePath)
-        const fs = await import("fs/promises");
-        await fs.unlink(obsolutePath).catch(() => { });
-    }
-
-    return await repo.putManualRepository({
-        id,
-        fileName: null,
-        filePath: null,
-        fileSize: null,
-        mimeType: null
-    })
+    return await repo.deleteManualRepository(id)
 }

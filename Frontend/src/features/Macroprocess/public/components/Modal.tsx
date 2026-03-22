@@ -2,79 +2,19 @@ import { Box, Group, Loader, Modal as MantineModal, SimpleGrid, Stack, Text, The
 import { IconClipboardList, IconFileText, IconUsers, IconX } from "@tabler/icons-react";
 import styles from "./Modal.module.css"
 import { Alert } from "@/ui";
-import { downloadManual } from "../api";
+import type { Area } from "../../types/areas.types";
+import { useDownloadFile } from "@/hooks";
 
 interface Props {
     opened: boolean
     onClose: () => void;
-    area?: Area
+    area?: Area | null
     loading: boolean | undefined;
     color: string
 }
 
-export interface Area {
-    id: string;
-    name: string;
-    category: string;
-    manager: string;
-    description: null;
-    createdAt: Date;
-    updatedAt: Date;
-    manuals: Manual[];
-}
-
-export interface Manual {
-    id: string;
-    fileName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    areaId: string;
-    manualTypeId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    manualType: ManualType;
-}
-
-export interface ManualType {
-    id: string;
-    name: string;
-    color: string;
-    category: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
 export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
-    const download = async (id: string) => {
-
-        try {
-            const response = await downloadManual(id)
-            const disposition = response.headers["content-disposition"];
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
+    const { download } = useDownloadFile()
     return (
         <MantineModal
             opened={opened}
@@ -136,9 +76,9 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
                                             <UnstyledButton
                                                 key={index}
                                                 p={"sm"}
-                                                disabled={!manual.fileName}
+                                                disabled={!manual.fileId}
                                                 className={styles.button}
-                                                onClick={() => download(manual.id)}
+                                                onClick={() => download(manual.fileId ?? "")}
                                             >
                                                 <Group gap={5} wrap="nowrap">
                                                     <IconFileText size={14} />

@@ -1,67 +1,17 @@
 import { Button, SimpleGrid, Stack } from "@mantine/core";
-import { downloadManual } from "../api";
+import { useDownloadFile } from "@/hooks";
+import type { ManualData } from "../../types/manuals.types";
 
 interface Props {
-    manuals: Manuals[];
+    manuals: ManualData[];
     numberColums?: number
 }
 
-export interface Manuals {
-    id: string;
-    fileName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    areaId: string;
-    manualTypeId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    manualType: ManualType;
-}
-
-export interface ManualType {
-    id: string;
-    name: string;
-    color: string;
-    category: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
 export const ExtraManuals = ({ manuals, numberColums }: Props) => {
+    const { download } = useDownloadFile()
     const extras = manuals.filter(
         m => m.manualType.category === "EXTRA"
     );
-
-    const download = async (id: string) => {
-        try {
-            const response = await downloadManual(id)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
 
     const byType = extras.reduce((acc, m) => {
         acc[m.manualType.id] = m;
@@ -69,7 +19,7 @@ export const ExtraManuals = ({ manuals, numberColums }: Props) => {
     }, {} as Record<string, any>);
 
     const hasFile = (typeId: string) =>
-        byType[typeId] && byType[typeId].filePath;
+        byType[typeId] && byType[typeId].fileId;
 
     const extraTypes = [...new Set(
         extras.map(m => m.manualType.id)
@@ -96,7 +46,7 @@ export const ExtraManuals = ({ manuals, numberColums }: Props) => {
                             size="compact-xs"
                             color={manual?.manualType.color || "gray"}
                             disabled={!hasFile(typeId)}
-                            onClick={() => downloadManual(manual.id)}
+                            onClick={() => download(manual.fileId)}
                         >
                             {manual.manualType.name}
                         </Button>
@@ -120,7 +70,7 @@ export const ExtraManuals = ({ manuals, numberColums }: Props) => {
                                 size="compact-xs"
                                 color={manual?.manualType.color || "gray"}
                                 disabled={!hasFile(typeId)}
-                                onClick={() => download(manual.id)}
+                                onClick={() => download(manual.fileId)}
                             >
 
                                 {manual.manualType.name}

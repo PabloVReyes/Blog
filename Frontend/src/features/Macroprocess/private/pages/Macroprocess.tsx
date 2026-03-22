@@ -5,47 +5,15 @@ import { Notify } from "@/ui"
 import { ActionsMacroprocess } from "../components"
 import { useMacroprocessStore } from "@/stores"
 import type { Column } from "@/types"
+import type { MacroprocessData } from "../../types/macroprocess.types"
 
-export interface Row {
-    id: string;
-    fileName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    areaId: string;
-    manualTypeId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    area: Area;
-    manualType: ManualType;
-}
-
-export interface Area {
-    id: string;
-    name: string;
-    category: string;
-    manager: null;
-    description: null;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface ManualType {
-    id: string;
-    name: string;
-    color: string;
-    category: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-export const columns: Column<Row>[] = [
+export const columns: Column<MacroprocessData>[] = [
     {
         key: 'code',
         label: 'Codigo',
         align: 'center',
         render: (row) => {
+            console.log(row)
             return (
                 <Badge variant="filled" color={row.manualType.color} size="sm">
                     {row.manualType.id}
@@ -88,7 +56,7 @@ export const columns: Column<Row>[] = [
         label: 'Archivo',
         align: 'left',
         render: (row) => {
-            if (!row.fileName) {
+            if (!row.file) {
                 return <Text size="xs" c="dimmed">Sin archivo</Text>
             }
 
@@ -99,7 +67,7 @@ export const columns: Column<Row>[] = [
                 }}
                 size="sm"
             >
-                {row.fileName}
+                {row.file.name}
             </Text>
         }
     },
@@ -151,7 +119,7 @@ export const Macroprocess = () => {
                 firstItem={firstItem}
                 onChangePage={setPage}
                 search
-                searchPlaceholder="Buscar norma..."
+                searchPlaceholder="Buscar manual..."
                 searchValue={search}
                 onChangeSearch={setSearch}
             >
