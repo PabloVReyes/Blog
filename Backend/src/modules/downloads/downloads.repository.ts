@@ -1,6 +1,7 @@
 import { database } from "../../config/prisma"
 import * as schema from "./downloads.schema"
 import { PaginationProps } from "../../types/pagination"
+import { logger } from "../../utils/logger";
 
 ////////////
 // CREATE //
@@ -43,7 +44,11 @@ export const postDownloadRepository = async ({
             }
         })
     } catch (error) {
-        console.error("Error en postDownloadRepository", error)
+        logger.error({
+            error,
+            operation: "postDownloadRepository",
+            entity: "DownloadFile",
+        }, "Error creating download")
         throw new Error("Error al crear la descarga")
     }
 }
@@ -63,7 +68,11 @@ export const postAreaRepository = async ({ name, icon, color, slug }: PostAreaRe
             }
         })
     } catch (error) {
-        console.error("Error en postAreaRepository")
+        logger.error({
+            error,
+            operation: "postAreaRepository",
+            entity: "DownloadArea",
+        }, "Error creating area")
         throw new Error("Error al crear el área")
     }
 }
@@ -77,7 +86,11 @@ export const postSectionRepository = async ({ name, areaId }: { name: string, ar
             }
         })
     } catch (error) {
-        console.error("Error en postCategoryRepository", error)
+        logger.error({
+            error,
+            operation: "postSectionRepository",
+            entity: "DownloadSection",
+        }, "Error creating section")
         throw new Error("Error al crear sección")
     }
 }
@@ -91,7 +104,11 @@ export const postCategoryRepository = async ({ name, sectionId }: { name: string
             }
         })
     } catch (error) {
-        console.error("Error en postCategoryRepository", error)
+        logger.error({
+            error,
+            operation: "postCategoryRepository",
+            entity: "DownloadCategory",
+        }, "Error creating category")
         throw new Error("Error al crear categoria")
     }
 }
@@ -104,7 +121,12 @@ export const getDownloadByIdRepository = async (id: number) => {
     try {
         return await database.downloadFile.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getDownloadByIdRepository")
+        logger.error({
+            error,
+            operation: "getDownloadByIdRepository",
+            entity: "DownloadFile",
+            input: { id }
+        }, "Error fetching download by id")
         throw new Error("Error al obtener información de descarga")
     }
 }
@@ -142,7 +164,12 @@ export const getDownloadsRepository = async ({ skip, take, search }: PaginationP
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getDownloadsRepository")
+        logger.error({
+            error,
+            operation: "getDownloadsRepository",
+            entity: "DownloadFile",
+            input: { skip, take, search }
+        }, "Error fetching downloads")
         throw new Error("Error al obtener las descargas")
     }
 }
@@ -169,7 +196,12 @@ export const getAreasRepository = async ({ skip, take, search }: PaginationProps
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getAreasRepository")
+        logger.error({
+            error,
+            operation: "getAreasRepository",
+            entity: "DownloadArea",
+            input: { skip, take, search }
+        }, "Error fetching areas")
         throw new Error("Error al obtener las áreas")
     }
 }
@@ -215,7 +247,12 @@ export const getAreaWithDownloadsRepository = async (slug: string) => {
             }
         });
     } catch (error) {
-        console.error("Error en getAreaWithDownloadsRepository");
+        logger.error({
+            error,
+            operation: "getAreaWithDownloadsRepository",
+            entity: "DownloadArea",
+            input: { slug }
+        }, "Error fetching area with downloads")
         throw new Error("Error al obtener area");
     }
 };
@@ -237,7 +274,12 @@ export const getSectionByAreaRepository = async (areaId: number) => {
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCategoryByAreaRepository")
+        logger.error({
+            error,
+            operation: "getSectionByAreaRepository",
+            entity: "DownloadSection",
+            input: { areaId }
+        }, "Error fetching sections by area")
         throw new Error("Error al obtener secciones del area")
     }
 }
@@ -259,7 +301,12 @@ export const getCategoriesBySectionRepository = async (sectionId: number) => {
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCategoriesBySectionRepository")
+        logger.error({
+            error,
+            operation: "getCategoriesBySectionRepository",
+            entity: "DownloadCategory",
+            input: { sectionId }
+        }, "Error fetching categories by section")
         throw new Error("Error al obtener categorias de la sección")
     }
 }
@@ -307,7 +354,11 @@ export const putDownloadRepository = async ({
             },
         })
     } catch (error) {
-        console.error("error en putDownloadRepository", error)
+        logger.error({
+            error,
+            operation: "putDownloadRepository",
+            entity: "DownloadFile",
+        }, "Error updating download")
         throw new Error("Error al actualizar descarga")
     }
 }
@@ -333,7 +384,11 @@ export const putAreaRepository = async ({ id, name, icon, color, slug }: PutArea
             }
         })
     } catch (error) {
-        console.error("Error en putAreaRepository")
+        logger.error({
+            error,
+            operation: "putAreaRepository",
+            entity: "DownloadArea",
+        }, "Error updating area")
         throw new Error("Error al actualizar el área")
     }
 }
@@ -346,7 +401,12 @@ export const deleteAreaRepository = async (id: number) => {
     try {
         return await database.downloadArea.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deleteAreaRepository")
+        logger.error({
+            error,
+            operation: "deleteAreaRepository",
+            entity: "DownloadArea",
+            input: { id }
+        }, "Error deleting area")
         throw new Error("Error al eliminar el área")
     }
 }
@@ -355,7 +415,12 @@ export const deleteDownloadRepository = async (id: number) => {
     try {
         return await database.downloadFile.delete({ where: { id } })
     } catch (error) {
-        console.error("Erro en deleteDownloadRepository")
+        logger.error({
+            error,
+            operation: "deleteDownloadRepository",
+            entity: "DownloadFile",
+            input: { id }
+        }, "Error deleting download")
         throw new Error("Error al eliminar descarga")
     }
 }

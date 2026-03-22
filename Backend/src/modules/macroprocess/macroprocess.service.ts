@@ -4,6 +4,7 @@ import { buildPaginationMeta, getPagination } from "../../utils/pagination";
 import * as path from "path";
 import { uploadsRoot } from "./path";
 import * as schema from "./macroprocess.schema"
+import { logger } from "../../utils/logger";
 
 //////////
 // READ //
@@ -118,7 +119,7 @@ export const putManualService = async (id: string, file?: Express.Multer.File) =
 
 
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 

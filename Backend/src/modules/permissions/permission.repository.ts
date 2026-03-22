@@ -1,5 +1,6 @@
 import { database } from "../../config/prisma";
 import { PaginationProps } from "../../types/pagination";
+import { logger } from "../../utils/logger";
 import * as schema from "./permission.schema"
 
 ////////////
@@ -17,7 +18,14 @@ export const postPermissionRepository = async ({ name, description, active, key 
             }
         })
     } catch (error) {
-        console.error("Error en postPermissionRepository")
+        logger.error(
+            {
+                error,
+                operation: "postPermissionRepository",
+                entity: "Permissions"
+            },
+            "Error updating permissions"
+        )
         throw new Error("Error al crear permiso")
     }
 }
@@ -63,7 +71,15 @@ export const getPermissionsRepository = async ({ search, skip, take }: Paginatio
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getPermissionsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getPermissionsRepository",
+                entity: "Permissions",
+                params: { search, skip, take }
+            },
+            "Error fetching permissions"
+        );
         throw new Error("Error al obtener lista de permisos")
     }
 }
@@ -71,6 +87,7 @@ export const getPermissionsRepository = async ({ search, skip, take }: Paginatio
 ////////////
 // UPDATE //
 ////////////
+
 interface PutPermissionRepositoryProps extends schema.PostPermissionsSchema {
     id: string;
 }
@@ -89,7 +106,16 @@ export const putPermissionRepository = async ({ id, name, description, active, k
             }
         })
     } catch (error) {
-        console.error("Error en putPermissionRepository")
+        logger.error(
+            {
+                error,
+                operation: "putPermissionRepository",
+                entity: "Permissions",
+                id,
+                payload: { name, key, active }
+            },
+            "Error updating permission"
+        );
         throw new Error("Error al actualizar permiso")
     }
 }
@@ -102,7 +128,15 @@ export const deletePermissionRepository = async (id: string) => {
     try {
         return await database.permission.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deletePermissionRepository")
+        logger.error(
+            {
+                error,
+                operation: "deletePermissionRepository",
+                entity: "Permissions",
+                id
+            },
+            "Error deleting permission"
+        );
         throw new Error("Error al eliminar permiso")
     }
 } 

@@ -3,6 +3,7 @@ import * as repo from "./clinicalPracticeGuidelines.repository"
 import * as schema from "./clinicalPracticeGuidelines.schema"
 import { sanitizeFileName } from "../../../utils/file";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -107,7 +108,7 @@ export const putClinicalPracticeGuidelinesService = async (id: string, dto: type
 
 
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 
@@ -127,7 +128,7 @@ export const putClinicalPracticeGuidelinesService = async (id: string, dto: type
 
 
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 

@@ -1,5 +1,10 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination"
+import { logger } from "../../utils/logger"
+
+//////////
+// READ //
+//////////
 
 export const getAreaWithManualsRepository = async (id: string) => {
     try {
@@ -20,7 +25,14 @@ export const getAreaWithManualsRepository = async (id: string) => {
         })
 
     } catch (error) {
-        console.error("Error en getAreaWithManualsQuery", error)
+        logger.error(
+            {
+                error,
+                operation: "getAreaWithManualsRepository",
+                entity: "Macroprocess Area"
+            },
+            "Error fetching macroprocess area"
+        )
         throw new Error("Error al crear area")
     }
 }
@@ -62,17 +74,16 @@ export const getManualsWithAreaRepository = async ({ skip, take, search }: Pagin
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getManualsWithAreaQuery", error)
+        logger.error(
+            {
+                error,
+                operation: "getManualsWithAreaRepository",
+                entity: "Macroprocess Manual"
+            },
+            "Error fetching macroprocess manual"
+        )
         throw new Error("Error al obtener manuales")
     }
-}
-
-interface putManualQueryProps {
-    id: string;
-    fileName?: string | null;
-    filePath?: string | null;
-    fileSize?: number | null;
-    mimeType?: string | null;
 }
 
 
@@ -87,7 +98,14 @@ export const getManualQuery = (id: string) => {
 
             resolve(data)
         } catch (error) {
-            console.error("error en getManualQuery", error)
+            logger.error(
+                {
+                    error,
+                    operation: "getManualQuery",
+                    entity: "Manual"
+                },
+                "Error fetching manual"
+            )
             reject(false)
         }
     })
@@ -104,7 +122,14 @@ export const getManualByTypeRepository = async (type: string) => {
             }
         })
     } catch (error) {
-        console.error("error en getManualByTypeQuery", error)
+        logger.error(
+            {
+                error,
+                operation: "getManualByTypeRepository",
+                entity: "Macroprocess Manual"
+            },
+            "Error fetching macroprocess manual type by id"
+        )
         throw new Error("Error al obtener manual por tipo")
     }
 }
@@ -113,7 +138,14 @@ export const getManualByIdRepository = async (id: string) => {
     try {
         return await database.manual.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en deleteManualQuery", error)
+        logger.error(
+            {
+                error,
+                operation: "getManualByIdRepository",
+                entity: "Macroprocess Manual"
+            },
+            "Error fetching macroprocess manual by id"
+        )
         throw new Error("Error al encontrar manual")
     }
 }
@@ -142,39 +174,16 @@ export const getManualsTypeRepository = async ({ skip, take, search }: Paginatio
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getManualsTypeQuery", error)
+        logger.error(
+            {
+                error,
+                operation: "getManualsTypeRepository",
+                entity: "Macroprocess Manual"
+            },
+            "Error fetching macroprocess manual"
+        )
         throw new Error("Error al obtener los tipos de manuales")
     }
-}
-
-interface putManualTypeQueryProps {
-    id: string;
-    name: string;
-    code: string;
-    color: string;
-}
-
-export const putManualTypeRepository = async ({ id, name, code, color }: putManualTypeQueryProps) => {
-    try {
-        return await database.manualType.update({
-            where: { id },
-            data: {
-                id: code,
-                name,
-                color
-            }
-        })
-
-    } catch (error) {
-        console.error("Error en putManualTypeQuery", error)
-        throw new Error("Error al actualizar el tipo de manual")
-    }
-}
-
-interface getAreasQueryProps {
-    skip: number;
-    take: number;
-    search: string;
 }
 
 export const getAreasRepository = async ({ skip, take, search }: PaginationProps) => {
@@ -201,9 +210,59 @@ export const getAreasRepository = async ({ skip, take, search }: PaginationProps
 
         return { data, total }
     } catch (error) {
-        console.error("error en getAreasRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "getAreasRepository",
+                entity: "Macroprocess Area"
+            },
+            "Error fetching macroprocess area"
+        )
         throw new Error("Error al obtener areas")
     }
+}
+
+////////////
+// UPDATE //
+////////////
+
+interface putManualTypeQueryProps {
+    id: string;
+    name: string;
+    code: string;
+    color: string;
+}
+
+export const putManualTypeRepository = async ({ id, name, code, color }: putManualTypeQueryProps) => {
+    try {
+        return await database.manualType.update({
+            where: { id },
+            data: {
+                id: code,
+                name,
+                color
+            }
+        })
+
+    } catch (error) {
+        logger.error(
+            {
+                error,
+                operation: "putManualTypeRepository",
+                entity: "Macroprocess Manual Type"
+            },
+            "Error updating macroprocess manual type"
+        )
+        throw new Error("Error al actualizar el tipo de manual")
+    }
+}
+
+interface putManualQueryProps {
+    id: string;
+    fileName?: string | null;
+    filePath?: string | null;
+    fileSize?: number | null;
+    mimeType?: string | null;
 }
 
 interface putAreaQueryProps {
@@ -223,15 +282,18 @@ export const putAreaRepository = ({ id, name }: putAreaQueryProps) => {
 
             resolve(data)
         } catch (error) {
-            console.error("error en putAreaQuery", error)
+            logger.error(
+                {
+                    error,
+                    operation: "putAreaRepository",
+                    entity: "Macroprocess Area"
+                },
+                "Error updating macroprocess area"
+            )
             reject(false)
         }
     })
 }
-
-////////////
-// UPDATE //
-////////////
 
 export const putManualRepository = ({ id, fileName, filePath, fileSize, mimeType }: putManualQueryProps) => {
     return new Promise(async (resolve, reject) => {
@@ -252,8 +314,15 @@ export const putManualRepository = ({ id, fileName, filePath, fileSize, mimeType
             })
 
             resolve(data)
-        } catch {
-            console.error("error en putManualQuery")
+        } catch (error) {
+            logger.error(
+                {
+                    error,
+                    operation: "putManualRepository",
+                    entity: "Macroprocess Manual"
+                },
+                "Error updating macroprocess manual"
+            )
             reject(false)
         }
     })

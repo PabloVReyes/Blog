@@ -1,4 +1,5 @@
 import { database } from "../../../config/prisma";
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -20,8 +21,16 @@ export const postCie10Repository = async ({ id, name }: PostCie10RepositoryProps
 
         return true
     } catch (error) {
-        console.error("Error en postCie10Repository", error)
-        throw new Error("Error al crear el enfermedad")
+        logger.error(
+            {
+                error,
+                operation: "postCie10Repository",
+                entity: "CIE10",
+                id
+            },
+            "Error al crear enfermedad"
+        )
+        throw new Error("Error al crear la enfermedad")
     }
 }
 
@@ -58,7 +67,15 @@ export const getCie10Repository = async ({ search, take, skip }: GetCie10Reposit
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCie10Repository", error)
+        logger.error(
+            {
+                error,
+                operation: "getCie10Repository",
+                entity: "CIE10",
+                search
+            },
+            "Error al obtener enfermedades"
+        )
         throw new Error("Error al obtener enfermedades")
     }
 }
@@ -85,7 +102,16 @@ export const putCie10Repository = async ({ id, name, code }: PutCie10RepositoryP
             }
         })
     } catch (error) {
-        console.error("Error en postCie10Repository", error)
+        logger.error(
+            {
+                error,
+                operation: "putCie10Repository",
+                entity: "CIE10",
+                id,
+                newCode: code
+            },
+            "Error al actualizar enfermedad"
+        )
         throw new Error("Error al editar la enfermedad")
     }
 }
@@ -104,7 +130,15 @@ export const deleteCie10Repository = async (id: string) => {
 
         return true
     } catch (error) {
-        console.error("Error en deleteCie10Repository", error)
-        throw new Error("Error al eliminar el enfermedad")
+        logger.error(
+            {
+                error,
+                operation: "deleteCie10Repository",
+                entity: "CIE10",
+                id
+            },
+            "Error al eliminar enfermedad"
+        )
+        throw new Error("Error al eliminar la enfermedad")
     }
 }

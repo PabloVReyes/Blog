@@ -1,4 +1,5 @@
 import { database } from "../../../config/prisma"
+import { logger } from "../../../utils/logger"
 
 //////////
 // READ //
@@ -16,7 +17,14 @@ export const getDerechohacienciaRepository = async () => {
             }
         })
     } catch (error) {
-        console.error("Error en getDerechohabienciaRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "getDerechohacienciaRepository",
+                entity: "Derechohabiencia",
+            },
+            "Error fetching derechohabiencia"
+        )
         throw new Error("Error al obtener la derechohabiencia")
     }
 }
@@ -38,7 +46,14 @@ export const putDerechohabienciaLinkRepository = async ({ id, title, url }: PutD
             data: { title, url }
         })
     } catch (error) {
-        console.error("Error en putDerechohabienciaLinkRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "putDerechohabienciaLinkRepository",
+                entity: "Derechohabiencia",
+            },
+            "Error updating derechohabiencia"
+        )
         throw new Error("Error al actualizar el link de derechohabiencia")
     }
 }
@@ -59,7 +74,14 @@ export const putDerechohabcienciaRepository = async ({ id, title, description, c
             include: { links: { orderBy: { orderIndex: "asc" } } }
         })
     } catch (error) {
-        console.error("Error en putDerechohabcienciaRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "putDerechohabcienciaRepository",
+                entity: "Derechohabiencia"
+            },
+            "Error deleting Derechohabiencia"
+        )
         throw new Error("Error al actualizar la derechohabiencia")
     }
 }

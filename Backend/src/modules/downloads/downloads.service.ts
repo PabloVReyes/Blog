@@ -6,6 +6,7 @@ import * as types from "./downloads.types"
 import { sanitizeFileName } from "../../utils/file"
 import * as path from "path"
 import { uploadsRoot } from "./path"
+import { logger } from "../../utils/logger"
 
 ////////////
 // CREATE //
@@ -162,7 +163,7 @@ export const putDownloadService = async (id: number, dto: types.DownloadsUpdateD
                     await fs.unlink(obsolutePath).catch(() => { });
                 }
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 

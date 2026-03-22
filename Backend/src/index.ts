@@ -13,6 +13,21 @@ import { globalLimiter } from "./middleware/rateLimiter.middleware";
 import chalk from 'chalk'
 import router from './routes/routes'
 import { errorHandler } from "./middleware/errorHandler.middleware";
+import { logger } from './utils/logger';
+
+const colors = [
+    'red',
+    'green',
+    'yellow',
+    'blue',
+    'magenta',
+    'cyan',
+] as const;
+
+export const randomColor = (text: string) => {
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    return chalk[color!](text);
+};
 
 class App {
     private app: Express;
@@ -75,8 +90,17 @@ class App {
         this.settingDataFormProcess();
         this.settingRoutes()
         this.httpServer.listen(this.port, () => {
-            console.log(chalk.greenBright(`http://localhost:${this.port}`))
-        })
+            const url = `http://localhost:${this.port}`
+
+            logger.info(
+                { port: this.port },
+                "Server started"
+            );
+
+            if (process.env.NODE_ENV !== 'production') {
+                console.log(randomColor(url));
+            }
+        });
     }
 }
 

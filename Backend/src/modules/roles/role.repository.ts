@@ -1,5 +1,6 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination"
+import { logger } from "../../utils/logger"
 import * as schema from "./role.schema"
 
 ////////////
@@ -22,7 +23,15 @@ export const postRoleRepository = async ({ name, description, permissions }: sch
             }
         })
     } catch (error) {
-        console.error("Error en postRoleRepository")
+        logger.error(
+            {
+                error,
+                operation: "postRoleRepository",
+                entity: "Roles",
+                payload: { name, permissions }
+            },
+            "Error creating role"
+        )
         throw new Error("Error al crear rol")
     }
 }
@@ -69,14 +78,23 @@ export const getRolesRepository = async ({ skip, take, search }: PaginationProps
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getRolesRepository")
+        logger.error(
+            {
+                error,
+                operation: "getRolesRepository",
+                entity: "Roles",
+                params: { skip, take, search }
+            },
+            "Error fetching roles"
+        )
         throw new Error("Error al obtener lista de roles")
     }
 }
 
-////
+////////////
 // UPDATE //
-///
+////////////
+
 interface PutRoleRepositoryProps extends schema.PutRoleSchema {
     id: string;
 }
@@ -133,7 +151,16 @@ export const putRoleRepository = async ({ id, name, description, permissions }: 
             }
         })
     } catch (error) {
-        console.error("Error en putRoleRepository")
+        logger.error(
+            {
+                error,
+                operation: "putRoleRepository",
+                entity: "Roles",
+                id,
+                payload: { name, permissions }
+            },
+            "Error updating role"
+        )
         throw new Error("Error al actualizar rol")
     }
 }
@@ -160,7 +187,15 @@ export const deleteRoleRepository = async (id: string) => {
 
         });
     } catch (error) {
-        console.error("Error en deleteRoleRepository")
+        logger.error(
+            {
+                error,
+                operation: "deleteRoleRepository",
+                entity: "Roles",
+                id
+            },
+            "Error deleting role"
+        )
         throw new Error("Error al eliminar rol")
     }
 } 

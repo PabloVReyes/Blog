@@ -3,6 +3,7 @@ import * as repo from "./careProtocols.repository"
 import { CareProtocolsCreateDto, CareProtocolsUpdateDto } from "./careProtocols.types";
 import * as schema from "./careProtocols.schema";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -111,7 +112,7 @@ export const putCareProtocolsService = async (id: string, dto: CareProtocolsUpda
 
 
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 

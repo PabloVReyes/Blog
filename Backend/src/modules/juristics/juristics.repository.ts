@@ -1,5 +1,6 @@
 import { database } from "../../config/prisma";
 import { PaginationProps } from "../../types/pagination";
+import { logger } from "../../utils/logger";
 
 ////
 // CREATE /
@@ -37,7 +38,14 @@ export const postJuristicsRepository = async ({
             }
         })
     } catch (error) {
-        console.error("Error en postJuristicsRepository")
+        logger.error(
+            {
+                error,
+                operation: "postJuristicsRepository",
+                entity: "Juristics"
+            },
+            "Error creating Juristics"
+        )
         throw new Error("Error al crear disposición juridica")
     }
 }
@@ -71,7 +79,14 @@ export const getJuristicsRepository = async ({ skip, take, search }: PaginationP
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getJuristicsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getJuristicsRepository",
+                entity: "Juristics"
+            },
+            "Error fetching Juristics"
+        )
         throw new Error("Error al obtener las disposiciones juridicas")
     }
 }
@@ -80,14 +95,21 @@ export const getJuristicsByIdRepository = async (id: number) => {
     try {
         return await database.juristics.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getJuristicsByIdRepository")
+        logger.error(
+            {
+                error,
+                operation: "getJuristicsByIdRepository",
+                entity: "Juristics"
+            },
+            "Error fetching Juristics By ID"
+        )
         throw new Error("Error al obtener disposición juridica")
     }
 }
 
-//
-// UPDATE 
-//
+////////////
+// UPDATE //
+////////////
 
 export interface PutJuristicsRepositoryProps extends PostJuristicsRepositoryProps {
     id: number
@@ -117,7 +139,14 @@ export const putJuristicsRepository = async ({
             }
         })
     } catch (error) {
-        console.error("Error en putJuristicsRepository")
+        logger.error(
+            {
+                error,
+                operation: "putJuristicsRepository",
+                entity: "Juristics"
+            },
+            "Error updating Juristics"
+        )
         throw new Error("Error al actualizar dispocisión juridica")
     }
 }
@@ -130,7 +159,14 @@ export const deleteJuristicsRepository = async (id: number) => {
     try {
         return await database.juristics.delete({ where: { id } })
     } catch (error) {
-        console.error("error en deleteJuristicsRepository")
+        logger.error(
+            {
+                error,
+                operation: "deleteJuristicsRepository",
+                entity: "Juristics"
+            },
+            "Error deleting Juristics"
+        )
         throw new Error("Error al eliminar disposición juridica")
     }
 }

@@ -1,5 +1,6 @@
 import { database } from "../../../config/prisma";
 import { PaginationProps } from "../../../types/pagination";
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -12,12 +13,18 @@ interface PostCycleRepositoryProps {
 export const postCycleRepository = async ({ name }: PostCycleRepositoryProps) => {
     try {
         return await database.cycle.create({
-            data: {
-                name
-            }
+            data: { name }
         })
     } catch (error) {
-        console.error("Error en postCycleRepository")
+        logger.error(
+            {
+                error,
+                operation: "postCycleRepository",
+                entity: "Cycle",
+                name
+            },
+            "Error al crear ciclo"
+        )
         throw new Error("Error al crear ciclo")
     }
 }
@@ -48,7 +55,6 @@ export const postGpcRepository = async ({
 
             const newIndex = orderIndex
 
-            // Desplazar índices dentro del mismo ciclo
             await tx.gpc.updateMany({
                 where: {
                     cycleId: cycle,
@@ -63,7 +69,6 @@ export const postGpcRepository = async ({
                 },
             })
 
-            // Crear registro
             const gpc = await tx.gpc.create({
                 data: {
                     title,
@@ -80,7 +85,16 @@ export const postGpcRepository = async ({
             return gpc
         })
     } catch (error) {
-        console.error("error en postGpcRepository")
+        logger.error(
+            {
+                error,
+                operation: "postGpcRepository",
+                entity: "GPC",
+                cycle,
+                orderIndex
+            },
+            "Error al crear algoritmo"
+        )
         throw new Error("Error al crear algoritmo")
     }
 }
@@ -100,7 +114,14 @@ export const getCycleRepository = async () => {
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCycleRepository")
+        logger.error(
+            {
+                error,
+                operation: "getCycleRepository",
+                entity: "Cycle"
+            },
+            "Error al obtener ciclos"
+        )
         throw new Error("Error al obtener los ciclos")
     }
 }
@@ -112,26 +133,18 @@ export const getCycleWithGpcRepository = async ({ search, take, skip }: Paginati
                 some: {}
             },
             ...(search && {
-                OR: [
-                    { name: { contains: search } },
-                ],
+                OR: [{ name: { contains: search } }],
             }),
         }
 
         const [data, total] = await Promise.all([
             database.cycle.findMany({
                 where,
-                orderBy: {
-                    name: "asc",
-                },
+                orderBy: { name: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
-                    _count: {
-                        select: {
-                            gpcs: true
-                        }
-                    },
+                    _count: { select: { gpcs: true } },
                     gpcs: true
                 }
             }),
@@ -140,7 +153,15 @@ export const getCycleWithGpcRepository = async ({ search, take, skip }: Paginati
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCycleWithGpcRepository")
+        logger.error(
+            {
+                error,
+                operation: "getCycleWithGpcRepository",
+                entity: "Cycle",
+                search
+            },
+            "Error al obtener ciclos con algoritmos"
+        )
         throw new Error("Error al obtener ciclos con algoritmos")
     }
 }
@@ -149,30 +170,32 @@ export const getGpcRepository = async ({ search, take, skip }: PaginationProps) 
     try {
         const where = {
             ...(search && {
-                OR: [
-                    { title: { contains: search } },
-                ],
+                OR: [{ title: { contains: search } }],
             }),
         }
 
         const [data, total] = await Promise.all([
             database.gpc.findMany({
                 where,
-                orderBy: {
-                    id: "asc",
-                },
+                orderBy: { id: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
-                include: {
-                    cycle: true
-                }
+                include: { cycle: true }
             }),
             database.gpc.count({ where }),
         ])
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getGpcRepository")
+        logger.error(
+            {
+                error,
+                operation: "getGpcRepository",
+                entity: "GPC",
+                search
+            },
+            "Error al obtener algoritmos"
+        )
         throw new Error("Error al obtener repositorios")
     }
 }
@@ -181,7 +204,15 @@ export const getGpcByIdRepositoy = async (id: string) => {
     try {
         return await database.gpc.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getGpuByIdRepositoy")
+        logger.error(
+            {
+                error,
+                operation: "getGpcByIdRepository",
+                entity: "GPC",
+                id
+            },
+            "Error al obtener algoritmo por ID"
+        )
         throw new Error("Error al obtener algoritmo")
     }
 }
@@ -216,12 +247,18 @@ export const putGpcRepository = async ({
                 fileSize,
                 mimeType
             },
-            include: {
-                cycle: true
-            }
+            include: { cycle: true }
         })
     } catch (error) {
-        console.error("Error en putGpcRepository")
+        logger.error(
+            {
+                error,
+                operation: "putGpcRepository",
+                entity: "GPC",
+                id
+            },
+            "Error al actualizar algoritmo"
+        )
         throw new Error("Error al actualizar el algoritmo")
     }
 }
@@ -234,7 +271,15 @@ export const deleteGpcRepository = async (id: string) => {
     try {
         return await database.gpc.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deleteGpcRepository")
+        logger.error(
+            {
+                error,
+                operation: "deleteGpcRepository",
+                entity: "GPC",
+                id
+            },
+            "Error al eliminar algoritmo"
+        )
         throw new Error("Error al eliminar algoritmo")
     }
 }

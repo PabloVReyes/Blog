@@ -1,7 +1,9 @@
 import { database } from "../../config/prisma"
-///
-// READ
-//
+import { logger } from "../../utils/logger"
+
+//////////
+// READ //
+//////////
 
 export const getUserByEmailRepository = async (email: string) => {
     try {
@@ -24,7 +26,14 @@ export const getUserByEmailRepository = async (email: string) => {
             }
         })
     } catch (error) {
-        console.error("Error en user")
+        logger.error(
+            {
+                error,
+                email,
+                operation: "getUserByEmailRepository"
+            },
+            "Error fetching user by email"
+        )
         throw new Error("Error al obtener el usuario")
     }
 }
@@ -42,6 +51,14 @@ export const updateLastLogin = async (id: string) => {
             }
         })
     } catch (error) {
-        console.error("Error al actualizar ultima conexión del usuario")
+        logger.error(
+            {
+                error,
+                userId: id,
+                operation: "updateLastLogin"
+            },
+            "Error updating last login"
+        )
+        throw new Error("Error al actualizar ultima conexión del usuario")
     }
 }

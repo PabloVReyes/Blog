@@ -1,6 +1,7 @@
 import { database } from "../../../config/prisma"
 import * as path from "path"
 import * as fs from "fs/promises"
+import { logger } from "../../../utils/logger";
 
 interface PostAccessCardRepositoryProps {
     sectionId: string;
@@ -10,9 +11,7 @@ interface PostAccessCardRepositoryProps {
     color: string;
     icon: string;
     isActive: boolean;
-
     url: string | null;
-
     file?: {
         name?: string;
         path?: string;
@@ -21,24 +20,22 @@ interface PostAccessCardRepositoryProps {
     } | null
 }
 
-export const postAccessCardRepository = async ({ sectionId, type, title, description, icon, color, isActive, file, url }: PostAccessCardRepositoryProps) => {
+export const postAccessCardRepository = async ({
+    sectionId, type, title, description, icon, color, isActive, file, url
+}: PostAccessCardRepositoryProps) => {
     try {
         return await database.$transaction(async (tx) => {
-            const lastItem = await database.accessCardItem.findFirst({
+
+            const lastItem = await tx.accessCardItem.findFirst({
                 where: { sectionId },
                 orderBy: { orderIndex: "desc" }
             })
 
             let fileId: string | null = null
 
-            if (type == "file" && file) {
+            if (type === "file" && file) {
                 const createdFile = await tx.file.create({
-                    data: {
-                        name: file.name,
-                        path: file.path,
-                        size: file.size,
-                        mimeType: file.mimeType
-                    }
+                    data: file
                 })
                 fileId = createdFile.id
             }
@@ -59,7 +56,10 @@ export const postAccessCardRepository = async ({ sectionId, type, title, descrip
             })
         })
     } catch (error) {
-        console.error("Error en postAccessCardRepository", error)
+        logger.error(
+            { error, operation: "postAccessCardRepository", entity: "AccessCard" },
+            "Error creating Access Card"
+        )
         throw new Error("Error al crear la access card")
     }
 }
@@ -75,7 +75,9 @@ interface GetAccessCardRepositoryProps {
     search?: string;
 }
 
-export const getAccessCardRepository = async ({ isActive, take, skip, search }: GetAccessCardRepositoryProps) => {
+export const getAccessCardRepository = async ({
+    isActive, take, skip, search
+}: GetAccessCardRepositoryProps) => {
     try {
         const where = {
             ...(isActive !== undefined && { isActive }),
@@ -86,22 +88,24 @@ export const getAccessCardRepository = async ({ isActive, take, skip, search }: 
                 ],
             }),
         }
+
         const [data, total] = await Promise.all([
             database.accessCardItem.findMany({
                 where,
                 orderBy: { orderIndex: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
-                include: {
-                    file: true
-                }
+                include: { file: true }
             }),
             database.accessCardItem.count({ where })
         ])
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getAccessCardRepository", error)
+        logger.error(
+            { error, operation: "getAccessCardRepository", entity: "AccessCard" },
+            "Error fetching Access Cards"
+        )
         throw new Error("Error al obtener las access card")
     }
 }
@@ -110,7 +114,10 @@ export const getAccessCardByIdRepository = async (id: string) => {
     try {
         return await database.accessCardItem.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getAccessCardByIdRepository", error)
+        logger.error(
+            { error, operation: "getAccessCardByIdRepository", entity: "AccessCard" },
+            "Error fetching Access Card by id"
+        )
         throw new Error("Error al obtener la access card")
     }
 }
@@ -127,9 +134,7 @@ interface PutAccessCardRepositoryProps {
     color: string;
     icon: string;
     isActive: boolean;
-
     url: string | null;
-
     file?: {
         name?: string;
         path?: string;
@@ -138,9 +143,12 @@ interface PutAccessCardRepositoryProps {
     } | null
 }
 
-export const putAccessCardRepository = async ({ id, type, color, icon, title, description, url, file, isActive }: PutAccessCardRepositoryProps) => {
+export const putAccessCardRepository = async ({
+    id, type, color, icon, title, description, url, file, isActive
+}: PutAccessCardRepositoryProps) => {
     try {
         return await database.$transaction(async (tx) => {
+
             const current = await tx.accessCardItem.findUnique({
                 where: { id },
                 include: { file: true }
@@ -157,43 +165,39 @@ export const putAccessCardRepository = async ({ id, type, color, icon, title, de
                 if (file) {
                     if (current.file?.path) {
                         try {
-                            const absolutePath = path.join(uploadsPath, current.file.path)
-                            await fs.unlink(absolutePath)
+                            await fs.unlink(path.join(uploadsPath, current.file.path))
                         } catch (error) {
-                            console.warn("No se pudo eliminar archivo físico:", error)
+                            logger.error(
+                                { error, operation: "putAccessCardRepository.unlink", entity: "File" },
+                                "Error deleting physical file"
+                            )
                         }
 
-                        await tx.file.delete({
-                            where: { id: current.file.id }
-                        })
+                        await tx.file.delete({ where: { id: current.file.id } })
                     }
 
-                    const newFile = await tx.file.create({
-                        data: file
-                    })
-
+                    const newFile = await tx.file.create({ data: file })
                     fileId = newFile.id
                 }
             } else {
                 if (current.file?.path) {
                     try {
-                        await fs.unlink(path.join(uploadsPath, current.file.path));
-                    } catch (e) {
-                        console.warn("No se pudo eliminar archivo:", e);
+                        await fs.unlink(path.join(uploadsPath, current.file.path))
+                    } catch (error) {
+                        logger.error(
+                            { error, operation: "putAccessCardRepository.unlink", entity: "File" },
+                            "Error deleting physical file"
+                        )
                     }
 
-                    await tx.file.delete({
-                        where: { id: current.file.id }
-                    });
+                    await tx.file.delete({ where: { id: current.file.id } })
                 }
 
                 fileId = null
             }
 
             return await tx.accessCardItem.update({
-                where: {
-                    id
-                },
+                where: { id },
                 data: {
                     type,
                     title,
@@ -204,13 +208,14 @@ export const putAccessCardRepository = async ({ id, type, color, icon, title, de
                     url: type === "page" ? url : null,
                     fileId
                 },
-                include: {
-                    file: true
-                }
+                include: { file: true }
             })
         })
     } catch (error) {
-        console.error("error en postAccessCardQuery", error)
+        logger.error(
+            { error, operation: "putAccessCardRepository", entity: "AccessCard" },
+            "Error updating Access Card"
+        )
         throw new Error("Error al actualizar la access card")
     }
 }
@@ -222,13 +227,14 @@ export const putAccessCardRepository = async ({ id, type, color, icon, title, de
 export const deleteAccessCardRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
+
             const current = await tx.accessCardItem.findUnique({
                 where: { id },
                 include: { file: true }
             })
 
             if (!current) {
-                throw new Error("Sistema no encontrado")
+                throw new Error("Access Card no encontrado")
             }
 
             const uploadsPath = path.join(process.cwd(), 'uploads')
@@ -237,20 +243,22 @@ export const deleteAccessCardRepository = async (id: string) => {
                 try {
                     await fs.unlink(path.join(uploadsPath, current.file.path))
                 } catch (error) {
-                    console.warn("No se pudo eliminar archivo:", error)
+                    logger.error(
+                        { error, operation: "deleteAccessCardRepository.unlink", entity: "File" },
+                        "Error deleting physical file"
+                    )
                 }
 
-                await tx.file.delete({
-                    where: { id: current.file.id }
-                })
+                await tx.file.delete({ where: { id: current.file.id } })
             }
 
-            return await tx.accessCardItem.delete({
-                where: { id }
-            })
+            return await tx.accessCardItem.delete({ where: { id } })
         })
     } catch (error) {
-        console.error("Error en deleteAccessCardRepository", error)
+        logger.error(
+            { error, operation: "deleteAccessCardRepository", entity: "AccessCard" },
+            "Error deleting Access Card"
+        )
         throw new Error("Error al eliminar la access card")
     }
 }

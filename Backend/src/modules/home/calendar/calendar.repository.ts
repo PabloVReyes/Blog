@@ -1,6 +1,7 @@
 import { database } from "../../../config/prisma";
 import * as fs from "fs/promises"
 import * as path from "path"
+import { logger } from "../../../utils/logger";
 
 export const getCalendarRepository = async () => {
     try {
@@ -10,7 +11,10 @@ export const getCalendarRepository = async () => {
             }
         })
     } catch (error) {
-        console.error("Error en getCalendarRepository", error);
+        logger.error(
+            { error, operation: "getCalendarRepository", entity: "Calendar" },
+            "Error fetching calendar"
+        )
         throw new Error("Error al obtener el calendario");
     }
 }
@@ -24,7 +28,10 @@ export const getCalendarByIdRepository = async (id: string) => {
             }
         })
     } catch (error) {
-        console.error("error en getCalendarByIdRepository", error)
+        logger.error(
+            { error, operation: "getCalendarByIdRepository", entity: "Calendar" },
+            "Error fetching calendar by ID"
+        )
         throw new Error("Error al obtener el calendario por ID")
     }
 }
@@ -33,14 +40,14 @@ export const getCalendarByIdRepository = async (id: string) => {
 // UPDATE //
 ////////////
 
-interface putCalendarRepositoryProps {
+interface PutCalendarRepositoryProps {
     id: string;
     title: string;
     color: string;
     icon: string;
     year: number;
     description: string;
-    file: {
+    file?: {   // 👈 ahora sí consistente
         name: string;
         path: string;
         size: number;
@@ -48,9 +55,12 @@ interface putCalendarRepositoryProps {
     }
 }
 
-export const putCalendarRepository = async ({ id, file, title, description, icon, color, year }: putCalendarRepositoryProps) => {
+export const putCalendarRepository = async ({
+    id, file, title, description, icon, color, year
+}: PutCalendarRepositoryProps) => {
     try {
         return await database.$transaction(async (tx) => {
+
             const current = await tx.calendarConfig.findUnique({
                 where: { id },
                 include: { file: true }
@@ -61,15 +71,21 @@ export const putCalendarRepository = async ({ id, file, title, description, icon
             }
 
             let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads')
 
             if (file) {
                 if (current.file?.path) {
                     try {
-                        const uploadsPath = path.join(process.cwd(), 'uploads')
-                        const absolutePath = path.join(uploadsPath, current.file.path)
-                        await fs.unlink(absolutePath)
+                        await fs.unlink(path.join(uploadsPath, current.file.path))
                     } catch (error) {
-                        console.warn("No se pudo eliminar archivo físico:", error)
+                        logger.error(
+                            {
+                                error,
+                                operation: "putCalendarRepository.unlink",
+                                entity: "File"
+                            },
+                            "Error deleting physical file"
+                        )
                     }
 
                     await tx.file.delete({
@@ -78,12 +94,7 @@ export const putCalendarRepository = async ({ id, file, title, description, icon
                 }
 
                 const createdFile = await tx.file.create({
-                    data: {
-                        name: file.name,
-                        path: file.path,
-                        size: file.size,
-                        mimeType: file.mimeType
-                    }
+                    data: file
                 })
 
                 fileId = createdFile.id
@@ -103,7 +114,10 @@ export const putCalendarRepository = async ({ id, file, title, description, icon
             })
         })
     } catch (error) {
-        console.error("error en putCalendarRepository", error)
+        logger.error(
+            { error, operation: "putCalendarRepository", entity: "Calendar" },
+            "Error updating calendar"
+        )
         throw new Error("Error al actualizar el calendario")
     }
 }

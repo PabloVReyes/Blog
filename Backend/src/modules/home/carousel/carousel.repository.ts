@@ -1,7 +1,9 @@
 import { database } from "../../../config/prisma"
+import { logger } from "../../../utils/logger";
 import { GetCarouselProps, PostCarouselProps } from "./carousel.types"
 import * as fs from 'fs/promises'
 import * as path from 'path'
+
 ////////////
 // CREATE //
 ////////////
@@ -58,7 +60,15 @@ export const postCarouselRepository = async ({
             });
         });
     } catch (error) {
-        console.error("error en postCarouselRepository", error);
+        logger.error(
+            {
+                error,
+                operation: "postCarouselRepository",
+                entity: "Carousel",
+                input: { sectionId, isActive, type, title }
+            },
+            "Error creating carousel item"
+        );
         throw new Error("Error al crear el elemento del carrusel");
     }
 };
@@ -95,7 +105,15 @@ export const getCarouselRepository = async ({ isActive, take, skip, search }: Ge
 
         return { data, total }
     } catch (error) {
-        console.error("error en getCarouselRepository")
+        logger.error(
+            {
+                error,
+                operation: "getCarouselRepository",
+                entity: "Carousel",
+                input: { isActive, take, skip, search }
+            },
+            "Error fetching carousel items"
+        );
         throw new Error("Error al obtener elementos del carousel")
     }
 }
@@ -109,7 +127,15 @@ export const getCarouselByIdRepository = async (id: string) => {
             }
         })
     } catch (error) {
-        console.error("error en getCarouselByIdRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "getCarouselByIdRepository",
+                entity: "Carousel",
+                input: { id }
+            },
+            "Error fetching carousel by id"
+        );
         throw new Error("Error al obtener carousel")
     }
 }
@@ -139,8 +165,6 @@ type PutCarouselRepositoryProps = {
         mimeType?: string;
     } | null;
 };
-
-
 
 export const putCarouselRepository = async (props: PutCarouselRepositoryProps) => {
     const {
@@ -178,8 +202,16 @@ export const putCarouselRepository = async (props: PutCarouselRepositoryProps) =
                     if (current.file?.path) {
                         try {
                             await fs.unlink(path.join(uploadsPath, current.file.path));
-                        } catch (e) {
-                            console.warn("No se pudo eliminar archivo:", e);
+                        } catch (error) {
+                            logger.warn(
+                                {
+                                    error,
+                                    operation: "putCarouselRepository",
+                                    entity: "Carousel",
+                                    input: { id }
+                                },
+                                "No se pudo eliminar archivo físico"
+                            );
                         }
 
                         await tx.file.delete({
@@ -198,8 +230,16 @@ export const putCarouselRepository = async (props: PutCarouselRepositoryProps) =
                 if (current.file?.path) {
                     try {
                         await fs.unlink(path.join(uploadsPath, current.file.path));
-                    } catch (e) {
-                        console.warn("No se pudo eliminar archivo:", e);
+                    } catch (error) {
+                        logger.warn(
+                            {
+                                error,
+                                operation: "putCarouselRepository",
+                                entity: "Carousel",
+                                input: { id }
+                            },
+                            "No se pudo eliminar archivo físico"
+                        );
                     }
 
                     await tx.file.delete({
@@ -214,8 +254,16 @@ export const putCarouselRepository = async (props: PutCarouselRepositoryProps) =
                 if (current.imagePath) {
                     try {
                         await fs.unlink(current.imagePath);
-                    } catch (e) {
-                        console.warn("No se pudo eliminar imagen:", e);
+                    } catch (error) {
+                        logger.warn(
+                            {
+                                error,
+                                operation: "putCarouselRepository",
+                                entity: "Carousel",
+                                input: { id }
+                            },
+                            "No se pudo eliminar imagen"
+                        );
                     }
                 }
 
@@ -244,7 +292,15 @@ export const putCarouselRepository = async (props: PutCarouselRepositoryProps) =
         });
 
     } catch (error) {
-        console.error("error en putCarouselRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "putCarouselRepository",
+                entity: "Carousel",
+                input: { id, type }
+            },
+            "Error updating carousel"
+        );
         throw new Error("Error en putCarouselRepository")
     }
 };
@@ -272,7 +328,15 @@ export const deleteCarouselRepository = async (id: string) => {
                 try {
                     await fs.unlink(current.imagePath)
                 } catch (error) {
-                    console.warn("No se pudo eliminar imagen:", error)
+                    logger.warn(
+                        {
+                            error,
+                            operation: "deleteCarouselRepository",
+                            entity: "Carousel",
+                            input: { id }
+                        },
+                        "No se pudo eliminar imagen"
+                    );
                 }
             }
 
@@ -280,7 +344,15 @@ export const deleteCarouselRepository = async (id: string) => {
                 try {
                     await fs.unlink(path.join(uploadsPath, current.file.path))
                 } catch (error) {
-                    console.warn("No se pudo eliminar archivo:", error)
+                    logger.warn(
+                        {
+                            error,
+                            operation: "deleteCarouselRepository",
+                            entity: "Carousel",
+                            input: { id }
+                        },
+                        "No se pudo eliminar archivo"
+                    );
                 }
 
                 await tx.file.delete({
@@ -294,7 +366,15 @@ export const deleteCarouselRepository = async (id: string) => {
         })
 
     } catch (error) {
-        console.error("error en deleteCarouselRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "deleteCarouselRepository",
+                entity: "Carousel",
+                input: { id }
+            },
+            "Error deleting carousel"
+        );
         throw new Error("Error al eliminar el elemento del carrusel")
     }
 }

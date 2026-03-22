@@ -1,4 +1,5 @@
 import { sanitizeFileName } from "../../../utils/file"
+import { logger } from "../../../utils/logger"
 import { buildPaginationMeta } from "../../../utils/pagination"
 import * as repo from "./adverseEvents.repository"
 
@@ -28,7 +29,7 @@ export const putAdverseEventService = async (id: string, file?: Express.Multer.F
 
 
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
     }

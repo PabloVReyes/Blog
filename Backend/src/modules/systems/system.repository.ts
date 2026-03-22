@@ -1,5 +1,6 @@
 import { database } from "../../config/prisma";
 import { PaginationProps } from "../../types/pagination";
+import { logger } from "../../utils/logger";
 import * as path from "path"
 import * as fs from "fs/promises"
 
@@ -13,9 +14,7 @@ interface PostSystemRepositoryProps {
     color: string;
     icon: string;
     type: string;
-
     url: string | null;
-
     file?: {
         name?: string;
         path?: string;
@@ -52,7 +51,15 @@ export const postSystemRepository = async ({ acronym, name, description, color, 
         })
 
     } catch (error) {
-        console.error("Error en PostSystemRepositoryProps", error)
+        logger.error(
+            {
+                error,
+                operation: "postSystemRepository",
+                entity: "Systems",
+                payload: { name, type }
+            },
+            "Error creating system"
+        )
         throw new Error("Error al crear el sistema")
     }
 }
@@ -62,35 +69,56 @@ export const postSystemRepository = async ({ acronym, name, description, color, 
 //////////
 
 export const getSystemRepository = async ({ search, take, skip }: PaginationProps) => {
-    const where = {
-        ...(search && {
-            OR: [
-                { acronym: { contains: search } },
-                { name: { contains: search } },
-                { description: { contains: search } },
-            ],
-        }),
+    try {
+        const where = {
+            ...(search && {
+                OR: [
+                    { acronym: { contains: search } },
+                    { name: { contains: search } },
+                    { description: { contains: search } },
+                ],
+            }),
+        }
+
+        const [data, total] = await Promise.all([
+            database.systems.findMany({
+                where,
+                orderBy: { createdAt: "asc" },
+                ...(take !== undefined && { take }),
+                ...(skip !== undefined && { skip }),
+                include: { file: true }
+            }),
+            database.systems.count({ where }),
+        ])
+
+        return { data, total }
+    } catch (error) {
+        logger.error(
+            {
+                error,
+                operation: "getSystemRepository",
+                entity: "Systems",
+                params: { search, take, skip }
+            },
+            "Error fetching systems"
+        )
+        throw new Error("Error al obtener sistemas")
     }
-
-    const [data, total] = await Promise.all([
-        database.systems.findMany({
-            where,
-            orderBy: { createdAt: "asc" },
-            ...(take !== undefined && { take }),
-            ...(skip !== undefined && { skip }),
-            include: { file: true }
-        }),
-        database.systems.count({ where }),
-    ])
-
-    return { data, total }
 }
 
 export const getSystemByIdRepository = async (id: string) => {
     try {
         return await database.systems.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getSystemByIdRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "getSystemByIdRepository",
+                entity: "Systems",
+                id
+            },
+            "Error fetching system by id"
+        )
         throw new Error("Error al obtener el sistema")
     }
 }
@@ -106,9 +134,7 @@ interface PutSystemRepositoryProps {
     color: string;
     icon: string;
     type: string;
-
     url: string | null;
-
     file?: {
         name?: string;
         path?: string;
@@ -130,17 +156,15 @@ export const putSystemRepository = async ({ id, acronym, name, description, colo
             }
 
             let fileId = current.fileId
-
             const uploadsPath = path.join(process.cwd(), 'uploads');
+
             if (type === "file") {
                 if (file) {
                     if (current.file?.path) {
                         try {
                             const absolutePath = path.join(uploadsPath, current.file.path)
                             await fs.unlink(absolutePath)
-                        } catch (error) {
-                            console.warn("No se pudo eliminar archivo físico:", error)
-                        }
+                        } catch (_) { }
 
                         await tx.file.delete({
                             where: { id: current.file.id }
@@ -157,9 +181,7 @@ export const putSystemRepository = async ({ id, acronym, name, description, colo
                 if (current.file?.path) {
                     try {
                         await fs.unlink(path.join(uploadsPath, current.file.path));
-                    } catch (e) {
-                        console.warn("No se pudo eliminar archivo:", e);
-                    }
+                    } catch (_) { }
 
                     await tx.file.delete({
                         where: { id: current.file.id }
@@ -187,7 +209,16 @@ export const putSystemRepository = async ({ id, acronym, name, description, colo
             })
         })
     } catch (error) {
-        console.error("error en putSystemRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "putSystemRepository",
+                entity: "Systems",
+                id,
+                payload: { name, type }
+            },
+            "Error updating system"
+        )
         throw new Error("Error al actualizar el sistema")
     }
 }
@@ -205,7 +236,7 @@ export const deleteSystemRepository = async (id: string) => {
             })
 
             if (!current) {
-                throw new Error("Carousel no encontrado")
+                throw new Error("Sistema no encontrado")
             }
 
             const uploadsPath = path.join(process.cwd(), 'uploads')
@@ -213,9 +244,7 @@ export const deleteSystemRepository = async (id: string) => {
             if (current.file?.path) {
                 try {
                     await fs.unlink(path.join(uploadsPath, current.file.path))
-                } catch (error) {
-                    console.warn("No se pudo eliminar archivo:", error)
-                }
+                } catch (_) { }
 
                 await tx.file.delete({
                     where: { id: current.file.id }
@@ -226,9 +255,17 @@ export const deleteSystemRepository = async (id: string) => {
                 where: { id }
             })
         })
-        
+
     } catch (error) {
-        console.error("Error en deleteSystemRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "deleteSystemRepository",
+                entity: "Systems",
+                id
+            },
+            "Error deleting system"
+        )
         throw new Error("Error al eliminar sistema")
     }
 }

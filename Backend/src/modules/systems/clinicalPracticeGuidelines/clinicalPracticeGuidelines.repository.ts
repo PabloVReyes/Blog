@@ -1,5 +1,6 @@
 import { database } from "../../../config/prisma"
 import { PaginationProps } from "../../../types/pagination";
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -38,14 +39,10 @@ export const postClinicalPracticeGuidelinesReporisory = async ({
                 code,
                 title,
                 categoryId: category,
-
-                // ER
                 fileNameER,
                 filePathER,
                 fileSizeER,
                 mimeTypeER,
-
-                // RR
                 fileNameRR,
                 filePathRR,
                 fileSizeRR,
@@ -53,7 +50,15 @@ export const postClinicalPracticeGuidelinesReporisory = async ({
             }
         })
     } catch (error) {
-        console.error("Error en postClinicalPracticeGuidelinesReporisory")
+        logger.error(
+            {
+                error,
+                operation: "postClinicalPracticeGuidelinesReporisory",
+                entity: "ClinicalPracticeGuidelines",
+                code
+            },
+            "Error al crear guía clínica"
+        )
         throw new Error("Error al crear la guia")
     }
 }
@@ -61,12 +66,18 @@ export const postClinicalPracticeGuidelinesReporisory = async ({
 export const postCategoryRepository = async (name: string) => {
     try {
         return await database.category.create({
-            data: {
-                name
-            }
+            data: { name }
         })
     } catch (error) {
-        console.error("Error en postCategoryRepository")
+        logger.error(
+            {
+                error,
+                operation: "postCategoryRepository",
+                entity: "Category",
+                name
+            },
+            "Error al crear categoría"
+        )
         throw new Error("Error al crear nueva categoria")
     }
 }
@@ -82,9 +93,7 @@ interface GetClinicalPracticeGuidelinesRepositoryProps extends PaginationProps {
 export const getClinicalPracticeGuidelinesRepository = async ({ search, take, skip, categoryId }: GetClinicalPracticeGuidelinesRepositoryProps) => {
     try {
         const where = {
-            ...(categoryId && {
-                categoryId
-            }),
+            ...(categoryId && { categoryId }),
             ...(search && {
                 OR: [
                     { title: { contains: search } },
@@ -101,21 +110,26 @@ export const getClinicalPracticeGuidelinesRepository = async ({ search, take, sk
         const [data, total] = await Promise.all([
             database.clinicalPracticeGuidelines.findMany({
                 where,
-                orderBy: {
-                    id: "asc",
-                },
+                orderBy: { id: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
-                include: {
-                    category: true
-                }
+                include: { category: true }
             }),
             database.clinicalPracticeGuidelines.count({ where }),
         ])
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getClinicalPracticeGuidelinesRepository")
+        logger.error(
+            {
+                error,
+                operation: "getClinicalPracticeGuidelinesRepository",
+                entity: "ClinicalPracticeGuidelines",
+                search,
+                categoryId
+            },
+            "Error al obtener guías clínicas"
+        )
         throw new Error("Error al obtener guias")
     }
 }
@@ -123,15 +137,20 @@ export const getClinicalPracticeGuidelinesRepository = async ({ search, take, sk
 export const getCategoryRepository = async () => {
     try {
         const [data, total] = await Promise.all([
-            database.category.findMany({
-                orderBy: { id: "asc" }
-            }),
+            database.category.findMany({ orderBy: { id: "asc" } }),
             database.category.count(),
         ])
 
         return { data, total }
     } catch (error) {
-        console.error("error en postClinicalPracticeGuidelinesController")
+        logger.error(
+            {
+                error,
+                operation: "getCategoryRepository",
+                entity: "Category"
+            },
+            "Error al obtener categorías"
+        )
         throw new Error("Error al obtener categorias")
     }
 }
@@ -140,7 +159,15 @@ export const getClinicalPracticeGuidelineByIdRepository = async (id: string) => 
     try {
         return await database.clinicalPracticeGuidelines.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getClinicalPracticeGuidelineByIdRepository")
+        logger.error(
+            {
+                error,
+                operation: "getClinicalPracticeGuidelineByIdRepository",
+                entity: "ClinicalPracticeGuidelines",
+                id
+            },
+            "Error al obtener guía por ID"
+        )
         throw new Error("Error al obtener la guia")
     }
 }
@@ -183,12 +210,18 @@ export const putClinicalPracticeGuidelinesReporisory = async ({
                 fileSizeRR,
                 mimeTypeRR,
             },
-            include: {
-                category: true
-            }
+            include: { category: true }
         })
     } catch (error) {
-        console.error("error en putClinicalPracticeGuidelinesReporisory")
+        logger.error(
+            {
+                error,
+                operation: "putClinicalPracticeGuidelinesReporisory",
+                entity: "ClinicalPracticeGuidelines",
+                id
+            },
+            "Error al actualizar guía clínica"
+        )
         throw new Error("Error al actualizar la guia")
     }
 }
@@ -201,7 +234,15 @@ export const deleteClinicalPracticeGuidelinesRepository = async (id: string) => 
     try {
         return await database.clinicalPracticeGuidelines.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deleteClinicalPracticeGuidelinesReporisory", error)
+        logger.error(
+            {
+                error,
+                operation: "deleteClinicalPracticeGuidelinesRepository",
+                entity: "ClinicalPracticeGuidelines",
+                id
+            },
+            "Error al eliminar guía clínica"
+        )
         throw new Error("Error al eliminar guía")
     }
 }

@@ -5,6 +5,7 @@ import * as types from "./juristics.types"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as path from "path"
 import { uploadsRoot } from "./path"
+import { logger } from "../../utils/logger"
 
 ////
 // CREATE //
@@ -87,7 +88,7 @@ export const putJuristicService = async (id: number, dto: types.JuristicsUpdateD
 
 
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 

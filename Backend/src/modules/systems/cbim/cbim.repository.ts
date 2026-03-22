@@ -1,5 +1,6 @@
 import { database } from "../../../config/prisma"
 import { PaginationProps } from "../../../types/pagination"
+import { logger } from "../../../utils/logger"
 
 ////////////
 // CREATE //
@@ -27,7 +28,14 @@ export const postCbimRepository = async ({ code, name, description, sp, fpgc, cb
             }
         })
     } catch (error) {
-        console.error("Error en postCbimRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "postCbimRepository",
+                entity: "CBIM"
+            },
+            "Error al crear el medicamento"
+        )
         throw new Error("Error al crear el medicamento")
     }
 }
@@ -60,7 +68,14 @@ export const getCbimRepository = async ({ search, take, skip }: PaginationProps)
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCbimRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "getCbimRepository",
+                entity: "CBIM"
+            },
+            "Error al obtener CBIM"
+        )
         throw new Error("Error al obtener cuadro basico integral de medicamentos")
     }
 }
@@ -95,7 +110,15 @@ export const putCbimRepository = async ({ id, code, name, description, sp, fpgc,
             }
         })
     } catch (error) {
-        console.error("Error en putCbimRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "putCbimRepository",
+                entity: "CBIM",
+                id
+            },
+            "Error al actualizar CBIM"
+        )
         throw new Error("Error al editar el medicamento")
     }
 }
@@ -114,7 +137,15 @@ export const deleteCbimRepository = async (id: string) => {
 
         return true
     } catch (error) {
-        console.error("Error en deleteCbimRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "deleteCbimRepository",
+                entity: "CBIM",
+                id
+            },
+            "Error al eliminar CBIM"
+        )
         throw new Error("Error al eliminar el cbim")
     }
 }

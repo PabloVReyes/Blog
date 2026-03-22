@@ -1,10 +1,12 @@
 import { database } from "../../../config/prisma";
 import { PaginationProps } from "../../../types/pagination";
+import { logger } from "../../../utils/logger";
 
 //////////
 // READ //
 //////////
-interface GetCodesRepositoryProps extends PaginationProps{
+
+interface GetCodesRepositoryProps extends PaginationProps {
     categoryId?: string
 }
 
@@ -38,8 +40,17 @@ export const getCodesRepository = async ({ search, take, skip, categoryId }: Get
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCie10Repository", error)
-        throw new Error("Error al obtener enfermedades")
+        logger.error(
+            {
+                error,
+                operation: "getCodesRepository",
+                entity: "Codes",
+                search,
+                categoryId
+            },
+            "Error al obtener códigos"
+        )
+        throw new Error("Error al obtener códigos")
     }
 }
 
@@ -54,7 +65,14 @@ export const getCategoryRepository = async () => {
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCategoryRepository")
+        logger.error(
+            {
+                error,
+                operation: "getCategoryRepository",
+                entity: "CategoryCodes"
+            },
+            "Error al obtener categorías de códigos"
+        )
         throw new Error("Error al obtener categorias")
     }
 }

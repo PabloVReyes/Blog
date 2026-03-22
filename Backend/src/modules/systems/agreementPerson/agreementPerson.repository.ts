@@ -1,4 +1,5 @@
-import { database } from "../../../config/prisma";
+import { database } from "../../../config/prisma"
+import { logger } from "../../../utils/logger"
 
 ////////////
 // CREATE //
@@ -26,7 +27,6 @@ export const postAgreementPersonRepository = async ({
                 groupId: group,
                 zoneId: zone,
                 type,
-                // Solo creamos el vínculo si es DEPENDENT y tenemos un ID de titular
                 parents: (type === "DEPENDENT" && holder)
                     ? {
                         create: [
@@ -53,7 +53,6 @@ export const postAgreementPersonRepository = async ({
             },
         });
 
-        // 2. Formatear la respuesta
         const { children, parents, ...rest } = personCreated;
 
         return {
@@ -66,20 +65,34 @@ export const postAgreementPersonRepository = async ({
                 .sort((a, b) => (a.id - b.id))
         };
     } catch (error) {
-        console.error("error en putAgreementPersonRepository", error)
-        throw new Error("Error al actualizar paciente de convenio")
+        logger.error(
+            {
+                error,
+                operation: "postAgreementPersonRepository",
+                entity: "AgreementPerson",
+                payload: { name, type, group, zone }
+            },
+            "Error creating agreement person"
+        )
+        throw new Error("Error al crear paciente de convenio")
     }
 }
 
 export const postGroupRepository = async (name: string) => {
     try {
         return await database.group.create({
-            data: {
-                name
-            }
+            data: { name }
         })
     } catch (error) {
-        console.error("error en postGroupRepository")
+        logger.error(
+            {
+                error,
+                operation: "postGroupRepository",
+                entity: "Group",
+                payload: { name }
+            },
+            "Error creating group"
+        )
         throw new Error("Error al crear nuevo grupo")
     }
 }
@@ -87,12 +100,18 @@ export const postGroupRepository = async (name: string) => {
 export const postZoneRepository = async (name: string) => {
     try {
         return await database.zone.create({
-            data: {
-                name
-            }
+            data: { name }
         })
     } catch (error) {
-        console.error("error en postZoneRepository")
+        logger.error(
+            {
+                error,
+                operation: "postZoneRepository",
+                entity: "Zone",
+                payload: { name }
+            },
+            "Error creating zone"
+        )
         throw new Error("Error al crear nueva zona")
     }
 }
@@ -122,12 +141,8 @@ export const getAgreementPersonWithDependentsRepository = async ({ search, take,
 
         if (search) {
             where.OR = [
-                // 1. Buscar en el Titular
                 { name: { contains: search } },
                 ...(searchInt ? [{ id: searchInt }] : []),
-
-                // 2. Buscar si el Titular TIENE hijos que coincidan
-                // Nota: 'children' es el nombre del campo @relation en tu modelo AgreementPerson
                 {
                     children: {
                         some: {
@@ -150,10 +165,7 @@ export const getAgreementPersonWithDependentsRepository = async ({ search, take,
                     children: {
                         include: {
                             dependent: {
-                                include: {
-                                    zone: true,
-                                    group: true
-                                }
+                                include: { zone: true, group: true }
                             }
                         }
                     },
@@ -168,10 +180,8 @@ export const getAgreementPersonWithDependentsRepository = async ({ search, take,
         ]);
 
         const data = rawData.map(person => {
-            // 1. Extraemos 'children' y guardamos todo lo demás en 'rest'
             const { children, groupId, zoneId, ...rest } = person;
 
-            // 2. Retornamos el nuevo objeto con la propiedad 'dependents' limpia
             return {
                 ...rest,
                 dependents: children.map(link => link.dependent)
@@ -180,20 +190,20 @@ export const getAgreementPersonWithDependentsRepository = async ({ search, take,
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getAgreementPersonRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "getAgreementPersonWithDependentsRepository",
+                entity: "AgreementPerson",
+                params: { search, take, skip, groupId, zoneId }
+            },
+            "Error fetching agreement persons with dependents"
+        )
         throw new Error("Error al obtener pacientes de convenio")
     }
 }
 
-interface GetAgreementPersonRepositoryProps {
-    search?: string;
-    take?: number;
-    skip?: number;
-    groupId?: number;
-    zoneId?: number;
-}
-
-export const getAgreementPersonRepository = async ({ search, take, skip, groupId, zoneId }: GetAgreementPersonRepositoryProps) => {
+export const getAgreementPersonRepository = async ({ search, take, skip }: GetAgreementPersonRepositoryProps) => {
     try {
         const isNumeric = !isNaN(Number(search));
         const searchInt = isNumeric ? Number(search) : null;
@@ -226,35 +236,33 @@ export const getAgreementPersonRepository = async ({ search, take, skip, groupId
                     zone: true,
                     group: true
                 },
-                // FORZAMOS EL ORDEN POR ID AQUÍ
-                orderBy: {
-                    id: "asc"
-                },
+                orderBy: { id: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
             }),
             database.agreementPerson.count({ where }),
         ]);
 
-        // Transformación: Usamos el orden que ya viene de rawData
         const data = rawData.map(person => {
             const { children, parents, ...rest } = person;
             return {
                 ...rest,
-                // Opcional: Si quieres que los dependientes internos también estén ordenados
-                dependents: children
-                    .map(link => link.dependent)
-                    .sort((a, b) => a.id - b.id),
-
-                holders: parents
-                    .map(link => link.parent)
-                    .sort((a, b) => a.id - b.id)
+                dependents: children.map(link => link.dependent).sort((a, b) => a.id - b.id),
+                holders: parents.map(link => link.parent).sort((a, b) => a.id - b.id)
             };
         });
 
         return { data, total };
     } catch (error) {
-        console.error("Error en getAgreementPersonRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "getAgreementPersonRepository",
+                entity: "AgreementPerson",
+                params: { search, take, skip }
+            },
+            "Error fetching agreement persons"
+        )
         throw new Error("Error al obtener pacientes de convenio")
     }
 }
@@ -265,24 +273,36 @@ export const getAgreementPersonByIdRepository = async (id: number) => {
             where: { id },
             include: { _count: { select: { children: true } } }
         })
-    } catch {
-        console.error("Error en getAgreementPersonCountById")
-        throw new Error("Error al obtener la cantidad de dependientes del titular")
+    } catch (error) {
+        logger.error(
+            {
+                error,
+                operation: "getAgreementPersonByIdRepository",
+                entity: "AgreementPerson",
+                id
+            },
+            "Error fetching agreement person by id"
+        )
+        throw new Error("Error al obtener paciente")
     }
 }
 
 export const getGroupsRepository = async () => {
     try {
         const [data, total] = await Promise.all([
-            database.group.findMany({
-                orderBy: { id: "asc" }
-            }),
+            database.group.findMany({ orderBy: { id: "asc" } }),
             database.group.count(),
         ])
-
         return { data, total }
     } catch (error) {
-        console.error("error en getGroupsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getGroupsRepository",
+                entity: "Group"
+            },
+            "Error fetching groups"
+        )
         throw new Error("Error al obtener grupos")
     }
 }
@@ -290,15 +310,19 @@ export const getGroupsRepository = async () => {
 export const getZonesRepository = async () => {
     try {
         const [data, total] = await Promise.all([
-            database.zone.findMany({
-                orderBy: { id: "asc" }
-            }),
+            database.zone.findMany({ orderBy: { id: "asc" } }),
             database.zone.count(),
         ])
-
         return { data, total }
     } catch (error) {
-        console.error("error en getZonesRepository")
+        logger.error(
+            {
+                error,
+                operation: "getZonesRepository",
+                entity: "Zone"
+            },
+            "Error fetching zones"
+        )
         throw new Error("Error al obtener zonas")
     }
 }
@@ -325,7 +349,6 @@ export const putAgreementPersonRepository = async ({
     holder
 }: PutAgreementPersonRepositoryProps) => {
     try {
-        // 1. Ejecutar el update
         const personUpdated = await database.agreementPerson.update({
             where: { id },
             data: {
@@ -334,12 +357,8 @@ export const putAgreementPersonRepository = async ({
                 zoneId: zone,
                 type,
                 parents: type === "HOLDER"
-                    ? {
-                        // SI PASA A TITULAR: Borramos todos sus vínculos con antiguos titulares
-                        deleteMany: {}
-                    }
+                    ? { deleteMany: {} }
                     : {
-                        // SI SIGUE SIENDO DEPENDENT: Actualizamos su titular
                         deleteMany: {},
                         create: holder ? [{
                             parent: { connect: { id: holder } }
@@ -347,42 +366,32 @@ export const putAgreementPersonRepository = async ({
                     }
             },
             include: {
-                children: {
-                    include: {
-                        dependent: {
-                            include: { zone: true, group: true }
-                        }
-                    }
-                },
-                parents: {
-                    include: {
-                        parent: {
-                            include: { zone: true, group: true }
-                        }
-                    }
-                },
+                children: { include: { dependent: { include: { zone: true, group: true } } } },
+                parents: { include: { parent: { include: { zone: true, group: true } } } },
                 zone: true,
                 group: true
             },
         });
 
-        // 2. Formatear la respuesta (sin .map, ya que es un solo objeto)
         const { children, parents, ...rest } = personUpdated;
 
-        const data = {
+        return {
             ...rest,
-            dependents: (children || [])
-                .map(link => link.dependent)
-                .sort((a, b) => a.id - b.id),
-
-            holders: (parents || [])
-                .map(link => link.parent)
-                .sort((a, b) => a.id - b.id)
+            dependents: (children || []).map(link => link.dependent).sort((a, b) => a.id - b.id),
+            holders: (parents || []).map(link => link.parent).sort((a, b) => a.id - b.id)
         };
 
-        return data;
     } catch (error) {
-        console.error("error en putAgreementPersonRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "putAgreementPersonRepository",
+                entity: "AgreementPerson",
+                id,
+                payload: { name, type, group, zone }
+            },
+            "Error updating agreement person"
+        )
         throw new Error("Error al actualizar paciente de convenio")
     }
 }
@@ -393,7 +402,15 @@ export const deleteAgreementPersonRepository = async (id: number) => {
             where: { id }
         })
     } catch (error) {
-        console.error("Error en deleteAgreementPersonRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "deleteAgreementPersonRepository",
+                entity: "AgreementPerson",
+                id
+            },
+            "Error deleting agreement person"
+        )
         throw new Error("Error al eliminar paciente de convenio")
     }
 }

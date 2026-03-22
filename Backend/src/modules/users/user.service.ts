@@ -3,6 +3,7 @@ import { comparePassword, generatePassword, hashPassword } from "../../utils/pas
 import * as repo from "./user.repository"
 import * as schema from "./user.schema"
 import { sendUserCredentials } from "../../services/email.service"
+import { logger } from "../../utils/logger"
 
 export const createUserService = async (dto: schema.CreateUserSchema) => {
     const { name, email, roles } = dto
@@ -25,7 +26,7 @@ export const createUserService = async (dto: schema.CreateUserSchema) => {
             message: "Tu cuenta fue creada correctamente."
         })
     } catch (error) {
-        console.error("Error enviando correo:", error)
+        logger.warn({ error }, "Email Send failed")
     }
 
     return user
@@ -88,7 +89,7 @@ export const resetPasswordService = async (id: string) => {
             message: "Tu contraseña fue restaurada correctamente."
         })
     } catch (error) {
-        console.error("Error enviando correo:", error)
+        logger.warn({ error }, "Email Send failed")
     }
 
     return user

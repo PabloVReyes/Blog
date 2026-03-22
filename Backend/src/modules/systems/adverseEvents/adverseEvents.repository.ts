@@ -1,4 +1,5 @@
 import { database } from "../../../config/prisma"
+import { logger } from "../../../utils/logger"
 
 //////////
 // READ //
@@ -12,7 +13,15 @@ export const getAdverseEventsByTypeRepository = async (type: string) => {
             }
         })
     } catch (error) {
-        console.error("Error en getAdverseEventsByTypeRepository")
+        logger.error(
+            {
+                error,
+                operation: "getAdverseEventsByTypeRepository",
+                entity: "AdverseEvents",
+                type
+            },
+            "Error fetching adverse event by type"
+        )
         throw new Error("Error al obtener eventos adversos")
     }
 }
@@ -26,7 +35,14 @@ export const getAdverseEventsRepository = async () => {
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getAdverseEventsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getAdverseEventsRepository",
+                entity: "AdverseEvents"
+            },
+            "Error fetching adverse events"
+        )
         throw new Error("Error al obtener eventos adversos")
     }
 }
@@ -35,7 +51,15 @@ export const getAdverseEventsByIdRepository = async (id: string) => {
     try {
         return await database.adverseEvents.findUnique({ where: { id } })
     } catch (error) {
-        console.error("error en getAdverseEventsByIdRepository")
+        logger.error(
+            {
+                error,
+                operation: "getAdverseEventsByIdRepository",
+                entity: "AdverseEvents",
+                id
+            },
+            "Error fetching adverse event by id"
+        )
         throw new Error("Error al obtener evento adverso")
     }
 }
@@ -70,7 +94,16 @@ export const putAdverseEvent = async ({
             }
         })
     } catch (error) {
-        console.error("Error en PutAdverseEventProps", error)
+        logger.error(
+            {
+                error,
+                operation: "putAdverseEvent",
+                entity: "AdverseEvents",
+                id,
+                payload: { fileName }
+            },
+            "Error updating adverse event"
+        )
         throw new Error("Error en actualizar el evento adverso")
     }
 }

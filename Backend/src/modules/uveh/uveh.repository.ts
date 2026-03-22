@@ -1,5 +1,6 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination";
+import { logger } from "../../utils/logger";
 
 //
 // CREATE 
@@ -16,31 +17,21 @@ interface PostDownloadRepositoryProps {
     mimeType: string | null;
 }
 
-export const postDownloadRepository = async ({
-    name,
-    description,
-    isNew,
-    categoryId,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
-}: PostDownloadRepositoryProps) => {
+export const postDownloadRepository = async (props: PostDownloadRepositoryProps) => {
     try {
         return await database.uveh.create({
-            data: {
-                name,
-                description,
-                isNew,
-                categoryId,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
-            }
+            data: props
         })
     } catch (error) {
-        console.error("Error en postDownloadRepository")
+        logger.error(
+            {
+                error,
+                operation: "postDownloadRepository",
+                entity: "Uveh",
+                input: props
+            },
+            "Error al crear descarga"
+        )
         throw new Error("Error al crear descarga")
     }
 }
@@ -48,12 +39,18 @@ export const postDownloadRepository = async ({
 export const postCategoryRepository = async (name: string) => {
     try {
         return await database.uvehCategory.create({
-            data: {
-                name
-            }
+            data: { name }
         })
     } catch (error) {
-        console.error("Error en postCategoryRepository")
+        logger.error(
+            {
+                error,
+                operation: "postCategoryRepository",
+                entity: "UvehCategory",
+                input: { name }
+            },
+            "Error al crear categoria"
+        )
         throw new Error("Error al crear categoria")
     }
 }
@@ -71,7 +68,14 @@ export const getCategoriesRepository = async () => {
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCategoriesRepository")
+        logger.error(
+            {
+                error,
+                operation: "getCategoriesRepository",
+                entity: "UvehCategory"
+            },
+            "Error al obtener categorias"
+        )
         throw new Error("Error al obtener categorias")
     }
 }
@@ -79,29 +83,21 @@ export const getCategoriesRepository = async () => {
 export const getCategoriesWithDownloadsRepository = async ({ skip, take, search }: PaginationProps) => {
     try {
         const where = {
-            uvehs: {
-                some: {}
-            },
+            uvehs: { some: {} },
             ...(search && {
-                OR: [
-                    { name: { contains: search } },
-                ],
+                OR: [{ name: { contains: search } }],
             }),
         }
 
         const [data, total] = await Promise.all([
             database.uvehCategory.findMany({
                 where,
-                orderBy: {
-                    name: "asc",
-                },
+                orderBy: { name: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
                     _count: {
-                        select: {
-                            uvehs: true
-                        }
+                        select: { uvehs: true }
                     },
                     uvehs: true
                 }
@@ -111,7 +107,15 @@ export const getCategoriesWithDownloadsRepository = async ({ skip, take, search 
 
         return { data, total }
     } catch (error) {
-        console.error("Erorr en getCategoriesWithDownloadsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getCategoriesWithDownloadsRepository",
+                entity: "UvehCategory",
+                params: { skip, take, search }
+            },
+            "Error al obtener categorias con archivos"
+        )
         throw new Error("Error al obtener las categorias con los archivos")
     }
 }
@@ -130,9 +134,7 @@ export const getDownloadsRepository = async ({ search, take, skip }: PaginationP
         const [data, total] = await Promise.all([
             database.uveh.findMany({
                 where,
-                orderBy: {
-                    id: "asc",
-                },
+                orderBy: { id: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
@@ -144,7 +146,15 @@ export const getDownloadsRepository = async ({ search, take, skip }: PaginationP
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getDownloadsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getDownloadsRepository",
+                entity: "Uveh",
+                params: { search, take, skip }
+            },
+            "Error al obtener descargas"
+        )
         throw new Error("Error al obtener descargas")
     }
 }
@@ -153,7 +163,15 @@ export const getDownloadByIdRepository = async (id: number) => {
     try {
         return await database.uveh.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getDownloadByIdRepository")
+        logger.error(
+            {
+                error,
+                operation: "getDownloadByIdRepository",
+                entity: "Uveh",
+                id
+            },
+            "Error al obtener descarga"
+        )
         throw new Error("Error al obtener descarga")
     }
 }
@@ -166,46 +184,45 @@ interface PutDownloadRepositoryProps extends PostDownloadRepositoryProps {
     id: number
 }
 
-export const putDownloadRepository = async ({
-    id,
-    name,
-    description,
-    isNew,
-    categoryId,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
-}: PutDownloadRepositoryProps) => {
+export const putDownloadRepository = async (props: PutDownloadRepositoryProps) => {
     try {
+        const { id, ...data } = props
+
         return await database.uveh.update({
             where: { id },
-            data: {
-                name,
-                description,
-                isNew,
-                categoryId,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
-            }
+            data
         })
     } catch (error) {
-        console.error("Error en PutDownloadRepositoryProps", error)
+        logger.error(
+            {
+                error,
+                operation: "putDownloadRepository",
+                entity: "Uveh",
+                input: props
+            },
+            "Error al actualizar descarga"
+        )
         throw new Error("Error al actualizar descarga")
     }
 }
 
-////
-// DELETE
-///
+////////////
+// DELETE //
+//////////// 
 
 export const deleteDownloadRepository = async (id: number) => {
     try {
         return await database.uveh.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deleteDownloadRepository")
+        logger.error(
+            {
+                error,
+                operation: "deleteDownloadRepository",
+                entity: "Uveh",
+                id
+            },
+            "Error al eliminar descarga"
+        )
         throw new Error("Error al eliminar descarga")
     }
 }

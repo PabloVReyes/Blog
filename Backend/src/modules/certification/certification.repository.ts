@@ -1,10 +1,10 @@
 import { database } from "../../config/prisma";
 import { PaginationProps } from "../../types/pagination";
+import { logger } from "../../utils/logger";
 
-///
+////////////
 // CREATE //
-////
-
+////////////
 
 interface PostCertificationRepositoryProps {
     name: string;
@@ -41,7 +41,14 @@ export const postCertificationRepository = async ({
             }
         })
     } catch (error) {
-        console.error("Error en PostCertificationRepositoryProps")
+        logger.error(
+            {
+                error,
+                operation: "postCertificationRepository",
+                entity: "Certification",
+            },
+            "Error creating certification"
+        )
         throw new Error("Error al crear certificación")
     }
 }
@@ -54,14 +61,22 @@ export const postSectionRepository = async (name: string) => {
             }
         })
     } catch (error) {
-        console.error("Error en postSectionRepository")
+        logger.error(
+            {
+                error,
+                operation: "postSectionRepository",
+                entity: "CertificationSection",
+                input: { name }
+            },
+            "Error creating section"
+        )
         throw new Error("Error al crear sección")
     }
 }
 
-//
+//////////
 // READ //
-/////
+//////////
 
 export const getSectionsWithCertificationsRepository = async ({ skip, take, search }: PaginationProps) => {
     try {
@@ -98,7 +113,15 @@ export const getSectionsWithCertificationsRepository = async ({ skip, take, sear
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCategoriesWithDownloadsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getSectionsWithCertificationsRepository",
+                entity: "CertificationSection",
+                input: { skip, take, search }
+            },
+            "Error fetching sections with certifications"
+        )
         throw new Error("Error al obtener las categorias con los archivos")
     }
 }
@@ -112,7 +135,14 @@ export const getSectionsRepository = async () => {
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getSectionsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getSectionsRepository",
+                entity: "CertificationSection"
+            },
+            "Error fetching sections"
+        )
         throw new Error("Error al obtener las secciones")
     }
 }
@@ -144,7 +174,15 @@ export const getCertificationsRepository = async ({ skip, take, search }: Pagina
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCertificationsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getCertificationsRepository",
+                entity: "Certification",
+                input: { skip, take, search }
+            },
+            "Error fetching certifications"
+        )
         throw new Error("Error al obtener certificaciones")
     }
 }
@@ -153,14 +191,22 @@ export const getCertificationByIdRepository = async (id: number) => {
     try {
         return await database.certification.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getCertificationByIdRepository")
+        logger.error(
+            {
+                error,
+                operation: "getCertificationByIdRepository",
+                entity: "Certification",
+                input: { id }
+            },
+            "Error fetching certification by id"
+        )
         throw new Error("Error al obtener certificación")
     }
 }
 
-//
+////////////
 // UPDATE //
-///
+////////////
 
 interface PutCertificationRepositoryProps extends PostCertificationRepositoryProps {
     id: number
@@ -195,20 +241,35 @@ export const putCertificationRepository = async ({
             }
         })
     } catch (error) {
-        console.error("Error en putCertificationRepository")
+        logger.error(
+            {
+                error,
+                operation: "putCertificationRepository",
+                entity: "Certification",
+            },
+            "Error updating certification"
+        )
         throw new Error("Error al actualizar certificación")
     }
 }
 
-///
+////////////
 // DELETE //
-//
+////////////
 
 export const deleteCertificationRepository = async (id: number) => {
     try {
         return await database.certification.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deleteCertificationRepository")
+        logger.error(
+            {
+                error,
+                operation: "deleteCertificationRepository",
+                entity: "Certification",
+                input: { id }
+            },
+            "Error deleting certification"
+        )
         throw new Error("Error al eliminar certificación")
     }
 }

@@ -5,6 +5,7 @@ import * as types from "./vacations.types"
 import { sanitizeFileName } from "../../utils/file"
 import * as path from "path"
 import { uploadsRoot } from "./path"
+import { logger } from "../../utils/logger"
 
 ///
 //  CREATE
@@ -136,7 +137,7 @@ export const putVacationService = async (id: number, dto: types.VacationsUpdateD
                     await fs.unlink(obsolutePath).catch(() => { });
                 }
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 

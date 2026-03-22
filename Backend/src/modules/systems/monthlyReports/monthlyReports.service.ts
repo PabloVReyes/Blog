@@ -3,6 +3,7 @@ import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import * as schema from "./monthlyReports.schema"
 import * as type from "./monthlyReports.types"
 import { sanitizeFileName } from "../../../utils/file";
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -98,7 +99,7 @@ export const putMonthlyReportsService = async (id: string, dto: type.MontghlyRep
 
 
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 

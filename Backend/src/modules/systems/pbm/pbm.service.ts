@@ -3,6 +3,7 @@ import { sanitizeFileName } from "../../../utils/file";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import * as schema from "./pbm.schema"
 import * as type from "./pbm.types"
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -74,10 +75,8 @@ export const putPBMService = async (id: string, dto: type.PbmUpdateDto) => {
                     const fs = await import("fs/promises");
                     await fs.unlink(PBM.filePath).catch(() => { });
                 }
-
-
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 

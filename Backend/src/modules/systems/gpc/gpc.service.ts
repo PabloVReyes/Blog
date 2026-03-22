@@ -3,6 +3,7 @@ import * as repo from "./gpc.repository"
 import * as schema from "./gpc.schema";
 import * as type from "./gpc.types";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -114,7 +115,7 @@ export const putGpcService = async (id: string, dto: type.GpcUpdateDto) => {
 
 
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 

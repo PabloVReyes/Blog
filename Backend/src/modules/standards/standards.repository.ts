@@ -1,5 +1,6 @@
 import { database } from "../../config/prisma";
 import { PaginationProps } from "../../types/pagination";
+import { logger } from "../../utils/logger";
 
 ////////////
 // CREATE //
@@ -40,7 +41,15 @@ export const postStandarRepository = async ({
             }
         })
     } catch (error) {
-        console.error("Error en postStandarRepository")
+        logger.error(
+            {
+                error,
+                operation: "postStandarRepository",
+                entity: "Standards",
+                payload: { name, categoryId }
+            },
+            "Error creating standard"
+        )
         throw new Error("Error al crear norma oficial")
     }
 }
@@ -53,7 +62,15 @@ export const postCategoryRepository = async (name: string) => {
             }
         })
     } catch (error) {
-        console.error("Error en postCategoryRepository")
+        logger.error(
+            {
+                error,
+                operation: "postCategoryRepository",
+                entity: "StandardsCategory",
+                payload: { name }
+            },
+            "Error creating category"
+        )
         throw new Error("Error al crear categoria")
     }
 }
@@ -71,7 +88,14 @@ export const getCategoriesRepository = async () => {
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getCategoriesRepository")
+        logger.error(
+            {
+                error,
+                operation: "getCategoriesRepository",
+                entity: "StandardsCategory"
+            },
+            "Error fetching categories"
+        )
         throw new Error("Error al obtener las categorias")
     }
 }
@@ -103,7 +127,15 @@ export const getStandardsRepository = async ({ skip, take, search }: PaginationP
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getStandardsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getStandardsRepository",
+                entity: "Standards",
+                params: { skip, take, search }
+            },
+            "Error fetching standards"
+        )
         throw new Error("Error al obtener normas")
     }
 }
@@ -112,14 +144,22 @@ export const getStandarByIdRepository = async (id: number) => {
     try {
         return await database.standards.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getStandarByIdRepository")
+        logger.error(
+            {
+                error,
+                operation: "getStandarByIdRepository",
+                entity: "Standards",
+                id
+            },
+            "Error fetching standard by id"
+        )
         throw new Error("Error al obtener norma oficial")
     }
 }
 
-///
-// UPDATE
-//
+////////////
+// UPDATE //
+////////////
 
 export interface PutStandarRepositoryProps extends PostStandarRepositoryProps {
     id: number
@@ -154,20 +194,37 @@ export const putStandarRepository = async ({
             }
         })
     } catch (error) {
-        console.error("error en putStandarRepository")
+        logger.error(
+            {
+                error,
+                operation: "putStandarRepository",
+                entity: "Standards",
+                id,
+                payload: { name, categoryId }
+            },
+            "Error updating standard"
+        )
         throw new Error("Error al actualizar norma oficial")
     }
 }
 
-///
+////////////
 // DELETE //
-/////
+////////////
 
 export const deleteStandarRepository = async (id: number) => {
     try {
         return await database.standards.delete({ where: { id } })
     } catch (error) {
-        console.error("error en deleteStandarRepository")
+        logger.error(
+            {
+                error,
+                operation: "deleteStandarRepository",
+                entity: "Standards",
+                id
+            },
+            "Error deleting standard"
+        )
         throw new Error("Error al eliminar norma oficial")
     }
 }

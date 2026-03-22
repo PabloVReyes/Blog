@@ -1,4 +1,5 @@
 import { database } from "../../../config/prisma";
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -16,38 +17,29 @@ interface PostMonthlyReportsRepositoryProps {
     year: number;
 }
 
-export const postMonthlyReportsRepository = async ({
-    title,
-    description,
-    type,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType,
-    month,
-    year
-}: PostMonthlyReportsRepositoryProps) => {
+export const postMonthlyReportsRepository = async (props: PostMonthlyReportsRepositoryProps) => {
     try {
         await database.report.create({
             data: {
-                title,
-                description,
-                type,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType,
-                month,
+                ...props,
                 period: {
                     connectOrCreate: {
-                        where: { year },
-                        create: { year }
+                        where: { year: props.year },
+                        create: { year: props.year }
                     }
                 }
             }
         })
     } catch (error) {
-        console.error("error en postMonthlyReportsRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "postMonthlyReportsRepository",
+                entity: "Report",
+                input: props
+            },
+            "Error al crear informe mensual"
+        )
         throw new Error("Error al crear informe mensual")
     }
 }
@@ -66,9 +58,7 @@ interface GetMonthlyReportsRepositoryProps {
 export const getMonthlyReportsRepository = async ({ search, take, skip, year }: GetMonthlyReportsRepositoryProps) => {
     try {
         const where = {
-            ...(year && {
-                period: { year }
-            }),
+            ...(year && { period: { year } }),
             ...(search && {
                 OR: [
                     { title: { contains: search } },
@@ -80,21 +70,25 @@ export const getMonthlyReportsRepository = async ({ search, take, skip, year }: 
         const [data, total] = await Promise.all([
             database.report.findMany({
                 where,
-                orderBy: {
-                    month: "asc",
-                },
+                orderBy: { month: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
-                include: {
-                    period: true
-                }
+                include: { period: true }
             }),
             database.report.count({ where }),
         ])
 
         return { data, total }
     } catch (error) {
-        console.error("error en getMonthlyReports", error)
+        logger.error(
+            {
+                error,
+                operation: "getMonthlyReportsRepository",
+                entity: "Report",
+                params: { search, take, skip, year }
+            },
+            "Error al obtener reportes mensuales"
+        )
         throw new Error("Error al obtener reportes mensuales")
     }
 }
@@ -103,22 +97,25 @@ export const getPeriodsRepository = async () => {
     try {
         return await database.period.findMany({
             where: {
-                reports: {
-                    some: {},
-                },
+                reports: { some: {} },
             },
             select: {
                 id: true,
                 year: true,
                 _count: {
-                    select: {
-                        reports: true,
-                    },
+                    select: { reports: true },
                 },
             },
         });
     } catch (error) {
-        console.error("Error en getPeriodsRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "getPeriodsRepository",
+                entity: "Period"
+            },
+            "Error al obtener periodos"
+        )
         throw new Error("Error al obtener periodos")
     }
 }
@@ -127,7 +124,15 @@ export const getMonthlyReportByIdRepository = async (id: string) => {
     try {
         return await database.report.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getMonthlyReportById", error)
+        logger.error(
+            {
+                error,
+                operation: "getMonthlyReportByIdRepository",
+                entity: "Report",
+                id
+            },
+            "Error al obtener reporte"
+        )
         throw new Error("Error al obtener reporte")
     }
 }
@@ -149,20 +154,14 @@ interface PutMonthlyReportsRepositoryProps {
     year: number;
 }
 
-
-export const putMonthlyReportRepository = async ({ id, title, description, type, fileName, filePath, fileSize, mimeType, month, year }: PutMonthlyReportsRepositoryProps) => {
+export const putMonthlyReportRepository = async (props: PutMonthlyReportsRepositoryProps) => {
     try {
+        const { id, year, ...rest } = props
+
         return await database.report.update({
             where: { id },
             data: {
-                title,
-                description,
-                type,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType,
-                month,
+                ...rest,
                 period: {
                     connectOrCreate: {
                         where: { year },
@@ -175,7 +174,15 @@ export const putMonthlyReportRepository = async ({ id, title, description, type,
             }
         })
     } catch (error) {
-        console.error("error en putMonthlyReportRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "putMonthlyReportRepository",
+                entity: "Report",
+                input: props
+            },
+            "Error al actualizar informe"
+        )
         throw new Error("Error al actualizar informe")
     }
 }
@@ -188,7 +195,15 @@ export const deleteMonthlyReportRepository = async (id: string) => {
     try {
         return await database.report.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deleteMonthlyReportRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "deleteMonthlyReportRepository",
+                entity: "Report",
+                id
+            },
+            "Error al eliminar reporte"
+        )
         throw new Error("Error al eliminar reporte")
     }
 }

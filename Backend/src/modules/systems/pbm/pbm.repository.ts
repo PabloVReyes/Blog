@@ -1,5 +1,6 @@
 import { database } from "../../../config/prisma"
 import { PaginationProps } from "../../../types/pagination";
+import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -13,26 +14,22 @@ interface PostPbmReporisoryProps {
     mimeType?: string | null;
 }
 
-export const postPbmRepository = async ({
-    title,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
-}: PostPbmReporisoryProps) => {
+export const postPbmRepository = async (props: PostPbmReporisoryProps) => {
     try {
         return await database.pbm.create({
-            data: {
-                title,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
-            }
+            data: props
         })
     } catch (error) {
-        console.error("Error en PostPbmReporisoryProps")
-        throw new Error("Error al crear Algoritmo")
+        logger.error(
+            {
+                error,
+                operation: "postPbmRepository",
+                entity: "PBM",
+                input: props
+            },
+            "Error al crear algoritmo"
+        )
+        throw new Error("Error al crear algoritmo")
     }
 }
 
@@ -64,7 +61,15 @@ export const getPBMRepository = async ({ search, take, skip }: PaginationProps) 
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getPbmRepository")
+        logger.error(
+            {
+                error,
+                operation: "getPBMRepository",
+                entity: "PBM",
+                params: { search, take, skip }
+            },
+            "Error al obtener algoritmos"
+        )
         throw new Error("Error al obtener algoritmos")
     }
 }
@@ -73,7 +78,15 @@ export const getPBMByIdRepository = async (id: string) => {
     try {
         return await database.pbm.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getPBMByIdRepository")
+        logger.error(
+            {
+                error,
+                operation: "getPBMByIdRepository",
+                entity: "PBM",
+                id
+            },
+            "Error al obtener el algoritmo"
+        )
         throw new Error("Error al obtener el algoritmo")
     }
 }
@@ -86,27 +99,24 @@ interface PutPBMRepositoryProps extends PostPbmReporisoryProps {
     id: string;
 }
 
-export const putPBMRepository = async ({
-    id,
-    title,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType,
-}: PutPBMRepositoryProps) => {
+export const putPBMRepository = async (props: PutPBMRepositoryProps) => {
     try {
+        const { id, ...data } = props
+
         return await database.pbm.update({
             where: { id },
-            data: {
-                title,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType,
-            },
+            data
         })
     } catch (error) {
-        console.error("error en PutPBMRepositoryProps")
+        logger.error(
+            {
+                error,
+                operation: "putPBMRepository",
+                entity: "PBM",
+                input: props
+            },
+            "Error al actualizar el algoritmo"
+        )
         throw new Error("Error al actualizar el algoritmo")
     }
 }
@@ -119,7 +129,15 @@ export const deletePBMRepository = async (id: string) => {
     try {
         return await database.pbm.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deletePBMRepository", error)
+        logger.error(
+            {
+                error,
+                operation: "deletePBMRepository",
+                entity: "PBM",
+                id
+            },
+            "Error al eliminar algoritmo"
+        )
         throw new Error("Error al eliminar algoritmo")
     }
 }

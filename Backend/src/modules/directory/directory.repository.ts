@@ -1,9 +1,10 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination"
+import { logger } from "../../utils/logger";
 
-///
-// CREATE
-////
+////////////
+// CREATE //
+////////////
 
 interface PostDirectoryRepositoryProps {
     phone: string;
@@ -34,7 +35,14 @@ export const postDirectoryRepository = async ({
             }
         })
     } catch (error) {
-        console.error("Error en postDirectoryRepository")
+        logger.error(
+            {
+                error,
+                operation: "postDirectoryRepository",
+                entity: "Directory",
+            },
+            "Error creating directory"
+        )
         throw new Error("Error al crear directorio")
     }
 }
@@ -67,7 +75,15 @@ export const getDirectoryRepository = async ({ skip, take, search }: PaginationP
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getDirectoryQuery", error)
+        logger.error(
+            {
+                error,
+                operation: "getDirectoryRepository",
+                entity: "Directory",
+                input: { skip, take, search }
+            },
+            "Error fetching directory"
+        )
         throw new Error("Error al obtener directorio telefonio")
     }
 }
@@ -81,14 +97,21 @@ export const getLevelsRepository = async () => {
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getLevelsRepository")
+        logger.error(
+            {
+                error,
+                operation: "getLevelsRepository",
+                entity: "Level"
+            },
+            "Error fetching levels"
+        )
         throw new Error("Error en obtener niveles")
     }
 }
 
-////
+////////////
 // UPDATE //
-/////
+////////////
 
 interface PutDirectoryRepositoryProps extends PostDirectoryRepositoryProps {
     id: string;
@@ -119,7 +142,14 @@ export const putDirectoryRepository = async ({
             }
         })
     } catch (error) {
-        console.error("Error en PutDirectoryRepositoryProps")
+        logger.error(
+            {
+                error,
+                operation: "putDirectoryRepository",
+                entity: "Directory",
+            },
+            "Error updating directory"
+        )
         throw new Error("Error al actualizar directorio")
     }
 }
@@ -128,7 +158,15 @@ export const deleteDirectoryRepository = async (id: string) => {
     try {
         return await database.directory.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deleteDirectoryRepository")
-        console.error("Error al eliminar directorio")
+        logger.error(
+            {
+                error,
+                operation: "deleteDirectoryRepository",
+                entity: "Directory",
+                input: { id }
+            },
+            "Error deleting directory"
+        )
+        throw new Error("Error al eliminar directorio")
     }
 }

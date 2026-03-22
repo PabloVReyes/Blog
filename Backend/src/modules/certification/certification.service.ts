@@ -5,10 +5,11 @@ import { sanitizeFileName } from "../../utils/file"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as path from "path"
 import { uploadsRoot } from "./path"
+import { logger } from "../../utils/logger"
 
-//
-//
-//
+////////////
+// CREATE //
+////////////
 
 export const postCertificationService = async (dto: types.CertificationCreateDto) => {
     const { name, description, isNew, section, file } = dto
@@ -43,7 +44,7 @@ export const getSectionsWithCertificationsService = async (dto: schema.GetSectio
         take,
         search
     })
-    
+
     return {
         data,
         meta: buildPaginationMeta(total, page, limit)
@@ -91,14 +92,14 @@ export const downloadCertificationFileService = async (id: number) => {
     }
 }
 
-//
-// UPDATE
-//
+////////////
+// UPDATE //
+////////////
 
 export const putCertificationService = async (id: number, dto: types.CertificationUpdateDto) => {
     const { name, description, isNew, section, file } = dto
 
-    const standar: any = await repo.getCertificationByIdRepository(id)
+    const certification: any = await repo.getCertificationByIdRepository(id)
 
     const props: any = {
         id,
@@ -109,17 +110,15 @@ export const putCertificationService = async (id: number, dto: types.Certificati
     }
 
     if (file) {
-        if (standar.filePath) {
+        if (certification.filePath) {
             try {
-                if (standar.filePath) {
-                    const obsolutePath = path.join(uploadsRoot, standar.filePath)
+                if (certification.filePath) {
+                    const obsolutePath = path.join(uploadsRoot, certification.filePath)
                     const fs = await import("fs/promises");
                     await fs.unlink(obsolutePath).catch(() => { });
                 }
-
-
             } catch (error) {
-                console.error("Error eliminando archivo anterior:", error);
+                logger.warn({ error }, "File deletion failed")
             }
         }
 
@@ -132,9 +131,9 @@ export const putCertificationService = async (id: number, dto: types.Certificati
     return await repo.putCertificationRepository(props)
 }
 
-//
-// DELETE 
-//
+////////////
+// DELETE //
+////////////
 
 export const deleteCertificationService = async (id: number) => {
     const Certification = await repo.getCertificationByIdRepository(id)

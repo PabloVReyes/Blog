@@ -1,5 +1,6 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination";
+import { logger } from "../../utils/logger";
 
 /////
 // CREATE //
@@ -21,7 +22,10 @@ export const postShiftRepository = async ({ name, icon, color }: PostShiftReposi
             }
         })
     } catch (error) {
-        console.error("Error en postShiftRepository")
+        logger.error(
+            { error, operation: "postShiftRepository", entity: "ShiftType" },
+            "Error creating shift"
+        )
         throw new Error("Error al crear turno")
     }
 }
@@ -55,7 +59,10 @@ export const postVacationRepository = async ({
             }
         })
     } catch (error) {
-        console.error("Error en postVacationRepository", error)
+        logger.error(
+            { error, operation: "postVacationRepository", entity: "ShiftFile" },
+            "Error creating vacation file"
+        )
         throw new Error("Error al crear vacaciones")
     }
 }
@@ -89,7 +96,10 @@ export const getVacationsRepository = async ({ search, take, skip }: PaginationP
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getVacationsRepository")
+        logger.error(
+            { error, operation: "getVacationsRepository", entity: "ShiftFile" },
+            "Error fetching vacations"
+        )
         throw new Error("Error al obtener vacaciones")
     }
 }
@@ -111,12 +121,15 @@ export const getShiftsRepository = async ({ skip, take, search }: PaginationProp
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
             }),
-            database.downloadFile.count({ where }),
+            database.shiftType.count({ where }),
         ])
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getShiftsRepository")
+        logger.error(
+            { error, operation: "getShiftsRepository", entity: "ShiftType" },
+            "Error fetching shifts"
+        )
         throw new Error("Error al obtener turnos")
     }
 }
@@ -125,7 +138,10 @@ export const getVacationsByIdRepository = async (id: number) => {
     try {
         return await database.shiftFile.findUnique({ where: { id } })
     } catch (error) {
-        console.error("Error en getVacationsByIdRepository")
+        logger.error(
+            { error, operation: "getVacationsByIdRepository", entity: "ShiftFile" },
+            "Error fetching vacation by id"
+        )
         throw new Error("Error al obtener vacaciones")
     }
 }
@@ -160,7 +176,10 @@ export const getShiftsWithVacationsRepository = async ({ skip, search, take }: P
 
         return { data, total }
     } catch (error) {
-        console.error("Error en getShiftsWithVacationsRepository")
+        logger.error(
+            { error, operation: "getShiftsWithVacationsRepository", entity: "ShiftType" },
+            "Error fetching shifts with vacations"
+        )
         throw new Error("Error al obtener turnos con vacaciones")
     }
 }
@@ -186,7 +205,10 @@ export const putShiftRepository = async ({ id, name, color, icon }: PutShiftRepo
             }
         })
     } catch (error) {
-        console.error("Error en putShiftRepository")
+        logger.error(
+            { error, operation: "putShiftRepository", entity: "ShiftType" },
+            "Error updating shift"
+        )
         throw new Error("Error al actualizar turno")
     }
 }
@@ -197,7 +219,10 @@ export const deleteShiftRepository = async (id: number) => {
             where: { id }
         })
     } catch (error) {
-        console.error("Error en deleteShiftRepository")
+        logger.error(
+            { error, operation: "deleteShiftRepository", entity: "ShiftType" },
+            "Error deleting shift"
+        )
         throw new Error("Error al eliminar turno")
     }
 }
@@ -231,20 +256,26 @@ export const putVacationsRepository = async ({
             }
         })
     } catch (error) {
-        console.error("error en putVacationsRepository", error)
+        logger.error(
+            { error, operation: "putVacationsRepository", entity: "ShiftFile" },
+            "Error updating vacation"
+        )
         throw new Error("Error al actualizar vacaciones")
     }
 }
 
-//
-// DELETE
-///
+////////////
+// DELETE //
+////////////
 
 export const deleteVacationRepository = async (id: number) => {
     try {
         return await database.shiftFile.delete({ where: { id } })
     } catch (error) {
-        console.error("Error en deleteVacationRepository")
+        logger.error(
+            { error, operation: "deleteVacationRepository", entity: "ShiftFile" },
+            "Error deleting vacation"
+        )
         throw new Error("Error al eliminar vacaciones")
     }
 }
