@@ -79,7 +79,7 @@ class App {
     }
 
     settingRoutes() {
-        this.app.use('/', router)
+        this.app.use('/api', router)
         this.app.use(errorHandler)
     }
 
@@ -89,8 +89,16 @@ class App {
         this.settingLogFile();
         this.settingDataFormProcess();
         this.settingRoutes()
+
+        this.app.get("/", (req, res) => {
+            res.json({
+                api: "Blog",
+                status: "Ok"
+            })
+        });
+
         this.httpServer.listen(this.port, () => {
-            const url = `http://localhost:${this.port}`
+            const url = `http://localhost:${this.port}/api`
 
             logger.info(
                 { port: this.port },

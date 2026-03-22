@@ -54,3 +54,7 @@ export {
 export {
     directoryPrivateRoutes
 } from "./Directory"
+
+export {    
+    NotFound
+} from "./error"

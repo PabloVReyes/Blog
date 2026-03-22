@@ -19,39 +19,23 @@ import filesRoutes from "../modules/files/files.routes"
 
 const router: Router = Router()
 
-router.get('/', (request, response) => {
-    try {
-        response.json({
-            api: "Blog",
-            status: "Ok"
-        })
-    } catch (error) {
-        response.status(500).send({
-            api: "Blog",
-            status: "Error",
-            message: error
-        })
-    }
-})
-
-
 // Limpio
-router.use("/api/home", homeRoutes)
-router.use("/api/systems", systemsRoutes)
-router.use("/api/downloads", downloadsRoutes)
-router.use("/api/uveh", uvehRoutes)
-router.use("/api/standards", standardsRoutes)
-router.use("/api/juristics", juristicsRoutes)
-router.use("/api/certification", certificationRoutes)
-router.use("/api/macroprocess", macroprocessRoutes)
-router.use("/api/vacation", vacationRoutes)
-router.use("/api/directory", directoryRoutes)
-router.use("/api/auth", authRoutes)
-router.use("/api/users", usersRoutes)
-router.use("/api/roles", rolesRoutes)
-router.use("/api/permissions", permissionsRoutes)
-router.use("/api/settings", settingsRoutes)
-router.use("/api/search", searchRoutes)
-router.use("/api/files", filesRoutes)
+router.use("/home", homeRoutes)
+router.use("/systems", systemsRoutes)
+router.use("/downloads", downloadsRoutes)
+router.use("/uveh", uvehRoutes)
+router.use("/standards", standardsRoutes)
+router.use("/juristics", juristicsRoutes)
+router.use("/certification", certificationRoutes)
+router.use("/macroprocess", macroprocessRoutes)
+router.use("/vacation", vacationRoutes)
+router.use("/directory", directoryRoutes)
+router.use("/auth", authRoutes)
+router.use("/users", usersRoutes)
+router.use("/roles", rolesRoutes)
+router.use("/permissions", permissionsRoutes)
+router.use("/settings", settingsRoutes)
+router.use("/search", searchRoutes)
+router.use("/files", filesRoutes)
 
 export default router;
