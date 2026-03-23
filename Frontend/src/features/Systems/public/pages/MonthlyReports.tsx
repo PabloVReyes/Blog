@@ -7,33 +7,11 @@ import dayjs from "dayjs";
 import { fetchMonthlyReports, fetchPeriods } from "../api";
 import { Notify } from "@/ui";
 import { useDebouncedValue } from "@mantine/hooks";
+import type { MonthlyReportsData } from "../../types/monthlyReports.types";
 
 export interface ReportsResponse {
-    data: Datum[];
+    data: MonthlyReportsData[];
     meta: Meta;
-}
-
-export interface Datum {
-    id: string;
-    title: string;
-    description: string;
-    type: string;
-    month: number;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    periodId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    period: Period;
-}
-
-export interface Period {
-    id: string;
-    year: number;
-    createdAt: Date;
-    updatedAt: Date;
 }
 
 export interface Meta {

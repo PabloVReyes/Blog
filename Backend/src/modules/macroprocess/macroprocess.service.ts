@@ -92,12 +92,6 @@ export const putManualService = async (id: string, file?: Express.Multer.File) =
         throw new Error("El manual no existe")
     }
 
-    if (!file) {
-        throw new Error("El archivo es requerido")
-    }
-
-
-
     const props = {
         id,
         file:

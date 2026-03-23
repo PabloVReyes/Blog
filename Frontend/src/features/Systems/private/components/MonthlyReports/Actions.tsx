@@ -3,8 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { MonthlyReportsData } from "@/features/Systems/types/monthlyReports.types"
 
-export const ActionsMonthlyReports = ({ id, ...props }: any) => {
+export const ActionsMonthlyReports = ({ id, ...props }: MonthlyReportsData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

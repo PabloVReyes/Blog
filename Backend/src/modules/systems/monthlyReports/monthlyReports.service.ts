@@ -3,7 +3,6 @@ import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import * as schema from "./monthlyReports.schema"
 import * as type from "./monthlyReports.types"
 import { sanitizeFileName } from "../../../utils/file";
-import { logger } from "../../../utils/logger";
 
 ////////////
 // CREATE //
@@ -18,15 +17,18 @@ export const postMonthlyReportsService = async (dto: type.MontghlyReportsCreateD
         type,
         month: month ?? null,
         year,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        filePath: file?.path ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     }
 
-    await repo.postMonthlyReportsRepository(props)
-
-    return true
+    return await repo.postMonthlyReportsRepository(props)
 }
 
 //////////
@@ -54,19 +56,6 @@ export const getPeriodsService = async () => {
     return repo.getPeriodsRepository()
 }
 
-export const downloadMonthlyReportFileService = async (id: string) => {
-    const monthlyReport: any = await repo.getMonthlyReportByIdRepository(id)
-
-    if (!monthlyReport || !monthlyReport.filePath) {
-        throw new Error("Archivo no encontrado")
-    }
-
-    return {
-        filePath: monthlyReport.filePath,
-        fileName: monthlyReport.fileName
-    }
-}
-
 ////////////
 // UPDATE //
 ////////////
@@ -74,7 +63,11 @@ export const downloadMonthlyReportFileService = async (id: string) => {
 export const putMonthlyReportsService = async (id: string, dto: type.MontghlyReportsUpdateDto) => {
     const { title, description, type, month, year, file } = dto
 
-    const monthlyReport: any = await repo.getMonthlyReportByIdRepository(id)
+    const existingItem = await repo.getMonthlyReportByIdRepository(id)
+
+    if (!existingItem) {
+        throw new Error("Reporte mensual no existe")
+    }
 
     const props: any = {
         id,
@@ -82,31 +75,16 @@ export const putMonthlyReportsService = async (id: string, dto: type.MontghlyRep
         description,
         type,
         year,
-        month
-    }
-
-    if (type !== "MONTHLY") {
-        props.month = null
-    }
-
-    if (file) {
-        if (monthlyReport.filePath) {
-            try {
-                if (monthlyReport.filePath) {
-                    const fs = await import("fs/promises");
-                    await fs.unlink(monthlyReport.filePath).catch(() => { });
+        month: type == "MONTHLY" ? month : null,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
                 }
-
-
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.filePath = file.path;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+                : null
     }
 
     return await repo.putMonthlyReportRepository(props)
@@ -119,16 +97,8 @@ export const putMonthlyReportsService = async (id: string, dto: type.MontghlyRep
 export const deleteMonthlyReportsService = async (id: string) => {
     const monthlyReport = await repo.getMonthlyReportByIdRepository(id)
 
-    if (!monthlyReport) {
-        throw new Error("Reporte no encontrado")
+    if(!monthlyReport) {
+        throw new Error("Reporte mensual no encontrado")
     }
-
-    if (monthlyReport.filePath) {
-        const fs = await import("fs/promises");
-        await fs.unlink(monthlyReport.filePath).catch(() => { });
-    }
-
-    await repo.deleteMonthlyReportRepository(id)
-
-    return true
+    return await repo.deleteMonthlyReportRepository(id)
 }

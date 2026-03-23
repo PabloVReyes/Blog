@@ -4,25 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf, validateTitle, validateYear } from "@/utils/validators"
 import { useSystemsMonthlyReportsStore } from "@/stores"
+import type { MonthlyReportsData } from "@/features/Systems/types/monthlyReports.types"
 
-interface Props {
-    id: string;
-    title: string;
-    fileName: string;
-    description: string;
-    type: string;
-    month: string;
-    period: Period;
-}
-
-export interface Period {
-    id: string;
-    year: number;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const Edit = ({ id, title, fileName, description, type, month, period }: Props) => {
+export const Edit = ({ id, title, file, description, type, month, period }: MonthlyReportsData) => {
     const update = useSystemsMonthlyReportsStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -39,7 +23,7 @@ export const Edit = ({ id, title, fileName, description, type, month, period }: 
         validate: {
             title: validateTitle,
             year: (value) => validateYear(value, { required: true, min: 1900, max: 2100 }),
-            file: (value) => validatePdf(value, { required: true, existingFileName: fileName })
+            file: (value) => validatePdf(value, { required: true, existingFileName: file?.name })
         }
     })
 
@@ -79,7 +63,7 @@ export const Edit = ({ id, title, fileName, description, type, month, period }: 
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={fileName}
+            fileName={file?.name}
         />
     )
 }

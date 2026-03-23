@@ -31,25 +31,6 @@ export const getPeriodsController: RequestHandler = asyncHandler(async (req: Req
     res.json(data)
 })
 
-export const downloadMonthlyReportsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadMonthlyReportsFileSchema.parse(req.params)
-    const data = await service.downloadMonthlyReportFileService(params.id)
-
-    res.setHeader("Content-Type", "application/pdf");
-
-    res.setHeader(
-        "Content-Disposition",
-        `inline; filename="${data.fileName}"`
-    );
-
-    res.setHeader(
-        "Access-Control-Expose-Headers",
-        "Content-Disposition"
-    );
-
-    fs.createReadStream(data.filePath).pipe(res);
-})
-
 ////////////
 // UPDATE //
 ////////////
@@ -73,4 +54,4 @@ export const deleteMonthlyReportsController: RequestHandler = asyncHandler(async
     res.json({ success: true })
 })
 
-// 156 lienas -> 74 lineas
+// 156 lienas -> 74 lineas -> 55 lineas

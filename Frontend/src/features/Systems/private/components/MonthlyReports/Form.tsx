@@ -7,7 +7,7 @@ interface Props {
     onSubmit: (values: any) => void;
     submitLabel: string;
     isLoading?: boolean;
-    fileName?: string;
+    fileName?: string | null;
 }
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {

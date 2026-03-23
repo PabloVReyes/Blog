@@ -13,7 +13,6 @@ export const columns: Column<MacroprocessData>[] = [
         label: 'Codigo',
         align: 'center',
         render: (row) => {
-            console.log(row)
             return (
                 <Badge variant="filled" color={row.manualType.color} size="sm">
                     {row.manualType.id}

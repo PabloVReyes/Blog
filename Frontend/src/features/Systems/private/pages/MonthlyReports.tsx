@@ -7,33 +7,11 @@ import { Text } from "@mantine/core"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useSystemsMonthlyReportsStore } from "@/stores"
 import type { Column } from "@/types"
+import type { MonthlyReportsData } from "../../types/monthlyReports.types"
 
 const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-export interface Row {
-    id: string;
-    title: string;
-    description: string;
-    type: string;
-    month: number;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    periodId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    period: Period;
-}
-
-export interface Period {
-    id: string;
-    year: number;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-const columns: Column<Row>[] = [
+const columns: Column<MonthlyReportsData>[] = [
     {
         key: 'title',
         label: 'Título',
@@ -99,7 +77,7 @@ const columns: Column<Row>[] = [
                     wordBreak: "break-word",
                 }}
                 size="sm">
-                {row.fileName}
+                {row.file?.name}
             </Text>
         }
     },

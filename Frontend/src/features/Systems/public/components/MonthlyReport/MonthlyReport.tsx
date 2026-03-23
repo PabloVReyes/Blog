@@ -3,7 +3,8 @@ import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-reac
 import styles from "./MonthlyReport.module.css"
 import { colorMap } from "@/utils/colors"
 import { formatFileSize } from "@/utils"
-import { downloadMonthlyReports } from "../../api"
+import type { MonthlyReportsData } from "@/features/Systems/types/monthlyReports.types"
+import { useDownloadFile } from "@/hooks"
 
 const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
@@ -20,79 +21,10 @@ const selectType = (type: string) => {
     }
 }
 
-interface Props {
-    id: string;
-    title: string;
-    description: string;
-    month: number;
-    fileSize: number;
-    type: string;
-    period: Period;
-}
 
-export interface Period {
-    id: string;
-    year: number;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const MonthyReport = ({ id, title, description, month, fileSize, type, period }: Props) => {
+export const MonthyReport = ({ title, description, month, file, type, period }: MonthlyReportsData) => {
     const theme = useMantineTheme()
-
-    const download = async (id: string) => {
-        try {
-            const response = await downloadMonthlyReports(id)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
-    const view = async (id: string) => {
-        try {
-            const response = await downloadMonthlyReports(id)
-
-            const blob = new Blob([response.data], {
-                type: "application/pdf",
-            });
-
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
+    const { download, view } = useDownloadFile()
     return (
         <Card
             className={styles.group}
@@ -127,7 +59,7 @@ export const MonthyReport = ({ id, title, description, month, fileSize, type, pe
                                 {period.year}
                             </Text>
                             <Text size="xs" c="dimmed">
-                                • {formatFileSize(fileSize)}
+                                • {formatFileSize(file?.size ?? 0)}
                             </Text>
                         </Group>
                     </Stack>
@@ -140,7 +72,7 @@ export const MonthyReport = ({ id, title, description, month, fileSize, type, pe
                         p={6}
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => download(id)}
+                        onClick={() => download(file?.id ?? "")}
                     >
                         <IconDownload size={20} />
                     </Button>
@@ -150,7 +82,7 @@ export const MonthyReport = ({ id, title, description, month, fileSize, type, pe
                         color="gray"
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => view(id)}
+                        onClick={() => view(file?.id ?? "")}
                     >
                         <IconExternalLink size={20} />
                     </Button>

@@ -10,7 +10,6 @@ export {
 export {
     fetchPeriods,
     fetchMonthlyReports,
-    downloadMonthlyReports
 } from "./MonthlyReports"
 
 export {

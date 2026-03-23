@@ -37,9 +37,6 @@ export const GPC = () => {
         meta: { total: 0, page: 1, limit: 10, totalPages: 0, firstItem: 0, lastItem: 0 },
     });
 
-    console.log(data)
-
-
     const [loading, setLoading] = useState<boolean>(false);
 
     const handleFetch = async () => {

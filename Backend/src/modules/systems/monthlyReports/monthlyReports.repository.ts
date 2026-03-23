@@ -1,5 +1,7 @@
 import { database } from "../../../config/prisma";
 import { logger } from "../../../utils/logger";
+import * as path from "path"
+import * as fs from "fs/promises"
 
 ////////////
 // CREATE //
@@ -9,26 +11,45 @@ interface PostMonthlyReportsRepositoryProps {
     title: string;
     description?: string | null;
     type: "MONTHLY" | "ANNUAL" | "STATISTICAL" | "EXTRA";
-    fileName?: string | null;
-    filePath?: string | null;
-    fileSize?: number | null;
-    mimeType?: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
     month?: number | null;
     year: number;
 }
 
-export const postMonthlyReportsRepository = async (props: PostMonthlyReportsRepositoryProps) => {
+export const postMonthlyReportsRepository = async ({ title, description, type, file, month, year }: PostMonthlyReportsRepositoryProps) => {
     try {
-        await database.report.create({
-            data: {
-                ...props,
-                period: {
-                    connectOrCreate: {
-                        where: { year: props.year },
-                        create: { year: props.year }
-                    }
-                }
+        return await database.$transaction(async (tx) => {
+            let fileId: string | null = null
+
+            if (file) {
+                const createFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = createFile.id
             }
+
+            const period = await tx.period.upsert({
+                where: { year },
+                update: {},
+                create: { year }
+            })
+
+            return await tx.report.create({
+                data: {
+                    title,
+                    description,
+                    type,
+                    fileId,
+                    month,
+                    periodId: period.id
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -36,7 +57,6 @@ export const postMonthlyReportsRepository = async (props: PostMonthlyReportsRepo
                 error,
                 operation: "postMonthlyReportsRepository",
                 entity: "Report",
-                input: props
             },
             "Error al crear informe mensual"
         )
@@ -73,7 +93,10 @@ export const getMonthlyReportsRepository = async ({ search, take, skip, year }: 
                 orderBy: { month: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
-                include: { period: true }
+                include: {
+                    period: true,
+                    file: true
+                }
             }),
             database.report.count({ where }),
         ])
@@ -146,32 +169,71 @@ interface PutMonthlyReportsRepositoryProps {
     title: string;
     description: string;
     type: "MONTHLY" | "ANNUAL" | "STATISTICAL" | "EXTRA";
-    fileName?: string;
-    filePath?: string;
-    fileSize?: number;
-    mimeType: string;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null
     month?: number;
     year: number;
 }
 
-export const putMonthlyReportRepository = async (props: PutMonthlyReportsRepositoryProps) => {
+export const putMonthlyReportRepository = async ({ id, title, description, type, file, month, year }: PutMonthlyReportsRepositoryProps) => {
     try {
-        const { id, year, ...rest } = props
+        return await database.$transaction(async (tx) => {
+            const current = await tx.report.findUnique({
+                where: { id },
+                include: { file: true }
+            })
 
-        return await database.report.update({
-            where: { id },
-            data: {
-                ...rest,
-                period: {
-                    connectOrCreate: {
-                        where: { year },
-                        create: { year }
-                    }
-                }
-            },
-            include: {
-                period: true
+            if (!current) {
+                throw new Error("Reporte no encontrado")
             }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            const period = await tx.period.upsert({
+                where: { year },
+                update: {},
+                create: { year }
+            })
+
+            return await tx.report.update({
+                where: { id },
+                data: {
+                    title,
+                    description,
+                    type,
+                    fileId,
+                    month,
+                    periodId: period.id
+                },
+                include: {
+                    period: true,
+                    file: true
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -179,7 +241,6 @@ export const putMonthlyReportRepository = async (props: PutMonthlyReportsReposit
                 error,
                 operation: "putMonthlyReportRepository",
                 entity: "Report",
-                input: props
             },
             "Error al actualizar informe"
         )
@@ -193,7 +254,32 @@ export const putMonthlyReportRepository = async (props: PutMonthlyReportsReposit
 
 export const deleteMonthlyReportRepository = async (id: string) => {
     try {
-        return await database.report.delete({ where: { id } })
+        return await database.$transaction(async (tx) => {
+            const current = await tx.report.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Informe mensual no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.report.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         logger.error(
             {
