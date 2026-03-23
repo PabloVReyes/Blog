@@ -5,6 +5,7 @@ import { fetchPBM } from "../api";
 import { Notify } from "@/ui";
 import { Card, Center, Loader, Text } from "@mantine/core";
 import { PBMAlgorithms } from "../components";
+import type { PMBData } from "../../types/pbm.types";
 
 interface Meta {
     total: number;
@@ -16,7 +17,7 @@ interface Meta {
 }
 
 interface AgreementData {
-    data: any[];
+    data: PMBData[];
     meta: Meta;
 }
 

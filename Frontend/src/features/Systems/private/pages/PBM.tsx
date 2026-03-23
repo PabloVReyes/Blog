@@ -7,17 +7,9 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { Text } from "@mantine/core"
 import { useSystemsPBMStore } from "@/stores"
 import type { Column } from "@/types"
+import type { PMBData } from "../../types/pbm.types"
 
-interface Row {
-    id:       string;
-    title:    string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-}
-
-const columns: Column<Row>[] = [
+const columns: Column<PMBData>[] = [
     {
         key: 'title',
         label: 'Título',
@@ -28,13 +20,14 @@ const columns: Column<Row>[] = [
         label: 'Algoritmo',
         align: 'left',
         render: (row) => {
+            console.log(row)
             return (
                 <Text size="sm"
                     style={{
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileName}</Text>
+                >{row.file?.name}</Text>
             )
         }
     },

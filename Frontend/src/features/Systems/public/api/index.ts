@@ -29,7 +29,6 @@ export {
 
 export {
     fetchPBM,
-    downloadPBM
 } from "./PBM"
 
 export {

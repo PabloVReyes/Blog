@@ -4,14 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf, validateTitle } from "@/utils/validators"
 import { useSystemsPBMStore } from "@/stores"
+import type { PMBData } from "@/features/Systems/types/pbm.types"
 
-interface Props {
-    id: string;
-    title: string;
-    fileName: string
-}
-
-export const Edit = ({ id, title, fileName }: Props) => {
+export const Edit = ({ id, title, file }: PMBData) => {
     const update = useSystemsPBMStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -23,7 +18,7 @@ export const Edit = ({ id, title, fileName }: Props) => {
         },
         validate: {
             title: validateTitle,
-            file: (value) => validatePdf(value, { required: true, existingFileName: fileName }),
+            file: (value) => validatePdf(value, { required: true, existingFileName: file?.name }),
         }
     })
 
@@ -54,7 +49,7 @@ export const Edit = ({ id, title, fileName }: Props) => {
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={fileName}
+            fileName={file?.name}
         />
     )
 }

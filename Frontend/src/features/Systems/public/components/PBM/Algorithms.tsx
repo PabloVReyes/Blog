@@ -2,76 +2,20 @@ import { Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title, useMantineThe
 import styles from "./Algorithms.module.css"
 import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-react"
 import { colorMap, formatFileSize } from "@/utils"
-import { downloadPBM } from "../../api"
+import type { PMBData } from "@/features/Systems/types/pbm.types"
+import { useDownloadFile } from "@/hooks"
 
-interface Props {
-    id: string;
-    title: string;
-    fileSize: number
-}
 
-export const PBMAlgorithms = ({ id, title, fileSize }: Props) => {
+export const PBMAlgorithms = ({ title, fileId, file}: PMBData) => {
     const theme = useMantineTheme()
-
-    const download = async (id: string) => {
-        try {
-            const response = await downloadPBM(id)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
-    const view = async (id: string) => {
-        try {
-            const response = await downloadPBM(id)
-
-            const blob = new Blob([response.data], {
-                type: "application/pdf",
-            });
-
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
+    const { download, view } = useDownloadFile()
 
     return (
         <Card
             className={styles.group}
         >
             <Flex justify="space-between" align="flex-start">
-                <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
+                <Flex gap="md" align="center" style={{ flex: 1 }}>
                     <ThemeIcon
                         size={56}
                         variant="light"
@@ -88,7 +32,7 @@ export const PBMAlgorithms = ({ id, title, fileSize }: Props) => {
                             <Title order={5}>{title}</Title>
                         </Group>
                         <Text size="xs" c="dimmed">
-                            {formatFileSize(fileSize)}
+                            {formatFileSize(file?.size ?? 0)}
                         </Text>
                     </Stack>
                 </Flex>
@@ -100,7 +44,7 @@ export const PBMAlgorithms = ({ id, title, fileSize }: Props) => {
                         p={6}
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => download(id)}
+                        onClick={() => download(fileId)}
                     >
                         <IconDownload size={20} />
                     </Button>
@@ -110,7 +54,7 @@ export const PBMAlgorithms = ({ id, title, fileSize }: Props) => {
                         color="gray"
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => view(id)}
+                        onClick={() => view(fileId)}
                     >
                         <IconExternalLink size={20} />
                     </Button>

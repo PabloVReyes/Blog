@@ -12,12 +12,21 @@ import { logger } from "../../../utils/logger";
 export const postPbmService = async (dto: type.PbmCreateDto) => {
     const { title, file } = dto
 
+    if (!file) {
+        throw new Error("Archivo requerido")
+    }
+
     return await repo.postPbmRepository({
         title,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        filePath: file?.path ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     })
 }
 
@@ -41,19 +50,6 @@ export const getPBMService = async (dto: schema.GetPBMSchema) => {
     }
 }
 
-export const downloadPBMFileService = async (id: string) => {
-    const PBM = await repo.getPBMByIdRepository(id)
-
-    if (!PBM || !PBM.filePath) {
-        throw new Error("Algoritmo no encontrado")
-    }
-
-    return {
-        filePath: PBM.filePath,
-        fileName: PBM.fileName
-    }
-}
-
 ////////////
 // UPDATE //
 ////////////
@@ -61,29 +57,24 @@ export const downloadPBMFileService = async (id: string) => {
 export const putPBMService = async (id: string, dto: type.PbmUpdateDto) => {
     const { title, file } = dto
 
-    const PBM: any = await repo.getPBMByIdRepository(id)
+    const existingItem = await repo.getPBMByIdRepository(id)
+
+    if (!existingItem) {
+        throw new Error("El algoritmo PBM no existe")
+    }
 
     const props: any = {
         id,
         title,
-    }
-
-    if (file) {
-        if (PBM.filePath) {
-            try {
-                if (PBM.filePath) {
-                    const fs = await import("fs/promises");
-                    await fs.unlink(PBM.filePath).catch(() => { });
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
                 }
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.filePath = file.path;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+                : null
     }
 
     return await repo.putPBMRepository(props)
@@ -100,12 +91,5 @@ export const daletePBMService = async (id: string) => {
         throw new Error("Guía no encontrada")
     }
 
-    if (PBM.filePath) {
-        const fs = await import("fs/promises");
-        await fs.unlink(PBM.filePath).catch(() => { });
-    }
-
-    await repo.deletePBMRepository(id)
-
-    return true
+    return await repo.deletePBMRepository(id)
 }

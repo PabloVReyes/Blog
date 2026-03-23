@@ -20,24 +20,6 @@ export const postPbmController: RequestHandler = asyncHandler(async (req: Reques
 // READ //
 //////////
 
-export const downloadPBMFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadPBMFileSchema.parse(req.params)
-    const data = await service.downloadPBMFileService(params.id)
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-        "Content-Disposition",
-        `inline; filename="${data.fileName}"`
-    );
-
-    res.setHeader(
-        "Access-Control-Expose-Headers",
-        "Content-Disposition"
-    );
-
-    fs.createReadStream(data.filePath).pipe(res);
-})
-
 export const getPBMController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const dto = schema.getPBMSchema.parse(req.query)
     const data = await service.getPBMService(dto)
@@ -67,4 +49,4 @@ export const deletePBMController: RequestHandler = asyncHandler(async (req: Requ
     res.json({ success: true })
 })
 
-// 240 lineas -> 68 lineas
+// 240 lineas -> 68 lineas -> 50 lineas

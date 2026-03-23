@@ -14,7 +14,7 @@ export const ClinicalPracticeGuideline = ({ title, fileERId, fileRRId, code, cat
             className={styles.group}
         >
             <Flex justify="space-between" align="flex-start">
-                <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
+                <Flex gap="md" align="center" style={{ flex: 1 }}>
                     <ThemeIcon
                         size={56}
                         variant="light"

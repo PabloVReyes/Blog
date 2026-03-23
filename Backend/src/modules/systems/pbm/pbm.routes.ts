@@ -7,7 +7,7 @@ import { sanitizeFileName } from "../../../utils/file";
 const router: Router = Router()
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, "../../../../uploads/pbm"),
+    destination: path.join(__dirname, "../../../../uploads"),
     filename: (req, file, cb) => {
         const safeName = sanitizeFileName(file.originalname);
 
@@ -35,6 +35,5 @@ router.post("/", upload.single("file"), controller.postPbmController)
 router.put("/:id", upload.single("file"), controller.putPBMController)
 router.delete("/:id", controller.deletePBMController)
 router.get("/", controller.getPBMController)
-router.get("/:id/download", controller.downloadPBMFileController)
 
 export default router;

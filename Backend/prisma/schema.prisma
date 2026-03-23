@@ -433,7 +433,7 @@ model ClinicalPracticeGuidelines {
 
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
-  
+
   @@index([categoryId])
   @@index([fileERId])
   @@index([fileRRId])
@@ -445,14 +445,18 @@ model Category {
   clinicalPracticeGuidelines ClinicalPracticeGuidelines[]
 }
 
+////////////////////
+// ALGORITMOS PBM //
+////////////////////
+
 model pbm {
   id    String @id @default(uuid())
   title String
 
-  fileName String?
-  filePath String?
-  fileSize Int?
-  mimeType String?
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
+
+  @@index([fileId])
 }
 
 model gpc {
@@ -822,6 +826,7 @@ model File {
   reports              Report[]
   clinicalGuidelines   ClinicalPracticeGuidelines[] @relation("GuidelineER")
   clinicalGuidelinesRR ClinicalPracticeGuidelines[] @relation("GuidelineRR")
+  pbms                 pbm[]
 }
 
 // 798 lineas

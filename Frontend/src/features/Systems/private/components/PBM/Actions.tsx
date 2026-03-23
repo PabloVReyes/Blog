@@ -3,8 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { PMBData } from "@/features/Systems/types/pbm.types"
 
-export const ActionsPBM = ({ id, ...props }: any) => {
+export const ActionsPBM = ({ id, ...props }: PMBData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
