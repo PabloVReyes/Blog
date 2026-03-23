@@ -31,24 +31,6 @@ export const postCategoryController: RequestHandler = asyncHandler(async (req: R
 // READ //
 //////////
 
-export const downloadClinicalPracticeGuidelinesFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadClinicalPracticeGuidelinesFileSchema.parse(req.params)
-    const data = await service.downloadClinicalPracticeGuidelinesFileService(params.id, params.type)
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-        "Content-Disposition",
-        `inline; filename="${data.fileName}"`
-    );
-
-    res.setHeader(
-        "Access-Control-Expose-Headers",
-        "Content-Disposition"
-    );
-
-    fs.createReadStream(data.filePath).pipe(res);
-})
-
 export const getClinicalPracticeGuidelinesController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const dto = schema.getClinicalPracticeGuidelinesSchema.parse(req.query)
     const data = await service.getClinicalPracticeGuidelinesService(dto)

@@ -4,22 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateCode, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
 import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
+import type { ClinicalPracticeGuidelinesData } from "@/features/Systems/types/ClinicalPracticeGuidelines.types"
 
-interface Props {
-    id: string;
-    title: string;
-    code: string;
-    category: Category;
-    fileNameER: string;
-    fileNameRR: string;
-}
-
-export interface Category {
-    id: string;
-    name: string;
-}
-
-export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: Props) => {
+export const Edit = ({ id, title, code, category, fileER, fileRR }: ClinicalPracticeGuidelinesData) => {
     const update = useSystemsClinicalPracticeGuidelinesStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -36,8 +23,8 @@ export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: Prop
             title: validateTitle,
             code: validateCode,
             category: (value) => validateSelect(value, { required: true }),
-            er: (value) => validatePdf(value, { required: true, existingFileName: fileNameER }),
-            rr: (value) => validatePdf(value, { required: true, existingFileName: fileNameRR })
+            er: (value) => validatePdf(value, { required: true, existingFileName: fileER?.name }),
+            rr: (value) => validatePdf(value, { required: true, existingFileName: fileRR?.name })
         }
     })
 
@@ -73,8 +60,8 @@ export const Edit = ({ id, title, code, category, fileNameER, fileNameRR }: Prop
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileNameER={fileNameER}
-            fileNameRR={fileNameRR}
+            fileNameER={fileER?.name}
+            fileNameRR={fileRR?.name}
             initialCategory={{
                 value: category?.id?.toString(),
                 label: category?.name

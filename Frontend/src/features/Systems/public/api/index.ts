@@ -25,7 +25,6 @@ export {
 export {
     fetchCategorys,
     fetchGuides,
-    downloadGuide
 } from "./ClinicalPracticeGuidelines"
 
 export {

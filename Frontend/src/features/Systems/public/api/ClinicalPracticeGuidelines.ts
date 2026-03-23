@@ -9,10 +9,3 @@ export const fetchGuides = async ({ page, limit, search, categoryId }: { page?: 
     const response = await api.get(`/api/systems/clinical-practice-guidelines/guides?${buildParams({ page, limit, search, categoryId })}`)
     return response.data
 }
-
-export const downloadGuide = async (id: string, type: string) => {
-    const response = await api.get(`/api/systems/clinical-practice-guidelines/guides/${id}/download/${type}`, {
-        responseType: "blob" // 👈 CLAVE
-    })
-    return response
-}

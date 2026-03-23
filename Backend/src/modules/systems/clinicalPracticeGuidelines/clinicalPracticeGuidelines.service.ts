@@ -12,19 +12,35 @@ import { logger } from "../../../utils/logger";
 export const postClinicalPracticeGuidelinesService = async (dto: types.ClinicalPracticeGuidelinesCreateDto) => {
     const { title, code, category, er, rr } = dto
 
-    return await repo.postClinicalPracticeGuidelinesReporisory({
+    if (!er || !rr) {
+        throw new Error("Archivos requeridos")
+    }
+
+    const props = {
         code,
         title,
         category,
-        fileNameER: er?.originalname ? sanitizeFileName(er.originalname) : null,
-        filePathER: er?.path ?? null,
-        fileSizeER: er?.size ?? null,
-        mimeTypeER: er?.mimetype ?? null,
-        fileNameRR: rr?.originalname ? sanitizeFileName(rr.originalname) : null,
-        filePathRR: rr?.path ?? null,
-        fileSizeRR: rr?.size ?? null,
-        mimeTypeRR: rr?.mimetype ?? null,
-    })
+        fileER:
+            er
+                ? {
+                    name: sanitizeFileName(er.originalname),
+                    path: er.filename,
+                    size: er.size,
+                    mimeType: er.mimetype
+                }
+                : null,
+        fileRR:
+            rr
+                ? {
+                    name: sanitizeFileName(rr.originalname),
+                    path: rr.filename,
+                    size: rr.size,
+                    mimeType: rr.mimetype
+                }
+                : null
+    }
+
+    return await repo.postClinicalPracticeGuidelinesReporisory(props)
 }
 
 export const postCategoryService = async (dto: schema.PostCategorySchema) => {
@@ -63,25 +79,6 @@ export const getCategoryService = async () => {
     }
 }
 
-export const downloadClinicalPracticeGuidelinesFileService = async (id: string, type: string) => {
-    const ClinicalPracticeGuideline: any = await repo.getClinicalPracticeGuidelineByIdRepository(id)
-
-    if (type === "ER" && !ClinicalPracticeGuideline || !ClinicalPracticeGuideline.fileNameER) {
-        throw new Error("Guia de Evidencias y Recomendaciones no encontrada")
-    }
-
-    if (type === "RR" && !ClinicalPracticeGuideline || !ClinicalPracticeGuideline.fileNameRR) {
-        throw new Error("Guia de Referencias Rápida no encontrada")
-    }
-
-    const { fileNameER, fileNameRR, filePathER, filePathRR } = ClinicalPracticeGuideline
-
-    return {
-        filePath: type === "ER" ? filePathER : filePathRR,
-        fileName: type === "ER" ? fileNameER : fileNameRR,
-    }
-}
-
 ////////////
 // UPDATE //
 ////////////
@@ -89,53 +86,35 @@ export const downloadClinicalPracticeGuidelinesFileService = async (id: string, 
 export const putClinicalPracticeGuidelinesService = async (id: string, dto: types.ClinicalPracticeGuidelinesUpdateDto) => {
     const { title, code, category, rr, er } = dto
 
-    const ClinicalPracticeGuideline: any = await repo.getClinicalPracticeGuidelineByIdRepository(id)
+    const existingItem = await repo.getClinicalPracticeGuidelineByIdRepository(id)
+
+    if (!existingItem) {
+        throw new Error("La guía no existe")
+    }
 
     const props: any = {
         id,
         code,
         title,
-        category
-    }
-
-    if (er) {
-        if (ClinicalPracticeGuideline.filePathER) {
-            try {
-                if (ClinicalPracticeGuideline.filePathER) {
-                    const fs = await import("fs/promises");
-                    await fs.unlink(ClinicalPracticeGuideline.filePathER).catch(() => { });
+        category,
+        fileER:
+            er
+                ? {
+                    name: sanitizeFileName(er.originalname),
+                    path: er.filename,
+                    size: er.size,
+                    mimeType: er.mimetype
                 }
-
-
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileNameER = sanitizeFileName(er.originalname);
-        props.filePathER = er.path;
-        props.fileSizeER = er.size;
-        props.mimeTypeER = er.mimetype;
-    }
-
-    if (rr) {
-        if (ClinicalPracticeGuideline.filePathRR) {
-            try {
-                if (ClinicalPracticeGuideline.filePathRR) {
-                    const fs = await import("fs/promises");
-                    await fs.unlink(ClinicalPracticeGuideline.filePathRR).catch(() => { });
+                : null,
+        fileRR:
+            rr
+                ? {
+                    name: sanitizeFileName(rr.originalname),
+                    path: rr.filename,
+                    size: rr.size,
+                    mimeType: rr.mimetype
                 }
-
-
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileNameRR = sanitizeFileName(rr.originalname);
-        props.filePathRR = rr.path;
-        props.fileSizeRR = rr.size;
-        props.mimeTypeRR = rr.mimetype;
+                : null
     }
 
     return await repo.putClinicalPracticeGuidelinesReporisory(props)
@@ -152,17 +131,5 @@ export const daleteClinicalPracticeGuidelinesService = async (id: string) => {
         throw new Error("Guía no encontrada")
     }
 
-    if (ClinicalPracticeGuideline.filePathER) {
-        const fs = await import("fs/promises");
-        await fs.unlink(ClinicalPracticeGuideline.filePathER).catch(() => { });
-    }
-
-    if (ClinicalPracticeGuideline.filePathRR) {
-        const fs = await import("fs/promises");
-        await fs.unlink(ClinicalPracticeGuideline.filePathRR).catch(() => { });
-    }
-
-    await repo.deleteClinicalPracticeGuidelinesRepository(id)
-
-    return true
+    return await repo.deleteClinicalPracticeGuidelinesRepository(id)
 }

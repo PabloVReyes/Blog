@@ -14,8 +14,8 @@ interface Props {
     onSubmit: (values: any) => void;
     submitLabel: string;
     isLoading?: boolean;
-    fileNameER?: string;
-    fileNameRR?: string;
+    fileNameER?: string | null;
+    fileNameRR?: string | null;
     initialCategory?: Item | null;
 }
 

@@ -2,52 +2,12 @@ import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title, useMan
 import styles from "./ClinicalPracticeGuideline.module.css"
 import { colorMap } from "@/utils"
 import { IconDownload, IconFileText } from "@tabler/icons-react"
-import { downloadGuide } from "../../api"
+import type { ClinicalPracticeGuidelinesData } from "@/features/Systems/types/ClinicalPracticeGuidelines.types"
+import { useDownloadFile } from "@/hooks"
 
-interface Props {
-    id: string;
-    title: string;
-    code: string;
-    category: Category
-}
-
-export interface Category {
-    id: string;
-    name: string;
-}
-
-export const ClinicalPracticeGuideline = ({ id, title, code, category }: Props) => {
+export const ClinicalPracticeGuideline = ({ title, fileERId, fileRRId, code, category }: ClinicalPracticeGuidelinesData) => {
     const theme = useMantineTheme()
-
-    const download = async (id: string, type: string) => {
-        try {
-            const response = await downloadGuide(id, type)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
+    const { download } = useDownloadFile()
 
     return (
         <Card
@@ -91,7 +51,7 @@ export const ClinicalPracticeGuideline = ({ id, title, code, category }: Props) 
                         leftSection={
                             <IconDownload size={20} />
                         }
-                        onClick={() => download(id, "ER")}
+                        onClick={() => download(fileERId)}
                     >
                         BR
                     </Button>
@@ -104,7 +64,7 @@ export const ClinicalPracticeGuideline = ({ id, title, code, category }: Props) 
                             <IconDownload size={20} />
                         }
                         c={"white"}
-                        onClick={() => download(id, "RR")}
+                        onClick={() => download(fileRRId)}
                     >
                         RR
                     </Button>

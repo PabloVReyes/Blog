@@ -1,6 +1,8 @@
 import { database } from "../../../config/prisma"
 import { PaginationProps } from "../../../types/pagination";
 import { logger } from "../../../utils/logger";
+import * as path from "path"
+import * as fs from "fs/promises"
 
 ////////////
 // CREATE //
@@ -10,44 +12,57 @@ interface PostClinicalPracticeGuidelinesReporisoryProps {
     code: string;
     title: string;
     category: string;
-    fileNameER?: string | null;
-    filePathER?: string | null;
-    fileSizeER?: number | null;
-    mimeTypeER?: string | null;
-    fileNameRR?: string | null;
-    filePathRR?: string | null;
-    fileSizeRR?: number | null;
-    mimeTypeRR?: string | null;
+    fileER?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
+    fileRR?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
 }
 
 export const postClinicalPracticeGuidelinesReporisory = async ({
     code,
     title,
     category,
-    fileNameER,
-    filePathER,
-    fileSizeER,
-    mimeTypeER,
-    fileNameRR,
-    filePathRR,
-    fileSizeRR,
-    mimeTypeRR,
+    fileER,
+    fileRR
 }: PostClinicalPracticeGuidelinesReporisoryProps) => {
     try {
-        return await database.clinicalPracticeGuidelines.create({
-            data: {
-                code,
-                title,
-                categoryId: category,
-                fileNameER,
-                filePathER,
-                fileSizeER,
-                mimeTypeER,
-                fileNameRR,
-                filePathRR,
-                fileSizeRR,
-                mimeTypeRR
+        return await database.$transaction(async (tx) => {
+            let fileERId: string | null = null
+            let fileRRId: string | null = null
+
+            if (fileER) {
+                const createFile = await tx.file.create({
+                    data: fileER
+                })
+
+                fileERId = createFile.id
             }
+
+            if (fileRR) {
+                const createFile = await tx.file.create({
+                    data: fileRR
+                })
+
+                fileRRId = createFile.id
+            }
+
+            return await tx.clinicalPracticeGuidelines.create({
+                data: {
+                    code,
+                    title,
+                    categoryId: category,
+                    fileERId,
+                    fileRRId
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -113,7 +128,11 @@ export const getClinicalPracticeGuidelinesRepository = async ({ search, take, sk
                 orderBy: { id: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
-                include: { category: true }
+                include: {
+                    category: true,
+                    fileER: true,
+                    fileRR: true
+                }
             }),
             database.clinicalPracticeGuidelines.count({ where }),
         ])
@@ -185,32 +204,80 @@ export const putClinicalPracticeGuidelinesReporisory = async ({
     code,
     title,
     category,
-    fileNameER,
-    filePathER,
-    fileSizeER,
-    mimeTypeER,
-    fileNameRR,
-    filePathRR,
-    fileSizeRR,
-    mimeTypeRR,
+    fileER,
+    fileRR
 }: PutClinicalPracticeGuidelinesReporisoryProps) => {
     try {
-        return await database.clinicalPracticeGuidelines.update({
-            where: { id },
-            data: {
-                code,
-                title,
-                categoryId: category,
-                fileNameER,
-                filePathER,
-                fileSizeER,
-                mimeTypeER,
-                fileNameRR,
-                filePathRR,
-                fileSizeRR,
-                mimeTypeRR,
-            },
-            include: { category: true }
+        return await database.$transaction(async (tx) => {
+            const current = await tx.clinicalPracticeGuidelines.findUnique({
+                where: { id },
+                include: {
+                    fileER: true,
+                    fileRR: true
+                }
+            })
+
+            if (!current) {
+                throw new Error("Guías no encontradas")
+            }
+
+            let fileERId = current.fileERId
+            let fileRRId = current.fileRRId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (fileER) {
+                if (current.fileER?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.fileER.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.fileER.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: fileER
+                })
+
+                fileERId = newFile.id
+            }
+
+            if (fileRR) {
+                if (current.fileRR?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.fileRR.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.fileRR.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: fileRR
+                })
+
+                fileRRId = newFile.id
+            }
+
+            return await tx.clinicalPracticeGuidelines.update({
+                where: { id },
+                data: {
+                    code,
+                    title,
+                    categoryId: category,
+                    fileERId,
+                    fileRRId
+                },
+                include: {
+                    category: true,
+                    fileER: true,
+                    fileRR: true
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -232,7 +299,45 @@ export const putClinicalPracticeGuidelinesReporisory = async ({
 
 export const deleteClinicalPracticeGuidelinesRepository = async (id: string) => {
     try {
-        return await database.clinicalPracticeGuidelines.delete({ where: { id } })
+        return await database.$transaction(async (tx) => {
+            const current = await tx.clinicalPracticeGuidelines.findUnique({
+                where: { id },
+                include: {
+                    fileER: true,
+                    fileRR: true
+                }
+            })
+
+            if (!current) {
+                throw new Error("Guías no encontradas")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.fileER?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.fileER.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.fileER.id }
+                })
+            }
+
+            if (current.fileRR?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.fileRR.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.fileRR.id }
+                })
+            }
+
+            return await tx.clinicalPracticeGuidelines.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         logger.error(
             {

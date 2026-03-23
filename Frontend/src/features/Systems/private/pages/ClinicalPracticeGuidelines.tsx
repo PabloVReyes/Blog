@@ -7,29 +7,9 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { Badge, Text } from "@mantine/core"
 import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
 import type { Column } from "@/types"
+import type { ClinicalPracticeGuidelinesData } from "../../types/ClinicalPracticeGuidelines.types"
 
-export interface Row {
-    id: string;
-    code: string;
-    title: string;
-    fileNameER: string;
-    filePathER: string;
-    fileSizeER: number;
-    mimeTypeER: string;
-    fileNameRR: string;
-    filePathRR: string;
-    fileSizeRR: number;
-    mimeTypeRR: string;
-    categoryId: string;
-    category: Category;
-}
-
-export interface Category {
-    id: string;
-    name: string;
-}
-
-const columns: Column<Row>[] = [
+const columns: Column<ClinicalPracticeGuidelinesData>[] = [
     {
         key: 'code',
         label: 'Clave',
@@ -62,7 +42,7 @@ const columns: Column<Row>[] = [
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileNameER}</Text>
+                >{row.fileER?.name}</Text>
             )
         }
     },
@@ -77,7 +57,7 @@ const columns: Column<Row>[] = [
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileNameRR}</Text>
+                >{row.fileRR?.name}</Text>
             )
         }
     },

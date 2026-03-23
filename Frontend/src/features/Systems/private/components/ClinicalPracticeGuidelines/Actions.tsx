@@ -3,29 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { ClinicalPracticeGuidelinesData } from "@/features/Systems/types/ClinicalPracticeGuidelines.types"
 
-export interface Props {
-    id: string;
-    code: string;
-    title: string;
-    fileNameER: string;
-    filePathER: string;
-    fileSizeER: number;
-    mimeTypeER: string;
-    fileNameRR: string;
-    filePathRR: string;
-    fileSizeRR: number;
-    mimeTypeRR: string;
-    categoryId: string;
-    category: Category;
-}
-
-export interface Category {
-    id: string;
-    name: string;
-}
-
-export const ActionsClinicalPracticeGuidelines = ({ id, ...props }: Props) => {
+export const ActionsClinicalPracticeGuidelines = ({ id, ...props }: ClinicalPracticeGuidelinesData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

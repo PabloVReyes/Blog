@@ -345,6 +345,10 @@ enum ReportType {
   EXTRA
 }
 
+///////////////
+// CONVENIOS //
+///////////////
+
 model AgreementPerson {
   id   Int        @id @default(autoincrement())
   name String
@@ -391,6 +395,10 @@ enum PersonType {
   DEPENDENT
 }
 
+//////////
+// CBIM //
+//////////
+
 model Cbim {
   id          String     @id @default(uuid())
   code        String     @unique
@@ -409,25 +417,26 @@ enum CBTCAEType {
   CBT
 }
 
+///////////////////////////////
+// GUÌAS DE PRACTICA CLINICA //
+///////////////////////////////
+
 model ClinicalPracticeGuidelines {
   id    String @id @default(uuid())
   code  String
   title String
 
-  // Evidencias y Recomendaciones
-  fileNameER String?
-  filePathER String?
-  fileSizeER Int?
-  mimeTypeER String?
-
-  // Referencia Rapida
-  fileNameRR String?
-  filePathRR String?
-  fileSizeRR Int?
-  mimeTypeRR String?
+  fileERId String?
+  fileER   File?   @relation("GuidelineER", fields: [fileERId], references: [id])
+  fileRRId String?
+  fileRR   File?   @relation("GuidelineRR", fields: [fileRRId], references: [id])
 
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
+  
+  @@index([categoryId])
+  @@index([fileERId])
+  @@index([fileRRId])
 }
 
 model Category {
@@ -804,13 +813,15 @@ model File {
 
   createdAt DateTime @default(now())
 
-  carouselItems   CarouselItem[]
-  calendarConfigs CalendarConfig[]
-  accessCardItems AccessCardItem[]
-  systems         Systems[]
-  gpcs            gpc[]
-  manuals         Manual[]
-  reports         Report[]
+  carouselItems        CarouselItem[]
+  calendarConfigs      CalendarConfig[]
+  accessCardItems      AccessCardItem[]
+  systems              Systems[]
+  gpcs                 gpc[]
+  manuals              Manual[]
+  reports              Report[]
+  clinicalGuidelines   ClinicalPracticeGuidelines[] @relation("GuidelineER")
+  clinicalGuidelinesRR ClinicalPracticeGuidelines[] @relation("GuidelineRR")
 }
 
 // 798 lineas

@@ -12,9 +12,9 @@ const storage = multer.diskStorage({
         let uploadPath = "";
 
         if (file.fieldname === "er") {
-            uploadPath = path.join(__dirname, "../../../../uploads/guides/er");
+            uploadPath = path.join(__dirname, "../../../../uploads");
         } else if (file.fieldname === "rr") {
-            uploadPath = path.join(__dirname, "../../../../uploads/guides/rr");
+            uploadPath = path.join(__dirname, "../../../../uploads");
         } else {
             return cb(new Error("Campo de archivo no válido"), "");
         }
@@ -51,7 +51,6 @@ export const upload = multer({
 router.post("/guides", upload.fields([{ name: "er", maxCount: 1 }, { name: "rr", maxCount: 1 }]), controller.postClinicalPracticeGuidelinesController)
 router.put("/guides/:id", upload.fields([{ name: "er", maxCount: 1 }, { name: "rr", maxCount: 1 }]), controller.putClinicalPracticeGuidelinesController)
 router.delete("/guides/:id", controller.deleteClinicalPracticeGuidelinesController)
-router.get("/guides/:id/download/:type", controller.downloadClinicalPracticeGuidelinesFileController)
 router.get("/guides", controller.getClinicalPracticeGuidelinesController)
 router.get("/category", controller.getCategoryController)
 router.post("/category", controller.postCategoryController)

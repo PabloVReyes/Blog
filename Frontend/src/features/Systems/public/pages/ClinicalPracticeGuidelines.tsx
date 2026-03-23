@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { fetchCategorys, fetchGuides } from "../api";
 import { useDebouncedValue } from "@mantine/hooks";
 import { ClinicalPracticeGuideline } from "../components";
+import type { ClinicalPracticeGuidelinesData } from "../../types/ClinicalPracticeGuidelines.types";
 
 interface Meta {
     total: number;
@@ -16,7 +17,7 @@ interface Meta {
 }
 
 interface AgreementData {
-    data: any[];
+    data: ClinicalPracticeGuidelinesData[];
     meta: Meta;
 }
 
