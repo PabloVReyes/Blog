@@ -4,21 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateDescription, validatePdf, validateSelect, validateTitle } from "@/utils/validators"
 import { useSystemsCareProtocolsApiStore } from "@/stores"
+import type { CareProtocolsData } from "@/features/Systems/types/careProtocols.types"
 
-interface Props {
-    id: string;
-    title: string;
-    fileName: string;
-    description: string;
-    category: Category;
-}
-
-export interface Category {
-    id: string;
-    name: string;
-}
-
-export const Edit = ({ id, title, fileName, description, category }: Props) => {
+export const Edit = ({ id, title, file, description, category }: CareProtocolsData) => {
     const update = useSystemsCareProtocolsApiStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -34,7 +22,7 @@ export const Edit = ({ id, title, fileName, description, category }: Props) => {
             title: validateTitle,
             description: validateDescription,
             category: (value) => validateSelect(value, { required: true }),
-            file: (value) => validatePdf(value, { required: true, existingFileName: fileName })
+            file: (value) => validatePdf(value, { required: true, existingFileName: file?.name })
         }
     })
 
@@ -67,7 +55,7 @@ export const Edit = ({ id, title, fileName, description, category }: Props) => {
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={fileName}
+            fileName={file?.name}
             initialCategory={{
                 value: category?.id?.toString(),
                 label: category?.name

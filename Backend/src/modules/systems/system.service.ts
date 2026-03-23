@@ -59,19 +59,6 @@ export const getSystemService = async (dto: schema.GetSystemSchema) => {
     }
 }
 
-export const downloadSystemFileService = async (id: string) => {
-    const system: any = await repo.getSystemByIdRepository(id)
-
-    if (!system || !system.filePath) {
-        throw new Error("Archivo no encontrado")
-    }
-
-    return {
-        filePath: system.filePath,
-        fileName: system.fileName
-    }
-}
-
 ////////////
 // UPDATE //
 ////////////

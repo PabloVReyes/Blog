@@ -5,6 +5,7 @@ import { Alert, Notify } from "@/ui";
 import { Badge, Card, Center, Group, Loader, Stack, Text, useMantineTheme } from "@mantine/core";
 import { getCicloColor } from "@/utils";
 import { Protocol } from "../components";
+import type { CareProtocolsData } from "../../types/careProtocols.types";
 
 interface Meta {
     total: number;
@@ -15,20 +16,8 @@ interface Meta {
     lastItem: number;
 }
 
-interface CareProtocols {
-    cycleId: string;
-    description: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    id: string;
-    mimeType: string;
-    orderIndex: number;
-    title: string;
-}
-
 interface Data {
-    careProtocols: CareProtocols[]
+    careProtocols: CareProtocolsData[]
     id: string;
     name: string;
     _count: {

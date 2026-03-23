@@ -1,6 +1,8 @@
 import { database } from "../../../config/prisma"
 import { PaginationProps } from "../../../types/pagination"
 import { logger } from "../../../utils/logger"
+import * as path from "path"
+import * as fs from "fs/promises"
 
 ////////////
 // CREATE //
@@ -31,32 +33,40 @@ interface PostCareProtocolsRepositoryProps {
     title: string;
     description: string;
     category: string;
-    fileName: string | null;
-    filePath: string | null;
-    fileSize: number | null;
-    mimeType: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
 }
 
 export const postCareProtocolsRepository = async ({
     title,
     description,
     category,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PostCareProtocolsRepositoryProps) => {
     try {
-        return await database.careProtocols.create({
-            data: {
-                title,
-                description,
-                categoryCareProtocolsId: category,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
+        return await database.$transaction(async (tx) => {
+            let fileId: string | null = null;
+
+            if (file) {
+                const createFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = createFile.id
             }
+
+            return await tx.careProtocols.create({
+                data: {
+                    title,
+                    description,
+                    categoryCareProtocolsId: category,
+                    fileId
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -80,7 +90,7 @@ export const getCategoryRepository = async () => {
     try {
         const [data, total] = await Promise.all([
             database.categoryCareProtocols.findMany({
-                orderBy: { id: "desc" }
+                orderBy: { id: "desc" },
             }),
             database.categoryCareProtocols.count()
         ])
@@ -118,7 +128,8 @@ export const getCareProtocolsRepository = async ({ search, take, skip }: Paginat
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
-                    category: true
+                    category: true,
+                    file: true
                 }
             }),
             database.careProtocols.count({ where }),
@@ -217,26 +228,55 @@ export const putCareProtocolRepository = async ({
     title,
     description,
     category,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PutCareProtocolProps) => {
     try {
-        return await database.careProtocols.update({
-            where: { id },
-            data: {
-                title,
-                description,
-                categoryCareProtocolsId: category,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
-            },
-            include: {
-                category: true
+        return await database.$transaction(async (tx) => {
+            const current = await tx.careProtocols.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Protocolo no encontrado")
             }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            return await tx.careProtocols.update({
+                where: { id },
+                data: {
+                    title,
+                    description,
+                    categoryCareProtocolsId: category,
+                    fileId
+                },
+                include: {
+                    category: true,
+                    file: true
+                }
+            })
+
         })
     } catch (error) {
         logger.error(
@@ -259,7 +299,32 @@ export const putCareProtocolRepository = async ({
 
 export const deleteCareProtocolsRepository = async (id: string) => {
     try {
-        return await database.careProtocols.delete({ where: { id } })
+        return await database.$transaction(async (tx) => {
+            const current = await tx.careProtocols.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.careProtocols.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         logger.error(
             {

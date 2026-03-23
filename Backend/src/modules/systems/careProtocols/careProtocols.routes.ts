@@ -7,7 +7,7 @@ import * as controller from "./careProtocols.controller"
 const router: Router = Router()
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, "../../../../uploads/careProtocols"),
+    destination: path.join(__dirname, "../../../../uploads"),
     filename: (req, file, cb) => {
         const safeName = sanitizeFileName(file.originalname);
 
@@ -36,7 +36,6 @@ router.get("/categorys-protocols", controller.getCategoryWithCareProtocolsContro
 router.post("/categorys", controller.postCategoryController)
 
 router.get("/protocols", controller.getCareProtocolsController)
-router.get("/protocols/:id/download", controller.downloadGpcFileController)
 router.post("/protocols", upload.single("file"), controller.postCareProtocolsController)
 router.put("/protocols/:id", upload.single("file"), controller.putCareProtocolsController)
 router.delete("/protocols/:id", controller.deleteCareProtocolController)

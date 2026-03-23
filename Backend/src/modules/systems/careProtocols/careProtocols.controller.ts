@@ -43,24 +43,6 @@ export const getCategoryWithCareProtocolsController: RequestHandler = asyncHandl
     res.json(data)
 })
 
-export const downloadGpcFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadCareProtocolFileSchema.parse(req.params)
-    const data = await service.dowloadCareProtocolFileService(params.id)
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-        "Content-Disposition",
-        `inline; filename="${data.fileName}"`
-    );
-
-    res.setHeader(
-        "Access-Control-Expose-Headers",
-        "Content-Disposition"
-    );
-
-    fs.createReadStream(data.filePath).pipe(res);
-})
-
 ////////////
 // UPDATE //
 ////////////
@@ -84,4 +66,4 @@ export const deleteCareProtocolController: RequestHandler = asyncHandler(async (
     res.json({ success: true })
 })
 
-// 196 lineas -> 85 lineas
+// 196 lineas -> 85 lineas -> 67 lineas

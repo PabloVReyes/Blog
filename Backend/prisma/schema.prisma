@@ -459,6 +459,10 @@ model pbm {
   @@index([fileId])
 }
 
+////////////////////
+// ALGORITMOS GPC //
+////////////////////
+
 model gpc {
   id          String @id @default(uuid())
   orderIndex  Int
@@ -480,16 +484,18 @@ model cycle {
   gpcs gpc[]
 }
 
+////////////////////////////
+// PROTOCOLOS DE ATENCION //
+////////////////////////////
+
 model CareProtocols {
   id          String                 @id @default(uuid())
   category    CategoryCareProtocols? @relation(fields: [categoryCareProtocolsId], references: [id])
   title       String
   description String
 
-  fileName String?
-  filePath String?
-  fileSize Int?
-  mimeType String?
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 
   categoryCareProtocolsId String?
 }
@@ -827,6 +833,7 @@ model File {
   clinicalGuidelines   ClinicalPracticeGuidelines[] @relation("GuidelineER")
   clinicalGuidelinesRR ClinicalPracticeGuidelines[] @relation("GuidelineRR")
   pbms                 pbm[]
+  careProtocols        CareProtocols[]
 }
 
 // 798 lineas

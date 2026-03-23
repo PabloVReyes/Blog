@@ -3,8 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { CareProtocolsData } from "@/features/Systems/types/careProtocols.types"
 
-export const ActionsCareProtocols = ({ id, ...props }: any) => {
+export const ActionsCareProtocols = ({ id, ...props }: CareProtocolsData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

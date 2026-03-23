@@ -21,10 +21,15 @@ export const postCareProtocolsService = async (dto: CareProtocolsCreateDto) => {
         title,
         description,
         category,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        filePath: file?.path ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     })
 }
 
@@ -72,20 +77,6 @@ export const getCategoryWithCareProtocolsService = async (dto: schema.GetCarePro
     }
 }
 
-export const dowloadCareProtocolFileService = async (id: string) => {
-    const Protocol = await repo.getCareProtocolByIdRepository(id)
-
-    if (!Protocol || !Protocol.filePath) {
-        throw new Error("Algoritmo no encontrado")
-    }
-
-    return {
-        filePath: Protocol.filePath,
-        fileName: Protocol.fileName
-    }
-}
-
-
 ////////////
 // UPDATE //
 ////////////
@@ -93,33 +84,26 @@ export const dowloadCareProtocolFileService = async (id: string) => {
 export const putCareProtocolsService = async (id: string, dto: CareProtocolsUpdateDto) => {
     const { title, description, category, file } = dto
 
-    const Protocol: any = await repo.getCareProtocolByIdRepository(id)
+    const existingItem = await repo.getCareProtocolByIdRepository(id)
 
-    const props: any = {
+    if (!existingItem) {
+        throw new Error("El sistema no existe")
+    }
+
+    const props = {
         id,
         title,
         description,
-        category
-    }
-
-    if (file) {
-        if (Protocol.filePath) {
-            try {
-                if (Protocol.filePath) {
-                    const fs = await import("fs/promises");
-                    await fs.unlink(Protocol.filePath).catch(() => { });
+        category,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
                 }
-
-
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.filePath = file.path;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+                : null
     }
 
     return await repo.putCareProtocolRepository(props)
@@ -134,11 +118,6 @@ export const deleteCareProtocolsService = async (id: string) => {
 
     if (!Protocol) {
         throw new Error("Algoritmo no encontrada")
-    }
-
-    if (Protocol.filePath) {
-        const fs = await import("fs/promises");
-        await fs.unlink(Protocol.filePath).catch(() => { });
     }
 
     return await repo.deleteCareProtocolsRepository(id)

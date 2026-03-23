@@ -5,10 +5,3 @@ export const fetchCareCategory = async () => {
     return response.data
 }
 
-export const downloadProtocol = async (id: string) => {
-    const response = await api.get(`/api/systems/care-protocols/protocols/${id}/download`, {
-        responseType: "blob" // 👈 CLAVE
-    })
-    return response
-}
-

@@ -2,76 +2,22 @@ import { Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@manti
 import styles from "./Protocol.module.css"
 import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-react"
 import { formatFileSize } from "@/utils"
-import { downloadProtocol } from "../../api"
+import type { CareProtocolsData } from "@/features/Systems/types/careProtocols.types"
+import { useDownloadFile } from "@/hooks"
 
-interface Props {
-    id: string;
-    title: string;
-    fileSize: number;
+interface Props extends CareProtocolsData {
     color: string;
-    description: string;
 }
 
-export const Protocol = ({ id, title, fileSize, color, description }: Props) => {
-    const download = async (id: string) => {
-        try {
-            const response = await downloadProtocol(id)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
-    const view = async (id: string) => {
-        try {
-            const response = await downloadProtocol(id)
-
-            const blob = new Blob([response.data], {
-                type: "application/pdf",
-            });
-
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
+export const Protocol = ({ title, file, fileId, color, description }: Props) => {
+    const { download, view } = useDownloadFile()
     return (
         <Card
+            mt={"sm"}
             className={styles.group}
         >
             <Flex justify="space-between" align="flex-start">
-                <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
+                <Flex gap="md" align="center" style={{ flex: 1 }}>
                     <ThemeIcon
                         size={56}
                         variant="light"
@@ -89,7 +35,7 @@ export const Protocol = ({ id, title, fileSize, color, description }: Props) => 
                             {description}
                         </Text>
                         <Text size="xs" c="dimmed">
-                            {formatFileSize(fileSize)}
+                            {formatFileSize(file?.size ?? 0)}
                         </Text>
                     </Stack>
                 </Flex>
@@ -101,7 +47,7 @@ export const Protocol = ({ id, title, fileSize, color, description }: Props) => 
                         p={6}
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => download(id)}
+                        onClick={() => download(fileId)}
                     >
                         <IconDownload size={20} />
                     </Button>
@@ -111,7 +57,7 @@ export const Protocol = ({ id, title, fileSize, color, description }: Props) => 
                         color="gray"
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => view(id)}
+                        onClick={() => view(fileId)}
                     >
                         <IconExternalLink size={20} />
                     </Button>

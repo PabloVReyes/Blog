@@ -42,7 +42,6 @@ export const upload = multer({
 });
 
 router.get("/", controller.getSystemsController)
-router.get("/:id/download", controller.downloadSystemFileController)
 router.put("/:id", upload.single("file"), controller.putSystemController)
 router.post("/", upload.single("file"), controller.postSystemController)
 router.delete("/:id", controller.deleteSystemController)

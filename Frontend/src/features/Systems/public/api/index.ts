@@ -37,7 +37,6 @@ export {
 
 export {
     fetchCareCategory,
-    downloadProtocol
 } from "./CareProtocols"
 
 export {

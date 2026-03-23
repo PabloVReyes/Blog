@@ -7,27 +7,9 @@ import { Notify } from "@/ui"
 import { Badge, Text } from "@mantine/core"
 import { useSystemsCareProtocolsApiStore } from "@/stores"
 import type { Column } from "@/types"
+import type { CareProtocolsData } from "../../types/careProtocols.types"
 
-export interface Row {
-    id: string;
-    title: string;
-    description: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    categoryCareProtocolsId: string;
-    category: Category;
-}
-
-export interface Category {
-    id: string;
-    name: string;
-}
-
-
-
-const columns: Column<Row>[] = [
+const columns: Column<CareProtocolsData>[] = [
     {
         key: "title",
         label: "Título",
@@ -39,8 +21,8 @@ const columns: Column<Row>[] = [
         align: 'left',
     },
     {
-        key: "cycle",
-        label: "Ciclo",
+        key: "category",
+        label: "Categoria",
         align: 'center',
         miw: 150,
         render: (row) => {
@@ -60,7 +42,7 @@ const columns: Column<Row>[] = [
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileName}</Text>
+                >{row.file?.name}</Text>
             )
         }
     },
