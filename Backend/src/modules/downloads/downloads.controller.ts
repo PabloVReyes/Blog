@@ -37,22 +37,6 @@ export const postCategoryController: RequestHandler = asyncHandler(async (req: R
 // READ //
 //////////
 
-export const downloadFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadFileParamsSchema.parse(req.params)
-    const data: any = await service.downloadFileService(params.id)
-    const mimeType = data.mimeType || "application/octet-stream"
-    res.setHeader("Content-Type", mimeType)
-    res.setHeader("Access-Control-Expose-Headers", "Content-Disposition")
-    if (mimeType === "application/pdf") {
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename="${data.fileName}"`
-        )
-        return res.sendFile(data.filePath)
-    }
-    return res.download(data.filePath, data.fileName)
-})
-
 export const getDownloadsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const dto = schema.getDownloadsSchema.parse(req.query)
     const data = await service.getDownloadsService(dto)
@@ -119,4 +103,4 @@ export const deleteAreaController: RequestHandler = asyncHandler(async (req: Req
     res.json({ success: true })
 })
 
-// 348 lineas -> 120 lineas
+// 348 lineas -> 120 lineas -> 104 lineas

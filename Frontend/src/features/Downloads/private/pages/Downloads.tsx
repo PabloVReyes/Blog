@@ -7,51 +7,9 @@ import { Text } from "@mantine/core"
 import { ActionsDownloads, AddDownloads } from "../components"
 import { useDownloadStore } from "@/stores"
 import type { Column } from "@/types"
+import type { DownloadData } from "../../types/download.types"
 
-export interface Row {
-    id: number;
-    name: string;
-    description: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    type: string;
-    isNew: boolean;
-    isActive: boolean;
-    order: null;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    category: Category;
-}
-
-export interface Category {
-    id: number;
-    name: string;
-    order: null;
-    isActive: boolean;
-    sectionId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    section: Category;
-    areaId: number;
-    area: Area;
-}
-
-export interface Area {
-    id: number;
-    name: string;
-    slug: string;
-    icon: string;
-    color: string;
-    isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-const columns: Column<Row>[] = [
+const columns: Column<DownloadData>[] = [
     {
         key: 'name',
         label: 'Nombre',
@@ -110,7 +68,7 @@ const columns: Column<Row>[] = [
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileName}</Text>
+                >{row.file?.name}</Text>
             )
         }
     },

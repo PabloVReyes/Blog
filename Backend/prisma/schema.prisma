@@ -193,14 +193,6 @@ model DerechohabienciaLink {
   derechohabienciaConfigId String?
 }
 
-enum HomeSectionType {
-  ALERT
-  CAROUSEL
-  CALENDAR
-  DERECHOHABIENCIA
-  ACCESS_CARD
-}
-
 ////////////////
 // DIRECTORIO //
 ////////////////
@@ -288,11 +280,6 @@ model Manual {
   @@index([manualTypeId])
 }
 
-enum ManualCategory {
-  STANDARD // MO, MP, DxSit, PT
-  EXTRA // Código Ético, Normatividad, etc
-}
-
 ////////////
 // CIE 10 //
 ////////////
@@ -338,13 +325,6 @@ model Report {
   @@index([type])
 }
 
-enum ReportType {
-  MONTHLY
-  ANNUAL
-  STATISTICAL
-  EXTRA
-}
-
 ///////////////
 // CONVENIOS //
 ///////////////
@@ -354,10 +334,7 @@ model AgreementPerson {
   name String
   type PersonType @default(HOLDER)
 
-  // Relaciones
-  // Quiénes son mis titulares (si soy dependiente)
   parents  FamilyLink[] @relation("DependentToParents")
-  // Quiénes son mis dependientes (si soy titular)
   children FamilyLink[] @relation("ParentToChildren")
 
   zoneId  Int
@@ -373,7 +350,7 @@ model FamilyLink {
   parent    AgreementPerson @relation("ParentToChildren", fields: [parentId], references: [id])
   dependent AgreementPerson @relation("DependentToParents", fields: [dependentId], references: [id])
 
-  @@id([parentId, dependentId]) // Llave primaria compuesta
+  @@id([parentId, dependentId])
 }
 
 model Zone {
@@ -388,11 +365,6 @@ model Group {
   name String @unique
 
   persons AgreementPerson[]
-}
-
-enum PersonType {
-  HOLDER
-  DEPENDENT
 }
 
 //////////
@@ -410,11 +382,6 @@ model Cbim {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum CBTCAEType {
-  CAE
-  CBT
 }
 
 ///////////////////////////////
@@ -543,25 +510,6 @@ model AdverseEvents {
 }
 
 // =======================
-// ENUMS
-// =======================
-
-enum MessageType {
-  INFO
-  WARNING
-  SUCCESS
-  ERROR
-}
-
-enum FileType {
-  DOCUMENT
-  IMAGE
-  VIDEO
-  AUDIO
-  OTHER
-}
-
-// =======================
 // AREA
 // =======================
 
@@ -583,21 +531,20 @@ model DownloadArea {
   @@index([isActive])
 }
 
-// =======================
-// AREA MESSAGE
-// =======================
+///////////////
+// DESCARGAS //
+///////////////
 
 model DownloadAreaMessage {
   id      Int         @id @default(autoincrement())
   title   String
   content String
-  icon    String? // Ej: "info-circle", "alert-triangle"
+  icon    String?
   type    MessageType @default(INFO)
 
   isActive Boolean @default(true)
   order    Int?
 
-  // Programación opcional
   startAt DateTime?
   endAt   DateTime?
 
@@ -610,10 +557,6 @@ model DownloadAreaMessage {
   @@index([areaId])
   @@index([isActive])
 }
-
-// =======================
-// SECTION
-// =======================
 
 model DownloadSection {
   id       Int     @id @default(autoincrement())
@@ -633,10 +576,6 @@ model DownloadSection {
   @@index([isActive])
 }
 
-// =======================
-// CATEGORY (Agrupación interna)
-// =======================
-
 model DownloadCategory {
   id       Int     @id @default(autoincrement())
   name     String
@@ -655,19 +594,13 @@ model DownloadCategory {
   @@index([isActive])
 }
 
-// =======================
-// DOWNLOAD FILE
-// =======================
-
 model DownloadFile {
   id          Int     @id @default(autoincrement())
   name        String
   description String? @db.LongText
 
-  fileName String?
-  filePath String?
-  fileSize Int?
-  mimeType String?
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 
   type FileType @default(DOCUMENT)
 
@@ -684,6 +617,7 @@ model DownloadFile {
   @@index([categoryId])
   @@index([isActive])
   @@index([type])
+  @@index([fileId])
 }
 
 model uveh {
@@ -785,11 +719,6 @@ model CertificationSection {
   updatedAt DateTime @updatedAt
 }
 
-enum ShiftFileType {
-  CALENDAR
-  INDEX
-}
-
 model ShiftType {
   id        Int      @id @default(autoincrement())
   name      String   @unique // "Matutino - Vespertino"
@@ -842,6 +771,59 @@ model File {
   pbms                 pbm[]
   careProtocols        CareProtocols[]
   adverseEvents        AdverseEvents[]
+  downloadFiles        DownloadFile[]
 }
 
-// 798 lineas
+///////////
+// ENUMS //
+///////////
+
+enum HomeSectionType {
+  ALERT
+  CAROUSEL
+  CALENDAR
+  DERECHOHABIENCIA
+  ACCESS_CARD
+}
+
+enum ManualCategory {
+  STANDARD // MO, MP, DxSit, PT
+  EXTRA // Código Ético, Normatividad, etc
+}
+
+enum ReportType {
+  MONTHLY
+  ANNUAL
+  STATISTICAL
+  EXTRA
+}
+
+enum PersonType {
+  HOLDER
+  DEPENDENT
+}
+
+enum CBTCAEType {
+  CAE
+  CBT
+}
+
+enum MessageType {
+  INFO
+  WARNING
+  SUCCESS
+  ERROR
+}
+
+enum ShiftFileType {
+  CALENDAR
+  INDEX
+}
+
+enum FileType {
+  DOCUMENT
+  IMAGE
+  VIDEO
+  AUDIO
+  OTHER
+}

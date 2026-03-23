@@ -3,50 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { DownloadData } from "@/features/Downloads/types/download.types"
 
-export interface Props {
-    id: number;
-    name: string;
-    description: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    type: string;
-    isNew: boolean;
-    isActive: boolean;
-    order: null;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    category: Category;
-}
-
-export interface Category {
-    id: number;
-    name: string;
-    order: null;
-    isActive: boolean;
-    sectionId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    section: Category;
-    areaId: number;
-    area: Area;
-}
-
-export interface Area {
-    id: number;
-    name: string;
-    slug: string;
-    icon: string;
-    color: string;
-    isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const ActionsDownloads = ({ id, ...props }: Props) => {
+export const ActionsDownloads = ({ id, ...props }: DownloadData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

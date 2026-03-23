@@ -20,7 +20,6 @@ const columns: Column<PMBData>[] = [
         label: 'Algoritmo',
         align: 'left',
         render: (row) => {
-            console.log(row)
             return (
                 <Text size="sm"
                     style={{

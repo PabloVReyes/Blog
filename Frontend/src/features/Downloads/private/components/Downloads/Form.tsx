@@ -25,7 +25,7 @@ export interface DownloadFormValues {
     description: string;
     isNew: boolean;
     type: "DOCUMENT" | "IMAGE" | "";
-    area: number;
+    area: number | null;
     section: number | null;
     category: string | null;
     file: File | null;
@@ -46,7 +46,7 @@ interface Props {
     onSubmit: (values: DownloadFormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
-    fileName?: string;
+    fileName?: string | null;
 }
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
@@ -72,7 +72,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     const fecthSectionsData = async () => {
         setLoadingSections(true)
         try {
-            const res = await fetchSections(form.values.area);
+            const res = await fetchSections(form.values.area ?? "");
             const formatted = res.data.map((item: Section) => ({
                 value: item.id.toString(),
                 label: item.name

@@ -1,11 +1,10 @@
-export interface Download {
+import type { FileData } from "@/types";
+
+export interface DownloadData {
     id: number;
     name: string;
     description: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
+    fileId: string;
     type: string;
     isNew: boolean;
     isActive: boolean;
@@ -13,6 +12,7 @@ export interface Download {
     categoryId: number;
     createdAt: Date;
     updatedAt: Date;
+    file: FileData | null;
     category: Category;
 }
 
@@ -38,10 +38,4 @@ export interface Area {
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
-}
-
-export interface DownloadFilters {
-    page?: number;
-    limit?: number;
-    search?: string;
 }

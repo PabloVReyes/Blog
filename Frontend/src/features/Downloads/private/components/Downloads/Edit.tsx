@@ -4,50 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
 import { useDownloadStore } from "@/stores"
+import type { DownloadData } from "@/features/Downloads/types/download.types"
 
-export interface Props {
-    id: number;
-    name: string;
-    description: string;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    type: string;
-    isNew: boolean;
-    isActive: boolean;
-    order: null;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    category: Category;
-}
-
-export interface Category {
-    id: number;
-    name: string;
-    order: null;
-    isActive: boolean;
-    sectionId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    section: Category;
-    areaId: number;
-    area: Area;
-}
-
-export interface Area {
-    id: number;
-    name: string;
-    slug: string;
-    icon: string;
-    color: string;
-    isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const Edit = (file: Props) => {
+export const Edit = (file: DownloadData) => {
     const update = useDownloadStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -69,7 +28,7 @@ export const Edit = (file: Props) => {
             area: (value) => validateSelect(value, { required: true }),
             section: (value, values) => validateSelect(value, { required: values.area != null }),
             category: (value, values) => validateSelect(value, { required: values.section != null }),
-            file: (value) => validateFile(value, { required: true, existingFileName: file.fileName })
+            file: (value) => validateFile(value, { required: true, existingFileName: file.file?.name })
         }
     })
 
@@ -105,7 +64,7 @@ export const Edit = (file: Props) => {
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={file.fileName}
+            fileName={file.file?.name}
         />
     )
 }

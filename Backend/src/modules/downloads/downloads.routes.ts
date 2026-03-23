@@ -45,7 +45,6 @@ router.get("/categories/:section", controller.getCategoriesBySectionController)
 
 // Descargas
 router.get('/', controller.getDownloadsController)
-router.get('/download/:id', controller.downloadFileController)
 router.post('/', upload.single("file"), controller.postDownloadController)
 router.put('/:id', upload.single("file"), controller.putDownloadController)
 router.delete('/:id', controller.deleteDownloadController)

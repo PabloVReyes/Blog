@@ -2,20 +2,25 @@ import { database } from "../../config/prisma"
 import * as schema from "./downloads.schema"
 import { PaginationProps } from "../../types/pagination"
 import { logger } from "../../utils/logger";
+import * as path from "path"
+import * as fs from "fs/promises"
 
 ////////////
 // CREATE //
 ////////////
+
 interface PostDownloadRepositoryProps {
     name: string;
     description?: string | null,
     isNew: boolean;
     type: "DOCUMENT" | "IMAGE"
     categoryId: number
-    fileName: string | null;
-    filePath: string | null;
-    fileSize: number | null;
-    mimeType: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null
 }
 
 export const postDownloadRepository = async ({
@@ -24,24 +29,30 @@ export const postDownloadRepository = async ({
     isNew,
     type,
     categoryId,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PostDownloadRepositoryProps) => {
     try {
-        return await database.downloadFile.create({
-            data: {
-                name,
-                description,
-                isNew,
-                type,
-                categoryId,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
+        return await database.$transaction(async (tx) => {
+            let fileId: string | null = null
+
+            if (file) {
+                const createFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = createFile.id
             }
+
+            return await tx.downloadFile.create({
+                data: {
+                    name,
+                    description,
+                    isNew,
+                    type,
+                    categoryId,
+                    fileId
+                }
+            })
         })
     } catch (error) {
         logger.error({
@@ -119,7 +130,12 @@ export const postCategoryRepository = async ({ name, sectionId }: { name: string
 
 export const getDownloadByIdRepository = async (id: number) => {
     try {
-        return await database.downloadFile.findUnique({ where: { id } })
+        return await database.downloadFile.findUnique({
+            where: { id },
+            include: {
+                file: true
+            }
+        })
     } catch (error) {
         logger.error({
             error,
@@ -146,6 +162,7 @@ export const getDownloadsRepository = async ({ skip, take, search }: PaginationP
                 where,
                 orderBy: { createdAt: "asc" },
                 include: {
+                    file: true,
                     category: {
                         include: {
                             section: {
@@ -230,14 +247,17 @@ export const getAreaWithDownloadsRepository = async (slug: string) => {
                             where: {
                                 files: {
                                     some: {
-                                        isActive: true
-                                    }
+                                        isActive: true,
+                                    },
                                 }
                             },
                             include: {
                                 files: {
                                     where: {
                                         isActive: true
+                                    },
+                                    include: {
+                                        file: true
                                     }
                                 }
                             }
@@ -311,6 +331,10 @@ export const getCategoriesBySectionRepository = async (sectionId: number) => {
     }
 }
 
+////////////
+// UPDATE //
+////////////
+
 interface PutDownloadRepositoryProps extends PostDownloadRepositoryProps {
     id: number
 }
@@ -322,36 +346,64 @@ export const putDownloadRepository = async ({
     type,
     isNew,
     categoryId,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PutDownloadRepositoryProps) => {
     try {
-        return await database.downloadFile.update({
-            where: { id },
-            data: {
-                name,
-                description,
-                isNew,
-                type,
-                categoryId,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
-            },
-            include: {
-                category: {
-                    include: {
-                        section: {
-                            include: {
-                                area: true
+        return await database.$transaction(async (tx) => {
+            const current = await tx.downloadFile.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Descarga no encontrada")
+            }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            return await tx.downloadFile.update({
+                where: { id },
+                data: {
+                    name,
+                    description,
+                    isNew,
+                    type,
+                    categoryId,
+                    fileId
+                },
+                include: {
+                    category: {
+                        include: {
+                            section: {
+                                include: {
+                                    area: true
+                                }
                             }
                         }
-                    }
-                }
-            },
+                    },
+                    file: true
+                },
+            })
         })
     } catch (error) {
         logger.error({
@@ -362,9 +414,6 @@ export const putDownloadRepository = async ({
         throw new Error("Error al actualizar descarga")
     }
 }
-////////////
-// UPDATE //
-////////////
 
 interface PutAreaRepositoryProps extends PostAreaRepositoryProps {
     id: number
@@ -413,7 +462,32 @@ export const deleteAreaRepository = async (id: number) => {
 
 export const deleteDownloadRepository = async (id: number) => {
     try {
-        return await database.downloadFile.delete({ where: { id } })
+        return await database.$transaction(async (tx) => {
+            const current = await tx.downloadFile.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.downloadFile.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         logger.error({
             error,

@@ -257,7 +257,6 @@ export const deleteSystemRepository = async (id: string) => {
                 where: { id }
             })
         })
-
     } catch (error) {
         logger.error(
             {

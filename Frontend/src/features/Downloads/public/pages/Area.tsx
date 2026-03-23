@@ -7,6 +7,7 @@ import { Container } from "@/components"
 import classes from "./Areas.module.css"
 import { getCicloColor } from "@/utils"
 import { Download } from "../components"
+import type { FileData } from "@/types"
 
 interface Data {
     id: number;
@@ -31,24 +32,7 @@ export interface Section {
     updatedAt: Date;
     categories?: Section[];
     sectionId?: number;
-    files?: File[];
-}
-
-export interface File {
-    id: number;
-    name: string;
-    description: null;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    type: string;
-    isNew: boolean;
-    isActive: boolean;
-    order: null;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
+    files: FileData[] | null;
 }
 
 export const Area = () => {
