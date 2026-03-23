@@ -13,24 +13,6 @@ export const getAdverseEventsController: RequestHandler = asyncHandler(async (re
     res.json(data)
 })
 
-export const downloadAdverseEventsFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadAdverseEventFileSchema.parse(req.params)
-    const data = await service.downloadAdverseEventsFileService(params.type)
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-        "Content-Disposition",
-        `inline; filename="${data.fileName}"`
-    );
-
-    res.setHeader(
-        "Access-Control-Expose-Headers",
-        "Content-Disposition"
-    );
-
-    fs.createReadStream(data.filePath).pipe(res);
-})
-
 ////////////
 // UPDATE //
 ////////////
@@ -52,4 +34,4 @@ export const deleteAdverseEventController: RequestHandler = asyncHandler(async (
     res.json(data)
 })
 
-// 120 lineas -> 53 lineas
+// 120 lineas -> 53 lineas -> 35 lineas

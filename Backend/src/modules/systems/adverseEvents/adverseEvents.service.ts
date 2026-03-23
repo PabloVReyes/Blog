@@ -17,65 +17,34 @@ export const getAdverseEventsService = async () => {
 ////////////
 
 export const putAdverseEventService = async (id: string, file?: Express.Multer.File) => {
-    const AdverseEvent: any = await repo.getAdverseEventsByIdRepository(id)
+    const existingItem = await repo.getAdverseEventsByIdRepository(id)
 
-    if (file) {
-        if (AdverseEvent.filePath) {
-            try {
-                if (AdverseEvent.filePath) {
-                    const fs = await import("fs/promises");
-                    await fs.unlink(AdverseEvent.filePath).catch(() => { });
-                }
-
-
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
+    if (!existingItem) {
+        throw new Error("El sistema no existe")
     }
 
-    return await repo.putAdverseEvent({
+    const props = {
         id,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        filePath: file?.path ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null
-    })
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
+    }
+
+    return await repo.putAdverseEvent(props)
 }
 
 export const deleteAdverseEventService = async (id: string) => {
     const AdverseEvent = await repo.getAdverseEventsByIdRepository(id)
 
     if (!AdverseEvent) {
-        throw new Error("Evento adverso no guardado")
+        throw new Error("Evento adverso no encontrado")
     }
 
-    if (!AdverseEvent.filePath) {
-        throw new Error("Archivo no encontrado")
-    }
-
-    if (AdverseEvent.filePath) {
-        const fs = await import("fs/promises");
-        await fs.unlink(AdverseEvent.filePath).catch(() => { });
-    }
-
-    return await repo.putAdverseEvent({
-        id,
-        fileName: null,
-        filePath: null,
-        fileSize: null,
-        mimeType: null,
-    })
-}
-
-export const downloadAdverseEventsFileService = async (type: string) => {
-    const AdverseEvent: any = await repo.getAdverseEventsByTypeRepository(type)
-
-
-    const { fileName, filePath } = AdverseEvent
-
-    return {
-        filePath: filePath,
-        fileName: fileName
-    }
+    return await repo.deleteAdverseEventRepository(id)
 }

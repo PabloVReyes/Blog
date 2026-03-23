@@ -4,13 +4,10 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validatePdf } from "@/utils/validators"
 import { useSystemsAdverseEventsStore } from "@/stores"
+import type { AdverseEventsData } from "../../types/adverseEvents.types"
 
-interface Props {
-    id: string;
-    fileName?: string
-}
 
-export const Edit = ({ id, fileName }: Props) => {
+export const Edit = ({ id, file }: AdverseEventsData) => {
     const update = useSystemsAdverseEventsStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -20,7 +17,7 @@ export const Edit = ({ id, fileName }: Props) => {
             file: null as File | null,
         },
         validate: {
-            file: (value) => validatePdf(value, { required: true, existingFileName: fileName })
+            file: (value) => validatePdf(value, { required: true, existingFileName: file?.name })
         }
     })
 
@@ -50,7 +47,7 @@ export const Edit = ({ id, fileName }: Props) => {
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={fileName}
+            fileName={file?.name}
         />
     )
 }

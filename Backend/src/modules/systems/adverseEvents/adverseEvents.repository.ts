@@ -1,5 +1,7 @@
 import { database } from "../../../config/prisma"
 import { logger } from "../../../utils/logger"
+import * as path from "path"
+import * as fs from "fs/promises"
 
 //////////
 // READ //
@@ -10,6 +12,9 @@ export const getAdverseEventsByTypeRepository = async (type: string) => {
         return await database.adverseEvents.findUnique({
             where: {
                 type
+            },
+            include: {
+                file: true
             }
         })
     } catch (error) {
@@ -29,7 +34,11 @@ export const getAdverseEventsByTypeRepository = async (type: string) => {
 export const getAdverseEventsRepository = async () => {
     try {
         const [data, total] = await Promise.all([
-            database.adverseEvents.findMany({}),
+            database.adverseEvents.findMany({
+                include: {
+                    file: true
+                }
+            }),
             database.adverseEvents.count({}),
         ])
 
@@ -49,7 +58,12 @@ export const getAdverseEventsRepository = async () => {
 
 export const getAdverseEventsByIdRepository = async (id: string) => {
     try {
-        return await database.adverseEvents.findUnique({ where: { id } })
+        return await database.adverseEvents.findUnique({ 
+            where: { id },
+            include: {
+                file: true
+            }
+        })
     } catch (error) {
         logger.error(
             {
@@ -70,28 +84,60 @@ export const getAdverseEventsByIdRepository = async (id: string) => {
 
 interface PutAdverseEventProps {
     id: string;
-    fileName: string | null;
-    filePath: string | null;
-    fileSize: number | null;
-    mimeType: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
 }
 
 export const putAdverseEvent = async ({
     id,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PutAdverseEventProps) => {
     try {
-        return await database.adverseEvents.update({
-            where: { id },
-            data: {
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
+        return await database.$transaction(async (tx) => {
+            const current = await tx.adverseEvents.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
             }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            return await tx.adverseEvents.update({
+                where: { id },
+                data: {
+                    fileId
+                },
+                include: {
+                    file: true
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -100,10 +146,57 @@ export const putAdverseEvent = async ({
                 operation: "putAdverseEvent",
                 entity: "AdverseEvents",
                 id,
-                payload: { fileName }
             },
             "Error updating adverse event"
         )
         throw new Error("Error en actualizar el evento adverso")
+    }
+}
+
+////////////
+// DELETE //
+////////////
+
+export const deleteAdverseEventRepository = async (id: string) => {
+    try {
+        return await database.$transaction(async (tx) => {
+            const current = await tx.adverseEvents.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.adverseEvents.update({
+                where: { id },
+                data: {
+                    fileId: null
+                }
+            })
+        })
+    } catch (error) {
+        logger.error(
+            {
+                error,
+                operation: "deleteAdverseEventRepository",
+                entity: "Adverse Event",
+                id
+            },
+            "Error deleting adverse event"
+        )
     }
 }

@@ -6,19 +6,9 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { Text } from "@mantine/core"
 import { useSystemsAdverseEventsStore } from "@/stores"
 import type { Column } from "@/types"
+import type { AdverseEventsData } from "../types/adverseEvents.types"
 
-interface Row {
-    id: string;
-    title: string;
-    type: string;
-    fileName: null | string;
-    filePath: null | string;
-    fileSize: null | string;
-    mimeType: null | string;
-}
-
-
-const columns: Column<Row>[] = [
+const columns: Column<AdverseEventsData>[] = [
     {
         key: 'title',
         label: 'Título',
@@ -29,7 +19,7 @@ const columns: Column<Row>[] = [
         label: 'Nombre',
         align: 'left',
         render: (row) => {
-            if (!row.fileName) {
+            if (!row.file) {
                 return (
                     <Text size="xs" c="dimmed">Sin archivo</Text>
                 )
@@ -41,7 +31,7 @@ const columns: Column<Row>[] = [
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileName}</Text>
+                >{row.file.name}</Text>
             )
         }
     },

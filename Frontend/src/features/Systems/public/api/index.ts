@@ -45,5 +45,5 @@ export {
 } from "./PatientSafety"
 
 export {
-    downloadAdverseEvent
+    fetchAdverseEvent
 } from "./AdverseEvents"

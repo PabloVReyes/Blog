@@ -506,6 +506,10 @@ model CategoryCareProtocols {
   careProtocols CareProtocols[]
 }
 
+////////////////////////////
+// SEGURIDAD DEL PACIENTE //
+////////////////////////////
+
 model Codes {
   id              String        @id @default(uuid())
   name            String
@@ -525,14 +529,17 @@ model CategoryCodes {
   codes Codes[]
 }
 
+//////////////////////
+// EVENTOS ADVERSOS //
+//////////////////////
+
 model AdverseEvents {
-  id       String  @id @default(uuid())
-  title    String
-  type     String  @unique
-  fileName String?
-  filePath String?
-  fileSize Int?
-  mimeType String?
+  id    String @id @default(uuid())
+  title String
+  type  String @unique
+
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 }
 
 // =======================
@@ -834,6 +841,7 @@ model File {
   clinicalGuidelinesRR ClinicalPracticeGuidelines[] @relation("GuidelineRR")
   pbms                 pbm[]
   careProtocols        CareProtocols[]
+  adverseEvents        AdverseEvents[]
 }
 
 // 798 lineas

@@ -1,33 +1,48 @@
 import { Container } from "@/components"
-import { downloadAdverseEvent } from "../api";
 import { Alert } from "@/ui";
 import { Box, Card, Group, Paper, SimpleGrid, Stack, Text, ThemeIcon } from "@mantine/core";
 import { IconAlertCircle, IconArrowNarrowRight, IconClipboardText, IconDownload, IconFileTypePdf, IconPointFilled, IconQrcode, IconSend } from "@tabler/icons-react";
 import classes from "./AdverseEvents.module.css"
+import { useEffect, useState } from "react";
+import { fetchAdverseEvent } from "../api";
+import type { FileData } from "@/types";
+import { useDownloadFile } from "@/hooks";
+
+export interface Data {
+    data: Datum[];
+    meta: Meta;
+}
+
+export interface Datum {
+    id: string;
+    title: string;
+    type: string;
+    fileId: string;
+    file: FileData | null;
+}
+
+export interface Meta {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    firstItem: number;
+    lastItem: number;
+}
 
 export const AdverseEvents = () => {
-    const view = async (type: string) => {
-        try {
-            const response = await downloadAdverseEvent(type)
+    const {view} = useDownloadFile()
+    const [data, setData] = useState<Data>({
+        data: [],
+        meta: { total: 0, page: 0, limit: 0, totalPages: 0, firstItem: 0, lastItem: 0 }
+    })
 
-            const blob = new Blob([response.data], {
-                type: "application/pdf",
-            });
+    useEffect(() => {
+        fetchAdverseEvent().then(setData)
+    }, [])
 
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
+    const qrItem = data.data.find(item => item.type === "qr");
+    const fileItem = data.data.find(item => item.type === "file");
 
     return (
         <Container
@@ -73,7 +88,7 @@ export const AdverseEvents = () => {
                 {/* ================= REPORTE EN LÍNEA ================= */}
                 <Paper
                     component="button"
-                    onClick={() => view("qr")}
+                    onClick={() => view(qrItem?.fileId ?? "")}
                     radius={15}
                     p="xl"
                     className={`${classes.card} ${classes.orange}`}
@@ -114,7 +129,7 @@ export const AdverseEvents = () => {
                 {/* ================= FORMATO FÍSICO ================= */}
                 <Paper
                     component="button"
-                    onClick={() => view("file")}
+                    onClick={() => view(fileItem?.fileId ?? "")}
                     radius={15}
                     p="xl"
                     className={`${classes.card} ${classes.blue}`}

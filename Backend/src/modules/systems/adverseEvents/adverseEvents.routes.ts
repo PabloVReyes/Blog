@@ -7,7 +7,7 @@ import { sanitizeFileName } from "../../../utils/file";
 const router: Router = Router()
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, "../../../../uploads/adverseEvents"),
+    destination: path.join(__dirname, "../../../../uploads"),
     filename: (req, file, cb) => {
         const safeName = sanitizeFileName(file.originalname);
 
@@ -32,7 +32,6 @@ export const upload = multer({
 });
 
 router.get("/", controller.getAdverseEventsController)
-router.get("/:type/download", controller.downloadAdverseEventsFileController)
 router.put("/:id", upload.single("file"), controller.putAdverseEventsController)
 router.delete("/:id", controller.deleteAdverseEventController)
 
