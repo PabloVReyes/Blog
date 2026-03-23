@@ -25,27 +25,6 @@ export const getJuristicsController: RequestHandler = asyncHandler(async (req: R
     res.json(data)
 })
 
-export const downloadJuristicFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadJuristicsSchema.parse(req.params)
-    const data: any = await service.downloadJuristicFileService(params.id)
-
-    const mimeType = data.mimeType || "application/octet-stream"
-
-    res.setHeader("Content-Type", mimeType)
-    res.setHeader("Access-Control-Expose-Headers", "Content-Disposition")
-
-    if (mimeType === "application/pdf") {
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename="${data.fileName}"`
-        )
-
-        return res.sendFile(data.filePath)
-    }
-
-    return res.download(data.filePath, data.fileName)
-})
-
 ////////////
 // UPDATE //
 ////////////

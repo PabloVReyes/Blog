@@ -7,22 +7,9 @@ import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { useJuristicStore } from "@/stores"
 import type { Column } from "@/types"
+import type { JuristicData } from "../../types/juristic.types"
 
-export interface Row {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-const columns: Column<Row>[] = [
+const columns: Column<JuristicData>[] = [
     {
         key: 'name',
         label: 'Nombre',
@@ -51,7 +38,7 @@ const columns: Column<Row>[] = [
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileName}</Text>
+                >{row.file?.name}</Text>
             )
         }
     },

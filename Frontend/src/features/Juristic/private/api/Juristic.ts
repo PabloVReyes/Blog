@@ -1,11 +1,11 @@
 import { createCrudApi } from "@/lib"
-import type { Juristic, JusristicFilters } from "../types/juristic.types"
+import type { JuristicData, JuristicFilter } from "../../types/juristic.types"
 
 export const juristicApi = createCrudApi<
-    Juristic,
+    JuristicData,
     FormData,
     FormData,
-    JusristicFilters
+    JuristicFilter
 >("api/juristics")
 
 // 29 lineas -> 21 lineas -> 9 lineas

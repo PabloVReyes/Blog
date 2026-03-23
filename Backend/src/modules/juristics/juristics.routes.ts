@@ -29,7 +29,6 @@ export const upload = multer({
 });
 
 router.get('/', controller.getJuristicsController)
-router.get('/download/:id', controller.downloadJuristicFileController)
 router.post('/', upload.single("file"), controller.postJuristicController)
 router.put('/:id', upload.single("file"), controller.putJuristicController)
 router.delete('/:id', controller.deleteJuristicController)

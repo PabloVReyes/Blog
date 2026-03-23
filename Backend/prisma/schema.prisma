@@ -683,19 +683,23 @@ model standardsCategory {
   updatedAt DateTime @updatedAt
 }
 
+/////////////////////////////
+// DISPOSICIONES JURIDICAS //
+/////////////////////////////
+
 model juristics {
   id          Int     @id @default(autoincrement())
   name        String
   description String? @db.LongText
   isNew       Boolean @default(false)
 
-  fileName String?
-  filePath String?
-  fileSize Int?
-  mimeType String?
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([fileId])
 }
 
 model Certification {
@@ -781,6 +785,7 @@ model File {
   downloadFiles        DownloadFile[]
   uvehs                Uveh[]
   standards            standards[]
+  juristics            juristics[]
 }
 
 ///////////

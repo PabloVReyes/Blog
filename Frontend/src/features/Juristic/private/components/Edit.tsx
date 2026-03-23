@@ -4,21 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName } from "@/utils"
 import { useJuristicStore } from "@/stores"
+import type { JuristicData } from "../../types/juristic.types"
 
-export interface Props {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const Edit = (file: Props) => {
+export const Edit = (file: JuristicData) => {
     const update = useJuristicStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -32,7 +20,7 @@ export const Edit = (file: Props) => {
         },
         validate: {
             name: (value) => validateName(value, { required: true }),
-            file: (value) => validateFile(value, { required: true, existingFileName: file.fileName })
+            file: (value) => validateFile(value, { required: true, existingFileName: file.file?.name })
         }
     })
 
@@ -65,7 +53,7 @@ export const Edit = (file: Props) => {
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={file.fileName}
+            fileName={file.file?.name}
         />
     )
 }

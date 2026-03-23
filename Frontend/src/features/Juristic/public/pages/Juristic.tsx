@@ -4,23 +4,11 @@ import { Card, Center, Loader, Text, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Download } from "../components";
 import { fetchJuristics } from "../api";
+import type { JuristicData } from "../../types/juristic.types";
 
 export interface Data {
-    data: Datum[];
+    data: JuristicData[];
     meta: Meta;
-}
-
-export interface Datum {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    createdAt: Date;
-    updatedAt: Date;
 }
 
 export interface Meta {

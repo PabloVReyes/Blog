@@ -20,7 +20,6 @@ const columns: Column<StandardsData>[] = [
         label: 'Descripción',
         align: 'left',
         render: (row) => {
-            console.log(row)
             if (!row.description) {
                 return <Text size="xs" c="dimmed">------</Text>
             }
