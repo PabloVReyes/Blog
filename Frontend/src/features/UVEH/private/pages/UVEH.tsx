@@ -7,30 +7,9 @@ import { Notify } from "@/ui"
 import { Text } from "@mantine/core"
 import { useUVEHStore } from "@/stores"
 import type { Column } from "@/types"
+import type { UVEHData } from "../../types/UVEH.types"
 
-export interface Row {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    category: Category;
-}
-
-export interface Category {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-const columns: Column<Row>[] = [
+const columns: Column<UVEHData>[] = [
     {
         key: 'name',
         label: 'Nombre',
@@ -41,6 +20,7 @@ const columns: Column<Row>[] = [
         label: 'Descripción',
         align: 'left',
         render: (row) => {
+            console.log(row)
             if (!row.description) {
                 return <Text size="xs" c="dimmed">------</Text>
             }
@@ -69,7 +49,7 @@ const columns: Column<Row>[] = [
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileName}</Text>
+                >{row.file?.name}</Text>
             )
         }
     },

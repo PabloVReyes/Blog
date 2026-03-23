@@ -7,11 +7,11 @@ import { asyncHandler } from "../../utils/asyncHandler";
 // CREATE //
 ////////////
 
-export const postDownloadController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const postUVEHController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const body: schema.PostDownloadSchema = schema.postDownloadSchema.parse(req.body)
     const file = req.file
     const dto = { ...body, file }
-    await service.postDownloadService(dto)
+    await service.postUVEHService(dto)
     res.json({ success: true })
 })
 
@@ -30,49 +30,28 @@ export const getCategoriesController: RequestHandler = asyncHandler(async (req: 
     res.json(data)
 })
 
-export const getCategoriesWithDownloadsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const getCategoriesWithUVEHController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const dto = schema.getCategoryWithDownloadsSchema.parse(req.query)
-    const data = await service.getCategoriesWithDownloadsService(dto)
+    const data = await service.getCategoriesWithUVEHService(dto)
     res.json(data)
 })
 
-export const getDownloadsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const getUVEHController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const dto = schema.getDownloadsSchema.parse(req.query)
-    const data = await service.getDownloadsService(dto)
+    const data = await service.getUVEHService(dto)
     res.json(data)
-})
-
-export const downloadFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadFileSchema.parse(req.params)
-    const data: any = await service.downloadFileService(params.id)
-
-    const mimeType = data.mimeType || "application/octet-stream"
-
-    res.setHeader("Content-Type", mimeType)
-    res.setHeader("Access-Control-Expose-Headers", "Content-Disposition")
-
-    if (mimeType === "application/pdf") {
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename="${data.fileName}"`
-        )
-
-        return res.sendFile(data.filePath)
-    }
-
-    return res.download(data.filePath, data.fileName)
 })
 
 ////////////
 // UPDATE //
 ////////////
 
-export const putDownloadController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const putUVEHController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.putDownloadParamsSchema.parse(req.params)
     const body: schema.PutDownloadSchema = schema.putDownloadSchema.parse(req.body)
     const file = req.file
     const dto = { ...body, file }
-    const data = await service.putDownloadService(params.id, dto)
+    const data = await service.putUVEHService(params.id, dto)
     res.json(data)
 })
 
@@ -80,9 +59,9 @@ export const putDownloadController: RequestHandler = asyncHandler(async (req: Re
 // DELETE //
 ////////////
 
-export const deleteDownloadController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const deleteUVEHController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.deleteDownloadParamsSchema.parse(req.params)
-    await service.deleteDownloadService(params.id)
+    await service.deleteUVEHService(params.id)
     res.json({ success: true })
 })
 

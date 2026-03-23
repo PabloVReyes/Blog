@@ -1,26 +1,48 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination";
 import { logger } from "../../utils/logger";
+import * as path from "path"
+import * as fs from "fs/promises"
 
-//
-// CREATE 
-//
+////////////
+// CREATE //
+////////////
 
-interface PostDownloadRepositoryProps {
+interface PostUVEHRepositoryProps {
     name: string;
     description?: string | null
     isNew: boolean;
     categoryId: number
-    fileName: string | null;
-    filePath: string | null;
-    fileSize: number | null;
-    mimeType: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
 }
 
-export const postDownloadRepository = async (props: PostDownloadRepositoryProps) => {
+export const postUVEHRepository = async ({ name, description, isNew, categoryId, file }: PostUVEHRepositoryProps) => {
     try {
-        return await database.uveh.create({
-            data: props
+        return await database.$transaction(async (tx) => {
+            let fileId: string | null = null;
+
+            if (file) {
+                const createFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = createFile.id
+            }
+
+            return await tx.uveh.create({
+                data: {
+                    name,
+                    description,
+                    isNew,
+                    categoryId,
+                    fileId
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -28,7 +50,6 @@ export const postDownloadRepository = async (props: PostDownloadRepositoryProps)
                 error,
                 operation: "postDownloadRepository",
                 entity: "Uveh",
-                input: props
             },
             "Error al crear descarga"
         )
@@ -55,9 +76,9 @@ export const postCategoryRepository = async (name: string) => {
     }
 }
 
-//
+//////////
 // READ //
-//
+//////////
 
 export const getCategoriesRepository = async () => {
     try {
@@ -80,7 +101,7 @@ export const getCategoriesRepository = async () => {
     }
 }
 
-export const getCategoriesWithDownloadsRepository = async ({ skip, take, search }: PaginationProps) => {
+export const getCategoriesWithUVEHRepository = async ({ skip, take, search }: PaginationProps) => {
     try {
         const where = {
             uvehs: { some: {} },
@@ -99,7 +120,11 @@ export const getCategoriesWithDownloadsRepository = async ({ skip, take, search 
                     _count: {
                         select: { uvehs: true }
                     },
-                    uvehs: true
+                    uvehs: {
+                        include: {
+                            file: true
+                        }
+                    },
                 }
             }),
             database.uvehCategory.count({ where }),
@@ -120,7 +145,7 @@ export const getCategoriesWithDownloadsRepository = async ({ skip, take, search 
     }
 }
 
-export const getDownloadsRepository = async ({ search, take, skip }: PaginationProps) => {
+export const getUVEHRepository = async ({ search, take, skip }: PaginationProps) => {
     try {
         const where = {
             ...(search && {
@@ -138,7 +163,8 @@ export const getDownloadsRepository = async ({ search, take, skip }: PaginationP
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
-                    category: true
+                    category: true,
+                    file: true
                 }
             }),
             database.uveh.count({ where }),
@@ -159,7 +185,7 @@ export const getDownloadsRepository = async ({ search, take, skip }: PaginationP
     }
 }
 
-export const getDownloadByIdRepository = async (id: number) => {
+export const getUVEHByIdRepository = async (id: number) => {
     try {
         return await database.uveh.findUnique({ where: { id } })
     } catch (error) {
@@ -176,21 +202,61 @@ export const getDownloadByIdRepository = async (id: number) => {
     }
 }
 
-/////
-// UPDATE
-//
+////////////
+// UPDATE //
+////////////
 
-interface PutDownloadRepositoryProps extends PostDownloadRepositoryProps {
+interface PutUVEHRepositoryProps extends PostUVEHRepositoryProps {
     id: number
 }
 
-export const putDownloadRepository = async (props: PutDownloadRepositoryProps) => {
+export const putUVEHRepository = async ({ name, description, id, isNew, categoryId, file }: PutUVEHRepositoryProps) => {
     try {
-        const { id, ...data } = props
+        return await database.$transaction(async (tx) => {
+            const current = await tx.uveh.findUnique({
+                where: { id },
+                include: { file: true }
+            })
 
-        return await database.uveh.update({
-            where: { id },
-            data
+            if (!current) {
+                throw new Error("Sistema no encontrado")
+            }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            return await tx.uveh.update({
+                where: { id },
+                data: {
+                    name,
+                    description,
+                    isNew,
+                    categoryId,
+                    fileId
+                },
+                include: {
+                    file: true
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -198,7 +264,6 @@ export const putDownloadRepository = async (props: PutDownloadRepositoryProps) =
                 error,
                 operation: "putDownloadRepository",
                 entity: "Uveh",
-                input: props
             },
             "Error al actualizar descarga"
         )
@@ -210,9 +275,33 @@ export const putDownloadRepository = async (props: PutDownloadRepositoryProps) =
 // DELETE //
 //////////// 
 
-export const deleteDownloadRepository = async (id: number) => {
+export const deleteUVEHRepository = async (id: number) => {
     try {
-        return await database.uveh.delete({ where: { id } })
+        return await database.$transaction(async (tx) => {
+            const current = await tx.uveh.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("UVEH no encontrado")
+            }
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.uveh.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         logger.error(
             {

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { fetchDownlods } from "../api";
 import { getCicloColor } from "@/utils";
 import { Download } from "../components";
+import type { UVEHData } from "../../types/UVEH.types";
 
 export interface Data {
     data: Datum[];
@@ -17,25 +18,11 @@ export interface Datum {
     createdAt: Date;
     updatedAt: Date;
     _count: Count;
-    uvehs: Uveh[];
+    uvehs: UVEHData[];
 }
 
 export interface Count {
     uvehs: number;
-}
-
-export interface Uveh {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
 }
 
 export interface Meta {

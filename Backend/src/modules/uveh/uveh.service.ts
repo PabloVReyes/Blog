@@ -7,22 +7,27 @@ import * as path from "path"
 import { uploadsRoot } from "./path"
 import { logger } from "../../utils/logger"
 
-///
+////////////
 // CREATE //
-//
+////////////
 
-export const postDownloadService = async (dto: types.DownloadsCreateDto) => {
+export const postUVEHService = async (dto: types.DownloadsCreateDto) => {
     const { name, description, isNew, category, file } = dto
 
-    await repo.postDownloadRepository({
+    await repo.postUVEHRepository({
         name,
         description: description ?? null,
         isNew,
         categoryId: category,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        filePath: file?.filename ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     })
 }
 
@@ -31,9 +36,9 @@ export const postCategoryService = async (dto: schema.PostCategorySchema) => {
     return await repo.postCategoryRepository(name)
 }
 
-//
+//////////
 // READ //
-//
+//////////
 
 export const getCategoriesService = async () => {
     const { data, total } = await repo.getCategoriesRepository()
@@ -44,11 +49,11 @@ export const getCategoriesService = async () => {
     }
 }
 
-export const getCategoriesWithDownloadsService = async (dto: schema.GetCategoryWithDownloadsSchema) => {
+export const getCategoriesWithUVEHService = async (dto: schema.GetCategoryWithDownloadsSchema) => {
     const { page, limit, search } = dto
     const { skip, take } = getPagination(page, limit)
 
-    const { data, total } = await repo.getCategoriesWithDownloadsRepository({
+    const { data, total } = await repo.getCategoriesWithUVEHRepository({
         skip,
         take,
         search
@@ -60,11 +65,11 @@ export const getCategoriesWithDownloadsService = async (dto: schema.GetCategoryW
     }
 }
 
-export const getDownloadsService = async (dto: schema.GetDownloadsSchema) => {
+export const getUVEHService = async (dto: schema.GetDownloadsSchema) => {
     const { page, limit, search } = dto
     const { take, skip } = getPagination(page, limit)
 
-    const { data, total } = await repo.getDownloadsRepository({
+    const { data, total } = await repo.getUVEHRepository({
         skip,
         take,
         search
@@ -76,77 +81,49 @@ export const getDownloadsService = async (dto: schema.GetDownloadsSchema) => {
     }
 }
 
-export const downloadFileService = async (id: number) => {
-    const download = await repo.getDownloadByIdRepository(id)
+////////////
+// UPDATE //
+////////////
 
-    if (!download || !download.filePath) {
-        throw new Error("Archivo no encontrado")
-    }
-
-    const obsolutePath = path.join(uploadsRoot, download.filePath)
-
-    return {
-        filePath: obsolutePath,
-        fileName: download.fileName,
-        mimeType: download.mimeType
-    }
-}
-
-//
-// UPDATE
-// 
-
-export const putDownloadService = async (id: number, dto: types.DownloadsUpdateDto) => {
+export const putUVEHService = async (id: number, dto: types.DownloadsUpdateDto) => {
     const { name, description, isNew, category, file } = dto
 
-    const download: any = await repo.getDownloadByIdRepository(id)
+    const existingItem = await repo.getUVEHByIdRepository(id)
 
-    const props: any = {
+    if (!existingItem) {
+        throw new Error("UVEH no existe")
+    }
+
+    const props = {
         id,
         name,
         description: description ?? null,
         isNew,
-        categoryId: category
-    }
-
-    if (file) {
-        if (download.filePath) {
-            try {
-                if (download.filePath) {
-                    const obsolutePath = path.join(uploadsRoot, download.filePath)
-                    const fs = await import("fs/promises");
-                    await fs.unlink(obsolutePath).catch(() => { });
+        categoryId: category,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
                 }
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.filePath = file.filename;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+                : null
     }
 
-    return await repo.putDownloadRepository(props)
+    return await repo.putUVEHRepository(props)
 }
 
 ///
 // DELETE 
 //
 
-export const deleteDownloadService = async (id: number) => {
-    const download = await repo.getDownloadByIdRepository(id)
+export const deleteUVEHService = async (id: number) => {
+    const uveh = await repo.getUVEHByIdRepository(id)
 
-    if (!download) {
+    if (!uveh) {
         throw new Error("Descarga no encontrada")
     }
 
-    if (download.filePath) {
-        const obsolutePath = path.join(uploadsRoot, download.filePath)
-        const fs = await import("fs/promises");
-        await fs.unlink(obsolutePath).catch(() => { });
-    }
-
-    await repo.deleteDownloadRepository(id)
+    await repo.deleteUVEHRepository(id)
 }

@@ -4,37 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
 import { useUVEHStore } from "@/stores"
+import type { UVEHData } from "../../types/UVEH.types"
 
-export interface Data {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    category: Category;
-}
-
-export interface Category {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface Meta {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-}
-
-export const Edit = (file: Data) => {
+export const Edit = (file: UVEHData) => {
     const update = useUVEHStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -50,7 +22,7 @@ export const Edit = (file: Data) => {
         validate: {
             name: (value) => validateName(value, { required: true }),
             category: (value) => validateSelect(value, { required: true }),
-            file: (value) => validateFile(value, { required: true, existingFileName: file.fileName })
+            file: (value) => validateFile(value, { required: true, existingFileName: file.file?.name })
         }
     })
 
@@ -85,7 +57,7 @@ export const Edit = (file: Data) => {
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={file.fileName}
+            fileName={file.file?.name}
         />
     )
 }

@@ -620,29 +620,34 @@ model DownloadFile {
   @@index([fileId])
 }
 
-model uveh {
+///////////////////////////////
+// VIGILANCIA EPIDEMIOLOGICA //
+///////////////////////////////
+
+model Uveh {
   id          Int     @id @default(autoincrement())
   name        String
   description String? @db.LongText
   isNew       Boolean @default(false)
 
-  fileName String?
-  filePath String?
-  fileSize Int?
-  mimeType String?
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 
   categoryId Int
-  category   uvehCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   UvehCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([fileId])
 }
 
-model uvehCategory {
+model UvehCategory {
   id   Int    @id @default(autoincrement())
   name String
 
-  uvehs uveh[]
+  uvehs Uveh[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -772,6 +777,7 @@ model File {
   careProtocols        CareProtocols[]
   adverseEvents        AdverseEvents[]
   downloadFiles        DownloadFile[]
+  uvehs                Uveh[]
 }
 
 ///////////

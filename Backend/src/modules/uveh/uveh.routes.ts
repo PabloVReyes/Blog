@@ -31,13 +31,12 @@ export const upload = multer({
 // Categorias
 router.post('/categories', controller.postCategoryController)
 router.get('/categories', controller.getCategoriesController)
-router.get('/categories-downloads', controller.getCategoriesWithDownloadsController)
+router.get('/categories-downloads', controller.getCategoriesWithUVEHController)
 
 // Descargas
-router.get('/', controller.getDownloadsController)
-router.get('/download/:id', controller.downloadFileController)
-router.post('/', upload.single("file"), controller.postDownloadController)
-router.put('/:id', upload.single("file"), controller.putDownloadController)
-router.delete('/:id', controller.deleteDownloadController)
+router.get('/', controller.getUVEHController)
+router.post('/', upload.single("file"), controller.postUVEHController)
+router.put('/:id', upload.single("file"), controller.putUVEHController)
+router.delete('/:id', controller.deleteUVEHController)
 
 export default router;
