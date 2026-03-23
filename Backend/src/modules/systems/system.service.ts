@@ -72,7 +72,7 @@ export const putSystemService = async (id: string, dto: type.SystemUpdateDto) =>
         throw new Error("El sistema no existe")
     }
 
-    if (type === "file" && !file) {
+    if (type === "file" && !existingItem.fileId && !file) {
         throw new Error("El archivo es requerido")
     }
 

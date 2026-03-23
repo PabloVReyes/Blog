@@ -19,10 +19,15 @@ export const postSdantardService = async (dto: types.StandarCreateDto) => {
         description: description ?? null,
         isNew,
         categoryId: category,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        filePath: file?.filename ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     })
 }
 
@@ -31,9 +36,9 @@ export const postCategoryService = async (dto: schema.PostCategorySchema) => {
     return await repo.postCategoryRepository(name)
 }
 
-////
-// READ 
-///
+//////////
+// READ //
+//////////
 
 export const getCategoriesService = async () => {
     const { data, total } = await repo.getCategoriesRepository()
@@ -60,78 +65,48 @@ export const getStandardsService = async (dto: schema.GetStandardSchema) => {
     }
 }
 
-export const downloadStandarFileService = async (id: number) => {
-    const Standar = await repo.getStandarByIdRepository(id)
-
-    if (!Standar || !Standar.filePath) {
-        throw new Error("Norma no encontrada")
-    }
-
-    const obsolutePath = path.join(uploadsRoot, Standar.filePath)
-
-    return {
-        filePath: obsolutePath,
-        fileName: Standar.fileName,
-        mimeType: Standar.mimeType
-    }
-}
-
-////
-// UPDATE
-///
+////////////
+// UPDATE //
+////////////
 
 export const putStandardService = async (id: number, dto: types.StandarUpdateDto) => {
     const { name, description, isNew, category, file } = dto
 
-    const standar: any = await repo.getStandarByIdRepository(id)
+    const existingItem = await repo.getStandarByIdRepository(id)
 
-    const props: any = {
+    if (!existingItem) {
+        throw new Error("La norma oficial no existe")
+    }
+    
+    const props = {
         id,
         name,
         description: description ?? null,
         isNew,
-        categoryId: category
-    }
-
-    if (file) {
-        if (standar.filePath) {
-            try {
-                if (standar.filePath) {
-                    const obsolutePath = path.join(uploadsRoot, standar.filePath)
-                    const fs = await import("fs/promises");
-                    await fs.unlink(obsolutePath).catch(() => { });
+        categoryId: category,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
                 }
-
-
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.filePath = file.filename;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+                : null
     }
 
     return await repo.putStandarRepository(props)
 }
 
-///
+////////////
 // DELETE //
-// 
+////////////
 
 export const deleteStandardService = async (id: number) => {
     const standar = await repo.getStandarByIdRepository(id)
 
     if (!standar) {
-        throw new Error("Descarga no encontrada")
-    }
-
-    if (standar.filePath) {
-        const obsolutePath = path.join(uploadsRoot, standar.filePath)
-        const fs = await import("fs/promises");
-        await fs.unlink(obsolutePath).catch(() => { });
+        throw new Error("Norma oficial no encontrada")
     }
 
     await repo.deleteStandarRepository(id)

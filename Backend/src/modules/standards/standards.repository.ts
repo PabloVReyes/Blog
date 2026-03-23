@@ -1,6 +1,8 @@
 import { database } from "../../config/prisma";
 import { PaginationProps } from "../../types/pagination";
 import { logger } from "../../utils/logger";
+import * as path from "path"
+import * as fs from "fs/promises"
 
 ////////////
 // CREATE //
@@ -11,10 +13,12 @@ interface PostStandarRepositoryProps {
     description?: string | null
     isNew: boolean;
     categoryId: number
-    fileName: string | null;
-    filePath: string | null;
-    fileSize: number | null;
-    mimeType: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null;
 }
 
 export const postStandarRepository = async ({
@@ -22,23 +26,29 @@ export const postStandarRepository = async ({
     description,
     isNew,
     categoryId,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PostStandarRepositoryProps) => {
     try {
-        return await database.standards.create({
-            data: {
-                name,
-                description,
-                isNew,
-                categoryId,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
+        return await database.$transaction(async (tx) => {
+            let fileId: string | null = null
+
+            if (file) {
+                const createFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = createFile.id
             }
+
+            return await tx.standards.create({
+                data: {
+                    name,
+                    description,
+                    isNew,
+                    categoryId,
+                    fileId
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -119,7 +129,8 @@ export const getStandardsRepository = async ({ skip, take, search }: PaginationP
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
-                    category: true
+                    category: true,
+                    file: true
                 }
             }),
             database.standards.count({ where }),
@@ -171,27 +182,58 @@ export const putStandarRepository = async ({
     description,
     isNew,
     categoryId,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PutStandarRepositoryProps) => {
     try {
-        return await database.standards.update({
-            where: { id },
-            data: {
-                name,
-                description,
-                isNew,
-                categoryId,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
-            },
-            include: {
-                category: true
+        return await database.$transaction(async (tx) => {
+            const current = await tx.standards.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Norma Oficial no encontrada")
             }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            return await tx.standards.update({
+                where: {
+                    id
+                },
+                data: {
+                    name,
+                    description,
+                    isNew,
+                    categoryId,
+                    fileId
+                },
+                include: {
+                    category: true,
+                    file: true
+                }
+            })
+
         })
     } catch (error) {
         logger.error(
@@ -214,7 +256,32 @@ export const putStandarRepository = async ({
 
 export const deleteStandarRepository = async (id: number) => {
     try {
-        return await database.standards.delete({ where: { id } })
+        return await database.$transaction(async (tx) => {
+            const current = await tx.standards.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.standards.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         logger.error(
             {

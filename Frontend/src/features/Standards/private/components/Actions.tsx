@@ -3,30 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { StandardsData } from "../../types/standards.types"
 
-export interface Props {
-    id: number
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    category: Category;
-}
-
-export interface Category {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const Actions = ({ id, ...props }: Props) => {
+export const Actions = ({ id, ...props }: StandardsData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

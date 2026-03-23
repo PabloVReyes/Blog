@@ -1,16 +1,16 @@
-export interface Standards {
+import type { FileData } from "@/types";
+
+export interface StandardsData {
     id: number;
     name: string;
     description: string;
     isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
+    fileId: string;
     categoryId: number;
     createdAt: Date;
     updatedAt: Date;
     category: Category;
+    file: FileData | null;
 }
 
 export interface Category {
@@ -18,10 +18,4 @@ export interface Category {
     name: string;
     createdAt: Date;
     updatedAt: Date;
-}
-
-export interface StandardsFilter {
-    page?: number;
-    limit?: number;
-    search?: string;
 }

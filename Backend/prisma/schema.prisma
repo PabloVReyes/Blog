@@ -653,16 +653,18 @@ model UvehCategory {
   updatedAt DateTime @updatedAt
 }
 
+//////////////////////
+// NORMAS OFICIALES //
+//////////////////////
+
 model standards {
   id          Int     @id @default(autoincrement())
   name        String
   description String? @db.LongText
   isNew       Boolean @default(false)
 
-  fileName String?
-  filePath String?
-  fileSize Int?
-  mimeType String?
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 
   categoryId Int
   category   standardsCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
@@ -778,6 +780,7 @@ model File {
   adverseEvents        AdverseEvents[]
   downloadFiles        DownloadFile[]
   uvehs                Uveh[]
+  standards            standards[]
 }
 
 ///////////

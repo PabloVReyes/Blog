@@ -36,26 +36,6 @@ export const getSdandarsController: RequestHandler = asyncHandler(async (req: Re
     res.json(data)
 })
 
-export const downloadStandarFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadStandardSchema.parse(req.params)
-    const data: any = await service.downloadStandarFileService(params.id)
-    const mimeType = data.mimeType || "application/octet-stream"
-
-    res.setHeader("Content-Type", mimeType)
-    res.setHeader("Access-Control-Expose-Headers", "Content-Disposition")
-
-    if (mimeType === "application/pdf") {
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename="${data.fileName}"`
-        )
-
-        return res.sendFile(data.filePath)
-    }
-
-    return res.download(data.filePath, data.fileName)
-})
-
 ////////////
 // UPDATE //
 ////////////
@@ -79,4 +59,4 @@ export const deleteStandarController: RequestHandler = asyncHandler(async (req: 
     res.json({ success: true })
 })
 
-// 200 lineas -> 80 lineas
+// 200 lineas -> 80 lineas -> 60 lineas

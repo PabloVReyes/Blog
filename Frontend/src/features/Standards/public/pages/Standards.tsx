@@ -4,33 +4,12 @@ import { Card, Center, Loader, Text, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { fetchStandards } from "../api";
 import { Standar } from "../components";
+import type { StandardsData } from "../../types/standards.types";
 
 export interface Data {
-    data: Datum[];
+    data: StandardsData[];
     meta: Meta;
-}
-
-export interface Datum {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    category: Category;
-}
-
-export interface Category {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
+} 
 
 export interface Meta {
     total: number;

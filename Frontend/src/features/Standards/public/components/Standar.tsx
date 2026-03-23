@@ -1,86 +1,35 @@
-import { Badge, Button, Card, Flex, Group, Image, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
 import classes from "./Standar.module.css"
 import { colorMap, formatFileSize, resolveFileMeta } from "@/utils"
 import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-react"
-import { downloadFile } from "../api"
+import type { StandardsData } from "../../types/standards.types"
+import { useDownloadFile } from "@/hooks"
 
-export const Standar = ({ id, color, name, description, fileSize, mimeType, fileName, isNew, type, filePath, category }: any) => {
-    const download = async (id: string) => {
-        try {
-            const response = await downloadFile(id)
+interface Props extends StandardsData {
+    color: string;
+}
 
-            const disposition = response.headers["content-disposition"];
+export const Standar = ({ color, name, description, isNew, file, fileId, category }: Props) => {
+    const { download, view } = useDownloadFile()
 
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
-    const view = async (id: string) => {
-        try {
-            const response = await downloadFile(id)
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
-    const fileMeta = resolveFileMeta(mimeType, fileName)
+    const fileMeta = resolveFileMeta(file?.mimeType ?? "", file?.name ?? "")
     return (
         <Card
             className={classes.group}
         >
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
-                    {type === "IMAGE"
-                        ? <Image
-                            className={classes.image}
-                            src={`${`${import.meta.env.VITE_API_URL}/uploads/downloads/${filePath}`}`}
-                        />
-                        : <ThemeIcon
-                            size={56}
-                            variant="light"
-                            className={`${classes.iconWrapper}`}
-                            style={{
-                                '--icon-rgb': colorMap[color] || "#40c057" // fallback green
-                            } as React.CSSProperties}
-                        >
-                            <IconFileText size={28} />
-                        </ThemeIcon>
-                    }
+
+                    <ThemeIcon
+                        size={56}
+                        variant="light"
+                        className={`${classes.iconWrapper}`}
+                        style={{
+                            '--icon-rgb': colorMap[color] || "#40c057" // fallback green
+                        } as React.CSSProperties}
+                    >
+                        <IconFileText size={28} />
+                    </ThemeIcon>
 
                     <Stack gap={5} style={{ flex: 1 }}>
                         <Group>
@@ -104,7 +53,7 @@ export const Standar = ({ id, color, name, description, fileSize, mimeType, file
                                 {category.name}
                             </Badge>
                             <Text size="xs" c="dimmed">
-                                - {fileMeta.label} • {formatFileSize(fileSize)}
+                                - {fileMeta.label} • {formatFileSize(file?.size ?? 0)}
                             </Text>
                         </Group>
                     </Stack>
@@ -117,7 +66,7 @@ export const Standar = ({ id, color, name, description, fileSize, mimeType, file
                         p={6}
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => download(id)}
+                        onClick={() => download(fileId)}
                     >
                         <IconDownload size={20} />
                     </Button>
@@ -129,7 +78,7 @@ export const Standar = ({ id, color, name, description, fileSize, mimeType, file
                             color="gray"
                             radius="md"
                             style={{ minWidth: 0 }}
-                            onClick={() => view(id)}
+                            onClick={() => view(fileId)}
                         >
                             <IconExternalLink size={20} />
                         </Button>

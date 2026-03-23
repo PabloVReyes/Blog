@@ -34,7 +34,6 @@ router.get('/categories', controller.getCategoriesController)
 
 // Descargas
 router.get('/', controller.getSdandarsController)
-router.get('/download/:id', controller.downloadStandarFileController)
 router.post('/', upload.single("file"), controller.postStandarController)
 router.put('/:id', upload.single("file"), controller.putStandarController)
 router.delete('/:id', controller.deleteStandarController)
