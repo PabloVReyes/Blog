@@ -38,7 +38,7 @@ export const postJuristicsRepository = async ({
                 fileId = createFile.id
             }
 
-            return await tx.juristics.create({
+            return await tx.juristic.create({
                 data: {
                     name,
                     description,
@@ -76,7 +76,7 @@ export const getJuristicsRepository = async ({ skip, take, search }: PaginationP
         }
 
         const [data, total] = await Promise.all([
-            database.juristics.findMany({
+            database.juristic.findMany({
                 where,
                 orderBy: {
                     name: "asc",
@@ -85,7 +85,7 @@ export const getJuristicsRepository = async ({ skip, take, search }: PaginationP
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
             }),
-            database.juristics.count({ where }),
+            database.juristic.count({ where }),
         ])
 
         return { data, total }
@@ -104,7 +104,7 @@ export const getJuristicsRepository = async ({ skip, take, search }: PaginationP
 
 export const getJuristicsByIdRepository = async (id: number) => {
     try {
-        return await database.juristics.findUnique({ where: { id } })
+        return await database.juristic.findUnique({ where: { id } })
     } catch (error) {
         logger.error(
             {
@@ -135,7 +135,7 @@ export const putJuristicsRepository = async ({
 }: PutJuristicsRepositoryProps) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.juristics.findUnique({
+            const current = await tx.juristic.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -166,7 +166,7 @@ export const putJuristicsRepository = async ({
                 fileId = newFile.id
             }
 
-            return await tx.juristics.update({
+            return await tx.juristic.update({
                 where: { id },
                 data: {
                     name,
@@ -196,7 +196,7 @@ export const putJuristicsRepository = async ({
 export const deleteJuristicsRepository = async (id: number) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.standards.findUnique({
+            const current = await tx.standard.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -217,7 +217,7 @@ export const deleteJuristicsRepository = async (id: number) => {
                 })
             }
 
-            return await tx.standards.delete({
+            return await tx.standard.delete({
                 where: { id }
             })
         })

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,58 +6,61 @@ datasource db {
   provider = "mysql"
 }
 
-/// Usuarios
+// ==========================================
+// 🔐 USUARIOS Y SEGURIDAD
+// ==========================================
+
 model User {
-  id       String  @id @default(uuid())
-  name     String
-  email    String  @unique
-  password String
-  active   Boolean @default(true)
-
-  mustChangePassword Boolean @default(false)
-
-  roles       UserRole[]
-  lastLoginAt DateTime?
-  createdAt   DateTime   @default(now())
+  id                 String     @id @default(uuid())
+  name               String
+  email              String     @unique
+  password           String
+  active             Boolean    @default(true)
+  mustChangePassword Boolean    @default(false)
+  roles              UserRole[]
+  lastLoginAt        DateTime?
+  createdAt          DateTime   @default(now())
 }
 
 model Role {
-  id          String  @id @default(uuid())
-  name        String  @unique
+  id          String           @id @default(uuid())
+  name        String           @unique
   description String?
-
   users       UserRole[]
   permissions RolePermission[]
 }
 
 model Permission {
-  id          String  @id @default(uuid())
+  id          String           @id @default(uuid())
   name        String?
-  key         String  @unique
+  key         String           @unique
   description String?
-  active      Boolean @default(true)
-
-  roles RolePermission[]
+  active      Boolean          @default(true)
+  roles       RolePermission[]
 }
 
 model UserRole {
   userId String
   roleId String
 
-  user User @relation(fields: [userId], references: [id])
-  role Role @relation(fields: [roleId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@id([userId, roleId])
+  @@index([userId])
+  @@index([roleId])
 }
 
 model RolePermission {
   roleId       String
   permissionId String
 
-  role       Role       @relation(fields: [roleId], references: [id])
-  permission Permission @relation(fields: [permissionId], references: [id])
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
   @@id([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
 }
 
 model Setting {
@@ -72,11 +69,9 @@ model Setting {
   value String @db.LongText
 }
 
-// Limpiando base de datos
-
-////////////
-// INICIO //
-////////////
+// ==========================================
+// 🏠 INICIO / CMS
+// ==========================================
 
 model HomeSection {
   id         String          @id @default(uuid())
@@ -106,7 +101,9 @@ model AlertMessage {
   sectionId   String      @unique
   createdAt   DateTime    @default(now())
   updatedAt   DateTime?   @updatedAt
-  section     HomeSection @relation(fields: [sectionId], references: [id])
+  section     HomeSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId]) // 🚀 Optimiza búsquedas 1-a-1 desde HomeSection
 }
 
 model CarouselItem {
@@ -129,6 +126,9 @@ model CarouselItem {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([sectionId])
+  @@index([fileId])
 }
 
 model AccessCardItem {
@@ -147,7 +147,10 @@ model AccessCardItem {
   orderIndex Int
   isActive   Boolean     @default(true)
   sectionId  String
-  section    HomeSection @relation(fields: [sectionId], references: [id])
+  section    HomeSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId])
+  @@index([fileId])
 }
 
 model CalendarConfig {
@@ -162,10 +165,13 @@ model CalendarConfig {
   file   File?   @relation(fields: [fileId], references: [id])
 
   sectionId String      @unique
-  section   HomeSection @relation(fields: [sectionId], references: [id])
+  section   HomeSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+
+  @@index([sectionId]) // 🚀 Optimiza búsquedas 1-a-1 desde HomeSection
+  @@index([fileId])
 }
 
 model DerechohabienciaConfig {
@@ -178,7 +184,9 @@ model DerechohabienciaConfig {
   links       DerechohabienciaLink[]
   createdAt   DateTime               @default(now())
   updatedAt   DateTime?              @updatedAt
-  section     HomeSection            @relation(fields: [sectionId], references: [id])
+  section     HomeSection            @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId]) // 🚀 Optimiza búsquedas 1-a-1 desde HomeSection
 }
 
 model DerechohabienciaLink {
@@ -189,37 +197,40 @@ model DerechohabienciaLink {
   isActive                 Boolean                 @default(true)
   createdAt                DateTime                @default(now())
   updatedAt                DateTime                @updatedAt
-  derechohabienciaConfig   DerechohabienciaConfig? @relation(fields: [derechohabienciaConfigId], references: [id])
   derechohabienciaConfigId String?
+  derechohabienciaConfig   DerechohabienciaConfig? @relation(fields: [derechohabienciaConfigId], references: [id], onDelete: Cascade)
+
+  @@index([derechohabienciaConfigId])
 }
 
-////////////////
-// DIRECTORIO //
-////////////////
+// ==========================================
+// 📞 DIRECTORIO
+// ==========================================
 
 model Directory {
   id        String  @id @default(uuid())
   phone     String
-  level     Level   @relation(fields: [levelId], references: [id])
+  levelId   String
+  level     Level   @relation(fields: [levelId], references: [id], onDelete: Cascade)
   boss      String?
   email     String?
   name      String
   secretary String?
-  levelId   String
+
+  @@index([levelId])
 }
 
-// nivel
 model Level {
   id          String      @id @default(uuid())
   name        String      @unique
-  ditectories Directory[]
+  directories Directory[]
 }
 
-//////////////////////////
-// SISTEMAS DE CONSULTA //
-//////////////////////////
+// ==========================================
+// 🛠️ SISTEMAS Y MACROPROCESOS
+// ==========================================
 
-model Systems {
+model System {
   id          String  @id @unique @default(uuid())
   acronym     String?
   name        String?
@@ -234,11 +245,9 @@ model Systems {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-}
 
-//////////////////
-// MACROPORCESO //
-//////////////////
+  @@index([fileId])
+}
 
 model Area {
   id          String    @id @unique @default(uuid())
@@ -270,28 +279,25 @@ model Manual {
   areaId       String
   manualTypeId String
 
-  area       Area       @relation(fields: [areaId], references: [id])
-  manualType ManualType @relation(fields: [manualTypeId], references: [id])
+  area       Area       @relation(fields: [areaId], references: [id], onDelete: Cascade)
+  manualType ManualType @relation(fields: [manualTypeId], references: [id], onDelete: Cascade)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
   @@index([areaId])
   @@index([manualTypeId])
+  @@index([fileId])
 }
 
-////////////
-// CIE 10 //
-////////////
+// ==========================================
+// 📊 INFORMES Y ESTADÍSTICAS
+// ==========================================
 
-model cie10 {
+model Cie10 {
   id   String @id @unique @default(uuid())
   name String @db.LongText
 }
-
-////////////////////////
-// INFORMES MENSUALES //
-////////////////////////
 
 model Period {
   id   String @id @default(uuid())
@@ -320,14 +326,15 @@ model Report {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([periodId, month, type]) // evita duplicados mensuales
+  @@unique([periodId, month, type])
   @@index([periodId])
   @@index([type])
+  @@index([fileId])
 }
 
-///////////////
-// CONVENIOS //
-///////////////
+// ==========================================
+// 🤝 CONVENIOS
+// ==========================================
 
 model AgreementPerson {
   id   Int        @id @default(autoincrement())
@@ -338,19 +345,24 @@ model AgreementPerson {
   children FamilyLink[] @relation("ParentToChildren")
 
   zoneId  Int
-  zone    Zone  @relation(fields: [zoneId], references: [id])
+  zone    Zone  @relation(fields: [zoneId], references: [id], onDelete: Cascade)
   groupId Int
-  group   Group @relation(fields: [groupId], references: [id])
+  group   Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([zoneId])
+  @@index([groupId])
 }
 
 model FamilyLink {
   parentId    Int
   dependentId Int
 
-  parent    AgreementPerson @relation("ParentToChildren", fields: [parentId], references: [id])
-  dependent AgreementPerson @relation("DependentToParents", fields: [dependentId], references: [id])
+  parent    AgreementPerson @relation("ParentToChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  dependent AgreementPerson @relation("DependentToParents", fields: [dependentId], references: [id], onDelete: Cascade)
 
   @@id([parentId, dependentId])
+  @@index([parentId])
+  @@index([dependentId])
 }
 
 model Zone {
@@ -367,9 +379,9 @@ model Group {
   persons AgreementPerson[]
 }
 
-//////////
-// CBIM //
-//////////
+// ==========================================
+// 🏥 CBIM Y CLÍNICA (GPC)
+// ==========================================
 
 model Cbim {
   id          String     @id @default(uuid())
@@ -378,17 +390,13 @@ model Cbim {
   description String     @db.LongText
   sp          String?
   fpgc        String?
-  cbt_cae     CBTCAEType @default(CAE)
+  cbt_cae     CbtCaeType @default(CAE)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-///////////////////////////////
-// GUÌAS DE PRACTICA CLINICA //
-///////////////////////////////
-
-model ClinicalPracticeGuidelines {
+model ClinicalPracticeGuideline {
   id    String @id @default(uuid())
   code  String
   title String
@@ -398,8 +406,8 @@ model ClinicalPracticeGuidelines {
   fileRRId String?
   fileRR   File?   @relation("GuidelineRR", fields: [fileRRId], references: [id])
 
-  category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   @@index([categoryId])
   @@index([fileERId])
@@ -407,16 +415,12 @@ model ClinicalPracticeGuidelines {
 }
 
 model Category {
-  id                         String                       @id @default(uuid())
-  name                       String                       @unique
-  clinicalPracticeGuidelines ClinicalPracticeGuidelines[]
+  id                 String                      @id @default(uuid())
+  name               String                      @unique
+  clinicalGuidelines ClinicalPracticeGuideline[]
 }
 
-////////////////////
-// ALGORITMOS PBM //
-////////////////////
-
-model pbm {
+model Pbm {
   id    String @id @default(uuid())
   title String
 
@@ -426,11 +430,7 @@ model pbm {
   @@index([fileId])
 }
 
-////////////////////
-// ALGORITMOS GPC //
-////////////////////
-
-model gpc {
+model Gpc {
   id          String @id @default(uuid())
   orderIndex  Int
   title       String
@@ -439,25 +439,22 @@ model gpc {
   fileId String?
   file   File?   @relation(fields: [fileId], references: [id])
 
-  cycle   cycle  @relation(fields: [cycleId], references: [id])
   cycleId String
+  cycle   Cycle  @relation(fields: [cycleId], references: [id], onDelete: Cascade)
 
   @@unique([cycleId, orderIndex])
+  @@index([cycleId])
+  @@index([fileId])
 }
 
-model cycle {
+model Cycle {
   id   String @id @default(uuid())
   name String
-  gpcs gpc[]
+  gpcs Gpc[]
 }
 
-////////////////////////////
-// PROTOCOLOS DE ATENCION //
-////////////////////////////
-
-model CareProtocols {
-  id          String                 @id @default(uuid())
-  category    CategoryCareProtocols? @relation(fields: [categoryCareProtocolsId], references: [id])
+model CareProtocol {
+  id          String @id @default(uuid())
   title       String
   description String
 
@@ -465,53 +462,53 @@ model CareProtocols {
   file   File?   @relation(fields: [fileId], references: [id])
 
   categoryCareProtocolsId String?
+  category                CategoryCareProtocol? @relation(fields: [categoryCareProtocolsId], references: [id], onDelete: SetNull)
+
+  @@index([categoryCareProtocolsId])
+  @@index([fileId])
 }
 
-model CategoryCareProtocols {
-  id            String          @id @default(uuid())
+model CategoryCareProtocol {
+  id            String         @id @default(uuid())
   name          String
-  careProtocols CareProtocols[]
+  careProtocols CareProtocol[]
 }
 
-////////////////////////////
-// SEGURIDAD DEL PACIENTE //
-////////////////////////////
-
-model Codes {
-  id              String        @id @default(uuid())
+model Code {
+  id              String       @id @default(uuid())
   name            String
   code            String
   color           String
   icon            String
-  description     String        @db.LongText
-  category        CategoryCodes @relation(fields: [categoryCodesId], references: [id])
+  description     String       @db.LongText
   categoryCodesId String
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime?     @updatedAt
+  category        CategoryCode @relation(fields: [categoryCodesId], references: [id], onDelete: Cascade)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime?    @updatedAt
+
+  @@index([categoryCodesId])
 }
 
-model CategoryCodes {
-  id    String  @id @default(uuid())
-  name  String  @unique
-  codes Codes[]
+model CategoryCode {
+  id    String @id @default(uuid())
+  name  String @unique
+  codes Code[]
 }
 
-//////////////////////
-// EVENTOS ADVERSOS //
-//////////////////////
-
-model AdverseEvents {
+model AdverseEvent {
   id    String @id @default(uuid())
   title String
   type  String @unique
 
   fileId String?
   file   File?   @relation(fields: [fileId], references: [id])
+
+  @@index([fileId])
 }
 
-// =======================
-// AREA
-// =======================
+// ==========================================
+// 📥 DESCARGAS
+// ==========================================
 
 model DownloadArea {
   id       Int     @id @default(autoincrement())
@@ -521,7 +518,6 @@ model DownloadArea {
   color    String
   isActive Boolean @default(true)
 
-  // Relaciones
   messages DownloadAreaMessage[]
   sections DownloadSection[]
 
@@ -530,10 +526,6 @@ model DownloadArea {
 
   @@index([isActive])
 }
-
-///////////////
-// DESCARGAS //
-///////////////
 
 model DownloadAreaMessage {
   id      Int         @id @default(autoincrement())
@@ -620,9 +612,9 @@ model DownloadFile {
   @@index([fileId])
 }
 
-///////////////////////////////
-// VIGILANCIA EPIDEMIOLOGICA //
-///////////////////////////////
+// ==========================================
+// 🔬 ARCHIVOS ESPECÍFICOS (Vigilancia, Normas, etc)
+// ==========================================
 
 model Uveh {
   id          Int     @id @default(autoincrement())
@@ -653,11 +645,7 @@ model UvehCategory {
   updatedAt DateTime @updatedAt
 }
 
-//////////////////////
-// NORMAS OFICIALES //
-//////////////////////
-
-model standards {
+model Standard {
   id          Int     @id @default(autoincrement())
   name        String
   description String? @db.LongText
@@ -667,27 +655,26 @@ model standards {
   file   File?   @relation(fields: [fileId], references: [id])
 
   categoryId Int
-  category   standardsCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   StandardCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([fileId])
 }
 
-model standardsCategory {
+model StandardCategory {
   id   Int    @id @default(autoincrement())
   name String
 
-  standards standards[]
+  standards Standard[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-/////////////////////////////
-// DISPOSICIONES JURIDICAS //
-/////////////////////////////
-
-model juristics {
+model Juristic {
   id          Int     @id @default(autoincrement())
   name        String
   description String? @db.LongText
@@ -701,10 +688,6 @@ model juristics {
 
   @@index([fileId])
 }
-
-///////////////////
-// CERTIFICACION //
-///////////////////
 
 model Certification {
   id          Int     @id @default(autoincrement())
@@ -735,13 +718,9 @@ model CertificationSection {
   updatedAt DateTime @updatedAt
 }
 
-////////////////
-// VACACIONES //
-////////////////
-
 model ShiftType {
   id        Int      @id @default(autoincrement())
-  name      String   @unique // "Matutino - Vespertino"
+  name      String   @unique
   icon      String
   color     String
   createdAt DateTime @default(now())
@@ -760,14 +739,16 @@ model ShiftFile {
   shiftId   Int
   createdAt DateTime      @default(now())
 
-  shift ShiftType @relation(fields: [shiftId], references: [id])
+  shift ShiftType @relation(fields: [shiftId], references: [id], onDelete: Cascade)
 
-  @@unique([type, shiftId]) // Solo un CALENDAR y un INDEX por jornada
+  @@unique([type, shiftId])
+  @@index([shiftId])
+  @@index([fileId])
 }
 
-//////////////
-// ARCHIVOS //
-//////////////
+// ==========================================
+// 📄 MOTOR CENTRALIZADO DE ARCHIVOS
+// ==========================================
 
 model File {
   id       String  @id @default(uuid())
@@ -784,26 +765,26 @@ model File {
   carouselItems        CarouselItem[]
   calendarConfigs      CalendarConfig[]
   accessCardItems      AccessCardItem[]
-  systems              Systems[]
-  gpcs                 gpc[]
+  systems              System[]
+  gpcs                 Gpc[]
   manuals              Manual[]
   reports              Report[]
-  clinicalGuidelines   ClinicalPracticeGuidelines[] @relation("GuidelineER")
-  clinicalGuidelinesRR ClinicalPracticeGuidelines[] @relation("GuidelineRR")
-  pbms                 pbm[]
-  careProtocols        CareProtocols[]
-  adverseEvents        AdverseEvents[]
+  clinicalGuidelines   ClinicalPracticeGuideline[] @relation("GuidelineER")
+  clinicalGuidelinesRR ClinicalPracticeGuideline[] @relation("GuidelineRR")
+  pbms                 Pbm[]
+  careProtocols        CareProtocol[]
+  adverseEvents        AdverseEvent[]
   downloadFiles        DownloadFile[]
   uvehs                Uveh[]
-  standards            standards[]
-  juristics            juristics[]
+  standards            Standard[]
+  juristics            Juristic[]
   certifications       Certification[]
   shiftFiles           ShiftFile[]
 }
 
-///////////
-// ENUMS //
-///////////
+// ==========================================
+// 📋 ENUMS GLOBALES
+// ==========================================
 
 enum HomeSectionType {
   ALERT
@@ -814,8 +795,8 @@ enum HomeSectionType {
 }
 
 enum ManualCategory {
-  STANDARD // MO, MP, DxSit, PT
-  EXTRA // Código Ético, Normatividad, etc
+  STANDARD
+  EXTRA
 }
 
 enum ReportType {
@@ -830,7 +811,7 @@ enum PersonType {
   DEPENDENT
 }
 
-enum CBTCAEType {
+enum CbtCaeType {
   CAE
   CBT
 }

@@ -37,7 +37,7 @@ export const postSystemRepository = async ({ acronym, name, description, color, 
                 fileId = createFile.id
             }
 
-            return await tx.systems.create({
+            return await tx.system.create({
                 data: {
                     acronym,
                     name,
@@ -82,14 +82,14 @@ export const getSystemRepository = async ({ search, take, skip }: PaginationProp
         }
 
         const [data, total] = await Promise.all([
-            database.systems.findMany({
+            database.system.findMany({
                 where,
                 orderBy: { createdAt: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: { file: true }
             }),
-            database.systems.count({ where }),
+            database.system.count({ where }),
         ])
 
         return { data, total }
@@ -109,7 +109,7 @@ export const getSystemRepository = async ({ search, take, skip }: PaginationProp
 
 export const getSystemByIdRepository = async (id: string) => {
     try {
-        return await database.systems.findUnique({ where: { id } })
+        return await database.system.findUnique({ where: { id } })
     } catch (error) {
         logger.error(
             {
@@ -148,7 +148,7 @@ interface PutSystemRepositoryProps {
 export const putSystemRepository = async ({ id, acronym, name, description, color, icon, url, type, file }: PutSystemRepositoryProps) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.systems.findUnique({
+            const current = await tx.system.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -193,7 +193,7 @@ export const putSystemRepository = async ({ id, acronym, name, description, colo
                 fileId = null
             }
 
-            return await tx.systems.update({
+            return await tx.system.update({
                 where: { id },
                 data: {
                     acronym,
@@ -232,7 +232,7 @@ export const putSystemRepository = async ({ id, acronym, name, description, colo
 export const deleteSystemRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.systems.findUnique({
+            const current = await tx.system.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -253,7 +253,7 @@ export const deleteSystemRepository = async (id: string) => {
                 })
             }
 
-            return await tx.systems.delete({
+            return await tx.system.delete({
                 where: { id }
             })
         })

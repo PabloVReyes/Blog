@@ -10,7 +10,7 @@ import * as fs from "fs/promises"
 
 export const postCategoryRepository = async (name: string) => {
     try {
-        return await database.categoryCareProtocols.create({
+        return await database.categoryCareProtocol.create({
             data: {
                 name
             }
@@ -59,7 +59,7 @@ export const postCareProtocolsRepository = async ({
                 fileId = createFile.id
             }
 
-            return await tx.careProtocols.create({
+            return await tx.careProtocol.create({
                 data: {
                     title,
                     description,
@@ -89,10 +89,10 @@ export const postCareProtocolsRepository = async ({
 export const getCategoryRepository = async () => {
     try {
         const [data, total] = await Promise.all([
-            database.categoryCareProtocols.findMany({
+            database.categoryCareProtocol.findMany({
                 orderBy: { id: "desc" },
             }),
-            database.categoryCareProtocols.count()
+            database.categoryCareProtocol.count()
         ])
 
         return { data, total }
@@ -120,7 +120,7 @@ export const getCareProtocolsRepository = async ({ search, take, skip }: Paginat
         }
 
         const [data, total] = await Promise.all([
-            database.careProtocols.findMany({
+            database.careProtocol.findMany({
                 where,
                 orderBy: {
                     id: "asc",
@@ -132,7 +132,7 @@ export const getCareProtocolsRepository = async ({ search, take, skip }: Paginat
                     file: true
                 }
             }),
-            database.careProtocols.count({ where }),
+            database.careProtocol.count({ where }),
         ])
 
         return { data, total }
@@ -152,7 +152,7 @@ export const getCareProtocolsRepository = async ({ search, take, skip }: Paginat
 
 export const getCareProtocolByIdRepository = async (id: string) => {
     try {
-        return await database.careProtocols.findUnique({ where: { id } })
+        return await database.careProtocol.findUnique({ where: { id } })
     } catch (error) {
         logger.error(
             {
@@ -181,7 +181,7 @@ export const getCategoryWithCareProtocolsRepository = async ({ search, take, ski
         }
 
         const [data, total] = await Promise.all([
-            database.categoryCareProtocols.findMany({
+            database.categoryCareProtocol.findMany({
                 where,
                 orderBy: {
                     name: "asc",
@@ -197,7 +197,7 @@ export const getCategoryWithCareProtocolsRepository = async ({ search, take, ski
                     careProtocols: true
                 }
             }),
-            database.categoryCareProtocols.count({ where }),
+            database.categoryCareProtocol.count({ where }),
         ])
 
         return { data, total }
@@ -232,7 +232,7 @@ export const putCareProtocolRepository = async ({
 }: PutCareProtocolProps) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.careProtocols.findUnique({
+            const current = await tx.careProtocol.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -263,7 +263,7 @@ export const putCareProtocolRepository = async ({
                 fileId = newFile.id
             }
 
-            return await tx.careProtocols.update({
+            return await tx.careProtocol.update({
                 where: { id },
                 data: {
                     title,
@@ -300,7 +300,7 @@ export const putCareProtocolRepository = async ({
 export const deleteCareProtocolsRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.careProtocols.findUnique({
+            const current = await tx.careProtocol.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -321,7 +321,7 @@ export const deleteCareProtocolsRepository = async (id: string) => {
                 })
             }
 
-            return await tx.careProtocols.delete({
+            return await tx.careProtocol.delete({
                 where: { id }
             })
         })

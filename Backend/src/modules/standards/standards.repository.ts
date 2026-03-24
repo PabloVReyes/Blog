@@ -40,7 +40,7 @@ export const postStandarRepository = async ({
                 fileId = createFile.id
             }
 
-            return await tx.standards.create({
+            return await tx.standard.create({
                 data: {
                     name,
                     description,
@@ -66,7 +66,7 @@ export const postStandarRepository = async ({
 
 export const postCategoryRepository = async (name: string) => {
     try {
-        return await database.standardsCategory.create({
+        return await database.standardCategory.create({
             data: {
                 name
             }
@@ -92,8 +92,8 @@ export const postCategoryRepository = async (name: string) => {
 export const getCategoriesRepository = async () => {
     try {
         const [data, total] = await Promise.all([
-            database.standardsCategory.findMany(),
-            database.standardsCategory.count()
+            database.standardCategory.findMany(),
+            database.standardCategory.count()
         ])
 
         return { data, total }
@@ -121,7 +121,7 @@ export const getStandardsRepository = async ({ skip, take, search }: PaginationP
         }
 
         const [data, total] = await Promise.all([
-            database.standards.findMany({
+            database.standard.findMany({
                 where,
                 orderBy: {
                     name: "asc",
@@ -133,7 +133,7 @@ export const getStandardsRepository = async ({ skip, take, search }: PaginationP
                     file: true
                 }
             }),
-            database.standards.count({ where }),
+            database.standard.count({ where }),
         ])
 
         return { data, total }
@@ -153,7 +153,7 @@ export const getStandardsRepository = async ({ skip, take, search }: PaginationP
 
 export const getStandarByIdRepository = async (id: number) => {
     try {
-        return await database.standards.findUnique({ where: { id } })
+        return await database.standard.findUnique({ where: { id } })
     } catch (error) {
         logger.error(
             {
@@ -186,7 +186,7 @@ export const putStandarRepository = async ({
 }: PutStandarRepositoryProps) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.standards.findUnique({
+            const current = await tx.standard.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -217,7 +217,7 @@ export const putStandarRepository = async ({
                 fileId = newFile.id
             }
 
-            return await tx.standards.update({
+            return await tx.standard.update({
                 where: {
                     id
                 },
@@ -257,7 +257,7 @@ export const putStandarRepository = async ({
 export const deleteStandarRepository = async (id: number) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.standards.findUnique({
+            const current = await tx.standard.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -278,7 +278,7 @@ export const deleteStandarRepository = async (id: number) => {
                 })
             }
 
-            return await tx.standards.delete({
+            return await tx.standard.delete({
                 where: { id }
             })
         })

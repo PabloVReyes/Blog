@@ -26,7 +26,7 @@ export const getCodesRepository = async ({ search, take, skip, categoryId }: Get
         }
 
         const [data, total] = await Promise.all([
-            database.codes.findMany({
+            database.code.findMany({
                 where,
                 orderBy: { createdAt: "asc" },
                 ...(take !== undefined && { take }),
@@ -35,7 +35,7 @@ export const getCodesRepository = async ({ search, take, skip, categoryId }: Get
                     category: true
                 }
             }),
-            database.codes.count({ where }),
+            database.code.count({ where }),
         ])
 
         return { data, total }
@@ -57,10 +57,10 @@ export const getCodesRepository = async ({ search, take, skip, categoryId }: Get
 export const getCategoryRepository = async () => {
     try {
         const [data, total] = await Promise.all([
-            database.categoryCodes.findMany({
+            database.categoryCode.findMany({
                 orderBy: { name: "asc" }
             }),
-            database.categoryCodes.count(),
+            database.categoryCode.count(),
         ])
 
         return { data, total }

@@ -9,7 +9,7 @@ import * as fs from "fs/promises"
 
 export const getAdverseEventsByTypeRepository = async (type: string) => {
     try {
-        return await database.adverseEvents.findUnique({
+        return await database.adverseEvent.findUnique({
             where: {
                 type
             },
@@ -34,12 +34,12 @@ export const getAdverseEventsByTypeRepository = async (type: string) => {
 export const getAdverseEventsRepository = async () => {
     try {
         const [data, total] = await Promise.all([
-            database.adverseEvents.findMany({
+            database.adverseEvent.findMany({
                 include: {
                     file: true
                 }
             }),
-            database.adverseEvents.count({}),
+            database.adverseEvent.count({}),
         ])
 
         return { data, total }
@@ -58,7 +58,7 @@ export const getAdverseEventsRepository = async () => {
 
 export const getAdverseEventsByIdRepository = async (id: string) => {
     try {
-        return await database.adverseEvents.findUnique({ 
+        return await database.adverseEvent.findUnique({ 
             where: { id },
             include: {
                 file: true
@@ -98,7 +98,7 @@ export const putAdverseEvent = async ({
 }: PutAdverseEventProps) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.adverseEvents.findUnique({
+            const current = await tx.adverseEvent.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -129,7 +129,7 @@ export const putAdverseEvent = async ({
                 fileId = newFile.id
             }
 
-            return await tx.adverseEvents.update({
+            return await tx.adverseEvent.update({
                 where: { id },
                 data: {
                     fileId
@@ -160,7 +160,7 @@ export const putAdverseEvent = async ({
 export const deleteAdverseEventRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.adverseEvents.findUnique({
+            const current = await tx.adverseEvent.findUnique({
                 where: { id },
                 include: { file: true }
             })
@@ -181,7 +181,7 @@ export const deleteAdverseEventRepository = async (id: string) => {
                 })
             }
 
-            return await tx.adverseEvents.update({
+            return await tx.adverseEvent.update({
                 where: { id },
                 data: {
                     fileId: null

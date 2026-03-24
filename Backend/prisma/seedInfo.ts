@@ -32,7 +32,7 @@ async function main() {
     const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
     for (const item of data) {
-        await prisma.systems.create({
+        await prisma.system.create({
             data: {
                 acronym: item.acronym,
                 name: item.name,
@@ -263,7 +263,7 @@ async function main() {
     const dataCodes = JSON.parse(fs.readFileSync(fileCodes, 'utf8'));
 
     for (const item of dataCodes) {
-        await prisma.codes.create({
+        await prisma.code.create({
             data: {
                 code: item.codigo,
                 color: item.color,
@@ -282,14 +282,14 @@ async function main() {
 
     console.log('✅ Codigos');
 
-    await prisma.adverseEvents.create({
+    await prisma.adverseEvent.create({
         data: {
             title: "Reporte en Línea",
             type: "qr"
         }
     })
 
-    await prisma.adverseEvents.create({
+    await prisma.adverseEvent.create({
         data: {
             title: "Formato Físico",
             type: "file"

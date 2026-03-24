@@ -54,7 +54,7 @@ export const postClinicalPracticeGuidelinesReporisory = async ({
                 fileRRId = createFile.id
             }
 
-            return await tx.clinicalPracticeGuidelines.create({
+            return await tx.clinicalPracticeGuideline.create({
                 data: {
                     code,
                     title,
@@ -123,7 +123,7 @@ export const getClinicalPracticeGuidelinesRepository = async ({ search, take, sk
         }
 
         const [data, total] = await Promise.all([
-            database.clinicalPracticeGuidelines.findMany({
+            database.clinicalPracticeGuideline.findMany({
                 where,
                 orderBy: { id: "asc" },
                 ...(take !== undefined && { take }),
@@ -134,7 +134,7 @@ export const getClinicalPracticeGuidelinesRepository = async ({ search, take, sk
                     fileRR: true
                 }
             }),
-            database.clinicalPracticeGuidelines.count({ where }),
+            database.clinicalPracticeGuideline.count({ where }),
         ])
 
         return { data, total }
@@ -176,7 +176,7 @@ export const getCategoryRepository = async () => {
 
 export const getClinicalPracticeGuidelineByIdRepository = async (id: string) => {
     try {
-        return await database.clinicalPracticeGuidelines.findUnique({ where: { id } })
+        return await database.clinicalPracticeGuideline.findUnique({ where: { id } })
     } catch (error) {
         logger.error(
             {
@@ -209,7 +209,7 @@ export const putClinicalPracticeGuidelinesReporisory = async ({
 }: PutClinicalPracticeGuidelinesReporisoryProps) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.clinicalPracticeGuidelines.findUnique({
+            const current = await tx.clinicalPracticeGuideline.findUnique({
                 where: { id },
                 include: {
                     fileER: true,
@@ -263,7 +263,7 @@ export const putClinicalPracticeGuidelinesReporisory = async ({
                 fileRRId = newFile.id
             }
 
-            return await tx.clinicalPracticeGuidelines.update({
+            return await tx.clinicalPracticeGuideline.update({
                 where: { id },
                 data: {
                     code,
@@ -300,7 +300,7 @@ export const putClinicalPracticeGuidelinesReporisory = async ({
 export const deleteClinicalPracticeGuidelinesRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
-            const current = await tx.clinicalPracticeGuidelines.findUnique({
+            const current = await tx.clinicalPracticeGuideline.findUnique({
                 where: { id },
                 include: {
                     fileER: true,
@@ -334,7 +334,7 @@ export const deleteClinicalPracticeGuidelinesRepository = async (id: string) => 
                 })
             }
 
-            return await tx.clinicalPracticeGuidelines.delete({
+            return await tx.clinicalPracticeGuideline.delete({
                 where: { id }
             })
         })
