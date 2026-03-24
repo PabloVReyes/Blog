@@ -24,7 +24,7 @@ interface Props<T extends FormValues> {
     onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
-    fileName?: string;
+    fileName?: string | null;
 }
 
 interface SectionApiResponse {

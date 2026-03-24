@@ -1,6 +1,8 @@
 import { database } from "../../config/prisma";
 import { PaginationProps } from "../../types/pagination";
 import { logger } from "../../utils/logger";
+import * as path from "path"
+import * as fs from "fs/promises"
 
 ////////////
 // CREATE //
@@ -11,10 +13,12 @@ interface PostCertificationRepositoryProps {
     description?: string | null
     isNew: boolean;
     sectionId: number
-    fileName?: string | null;
-    filePath?: string | null;
-    fileSize?: number | null;
-    mimeType?: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null
 }
 
 export const postCertificationRepository = async ({
@@ -22,23 +26,29 @@ export const postCertificationRepository = async ({
     description,
     isNew,
     sectionId,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PostCertificationRepositoryProps) => {
     try {
-        return await database.certification.create({
-            data: {
-                name,
-                description,
-                isNew,
-                sectionId,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
+        return await database.$transaction(async (tx) => {
+            let fileId: string | null = null;
+
+            if (file) {
+                const createFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = createFile.id
             }
+
+            return await tx.certification.create({
+                data: {
+                    name,
+                    description,
+                    isNew,
+                    sectionId,
+                    fileId
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -105,7 +115,11 @@ export const getSectionsWithCertificationsRepository = async ({ skip, take, sear
                             certifications: true
                         }
                     },
-                    certifications: true
+                    certifications: {
+                        include: {
+                            file: true
+                        }
+                    }
                 }
             }),
             database.certificationSection.count({ where }),
@@ -166,7 +180,8 @@ export const getCertificationsRepository = async ({ skip, take, search }: Pagina
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
-                    section: true
+                    section: true,
+                    file: true
                 }
             }),
             database.certification.count({ where }),
@@ -218,27 +233,58 @@ export const putCertificationRepository = async ({
     description,
     isNew,
     sectionId,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PutCertificationRepositoryProps) => {
     try {
-        return await database.certification.update({
-            where: { id },
-            data: {
-                name,
-                description,
-                isNew,
-                sectionId,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType
-            },
-            include: {
-                section: true
+        return await database.$transaction(async (tx) => {
+            const current = await tx.certification.findUnique({
+                where: { id },
+                include: {
+                    file: true
+                }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
             }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            return await tx.certification.update({
+                where: { id },
+                data: {
+                    name,
+                    description,
+                    isNew,
+                    sectionId,
+                    fileId
+                },
+                include: {
+                    section: true,
+                    file: true
+                }
+            })
+
         })
     } catch (error) {
         logger.error(
@@ -259,7 +305,32 @@ export const putCertificationRepository = async ({
 
 export const deleteCertificationRepository = async (id: number) => {
     try {
-        return await database.certification.delete({ where: { id } })
+        return await database.$transaction(async (tx) => {
+            const current = await tx.certification.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.certification.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         logger.error(
             {

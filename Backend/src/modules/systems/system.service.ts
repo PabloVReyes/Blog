@@ -34,9 +34,7 @@ export const postSystemService = async (dto: type.SystemCreateDto) => {
                 : null
     }
 
-    await repo.postSystemRepository(props)
-
-    return true
+    return await repo.postSystemRepository(props)
 }
 
 //////////

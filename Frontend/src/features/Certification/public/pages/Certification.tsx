@@ -6,6 +6,7 @@ import { Download } from "../components";
 import { IconAlertCircleFilled, IconAward, IconFileText } from "@tabler/icons-react";
 import { getCicloColor } from "@/utils";
 import { fetchCertifications } from "../api";
+import type { CertificationData } from "../../types/certification.types";
 
 export interface Data {
     data: Datum[];
@@ -18,25 +19,11 @@ export interface Datum {
     createdAt: Date;
     updatedAt: Date;
     _count: Count;
-    certifications: Certification[];
+    certifications: CertificationData[];
 }
 
 export interface Count {
     certifications: number;
-}
-
-export interface Certification {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    sectionId: number;
-    createdAt: Date;
-    updatedAt: Date;
 }
 
 export interface Meta {

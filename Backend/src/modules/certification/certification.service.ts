@@ -14,15 +14,24 @@ import { logger } from "../../utils/logger"
 export const postCertificationService = async (dto: types.CertificationCreateDto) => {
     const { name, description, isNew, section, file } = dto
 
+    if (!file) {
+        throw new Error("El archivo es requerido")
+    }
+
     return await repo.postCertificationRepository({
         name,
         description: description ?? null,
         isNew,
         sectionId: section,
-        fileName: file?.originalname ? sanitizeFileName(file?.originalname) : null,
-        filePath: file?.filename ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     })
 }
 
@@ -76,22 +85,6 @@ export const getCertificationsService = async (dto: schema.GetCertificationsSche
     }
 }
 
-export const downloadCertificationFileService = async (id: number) => {
-    const Certification = await repo.getCertificationByIdRepository(id)
-
-    if (!Certification || !Certification.filePath) {
-        throw new Error("Norma no encontrada")
-    }
-
-    const obsolutePath = path.join(uploadsRoot, Certification.filePath)
-
-    return {
-        filePath: obsolutePath,
-        fileName: Certification.fileName,
-        mimeType: Certification.mimeType
-    }
-}
-
 ////////////
 // UPDATE //
 ////////////
@@ -99,33 +92,27 @@ export const downloadCertificationFileService = async (id: number) => {
 export const putCertificationService = async (id: number, dto: types.CertificationUpdateDto) => {
     const { name, description, isNew, section, file } = dto
 
-    const certification: any = await repo.getCertificationByIdRepository(id)
+    const existingItem = await repo.getCertificationByIdRepository(id)
+
+    if (!existingItem) {
+        throw new Error("El sistema no existe")
+    }
 
     const props: any = {
         id,
         name,
         description: description ?? null,
         isNew,
-        sectionId: section
-    }
-
-    if (file) {
-        if (certification.filePath) {
-            try {
-                if (certification.filePath) {
-                    const obsolutePath = path.join(uploadsRoot, certification.filePath)
-                    const fs = await import("fs/promises");
-                    await fs.unlink(obsolutePath).catch(() => { });
+        sectionId: section,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
                 }
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.filePath = file.filename;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+                : null
     }
 
     return await repo.putCertificationRepository(props)
@@ -142,13 +129,7 @@ export const deleteCertificationService = async (id: number) => {
         throw new Error("Descarga no encontrada")
     }
 
-    if (Certification.filePath) {
-        const obsolutePath = path.join(uploadsRoot, Certification.filePath)
-        const fs = await import("fs/promises");
-        await fs.unlink(obsolutePath).catch(() => { });
-    }
-
     await repo.deleteCertificationRepository(id)
 }
 
-// 169 lineas -> 152 lineas
+// 169 lineas -> 152 lineas -> 133 lineas

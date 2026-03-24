@@ -42,29 +42,6 @@ export const getCertificationsController: RequestHandler = asyncHandler(async (r
     res.json(data)
 })
 
-export const downloadCertificationFileController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const params = schema.downloadCertificationSchema.parse(req.params)
-    const data: any = await service.downloadCertificationFileService(params.id)
-
-    const mimeType = data.mimeType || "application/octet-stream"
-
-    res.setHeader("Content-Type", mimeType)
-    res.setHeader("Access-Control-Expose-Headers", "Content-Disposition")
-
-    // 👇 Si es PDF → visualizar inline
-    if (mimeType === "application/pdf") {
-        res.setHeader(
-            "Content-Disposition",
-            `inline; filename="${data.fileName}"`
-        )
-
-        return res.sendFile(data.filePath)
-    }
-
-    // 👇 Cualquier otro archivo → forzar descarga
-    return res.download(data.filePath, data.fileName)
-})
-
 ////////////
 // UPDATE //
 ////////////
@@ -89,4 +66,4 @@ export const deleteCertificationController: RequestHandler = asyncHandler(async 
     res.json({ success: true })
 })
 
-// 201 lineas -> 90 lineas
+// 201 lineas -> 90 lineas -> 67 lineas

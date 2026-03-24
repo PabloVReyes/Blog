@@ -35,7 +35,6 @@ router.get('/sections-certifications', controller.getSectionWithCertificationsCo
 
 // Descargas
 router.get('/', controller.getCertificationsController)
-router.get('/download/:id', controller.downloadCertificationFileController)
 router.post('/', upload.single("file"), controller.postCertificationController)
 router.put('/:id', upload.single("file"), controller.putCertificationController)
 router.delete('/:id', controller.deleteCertificationController)

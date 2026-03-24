@@ -2,80 +2,17 @@ import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from 
 import classes from "./Download.module.css"
 import { formatFileSize, resolveFileMeta } from "@/utils"
 import { IconAward, IconDownload, IconExternalLink } from "@tabler/icons-react"
-import { downloadFile } from "../api"
+import type { CertificationData } from "../../types/certification.types"
+import { useDownloadFile } from "@/hooks"
 
-export interface Props {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    sectionId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    color: string;
+interface Props extends CertificationData {
+    color: string
 }
-
 export const Download = (item: Props) => {
-    const { id, color, name, description, fileSize, mimeType, fileName, isNew } = item
-
-    const download = async (id: number) => {
-        try {
-            const response = await downloadFile(id)
-
-            const disposition = response.headers["content-disposition"];
-
-            const fileName =
-                disposition?.split("filename=")[1]?.replace(/"/g, "") ||
-                "manual.pdf";
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const link = document.createElement("a");
-
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
-    const view = async (id: number) => {
-        try {
-            const response = await downloadFile(id)
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
-
-    const fileMeta = resolveFileMeta(mimeType, fileName)
+    const { color, name, description, file, isNew, fileId } = item
+    const { download, view } = useDownloadFile()
+    const fileMeta = resolveFileMeta(file?.mimeType ?? "", file?.name ?? "")
+    
     return (
         <Card
             className={classes.group}
@@ -109,7 +46,7 @@ export const Download = (item: Props) => {
                         }
 
                         <Text size="xs" c="dimmed">
-                            {fileMeta.label} • {formatFileSize(fileSize)}
+                            {fileMeta.label} • {formatFileSize(file?.size ?? 0)}
                         </Text>
                     </Stack>
                 </Flex>
@@ -121,7 +58,7 @@ export const Download = (item: Props) => {
                         p={6}
                         radius="md"
                         style={{ minWidth: 0 }}
-                        onClick={() => download(id)}
+                        onClick={() => download(fileId)}
                     >
                         <IconDownload size={20} />
                     </Button>
@@ -133,7 +70,7 @@ export const Download = (item: Props) => {
                             color="gray"
                             radius="md"
                             style={{ minWidth: 0 }}
-                            onClick={() => view(id)}
+                            onClick={() => view(fileId)}
                         >
                             <IconExternalLink size={20} />
                         </Button>

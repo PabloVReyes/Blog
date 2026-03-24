@@ -4,30 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateName, validateSelect } from "@/utils"
 import { useCertificationStore } from "@/stores"
+import type { CertificationData } from "../../types/certification.types"
 
-export interface Data {
-    id: number;
-    name: string;
-    description: string;
-    isNew: boolean;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    sectionId: number;
-    createdAt: Date;
-    updatedAt: Date;
-    section: Section;
-}
-
-export interface Section {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const Edit = (file: Data) => {
+export const Edit = (file: CertificationData) => {
     const update = useCertificationStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -43,7 +22,7 @@ export const Edit = (file: Data) => {
         validate: {
             name: (value) => validateName(value, { required: true }),
             section: (value) => validateSelect(value, { required: true }),
-            file: (value) => validateFile(value, { required: true, existingFileName: file.fileName })
+            file: (value) => validateFile(value, { required: true, existingFileName: file.file?.name })
         }
     })
 
@@ -79,7 +58,7 @@ export const Edit = (file: Data) => {
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={file.fileName}
+            fileName={file.file?.name}
         />
     )
 }
