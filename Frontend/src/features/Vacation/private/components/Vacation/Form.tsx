@@ -17,7 +17,7 @@ interface Props {
     onSubmit: (values: VacationShiftFormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
-    fileName?: string;
+    fileName?: string | null;
 }
 
 interface Shift {

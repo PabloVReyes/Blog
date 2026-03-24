@@ -1,59 +1,18 @@
 import { Card, Center, Group, Button, Text } from "@mantine/core";
 import { IconDownload, IconHelp } from "@tabler/icons-react";
 import classes from "./Shift.module.css";
-import { downloadFile } from "../api";
 import { getTablerIcon } from "@/helpers";
+import { useDownloadFile } from "@/hooks";
+import type { ShiftData } from "../../types/vacations.types";
 
-export interface Data {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    createdAt: Date;
-    updatedAt: Date;
-    files: File[];
-}
 
-export interface File {
-    id: number;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    type: string;
-    shiftId: number;
-    createdAt: Date;
-}
 
-export const Shift = (shift: Data) => {
-
+export const Shift = (shift: ShiftData) => {
     const Icon = getTablerIcon(shift.icon)
+    const { view } = useDownloadFile()
 
     const calendar = shift.files.find((f) => f.type === "CALENDAR");
     const index = shift.files.find((f) => f.type === "INDEX");
-
-    const view = async (id: string) => {
-        try {
-            const response = await downloadFile(id)
-
-            const blob = new Blob([response.data], {
-                type: response.headers["content-type"]
-            });
-
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, "_blank");
-
-            // Opcional: liberar memoria después de un tiempo
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-
-        } catch (error) {
-            console.error("Error al descargar archivo", error);
-        }
-    };
 
     return (
         <Card withBorder padding={0} className={classes.card}>
@@ -85,7 +44,7 @@ export const Shift = (shift: Data) => {
                     <Button
                         leftSection={<IconDownload size={16} />}
                         disabled={!calendar}
-                        onClick={() => view(String(calendar?.id))}
+                        onClick={() => view(String(calendar?.fileId))}
                     >
                         Calendario
                     </Button>
@@ -93,7 +52,7 @@ export const Shift = (shift: Data) => {
                     <Button
                         leftSection={<IconDownload size={16} />}
                         disabled={!index}
-                        onClick={() => view(String(index?.id))}
+                        onClick={() => view(String(index?.fileId))}
                     >
                         Índice
                     </Button>

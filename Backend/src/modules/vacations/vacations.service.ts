@@ -7,9 +7,9 @@ import * as path from "path"
 import { uploadsRoot } from "./path"
 import { logger } from "../../utils/logger"
 
-///
-//  CREATE
-///
+////////////
+// CREATE //
+////////////
 
 export const postShiftService = async (dto: schema.PostShiftSchema) => {
     const { name, icon, color } = dto
@@ -27,16 +27,21 @@ export const postVacationService = async (dto: types.VacationsCreateDto) => {
     return await repo.postVacationRepository({
         type,
         shiftId: shift,
-        fileName: file?.originalname ? sanitizeFileName(file.originalname) : null,
-        filePath: file?.filename ?? null,
-        fileSize: file?.size ?? null,
-        mimeType: file?.mimetype ?? null,
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
+                }
+                : null
     })
 }
 
-///
+//////////
 // READ //
-////
+//////////
 
 export const getVacationsService = async (dto: schema.GetVacationssSchema) => {
     const { page, limit, search } = dto
@@ -86,25 +91,9 @@ export const getShiftWithVacationsService = async (dto: schema.GetShiftsWithFile
     }
 }
 
-export const downloadVacationsFileService = async (id: number) => {
-    const Vacation = await repo.getVacationsByIdRepository(id)
-
-    if (!Vacation || !Vacation.filePath) {
-        throw new Error("Norma no encontrada")
-    }
-
-    const obsolutePath = path.join(uploadsRoot, Vacation.filePath)
-
-    return {
-        filePath: obsolutePath,
-        fileName: Vacation.fileName,
-        mimeType: Vacation.mimeType
-    }
-}
-
-//
-// UPDATE
-//
+////////////
+// UPDATE //
+////////////
 
 export const putShiftService = async (id: number, dto: schema.PutShiftSchema) => {
     const { name, icon, color } = dto
@@ -120,31 +109,25 @@ export const putShiftService = async (id: number, dto: schema.PutShiftSchema) =>
 export const putVacationService = async (id: number, dto: types.VacationsUpdateDto) => {
     const { type, shift, file } = dto
 
-    const vacations: any = await repo.getVacationsByIdRepository(id)
+    const existingItem = await repo.getVacationsByIdRepository(id)
 
-    const props: any = {
+    if (!existingItem) {
+        throw new Error("El sistema no existe")
+    }
+
+    const props = {
         id,
         type,
         shiftId: shift,
-    }
-
-    if (file) {
-        if (vacations.filePath) {
-            try {
-                if (vacations.filePath) {
-                    const obsolutePath = path.join(uploadsRoot, vacations.filePath)
-                    const fs = await import("fs/promises");
-                    await fs.unlink(obsolutePath).catch(() => { });
+        file:
+            file
+                ? {
+                    name: sanitizeFileName(file.originalname),
+                    path: file.filename,
+                    size: file.size,
+                    mimeType: file.mimetype
                 }
-            } catch (error) {
-                logger.warn({ error }, "File deletion failed")
-            }
-        }
-
-        props.fileName = sanitizeFileName(file.originalname);
-        props.filePath = file.filename;
-        props.fileSize = file.size;
-        props.mimeType = file.mimetype;
+                : null
     }
 
     return await repo.putVacationsRepository(props)
@@ -163,12 +146,6 @@ export const deleteVacationService = async (id: number) => {
 
     if (!vacation) {
         throw new Error("Descarga no encontrada")
-    }
-
-    if (vacation.filePath) {
-        const obsolutePath = path.join(uploadsRoot, vacation.filePath)
-        const fs = await import("fs/promises");
-        await fs.unlink(obsolutePath).catch(() => { });
     }
 
     return await repo.deleteVacationRepository(id)

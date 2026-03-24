@@ -4,31 +4,11 @@ import { Card, Center, Loader, SimpleGrid, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { fetchVacations } from "../api";
 import { Shift } from "../components";
+import type { VacationsData } from "../../types/vacations.types";
 
 export interface Data {
-    data: Datum[];
+    data: VacationsData[];
     meta: Meta;
-}
-
-export interface Datum {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    createdAt: Date;
-    updatedAt: Date;
-    files: File[];
-}
-
-export interface File {
-    id: number;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    type: string;
-    shiftId: number;
-    createdAt: Date;
 }
 
 export interface Meta {

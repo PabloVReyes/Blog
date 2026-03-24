@@ -735,6 +735,10 @@ model CertificationSection {
   updatedAt DateTime @updatedAt
 }
 
+////////////////
+// VACACIONES //
+////////////////
+
 model ShiftType {
   id        Int      @id @default(autoincrement())
   name      String   @unique // "Matutino - Vespertino"
@@ -749,10 +753,8 @@ model ShiftType {
 model ShiftFile {
   id Int @id @default(autoincrement())
 
-  fileName String?
-  filePath String?
-  fileSize Int?
-  mimeType String?
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id])
 
   type      ShiftFileType
   shiftId   Int
@@ -762,6 +764,10 @@ model ShiftFile {
 
   @@unique([type, shiftId]) // Solo un CALENDAR y un INDEX por jornada
 }
+
+//////////////
+// ARCHIVOS //
+//////////////
 
 model File {
   id       String  @id @default(uuid())
@@ -792,6 +798,7 @@ model File {
   standards            standards[]
   juristics            juristics[]
   certifications       Certification[]
+  shiftFiles           ShiftFile[]
 }
 
 ///////////

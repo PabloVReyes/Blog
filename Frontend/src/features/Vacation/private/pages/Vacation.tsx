@@ -7,30 +7,9 @@ import { Text } from "@mantine/core"
 import { ActionsVacation, AddVacation } from "../components"
 import { useVacationStore } from "@/stores"
 import type { Column } from "@/types"
+import type { VacationsData } from "../../types/vacations.types"
 
-export interface Row {
-    id: number;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    type: string;
-    shiftId: number;
-    createdAt: Date;
-    shift: Shift;
-}
-
-export interface Shift {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-const columns: Column<Row>[] = [
+const columns: Column<VacationsData>[] = [
     {
         key: 'shift',
         label: 'Turno',
@@ -62,7 +41,7 @@ const columns: Column<Row>[] = [
                         overflowWrap: "anywhere",
                         wordBreak: "break-word",
                     }}
-                >{row.fileName}</Text>
+                >{row.file?.name}</Text>
             )
         }
     },

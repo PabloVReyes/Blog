@@ -1,3 +1,3 @@
 import * as path from "path";
 
-export const uploadsRoot = path.join(__dirname, "../../../uploads/vacations");
+export const uploadsRoot = path.join(__dirname, "../../../uploads");

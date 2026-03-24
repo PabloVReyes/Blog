@@ -3,30 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { VacationsData } from "@/features/Vacation/types/vacations.types"
 
-export interface Props {
-    id: number;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    type: string;
-    shiftId: number;
-    createdAt: Date;
-    shift: Shift;
-}
-
-export interface Shift {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-export const ActionsVacation = ({ id, ...props }: Props) => {
+export const ActionsVacation = ({ id, ...props }: VacationsData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

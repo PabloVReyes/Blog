@@ -1,10 +1,12 @@
 import { database } from "../../config/prisma"
 import { PaginationProps } from "../../types/pagination";
 import { logger } from "../../utils/logger";
+import * as path from "path"
+import * as fs from "fs/promises"
 
-/////
+////////////
 // CREATE //
-//
+////////////
 
 interface PostShiftRepositoryProps {
     name: string;
@@ -32,31 +34,39 @@ export const postShiftRepository = async ({ name, icon, color }: PostShiftReposi
 
 interface PostVacationRepositoryProps {
     type: "CALENDAR" | "INDEX"
-    fileName: string | null;
-    filePath: string | null;
-    fileSize: number | null;
-    mimeType: string | null;
+    file?: {
+        name?: string;
+        path?: string;
+        size?: number;
+        mimeType?: string;
+    } | null
     shiftId: number
 }
 
 export const postVacationRepository = async ({
     type,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType,
+    file,
     shiftId
 }: PostVacationRepositoryProps) => {
     try {
-        return await database.shiftFile.create({
-            data: {
-                type,
-                fileName,
-                filePath,
-                fileSize,
-                mimeType,
-                shiftId
+        return await database.$transaction(async (tx) => {
+            let fileId: string | null = null;
+
+            if (file) {
+                const createFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = createFile.id
             }
+
+            return await tx.shiftFile.create({
+                data: {
+                    type,
+                    fileId,
+                    shiftId
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -88,7 +98,8 @@ export const getVacationsRepository = async ({ search, take, skip }: PaginationP
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
-                    shift: true
+                    shift: true,
+                    file: true
                 }
             }),
             database.shiftFile.count({ where }),
@@ -168,7 +179,11 @@ export const getShiftsWithVacationsRepository = async ({ skip, search, take }: P
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
                 include: {
-                    files: true
+                    files: {
+                        include: {
+                            file: true
+                        }
+                    }
                 }
             }),
             database.shiftType.count({ where }),
@@ -184,9 +199,9 @@ export const getShiftsWithVacationsRepository = async ({ skip, search, take }: P
     }
 }
 
-///
-// UPDATE /
-//
+////////////
+// UPDATE //
+////////////
 
 interface PutShiftRepositoryProps extends PostShiftRepositoryProps {
     id: number
@@ -235,25 +250,53 @@ export const putVacationsRepository = async ({
     id,
     shiftId,
     type,
-    fileName,
-    filePath,
-    fileSize,
-    mimeType
+    file
 }: PutVacationsRepository) => {
     try {
-        return await database.shiftFile.update({
-            where: { id },
-            data: {
-                shiftId,
-                type,
-                mimeType,
-                fileName,
-                filePath,
-                fileSize
-            },
-            include: {
-                shift: true
+        return await database.$transaction(async (tx) => {
+            const current = await tx.shiftFile.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Vacaciones no encontradas")
             }
+
+            let fileId = current.fileId
+            const uploadsPath = path.join(process.cwd(), 'uploads');
+
+            if (file) {
+                if (current.file?.path) {
+                    try {
+                        const absolutePath = path.join(uploadsPath, current.file.path)
+                        await fs.unlink(absolutePath)
+                    } catch (_) { }
+
+                    await tx.file.delete({
+                        where: { id: current.file.id }
+                    })
+                }
+
+                const newFile = await tx.file.create({
+                    data: file
+                })
+
+                fileId = newFile.id
+            }
+
+            return await tx.shiftFile.update({
+                where: { id },
+                data: {
+                    shiftId,
+                    type,
+                    fileId
+                },
+                include: {
+                    shift: true,
+                    file: true
+                }
+            })
         })
     } catch (error) {
         logger.error(
@@ -270,7 +313,32 @@ export const putVacationsRepository = async ({
 
 export const deleteVacationRepository = async (id: number) => {
     try {
-        return await database.shiftFile.delete({ where: { id } })
+        return await database.$transaction(async (tx) => {
+            const current = await tx.shiftFile.findUnique({
+                where: { id },
+                include: { file: true }
+            })
+
+            if (!current) {
+                throw new Error("Sistema no encontrado")
+            }
+
+            const uploadsPath = path.join(process.cwd(), 'uploads')
+
+            if (current.file?.path) {
+                try {
+                    await fs.unlink(path.join(uploadsPath, current.file.path))
+                } catch (_) { }
+
+                await tx.file.delete({
+                    where: { id: current.file.id }
+                })
+            }
+
+            return await tx.shiftFile.delete({
+                where: { id }
+            })
+        })
     } catch (error) {
         logger.error(
             { error, operation: "deleteVacationRepository", entity: "ShiftFile" },

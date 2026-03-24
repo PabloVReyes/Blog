@@ -37,7 +37,6 @@ router.get('/shifts-vacations', controller.getShiftWithVacationsController)
 
 // Vacaciones
 router.get('/', controller.getVacationsController)
-router.get('/download/:id', controller.downloadVacationFileController)
 router.post('/', upload.single("file"), controller.postVacationController)
 router.put('/:id', upload.single("file"), controller.putVacationController)
 router.delete('/:id', controller.deleteVacationController)

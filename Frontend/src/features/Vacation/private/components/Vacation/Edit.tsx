@@ -4,29 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateFile, validateSelect } from "@/utils"
 import { useVacationStore } from "@/stores"
+import type { VacationsData } from "@/features/Vacation/types/vacations.types"
 
-export interface Data {
-    id: number;
-    fileName: string;
-    filePath: string;
-    fileSize: number;
-    mimeType: string;
-    type: string;
-    shiftId: number;
-    createdAt: Date;
-    shift: Shift;
-}
-
-export interface Shift {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const Edit = (file: Data) => {
+export const Edit = (file: VacationsData) => {
     const update = useVacationStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -40,7 +20,7 @@ export const Edit = (file: Data) => {
         validate: {
             type: (value) => validateSelect(value, { required: true }),
             shift: (value) => validateSelect(value, { required: true }),
-            file: (value) => validateFile(value, { required: true, existingFileName: file.fileName })
+            file: (value) => validateFile(value, { required: true, existingFileName: file.file?.name })
         }
     })
 
@@ -73,7 +53,7 @@ export const Edit = (file: Data) => {
             onSubmit={handleSubmit}
             submitLabel="Editar"
             isLoading={loading}
-            fileName={file.fileName}
+            fileName={file.file?.name}
         />
     )
 }
