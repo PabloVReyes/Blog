@@ -1,4 +1,4 @@
-import * as path from "path"
+import path from "path"
 import { sanitizeFileName } from "../../../utils/file"
 import * as repo from "./calendar.repository"
 import { CalendarUpdateDto } from "./calendar.schema"

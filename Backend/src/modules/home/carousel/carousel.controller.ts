@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express"
 import * as service from "./carousel.service"
 import * as schema from "./carousel.schema"
-import * as fs from "fs"
+import fs from "fs"
 import { asyncHandler } from "../../../utils/asyncHandler"
 
 ////////////

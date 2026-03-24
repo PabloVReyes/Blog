@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 import * as schema from "./system.schema"
 import * as service from "./system.service";
-import * as fs from "fs"
+import fs from "fs"
 import { asyncHandler } from "../../utils/asyncHandler";
 
 ////////////

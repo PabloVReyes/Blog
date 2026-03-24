@@ -3,7 +3,7 @@ import * as repo from "./certification.repository"
 import * as types from "./certification.types"
 import { sanitizeFileName } from "../../utils/file"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
-import * as path from "path"
+import path from "path"
 import { uploadsRoot } from "./path"
 import { logger } from "../../utils/logger"
 

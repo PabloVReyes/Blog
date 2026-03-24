@@ -1,6 +1,6 @@
 import { database } from "../../../config/prisma"
-import * as path from "path"
-import * as fs from "fs/promises"
+import path from "path"
+import fs from "fs/promises"
 import { logger } from "../../../utils/logger";
 
 interface PostAccessCardRepositoryProps {

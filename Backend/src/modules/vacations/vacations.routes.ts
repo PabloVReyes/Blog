@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as controller from "./vacations.controller"
-import * as multer from "multer";
+import multer from "multer";
 import { uploadsRoot } from "./path";
 import { sanitizeFileName } from "../../utils/file";
 

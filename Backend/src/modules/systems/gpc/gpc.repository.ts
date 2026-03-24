@@ -1,8 +1,8 @@
-import * as path from "path"
+import path from "path"
 import { database } from "../../../config/prisma";
 import { PaginationProps } from "../../../types/pagination";
 import { logger } from "../../../utils/logger";
-import * as fs from "fs/promises";
+import fs from "fs/promises";
 
 ////////////
 // CREATE //

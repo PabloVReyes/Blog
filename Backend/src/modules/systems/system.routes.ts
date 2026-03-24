@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as controller from "./system.controller"
-import * as multer from "multer";
-import * as path from "path";
+import multer from "multer";
+import path from "path";
 import cie10Rutes from "./cie10/cie10.routes"
 import monthlyReportsRoutes from "./monthlyReports/monthlyReports.routes"
 import agreementPersonRoutes from "./agreementPerson/agreementPerson.routes"

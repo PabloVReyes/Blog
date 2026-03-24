@@ -1,4 +1,4 @@
-import * as path from "path"
+import path from "path"
 import * as repo from "./files.repository"
 
 export const downloadFileService = async (id: string) => {

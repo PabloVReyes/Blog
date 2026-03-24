@@ -3,7 +3,7 @@ import * as repo from "./vacations.repository"
 import * as schema from "./vacations.schema"
 import * as types from "./vacations.types"
 import { sanitizeFileName } from "../../utils/file"
-import * as path from "path"
+import path from "path"
 import { uploadsRoot } from "./path"
 import { logger } from "../../utils/logger"
 

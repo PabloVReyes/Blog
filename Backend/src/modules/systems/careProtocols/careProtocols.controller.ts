@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 import * as service from "./careProtocols.service"
 import * as schema from "./careProtocols.schema";
-import * as fs from "fs"
+import fs from "fs"
 import { asyncHandler } from "../../../utils/asyncHandler";
 
 ////////////

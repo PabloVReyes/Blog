@@ -4,7 +4,7 @@ import * as repo from "./downloads.repository"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as types from "./downloads.types"
 import { sanitizeFileName } from "../../utils/file"
-import * as path from "path"
+import path from "path"
 import { uploadsRoot } from "./path"
 import { logger } from "../../utils/logger"
 

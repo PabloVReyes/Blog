@@ -2,6 +2,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { ZodError } from 'zod'
 import { logger } from '../utils/logger'
+import { HttpError } from '../utils/httpError'
 
 export const errorHandler = (
     err: unknown,
@@ -30,6 +31,23 @@ export const errorHandler = (
         return res.status(422).json({
             success: false,
             errors: err.flatten()
+        })
+    }
+
+    if (err instanceof HttpError) {
+        logger.warn(
+            {
+                ...context,
+                type: 'http_error',
+                status: err.status,
+                message: err.message
+            },
+            'HTTP error'
+        )
+
+        return res.status(err.status).json({
+            success: false,
+            message: err.message
         })
     }
 

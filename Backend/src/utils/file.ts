@@ -1,4 +1,4 @@
-import * as path from "path"
+import path from "path"
 
 const ALLOWED_EXTENSIONS = new Set([
     '.jpg', '.jpeg', '.png', '.gif', '.webp',

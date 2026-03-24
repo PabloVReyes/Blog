@@ -3,7 +3,7 @@ import * as repo from "./carousel.repository"
 import { GetCarouselSchema } from "./carousel.schema"
 import { sanitizeFileName } from "../../../utils/file"
 import { CarouselCreateDto, CarouselUpdateDto } from "./carousel.types"
-import * as path from "path"
+import path from "path"
 
 ////////////
 // CREATE //

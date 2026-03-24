@@ -1,6 +1,7 @@
 import { comparePassword } from "../../utils/password"
 import { generateToken } from "./jwt"
 import * as repo from "./auth.repository"
+import { HttpError } from "../../utils/httpError";
 
 const DUMMY_HASH = "$2b$10$CwTycUXWue0Thq9StjUM0uJ8Q8ZC6zQ6YqZ0zcKXqQyV2pA6Y5G2K";
 
@@ -12,7 +13,7 @@ export const login = async (email: string, password: string) => {
     const valid = await comparePassword(password, passwordHash)
 
     if (!user || !valid) {
-        throw new Error("Credenciales inválidas")
+        throw new HttpError(401, "Credenciales inválidas")
     }
 
     if (!user.active) {

@@ -1,8 +1,8 @@
 import { PrismaClient, PersonType } from "@prisma/client";
 import { adapter } from "../src/config/prisma";
 import "dotenv/config";
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 const prisma = new PrismaClient({ adapter });
 

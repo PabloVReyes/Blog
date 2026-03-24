@@ -1,8 +1,8 @@
 import { database } from "../../../config/prisma"
 import { logger } from "../../../utils/logger";
 import { GetCarouselProps, PostCarouselProps } from "./carousel.types"
-import * as fs from 'fs/promises'
-import * as path from 'path'
+import fs from 'fs/promises'
+import path from 'path'
 
 ////////////
 // CREATE //

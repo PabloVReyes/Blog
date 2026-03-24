@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 import * as schema from "./gpc.schema"
 import * as service from "./gpc.service"
-import * as fs from "fs"
+import fs from "fs"
 import { asyncHandler } from "../../../utils/asyncHandler";
 
 ////////////

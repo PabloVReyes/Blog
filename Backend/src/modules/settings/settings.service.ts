@@ -1,5 +1,5 @@
 import * as repo from "./settings.repository"
-import * as path from "path";
+import path from "path";
 import * as schema from "./settings.schema"
 
 export const settingsService = async () => {
