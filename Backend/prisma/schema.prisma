@@ -20,6 +20,7 @@ model User {
   roles              UserRole[]
   lastLoginAt        DateTime?
   createdAt          DateTime   @default(now())
+  emailSent          Boolean    @default(false)
 }
 
 model Role {

@@ -8,17 +8,19 @@ interface Props {
     email: string;
     password: string;
     roles: string[]
+    emailSent: boolean;
 }
 
 export const createUserRepository = async (props: Props) => {
     try {
-        const { name, email, password, roles } = props
+        const { name, email, password, roles, emailSent } = props
 
         return await database.user.create({
             data: {
                 name,
                 email,
                 password,
+                emailSent,
                 mustChangePassword: true,
                 roles: {
                     create: roles.map((rolId) => ({
@@ -235,6 +237,32 @@ export const changePasswordRepository = async (id: string, password: string, mus
         throw new Error("Error al cambiar contraseña del usuario")
     }
 }
+
+export const markEmailSent = async (userId: string) => {
+    return await database.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            emailSent: true
+        }
+    })
+}
+
+export const markEmailFailed = async (userId: string) => {
+    return await database.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            emailSent: false
+        }
+    })
+}
+
+////////////
+// DELETE //
+////////////
 
 export const deleteUserRepository = async (id: string) => {
     try {

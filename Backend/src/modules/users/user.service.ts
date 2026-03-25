@@ -15,7 +15,8 @@ export const createUserService = async (dto: schema.CreateUserSchema) => {
         name,
         email,
         password,
-        roles
+        roles,
+        emailSent: false,
     })
 
     try {
@@ -25,8 +26,11 @@ export const createUserService = async (dto: schema.CreateUserSchema) => {
             password: plainPassword,
             message: "Tu cuenta fue creada correctamente."
         })
+
+        await repo.markEmailSent(user.id)
     } catch (error) {
         logger.warn({ error }, "Email Send failed")
+        await repo.markEmailFailed(user.id)
     }
 
     return user
