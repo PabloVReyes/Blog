@@ -9,7 +9,7 @@ interface SettingsState {
     title: string;
     color: string;
     theme: ThemeType;
-    favicon?: string;
+    favicon: string;
 
     isLoading: boolean;
 
@@ -28,7 +28,7 @@ const initialState = {
     title: "Blog",
     color: "blue",
     theme: "auto" as ThemeType,
-    favicon: undefined,
+    favicon: "",
     isLoading: false
 };
 

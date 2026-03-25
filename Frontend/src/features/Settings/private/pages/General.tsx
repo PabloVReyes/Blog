@@ -7,6 +7,7 @@ import { IconLetterT, IconPalette, IconSunMoon } from "@tabler/icons-react";
 import { uploadFavicon } from "../api";
 import { ColorPicker } from "../components";
 import { Notify, showSuccessModal } from "@/ui";
+import { getApiAssetUrl } from "@/utils";
 
 export const General = () => {
     const { primaryColor } = useMantineTheme()
@@ -62,7 +63,7 @@ export const General = () => {
                 formData.append("favicon", icon)
 
                 const { url } = await uploadFavicon(formData)
-                const faviconUrl = `${import.meta.env.VITE_API_URL}${url}?v=${Date.now()}`;
+                const faviconUrl = getApiAssetUrl(favicon)
 
                 setFavicon(url)
                 saveSetting("favicon", url)

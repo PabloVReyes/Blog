@@ -45,3 +45,7 @@ export {
 export {
     downloadFileUtil
 } from "./downloadFile"
+
+export {
+    getApiAssetUrl
+} from "./apiUrl"

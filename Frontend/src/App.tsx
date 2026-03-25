@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { useMantineColorScheme } from "@mantine/core";
 import { routes } from "./routes/routes";
 import { useSettingStore } from "./features";
+import { getApiAssetUrl } from "./utils";
 
 const updateFavicon = (url: string) => {
     let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
@@ -23,9 +24,8 @@ export const App = () => {
     }, [title])
 
     useEffect(() => {
-        if (favicon) {
-            updateFavicon(`${import.meta.env.VITE_API_URL}${favicon}`)
-        }
+        const faviconUrl = getApiAssetUrl(favicon)
+        if (faviconUrl) updateFavicon(faviconUrl)
     }, [favicon])
 
     useEffect(() => {
