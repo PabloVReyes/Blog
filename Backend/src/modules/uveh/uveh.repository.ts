@@ -12,7 +12,7 @@ interface PostUVEHRepositoryProps {
     name: string;
     description?: string | null
     isNew: boolean;
-    categoryId: number
+    categoryId: string
     file?: {
         name?: string;
         path?: string;
@@ -185,7 +185,7 @@ export const getUVEHRepository = async ({ search, take, skip }: PaginationProps)
     }
 }
 
-export const getUVEHByIdRepository = async (id: number) => {
+export const getUVEHByIdRepository = async (id: string) => {
     try {
         return await database.uveh.findUnique({ where: { id } })
     } catch (error) {
@@ -207,7 +207,7 @@ export const getUVEHByIdRepository = async (id: number) => {
 ////////////
 
 interface PutUVEHRepositoryProps extends PostUVEHRepositoryProps {
-    id: number
+    id: string
 }
 
 export const putUVEHRepository = async ({ name, description, id, isNew, categoryId, file }: PutUVEHRepositoryProps) => {
@@ -275,7 +275,7 @@ export const putUVEHRepository = async ({ name, description, id, isNew, category
 // DELETE //
 //////////// 
 
-export const deleteUVEHRepository = async (id: number) => {
+export const deleteUVEHRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
             const current = await tx.uveh.findUnique({

@@ -3,6 +3,8 @@ import * as controller from "./adverseEvents.controller"
 import multer from "multer";
 import path from "path";
 import { sanitizeFileName } from "../../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -32,7 +34,20 @@ export const upload = multer({
 });
 
 router.get("/", controller.getAdverseEventsController)
-router.put("/:id", upload.single("file"), controller.putAdverseEventsController)
-router.delete("/:id", controller.deleteAdverseEventController)
+
+router.put(
+    "/:id",
+    authMiddleware,
+    requirePermission("events.update"),
+    upload.single("file"),
+    controller.putAdverseEventsController
+)
+
+router.delete(
+    "/:id",
+    authMiddleware,
+    requirePermission("events.delete"),
+    controller.deleteAdverseEventController
+)
 
 export default router;

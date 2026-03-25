@@ -102,7 +102,7 @@ export const getJuristicsRepository = async ({ skip, take, search }: PaginationP
     }
 }
 
-export const getJuristicsByIdRepository = async (id: number) => {
+export const getJuristicsByIdRepository = async (id: string) => {
     try {
         return await database.juristic.findUnique({ where: { id } })
     } catch (error) {
@@ -123,7 +123,7 @@ export const getJuristicsByIdRepository = async (id: number) => {
 ////////////
 
 export interface PutJuristicsRepositoryProps extends PostJuristicsRepositoryProps {
-    id: number
+    id: string
 }
 
 export const putJuristicsRepository = async ({
@@ -193,7 +193,7 @@ export const putJuristicsRepository = async ({
 // DELETE //
 ////////////
 
-export const deleteJuristicsRepository = async (id: number) => {
+export const deleteJuristicsRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
             const current = await tx.standard.findUnique({

@@ -54,7 +54,7 @@ export const getJuristicsService = async (dto: schema.GetJuristicsSchema) => {
 // UPDATE //
 ////////////
 
-export const putJuristicService = async (id: number, dto: types.JuristicsUpdateDto) => {
+export const putJuristicService = async (id: string, dto: types.JuristicsUpdateDto) => {
     const { name, description, isNew, file } = dto
 
     const existingItem = await repo.getJuristicsByIdRepository(id)
@@ -86,7 +86,7 @@ export const putJuristicService = async (id: number, dto: types.JuristicsUpdateD
 // DELETE //
 ////////////
 
-export const deleteJuristicsService = async (id: number) => {
+export const deleteJuristicsService = async (id: string) => {
     const Juristics = await repo.getJuristicsByIdRepository(id)
 
     if (!Juristics) {

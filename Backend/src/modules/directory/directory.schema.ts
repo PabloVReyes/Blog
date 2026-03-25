@@ -43,7 +43,7 @@ export const putDirectorySchema = z.object({
 export type PutDirectorySchema = z.infer<typeof putDirectorySchema>
 
 export const putDirectoryParamsSchema = z.object({
-    id: z.string().uuid()
+    id: z.uuid()
 })
 
 ////////////
@@ -51,5 +51,5 @@ export const putDirectoryParamsSchema = z.object({
 ////////////
 
 export const deleteDirectoryParamsSchema = z.object({
-    id: z.string().uuid()
+    id: z.uuid()
 })

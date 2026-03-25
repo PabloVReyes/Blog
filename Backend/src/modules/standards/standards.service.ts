@@ -69,7 +69,7 @@ export const getStandardsService = async (dto: schema.GetStandardSchema) => {
 // UPDATE //
 ////////////
 
-export const putStandardService = async (id: number, dto: types.StandarUpdateDto) => {
+export const putStandardService = async (id: string, dto: types.StandarUpdateDto) => {
     const { name, description, isNew, category, file } = dto
 
     const existingItem = await repo.getStandarByIdRepository(id)
@@ -102,7 +102,7 @@ export const putStandardService = async (id: number, dto: types.StandarUpdateDto
 // DELETE //
 ////////////
 
-export const deleteStandardService = async (id: number) => {
+export const deleteStandardService = async (id: string) => {
     const standar = await repo.getStandarByIdRepository(id)
 
     if (!standar) {

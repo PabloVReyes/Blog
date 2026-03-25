@@ -12,7 +12,7 @@ interface PostCertificationRepositoryProps {
     name: string;
     description?: string | null
     isNew: boolean;
-    sectionId: number
+    sectionId: string
     file?: {
         name?: string;
         path?: string;
@@ -202,7 +202,7 @@ export const getCertificationsRepository = async ({ skip, take, search }: Pagina
     }
 }
 
-export const getCertificationByIdRepository = async (id: number) => {
+export const getCertificationByIdRepository = async (id: string) => {
     try {
         return await database.certification.findUnique({ where: { id } })
     } catch (error) {
@@ -224,7 +224,7 @@ export const getCertificationByIdRepository = async (id: number) => {
 ////////////
 
 interface PutCertificationRepositoryProps extends PostCertificationRepositoryProps {
-    id: number
+    id: string
 }
 
 export const putCertificationRepository = async ({
@@ -303,7 +303,7 @@ export const putCertificationRepository = async ({
 // DELETE //
 ////////////
 
-export const deleteCertificationRepository = async (id: number) => {
+export const deleteCertificationRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
             const current = await tx.certification.findUnique({

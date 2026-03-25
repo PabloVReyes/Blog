@@ -89,7 +89,7 @@ export const getCertificationsService = async (dto: schema.GetCertificationsSche
 // UPDATE //
 ////////////
 
-export const putCertificationService = async (id: number, dto: types.CertificationUpdateDto) => {
+export const putCertificationService = async (id: string, dto: types.CertificationUpdateDto) => {
     const { name, description, isNew, section, file } = dto
 
     const existingItem = await repo.getCertificationByIdRepository(id)
@@ -122,7 +122,7 @@ export const putCertificationService = async (id: number, dto: types.Certificati
 // DELETE //
 ////////////
 
-export const deleteCertificationService = async (id: number) => {
+export const deleteCertificationService = async (id: string) => {
     const Certification = await repo.getCertificationByIdRepository(id)
 
     if (!Certification) {

@@ -1,11 +1,11 @@
 import z from "zod"
 
-///
+////////////
 // CREATE //
-////
+////////////
 
 export const postVacationSchema = z.object({
-    shift: z.coerce.number(),
+    shift: z.uuid(),
     type: z.enum(["CALENDAR", "INDEX"])
 })
 
@@ -20,7 +20,7 @@ export const postShiftSchema = z.object({
 export type PostShiftSchema = z.infer<typeof postShiftSchema>
 
 export const downloadVacationSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
 ///
@@ -52,9 +52,9 @@ export const getVacationsSchema = z.object({
 export type GetVacationssSchema = z.infer<typeof getVacationsSchema>
 
 
-///
-// UPDATE
-//
+////////////
+// UPDATE //
+////////////
 
 export const putShiftSchema = z.object({
     name: z.string(),
@@ -65,28 +65,28 @@ export const putShiftSchema = z.object({
 export type PutShiftSchema = z.infer<typeof putShiftSchema>
 
 export const PutShiftParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
 export const putVacationSchema = z.object({
-    shift: z.coerce.number(),
+    shift: z.uuid(),
     type: z.enum(["CALENDAR", "INDEX"])
 })
 
 export type PutVacationSchema = z.infer<typeof putVacationSchema>
 
 export const PutVacationParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
-//
-// DELETE 
-//
+////////////
+// DELETE //
+////////////
 
 export const deleteShiftParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
 export const deleteVacationParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })

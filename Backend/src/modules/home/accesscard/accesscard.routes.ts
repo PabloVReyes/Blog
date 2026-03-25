@@ -3,6 +3,8 @@ import * as controller from "./accesscard.controller"
 import multer from "multer";
 import path from "path";
 import { sanitizeFileName } from "../../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -32,8 +34,28 @@ export const upload = multer({
 });
 
 router.get("/", controller.getAccessCardController)
-router.post("/", upload.single("file"), controller.postAccessCardController)
-router.put("/:id", upload.single("file"), controller.putAccessCardController)
-router.delete("/:id", controller.deleteAccessCardController)
+
+router.post(
+    "/",
+    authMiddleware,
+    requirePermission("quickaccess.create"),
+    upload.single("file"),
+    controller.postAccessCardController
+)
+
+router.put(
+    "/:id",
+    authMiddleware,
+    requirePermission("quickaccess.update"),
+    upload.single("file"),
+    controller.putAccessCardController
+)
+
+router.delete(
+    "/:id",
+    authMiddleware,
+    requirePermission("quickaccess.delete"),
+    controller.deleteAccessCardController
+)
 
 export default router;

@@ -4,6 +4,8 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { sanitizeFileName } from "../../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -56,8 +58,31 @@ export const upload = multer({
     }
 });
 
-router.get("/", controller.getCarouselController)
-router.post("/", upload.fields([{ name: "image", maxCount: 1 }, { name: "file", maxCount: 1 }]), controller.postCarouselController)
-router.put("/:id", upload.fields([{ name: "image", maxCount: 1 }, { name: "file", maxCount: 1 }]), controller.putCarouselController)
-router.delete("/:id", controller.deleteCarouselController)
+router.get(
+    "/", 
+    controller.getCarouselController
+)
+
+router.post(
+    "/", 
+    authMiddleware,
+    requirePermission("carousel.create"),
+    upload.fields([{ name: "image", maxCount: 1 }, { name: "file", maxCount: 1 }]), 
+    controller.postCarouselController
+)
+
+router.put(
+    "/:id", 
+    authMiddleware,
+    requirePermission("carousel.update"),
+    upload.fields([{ name: "image", maxCount: 1 }, { name: "file", maxCount: 1 }]), 
+    controller.putCarouselController
+)
+
+router.delete(
+    "/:id", 
+    authMiddleware,
+    requirePermission("carousel.delete"),
+    controller.deleteCarouselController
+)
 export default router;

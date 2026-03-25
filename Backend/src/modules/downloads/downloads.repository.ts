@@ -14,7 +14,7 @@ interface PostDownloadRepositoryProps {
     description?: string | null,
     isNew: boolean;
     type: "DOCUMENT" | "IMAGE"
-    categoryId: number
+    categoryId: string;
     file?: {
         name?: string;
         path?: string;
@@ -88,7 +88,7 @@ export const postAreaRepository = async ({ name, icon, color, slug }: PostAreaRe
     }
 }
 
-export const postSectionRepository = async ({ name, areaId }: { name: string, areaId: number }) => {
+export const postSectionRepository = async ({ name, areaId }: { name: string, areaId: string }) => {
     try {
         return await database.downloadSection.create({
             data: {
@@ -106,7 +106,7 @@ export const postSectionRepository = async ({ name, areaId }: { name: string, ar
     }
 }
 
-export const postCategoryRepository = async ({ name, sectionId }: { name: string, sectionId: number }) => {
+export const postCategoryRepository = async ({ name, sectionId }: { name: string, sectionId: string }) => {
     try {
         return await database.downloadCategory.create({
             data: {
@@ -128,7 +128,7 @@ export const postCategoryRepository = async ({ name, sectionId }: { name: string
 // READ //
 //////////
 
-export const getDownloadByIdRepository = async (id: number) => {
+export const getDownloadByIdRepository = async (id: string) => {
     try {
         return await database.downloadFile.findUnique({
             where: { id },
@@ -277,7 +277,7 @@ export const getAreaWithDownloadsRepository = async (slug: string) => {
     }
 };
 
-export const getSectionByAreaRepository = async (areaId: number) => {
+export const getSectionByAreaRepository = async (areaId: string) => {
     try {
         const [data, total] = await Promise.all([
             database.downloadSection.findMany({
@@ -304,7 +304,7 @@ export const getSectionByAreaRepository = async (areaId: number) => {
     }
 }
 
-export const getCategoriesBySectionRepository = async (sectionId: number) => {
+export const getCategoriesBySectionRepository = async (sectionId: string) => {
     try {
         const [data, total] = await Promise.all([
             database.downloadCategory.findMany({
@@ -336,7 +336,7 @@ export const getCategoriesBySectionRepository = async (sectionId: number) => {
 ////////////
 
 interface PutDownloadRepositoryProps extends PostDownloadRepositoryProps {
-    id: number
+    id: string
 }
 
 export const putDownloadRepository = async ({
@@ -416,7 +416,7 @@ export const putDownloadRepository = async ({
 }
 
 interface PutAreaRepositoryProps extends PostAreaRepositoryProps {
-    id: number
+    id: string
 }
 
 export const putAreaRepository = async ({ id, name, icon, color, slug }: PutAreaRepositoryProps) => {
@@ -446,7 +446,7 @@ export const putAreaRepository = async ({ id, name, icon, color, slug }: PutArea
 // DELETE //
 ////////////
 
-export const deleteAreaRepository = async (id: number) => {
+export const deleteAreaRepository = async (id: string) => {
     try {
         return await database.downloadArea.delete({ where: { id } })
     } catch (error) {
@@ -460,7 +460,7 @@ export const deleteAreaRepository = async (id: number) => {
     }
 }
 
-export const deleteDownloadRepository = async (id: number) => {
+export const deleteDownloadRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
             const current = await tx.downloadFile.findUnique({

@@ -3,6 +3,8 @@ import { Router } from "express";
 import multer from "multer";
 import * as controller from "./macroprocess.controller"
 import { uploadsRoot } from "./path";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -33,17 +35,46 @@ export const upload = multer({
 
 // Areas
 router.get("/areas", controller.getAreasController)
-router.put("/areas/:id", controller.putAreaController)
+
+router.put(
+    "/areas/:id", 
+    authMiddleware,
+    requirePermission("macroprocessarea.update"),
+    controller.putAreaController
+)
 
 // Tipos de manual
-router.get("/manuals", controller.getManualsTypeController)
-router.put("/manuals/:id", controller.putManualTypeController)
+router.get(
+    "/manuals",
+    controller.getManualsTypeController
+)
+
+router.put(
+    "/manuals/:id", 
+    authMiddleware,
+    requirePermission("macroprocesstype.update"),
+    controller.putManualTypeController
+)
+
 router.get('/manuals/:type', controller.getManualByTypeController)
 
 router.get('/', controller.getManualsWithAreaController)
 router.get('/:id', controller.getAreaWithManualsController)
-router.put("/:id", upload.single("file"), controller.putManualController)
-router.delete("/:id", controller.deleteManualController)
+
+router.put(
+    "/:id", 
+    authMiddleware,
+    requirePermission("macroprocess.update"),
+    upload.single("file"), 
+    controller.putManualController
+)
+
+router.delete(
+    "/:id", 
+    authMiddleware,
+    requirePermission("macroprocess.delete"),
+    controller.deleteManualController
+)
 
 
 export default router;

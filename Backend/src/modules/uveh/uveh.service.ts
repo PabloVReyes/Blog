@@ -85,7 +85,7 @@ export const getUVEHService = async (dto: schema.GetDownloadsSchema) => {
 // UPDATE //
 ////////////
 
-export const putUVEHService = async (id: number, dto: types.DownloadsUpdateDto) => {
+export const putUVEHService = async (id: string, dto: types.DownloadsUpdateDto) => {
     const { name, description, isNew, category, file } = dto
 
     const existingItem = await repo.getUVEHByIdRepository(id)
@@ -114,11 +114,11 @@ export const putUVEHService = async (id: number, dto: types.DownloadsUpdateDto) 
     return await repo.putUVEHRepository(props)
 }
 
-///
-// DELETE 
-//
+////////////
+// DELETE //
+////////////
 
-export const deleteUVEHService = async (id: number) => {
+export const deleteUVEHService = async (id: string) => {
     const uveh = await repo.getUVEHByIdRepository(id)
 
     if (!uveh) {

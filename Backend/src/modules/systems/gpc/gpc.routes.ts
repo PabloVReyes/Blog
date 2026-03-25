@@ -3,6 +3,8 @@ import * as controller from "./gpc.controller"
 import multer from "multer";
 import path from "path";
 import { sanitizeFileName } from "../../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 
 const router: Router = Router()
@@ -32,10 +34,31 @@ export const upload = multer({
     }
 });
 
-router.post("/algorithms", upload.single("file"), controller.postGpcController)
 router.get("/algorithms", controller.getGpcController)
-router.put("/algorithms/:id", upload.single("file"), controller.putGpcController)
-router.delete("/algorithms/:id", controller.deleteGpcController)
+
+router.post(
+    "/algorithms",
+    authMiddleware,
+    requirePermission("gpc.create"),
+    upload.single("file"),
+    controller.postGpcController
+)
+
+router.put(
+    "/algorithms/:id",
+    authMiddleware,
+    requirePermission("gpc.update"),
+    upload.single("file"),
+    controller.putGpcController
+
+)
+
+router.delete(
+    "/algorithms/:id",
+    authMiddleware,
+    requirePermission("gpc.delete"),
+    controller.deleteGpcController
+)
 
 router.post("/cycles", controller.postCycleController)
 router.get("/cycles-algorithms", controller.getCycleWithGpcController)

@@ -4,6 +4,8 @@ import multer from "multer";
 import path from "path";
 import fs from "fs"
 import { sanitizeFileName } from "../../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -48,10 +50,30 @@ export const upload = multer({
     }
 });
 
-router.post("/guides", upload.fields([{ name: "er", maxCount: 1 }, { name: "rr", maxCount: 1 }]), controller.postClinicalPracticeGuidelinesController)
-router.put("/guides/:id", upload.fields([{ name: "er", maxCount: 1 }, { name: "rr", maxCount: 1 }]), controller.putClinicalPracticeGuidelinesController)
-router.delete("/guides/:id", controller.deleteClinicalPracticeGuidelinesController)
 router.get("/guides", controller.getClinicalPracticeGuidelinesController)
+
+router.post(
+    "/guides",
+    authMiddleware,
+    requirePermission("gpccenetc.create"),
+    upload.fields([{ name: "er", maxCount: 1 }, { name: "rr", maxCount: 1 }]),
+    controller.postClinicalPracticeGuidelinesController
+)
+
+router.put(
+    "/guides/:id",
+    authMiddleware,
+    requirePermission("gpccenetc.update"),
+    upload.fields([{ name: "er", maxCount: 1 }, { name: "rr", maxCount: 1 }]),
+    controller.putClinicalPracticeGuidelinesController
+)
+router.delete(
+    "/guides/:id",
+    authMiddleware,
+    requirePermission("gpccenetc.delete"),
+    controller.deleteClinicalPracticeGuidelinesController
+)
+
 router.get("/category", controller.getCategoryController)
 router.post("/category", controller.postCategoryController)
 

@@ -8,7 +8,7 @@ export const postDownloadSchema = z.object({
     name: z.string(),
     description: z.string(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
-    category: z.coerce.number()
+    category: z.uuid()
 })
 
 export type PostDownloadSchema = z.infer<typeof postDownloadSchema>
@@ -43,27 +43,27 @@ export const downloadFileSchema = z.object({
     id: z.coerce.number()
 })
 
-///
+////////////
 // UPDATE //
-//
+////////////
 
 export const putDownloadSchema = z.object({
     name: z.string(),
     description: z.string(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
-    category: z.coerce.number()
+    category: z.uuid()
 })
 
 export type PutDownloadSchema = z.infer<typeof putDownloadSchema>
 
 export const putDownloadParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
-//
-// DELETE
-//
+////////////
+// DELETE //
+////////////
 
 export const deleteDownloadParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })

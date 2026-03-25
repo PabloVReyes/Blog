@@ -3,6 +3,8 @@ import * as controller from "./calendar.controller"
 import multer from "multer";
 import path from "path";
 import { sanitizeFileName } from "../../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -32,6 +34,12 @@ export const upload = multer({
 });
 
 router.get("/", controller.getCalendarController)
-router.put("/:id", upload.single("file"), controller.putCalendarController)
+router.put(
+    "/:id", 
+    authMiddleware,
+    requirePermission("calendar.update"),
+    upload.single("file"), 
+    controller.putCalendarController
+)
 
 export default router;

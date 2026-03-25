@@ -8,7 +8,7 @@ export const postStandardSchema = z.object({
     name: z.string(),
     description: z.string().optional(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
-    category: z.coerce.number()
+    category: z.uuid()
 })
 
 export type PostStandardSchema = z.infer<typeof postStandardSchema>
@@ -35,27 +35,27 @@ export const downloadStandardSchema = z.object({
     id: z.coerce.number()
 })
 
-///
-// UPDATE 
-//
+////////////
+// UPDATE //
+////////////
 
 export const putStandardSchema = z.object({
     name: z.string(),
     description: z.string(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
-    category: z.coerce.number()
+    category: z.uuid()
 })
 
 export type PutStandardSchema = z.infer<typeof putStandardSchema>
 
 export const putStandarParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
-///
-// DELETE
-//
+////////////
+// DELETE //
+////////////
 
 export const deleteStandarParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })

@@ -7,7 +7,7 @@ datasource db {
 }
 
 // ==========================================
-// 🔐 USUARIOS Y SEGURIDAD
+// 🔐 MÓDULO: SEGURIDAD Y USUARIOS
 // ==========================================
 
 model User {
@@ -70,7 +70,7 @@ model Setting {
 }
 
 // ==========================================
-// 🏠 INICIO / CMS
+// 🏠 MÓDULO: INICIO / CMS
 // ==========================================
 
 model HomeSection {
@@ -103,7 +103,7 @@ model AlertMessage {
   updatedAt   DateTime?   @updatedAt
   section     HomeSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
-  @@index([sectionId]) // 🚀 Optimiza búsquedas 1-a-1 desde HomeSection
+  @@index([sectionId])
 }
 
 model CarouselItem {
@@ -170,7 +170,7 @@ model CalendarConfig {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  @@index([sectionId]) // 🚀 Optimiza búsquedas 1-a-1 desde HomeSection
+  @@index([sectionId])
   @@index([fileId])
 }
 
@@ -186,7 +186,7 @@ model DerechohabienciaConfig {
   updatedAt   DateTime?              @updatedAt
   section     HomeSection            @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
-  @@index([sectionId]) // 🚀 Optimiza búsquedas 1-a-1 desde HomeSection
+  @@index([sectionId])
 }
 
 model DerechohabienciaLink {
@@ -204,7 +204,7 @@ model DerechohabienciaLink {
 }
 
 // ==========================================
-// 📞 DIRECTORIO
+// 📞 MÓDULO: DIRECTORIO
 // ==========================================
 
 model Directory {
@@ -227,11 +227,11 @@ model Level {
 }
 
 // ==========================================
-// 🛠️ SISTEMAS Y MACROPROCESOS
+// 🛠️ MÓDULO: SISTEMAS Y MACROPROCESOS
 // ==========================================
 
 model System {
-  id          String  @id @unique @default(uuid())
+  id          String  @id @default(uuid())
   acronym     String?
   name        String?
   description String  @db.LongText
@@ -250,7 +250,7 @@ model System {
 }
 
 model Area {
-  id          String    @id @unique @default(uuid())
+  id          String    @id @default(uuid())
   name        String
   category    String
   manager     String?
@@ -261,7 +261,7 @@ model Area {
 }
 
 model ManualType {
-  id        String         @id @unique @default(uuid())
+  id        String         @id @default(uuid())
   name      String
   color     String
   category  ManualCategory @default(STANDARD)
@@ -271,7 +271,7 @@ model ManualType {
 }
 
 model Manual {
-  id String @id @unique @default(uuid())
+  id String @id @default(uuid())
 
   fileId String?
   file   File?   @relation(fields: [fileId], references: [id])
@@ -291,11 +291,11 @@ model Manual {
 }
 
 // ==========================================
-// 📊 INFORMES Y ESTADÍSTICAS
+// 📊 MÓDULO: INFORMES Y ESTADÍSTICAS
 // ==========================================
 
 model Cie10 {
-  id   String @id @unique @default(uuid())
+  id   String @id @default(uuid())
   name String @db.LongText
 }
 
@@ -333,7 +333,7 @@ model Report {
 }
 
 // ==========================================
-// 🤝 CONVENIOS
+// 🤝 MÓDULO: CONVENIOS (🚨 Mantienen ids como Int)
 // ==========================================
 
 model AgreementPerson {
@@ -380,7 +380,7 @@ model Group {
 }
 
 // ==========================================
-// 🏥 CBIM Y CLÍNICA (GPC)
+// 🏥 MÓDULO: CBIM Y CLÍNICA (GPC)
 // ==========================================
 
 model Cbim {
@@ -507,11 +507,11 @@ model AdverseEvent {
 }
 
 // ==========================================
-// 📥 DESCARGAS
+// 📥 MÓDULO: DESCARGAS
 // ==========================================
 
 model DownloadArea {
-  id       Int     @id @default(autoincrement())
+  id       String  @id @default(uuid())
   name     String
   slug     String  @unique
   icon     String
@@ -528,7 +528,7 @@ model DownloadArea {
 }
 
 model DownloadAreaMessage {
-  id      Int         @id @default(autoincrement())
+  id      String      @id @default(uuid())
   title   String
   content String
   icon    String?
@@ -540,7 +540,7 @@ model DownloadAreaMessage {
   startAt DateTime?
   endAt   DateTime?
 
-  areaId Int
+  areaId String
   area   DownloadArea @relation(fields: [areaId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
@@ -551,12 +551,12 @@ model DownloadAreaMessage {
 }
 
 model DownloadSection {
-  id       Int     @id @default(autoincrement())
+  id       String  @id @default(uuid())
   name     String
   order    Int?
   isActive Boolean @default(true)
 
-  areaId Int
+  areaId String
   area   DownloadArea @relation(fields: [areaId], references: [id], onDelete: Cascade)
 
   categories DownloadCategory[]
@@ -569,12 +569,12 @@ model DownloadSection {
 }
 
 model DownloadCategory {
-  id       Int     @id @default(autoincrement())
+  id       String  @id @default(uuid())
   name     String
   order    Int?
   isActive Boolean @default(true)
 
-  sectionId Int
+  sectionId String
   section   DownloadSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
   files DownloadFile[]
@@ -587,7 +587,7 @@ model DownloadCategory {
 }
 
 model DownloadFile {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   name        String
   description String? @db.LongText
 
@@ -600,7 +600,7 @@ model DownloadFile {
   isActive Boolean @default(true)
   order    Int?
 
-  categoryId Int
+  categoryId String
   category   DownloadCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
@@ -613,11 +613,11 @@ model DownloadFile {
 }
 
 // ==========================================
-// 🔬 ARCHIVOS ESPECÍFICOS (Vigilancia, Normas, etc)
+// 🔬 MÓDULO: ESPECÍFICOS (Vigilancia, Normas, etc)
 // ==========================================
 
 model Uveh {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   name        String
   description String? @db.LongText
   isNew       Boolean @default(false)
@@ -625,7 +625,7 @@ model Uveh {
   fileId String?
   file   File?   @relation(fields: [fileId], references: [id])
 
-  categoryId Int
+  categoryId String
   category   UvehCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
@@ -636,7 +636,7 @@ model Uveh {
 }
 
 model UvehCategory {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(uuid())
   name String
 
   uvehs Uveh[]
@@ -646,7 +646,7 @@ model UvehCategory {
 }
 
 model Standard {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   name        String
   description String? @db.LongText
   isNew       Boolean @default(false)
@@ -654,7 +654,7 @@ model Standard {
   fileId String?
   file   File?   @relation(fields: [fileId], references: [id])
 
-  categoryId Int
+  categoryId String
   category   StandardCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
@@ -665,7 +665,7 @@ model Standard {
 }
 
 model StandardCategory {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(uuid())
   name String
 
   standards Standard[]
@@ -675,7 +675,7 @@ model StandardCategory {
 }
 
 model Juristic {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   name        String
   description String? @db.LongText
   isNew       Boolean @default(false)
@@ -690,7 +690,7 @@ model Juristic {
 }
 
 model Certification {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   name        String
   description String? @db.LongText
   isNew       Boolean @default(false)
@@ -698,7 +698,7 @@ model Certification {
   fileId String?
   file   File?   @relation(fields: [fileId], references: [id])
 
-  sectionId Int
+  sectionId String
   section   CertificationSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
@@ -709,7 +709,7 @@ model Certification {
 }
 
 model CertificationSection {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(uuid())
   name String
 
   certifications Certification[]
@@ -719,7 +719,7 @@ model CertificationSection {
 }
 
 model ShiftType {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String   @unique
   icon      String
   color     String
@@ -730,13 +730,13 @@ model ShiftType {
 }
 
 model ShiftFile {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
 
   fileId String?
   file   File?   @relation(fields: [fileId], references: [id])
 
   type      ShiftFileType
-  shiftId   Int
+  shiftId   String
   createdAt DateTime      @default(now())
 
   shift ShiftType @relation(fields: [shiftId], references: [id], onDelete: Cascade)

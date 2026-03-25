@@ -103,7 +103,7 @@ export const getAreaWithDownloadsService = async (slug: string) => {
     return await repo.getAreaWithDownloadsRepository(slug)
 }
 
-export const getSectionsByAreaService = async (area: number) => {
+export const getSectionsByAreaService = async (area: string) => {
     const { data, total } = await repo.getSectionByAreaRepository(
         area
     )
@@ -114,7 +114,7 @@ export const getSectionsByAreaService = async (area: number) => {
     }
 }
 
-export const getCategoriesBySectionService = async (section: number) => {
+export const getCategoriesBySectionService = async (section: string) => {
     const { data, total } = await repo.getCategoriesBySectionRepository(
         section
     )
@@ -129,10 +129,14 @@ export const getCategoriesBySectionService = async (section: number) => {
 // UPDATE //
 ////////////
 
-export const putDownloadService = async (id: number, dto: types.DownloadsUpdateDto) => {
+export const putDownloadService = async (id: string, dto: types.DownloadsUpdateDto) => {
     const { name, description, isNew, type, category, file } = dto
 
-    const download: any = await repo.getDownloadByIdRepository(id)
+    const download = await repo.getDownloadByIdRepository(id)
+
+    if(!download) {
+        throw new Error("Descarga no encontrada")
+    }
 
     const props: any = {
         id,
@@ -155,7 +159,7 @@ export const putDownloadService = async (id: number, dto: types.DownloadsUpdateD
     return await repo.putDownloadRepository(props)
 }
 
-export const putAreaService = async (id: number, dto: schema.PutAreaSchema) => {
+export const putAreaService = async (id: string, dto: schema.PutAreaSchema) => {
     const { name, icon, color } = dto
     const slug = slugify(name, { lower: true, strict: true })
 
@@ -172,12 +176,12 @@ export const putAreaService = async (id: number, dto: schema.PutAreaSchema) => {
 // DELETE //
 ////////////
 
-export const deleteAreaService = async (id: number) => {
+export const deleteAreaService = async (id: string) => {
     return repo.deleteAreaRepository(id)
 }
 
 
-export const deleteDownloadService = async (id: number) => {
+export const deleteDownloadService = async (id: string) => {
     const download: any = await repo.getDownloadByIdRepository(id)
 
     if (!download) {

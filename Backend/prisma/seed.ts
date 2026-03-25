@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import * as bcrypt from "bcrypt"
-import * as prompts from "prompts"
+import bcrypt from "bcrypt"
+import prompts from "prompts"
 import { adapter } from "../src/config/prisma"
 
 const prisma = new PrismaClient({ adapter })
@@ -38,6 +38,84 @@ async function main() {
 
         // Inicio
         { key: "alert.update", name: "Actualizar Alerta", description: "Permite actualizar la alerta de inicio" },
+
+        { key: "carousel.create", name: "Crear Carrusel", description: "Permite crear un nuevo carrusel en el inicio" },
+        { key: "carousel.update", name: "Actualizar Carrusel", description: "Permite actualizar un carrusel existente en el inicio" },
+        { key: "carousel.delete", name: "Eliminar Carrusel", description: "Permite eliminar un carrusel existente en el inicio" },
+
+        { key: "calendar.update", name: "Actualizar Primera Sección", description: "Permite actualizar la primera sección de inicio" },
+        { key: "derechohabiencia.update", name: "Actualizar Segunda Sección", description: "Permite actualizar la segunda sección de inicio" },
+
+        { key: "quickaccess.create", name: "Crear Acceso Rápido", description: "Permite crear un nuevo acceso rápido en el inicio" },
+        { key: "quickaccess.update", name: "Actualizar Acceso Rápido", description: "Permite actualizar un acceso rápido existente en el inicio" },
+        { key: "quickaccess.delete", name: "Eliminar Acceso Rápido", description: "Permite eliminar un acceso rápido existente en el inicio" },
+
+        // Sistemas de consulta
+        { key: "system.create", name: "Crear Sistema", description: "Permite crear un nuevo sistema" },
+        { key: "system.update", name: "Actualizar Sistema", description: "Permite actualizar un sistema existente" },
+        { key: "system.delete", name: "Eliminar Sistema", description: "Permite eliminar un sistema existente" },
+
+        // CIE10
+        { key: "cie10.create", name: "Crear Enfermedad", description: "Permite crear una nueva enfermedad dentro de la clasificación internacional de enfermedades (CIE-10)" },
+        { key: "cie10.update", name: "Actualizar Enfermedad", description: "Permite actualizar una enfermedad existente dentro de la clasificación internacional de enfermedades (CIE-10)" },
+        { key: "cie10.delete", name: "Eliminar Enfermedad", description: "Permite eliminar una enfermedad existente dentro de la clasificación internacional de enfermedades (CIE-10)" },
+
+        // Informes Mensuales
+        { key: "monthlyreports.create", name: "Crear Informe Mensual", description: "Permite crear un nuevo informe mensual" },
+        { key: "monthlyreports.update", name: "Actualizar Informe Mensual", description: "Permite actualizar un informe mensual existente" },
+        { key: "monthlyreports.delete", name: "Eliminar Informe Mensual", description: "Permite eliminar un informe mensual existente" },
+
+        // Personas de convenio
+        { key: "agreementperson.read", name: "Ver Personas de Convenio", description: "Permite ver la lista de personas de convenio" },
+        { key: "agreementperson.create", name: "Crear Persona de Convenio", description: "Permite crear una nueva persona de convenio" },
+        { key: "agreementperson.update", name: "Actualizar Persona de Convenio", description: "Permite actualizar una persona de convenio" },
+        { key: "agreementperson.delete", name: "Eliminar Persona", description: "Permite eliminar una persona de convenio existente" },
+
+        // Cuadro Basico Integral de Medicamentos
+        { key: "cbim.create", name: "Crear Medicamento", description: "Permite crear un nuevo medicamento dentro del Cuadro Básico Integral de Medicamentos (CBIM)" },
+        { key: "cbim.update", name: "Actualizar Medicamento", description: "Permite actualizar un medicamento existente dentro del Cuadro Básico Integral de Medicamentos (CBIM)" },
+        { key: "cbim.delete", name: "Eliminar Medicamento", description: "Permite eliminar un medicamento existente dentro del Cuadro Básico Integral de Medicamentos (CBIM)" },
+
+        // Guías de Práctica Clínica
+        { key: "gpccenetc.create", name: "Crear Guía de Práctica Clínica", description: "Permite crear un nueva nueva Guía de Práctica Clínica" },
+        { key: "gpccenetc.update", name: "Actualizar Guía de Práctica Clínica", description: "Permite actualizar una Guía de Práctica Clínica existente" },
+        { key: "gpccenetc.delete", name: "Eliminar Guía de Práctica Clínica", description: "Permite eliminar una Guías de Práctica Clínica existente" },
+
+        // Algoritmos PBM
+        { key: "pbm.create", name: "Crear Algoritmo PBM", description: "Permite crear un nuevo Algoritmo PBM" },
+        { key: "pbm.update", name: "Actualizar Algoritmo PBM", description: "Permite actualizar un Algoritmo PBM existente" },
+        { key: "pbm.delete", name: "Eliminar Algoritmo PBM", description: "Permite eliminar un Algoritmo PBM existente" },
+
+        // Algoritmos GPC
+        { key: "gpc.create", name: "Crear Algoritmo GPC", description: "Permite crear un nuevo Algoritmo GPC" },
+        { key: "gpc.update", name: "Actualizar Algoritmo GPC", description: "Permite actualizar un Algoritmo GPC existente" },
+        { key: "gpc.delete", name: "Eliminar Algoritmo GPC", description: "Permite eliminar un Algoritmo GPC existente" },
+
+        // Algoritmos GPC
+        { key: "protocols.create", name: "Crear Protocolo de Atención (Pediatría)", description: "Permite crear un nuevo Protocolo de Atención (Pediatría)" },
+        { key: "protocols.update", name: "Actualizar Protocolo de Atención (Pediatría)", description: "Permite actualizar un Protocolo de Atención (Pediatría) existente" },
+        { key: "protocols.delete", name: "Eliminar Protocolo de Atención (Pediatría)", description: "Permite eliminar un Protocolo de Atención (Pediatría) existente" },
+
+        // Eventos Adversos
+        { key: "events.create", name: "Crear Evento Adverso", description: "Permite crear un nuevo Evento Adverso" },
+        { key: "events.update", name: "Actualizar Evento Adverso", description: "Permite actualizar un Evento Adverso existente" },
+
+        // Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)
+        { key: "uveh.create", name: "Crear Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)", description: "Permite crear una nueva Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)" },
+        { key: "uveh.update", name: "Actualizar Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)", description: "Permite actualizar una Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH) existente" },
+        { key: "uveh.delete", name: "Eliminar Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)", description: "Permite eliminar una Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH) existente" },
+
+        // Normas Oficiales
+        { key: "standards.create", name: "Crear Norma Oficial Mexicana", description: "Permite crear una nueva Norma Oficial Mexicana" },
+        { key: "standards.update", name: "Actualizar Norma Oficial Mexicana", description: "Permite actualizar una Norma Oficial Mexicana existente" },
+        { key: "standards.delete", name: "Eliminar Norma Oficial Mexicana", description: "Permite eliminar una Norma Oficial Mexicana existente" },
+    
+        // Macroproceso 
+        { key: "macroprocessarea.update", name: "Actualizar Área de Macroproceso", description: "Permite actualizar un área existente dentro del macroproceso" },
+        { key: "macroprocesstype.update", name: "Actualizar Tipo de Manual de Macroproceso", description: "Permite actualizar un tipo de manual existente dentro del macroproceso" },
+        { key: "macroprocess.update", name: "Actualizar Manual de Macroproceso", description: "Permite actualizar un manual existente dentro del macroproceso" },
+        { key: "macroprocess.delete", name: "Eliminar Manual de Macroproceso", description: "Permite eliminar un manual existente dentro del macroproceso" },
+
     ]
 
     const permissionRecords = []

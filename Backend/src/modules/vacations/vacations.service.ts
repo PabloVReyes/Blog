@@ -3,9 +3,6 @@ import * as repo from "./vacations.repository"
 import * as schema from "./vacations.schema"
 import * as types from "./vacations.types"
 import { sanitizeFileName } from "../../utils/file"
-import path from "path"
-import { uploadsRoot } from "./path"
-import { logger } from "../../utils/logger"
 
 ////////////
 // CREATE //
@@ -95,7 +92,7 @@ export const getShiftWithVacationsService = async (dto: schema.GetShiftsWithFile
 // UPDATE //
 ////////////
 
-export const putShiftService = async (id: number, dto: schema.PutShiftSchema) => {
+export const putShiftService = async (id: string, dto: schema.PutShiftSchema) => {
     const { name, icon, color } = dto
 
     return await repo.putShiftRepository({
@@ -106,7 +103,7 @@ export const putShiftService = async (id: number, dto: schema.PutShiftSchema) =>
     })
 }
 
-export const putVacationService = async (id: number, dto: types.VacationsUpdateDto) => {
+export const putVacationService = async (id: string, dto: types.VacationsUpdateDto) => {
     const { type, shift, file } = dto
 
     const existingItem = await repo.getVacationsByIdRepository(id)
@@ -133,15 +130,15 @@ export const putVacationService = async (id: number, dto: types.VacationsUpdateD
     return await repo.putVacationsRepository(props)
 }
 
-/////
+////////////
 // DELETE //
-///
+////////////
 
-export const deleteShiftService = async (id: number) => {
+export const deleteShiftService = async (id: string) => {
     return await repo.deleteShiftRepository(id)
 }
 
-export const deleteVacationService = async (id: number) => {
+export const deleteVacationService = async (id: string) => {
     const vacation = await repo.getVacationsByIdRepository(id)
 
     if (!vacation) {

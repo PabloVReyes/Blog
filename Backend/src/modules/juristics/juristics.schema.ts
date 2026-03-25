@@ -43,13 +43,13 @@ export const putJuristicsSchema = z.object({
 export type PutJuristicsSchema = z.infer<typeof putJuristicsSchema>
 
 export const putJuristicsParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
-///
+////////////
 // DELETE //
-//
+////////////
 
 export const deleteJuristicsParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })

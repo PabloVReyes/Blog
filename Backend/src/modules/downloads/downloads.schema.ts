@@ -9,7 +9,7 @@ export const postDownloadSchema = z.object({
     description: z.string().optional(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     type: z.enum(["DOCUMENT", "IMAGE"]),
-    category: z.coerce.number()
+    category: z.uuid()
 })
 
 export type PostDownloadSchema = z.infer<typeof postDownloadSchema>
@@ -24,14 +24,14 @@ export type PostAreaSchema = z.infer<typeof postAreaSchema>
 
 export const postSectionSchema = z.object({
     name: z.string(),
-    area: z.coerce.number()
+    area: z.uuid()
 })
 
 export type PostSectionSchema = z.infer<typeof postSectionSchema>
 
 export const postCategorySchema = z.object({
     name: z.string(),
-    section: z.coerce.number()
+    section: z.uuid()
 })
 
 export type PostCategorySchema = z.infer<typeof postCategorySchema>
@@ -61,15 +61,15 @@ export const getAreaWithDownloadsParamsSchema = z.object({
 })
 
 export const getSectionsByAreaParamsSchema = z.object({
-    area: z.coerce.number()
+    area: z.uuid()
 })
 
 export const getCategoriesBySectionParamsSchema = z.object({
-    section: z.coerce.number()
+    section: z.uuid()
 })
 
 export const downloadFileParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
 ////////////
@@ -81,17 +81,17 @@ export const putDownloadSchema = z.object({
     description: z.string().optional(),
     isNew: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     type: z.enum(["DOCUMENT", "IMAGE"]),
-    category: z.coerce.number()
+    category: z.uuid()
 })
 
 export type PutDownloadSchema = z.infer<typeof putDownloadSchema>
 
 export const putDownloadParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
 export const putAreaParamsSchema = z.object({
-    id: z.coerce.number()
+    id: z.uuid()
 })
 
 export const putAreaSchema = z.object({

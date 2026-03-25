@@ -103,7 +103,7 @@ class App {
         });
 
         this.httpServer.listen(this.port, () => {
-            const url = `http://localhost:${this.port}/api`
+            const url = `http://localhost:${this.port}`
 
             logger.info(
                 { port: this.port },

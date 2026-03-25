@@ -3,6 +3,8 @@ import * as controller from "./standards.controller"
 import multer from "multer";
 import { uploadsRoot } from "./path";
 import { sanitizeFileName } from "../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -33,9 +35,32 @@ router.post('/categories', controller.postCategoryController)
 router.get('/categories', controller.getCategoriesController)
 
 // Descargas
-router.get('/', controller.getSdandarsController)
-router.post('/', upload.single("file"), controller.postStandarController)
-router.put('/:id', upload.single("file"), controller.putStandarController)
-router.delete('/:id', controller.deleteStandarController)
+router.get(
+    '/',
+    controller.getSdandarsController
+)
+
+router.post(
+    '/',
+    authMiddleware,
+    requirePermission("standards.create"),
+    upload.single("file"),
+    controller.postStandarController
+)
+
+router.put(
+    '/:id',
+    authMiddleware,
+    requirePermission("standards.update"),
+    upload.single("file"),
+    controller.putStandarController
+)
+
+router.delete(
+    '/:id',
+    authMiddleware,
+    requirePermission("standards.delete"),
+    controller.deleteStandarController
+)
 
 export default router;

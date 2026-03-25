@@ -29,9 +29,9 @@ export const upload = multer({
 });
 
 // Categorias
-router.post('/sections', controller.postSectionController)
 router.get('/sections', controller.getSectionsController)
 router.get('/sections-certifications', controller.getSectionWithCertificationsController)
+router.post('/sections', controller.postSectionController)
 
 // Descargas
 router.get('/', controller.getCertificationsController)

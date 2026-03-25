@@ -3,6 +3,8 @@ import * as controller from "./pbm.controller"
 import multer from "multer";
 import path from "path";
 import { sanitizeFileName } from "../../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -31,9 +33,28 @@ export const upload = multer({
     }
 });
 
-router.post("/", upload.single("file"), controller.postPbmController)
-router.put("/:id", upload.single("file"), controller.putPBMController)
-router.delete("/:id", controller.deletePBMController)
 router.get("/", controller.getPBMController)
+router.post(
+    "/",
+    authMiddleware,
+    requirePermission("pbm.create"),
+    upload.single("file"),
+    controller.postPbmController
+)
+
+router.put(
+    "/:id",
+    authMiddleware,
+    requirePermission("pbm.update"),
+    upload.single("file"),
+    controller.putPBMController
+)
+
+router.delete(
+    "/:id",
+    authMiddleware,
+    requirePermission("pbm.delete"),
+    controller.deletePBMController
+)
 
 export default router;

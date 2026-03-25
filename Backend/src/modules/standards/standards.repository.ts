@@ -12,7 +12,7 @@ interface PostStandarRepositoryProps {
     name: string;
     description?: string | null
     isNew: boolean;
-    categoryId: number
+    categoryId: string
     file?: {
         name?: string;
         path?: string;
@@ -151,7 +151,7 @@ export const getStandardsRepository = async ({ skip, take, search }: PaginationP
     }
 }
 
-export const getStandarByIdRepository = async (id: number) => {
+export const getStandarByIdRepository = async (id: string) => {
     try {
         return await database.standard.findUnique({ where: { id } })
     } catch (error) {
@@ -173,7 +173,7 @@ export const getStandarByIdRepository = async (id: number) => {
 ////////////
 
 export interface PutStandarRepositoryProps extends PostStandarRepositoryProps {
-    id: number
+    id: string
 }
 
 export const putStandarRepository = async ({
@@ -254,7 +254,7 @@ export const putStandarRepository = async ({
 // DELETE //
 ////////////
 
-export const deleteStandarRepository = async (id: number) => {
+export const deleteStandarRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
             const current = await tx.standard.findUnique({

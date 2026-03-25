@@ -3,6 +3,8 @@ import * as controller from "./uveh.controller"
 import multer from "multer";
 import { uploadsRoot } from "./path";
 import { sanitizeFileName } from "../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -35,8 +37,28 @@ router.get('/categories-downloads', controller.getCategoriesWithUVEHController)
 
 // Descargas
 router.get('/', controller.getUVEHController)
-router.post('/', upload.single("file"), controller.postUVEHController)
-router.put('/:id', upload.single("file"), controller.putUVEHController)
-router.delete('/:id', controller.deleteUVEHController)
+
+router.post(
+    '/',
+    authMiddleware,
+    requirePermission("uveh.create"),
+    upload.single("file"),
+    controller.postUVEHController
+)
+
+router.put(
+    '/:id',
+    authMiddleware,
+    requirePermission("uveh.update"),
+    upload.single("file"),
+    controller.putUVEHController
+)
+
+router.delete(
+    '/:id',
+    authMiddleware,
+    requirePermission("uveh.delete"),
+    controller.deleteUVEHController
+)
 
 export default router;

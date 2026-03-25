@@ -13,6 +13,8 @@ import careProtocolsRoutes from "./careProtocols/careProtocols.routes"
 import codesRoutes from "./codes/codes.routes"
 import adverseEventsRoutes from "./adverseEvents/adverseEvents.routes"
 import { sanitizeFileName } from "../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -41,10 +43,32 @@ export const upload = multer({
     }
 });
 
-router.get("/", controller.getSystemsController)
-router.put("/:id", upload.single("file"), controller.putSystemController)
-router.post("/", upload.single("file"), controller.postSystemController)
-router.delete("/:id", controller.deleteSystemController)
+router.get(
+    "/", 
+    controller.getSystemsController
+)
+
+router.post("/", 
+    authMiddleware,
+    requirePermission("system.create"),
+    upload.single("file"), 
+    controller.postSystemController
+)
+
+router.put(
+    "/:id", 
+    authMiddleware,
+    requirePermission("system.update"),
+    upload.single("file"), 
+    controller.putSystemController
+)
+
+router.delete(
+    "/:id", 
+    authMiddleware,
+    requirePermission("system.delete"),
+    controller.deleteSystemController
+)
 
 router.use("/cie-10", cie10Rutes)
 router.use("/monthly-reports", monthlyReportsRoutes)

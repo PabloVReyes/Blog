@@ -40,7 +40,7 @@ interface PostVacationRepositoryProps {
         size?: number;
         mimeType?: string;
     } | null
-    shiftId: number
+    shiftId: string
 }
 
 export const postVacationRepository = async ({
@@ -145,7 +145,7 @@ export const getShiftsRepository = async ({ skip, take, search }: PaginationProp
     }
 }
 
-export const getVacationsByIdRepository = async (id: number) => {
+export const getVacationsByIdRepository = async (id: string) => {
     try {
         return await database.shiftFile.findUnique({ where: { id } })
     } catch (error) {
@@ -204,7 +204,7 @@ export const getShiftsWithVacationsRepository = async ({ skip, search, take }: P
 ////////////
 
 interface PutShiftRepositoryProps extends PostShiftRepositoryProps {
-    id: number
+    id: string
 }
 
 export const putShiftRepository = async ({ id, name, color, icon }: PutShiftRepositoryProps) => {
@@ -228,7 +228,7 @@ export const putShiftRepository = async ({ id, name, color, icon }: PutShiftRepo
     }
 }
 
-export const deleteShiftRepository = async (id: number) => {
+export const deleteShiftRepository = async (id: string) => {
     try {
         return await database.shiftType.delete({
             where: { id }
@@ -243,7 +243,7 @@ export const deleteShiftRepository = async (id: number) => {
 }
 
 interface PutVacationsRepository extends PostVacationRepositoryProps {
-    id: number;
+    id: string;
 }
 
 export const putVacationsRepository = async ({
@@ -311,7 +311,7 @@ export const putVacationsRepository = async ({
 // DELETE //
 ////////////
 
-export const deleteVacationRepository = async (id: number) => {
+export const deleteVacationRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
             const current = await tx.shiftFile.findUnique({
