@@ -79,14 +79,16 @@ export const Vacation = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Rol Vacacional",
+            subtitle: "Agregar un nuevo rol vacacional",
+            icon: "IconPlus",
             content: <AddVacation />
         })
     }
 
     return (
         <Container
-            title="Disposiciones Jurídicas Administrativas"
-            description="Leyes, Códigos, Reglamentos, Decretos, Lineamientos, Acuerdos, Circulares, Manuales, Guías, Otros"
+            title="Rol Vacacional"
         >
             <Panel
                 title

@@ -10,6 +10,10 @@ export const ActionsMonthlyReports = ({ id, ...props }: MonthlyReportsData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Informe Mensual",
+            subtitle: "Editar el informe mensual seleccionado",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const ActionsMonthlyReports = ({ id, ...props }: MonthlyReportsData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Informe Mensual",
+            subtitle: "Eliminar el informe mensual seleccionado",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.title}
+                    {...props}
                 />
             )
         })

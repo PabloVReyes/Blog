@@ -18,7 +18,6 @@ export interface Meta {
     totalPages: number;
 }
 
-
 export const Vacation = () => {
     const [data, setData] = useState<Data>({
         data: [],

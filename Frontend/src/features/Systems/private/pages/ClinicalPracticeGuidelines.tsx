@@ -95,7 +95,12 @@ export const ClinicalPracticeGuidelines = () => {
 
     const handleAdd = () => {
         openModal({
-            content: <AddClinicalPracticeGuidelines />
+            title: "Agregar Guía de Práctica Clínica",
+            subtitle: "Agregar nueva Guía de Práctica Clínica",
+            icon: "IconPlus",
+            content: (
+                <AddClinicalPracticeGuidelines />
+            )
         })
     }
 

@@ -22,6 +22,10 @@ export const ActionsAlert = ({ id, ...props }: Props) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Alerta",
+            icon: "IconEdit",
+            subtitle: "Editar la alerta que se muestra en el inicio",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -30,7 +34,6 @@ export const ActionsAlert = ({ id, ...props }: Props) => {
             )
         })
     }
-
 
     return (
         <Group gap={5} wrap="nowrap" justify="center">

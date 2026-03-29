@@ -14,6 +14,10 @@ export const ActionsCIE10 = ({ id, ...props }: Props) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Enfermedad",
+            subtitle: "Editar una enfermedad de la Clasificación internacional de enfermedades (CIE-10) ",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -25,6 +29,10 @@ export const ActionsCIE10 = ({ id, ...props }: Props) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Editar Enfermedad",
+            subtitle: "Editar una enfermedad de la Clasificación internacional de enfermedades (CIE-10) ",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}

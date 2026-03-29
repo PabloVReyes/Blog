@@ -65,7 +65,9 @@ export const Permissions = () => {
 
     const handleAdd = () => {
         openModal({
-            title: "Nuevo Permiso",
+            title: "Agregar Permiso",
+            subtitle: "Agregar un nuevo permiso al sistema",
+            icon: "IconPlus",
             content: <AddPermissions />
         })
     }
@@ -111,8 +113,8 @@ export const Permissions = () => {
                                     {/* Header */}
                                     <Group justify="space-between" align="flex-start" mb="md" wrap="nowrap">
                                         <Box>
-                                            <Group gap="xs" mb={4}>
-                                                <IconKey size={20} className={classes.keyIcon} />
+                                            <Group gap="xs" mb={4} wrap="nowrap">
+                                                <IconKey size={20} className={classes.keyIcon} style={{ flex: "0 0 auto" }} />
                                                 <Text fw={700} fz="lg" c="bright">
                                                     {permiso.name}
                                                 </Text>

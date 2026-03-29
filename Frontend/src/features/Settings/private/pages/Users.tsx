@@ -9,33 +9,15 @@ import classes from "./Users.module.css"
 import { formatLocalDate } from "@/utils";
 import { ActionsUsers, AddUsers } from "../components";
 import { useSettingsUsersStore } from "@/stores";
+import type { Column } from "@/types";
+import type { UsersData } from "../types/users.types";
 
-export interface Data {
-    id: string;
-    name: string;
-    email: string;
-    active: boolean;
-    lastLoginAt: Date;
-    createdAt: Date;
-    roles: RoleElement[];
-}
-
-export interface RoleElement {
-    role: RoleRole;
-}
-
-export interface RoleRole {
-    id: string;
-    name: string;
-    description: string;
-}
-
-const columns = (primaryColor: string) => [
+const columns = (primaryColor: string): Column<UsersData>[] => [
     {
         key: 'user',
         label: 'Usuario',
         align: 'left',
-        render: (row: Data) => {
+        render: (row) => {
             return (
                 <Group gap="sm" wrap="nowrap">
                     <Avatar radius="xl" alt={row.name} name={row.name} color={primaryColor} variant="filled" />
@@ -59,7 +41,7 @@ const columns = (primaryColor: string) => [
         key: 'roles',
         label: 'Roles',
         align: 'center',
-        render: (row: Data) => {
+        render: (row) => {
             if (!row.roles) {
                 return <Text size="xs" c="dimmed">Sin roles</Text>
             }
@@ -85,7 +67,7 @@ const columns = (primaryColor: string) => [
         key: 'isActive',
         label: 'Estado',
         align: 'center',
-        render: (row: Data) => {
+        render: (row) => {
             if (row.active === true) {
                 return (
                     <Badge
@@ -117,7 +99,7 @@ const columns = (primaryColor: string) => [
         key: 'lastLoginAt',
         label: 'Ultimo acceso',
         align: 'left',
-        render: (row: Data) => {
+        render: (row) => {
             if (!row.lastLoginAt) {
                 return <Text size="xs" c="dimmed">Aún no ha iniciado sesión</Text>
             }
@@ -131,7 +113,7 @@ const columns = (primaryColor: string) => [
         key: 'actions',
         label: 'Acciones',
         align: 'center',
-        render: (row: Data) => {
+        render: (row) => {
             return <ActionsUsers {...row} />
         }
     },
@@ -162,6 +144,9 @@ export const Users = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Usuario",
+            subtitle: "Agregar un nuevo usuario al sistema",
+            icon: "IconPlus",
             content: <AddUsers />
         })
     }

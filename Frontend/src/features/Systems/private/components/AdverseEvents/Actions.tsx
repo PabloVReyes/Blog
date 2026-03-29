@@ -10,6 +10,10 @@ export const ActionsAdverseEvents = ({ id, ...props }: AdverseEventsData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Evento Adverso",
+            subtitle: "Editar un evento adverso existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -20,11 +24,16 @@ export const ActionsAdverseEvents = ({ id, ...props }: AdverseEventsData) => {
     }
 
     const handleDelete = () => {
+        if (!props.fileId) return null;
         openModal({
+            title: "Eliminar Evento Adverso",
+            subtitle: "Eliminar un evento adverso existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.title}
+                    {...props}
                 />
             )
         })

@@ -3,39 +3,21 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { DirectoryData } from "../types/directory.types"
 
-interface Props {
-    id: string;
-    phone: string;
-    boss: string | null;
-    email: string | null;
-    name: string;
-    secretary: null | null;
-    levelId: string;
-    level: Level;
-}
-
-export interface Level {
-    id: string;
-    name: string;
-}
-
-
-export const Actions = (data: Props) => {
-    const { id, phone, boss, email, name, secretary, levelId } = data
+export const Actions = ({id, ...props}: DirectoryData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Extensión Telefonica",
+            subtitle: "Editar una Extensión Telefonica existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
-                    phone={phone}
-                    boss={boss}
-                    email={email}
-                    name={name}
-                    secretary={secretary}
-                    levelId={levelId}
+                    {...props}
                 />
             )
         })
@@ -43,10 +25,14 @@ export const Actions = (data: Props) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Extensión Telefonica",
+            subtitle: "Eliminar una Extensión Telefonica existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    phone={phone}
+                    {...props}
                 />
             )
         })

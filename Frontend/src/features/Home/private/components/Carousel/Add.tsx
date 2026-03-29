@@ -75,5 +75,3 @@ export const AddCarousel = ({ sectionId }: Props) => {
         />
     )
 }
-
-// 103 lineas -> 83 lineas -> 77 lineas

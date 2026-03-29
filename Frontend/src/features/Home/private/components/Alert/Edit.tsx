@@ -1,5 +1,5 @@
 import { IconSelect, ModalButtons, Switch } from "@/components"
-import { Divider, Select, Stack, Text, TextInput } from "@mantine/core"
+import { Divider, Fieldset, Select, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import styles from "./Edit.module.css"
 import { useState } from "react"
@@ -64,92 +64,95 @@ export const Edit = ({ id, icon, isActive, title, description, author, color }: 
     }
 
     return (
+
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <div>
-                    <Switch
-                        label="Visible"
-                        withAsterisk
-                        description="La alerta es visible"
-                        value={form.values.isActive}
-                        {...form.getInputProps("isActive", { type: "checkbox" })}
-                    />
+                <Fieldset>
+                    <div>
+                        <Switch
+                            label="Visible"
+                            withAsterisk
+                            description="La alerta es visible"
+                            value={form.values.isActive}
+                            {...form.getInputProps("isActive", { type: "checkbox" })}
+                        />
 
-                    <Divider />
-                    <Select
-                        allowDeselect={false}
-                        classNames={{
-                            option: styles.option
-                        }}
-                        withAsterisk
-                        label="Tipo de alerta"
-                        description="Selecciona el tipo de alerta"
-                        placeholder="Selecciona tipo"
-                        data={options.map(o => o.label)} // solo los labels visibles
-                        value={options.find(o => o.value === form.values.color)?.label || ""}
-                        onChange={(val) => {
-                            const selected = options.find(o => o.label === val)
-                            form.setFieldValue("color", selected ? selected.value : "")
-                        }}
-                    />
+                        <Divider />
+                        <Select
+                            allowDeselect={false}
+                            classNames={{
+                                option: styles.option
+                            }}
+                            withAsterisk
+                            label="Tipo de alerta"
+                            description="Selecciona el tipo de alerta"
+                            placeholder="Selecciona tipo"
+                            data={options.map(o => o.label)} // solo los labels visibles
+                            value={options.find(o => o.value === form.values.color)?.label || ""}
+                            onChange={(val) => {
+                                const selected = options.find(o => o.label === val)
+                                form.setFieldValue("color", selected ? selected.value : "")
+                            }}
+                        />
 
-                    <Divider />
+                        <Divider />
 
-                    <IconSelect
-                        form={form}
-                    />
+                        <IconSelect
+                            form={form}
+                        />
 
-                    <Divider />
+                        <Divider />
 
-                    <TextInput
-                        withAsterisk
-                        label="Titulo"
-                        description="Titulo de la alerta"
-                        placeholder="Title"
-                        {...form.getInputProps("title")}
-                        maxLength={MAX_TITLE_LENGTH}
-                        rightSection={
-                            <Text size="xs" c="dimmed">
-                                {form.values.title?.length || 0}/{MAX_TITLE_LENGTH}
-                            </Text>
-                        }
-                        rightSectionWidth={40}
-                    />
+                        <TextInput
+                            withAsterisk
+                            label="Titulo"
+                            description="Titulo de la alerta"
+                            placeholder="Title"
+                            {...form.getInputProps("title")}
+                            maxLength={MAX_TITLE_LENGTH}
+                            rightSection={
+                                <Text size="xs" c="dimmed">
+                                    {form.values.title?.length || 0}/{MAX_TITLE_LENGTH}
+                                </Text>
+                            }
+                            rightSectionWidth={40}
+                        />
 
-                    <Divider />
+                        <Divider />
 
-                    <TextInput
-                        withAsterisk
-                        label="Descripcion"
-                        description="Descripcion que se mostrara en la alerta"
-                        placeholder="Descripcion"
-                        {...form.getInputProps("description")}
-                        maxLength={MAX_DESCRIPTION_LENGTH}
-                        rightSection={
-                            <Text size="xs" c="dimmed">
-                                {form.values.description?.length || 0}/{MAX_DESCRIPTION_LENGTH}
-                            </Text>
-                        }
-                        rightSectionWidth={50}
-                    />
+                        <TextInput
+                            withAsterisk
+                            label="Descripcion"
+                            description="Descripcion que se mostrara en la alerta"
+                            placeholder="Descripcion"
+                            {...form.getInputProps("description")}
+                            maxLength={MAX_DESCRIPTION_LENGTH}
+                            rightSection={
+                                <Text size="xs" c="dimmed">
+                                    {form.values.description?.length || 0}/{MAX_DESCRIPTION_LENGTH}
+                                </Text>
+                            }
+                            rightSectionWidth={50}
+                        />
 
-                    <Divider />
+                        <Divider />
 
-                    <TextInput
-                        withAsterisk
-                        label="Autor"
-                        description="Autor de la alerta"
-                        placeholder="Autor"
-                        {...form.getInputProps("author")}
-                        maxLength={MAX_AUTHOR_LENGTH}
-                        rightSection={
-                            <Text size="xs" c="dimmed">
-                                {form.values.author?.length || 0}/{MAX_AUTHOR_LENGTH}
-                            </Text>
-                        }
-                        rightSectionWidth={40}
-                    />
-                </div>
+                        <TextInput
+                            withAsterisk
+                            label="Autor"
+                            description="Autor de la alerta"
+                            placeholder="Autor"
+                            {...form.getInputProps("author")}
+                            maxLength={MAX_AUTHOR_LENGTH}
+                            rightSection={
+                                <Text size="xs" c="dimmed">
+                                    {form.values.author?.length || 0}/{MAX_AUTHOR_LENGTH}
+                                </Text>
+                            }
+                            rightSectionWidth={40}
+                        />
+                    </div>
+                </Fieldset>
 
                 <ModalButtons
                     loading={loading}

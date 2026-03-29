@@ -10,6 +10,10 @@ export const ActionsMacroprocess = (macroprocess: MacroprocessData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Macroproceso",
+            subtitle: "Editar un Macroproceso existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={macroprocess.id}
@@ -25,11 +29,13 @@ export const ActionsMacroprocess = (macroprocess: MacroprocessData) => {
         }
 
         openModal({
+            title: "Eliminar Macroproceso",
+            subtitle: "Eliminar un macroproceso existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
-                    id={macroprocess.id}
-                    name={macroprocess.manualType.name}
-                    area={macroprocess.area.name}
+                    {...macroprocess}
                 />
             )
         })

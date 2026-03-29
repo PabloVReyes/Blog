@@ -39,12 +39,15 @@ export const Profile = () => {
     })
 
     const handlePassword = () => {
-
-
         openModal({
-            content: <Password
-                id={user.id}
-            />
+            title: "Cambiar Contraseña",
+            subtitle: "Cambiar mi contraseña",
+            icon: "IconPassword",
+            content: (
+                <Password
+                    id={user.id}
+                />
+            )
         })
     }
 

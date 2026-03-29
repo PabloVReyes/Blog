@@ -1,4 +1,4 @@
-import { Divider, FileInput, Stack, Text, TextInput } from "@mantine/core";
+import { Divider, Fieldset, FileInput, Stack, Text, TextInput } from "@mantine/core";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { ApiSelect, ModalButtons } from "@/components";
 import { useEffect, useState } from "react";
@@ -47,7 +47,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName, initial
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>
-                <div>
+                <Fieldset>
                     <TextInput
                         withAsterisk
                         label="Título"
@@ -113,7 +113,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName, initial
                         placeholder="Protocolo.pdf"
                         {...form.getInputProps("file")}
                     />
-                </div>
+                </Fieldset>
 
                 <ModalButtons
                     label={submitLabel}

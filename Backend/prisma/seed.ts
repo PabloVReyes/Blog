@@ -109,13 +109,21 @@ async function main() {
         { key: "standards.create", name: "Crear Norma Oficial Mexicana", description: "Permite crear una nueva Norma Oficial Mexicana" },
         { key: "standards.update", name: "Actualizar Norma Oficial Mexicana", description: "Permite actualizar una Norma Oficial Mexicana existente" },
         { key: "standards.delete", name: "Eliminar Norma Oficial Mexicana", description: "Permite eliminar una Norma Oficial Mexicana existente" },
-    
+
         // Macroproceso 
         { key: "macroprocessarea.update", name: "Actualizar Área de Macroproceso", description: "Permite actualizar un área existente dentro del macroproceso" },
         { key: "macroprocesstype.update", name: "Actualizar Tipo de Manual de Macroproceso", description: "Permite actualizar un tipo de manual existente dentro del macroproceso" },
         { key: "macroprocess.update", name: "Actualizar Manual de Macroproceso", description: "Permite actualizar un manual existente dentro del macroproceso" },
         { key: "macroprocess.delete", name: "Eliminar Manual de Macroproceso", description: "Permite eliminar un manual existente dentro del macroproceso" },
 
+        // Vacaciones
+        { key: "shift.create", name: "Crear Turno", description: "Permite crear un nuevo turno para roles vacacionlaes" },
+        { key: "shift.update", name: "Actualizar Turno", description: "Permite actualizar un turno existente para roles vacacionales" },
+        { key: "shift.delete", name: "Eliminar Turno", description: "Permite eliminar un turno existente para roles vacaciones" },
+
+        { key: "vacation.create", name: "Crear Vacaciones", description: "Permite crear un nuevo rol vacacional" },
+        { key: "vacation.update", name: "Actualizar Vacaciones", description: "Permite actualizar un rol vacacional existente" },
+        { key: "vacation.delete", name: "Eliminar Vacaciones", description: "Permite eliminar un rol vacacional existente" },
     ]
 
     const permissionRecords = []

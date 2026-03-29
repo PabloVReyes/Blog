@@ -10,6 +10,10 @@ export const Actions = ({ id, ...props }: StandardsData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Norma Oficial Mexicana",
+            subtitle: "Editar una Norma Oficial Mexicana existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const Actions = ({ id, ...props }: StandardsData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Norma Oficial Mexicana",
+            subtitle: "Eliminar una Norma Oficial Mexicana existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

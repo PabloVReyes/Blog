@@ -99,6 +99,9 @@ export const Standards = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Norma Oficial Mexicana",
+            subtitle: "Agregar una nueva Norma Oficial Mexicana",
+            icon: "IconPlus",
             content: <Add />
         })
     }

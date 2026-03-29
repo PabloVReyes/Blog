@@ -114,6 +114,9 @@ export const MonthlyReports = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Informe Mensual",
+            subtitle: "Agregar un nuevo informe mensual",
+            icon: "IconPlus",
             content: (
                 <AddMonthlyReports />
             )

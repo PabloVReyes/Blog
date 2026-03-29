@@ -1,28 +1,23 @@
-import { Alert, Stack, Text, TextInput } from "@mantine/core"
+import { Card, Group, List, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled } from "@tabler/icons-react"
+import { IconAlertTriangleFilled, IconFileText, IconLetterT, IconMapPin } from "@tabler/icons-react"
 import { useState } from "react";
-import { Notify, showSuccessModal } from "@/ui";
+import { Alert, Notify, showSuccessModal } from "@/ui";
 import { ModalButtons } from "@/components";
 import { useMacroprocessStore } from "@/stores";
+import type { MacroprocessData } from "@/features/Macroprocess/types/macroprocess.types";
 
-interface Props {
-    id: string;
-    name: string;
-    area: string;
-}
-
-export const Delete = ({ id, name, area }: Props) => {
+export const Delete = ({ id, manualType, area }: MacroprocessData) => {
     const remove = useMacroprocessStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
-        mode: "uncontrolled",
+        mode: "controlled",
         initialValues: {
             value: ""
         },
         validate: {
-            value: (value => value == `Eliminar archivo ${name}` ? null : "Para eliminar el archivo escribe lo que se solicita")
+            value: (value => value == manualType.name ? null : "Para eliminar el archivo escribe lo que se solicita")
         }
     })
 
@@ -45,41 +40,74 @@ export const Delete = ({ id, name, area }: Props) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <Alert
-                    color="yellow"
-                    mt={10}
-                    icon={<IconAlertTriangleFilled />}
-                    title="¡Antes de continuar....!"
+                <Card
+                    radius="md"
+                    p="md"
+                    withBorder
                 >
-                    <Stack>
-                        <Text size="sm">
-                            Estás a punto de eliminar el archivo <Text span fw={700}>“{name}” del área "{area}"</Text>.
-                        </Text>
-                        <Text size="sm">
-                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este archivo.
-                        </Text>
-                        <Text size="sm">
-                            Para continuar, escribe exactamente:
-                        </Text>
-                        <Text size="sm" fw={700}>
-                            Eliminar archivo {name}
-                        </Text>
-                        <Text size="sm">
-                            Esto garantiza que comprendes el impacto de esta acción.
-                        </Text>
-                    </Stack>
-                </Alert>
+                    <Text size="sm" fw={500} c="dimmed" mb="sm">
+                        Macroproceso a eliminar:
+                    </Text>
+
+                    <Group align="center" gap="md">
+                        <ThemeIcon
+                            size={56}
+                            variant="light"
+                        >
+                            <IconFileText />
+                        </ThemeIcon>
+
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                            <Group gap={6} wrap="nowrap">
+                                <IconLetterT size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {manualType.name}
+                                </Text>
+                            </Group>
+
+                            <Group gap={6} wrap="nowrap">
+                                <IconMapPin size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {area.name}
+                                </Text>
+                            </Group>
+                        </Stack>
+                    </Group>
+                </Card>
+
+                <Alert
+                    color="red"
+                    title={
+                        <Group align="center" gap="xs" mb="sm" wrap="nowrap">
+                            <IconAlertTriangleFilled
+                                size={20}
+                                color="orange"
+                                style={{ flex: "0 0 auto" }}
+                            />
+                            <Text fw={600} fz="lg">
+                                ADVERTENCIA: Esta acción es irreversible
+                            </Text>
+                        </Group>
+                    }
+                    content={
+                        <List>
+                            <List.Item>Solo se eliminara el archivo cargado</List.Item>
+                        </List>
+                    }
+                />
 
                 <TextInput
+                    label="Para confirmar escribe el nombre del macroproceso:"
+                    placeholder="Escribe el nombre para confirmar..."
+                    description={manualType.name}
                     autoFocus
-                    withAsterisk
-                    placeholder="Eliminar archivo"
                     {...form.getInputProps("value")}
                 />
 
                 <ModalButtons
                     loading={loading}
                     label="Eliminar"
+                    disabled={!form.isValid()}
                 />
             </Stack>
         </form>

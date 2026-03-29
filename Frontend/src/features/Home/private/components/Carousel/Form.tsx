@@ -96,10 +96,10 @@ export const Form = ({
                     />
                 </Fieldset>
 
-                <Fieldset legend="Acción al hacer clic">
+                <Fieldset legend="Acciones">
                     <IndicatorGroup
                         label="Tipo de interacción"
-                        description="¿Qué sucederá cuando el usuario haga clic en esta diapositiva?"
+                        description="¿Qué sucederá cuando el usuario haga clic en este carrusel?"
                         items={["Ninguna", "Enlace Externo", "Descargar Archivo"]}
                         activeIndex={activeIndex}
                         onChange={setActiveIndex}

@@ -98,6 +98,7 @@ export const Form = <T extends FormValues>({
                     <Divider />
 
                     <Switch
+                        value="isNew"
                         label="Nuevo"
                         description='Si esta opción esta activada, aparecera un mensaje de "nuevo" a un costado del documento'
                         checked={form.values.isNew as boolean}

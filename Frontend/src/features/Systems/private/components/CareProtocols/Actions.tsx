@@ -10,6 +10,10 @@ export const ActionsCareProtocols = ({ id, ...props }: CareProtocolsData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Protocolo de Atención (Pediatría)",
+            subtitle: "Editar un Protocolo de Atención (Pediatría) existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const ActionsCareProtocols = ({ id, ...props }: CareProtocolsData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Protocolo de Atención (Pediatría)",
+            subtitle: "Eliminar un Protocolo de Atención (Pediatría) existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.title}
+                    {...props}
                 />
             )
         })

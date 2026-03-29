@@ -76,6 +76,9 @@ export const Juristic = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Disposicion Jurídica Administrativa",
+            subtitle: "Agregar una nueva Disposicion Jurídica Administrativa",
+            icon: "IconPlus",
             content: <Add />
         })
     }

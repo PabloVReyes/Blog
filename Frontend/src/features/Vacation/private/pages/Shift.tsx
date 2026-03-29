@@ -8,17 +8,9 @@ import { ThemeIcon } from "@mantine/core"
 import { useVacationShiftStore } from "@/stores"
 import { getTablerIcon } from "@/helpers"
 import type { Column } from "@/types"
+import type { ShiftData } from "../../types/vacations.types"
 
-export interface Row {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-const columns: Column<Row>[] = [
+const columns: Column<ShiftData>[] = [
     {
         key: "icon",
         label: "Icono",
@@ -76,6 +68,9 @@ export const Shift = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Turno",
+            subtitle: "Agregar un turno nuevo para roles vacacionales",
+            icon: "IconPlus",
             content: <AddShift />
         })
     }

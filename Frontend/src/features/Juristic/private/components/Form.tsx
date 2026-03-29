@@ -58,7 +58,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                     <Divider my="sm" />
 
                     <Switch
-                        label="Marcar como 'Nuevo'"
+                        label="Nuevo"
                         description='Muestra una etiqueta visual de novedad al costado del nombre'
                         checked={form.values.isNew} // IMPORTANTE: Usar checked para booleanos
                         {...form.getInputProps("isNew", { type: "checkbox" })}

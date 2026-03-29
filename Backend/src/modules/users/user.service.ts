@@ -31,6 +31,7 @@ export const createUserService = async (dto: schema.CreateUserSchema) => {
     } catch (error) {
         logger.warn({ error }, "Email Send failed")
         await repo.markEmailFailed(user.id)
+        throw new Error("Error al crear usuario")
     }
 
     return user

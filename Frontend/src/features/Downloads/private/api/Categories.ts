@@ -1,6 +1,6 @@
 import { api } from "@/lib"
 
-export const fetchCategories = async (section: number) => {
+export const fetchCategories = async (section: string) => {
     const response = await api.get(`/api/downloads/categories/${section}`)
     return response.data
 }

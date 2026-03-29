@@ -10,6 +10,10 @@ export const Actions = ({ id, ...props }: JuristicData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Disposicion Jurídica Administrativa",
+            subtitle: "Editar una Disposicion Jurídica Administrativa existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const Actions = ({ id, ...props }: JuristicData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Disposicion Jurídica Administrativa",
+            subtitle: "Eliminar una Disposicion Jurídica Administrativa existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

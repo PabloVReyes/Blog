@@ -119,8 +119,14 @@ export const Systems = () => {
     }
 
     const handleAdd = () => {
+
         openModal({
-            content: <AddSystem />
+            title: "Agregar Sistema",
+            subtitle: "Agregar un nuevo sistema de consulta",
+            icon: "IconPlus",
+            content: (
+                <AddSystem />
+            )
         })
     }
 

@@ -1,4 +1,4 @@
-import { Divider, Stack, Text, TextInput } from "@mantine/core"
+import { Divider, Fieldset, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useState } from "react";
 import { ColorSelect, ModalButtons } from "@/components";
@@ -51,45 +51,47 @@ export const Edit = ({ id, name, color }: Props) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <TextInput
-                    withAsterisk
-                    label="Código"
-                    description="Código del manual"
-                    placeholder="NSICA"
-                    autoFocus
-                    {...form.getInputProps("code")}
-                    onChange={(event) => {
-                        form.setFieldValue("code", event.currentTarget.value.toUpperCase());
-                    }}
-                    maxLength={MAX_CODE_LENGTH}
-                    rightSection={
-                        <Text size="xs" c="dimmed">
-                            {form.values.code?.length || 0}/{MAX_CODE_LENGTH}
-                        </Text>
-                    }
-                    rightSectionWidth={50}
-                />
-                <Divider />
-                <TextInput
-                    withAsterisk
-                    label="Nombre"
-                    description="Nombre del manual"
-                    placeholder="Procedimientos"
-                    maxLength={MAX_NAME_LENGTH}
-                    rightSection={
-                        <Text size="xs" c="dimmed">
-                            {form.values.name?.length || 0}/{MAX_NAME_LENGTH}
-                        </Text>
-                    }
-                    {...form.getInputProps("name")}
-                    rightSectionWidth={50}
-                />
-                <Divider />
+                <Fieldset>
 
-                <ColorSelect
-                    form={form}
-                />
+                    <TextInput
+                        withAsterisk
+                        label="Código"
+                        description="Código del manual"
+                        placeholder="NSICA"
+                        autoFocus
+                        {...form.getInputProps("code")}
+                        onChange={(event) => {
+                            form.setFieldValue("code", event.currentTarget.value.toUpperCase());
+                        }}
+                        maxLength={MAX_CODE_LENGTH}
+                        rightSection={
+                            <Text size="xs" c="dimmed">
+                                {form.values.code?.length || 0}/{MAX_CODE_LENGTH}
+                            </Text>
+                        }
+                        rightSectionWidth={50}
+                    />
+                    <Divider />
+                    <TextInput
+                        withAsterisk
+                        label="Nombre"
+                        description="Nombre del manual"
+                        placeholder="Procedimientos"
+                        maxLength={MAX_NAME_LENGTH}
+                        rightSection={
+                            <Text size="xs" c="dimmed">
+                                {form.values.name?.length || 0}/{MAX_NAME_LENGTH}
+                            </Text>
+                        }
+                        {...form.getInputProps("name")}
+                        rightSectionWidth={50}
+                    />
+                    <Divider />
 
+                    <ColorSelect
+                        form={form}
+                    />
+                </Fieldset>
                 <ModalButtons
                     label="Editar"
                     loading={loading}

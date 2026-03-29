@@ -10,6 +10,10 @@ export const ActionsClinicalPracticeGuidelines = ({ id, ...props }: ClinicalPrac
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Guía de Práctica Clínica",
+            subtitle: "Editar una Guía de Práctica Clínica existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,11 +25,14 @@ export const ActionsClinicalPracticeGuidelines = ({ id, ...props }: ClinicalPrac
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Guía de Práctica Clínica",
+            subtitle: "Eliminar una Guía de Práctica Clínica existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.title}
-                    code={props.code}
+                    {...props}
                 />
             )
         })

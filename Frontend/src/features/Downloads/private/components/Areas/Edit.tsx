@@ -4,15 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateColor, validateIcon, validateName } from "@/utils/validators"
 import { useDownloadAreasStore } from "@/stores"
+import type { Area } from "../../types/areas.types"
 
-interface Props {
-    id: string;
-    icon: string;
-    color: string;
-    name: string;
-}
-
-export const Edit = ({ id, icon, color, name }: Props) => {
+export const Edit = ({ id, icon, color, name }: Area) => {
     const update = useDownloadAreasStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 

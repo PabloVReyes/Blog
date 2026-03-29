@@ -168,6 +168,9 @@ export const AgreementPerson = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Paciente de Convenio",
+            subtitle: "Agregar un nuevo paciente de convenio",
+            icon: "IconPlus",
             content: (
                 <AddAgreementPerson />
             )

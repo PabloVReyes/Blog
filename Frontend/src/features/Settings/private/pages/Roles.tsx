@@ -57,6 +57,9 @@ export const Roles = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Rol",
+            subtitle: "Agregar un rol al sistema",
+            icon: "IconPlus",
             content: <AddRoles />
         })
     }

@@ -87,6 +87,9 @@ export const GPC = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Algoritmo GPC",
+            subtitle: "Agregar un nuevo Algoritmo GPC",
+            icon: "IconPlus",
             content: <AddGCP />
         })
     }

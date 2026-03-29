@@ -1,4 +1,4 @@
-export interface Directory {
+export interface DirectoryData {
     id: string;
     phone: string;
     boss: null | string;

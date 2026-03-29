@@ -3,38 +3,21 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { AgreementPerson } from "../../types/agreementPerson.types"
 
-interface Props {
-    name: string;
-    type: string;
-    zoneId: number;
-    groupId: number;
-    zone: Group;
-    group: Group;
-    dependents?: Props[];
-    holders?: Props[];
-    id: number;
-}
-
-interface Group {
-    id: number;
-    name: string;
-}
-
-export const ActionsAgreementPerson = ({id, name, zone, groupId, group, zoneId, type }: Props) => {
+export const ActionsAgreementPerson = ({ id, ...props }: AgreementPerson) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Paciente de Convenio",
+            subtitle: "Editar un paciente de convenio existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
-                    name={name}
-                    groupId={groupId}
-                    group={group}
-                    zone={zone}
-                    zoneId={zoneId}
-                    type={type}
+                    {...props}
                 />
             )
         })
@@ -42,10 +25,14 @@ export const ActionsAgreementPerson = ({id, name, zone, groupId, group, zoneId, 
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Paciente de Convenio",
+            subtitle: "Eliminar un paciente de convenio existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={name}
+                    {...props}
                 />
             )
         })

@@ -4,38 +4,19 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateEmail, validateName } from "@/utils"
 import { useSettingsUsersStore } from "@/stores"
+import type { UsersData } from "../../types/users.types"
 
-export interface Data {
-    id: string;
-    name: string;
-    email: string;
-    active: boolean;
-    lastLoginAt: Date;
-    createdAt: Date;
-    roles: RoleElement[];
-}
-
-export interface RoleElement {
-    role: RoleRole;
-}
-
-export interface RoleRole {
-    id: string;
-    name: string;
-    description: string;
-}
-
-export const Edit = (file: Data) => {
+export const Edit = ({id, name, email, roles, active}: UsersData) => {
     const update = useSettingsUsersStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
         mode: "controlled",
         initialValues: {
-            name: file.name,
-            email: file.email,
-            active: file.active,
-            roles: file.roles.map((r) => r.role.id)
+            name,
+            email,
+            active,
+            roles: roles.map((r) => r.role.id)
         },
         validate: {
             name: (value) => validateName(value, { required: true }),
@@ -52,7 +33,7 @@ export const Edit = (file: Data) => {
     const handleSubmit = async (values: typeof form.values) => {
         try {
             setLoading(true)
-            await update?.(file.id.toString(), values)
+            await update?.(id.toString(), values)
             showSuccessModal("Usuario Editado", "El usuario fue editado correctamente")
         } catch (error: unknown) {
             Notify({

@@ -7,6 +7,7 @@ import { Highlight } from "@/utils"
 import { ActionsCBIM, AddCBIM } from "../components"
 import { useModalStore } from "@/layout"
 import { useSystemsCBIMStore } from "@/stores"
+import type { Column } from "@/types"
 
 export interface Row {
     id: string;
@@ -20,8 +21,7 @@ export interface Row {
     updatedAt: Date;
 }
 
-
-const columns = (search: string) => [
+const columns = (search: string): Column<Row>[] => [
     {
         key: "code",
         label: "Clave",
@@ -150,10 +150,12 @@ export const CBIM = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Medicamente",
+            subtitle: "Agregar un nuevo medicamento al Cuadro Básico Integral de Medicamentos (CBIM)",
+            icon: "IconPlus",
             content: <AddCBIM />
         })
     }
-
 
     return (
         <Container

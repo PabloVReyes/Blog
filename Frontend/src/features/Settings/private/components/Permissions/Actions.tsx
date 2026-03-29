@@ -30,11 +30,15 @@ export interface RoleRole {
 }
 
 
-export const ActionsPermissions = ({ id, key, ...props }: Props) => {
+export const ActionsPermissions = ({ id, ...props }: Props) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Rol",
+            subtitle: "Eliminar un rol existente en el sistema",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -46,10 +50,14 @@ export const ActionsPermissions = ({ id, key, ...props }: Props) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Editar Rol",
+            subtitle: "Eliminar un rol existente en el sistema",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

@@ -10,6 +10,10 @@ export const ActionsSystems = ({ id, ...props }: SystemData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Sistema",
+            subtitle: "Editar un sistema existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const ActionsSystems = ({ id, ...props }: SystemData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Sistema",
+            subtitle: "Eliminar un sistema existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

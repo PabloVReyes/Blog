@@ -10,6 +10,10 @@ export const Actions = ({ id, ...props }: CertificationData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Certificación",
+            subtitle: "Editar una Certificación existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const Actions = ({ id, ...props }: CertificationData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Certificación",
+            subtitle: "Eliminar una Certificación existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

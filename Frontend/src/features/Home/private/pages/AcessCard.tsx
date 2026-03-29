@@ -125,6 +125,9 @@ export const AccessCard = ({ id }: Props) => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Acceso Rápido",
+            subtitle: "Agregar un nuevo acceso rápido en el inicio",
+            icon: "IconPlus",
             content: (
                 <AddAccessCard
                     sectionId={id}

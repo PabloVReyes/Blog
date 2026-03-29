@@ -92,8 +92,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         if (user.mustChangePassword) {
             useModalStore.getState().openModal({
-                title: "Cambio de contraseña requerido",
-                subtitle: "Debes establecer una nueva contraseña para continuar",
+                title: "Cambiar Contraseña",
+                subtitle: "Cambiar mi contraseña",
+                icon: "IconPassword",
                 content: <Password id={user.id} />,
                 withCloseButton: false,
                 closeOnEscape: false,

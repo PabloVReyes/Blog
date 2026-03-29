@@ -9,6 +9,10 @@ export const ActionsCalendar = ({ id, ...props }: CalendarData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Primera Sección",
+            subtitle: "Editar la primera sección del inicio",
+            color: "blue",
+            icon: "IconEdit",
             content: (
                 <Edit
                     id={id}

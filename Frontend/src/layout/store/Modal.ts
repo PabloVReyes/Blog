@@ -2,10 +2,12 @@ import { create } from "zustand";
 import type { ReactNode } from "react";
 
 interface ModalData {
-    title?: string;
+    title: string;
     subtitle?: string;
+    icon: string;
     content: ReactNode;
     autoClose?: number;
+    color?: string;
 
     withCloseButton?: boolean;
     closeOnEscape?: boolean;

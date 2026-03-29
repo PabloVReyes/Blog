@@ -13,7 +13,7 @@ export const changePasswordUser = async (id: string, body: ChangePasswordUserPro
 
 interface UpdateMeProps {
     email: string;
-    password: string
+    name: string
 }
 
 export const updateMe = async (id: string, body: UpdateMeProps) => {

@@ -1,4 +1,4 @@
-import { Divider, Stack, Text, TextInput } from "@mantine/core";
+import { Divider, Fieldset, Stack, Text, TextInput } from "@mantine/core";
 import { MAX_CODE_MEDICAL_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 import { ModalButtons } from "@/components";
 
@@ -13,7 +13,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>
-                <div>
+                <Fieldset>
                     <TextInput
                         withAsterisk
                         label="Clave"
@@ -128,7 +128,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                             form.setFieldValue("cbt_cae", event.currentTarget.value.toUpperCase());
                         }}
                     />
-                </div>
+                </Fieldset>
 
                 <ModalButtons
                     label={submitLabel}

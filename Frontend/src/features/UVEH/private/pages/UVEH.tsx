@@ -86,6 +86,9 @@ export const UVEH = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar UVEH",
+            subtitle: "Agregar un nuevo UVEH",
+            icon: "IconPlus",
             content: (
                 <Add />
             )

@@ -4,11 +4,13 @@ import { Button, Group } from "@mantine/core"
 interface Props {
     loading?: boolean,
     label?: string
+    disabled?: boolean
 }
 
 export const ModalButtons = ({
     loading = false,
-    label = "Boton"
+    label = "Boton",
+    disabled = false
 }: Props) => {
     const { closeModal } = useModalStore()
     return (
@@ -23,6 +25,7 @@ export const ModalButtons = ({
             <Button
                 loading={loading}
                 type="submit"
+                disabled={disabled}
             >
                 {label}
             </Button>

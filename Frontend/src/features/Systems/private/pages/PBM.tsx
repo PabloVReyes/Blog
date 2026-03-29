@@ -78,6 +78,9 @@ export const PBM = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Algoritmo PBM",
+            subtitle: "Agregar un Algoritmos PBM",
+            icon: "IconPlus",
             content: <AddPBM />
         })
     }

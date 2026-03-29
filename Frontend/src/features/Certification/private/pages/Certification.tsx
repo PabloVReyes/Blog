@@ -92,6 +92,9 @@ export const Certification = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Certificación",
+            subtitle: "Agregar una nueva Certificación",
+            icon: "IconPlus",
             content: <Add />
         })
     }

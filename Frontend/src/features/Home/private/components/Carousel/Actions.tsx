@@ -10,6 +10,10 @@ export const ActionsCarousel = ({ id, ...props }: CarouselData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Carrusel",
+            subtitle: "Editar la información del carrusel",
+            icon: "IconPhotoEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,6 +25,10 @@ export const ActionsCarousel = ({ id, ...props }: CarouselData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Carrusel",
+            subtitle: "Elimina el carrusel seleccionado",
+            icon: "IconPhotoCancel",
+            color: "red",
             content: (
                 <Delete
                     id={id}

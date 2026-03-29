@@ -18,6 +18,10 @@ export const ActionsAreas = ({ id, ...props }: Props) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Área",
+            subtitle: "Editar un Área existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}

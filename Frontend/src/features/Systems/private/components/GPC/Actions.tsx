@@ -10,6 +10,10 @@ export const ActionsGCP = ({ id, ...props }: GPCData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Algoritmo GPC",
+            subtitle: "Editar un Algoritmo GPC existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const ActionsGCP = ({ id, ...props }: GPCData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Algoritmo GPC",
+            subtitle: "Eliminar un Algoritmo GPC existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.title}
+                    {...props}
                 />
             )
         })

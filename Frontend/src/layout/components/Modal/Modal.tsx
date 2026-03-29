@@ -1,8 +1,11 @@
 import { useModalStore } from "@/layout/store";
-import { Modal as ModalMantine, Stack, Text } from "@mantine/core";
+import { Box, Group, Modal as ModalMantine, Stack, Text, ThemeIcon, Title, useMantineTheme } from "@mantine/core";
 import { useEffect } from "react";
+import { IconX } from "@tabler/icons-react";
+import { getTablerIcon } from "@/helpers";
 
 export const Modal = () => {
+    const { primaryColor } = useMantineTheme()
 
     const { opened, closeModal, modal } = useModalStore();
 
@@ -18,50 +21,66 @@ export const Modal = () => {
 
     }, [opened, modal?.autoClose, closeModal]);
 
+    const Icon = getTablerIcon(modal?.icon)
+
     return (
-        <ModalMantine.Root
+        <ModalMantine
             opened={opened}
             onClose={closeModal}
             centered
             size="lg"
+            padding={0}
+            withCloseButton={false}
             transitionProps={{ transition: "fade", duration: 200 }}
-
             closeOnEscape={modal?.closeOnEscape ?? true}
             closeOnClickOutside={modal?.closeOnClickOutside ?? true}
         >
-            <ModalMantine.Overlay />
-
-            <ModalMantine.Content>
-
-                {modal?.title && (
-                    <ModalMantine.Header>
-
-                        <ModalMantine.Title
-                            style={{ width: "100%", textAlign: "center" }}
+            <Box
+                bg={modal?.color ?? primaryColor}
+                c={"white"}
+                style={{
+                    borderTopLeftRadius: 15,
+                    borderTopRightRadius: 15,
+                    padding: "16px 20px"
+                }}
+            >
+                <Group justify="space-between" w="100%" wrap="nowrap">
+                    <Group gap="sm" wrap="nowrap">
+                        <ThemeIcon
+                            size={36}
+                            radius="md"
+                            variant="light"
+                            color={"white"}
                         >
-                            {modal?.title}
+                            <Icon size={20} />
+                        </ThemeIcon>
+
+                        <Stack gap={0}>
+                            <Title order={4}>{modal?.title}</Title>
 
                             {modal?.subtitle && (
-                                <Text size="sm" c="dimmed">
+                                <Text size="sm">
                                     {modal.subtitle}
                                 </Text>
                             )}
+                        </Stack>
+                    </Group>
 
-                        </ModalMantine.Title>
+                    <ThemeIcon
+                        variant="light"
+                        color="white"
+                        radius={"md"}
+                        style={{ cursor: "pointer" }}
+                        onClick={closeModal}
+                    >
+                        <IconX size={18} />
+                    </ThemeIcon>
+                </Group>
+            </Box>
 
-                        {(modal?.withCloseButton ?? true) && (
-                            <ModalMantine.CloseButton />
-                        )}
-
-                    </ModalMantine.Header>
-                )}
-
-                <ModalMantine.Body>
-                    <Stack>{modal?.content}</Stack>
-                </ModalMantine.Body>
-
-            </ModalMantine.Content>
-
-        </ModalMantine.Root>
+            <Stack p={"md"} gap={"lg"}>
+                {modal?.content}
+            </Stack>
+        </ModalMantine>
     );
 };

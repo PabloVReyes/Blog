@@ -10,6 +10,10 @@ export const ActionsPBM = ({ id, ...props }: PMBData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Algoritmo PBM",
+            subtitle: "Editar un Algoritmo PBM",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const ActionsPBM = ({ id, ...props }: PMBData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Algoritmo PBM",
+            subtitle: "Eliminar un Algoritmo PBM",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.title}
+                    {...props}
                 />
             )
         })

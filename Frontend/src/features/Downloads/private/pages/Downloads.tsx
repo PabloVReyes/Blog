@@ -105,6 +105,9 @@ export const Downloads = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Descarga",
+            subtitle: "Agregar una nueva Descarga",
+            icon: "IconPlus",
             content: (
                 <AddDownloads />
             )

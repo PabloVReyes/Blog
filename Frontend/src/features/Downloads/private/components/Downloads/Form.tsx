@@ -25,8 +25,8 @@ export interface DownloadFormValues {
     description: string;
     isNew: boolean;
     type: "DOCUMENT" | "IMAGE" | "";
-    area: number | null;
-    section: number | null;
+    area: string | null;
+    section: string | null;
     category: string | null;
     file: File | null;
 }
@@ -87,7 +87,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     const fecthCategoriesData = async () => {
         setLoadingCategories(true)
         try {
-            const res = await fetchCategories(form.values.section ?? 0);
+            const res = await fetchCategories(form.values.section ?? "");
             const formatted = res.data.map((item: Category) => ({
                 value: item.id.toString(),
                 label: item.name
@@ -187,7 +187,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                         withAsterisk
                         {...form.getInputProps("area")}
                         onChange={(value) => {
-                            form.setFieldValue("area", Number(value));
+                            form.setFieldValue("area", value);
                             form.setFieldValue("section", null);
                             form.setFieldValue("category", null);
                             setSections([]);
@@ -214,8 +214,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                                     return newItem;
                                 }}
                                 onChange={(value) => {
-                                    const numericValue = value ? Number(value) : null;
-                                    form.setFieldValue("section", numericValue);
+                                    form.setFieldValue("section", value);
                                     form.setFieldValue("category", null);
                                     setCategories([]);
                                 }}

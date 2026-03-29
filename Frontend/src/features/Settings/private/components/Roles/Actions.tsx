@@ -4,11 +4,15 @@ import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 
-export const ActionsRoles = ({ id, key, ...props }: any) => {
+export const ActionsRoles = ({ id, ...props }: any) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Rol",
+            subtitle: "Editar un rol existente del sistema",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -20,10 +24,14 @@ export const ActionsRoles = ({ id, key, ...props }: any) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Rol",
+            subtitle: "Eliminar un rol existente del sistema",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

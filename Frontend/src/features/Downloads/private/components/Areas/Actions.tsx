@@ -3,23 +3,17 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { Area } from "../../types/areas.types"
 
-interface Props {
-    id: string;
-    name: string;
-    slug: string;
-    icon: string;
-    color: string;
-    isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const ActionsAreas = ({ id, ...props }: Props) => {
+export const ActionsAreas = ({ id, ...props }: Area) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Área",
+            subtitle: "Editar un Área existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -31,10 +25,14 @@ export const ActionsAreas = ({ id, ...props }: Props) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Área",
+            subtitle: "Eliminar un Área existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

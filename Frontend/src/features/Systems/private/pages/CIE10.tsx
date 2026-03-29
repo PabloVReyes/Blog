@@ -8,7 +8,7 @@ import { useSystemsCIE10Store } from "@/stores"
 import type { Column } from "@/types"
 
 export interface Row {
-    id:   string;
+    id: string;
     name: string;
 }
 
@@ -71,6 +71,9 @@ export const CIE10 = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Enfermedad",
+            subtitle: "Agregar una enfermedad de la Clasificación internacional de enfermedades (CIE-10) ",
+            icon: "IconPlus",
             content: (
                 <AddCIE10 />
             )

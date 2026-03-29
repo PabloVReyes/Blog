@@ -16,7 +16,7 @@ const columns: Column<AdverseEventsData>[] = [
     },
     {
         key: 'file',
-        label: 'Nombre',
+        label: 'Archivo',
         align: 'left',
         render: (row) => {
             if (!row.file) {

@@ -102,6 +102,9 @@ export const Carousel = ({ id }: Props) => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Carrusel",
+            subtitle: "Agregar un nuevo carrusel al inicio",
+            icon: "IconPhotoPlus",
             content: (
                 <AddCarousel
                     sectionId={id}

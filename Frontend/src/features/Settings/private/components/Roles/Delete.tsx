@@ -1,17 +1,13 @@
-import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
+import { Card, Group, List, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled } from "@tabler/icons-react"
+import { IconAlertTriangleFilled, IconArticle, IconLetterT, IconShield } from "@tabler/icons-react"
 import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
+import { Alert, Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { useSettingsRolesStore } from "@/stores"
+import type { RolData } from "../../types/roles.types"
 
-interface Props {
-    id: string
-    name: string
-}
-
-export const Delete = ({ id, name }: Props) => {
+export const Delete = ({ id, name, description }: RolData) => {
     const remove = useSettingsRolesStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -20,7 +16,7 @@ export const Delete = ({ id, name }: Props) => {
             value: ""
         },
         validate: {
-            value: (values) => values === `Eliminar ${name}` ? null : "Escribe lo solicitado"
+            value: (value) => value == name ? null : "Escribe lo solicitado"
         }
     })
 
@@ -43,45 +39,74 @@ export const Delete = ({ id, name }: Props) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <Alert
-                    color="yellow"
-                    mt={10}
-                    icon={<IconAlertTriangleFilled />}
-                    title="¡Antes de continuar....!"
+                <Card
+                    radius="md"
+                    p="md"
+                    withBorder
                 >
-                    <Stack>
-                        <Text size="sm">
-                            Estás a punto de eliminar el sistema “{name}”.
-                        </Text>
+                    <Text size="sm" fw={500} c="dimmed" mb="sm">
+                        Rol a eliminar:
+                    </Text>
 
-                        <Text size="sm">
-                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este permiso, y cualquier rol o usuario que dependiera de él perderá de inmediato dicho acceso.
-                        </Text>
-                        <Text size="sm">
-                            Para continuar, escribe exactamente:
-                        </Text>
+                    <Group align="center" gap="md">
+                        <ThemeIcon
+                            size={56}
+                            variant="light"
+                        >
+                            <IconShield />
+                        </ThemeIcon>
 
-                        <Text size="sm" fw={700}>
-                            Eliminar {name}
-                        </Text>
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                            <Group gap={6}>
+                                <IconLetterT size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {name}
+                                </Text>
+                            </Group>
 
-                        <Text size="sm">
-                            Esto garantiza que comprendes el impacto de esta acción.
-                        </Text>
-                    </Stack>
-                </Alert>
+                            <Group gap={6} wrap="nowrap">
+                                <IconArticle size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {description}
+                                </Text>
+                            </Group>
+                        </Stack>
+                    </Group>
+                </Card>
 
-                <Divider />
+                <Alert
+                    color="red"
+                    title={
+                        <Group align="center" gap="xs" mb="sm" wrap="nowrap">
+                            <IconAlertTriangleFilled
+                                size={20}
+                                color="orange"
+                                style={{ flex: "0 0 auto" }}
+                            />
+                            <Text fw={600} fz="lg">
+                                ADVERTENCIA: Esta acción es irreversible
+                            </Text>
+                        </Group>
+                    }
+                    content={
+                        <List>
+                            <List.Item>Se eliminara permanentemente el rol</List.Item>
+                            <List.Item>Todos los usuario que tienen este rol no podran acceder a algunos apartados del sistema</List.Item>
+                        </List>
+                    }
+                />
 
                 <TextInput
+                    label="Para confirmar escribe el nombre del rol:"
+                    placeholder="Escribe el nombre para confirmar..."
+                    description={name}
                     autoFocus
-                    withAsterisk
-                    placeholder="Eliminar servicio"
                     {...form.getInputProps("value")}
                 />
 
                 <ModalButtons
                     label="Eliminar"
+                    disabled={!form.isValid()}
                     loading={loading}
                 />
             </Stack>

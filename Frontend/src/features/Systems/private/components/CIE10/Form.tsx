@@ -1,4 +1,4 @@
-import { Divider, Stack, Text, TextInput } from "@mantine/core";
+import { Divider, Fieldset, Stack, Text, TextInput } from "@mantine/core";
 import { MAX_TITLE_LENGTH, MAX_CODE_LENGTH } from "@/constants";
 import { ModalButtons } from "@/components";
 
@@ -13,7 +13,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>
-                <div>
+                <Fieldset>
                     <TextInput
                         withAsterisk
                         label="Clave"
@@ -48,7 +48,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                         rightSectionWidth={40}
                         {...form.getInputProps("name")}
                     />
-                </div>
+                </Fieldset>
 
                 <ModalButtons
                     label={submitLabel}

@@ -10,6 +10,10 @@ export const ActionsDownloads = ({ id, ...props }: DownloadData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Descarga",
+            subtitle: "Editar una descarga existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const ActionsDownloads = ({ id, ...props }: DownloadData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Descarga",
+            subtitle: "Eliminar una descarga existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

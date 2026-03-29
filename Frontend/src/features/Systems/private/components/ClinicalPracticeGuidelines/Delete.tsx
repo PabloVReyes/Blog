@@ -1,18 +1,13 @@
-import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
+import { Card, Group, List, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled } from "@tabler/icons-react"
+import { IconAlertTriangleFilled, IconFileText, IconLetterT, IconNumber } from "@tabler/icons-react"
 import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
+import { Alert, Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
+import type { ClinicalPracticeGuidelinesData } from "@/features/Systems/types/ClinicalPracticeGuidelines.types"
 
-interface Props {
-    id: string
-    name: string
-    code: string
-}
-
-export const Delete = ({ id, name, code }: Props) => {
+export const Delete = ({ id, title, code, fileER, fileRR }: ClinicalPracticeGuidelinesData) => {
     const remove = useSystemsClinicalPracticeGuidelinesStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -21,7 +16,7 @@ export const Delete = ({ id, name, code }: Props) => {
             value: ""
         },
         validate: {
-            value: (values) => values === `Eliminar ${code}` ? null : "Escribe lo solicitado"
+            value: (value) => value === code ? null : "Escribe lo solicitado"
         }
     })
 
@@ -44,46 +39,89 @@ export const Delete = ({ id, name, code }: Props) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <Alert
-                    color="yellow"
-                    mt={10}
-                    icon={<IconAlertTriangleFilled />}
-                    title="¡Antes de continuar....!"
+                <Card
+                    radius="md"
+                    p="md"
+                    withBorder
                 >
-                    <Stack>
-                        <Text size="sm">
-                            Estás a punto de eliminar el informe “{name}”.
-                        </Text>
+                    <Text size="sm" fw={500} c="dimmed" mb="sm">
+                        Guía de Práctica Clínica a eliminar:
+                    </Text>
 
-                        <Text size="sm">
-                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este permiso, y cualquier rol o usuario que dependiera de él perderá de inmediato dicho acceso.
-                        </Text>
-                        <Text size="sm">
-                            Para continuar, escribe exactamente:
-                        </Text>
+                    <Group align="center" gap="md">
+                        <ThemeIcon
+                            size={56}
+                            variant="light"
+                        >
+                            <IconFileText />
+                        </ThemeIcon>
 
-                        <Text size="sm" fw={700}>
-                            Eliminar {code}
-                        </Text>
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                            <Group gap={6}>
+                                <IconNumber size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {code}
+                                </Text>
+                            </Group>
 
-                        <Text size="sm">
-                            Esto garantiza que comprendes el impacto de esta acción.
-                        </Text>
-                    </Stack>
-                </Alert>
+                            <Group gap={6}>
+                                <IconLetterT size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {title}
+                                </Text>
+                            </Group>
 
-                <Divider />
+                            <Group gap={6} wrap="nowrap">
+                                <IconFileText size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    ER: {fileER?.name}
+                                </Text>
+                            </Group>
+
+                            <Group gap={6} wrap="nowrap">
+                                <IconFileText size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    RR: {fileRR?.name}
+                                </Text>
+                            </Group>
+                        </Stack>
+                    </Group>
+                </Card>
+
+                <Alert
+                    color="red"
+                    title={
+                        <Group align="center" gap="xs" mb="sm" wrap="nowrap">
+                            <IconAlertTriangleFilled
+                                size={20}
+                                color="orange"
+                                style={{ flex: "0 0 auto" }}
+                            />
+                            <Text fw={600} fz="lg">
+                                ADVERTENCIA: Esta acción es irreversible
+                            </Text>
+                        </Group>
+                    }
+                    content={
+                        <List>
+                            <List.Item>Se eliminara permanentemente la Guía de Práctica Clínica</List.Item>
+                            <List.Item>Las guías seran eliminadas</List.Item>
+                        </List>
+                    }
+                />
 
                 <TextInput
+                    label="Para confirmar escribe la clave de la Guía de Práctica Clínica:"
+                    placeholder="Escribe la clave para confirmar..."
+                    description={code}
                     autoFocus
-                    withAsterisk
-                    placeholder="Eliminar informe"
                     {...form.getInputProps("value")}
                 />
 
                 <ModalButtons
                     label="Eliminar"
                     loading={loading}
+                    disabled={!form.isValid()}
                 />
             </Stack>
         </form>

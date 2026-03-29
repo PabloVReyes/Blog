@@ -1,26 +1,23 @@
-import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
+import { Card, Group, List, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled } from "@tabler/icons-react"
+import { IconAlertTriangleFilled, IconMapPin, IconUser, IconUsers, IconUsersGroup } from "@tabler/icons-react"
 import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
+import { Alert, Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { useSystemsAgreementPersonStore } from "@/stores"
+import type { AgreementPerson } from "../../types/agreementPerson.types"
 
-interface Props {
-    id: number
-    name: string
-}
-
-export const Delete = ({ id, name }: Props) => {
+export const Delete = ({ id, name, zone, group }: AgreementPerson) => {
     const remove = useSystemsAgreementPersonStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
+        mode: "controlled",
         initialValues: {
             value: ""
         },
         validate: {
-            value: (values) => values === `Eliminar ${name}` ? null : "Escribe lo solicitado"
+            value: (value) => value === name ? null : "Escribe lo solicitado"
         }
     })
 
@@ -43,46 +40,83 @@ export const Delete = ({ id, name }: Props) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <Alert
-                    color="yellow"
-                    mt={10}
-                    icon={<IconAlertTriangleFilled />}
-                    title="¡Antes de continuar....!"
+                <Card
+                    radius="md"
+                    p="md"
+                    withBorder
                 >
-                    <Stack>
-                        <Text size="sm">
-                            Estás a punto de eliminar al paciente de convenio “{name}”.
-                        </Text>
+                    <Text size="sm" fw={500} c="dimmed" mb="sm">
+                        Paciente de Convenio a eliminar:
+                    </Text>
 
-                        <Text size="sm">
-                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este permiso, y cualquier rol o usuario que dependiera de él perderá de inmediato dicho acceso.
-                        </Text>
-                        <Text size="sm">
-                            Para continuar, escribe exactamente:
-                        </Text>
+                    <Group align="center" gap="md">
+                        <ThemeIcon
+                            size={56}
+                            variant="light"
+                        >
+                            <IconUsers />
+                        </ThemeIcon>
 
-                        <Text size="sm" fw={700}>
-                            Eliminar {name}
-                        </Text>
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                            <Group gap={6}>
+                                <IconUser size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {name}
+                                </Text>
+                            </Group>
 
-                        <Text size="sm">
-                            Esto garantiza que comprendes el impacto de esta acción.
-                        </Text>
-                    </Stack>
-                </Alert>
+                            <Group gap={6}>
+                                <IconMapPin size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {zone.name}
+                                </Text>
+                            </Group>
 
-                <Divider />
+                            <Group gap={6}>
+                                <IconUsersGroup size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {group.name}
+                                </Text>
+                            </Group>
+
+                        </Stack>
+                    </Group>
+                </Card>
+
+                <Alert
+                    color="red"
+                    title={
+                        <Group align="center" gap="xs" mb="sm" wrap="nowrap">
+                            <IconAlertTriangleFilled
+                                size={20}
+                                color="orange"
+                                style={{ flex: "0 0 auto" }}
+                            />
+                            <Text fw={600} fz="lg">
+                                ADVERTENCIA: Esta acción es irreversible
+                            </Text>
+                        </Group>
+                    }
+                    content={
+                        <List>
+                            <List.Item>Se eliminara permanentemente el paciente de convenio</List.Item>
+                            <List.Item>En caso de que sea un titular y tenga dependientes primero debera eliminar el dependiente</List.Item>
+                        </List>
+                    }
+                />
 
                 <TextInput
+                    label="Para confirmar escribe el nombre del paciente:"
+                    placeholder="Escribe el nombre para confirmar..."
+                    description={name}
                     autoFocus
-                    withAsterisk
-                    placeholder="Eliminar paciente de convenio"
                     {...form.getInputProps("value")}
                 />
 
                 <ModalButtons
                     label="Eliminar"
                     loading={loading}
+                    disabled={!form.isValid()}
                 />
             </Stack>
         </form>

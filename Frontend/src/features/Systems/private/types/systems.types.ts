@@ -1,3 +1,5 @@
+import type { FileData } from "@/types";
+
 export interface Systems {
     id: string;
     acronym: string;
@@ -6,12 +8,8 @@ export interface Systems {
     color: string;
     icon: string;
     url: string;
-    type: string;
-    fileName: null | string;
-    storedName: null | string;
-    filePath: null | string;
-    fileSize: null | string;
-    mimeType: null | string;
+    type: "page" | "file";
+    file: FileData | null;
     createdAt: Date;
     updatedAt: Date;
 }

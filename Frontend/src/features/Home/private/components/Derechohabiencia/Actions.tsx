@@ -31,6 +31,10 @@ export const ActionsDerechohabiencia = ({ id, ...props }: Props) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Segunda Sección",
+            subtitle: "Editar la segunda sección del inicio",
+            color: "blue",
+            icon: "IconEdit",
             content: (
                 <Edit
                     id={id}

@@ -70,9 +70,6 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, activeIndex, setA
                         rightSectionWidth={50}
                         {...form.getInputProps("description")}
                     />
-
-                    <Divider />
-
                 </Fieldset>
 
                 <Fieldset legend="Icono">

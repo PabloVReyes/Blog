@@ -1,4 +1,4 @@
-import { Divider, Stack, Text, TextInput, Select } from "@mantine/core";
+import { Divider, Stack, Text, TextInput, Select, Fieldset } from "@mantine/core";
 import { ModalButtons } from "@/components";
 import { MAX_NAME_PERSON_LENGTH } from "@/constants";
 import { useEffect, useState, useCallback } from "react";
@@ -100,7 +100,7 @@ export const Form = ({
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>
-                <div>
+                <Fieldset>
                     <TextInput
                         withAsterisk
                         label="Nombre"
@@ -173,24 +173,31 @@ export const Form = ({
                         {...form.getInputProps("type")}
                     />
 
-                    <Divider />
 
                     {/* Titular */}
                     {form.values.type === "DEPENDENT" &&
-                        <RemotePaginatedSelect
-                            withAsterisk
-                            form={form}
-                            name="holder"
-                            label="Titular"
-                            description="Selecciona el titular del dependiente"
-                            placeholder="Buscar titular..."
-                            fetchData={fetchHolders}
-                            initialItem={initialHolder}
-                        />
+                        <>
+                            <Divider />
+
+                            <RemotePaginatedSelect
+                                withAsterisk
+                                form={form}
+                                name="holder"
+                                label="Titular"
+                                description="Selecciona el titular del dependiente"
+                                placeholder="Buscar titular..."
+                                fetchData={fetchHolders}
+                                initialItem={initialHolder}
+                            />
+                        </>
                     }
 
-                </div>
-                <ModalButtons label={submitLabel} loading={isLoading} />
+                </Fieldset>
+
+                <ModalButtons
+                    label={submitLabel}
+                    loading={isLoading}
+                />
             </Stack>
         </form>
     );

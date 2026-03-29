@@ -3,21 +3,17 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { ShiftData } from "@/features/Vacation/types/vacations.types"
 
-export interface Props {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const ActionsShift = ({ id, ...props }: Props) => {
+export const ActionsShift = ({ id, ...props }: ShiftData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Turno",
+            subtitle: "Editar un turno existente para roles vacacionales",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -29,10 +25,14 @@ export const ActionsShift = ({ id, ...props }: Props) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Turno",
+            subtitle: "Eliminar un turno existente para roles vacacionales",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

@@ -63,6 +63,9 @@ export const CareProtocols = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Protocolo de Atención (Pediatría)",
+            subtitle: "Agregar un nuevo Protocolo de Atención (Pediatría)",
+            icon: "IconPlus",
             content: <AddCareProtocols />
         })
     }

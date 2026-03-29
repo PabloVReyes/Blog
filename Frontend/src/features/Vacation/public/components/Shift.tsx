@@ -5,8 +5,6 @@ import { getTablerIcon } from "@/helpers";
 import { useDownloadFile } from "@/hooks";
 import type { ShiftData } from "../../types/vacations.types";
 
-
-
 export const Shift = (shift: ShiftData) => {
     const Icon = getTablerIcon(shift.icon)
     const { view } = useDownloadFile()

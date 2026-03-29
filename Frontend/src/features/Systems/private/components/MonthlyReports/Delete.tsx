@@ -1,26 +1,23 @@
-import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
+import { Card, Group, List, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled } from "@tabler/icons-react"
+import { IconAlertTriangleFilled, IconArticle, IconFile, IconFileText, IconLetterT } from "@tabler/icons-react"
 import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
+import { Alert, Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { useSystemsMonthlyReportsStore } from "@/stores"
+import type { MonthlyReportsData } from "@/features/Systems/types/monthlyReports.types"
 
-interface Props {
-    id: string
-    name: string
-}
-
-export const Delete = ({ id, name }: Props) => {
+export const Delete = ({ id, title, description, file }: MonthlyReportsData) => {
     const remove = useSystemsMonthlyReportsStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
+        mode: "controlled",
         initialValues: {
             value: ""
         },
         validate: {
-            value: (values) => values === `Eliminar ${name}` ? null : "Escribe lo solicitado"
+            value: (value) => value == title ? null : "Escribe lo solicitado"
         }
     })
 
@@ -28,11 +25,11 @@ export const Delete = ({ id, name }: Props) => {
         try {
             setLoading(true);
             await remove?.(id)
-            showSuccessModal("Reporte Mensual Eliminado", "El reporte mensual fue eliminado correctamente")
+            showSuccessModal("Informe Mensual Eliminado", "El informe mensual fue eliminado correctamente")
         } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al eliminar reporte mensual",
+                title: "Error al eliminar informe mensual",
                 message: error instanceof Error ? error.message : "Error desconocido"
             });
         } finally {
@@ -43,46 +40,81 @@ export const Delete = ({ id, name }: Props) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <Alert
-                    color="yellow"
-                    mt={10}
-                    icon={<IconAlertTriangleFilled />}
-                    title="¡Antes de continuar....!"
+                <Card
+                    radius="md"
+                    p="md"
+                    withBorder
                 >
-                    <Stack>
-                        <Text size="sm">
-                            Estás a punto de eliminar el informe “{name}”.
-                        </Text>
+                    <Text size="sm" fw={500} c="dimmed" mb="sm">
+                        Informe Mensual a eliminar:
+                    </Text>
 
-                        <Text size="sm">
-                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este permiso, y cualquier rol o usuario que dependiera de él perderá de inmediato dicho acceso.
-                        </Text>
-                        <Text size="sm">
-                            Para continuar, escribe exactamente:
-                        </Text>
+                    <Group align="center" gap="md">
+                        <ThemeIcon
+                            size={56}
+                            variant="light"
+                        >
+                            <IconFileText />
+                        </ThemeIcon>
 
-                        <Text size="sm" fw={700}>
-                            Eliminar {name}
-                        </Text>
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                            <Group gap={6}>
+                                <IconLetterT size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {title}
+                                </Text>
+                            </Group>
 
-                        <Text size="sm">
-                            Esto garantiza que comprendes el impacto de esta acción.
-                        </Text>
-                    </Stack>
-                </Alert>
+                            <Group gap={6}>
+                                <IconArticle size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {description}
+                                </Text>
+                            </Group>
 
-                <Divider />
+                            <Group gap={6}>
+                                <IconFile size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {file?.name}
+                                </Text>
+                            </Group>
+                        </Stack>
+                    </Group>
+                </Card>
+
+                <Alert
+                    color="red"
+                    title={
+                        <Group align="center" gap="xs" mb="sm" wrap="nowrap">
+                            <IconAlertTriangleFilled
+                                size={20}
+                                color="orange"
+                                style={{ flex: "0 0 auto" }}
+                            />
+                            <Text fw={600} fz="lg">
+                                ADVERTENCIA: Esta acción es irreversible
+                            </Text>
+                        </Group>
+                    }
+                    content={
+                        <List>
+                            <List.Item>Se eliminara permanentemente el informe mensual</List.Item>
+                        </List>
+                    }
+                />
 
                 <TextInput
+                    label="Para confirmar escribe el titulo del informe mensual"
+                    description={title}
+                    placeholder="Escribe el titulo para confirmar..."
                     autoFocus
-                    withAsterisk
-                    placeholder="Eliminar informe"
                     {...form.getInputProps("value")}
                 />
 
                 <ModalButtons
                     label="Eliminar"
                     loading={loading}
+                    disabled={!form.isValid()}
                 />
             </Stack>
         </form>

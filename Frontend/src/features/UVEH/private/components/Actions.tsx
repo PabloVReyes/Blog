@@ -10,6 +10,10 @@ export const Actions = ({ id, ...props }: UVEHData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar UVEH",
+            subtitle: "Editar un UVEH existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,10 +25,14 @@ export const Actions = ({ id, ...props }: UVEHData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar UVEH",
+            subtitle: "Eliminar un UVEH existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

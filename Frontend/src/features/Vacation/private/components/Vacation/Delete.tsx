@@ -1,27 +1,23 @@
-import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
+import { Card, Group, List, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled } from "@tabler/icons-react"
+import { IconAlertTriangleFilled, IconBleach, IconCalendar, IconFileText, IconSunMoon } from "@tabler/icons-react"
 import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
+import { Alert, Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { useVacationStore } from "@/stores"
+import type { VacationsData } from "@/features/Vacation/types/vacations.types"
 
-interface Props {
-    id: number
-    type: string,
-    shift: string;
-}
-
-export const Delete = ({ id, type, shift }: Props) => {
+export const Delete = ({ id, type, shift, file }: VacationsData) => {
     const remove = useVacationStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
+    const Type = type === "CALENDAR" ? "Calendario" : "Index"
 
     const form = useForm({
         initialValues: {
             value: ""
         },
         validate: {
-            value: (values) => values === `Eliminar ${type}` ? null : "Escribe lo solicitado"
+            value: (values) => values === Type ? null : "Escribe lo solicitado"
         }
     })
 
@@ -44,46 +40,82 @@ export const Delete = ({ id, type, shift }: Props) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <Alert
-                    color="yellow"
-                    mt={10}
-                    icon={<IconAlertTriangleFilled />}
-                    title="¡Antes de continuar....!"
+                <Card
+                    radius="md"
+                    p="md"
+                    withBorder
                 >
-                    <Stack>
-                        <Text size="sm">
-                            Estás a punto de eliminar el {type} del turno “{shift}”.
-                        </Text>
+                    <Text size="sm" fw={500} c="dimmed" mb="sm">
+                        Rol Vacacional a eliminar:
+                    </Text>
 
-                        <Text size="sm">
-                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este permiso, y cualquier rol o usuario que dependiera de él perderá de inmediato dicho acceso.
-                        </Text>
-                        <Text size="sm">
-                            Para continuar, escribe exactamente:
-                        </Text>
+                    <Group align="center" gap="md">
+                        <ThemeIcon
+                            size={56}
+                            variant="light"
+                        >
+                            <IconBleach />
+                        </ThemeIcon>
 
-                        <Text size="sm" fw={700}>
-                            Eliminar {type}
-                        </Text>
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                            <Group gap={6} wrap="nowrap">
+                                <IconSunMoon size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {shift.name}
+                                </Text>
+                            </Group>
 
-                        <Text size="sm">
-                            Esto garantiza que comprendes el impacto de esta acción.
-                        </Text>
-                    </Stack>
-                </Alert>
+                            <Group gap={6} wrap="nowrap">
+                                <IconCalendar size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {Type}
+                                </Text>
+                            </Group>
 
-                <Divider />
+                            <Group gap={6} wrap="nowrap">
+                                <IconFileText size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {file?.name}
+                                </Text>
+                            </Group>
+                        </Stack>
+                    </Group>
+                </Card>
+
+                <Alert
+                    color="red"
+                    title={
+                        <Group align="center" gap="xs" mb="sm" wrap="nowrap">
+                            <IconAlertTriangleFilled
+                                size={20}
+                                color="orange"
+                                style={{ flex: "0 0 auto" }}
+                            />
+                            <Text fw={600} fz="lg">
+                                ADVERTENCIA: Esta acción es irreversible
+                            </Text>
+                        </Group>
+                    }
+                    content={
+                        <List>
+                            <List.Item>Se eliminara permanentemente el rol vacacional</List.Item>
+                            <List.Item>El archivo cargado sera eliminado permanentemente</List.Item>
+                        </List>
+                    }
+                />
 
                 <TextInput
+                    label="Para confirmar escribe el tipo del rol vacacional:"
+                    placeholder="Escribe el tipo para confirmar..."
+                    description={Type}
                     autoFocus
-                    withAsterisk
-                    placeholder="Eliminar servicio"
                     {...form.getInputProps("value")}
                 />
 
                 <ModalButtons
                     label="Eliminar"
                     loading={loading}
+                    disabled={!form.isValid()}
                 />
             </Stack>
         </form>

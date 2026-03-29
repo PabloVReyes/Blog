@@ -10,6 +10,10 @@ export const ActionsVacation = ({ id, ...props }: VacationsData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Rol Vacacional",
+            subtitle: "Editar un Rol Vacacional existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,11 +25,14 @@ export const ActionsVacation = ({ id, ...props }: VacationsData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Rol Vacacional",
+            subtitle: "Eliminar un Rol Vacacional existente",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}
-                    type={props.type === "CALENDAR" ? "Calendario" : "Index"}
-                    shift={props.shift.name}
+                    {...props}
                 />
             )
         })

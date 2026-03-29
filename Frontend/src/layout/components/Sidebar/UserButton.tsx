@@ -16,6 +16,9 @@ export const UserButton = ({ user, logout }: Props) => {
 
     const handleEditProfile = () => {
         openModal({
+            title: "Editar Perfil",
+            subtitle: "Editar mi perfil",
+            icon: "IconUser",
             content: <Profile />
         })
     }

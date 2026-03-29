@@ -17,6 +17,10 @@ export const ActionsManualTypes = ({ id, ...props }: Props) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Tipo de Manual",
+            subtitle: "Editar un Tipo de Manual existente",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}

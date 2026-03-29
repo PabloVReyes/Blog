@@ -4,25 +4,9 @@ import { useState } from "react";
 import { Notify, showSuccessModal } from "@/ui";
 import { validateName, validateSelect } from "@/utils/validators";
 import { useSystemsAgreementPersonStore } from "@/stores";
+import type { AgreementPerson } from "../../types/agreementPerson.types";
 
-interface Props {
-    name: string;
-    type: string;
-    zoneId: number;
-    groupId: number;
-    zone: Group;
-    group: Group;
-    dependents?: Props[];
-    holders?: Props[];
-    id?: number;
-}
-
-interface Group {
-    id: number;
-    name: string;
-}
-
-export const Edit = ({ name, groupId, zoneId, type, holders, id, zone, group }: Props) => {
+export const Edit = ({ name, groupId, zoneId, type, holders, id, zone, group }: AgreementPerson) => {
     const update = useSystemsAgreementPersonStore(s => s.update);
     const [loading, setLoading] = useState<boolean>(false);
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { fetchArea } from "../api"
 import { Notify } from "@/ui"
 import { Card, Center, Group, Loader, Stack, Tabs, Text, useMantineTheme } from "@mantine/core"
@@ -41,18 +41,22 @@ export const Area = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState<string | null>(null);
     const theme = useMantineTheme()
-
+    const navigate = useNavigate()
+    
     useEffect(() => {
         if (data?.sections?.length) {
             setActiveTab(data.sections[0].id.toString()); // siempre seleccionar la primera
         }
     }, [data]);
 
-
     const handleFetch = async () => {
         try {
             setLoading(true)
             const response = await fetchArea(slug);
+            if (!response) {
+                navigate("/404", { replace: true });
+                return;
+            }
             setData(response);
         } catch (error: unknown) {
             Notify({

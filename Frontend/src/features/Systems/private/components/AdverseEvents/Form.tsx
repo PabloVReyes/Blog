@@ -1,4 +1,4 @@
-import { FileInput, Stack } from "@mantine/core";
+import { Fieldset, FileInput, Stack } from "@mantine/core";
 import { ModalButtons } from "@/components";
 
 interface Props {
@@ -13,7 +13,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>
-                <div>
+                <Fieldset>
                     <FileInput
                         withAsterisk
                         label="Archivo"
@@ -26,7 +26,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                         placeholder="Evento Adverso.pdf"
                         {...form.getInputProps("file")}
                     />
-                </div>
+                </Fieldset>
 
                 <ModalButtons
                     label={submitLabel}

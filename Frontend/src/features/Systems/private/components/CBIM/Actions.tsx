@@ -21,6 +21,10 @@ export const ActionsCBIM = ({ id, ...props }: Props) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Medicamento",
+            subtitle: "Editar un medicamento del Cuadro Básico Integral de Medicamentos (CBIM)",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -32,11 +36,14 @@ export const ActionsCBIM = ({ id, ...props }: Props) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Medicamento",
+            subtitle: "Eliminar un medicamento del Cuadro Básico Integral de Medicamentos (CBIM)",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
-                    code={props.code}
                     id={id}
-                    name={props.name}
+                    {...props}
                 />
             )
         })

@@ -8,20 +8,9 @@ import { Text, ThemeIcon } from "@mantine/core"
 import { useDownloadAreasStore } from "@/stores"
 import type { Column } from "@/types"
 import { getTablerIcon } from "@/helpers"
+import type { Area } from "../../types/download.types"
 
-export interface Row {
-    id: string;
-    name: string;
-    slug: string;
-    icon: string;
-    color: string;
-    isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-const columns: Column<Row>[] = [
+const columns: Column<Area>[] = [
     {
         key: 'icon',
         label: 'Icono',
@@ -58,7 +47,7 @@ const columns: Column<Row>[] = [
     {
         key: 'actions',
         label: 'Acciones',
-        align: 'left',
+        align: 'center',
         render: (row) => {
             return <ActionsAreas {...row} />
         }
@@ -88,6 +77,9 @@ export const Areas = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Área",
+            subtitle: "Agregar una nueva Área",
+            icon: "IconPlus",
             content: (
                 <AddArea />
             )

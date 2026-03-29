@@ -10,6 +10,10 @@ export const ActionsAccessCard = ({ id, ...props }: AccessCardData) => {
 
     const handleEdit = () => {
         openModal({
+            title: "Editar Acceso Rápido",
+            subtitle: "Editar un acceso rápido del inicio",
+            icon: "IconEdit",
+            color: "blue",
             content: (
                 <Edit
                     id={id}
@@ -21,6 +25,10 @@ export const ActionsAccessCard = ({ id, ...props }: AccessCardData) => {
 
     const handleDelete = () => {
         openModal({
+            title: "Eliminar Acceso Rápido",
+            subtitle: "Eliminar un acceso rápido del inicio",
+            icon: "IconTrash",
+            color: "red",
             content: (
                 <Delete
                     id={id}

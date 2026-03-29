@@ -45,6 +45,7 @@ export const Form = <T extends QuickAccessFormValues>({
                     <Switch
                         label="Visible"
                         withAsterisk
+                        value={"isActive"}
                         checked={form.values.isActive as boolean}
                         {...form.getInputProps("isActive", { type: "checkbox" })}
                         description="El acceso rápido es visible"
@@ -105,7 +106,7 @@ export const Form = <T extends QuickAccessFormValues>({
                     </Group>
                 </Fieldset>
 
-                <Fieldset legend="Al dar clic">
+                <Fieldset legend="Acciones">
                     <IndicatorGroup
                         label="Tipo de contenido"
                         description="Selecciona el tipo de contenido que se mostrará al hacer clic sobre el acceso rápido"

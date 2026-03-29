@@ -1,27 +1,23 @@
-import { Alert, Stack, Text, TextInput } from "@mantine/core"
+import { Card, Group, Image, List, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled } from "@tabler/icons-react"
+import { IconAlertTriangleFilled, IconArticle, IconFile, IconLetterT, IconLink } from "@tabler/icons-react"
 import { useState } from "react";
-import { Notify, showSuccessModal } from "@/ui";
+import { Alert, Notify, showSuccessModal } from "@/ui";
 import { ModalButtons } from "@/components";
 import { useHomeCarouselStore } from "@/stores";
+import type { CarouselData } from "@/features/Home/types/carousel.types";
 
-interface Props {
-    id: string;
-    title: string;
-}
-
-export const Delete = ({ id, title }: Props) => {
+export const Delete = ({ id, title, imageUrl, type, url, file, description }: CarouselData) => {
     const remove = useHomeCarouselStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
-        mode: "uncontrolled",
+        mode: "controlled",
         initialValues: {
             value: ""
         },
         validate: {
-            value: (value => value == `Eliminar carrusel ${title}` ? null : "Para eliminar el archivo escribe lo que se solicita")
+            value: (value => value == title ? null : "Para eliminar el archivo escribe lo que se solicita")
         }
     })
 
@@ -44,41 +40,93 @@ export const Delete = ({ id, title }: Props) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <Alert
-                    color="yellow"
-                    mt={10}
-                    icon={<IconAlertTriangleFilled />}
-                    title="¡Antes de continuar....!"
+                <Card
+                    radius="md"
+                    p="md"
+                    withBorder
                 >
-                    <Stack>
-                        <Text size="sm">
-                            Estás a punto de eliminar el carrusel <Text span fw={700}>“{title}”</Text>.
-                        </Text>
-                        <Text size="sm">
-                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este archivo.
-                        </Text>
-                        <Text size="sm">
-                            Para continuar, escribe exactamente:
-                        </Text>
-                        <Text size="sm" fw={700}>
-                            Eliminar carrusel {title}
-                        </Text>
-                        <Text size="sm">
-                            Esto garantiza que comprendes el impacto de esta acción.
-                        </Text>
-                    </Stack>
-                </Alert>
+                    <Text size="sm" fw={500} c="dimmed" mb="sm">
+                        Carrusel a eliminar:
+                    </Text>
+
+                    <Group align="center" gap="md">
+                        <Image
+                            src={`${import.meta.env.VITE_API_URL}${imageUrl}`}
+                            h={64}
+                            w={64}
+                        />
+
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                            <Group gap={6}>
+                                <IconLetterT size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {title}
+                                </Text>
+                            </Group>
+
+                            <Group gap={6}>
+                                <IconArticle size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {description}
+                                </Text>
+                            </Group>
+
+                            {type === "page" &&
+                                <Group gap={6}>
+                                    <IconLink size={16} />
+                                    <Text fw={700} size="md" truncate>
+                                        {url}
+                                    </Text>
+                                </Group>
+                            }
+
+                            {type === "file" &&
+                                <Group gap={6}>
+                                    <IconFile size={16} />
+                                    <Text fw={700} size="md" truncate>
+                                        {file.name}
+                                    </Text>
+                                </Group>
+                            }
+                        </Stack>
+                    </Group>
+                </Card>
+
+                <Alert
+                    color="red"
+                    title={
+                        <Group align="center" gap="xs" mb="sm" wrap="nowrap">
+                            <IconAlertTriangleFilled
+                                size={20}
+                                color="orange"
+                                style={{ flex: "0 0 auto" }}
+                            />
+                            <Text fw={600} fz="lg">
+                                ADVERTENCIA: Esta acción es irreversible
+                            </Text>
+                        </Group>
+                    }
+                    content={
+                        <List>
+                            <List.Item>Se eliminara permanentemente el carrousel</List.Item>
+                            <List.Item>Se perdera la imagen cargada</List.Item>
+                            <List.Item>En caso de que la acción sea la descarga de un archivo, este sera eliminado</List.Item>
+                        </List>
+                    }
+                />
 
                 <TextInput
+                    label="Para confirmar escribe el título del carrusel:"
+                    description={title}
                     autoFocus
-                    withAsterisk
-                    placeholder="Eliminar carrusel"
+                    placeholder="Escribe el título para confirmar..."
                     {...form.getInputProps("value")}
                 />
 
                 <ModalButtons
                     label="Eliminar"
                     loading={loading}
+                    disabled={!form.isValid()}
                 />
             </Stack>
         </form>

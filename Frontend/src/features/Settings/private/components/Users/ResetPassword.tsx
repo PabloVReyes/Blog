@@ -1,18 +1,13 @@
-import { Divider, Group, Stack, Text, TextInput } from "@mantine/core"
+import { Card, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertCircle, IconMail } from "@tabler/icons-react"
+import { IconAlertCircle, IconMail, IconUser } from "@tabler/icons-react"
 import { useState } from "react"
 import { Alert, Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { resetPasswordUser } from "../../api"
+import type { UsersData } from "../../types/users.types"
 
-interface Props {
-    id: string
-    name: string
-    email: string
-}
-
-export const ResetPassword = ({ id, name, email }: Props) => {
+export const ResetPassword = ({ id, name, email }: UsersData) => {
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
@@ -20,7 +15,7 @@ export const ResetPassword = ({ id, name, email }: Props) => {
             value: ""
         },
         validate: {
-            value: (values) => values === email ? null : "Escribe lo solicitado"
+            value: (value) => value === email ? null : "Escribe lo solicitado"
         }
     })
 
@@ -43,19 +38,41 @@ export const ResetPassword = ({ id, name, email }: Props) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <Alert
-                    color="blue"
-                    content={
-                        <Group>
-                            <IconMail />
-                            <Stack gap={5}>
-                                <Text size="sm" fw={700}>Usuario seleccionado:</Text>
-                                <Text size="md" fw={700}>{name}</Text>
-                                <Text size="sm" fw={500}>{email}</Text>
-                            </Stack>
-                        </Group>
-                    }
-                />
+                <Card
+                    radius="md"
+                    p="md"
+                    withBorder
+                >
+                    <Text size="sm" fw={500} c="dimmed" mb="sm">
+                        Usuario seleccionado:
+                    </Text>
+
+                    <Group align="center" gap="md">
+                        <ThemeIcon
+                            size={56}
+                            variant="light"
+                        >
+                            <IconUser />
+                        </ThemeIcon>
+
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                            <Group gap={6}>
+                                <IconUser size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {name}
+                                </Text>
+                            </Group>
+
+                            <Group gap={6} wrap="nowrap">
+                                <IconMail size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {email}
+                                </Text>
+                            </Group>
+                        </Stack>
+                    </Group>
+                </Card>
+
 
                 <Alert
                     color="yellow"
@@ -69,20 +86,18 @@ export const ResetPassword = ({ id, name, email }: Props) => {
                     }
                     content={"Se enviará un correo electrónico con las nuevas credenciales del usuario"}
                 />
-
-                <Divider />
-
                 <TextInput
-                    label="Confirma el correo electrónico del usuario"
-                    autoFocus
-                    withAsterisk
+                    label="Para confirmar escribe el correo electrónico del usuario"
                     placeholder="Escribe el correo para confirmar..."
+                    description={email}
+                    autoFocus
                     {...form.getInputProps("value")}
                 />
 
                 <ModalButtons
                     label="Enviar correo"
                     loading={loading}
+                    disabled={!form.isValid()}
                 />
             </Stack>
         </form>

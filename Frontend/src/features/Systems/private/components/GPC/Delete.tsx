@@ -1,26 +1,24 @@
-import { Alert, Divider, Stack, Text, TextInput } from "@mantine/core"
+import { Card, Group, List, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled } from "@tabler/icons-react"
+import { IconAlertTriangleFilled, IconArticle, IconFileText, IconLetterT, IconRepeat } from "@tabler/icons-react"
 import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
+import { Alert, Notify, showSuccessModal } from "@/ui"
 import { ModalButtons } from "@/components"
 import { useSystemsGPCStore } from "@/stores"
+import type { GPCData } from "@/features/Systems/types/gpc.types"
+import { getTablerIcon } from "@/helpers"
 
-interface Props {
-    id: string | number
-    name: string
-}
-
-export const Delete = ({ id, name }: Props) => {
+export const Delete = ({ id, title, orderIndex, description, cycle, file }: GPCData) => {
     const remove = useSystemsGPCStore(s => s.remove)
     const [loading, setLoading] = useState<boolean>(false)
 
     const form = useForm({
+        mode: "controlled",
         initialValues: {
             value: ""
         },
         validate: {
-            value: (values) => values === `Eliminar ${name}` ? null : "Escribe lo solicitado"
+            value: (value) => value == title ? null : "Escribe lo solicitado"
         }
     })
 
@@ -40,38 +38,81 @@ export const Delete = ({ id, name }: Props) => {
         }
     }
 
+    const Icon = getTablerIcon(`IconHexagonNumber${orderIndex}Filled`)
+
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack>
-                <Alert
-                    color="yellow"
-                    mt={10}
-                    icon={<IconAlertTriangleFilled />}
-                    title="¡Antes de continuar....!"
+                <Card
+                    radius="md"
+                    p="md"
+                    withBorder
                 >
-                    <Stack>
-                        <Text size="sm">
-                            Estás a punto de eliminar el informe “{name}”.
-                        </Text>
+                    <Text size="sm" fw={500} c="dimmed" mb="sm">
+                        Algoritmo GPC a eliminar:
+                    </Text>
 
-                        <Text size="sm">
-                            Esta acción es <b>permanente e irreversible</b>. Una vez eliminado, no podrás recuperar este permiso, y cualquier rol o usuario que dependiera de él perderá de inmediato dicho acceso.
-                        </Text>
-                        <Text size="sm">
-                            Para continuar, escribe exactamente:
-                        </Text>
+                    <Group align="center" gap="md">
+                        <ThemeIcon
+                            size={56}
+                            variant="light"
+                        >
+                            <Icon />
+                        </ThemeIcon>
 
-                        <Text size="sm" fw={700}>
-                            Eliminar {name}
-                        </Text>
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                            <Group gap={6}>
+                                <IconLetterT size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {title}
+                                </Text>
+                            </Group>
 
-                        <Text size="sm">
-                            Esto garantiza que comprendes el impacto de esta acción.
-                        </Text>
-                    </Stack>
-                </Alert>
+                            <Group gap={6} wrap="nowrap">
+                                <IconArticle size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {description}
+                                </Text>
+                            </Group>
 
-                <Divider />
+                            <Group gap={6} wrap="nowrap">
+                                <IconRepeat size={16} />
+                                <Text fw={700} size="md" truncate>
+                                    {cycle.name}
+                                </Text>
+                            </Group>
+
+                            <Group gap={6} wrap="nowrap">
+                                <IconFileText size={16} style={{ flex: "0 0 auto" }} />
+                                <Text fw={700} size="md" truncate>
+                                    {file?.name}
+                                </Text>
+                            </Group>
+                        </Stack>
+                    </Group>
+                </Card>
+
+                <Alert
+                    color="red"
+                    title={
+                        <Group align="center" gap="xs" mb="sm" wrap="nowrap">
+                            <IconAlertTriangleFilled
+                                size={20}
+                                color="orange"
+                                style={{ flex: "0 0 auto" }}
+                            />
+                            <Text fw={600} fz="lg">
+                                ADVERTENCIA: Esta acción es irreversible
+                            </Text>
+                        </Group>
+                    }
+                    content={
+                        <List>
+                            <List.Item>Se eliminara permanentemente el Algoritmo GPC</List.Item>
+                            <List.Item>El archivo cargado será eliminado permanentemente</List.Item>
+                        </List>
+                    }
+                />
 
                 <TextInput
                     autoFocus

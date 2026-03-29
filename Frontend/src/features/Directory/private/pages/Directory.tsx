@@ -7,29 +7,16 @@ import { useModalStore } from "@/layout"
 import { Badge, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
 import { colorMap } from "@/utils"
 import { useDirectoryStore } from "@/stores"
+import type { Column } from "@/types"
+import type { DirectoryData } from "../types/directory.types"
 
-export interface Row {
-    id: string;
-    phone: string;
-    boss: null;
-    email: null;
-    name: string;
-    secretary: null;
-    levelId: string;
-    level: Level;
-}
 
-export interface Level {
-    id: string;
-    name: string;
-}
-
-const columns = (primaryColor: string) => [
+const columns = (primaryColor: string): Column<DirectoryData>[] => [
     {
         key: "phone",
         label: "Extención",
         align: 'center',
-        render: (row: Row) => {
+        render: (row) => {
             return (
                 <ThemeIcon
                     size={50}
@@ -53,8 +40,8 @@ const columns = (primaryColor: string) => [
         key: "level",
         label: "Nivel",
         align: 'left',
-        miw: "200px",
-        render: (row: Row) => {
+        miw: 200,
+        render: (row) => {
             return <Badge size="sm">{row.level.name}</Badge>
         }
     },
@@ -62,8 +49,8 @@ const columns = (primaryColor: string) => [
         key: "boss",
         label: "Jefe(a)",
         align: 'left',
-        miw: "150px",
-        render: (row: Row) => {
+        miw: 150,
+        render: (row) => {
             if (!row.boss) {
                 return <Text size="xs" c="dimmed">Sin Jefe(a)</Text>
             }
@@ -75,7 +62,7 @@ const columns = (primaryColor: string) => [
         key: "secretary",
         label: "Secretario(a)",
         align: 'left',
-        render: (row: Row) => {
+        render: (row) => {
             if (!row.secretary) {
                 return <Text size="xs" c="dimmed">Sin Secretario(a)</Text>
             }
@@ -87,7 +74,7 @@ const columns = (primaryColor: string) => [
         key: "email",
         label: "Correo Electronico",
         align: 'left',
-        render: (row: Row) => {
+        render: (row) => {
             if (!row.email) {
                 return <Text size="xs" c="dimmed">Sin Correo Electronico</Text>
             }
@@ -99,7 +86,7 @@ const columns = (primaryColor: string) => [
         key: "actions",
         label: "Acciones",
         align: "center",
-        render: (row: Row) => {
+        render: (row) => {
             return <Actions {...row} />
         }
     }
@@ -129,6 +116,9 @@ export const Directory = () => {
 
     const handleAdd = () => {
         openModal({
+            title: "Agregar Extensión Telefonia",
+            subtitle: "Agregar un nueva Extensión Telefonia",
+            icon: "IconPlus",
             content: <Add />
         })
     }
