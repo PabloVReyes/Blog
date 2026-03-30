@@ -123,6 +123,7 @@ export const Home = () => {
         } catch (error) {
             Notify({
                 type: "error",
+                title: "Error al cargar secciones",
                 message: "Error al cargar las secciones",
             })
         } finally {
