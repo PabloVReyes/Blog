@@ -27,9 +27,9 @@ export const getUsersController: RequestHandler = asyncHandler(async (req: Reque
 // UPDATE //
 ////////////
 
-export const putMeController: RequestHandler = asyncHandler(async (req: any, res: Response) => {
+export const putMeController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.putMeParamsSchema.parse(req.params)
-    if (req.user.id !== params.id) {
+    if (req.user && req.user.id !== params.id) {
         return res.status(403).json({ message: 'Acceso denegado' })
     }
     const body: schema.PutMeSchema = schema.putMeSchema.parse(req.body)
@@ -50,9 +50,9 @@ export const resetPasswordController: RequestHandler = asyncHandler(async (req: 
     res.json(data)
 })
 
-export const changePasswordController: RequestHandler = asyncHandler(async (req: any, res: Response) => {
+export const changePasswordController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.changePasswordParamsSchema.parse(req.params)
-    if (req.user.id !== params.id) {
+    if (req.user &&req.user.id !== params.id) {
         return res.status(403).json({ message: 'Acceso denegado' })
     }
     const body: schema.ChangePasswordSchema = schema.changePasswordSchema.parse(req.body)
