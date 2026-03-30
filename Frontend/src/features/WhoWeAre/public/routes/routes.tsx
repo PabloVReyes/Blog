@@ -6,10 +6,10 @@ export const whoWeArePublicRoutes: RouteObject = {
     children: [
         {
             index: true,
-            element: <Navigate to={'filosofira-organizacional'}/>
+            element: <Navigate to={'filosofia-organizacional'}/>
         },
         {
-            path: "filosofira-organizacional",
+            path: "filosofia-organizacional",
             element: <OrganizationalPhilosophy/>
         },
         {

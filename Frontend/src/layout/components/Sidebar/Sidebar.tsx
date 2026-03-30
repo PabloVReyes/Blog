@@ -66,7 +66,7 @@ export const Sidebar = () => {
                     id: "filosofia-organizacional",
                     label: "Filosofia Organizacional",
                     icon: "IconUsers",
-                    link: "/filosofira-organizacional",
+                    link: "/filosofia-organizacional",
                 },
                 {
                     id: "codigos-de-etica",
