@@ -11,7 +11,7 @@ export const postStandarController: RequestHandler = asyncHandler(async (req: Re
     const body: schema.PostStandardSchema = schema.postStandardSchema.parse(req.body)
     const file = req.file
     const dto = { ...body, file }
-    await service.postSdantardService(dto)
+    await service.postStandardService(dto)
     res.json({ success: true })
 })
 
@@ -30,7 +30,7 @@ export const getCategoriesController: RequestHandler = asyncHandler(async (req: 
     res.json(data)
 })
 
-export const getSdandarsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+export const getStandardsController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const dto = schema.getStandardSchema.parse(req.query)
     const data = await service.getStandardsService(dto)
     res.json(data)

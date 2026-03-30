@@ -215,7 +215,7 @@ export const getGpcRepository = async ({ search, take, skip }: PaginationProps) 
     }
 }
 
-export const getGpcByIdRepositoy = async (id: string) => {
+export const getGpcByIdRepository = async (id: string) => {
     try {
         return await database.gpc.findUnique({ where: { id } })
     } catch (error) {

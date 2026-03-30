@@ -15,7 +15,7 @@ router.get('/categories', controller.getCategoriesController)
 // Descargas
 router.get(
     '/',
-    controller.getSdandarsController
+    controller.getStandardsController
 )
 
 router.post(

@@ -88,7 +88,7 @@ export const getCycleWithGpcService = async (dto: schema.GetGpcSchema) => {
 export const putGpcService = async (id: string, dto: type.GpcUpdateDto) => {
     const { title, description, cycle, orderIndex, file } = dto
 
-    const existingItem = await repo.getGpcByIdRepositoy(id)
+    const existingItem = await repo.getGpcByIdRepository(id)
 
     if (!existingItem) {
         throw new HttpError(404, "El algoritmo no existe")
@@ -119,7 +119,7 @@ export const putGpcService = async (id: string, dto: type.GpcUpdateDto) => {
 ////////////
 
 export const deleteGpcService = async (id: string) => {
-    const GPC = await repo.getGpcByIdRepositoy(id)
+    const GPC = await repo.getGpcByIdRepository(id)
 
     if (!GPC) {
         throw new HttpError(404, "El algoritmo no existe")

@@ -9,7 +9,7 @@ import { HttpError } from "@/utils/httpError"
 // CREATE //
 ////////////
 
-export const postSdantardService = async (dto: types.StandarCreateDto) => {
+export const postStandardService = async (dto: types.StandarCreateDto) => {
     const { name, description, isNew, category, file } = dto
 
     return await repo.postStandarRepository({

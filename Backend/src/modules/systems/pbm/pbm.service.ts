@@ -85,7 +85,7 @@ export const putPBMService = async (id: string, dto: type.PbmUpdateDto) => {
 // DELETE //
 ////////////
 
-export const daletePBMService = async (id: string) => {
+export const deletePBMService = async (id: string) => {
     const PBM = await repo.getPBMByIdRepository(id)
 
     if (!PBM) {

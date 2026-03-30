@@ -45,7 +45,7 @@ export const putPBMController: RequestHandler = asyncHandler(async (req: Request
 
 export const deletePBMController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const params = schema.deletePBMParamsSchema.parse(req.params)
-    await service.daletePBMService(params.id)
+    await service.deletePBMService(params.id)
     res.json({ success: true })
 })
 
