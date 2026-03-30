@@ -70,7 +70,7 @@ export const Sidebar = () => {
                 },
                 {
                     id: "codigos-de-etica",
-                    label: "Códigos Ético Conductuales",
+                    label: "Códigos Éticos Conductuales",
                     icon: "IconUsers",
                     link: "/codigos-de-etica",
                 }

@@ -7,7 +7,7 @@ export const CodesOfEthics = () => {
         <Container size="lg">
             <Stack gap={"lg"}>
                 <Title order={2}>
-                    Códigos Ético Conductuales
+                    Códigos Éticos Conductuales
                 </Title>
 
                 <Card
