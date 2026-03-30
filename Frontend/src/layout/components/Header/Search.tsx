@@ -83,7 +83,7 @@ export const Search = () => {
         } catch (error) {
             Notify({
                 type: "error",
-                title: "Error al realizar busqueda",
+                title: "Error al realizar búsqueda",
                 message: error instanceof Error ? error.message : "Error desconocido"
             })
             console.error("Error en búsqueda:", error)
