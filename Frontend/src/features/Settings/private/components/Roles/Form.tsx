@@ -98,7 +98,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                     <TextInput
                         withAsterisk
                         label="Descripción"
-                        description="Describe qué permite hacer este permiso."
+                        description="Describe qué permite hacer este rol."
                         maxLength={MAX_DESCRIPTION_LENGTH}
                         rightSection={
                             <Text size="xs" c="dimmed">
