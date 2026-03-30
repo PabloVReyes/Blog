@@ -56,7 +56,7 @@ export const postJuristicsRepository = async ({
             },
             "Error creating Juristics"
         )
-        throw new Error("Error al crear disposición juridica")
+        throw new Error("Error al crear disposición jurídica")
     }
 }
 
@@ -98,7 +98,7 @@ export const getJuristicsRepository = async ({ skip, take, search }: PaginationP
             },
             "Error fetching Juristics"
         )
-        throw new Error("Error al obtener las disposiciones juridicas")
+        throw new Error("Error al obtener las disposiciones jurídicas")
     }
 }
 
@@ -114,7 +114,7 @@ export const getJuristicsByIdRepository = async (id: string) => {
             },
             "Error fetching Juristics By ID"
         )
-        throw new Error("Error al obtener disposición juridica")
+        throw new Error("Error al obtener disposición jurídica")
     }
 }
 
@@ -141,7 +141,7 @@ export const putJuristicsRepository = async ({
             })
 
             if (!current) {
-                throw new Error("Disposicion Juridica no encontrada")
+                throw new Error("Disposición Jurídica no encontrada")
             }
 
             let fileId = current.fileId
@@ -185,7 +185,7 @@ export const putJuristicsRepository = async ({
             },
             "Error updating Juristics"
         )
-        throw new Error("Error al actualizar dispocisión juridica")
+        throw new Error("Error al actualizar disposición jurídica")
     }
 }
 

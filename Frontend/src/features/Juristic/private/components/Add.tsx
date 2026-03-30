@@ -37,7 +37,7 @@ export const Add = () => {
         {
             successTitle: "Disposición Juridica Creada",
             successMessage: "La disposición juridica fue creada correctamente",
-            errorTitle: "Error al crear disposición juridica"
+            errorTitle: "Error al crear disposición jurídica"
         }
     )
 
