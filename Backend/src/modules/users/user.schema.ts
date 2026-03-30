@@ -60,7 +60,9 @@ export const changePasswordSchema = z.object({
         .min(8, 'La contraseña debe tener al menos 8 caracteres')
         .max(128, 'La contraseña no puede exceder 128 caracteres')
         .regex(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
-        .regex(/[0-9]/, 'Debe contener al menos un número'),
+        .regex(/[a-z]/, 'Debe contener al menos una letra minúscula')
+        .regex(/[0-9]/, 'Debe contener al menos un número')
+        .regex(/[$&+,:;=?@#|'<>.^*()%!\-]/, 'Debe contener al menos un símbolo especial'),
 })
 
 export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>
@@ -70,7 +72,14 @@ export const changePasswordParamsSchema = z.object({
 })
 
 export const changeMePasswordSchema = z.object({
-    password: z.string(),
+    password: z
+        .string()
+        .min(8, 'La contraseña debe tener al menos 8 caracteres')
+        .max(128, 'La contraseña no puede exceder 128 caracteres')
+        .regex(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
+        .regex(/[a-z]/, 'Debe contener al menos una letra minúscula')
+        .regex(/[0-9]/, 'Debe contener al menos un número')
+        .regex(/[$&+,:;=?@#|'<>.^*()%!\-]/, 'Debe contener al menos un símbolo especial'),
 })
 
 export const deleteUserParamsSchema = z.object({
