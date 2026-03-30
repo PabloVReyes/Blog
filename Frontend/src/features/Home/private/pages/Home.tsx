@@ -6,7 +6,7 @@ import { Carousel } from "./Carousel"
 import { Alert } from "./Alert"
 import { Derechohabiencia } from "./Derechohabiencia"
 import { Calendar } from "./Calendar"
-import { AccessCard } from "./AcessCard"
+import { AccessCard } from "./AccessCard"
 import { Notify } from "@/ui"
 
 export interface Sections {
