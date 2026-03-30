@@ -2,9 +2,16 @@ import { Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon } from "@ma
 import { ColorSelect, IconSelect, ModalButtons } from "@/components";
 import { MAX_TITLE_LENGTH } from "@/constants";
 import { getTablerIcon } from "@/helpers";
+import type { UseFormReturnType } from "@mantine/form";
+
+interface RoleFormValues {
+    name: string;
+    icon: string;
+    color: string;
+}
 
 interface Props {
-    form: any;
+    form: UseFormReturnType<RoleFormValues>
     onSubmit: (values: any) => void;
     submitLabel: string;
     isLoading?: boolean;

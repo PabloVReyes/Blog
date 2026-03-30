@@ -1,10 +1,10 @@
 import { createCrudApi } from "@/lib"
-import type { Permission, PermissionFilters } from "../types/permissions.types"
+import type { PermissionData, PermissionFilters } from "../types/permissions.types"
 
 export const settingsPermissionsApi = createCrudApi<
-    Permission,
-    Partial<Permission>,
-    Partial<Permission>,
+    PermissionData,
+    Partial<PermissionData>,
+    Partial<PermissionData>,
     PermissionFilters
 >("api/permissions")
 
