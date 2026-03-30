@@ -1,6 +1,6 @@
 import { Container, List, SimpleGrid, Stack, Tabs, Text, Title } from "@mantine/core"
 import { Card } from "../components"
-import { IconClipboard, IconDental, IconDna2, IconFaceMask, IconFriends, IconNurse, IconScript, IconStethoscope, IconWheelchair } from "@tabler/icons-react"
+import { IconNurse, IconStethoscope, IconWheelchair } from "@tabler/icons-react"
 
 export const CodesOfEthics = () => {
     return (
@@ -11,7 +11,7 @@ export const CodesOfEthics = () => {
                 </Title>
 
                 <Card
-                    Icon={IconScript}
+                    icon="IconScript"
                     title="Código de Ética"
                     color="green"
                     content={
@@ -62,8 +62,8 @@ export const CodesOfEthics = () => {
                 <SimpleGrid cols={{ base: 1, md: 2 }}>
 
                     <Card
-                        Icon={IconClipboard}
-                        title="Carta de los Derechos Generales de los..."
+                        icon="IconClipboard"
+                        title="Carta de los Derechos Generales de Pacientes, Médicos y Enfermería"
                         color="blue"
                         content={
                             <Tabs color="green" defaultValue="pacientes">
@@ -215,7 +215,7 @@ export const CodesOfEthics = () => {
                     />
 
                     <Card
-                        Icon={IconNurse}
+                        icon="IconNurse"
                         title="Código de Ética para Enfermería"
                         color="violet"
                         content={
@@ -264,7 +264,7 @@ export const CodesOfEthics = () => {
                     />
 
                     <Card
-                        Icon={IconFaceMask}
+                        icon="IconFaceMask"
                         title="Derechos de los Pacientes con VIH"
                         color="yellow"
                         content={
@@ -329,7 +329,7 @@ export const CodesOfEthics = () => {
                     />
 
                     <Card
-                        Icon={IconDna2}
+                        icon="IconDna2"
                         title="Código de Bioética para el Personal de Salud"
                         color="cyan"
                         content={
@@ -364,7 +364,7 @@ export const CodesOfEthics = () => {
 
                 <Card
                     title="Decálogo de los Derechos de los Cirujanos Dentistas"
-                    Icon={IconDental}
+                    icon="IconDental"
                     color="red"
                     content={
                         <List type="ordered" spacing="sm">
@@ -413,7 +413,7 @@ export const CodesOfEthics = () => {
 
                 <Card
                     title="Carta de Obligaciones de los Servidores Públicos"
-                    Icon={IconFriends}
+                    icon="IconFriends"
                     color="indigo"
                     content={
                         <>

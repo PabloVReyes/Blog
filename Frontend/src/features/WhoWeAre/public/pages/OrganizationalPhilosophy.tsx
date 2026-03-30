@@ -1,24 +1,23 @@
 import { Container, List, SimpleGrid, Stack, Title } from "@mantine/core"
 import { Card } from "../components"
-import { IconAward, IconBuildingHospital, IconGolf, IconTarget } from "@tabler/icons-react"
 
 export const OrganizationalPhilosophy = () => {
     return (
         <Container size="lg">
             <Stack gap={"lg"}>
                 <Title order={2}>
-                    Filosofia Organizacional
+                    Filosofía Organizacional
                 </Title>
 
                 <SimpleGrid cols={{ base: 1, md: 2 }}>
                     <Card
-                        Icon={IconTarget}
+                        icon="IconTarget"
                         title="Misión"
                         color="green"
-                        content={"Brindar atención medica gratuita a la población sin seguridad social, centrada en la seguridad del paciente con calidad, sentido humano, promoviendo el autocuidado de su salud, desarrollando investigación y formando profesionales de la salud calificados."}
+                        content={"Brindar atención médica gratuita a la población sin seguridad social, centrada en la seguridad del paciente con calidad, sentido humano, promoviendo el autocuidado de su salud, desarrollando investigación y formando profesionales de la salud calificados."}
                     />
                     <Card
-                        Icon={IconBuildingHospital}
+                        icon={"IconBuildingHospital"}
                         title="Visión"
                         color="blue"
                         content={"Ser un hospital de tercer nivel garante del derecho de la salud, reconocido por su modelo de calidad centrado en la seguridad del paciente, consolidado como un centro de educación e investigación de referencia nacional."}
@@ -26,14 +25,14 @@ export const OrganizationalPhilosophy = () => {
                 </SimpleGrid>
 
                 <Card
-                    Icon={IconAward}
+                    icon="IconAward"
                     title="Política de Calidad"
                     color="violet"
                     content={"El Centro de Alta Especialidad Dr. Rafael Lucio es una institución centrada en la seguridad del paciente a quien le proporciona servicios médicos especializados basados en educación, investigación y procesos de mejora continua."}
                 />
 
                 <Card
-                    Icon={IconGolf}
+                    icon="IconTarget"
                     title="Objetivos de Calidad"
                     color="orange"
                     content={
