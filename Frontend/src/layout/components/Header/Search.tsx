@@ -12,12 +12,14 @@ import {
 } from "@mantine/core"
 import { IconSearch } from "@tabler/icons-react"
 import { useEffect, useRef, useState } from "react"
-import { downloadSystem, getSearch } from "@/layout/api"
+import { getSearch } from "@/layout/api"
 import styles from "./Search.module.css"
 import * as TablerIcons from "@tabler/icons-react"
 import { useNavigate } from "react-router-dom"
 import { useModalStore } from "@/layout/store"
 import { getTablerIcon } from "@/helpers"
+import { Notify } from "@/ui"
+import { useDownloadFile } from "@/hooks"
 
 export interface Data {
     id: string;
@@ -37,6 +39,9 @@ export const Search = () => {
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
+    const { download } = useDownloadFile()
+
+    console.log(data)
 
     const navigate = useNavigate()
     const { closeModal } = useModalStore()
@@ -76,6 +81,11 @@ export const Search = () => {
 
             setPage(pageToLoad + 1)
         } catch (error) {
+            Notify({
+                type: "error",
+                title: "Error al realizar busqueda",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            })
             console.error("Error en búsqueda:", error)
         } finally {
             isFetchingRef.current = false
@@ -133,33 +143,11 @@ export const Search = () => {
     }, [page, total, data.length])
 
     // ==============================
-    // DESCARGA
-    // ==============================
-    const download = async (id: string) => {
-        try {
-            const response = await downloadSystem(id)
-
-            const blob = new Blob([response.data], {
-                type: "application/pdf",
-            })
-
-            const url = window.URL.createObjectURL(blob)
-            window.open(url, "_blank")
-
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url)
-            }, 1000)
-        } catch (error) {
-            console.error("Error al descargar archivo", error)
-        }
-    }
-
-    // ==============================
     // NAVEGACIÓN
     // ==============================
-    const handleNavigate = (type: string, id: string, url?: string) => {
-        if (type === "file") {
-            download(id)
+    const handleNavigate = ({ url, file }: { url?: string, file?: { id: string } | null }) => {
+        if (file) {
+            download(file.id)
         } else {
             if (!url) return
 
@@ -181,10 +169,10 @@ export const Search = () => {
 
         return (
             <Card
-                key={search.id} // ✅ nunca usar index
+                key={search.id}
                 h="100%"
                 p="lg"
-                onClick={() => handleNavigate(search.type, search.id, search.url)}
+                onClick={() => handleNavigate(search)}
                 style={{ cursor: "pointer", position: "relative" }}
                 className={styles.group}
             >

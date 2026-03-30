@@ -28,6 +28,9 @@ export const getSearchService = async (dto: schema.getSearchSchema) => {
             url: s.url,
             type: "system",
             createdAt: s.createdAt,
+            file: s.file ? {
+                id: s.file.id,
+            } : null,
         })),
     ];
 

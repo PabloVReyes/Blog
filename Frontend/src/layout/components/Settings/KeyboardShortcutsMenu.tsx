@@ -39,8 +39,20 @@ export const KeyboardShortcutsMenu = ({ onOpen, onClose }: Props) => {
         getInitialValueInEffect: true,
     });
     const os = useOs();
-    const handleSearch = () => openModal({ content: <Search /> });
-    const handleDirectory = () => openModal({ content: <Directory /> });
+    const handleSearch = () => openModal({
+        title: "Buscar",
+        subtitle: "Buscar en el sistema",
+        icon: "IconSearch",
+        content: <Search />
+    });
+
+    const handleDirectory = () => openModal({
+        title: "Directorio",
+        subtitle: "Ver el directorio de extensiones telefónicas",
+        icon: "IconBook",
+        content: <Directory />
+    });
+
     return (
         <Menu
             position="left"

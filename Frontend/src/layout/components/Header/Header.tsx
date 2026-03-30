@@ -29,12 +29,18 @@ export const Header = ({ isMobile, mobileOpen, toggleSidebar }: Props) => {
 
     const handleSearch = () => {
         openModal({
+            title: "Buscar",
+            subtitle: "Buscar en el sistema",
+            icon: "IconSearch",
             content: <Search />
         })
     }
 
     const handleDirectory = () => {
         openModal({
+            title: "Directorio",
+            subtitle: "Ver el directorio de extensiones telefónicas",
+            icon: "IconBook",
             content: <Directory />
         })
     }
