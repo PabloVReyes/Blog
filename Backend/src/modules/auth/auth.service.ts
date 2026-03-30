@@ -17,7 +17,7 @@ export const login = async (email: string, password: string) => {
     }
 
     if (!user.active) {
-        throw new Error("Usuario desactivado")
+        throw new HttpError(403, "Usuario desactivado")
     }
 
     const permissions = user.roles.flatMap(r =>
