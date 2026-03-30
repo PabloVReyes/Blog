@@ -17,19 +17,19 @@ async function main() {
 
     const permissions = [
         { key: "users.read", name: "Ver Usuarios", description: "Permite ver el apartado de usuarios" },
-        { key: "users.create", name: "Crear Usuarios", description: "Permite crear usuarios" },
+        { key: "users.create", name: "Agregar Usuarios", description: "Permite agregar usuarios" },
         { key: "users.update", name: "Actualizar Usuarios", description: "Permite actualizar usuarios" },
         { key: "users.delete", name: "Eliminar Usuarios", description: "Permite eliminar usuarios" },
 
         // Roles
         { key: "roles.read", name: "Ver Roles", description: "Permite ver la lista de roles" },
-        { key: "roles.create", name: "Crear Roles", description: "Permite crear nuevos roles" },
+        { key: "roles.create", name: "Agregar Roles", description: "Permite agregar nuevos roles" },
         { key: "roles.update", name: "Actualizar Roles", description: "Permite actualizar roles" },
         { key: "roles.delete", name: "Eliminar Roles", description: "Permite eliminar roles" },
 
         // Permisos
         { key: "permissions.read", name: "Ver Permisos", description: "Permite ver la lista de permisos" },
-        { key: "permissions.create", name: "Crear Permiso", description: "Permite crear un nuevo permiso" },
+        { key: "permissions.create", name: "Agregar Permiso", description: "Permite agregar un nuevo permiso" },
         { key: "permissions.update", name: "Actualizar Permiso", description: "Permite actualizar un permiso ya existente" },
         { key: "permissions.delete", name: "Eliminar Permiso", description: "Permite eliminar un permiso existente" },
 
@@ -39,74 +39,74 @@ async function main() {
         // Inicio
         { key: "alert.update", name: "Actualizar Alerta", description: "Permite actualizar la alerta de inicio" },
 
-        { key: "carousel.create", name: "Crear Carrusel", description: "Permite crear un nuevo carrusel en el inicio" },
+        { key: "carousel.create", name: "Agregar Carrusel", description: "Permite agregar un nuevo carrusel en el inicio" },
         { key: "carousel.update", name: "Actualizar Carrusel", description: "Permite actualizar un carrusel existente en el inicio" },
         { key: "carousel.delete", name: "Eliminar Carrusel", description: "Permite eliminar un carrusel existente en el inicio" },
 
         { key: "calendar.update", name: "Actualizar Primera Sección", description: "Permite actualizar la primera sección de inicio" },
         { key: "derechohabiencia.update", name: "Actualizar Segunda Sección", description: "Permite actualizar la segunda sección de inicio" },
 
-        { key: "quickaccess.create", name: "Crear Acceso Rápido", description: "Permite crear un nuevo acceso rápido en el inicio" },
+        { key: "quickaccess.create", name: "Agregar Acceso Rápido", description: "Permite agregar un nuevo acceso rápido en el inicio" },
         { key: "quickaccess.update", name: "Actualizar Acceso Rápido", description: "Permite actualizar un acceso rápido existente en el inicio" },
         { key: "quickaccess.delete", name: "Eliminar Acceso Rápido", description: "Permite eliminar un acceso rápido existente en el inicio" },
 
         // Sistemas de consulta
-        { key: "system.create", name: "Crear Sistema", description: "Permite crear un nuevo sistema" },
+        { key: "system.create", name: "Agregar Sistema", description: "Permite agregar un nuevo sistema" },
         { key: "system.update", name: "Actualizar Sistema", description: "Permite actualizar un sistema existente" },
         { key: "system.delete", name: "Eliminar Sistema", description: "Permite eliminar un sistema existente" },
 
         // CIE10
-        { key: "cie10.create", name: "Crear Enfermedad", description: "Permite crear una nueva enfermedad dentro de la clasificación internacional de enfermedades (CIE-10)" },
+        { key: "cie10.create", name: "Agregar Enfermedad", description: "Permite agregar una nueva enfermedad dentro de la clasificación internacional de enfermedades (CIE-10)" },
         { key: "cie10.update", name: "Actualizar Enfermedad", description: "Permite actualizar una enfermedad existente dentro de la clasificación internacional de enfermedades (CIE-10)" },
         { key: "cie10.delete", name: "Eliminar Enfermedad", description: "Permite eliminar una enfermedad existente dentro de la clasificación internacional de enfermedades (CIE-10)" },
 
         // Informes Mensuales
-        { key: "monthlyreports.create", name: "Crear Informe Mensual", description: "Permite crear un nuevo informe mensual" },
+        { key: "monthlyreports.create", name: "Agregar Informe Mensual", description: "Permite agregar un nuevo informe mensual" },
         { key: "monthlyreports.update", name: "Actualizar Informe Mensual", description: "Permite actualizar un informe mensual existente" },
         { key: "monthlyreports.delete", name: "Eliminar Informe Mensual", description: "Permite eliminar un informe mensual existente" },
 
         // Personas de convenio
         { key: "agreementperson.read", name: "Ver Personas de Convenio", description: "Permite ver la lista de personas de convenio" },
-        { key: "agreementperson.create", name: "Crear Persona de Convenio", description: "Permite crear una nueva persona de convenio" },
+        { key: "agreementperson.create", name: "Agregar Persona de Convenio", description: "Permite agregar una nueva persona de convenio" },
         { key: "agreementperson.update", name: "Actualizar Persona de Convenio", description: "Permite actualizar una persona de convenio" },
         { key: "agreementperson.delete", name: "Eliminar Persona", description: "Permite eliminar una persona de convenio existente" },
 
         // Cuadro Basico Integral de Medicamentos
-        { key: "cbim.create", name: "Crear Medicamento", description: "Permite crear un nuevo medicamento dentro del Cuadro Básico Integral de Medicamentos (CBIM)" },
+        { key: "cbim.create", name: "Agregar Medicamento", description: "Permite agregar un nuevo medicamento dentro del Cuadro Básico Integral de Medicamentos (CBIM)" },
         { key: "cbim.update", name: "Actualizar Medicamento", description: "Permite actualizar un medicamento existente dentro del Cuadro Básico Integral de Medicamentos (CBIM)" },
         { key: "cbim.delete", name: "Eliminar Medicamento", description: "Permite eliminar un medicamento existente dentro del Cuadro Básico Integral de Medicamentos (CBIM)" },
 
         // Guías de Práctica Clínica
-        { key: "gpccenetc.create", name: "Crear Guía de Práctica Clínica", description: "Permite crear un nueva nueva Guía de Práctica Clínica" },
+        { key: "gpccenetc.create", name: "Agregar Guía de Práctica Clínica", description: "Permite agregar un nueva nueva Guía de Práctica Clínica" },
         { key: "gpccenetc.update", name: "Actualizar Guía de Práctica Clínica", description: "Permite actualizar una Guía de Práctica Clínica existente" },
         { key: "gpccenetc.delete", name: "Eliminar Guía de Práctica Clínica", description: "Permite eliminar una Guías de Práctica Clínica existente" },
 
         // Algoritmos PBM
-        { key: "pbm.create", name: "Crear Algoritmo PBM", description: "Permite crear un nuevo Algoritmo PBM" },
+        { key: "pbm.create", name: "Agregar Algoritmo PBM", description: "Permite agregar un nuevo Algoritmo PBM" },
         { key: "pbm.update", name: "Actualizar Algoritmo PBM", description: "Permite actualizar un Algoritmo PBM existente" },
         { key: "pbm.delete", name: "Eliminar Algoritmo PBM", description: "Permite eliminar un Algoritmo PBM existente" },
 
         // Algoritmos GPC
-        { key: "gpc.create", name: "Crear Algoritmo GPC", description: "Permite crear un nuevo Algoritmo GPC" },
+        { key: "gpc.create", name: "Agregar Algoritmo GPC", description: "Permite agregar un nuevo Algoritmo GPC" },
         { key: "gpc.update", name: "Actualizar Algoritmo GPC", description: "Permite actualizar un Algoritmo GPC existente" },
         { key: "gpc.delete", name: "Eliminar Algoritmo GPC", description: "Permite eliminar un Algoritmo GPC existente" },
 
         // Algoritmos GPC
-        { key: "protocols.create", name: "Crear Protocolo de Atención (Pediatría)", description: "Permite crear un nuevo Protocolo de Atención (Pediatría)" },
+        { key: "protocols.create", name: "Agregar Protocolo de Atención (Pediatría)", description: "Permite agregar un nuevo Protocolo de Atención (Pediatría)" },
         { key: "protocols.update", name: "Actualizar Protocolo de Atención (Pediatría)", description: "Permite actualizar un Protocolo de Atención (Pediatría) existente" },
         { key: "protocols.delete", name: "Eliminar Protocolo de Atención (Pediatría)", description: "Permite eliminar un Protocolo de Atención (Pediatría) existente" },
 
         // Eventos Adversos
-        { key: "events.create", name: "Crear Evento Adverso", description: "Permite crear un nuevo Evento Adverso" },
+        { key: "events.create", name: "Agregar Evento Adverso", description: "Permite agregar un nuevo Evento Adverso" },
         { key: "events.update", name: "Actualizar Evento Adverso", description: "Permite actualizar un Evento Adverso existente" },
 
         // Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)
-        { key: "uveh.create", name: "Crear Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)", description: "Permite crear una nueva Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)" },
+        { key: "uveh.create", name: "Agregar Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)", description: "Permite agregar una nueva Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)" },
         { key: "uveh.update", name: "Actualizar Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)", description: "Permite actualizar una Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH) existente" },
         { key: "uveh.delete", name: "Eliminar Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)", description: "Permite eliminar una Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH) existente" },
 
         // Normas Oficiales
-        { key: "standards.create", name: "Crear Norma Oficial Mexicana", description: "Permite crear una nueva Norma Oficial Mexicana" },
+        { key: "standards.create", name: "Agregar Norma Oficial Mexicana", description: "Permite agregar una nueva Norma Oficial Mexicana" },
         { key: "standards.update", name: "Actualizar Norma Oficial Mexicana", description: "Permite actualizar una Norma Oficial Mexicana existente" },
         { key: "standards.delete", name: "Eliminar Norma Oficial Mexicana", description: "Permite eliminar una Norma Oficial Mexicana existente" },
 
@@ -117,23 +117,28 @@ async function main() {
         { key: "macroprocess.delete", name: "Eliminar Manual de Macroproceso", description: "Permite eliminar un manual existente dentro del macroproceso" },
 
         // Vacaciones
-        { key: "shift.create", name: "Crear Turno", description: "Permite crear un nuevo turno para roles vacacionlaes" },
+        { key: "shift.create", name: "Agregar Turno", description: "Permite agregar un nuevo turno para roles vacacionlaes" },
         { key: "shift.update", name: "Actualizar Turno", description: "Permite actualizar un turno existente para roles vacacionales" },
         { key: "shift.delete", name: "Eliminar Turno", description: "Permite eliminar un turno existente para roles vacaciones" },
 
-        { key: "vacation.create", name: "Crear Vacaciones", description: "Permite crear un nuevo rol vacacional" },
+        { key: "vacation.create", name: "Agregar Vacaciones", description: "Permite agregar un nuevo rol vacacional" },
         { key: "vacation.update", name: "Actualizar Vacaciones", description: "Permite actualizar un rol vacacional existente" },
         { key: "vacation.delete", name: "Eliminar Vacaciones", description: "Permite eliminar un rol vacacional existente" },
     
         // Directorio
-        { key: "directory.create", name: "Crear Extensión Telefónica", description: "Permite crear una nueva extensión telefónica" },
+        { key: "directory.create", name: "Agregar Extensión Telefónica", description: "Permite agregar una nueva extensión telefónica" },
         { key: "directory.update", name: "Actualizar Extensión Telefónica", description: "Permite actualizar una extensión telefónica existente" },
         { key: "directory.delete", name: "Eliminar Extensión Telefónica", description: "Permite eliminar una extensión telefónica existente" },
     
         // Disposiciones Juristicas Administrativas
-        { key: "juristics.create", name: "Crear Disposición Jurística Administrativa", description: "Permite crear una nueva disposición jurística administrativa" },
+        { key: "juristics.create", name: "Agregar Disposición Jurística Administrativa", description: "Permite agregar una nueva disposición jurística administrativa" },
         { key: "juristics.update", name: "Actualizar Disposición Jurística Administrativa", description: "Permite actualizar una disposición jurística administrativa existente" },
         { key: "juristics.delete", name: "Eliminar Disposición Jurística Administrativa", description: "Permite eliminar una disposición jurística administrativa existente" },
+    
+        // Descargas
+        { key: "downloads.create", name: "Agregar Descarga", description: "Permite agregar una nueva descarga" },
+        { key: "downloads.update", name: "Actualizar Descarga", description: "Permite actualizar una descarga existente" },
+        { key: "downloads.delete", name: "Eliminar Descarga", description: "Permite eliminar una descarga existente" },
     ]
 
     const permissionRecords = []

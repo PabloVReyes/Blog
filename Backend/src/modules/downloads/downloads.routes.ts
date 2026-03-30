@@ -1,6 +1,8 @@
 import { Router } from "express";
 import * as controller from "./downloads.controller"
 import { createUploader } from "@/config/multer";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -22,9 +24,31 @@ router.post('/categories', controller.postCategoryController)
 router.get("/categories/:section", controller.getCategoriesBySectionController)
 
 // Descargas
-router.get('/', controller.getDownloadsController)
-router.post('/', upload.single("file"), controller.postDownloadController)
-router.put('/:id', upload.single("file"), controller.putDownloadController)
-router.delete('/:id', controller.deleteDownloadController)
+router.get(
+    '/', 
+    controller.getDownloadsController
+)
+
+router.post(
+    '/', 
+    authMiddleware,
+    requirePermission("downloads.create"),
+    upload.single("file"), 
+    controller.postDownloadController
+)
+
+router.put('/:id', 
+    authMiddleware, 
+    requirePermission("downloads.update"), 
+    upload.single("file"), 
+    controller.putDownloadController
+)
+
+router.delete(
+    '/:id', 
+    authMiddleware, 
+    requirePermission("downloads.delete"), 
+    controller.deleteDownloadController
+)
 
 export default router;
