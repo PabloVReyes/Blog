@@ -30,7 +30,7 @@ export type GetPermissionsSchema = z.infer<typeof getPermissionsSchema>
 ////////////
 
 export const putPermissionParamsSchema = z.object({
-    id: z.string()
+    id: z.uuid()
 })
 
 /////
@@ -38,5 +38,5 @@ export const putPermissionParamsSchema = z.object({
 ////////////
 
 export const deletePermissionParamsSchema = z.object({
-    id: z.string()
+    id: z.uuid()
 })
