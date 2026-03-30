@@ -81,7 +81,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                     <TextInput
                         withAsterisk
                         label="Nombre"
-                        description="Nombre del permiso"
+                        description="Nombre del rol"
                         placeholder="Ej. Ver usuarios"
                         maxLength={MAX_TITLE_LENGTH}
                         rightSection={
