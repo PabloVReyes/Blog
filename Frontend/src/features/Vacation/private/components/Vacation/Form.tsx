@@ -78,7 +78,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                             ...shifts.map((s) => ({ value: s.id.toString(), label: s.name }))
                         ]}
                         placeholder="Turno..."
-                        description="Selecciona el turno el cual permanecera el archivo"
+                        description="Selecciona el turno el cual permanecerá el archivo"
                         withAsterisk
                         {...form.getInputProps("shift")}
                     />

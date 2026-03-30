@@ -183,7 +183,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                             ...areas.map((a) => ({ value: a.id.toString(), label: a.name }))
                         ]}
                         placeholder="Área..."
-                        description="Selecciona el área al cual permanecera el archivo"
+                        description="Selecciona el área al cual permanecerá el archivo"
                         withAsterisk
                         {...form.getInputProps("area")}
                         onChange={(value) => {

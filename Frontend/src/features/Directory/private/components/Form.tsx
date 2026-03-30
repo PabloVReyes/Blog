@@ -97,7 +97,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                             ...levels.map((l) => ({ value: l.id.toString(), label: l.name }))
                         ]}
                         placeholder="Área..."
-                        description="Selecciona el área al cual permanecera el archivo"
+                        description="Selecciona el área al cual permanecerá el archivo"
                         withAsterisk
                         {...form.getInputProps("level")}
                     />
