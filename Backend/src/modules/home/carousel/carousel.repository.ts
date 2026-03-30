@@ -191,9 +191,9 @@ export const putCarouselRepository = async (props: PutCarouselRepositoryProps) =
             }
 
             let fileId = current.fileId;
-            let imagePath: any = current.imagePath;
-            let imageName: any = current.imageName;
-            let imageUrl: any = current.imageUrl;
+            let imagePath: string | null | undefined = current.imagePath;
+            let imageName: string | null | undefined = current.imageName;
+            let imageUrl: string | null | undefined = current.imageUrl;
 
             const uploadsPath = path.join(process.cwd(), 'uploads');
 
