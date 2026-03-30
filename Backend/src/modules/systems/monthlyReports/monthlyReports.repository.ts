@@ -167,15 +167,15 @@ export const getMonthlyReportByIdRepository = async (id: string) => {
 interface PutMonthlyReportsRepositoryProps {
     id: string;
     title: string;
-    description: string;
+    description?: string;
     type: "MONTHLY" | "ANNUAL" | "STATISTICAL" | "EXTRA";
     file?: {
-        name?: string;
-        path?: string;
-        size?: number;
-        mimeType?: string;
+        name: string | null
+        path: string | null
+        size: number | null
+        mimeType: string | null
     } | null
-    month?: number;
+    month?: number | null;
     year: number;
 }
 

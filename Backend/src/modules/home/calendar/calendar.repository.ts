@@ -48,11 +48,11 @@ interface PutCalendarRepositoryProps {
     year: number;
     description?: string | null;
     file?: {
-        name: string;
-        path: string;
-        size: number;
-        mimeType: string;
-    } | null;
+        name: string | null
+        path: string | null
+        size: number | null
+        mimeType: string | null
+    } | null
 }
 
 export const putCalendarRepository = async ({
