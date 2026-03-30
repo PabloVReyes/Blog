@@ -32,7 +32,7 @@ export const OrganizationalPhilosophy = () => {
                 />
 
                 <Card
-                    icon="IconTarget"
+                    icon="IconChecklist"
                     title="Objetivos de Calidad"
                     color="orange"
                     content={
