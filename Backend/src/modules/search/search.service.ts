@@ -1,4 +1,4 @@
-import * as repo from "../../modules/systems/system.repository";
+import * as repo from "./search.repository";
 import { getPagination } from "../../utils/pagination";
 import * as schema from "./search.schema"
 import * as type from "./search.types"
@@ -10,7 +10,7 @@ export const getSearchService = async (dto: schema.getSearchSchema) => {
     const [
         { data: systems, total: systemsTotal },
     ] = await Promise.all([
-        repo.getSystemRepository({
+        repo.getSearchSystemRepository({
             search,
             take,
             skip,
