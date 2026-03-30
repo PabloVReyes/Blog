@@ -104,7 +104,7 @@ export const Sidebar = () => {
         },
         {
             id: "disposiciones-juridicas-administrativas",
-            label: "Disposiciones Juridicas Administrativas",
+            label: "Disposiciones Jurídicas Administrativas",
             icon: "IconGavel",
             link: "/disposiciones-juridicas-administrativas"
         },
