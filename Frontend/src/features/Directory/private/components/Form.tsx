@@ -140,7 +140,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
 
                     <TextInput
                         withAsterisk
-                        label="Correo electronico"
+                        label="Correo Electrónico"
                         description="Corro electronico utilizado para enviar archivos"
                         placeholder="Ej. Ejemplo@ejemplo.com"
                         {...form.getInputProps("email")}

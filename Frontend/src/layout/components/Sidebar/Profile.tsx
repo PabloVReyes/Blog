@@ -90,7 +90,7 @@ export const Profile = () => {
 
                     <TextInput
                         withAsterisk
-                        label="Correo Electronico"
+                        label="Correo Electrónico"
                         leftSection={
                             <IconMail size={16} />
                         }

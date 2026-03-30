@@ -72,11 +72,11 @@ const columns = (primaryColor: string): Column<DirectoryData>[] => [
     },
     {
         key: "email",
-        label: "Correo Electronico",
+        label: "Correo Electrónico",
         align: 'left',
         render: (row) => {
             if (!row.email) {
-                return <Text size="xs" c="dimmed">Sin Correo Electronico</Text>
+                return <Text size="xs" c="dimmed">Sin Correo Electrónico</Text>
             }
 
             return <Text size="sm">{row.email}</Text>

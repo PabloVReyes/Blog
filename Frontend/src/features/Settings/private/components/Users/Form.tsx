@@ -119,8 +119,8 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
 
                     <TextInput
                         withAsterisk
-                        label="Correo Electronico"
-                        description="Correo electronico en donde le llegara su contraseña al usuario"
+                        label="Correo Electrónico"
+                        description="Correo Electrónico en donde le llegara su contraseña al usuario"
                         leftSection={
                             <IconMail size={16} />
                         }
