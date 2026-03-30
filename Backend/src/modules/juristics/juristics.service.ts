@@ -3,9 +3,6 @@ import * as schema from "./juristics.schema"
 import * as repo from "./juristics.repository"
 import * as types from "./juristics.types"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
-import path from "path"
-import { uploadsRoot } from "./path"
-import { logger } from "../../utils/logger"
 
 ////////////
 // CREATE //

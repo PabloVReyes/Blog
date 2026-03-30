@@ -72,9 +72,9 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
                                 </Group>
                                 {area?.manuals &&
                                     <SimpleGrid cols={{ sm: 1, md: 2 }}>
-                                        {area?.manuals.map((manual, index: number) => (
+                                        {area?.manuals.map((manual) => (
                                             <UnstyledButton
-                                                key={index}
+                                                key={manual.id}
                                                 p={"sm"}
                                                 disabled={!manual.fileId}
                                                 className={styles.button}

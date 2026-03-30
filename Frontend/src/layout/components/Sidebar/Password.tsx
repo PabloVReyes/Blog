@@ -72,31 +72,31 @@ export const Password = ({ id }: { id: string }) => {
     const value = form.values.newPassword
     const strength = getStrength(value)
 
-    const checks = requirements.map((requirement, index) => (
+    const checks = requirements.map((requirement) => (
         <PasswordRequirement
-            key={index}
+            key={requirement.label}
             label={requirement.label}
             meets={requirement.re.test(value)}
         />
     ))
 
-    const bars = Array(4)
-        .fill(0)
-        .map((_, index) => (
-            <Progress
-                key={index}
-                styles={{ section: { transitionDuration: "0ms" } }}
-                value={
-                    value.length > 0 && index === 0
+    const thresholds = [25, 50, 75, 100]
+
+    const bars = thresholds.map((threshold) => (
+        <Progress
+            key={`bar-${threshold}`}
+            styles={{ section: { transitionDuration: "0ms" } }}
+            value={
+                value.length > 0 && threshold === 25
+                    ? 100
+                    : strength >= threshold
                         ? 100
-                        : strength >= ((index + 1) / 4) * 100
-                            ? 100
-                            : 0
-                }
-                color={strength > 80 ? "teal" : strength > 50 ? "yellow" : "red"}
-                size={4}
-            />
-        ))
+                        : 0
+            }
+            color={strength > 80 ? "teal" : strength > 50 ? "yellow" : "red"}
+            size={4}
+        />
+    ))
 
     const handleSubmit = async (values: typeof form.values) => {
         setLoading(true)
@@ -181,5 +181,3 @@ export const Password = ({ id }: { id: string }) => {
         </Stack>
     )
 }
-
-// 203 lineas

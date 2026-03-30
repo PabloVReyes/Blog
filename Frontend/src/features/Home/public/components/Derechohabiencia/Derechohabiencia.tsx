@@ -39,9 +39,9 @@ export const Derechohabiencia = ({ color, icon, title, description, links }: Pro
                 </Text>
 
                 <Stack gap={"xs"} mt={"auto"}>
-                    {links.map((link, index: number) => (
+                    {links.map((link) => (
                         <Button
-                            key={index}
+                            key={link.title}
                             variant="light"
                             color="gray"
                             justify="space-between"

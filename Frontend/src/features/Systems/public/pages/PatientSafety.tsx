@@ -166,9 +166,9 @@ export const PatientSafety = () => {
                             Todos
                         </Button>
 
-                        {categorys.length > 0 && categorys.map((item, index: number) => (
+                        {categorys.length > 0 && categorys.map((item) => (
                             <Button
-                                key={index}
+                                key={item.id}
                                 style={{
                                     flexGrow: 1,
                                     flexBasis: 160,

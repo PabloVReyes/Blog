@@ -98,8 +98,8 @@ export const PBM = () => {
                     <Center h={'100%'}><Loader /></Center>
                 )
                     : data.data?.length > 0
-                        ? data.data.map((item, index: number) => (
-                            <PBMAlgorithms {...item} key={index} />
+                        ? data.data.map((item) => (
+                            <PBMAlgorithms {...item} key={item.id} />
                         ))
                         : (
                             <Card>

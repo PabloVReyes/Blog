@@ -184,11 +184,11 @@ export const AgreementPerson = () => {
                             value={openedItems}
                             onChange={setOpenedItems}
                         >
-                            {data.data.map((item, index: number) => {
+                            {data.data.map((item) => {
                                 const disabled = item.dependents.length === 0
 
                                 return (
-                                    <Accordion.Item key={index} value={`${item.id}`} className={styles.accordionItem}>
+                                    <Accordion.Item key={item.id} value={`${item.id}`} className={styles.accordionItem}>
                                         <Accordion.Control chevron={disabled} className={styles.accordionControl}>
                                             <Group wrap="nowrap" gap={"sm"} align="center">
                                                 {item.dependents.length > 0 ? (
@@ -239,10 +239,10 @@ export const AgreementPerson = () => {
                                             </Group>
                                         </Accordion.Control>
 
-                                        {item.dependents.map((dep, index) => (
-                                            <Accordion.Panel className={styles.accordionPanel} key={index}>
+                                        {item.dependents.map((dep) => (
+                                            <Accordion.Panel className={styles.accordionPanel} key={dep.id}>
                                                 <Group
-                                                    key={index}
+                                                    key={dep.id}
                                                     p="md"
                                                     wrap="nowrap"
                                                 >

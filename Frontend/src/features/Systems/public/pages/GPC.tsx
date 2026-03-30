@@ -77,7 +77,7 @@ export const GPC = () => {
                             <Stack>
                                 <Card
                                     p={16}
-                                    key={index}
+                                    key={cycle.id}
                                     style={{
                                         border: "none",
                                     }}
@@ -104,8 +104,8 @@ export const GPC = () => {
                                     </Card.Section>
                                 </Card>
 
-                                {cycle.gpcs.map((item, indexGPC: number) => (
-                                    <GPCAlgorithms {...item} key={indexGPC} color={colors.bg} />
+                                {cycle.gpcs.map((item) => (
+                                    <GPCAlgorithms {...item} key={item.id} color={colors.bg} />
                                 ))}
                             </Stack>
                         )

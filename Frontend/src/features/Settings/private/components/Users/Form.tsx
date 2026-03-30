@@ -140,11 +140,11 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                         : <Stack>
                             <SimpleGrid cols={{ base: 1, md: 2 }} spacing={5}>
                                 {roles.length > 0 ? (
-                                    roles.map((rol, index: number) => {
+                                    roles.map((rol) => {
                                         const checked = form.values.roles.includes(rol.id);
                                         return (
                                             <Checkbox.Card
-                                                key={index}
+                                                key={rol.id}
                                                 checked={checked}
                                                 className={`${classes.root} ${checked ? classes.active : ""}`}
                                                 radius="md"

@@ -48,14 +48,14 @@ export const Table = <T extends Record<string, any>>({
             )
         }
 
-        return data.map((row, rowIndex) => (
+        return data.map((row) => (
             <MantineTable.Tr
-                key={row.id || rowIndex}
-                className={`${styles.row} ${rowIndex % 2 === 0 ? styles.rowEven : styles.rowOdd}`}
+                key={row.id}
+                className={`${styles.row} ${row.id % 2 === 0 ? styles.rowEven : styles.rowOdd}`}
             >
-                {columns.map((col, colIndex) => (
+                {columns.map((col) => (
                     <MantineTable.Td
-                        key={`${rowIndex}-${colIndex}`}
+                        key={`${row.id}-${col.key}`}
                         miw={col.miw}
                         className={styles.td}
                         style={{ textAlign: col.align || "left" }}
@@ -76,9 +76,9 @@ export const Table = <T extends Record<string, any>>({
                 <MantineTable verticalSpacing="sm" highlightOnHover withColumnBorders={false}>
                     <MantineTable.Thead className={styles.thead}>
                         <MantineTable.Tr>
-                            {columns.map((item, index) => (
+                            {columns.map((item) => (
                                 <MantineTable.Th
-                                    key={index}
+                                    key={item.key}
                                     className={styles.th}
                                     style={{ textAlign: item.align || "left" }}
                                 >

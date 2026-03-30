@@ -80,8 +80,8 @@ const columns: Column<Row>[] = [
 
             const relatives = isTitular ? row.dependents : row.holders;
 
-            const relativeRows = relatives?.map((person, index: number) => (
-                <TableMantine.Tr key={`${person.id}-${index}`}>
+            const relativeRows = relatives?.map((person) => (
+                <TableMantine.Tr key={person.id}>
                     <TableMantine.Th
                         style={{
                             backgroundColor: "light-dark(oklch(98% 0.002 264.531), oklch(32% 0.02 259.733))"

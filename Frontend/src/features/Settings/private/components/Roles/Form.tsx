@@ -153,7 +153,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                                     <Stack>
                                         <SimpleGrid cols={{ base: 1, md: 2 }} spacing={5}>
                                             {permissions.length > 0 ? (
-                                                permissions.map((permiso, index: number) => {
+                                                permissions.map((permiso) => {
                                                     const checked = form.values.permissions.includes(permiso.id);
 
                                                     return (
@@ -162,7 +162,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                                                             className={`${classes.root} ${checked ? classes.active : ''}`}
                                                             radius="md"
                                                             value={permiso.id}
-                                                            key={index}
+                                                            key={permiso.id}
                                                             onClick={() => {
                                                                 const current = form.values.permissions;
 

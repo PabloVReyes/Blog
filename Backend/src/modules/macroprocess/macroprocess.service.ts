@@ -1,10 +1,7 @@
 import { sanitizeFileName } from "../../utils/file";
 import * as repo from "./macroprocess.repository"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination";
-import path from "path";
-import { uploadsRoot } from "./path";
 import * as schema from "./macroprocess.schema"
-import { logger } from "../../utils/logger";
 
 //////////
 // READ //

@@ -94,24 +94,24 @@ export const Area = () => {
                 <Tabs radius={"xs"} value={activeTab} onChange={setActiveTab}>
                     <Stack>
                         <Tabs.List>
-                            {data?.sections.map((section, index: number) => (
-                                <Tabs.Tab key={index} value={section.id.toString()} className={classes.tab}>{section.name}</Tabs.Tab>
+                            {data?.sections.map((section) => (
+                                <Tabs.Tab key={section.id} value={section.id.toString()} className={classes.tab}>{section.name}</Tabs.Tab>
                             ))}
                         </Tabs.List>
 
-                        {data?.sections.map((section, index: number) => (
+                        {data?.sections.map((section) => (
                             <Tabs.Panel
-                                key={index}
+                                key={section.id}
                                 value={section.id.toString()}
                             >
                                 <Stack>
-                                    {section.categories?.map((category, indexCategory: number) => {
-                                        const colors = getCicloColor(indexCategory, theme.primaryColor)
+                                    {section.categories?.map((category, index: number) => {
+                                        const colors = getCicloColor(index, theme.primaryColor)
                                         return (
                                             <Stack>
                                                 <Card
                                                     p={16}
-                                                    key={index}
+                                                    key={category.id}
                                                     style={{
                                                         border: "none",
                                                     }}
@@ -129,8 +129,8 @@ export const Area = () => {
                                                     </Card.Section>
                                                 </Card>
 
-                                                {category.files?.map((download, indexGPC: number) => (
-                                                    <Download {...download} key={indexGPC} color={colors.bg} />
+                                                {category.files?.map((download) => (
+                                                    <Download {...download} key={download.id} color={colors.bg} />
                                                 ))}
                                             </Stack>
                                         )

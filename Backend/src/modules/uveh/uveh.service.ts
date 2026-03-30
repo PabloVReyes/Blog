@@ -3,9 +3,6 @@ import * as repo from "./uveh.repository"
 import * as types from "./uveh.types"
 import { sanitizeFileName } from "../../utils/file"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
-import path from "path"
-import { uploadsRoot } from "./path"
-import { logger } from "../../utils/logger"
 
 ////////////
 // CREATE //

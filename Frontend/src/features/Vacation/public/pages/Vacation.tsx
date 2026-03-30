@@ -58,8 +58,8 @@ export const Vacation = () => {
                 : data.data?.length > 0
                     ?
                     <SimpleGrid cols={{ base: 1, md: 3 }}>
-                        {data.data.map((shift, index: number) => (
-                            <Shift key={index} {...shift} />
+                        {data.data.map((shift) => (
+                            <Shift key={shift.id} {...shift} />
                         ))}
                     </SimpleGrid>
                     : (

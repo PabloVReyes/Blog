@@ -77,9 +77,9 @@ export const Carousel = ({ items }: Props) => {
                 </MantineCarousel.Slide>
             )}
 
-            {items.map((item, index: number) => (
+            {items.map((item) => (
                 <MantineCarousel.Slide
-                    key={index}
+                    key={item.id}
                     style={{
                         borderRadius: "15px",
                         overflow: "hidden",

@@ -137,12 +137,12 @@ export const MonthlyReports = () => {
                                     ? <Text size="sm" c="dimmed">
                                         No se encontraron periodos
                                     </Text>
-                                    : periods.map((period, index: number) => {
+                                    : periods.map((period) => {
                                         const active = selectedPeriod === period.year;
 
                                         return (
                                             <Button
-                                                key={index}
+                                                key={period.id}
                                                 justify="space-between"
                                                 variant={active ? "filled" : "light"}
                                                 fullWidth
@@ -217,8 +217,8 @@ export const MonthlyReports = () => {
                                     No se encontraron resultados
                                 </Text>
                             </Card>
-                            : reports.map((report, index: number) => (
-                                <MonthyReport {...report} key={index} />
+                            : reports.map((report) => (
+                                <MonthyReport {...report} key={report.id} />
                             ))
                     }
                 </Stack>

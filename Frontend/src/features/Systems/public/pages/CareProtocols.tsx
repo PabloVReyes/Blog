@@ -77,7 +77,7 @@ export const CareProtocols = () => {
                             <Stack>
                                 <Card
                                     p={16}
-                                    key={index}
+                                    key={category.id}
                                     style={{
                                         border: "none"
                                     }}
@@ -103,8 +103,8 @@ export const CareProtocols = () => {
                                         </Group>
                                     </Card.Section>
 
-                                    {category.careProtocols.map((item, indexGPC: number) => (
-                                        <Protocol {...item} key={indexGPC} color={colors.bg} />
+                                    {category.careProtocols.map((item) => (
+                                        <Protocol {...item} key={item.id} color={colors.bg} />
                                     ))}
                                 </Card>
                             </Stack>

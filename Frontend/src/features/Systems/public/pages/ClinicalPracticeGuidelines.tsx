@@ -140,8 +140,8 @@ export const ClinicalPracticeGuidelines = () => {
                     <Center h={200}><Loader /></Center>
                 )
                     : data.data?.length > 0
-                        ? data.data.map((item, index: number) => (
-                            <ClinicalPracticeGuideline {...item} key={index} />
+                        ? data.data.map((item) => (
+                            <ClinicalPracticeGuideline {...item} key={item.id} />
                         ))
                         : (
                             <Card>

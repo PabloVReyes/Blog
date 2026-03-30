@@ -20,9 +20,9 @@ export const Systems = () => {
             description="Accede a los diferentes sistemas de información institucionales"
         >
             <SimpleGrid cols={{ sm: 1, md: 2, lg: 3 }}>
-                {data.map((item, index: number) => (
+                {data.map((item) => (
                     <System
-                        key={index}
+                        key={item.id}
                         {...item}
                     />
                 ))}

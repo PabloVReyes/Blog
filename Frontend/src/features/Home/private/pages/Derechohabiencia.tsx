@@ -67,8 +67,8 @@ const columns: Column<Row>[] = [
         label: 'Links',
         align: 'left',
         render: (row) => {
-            const rows = row.links.map((link, index: number) => (
-                <TableMantine.Tr key={index}>
+            const rows = row.links.map((link) => (
+                <TableMantine.Tr key={link.id}>
                     <TableMantine.Th
                         style={{
                             backgroundColor: "light-dark(oklch(98% 0.002 264.531), oklch(32% 0.02 259.733))"

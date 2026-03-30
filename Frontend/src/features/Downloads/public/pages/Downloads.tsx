@@ -67,8 +67,8 @@ export const Downloads = () => {
                     ? <Center><Loader /></Center>
                     : data.data.length > 0
                         ? <SimpleGrid cols={{ xs: 2, sm: 3, md: 5 }} spacing={"lg"} style={{ textAlign: "center" }}>
-                            {data.data.map((item, index: number) => (
-                                <Areas key={index} {...item} />
+                            {data.data.map((item) => (
+                                <Areas key={item.id} {...item} />
                             ))}
                         </SimpleGrid>
                         : <Text ta="center" size="sm" c="dimmed">No se encontraron resultados.</Text>

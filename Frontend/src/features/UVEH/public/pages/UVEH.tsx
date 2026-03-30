@@ -80,7 +80,7 @@ export const UVEH = () => {
                             <Stack>
                                 <Card
                                     p={16}
-                                    key={index}
+                                    key={category.id}
                                     style={{
                                         border: "none",
                                     }}
@@ -98,8 +98,8 @@ export const UVEH = () => {
                                     </Card.Section>
                                 </Card>
 
-                                {category.uvehs.map((item, indexGPC: number) => (
-                                    <Download {...item} key={indexGPC} color={colors.bg} />
+                                {category.uvehs.map((item) => (
+                                    <Download {...item} key={item.id} color={colors.bg} />
                                 ))}
                             </Stack>
                         )

@@ -14,7 +14,7 @@ export interface Data {
 }
 
 export interface Datum {
-    id: number;
+    id: string;
     name: string;
     createdAt: Date;
     updatedAt: Date;
@@ -77,7 +77,7 @@ export const Certification = () => {
                         const colors = getCicloColor(index, theme.primaryColor)
                         return (
                             <Stack
-                                key={index}
+                                key={section.id}
                             >
                                 <Card
                                     p={16}
@@ -98,8 +98,8 @@ export const Certification = () => {
                                     </Card.Section>
                                 </Card>
 
-                                {section.certifications.map((item, indexGPC: number) => (
-                                    <Download {...item} key={indexGPC} color={colors.bg} />
+                                {section.certifications.map((item) => (
+                                    <Download {...item} key={item.id} color={colors.bg} />
                                 ))}
                             </Stack>
                         )
