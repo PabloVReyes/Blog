@@ -1,37 +1,12 @@
-import { sanitizeFileName } from "../../../utils/file";
-import multer from "multer";
-import path from "path";
 import { Router } from "express";
 import * as controller from "./careProtocols.controller"
 import { authMiddleware } from "@/middleware/auth.middleware";
 import { requirePermission } from "@/middleware/permission.middleware";
+import { createUploader } from "@/config/multer";
 
 const router: Router = Router()
 
-const storage = multer.diskStorage({
-    destination: path.join(__dirname, "../../../../uploads"),
-    filename: (req, file, cb) => {
-        const safeName = sanitizeFileName(file.originalname);
-
-        const storedName =
-            crypto.randomUUID() + "-" + safeName;
-
-        cb(null, storedName);
-    }
-});
-
-export const upload = multer({
-    storage,
-    fileFilter: (_, file, cb) => {
-        if (file.mimetype !== "application/pdf") {
-            return cb(new Error("Solo PDF"));
-        }
-        cb(null, true);
-    },
-    limits: {
-        fileSize: 100 * 1024 * 1024,
-    }
-});
+const upload = createUploader(['application/pdf'])
 
 router.get("/categorys", controller.getCategoryController)
 router.get("/categorys-protocols", controller.getCategoryWithCareProtocolsController)

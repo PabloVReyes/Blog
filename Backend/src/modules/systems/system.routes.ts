@@ -1,7 +1,5 @@
 import { Router } from "express";
 import * as controller from "./system.controller"
-import multer from "multer";
-import path from "path";
 import cie10Rutes from "./cie10/cie10.routes"
 import monthlyReportsRoutes from "./monthlyReports/monthlyReports.routes"
 import agreementPersonRoutes from "./agreementPerson/agreementPerson.routes"
@@ -12,59 +10,36 @@ import gpcRoutes from "./gpc/gpc.routes"
 import careProtocolsRoutes from "./careProtocols/careProtocols.routes"
 import codesRoutes from "./codes/codes.routes"
 import adverseEventsRoutes from "./adverseEvents/adverseEvents.routes"
-import { sanitizeFileName } from "../../utils/file";
 import { authMiddleware } from "@/middleware/auth.middleware";
 import { requirePermission } from "@/middleware/permission.middleware";
+import { createUploader } from "@/config/multer";
 
 const router: Router = Router()
 
-const storage = multer.diskStorage({
-    destination: path.join(__dirname, "../../../uploads"),
-    filename: (req, file, cb) => {
-        const safeName = sanitizeFileName(file.originalname);
-
-        const storedName =
-            crypto.randomUUID() + "-" + safeName;
-
-        cb(null, storedName);
-    }
-});
-
-export const upload = multer({
-    storage,
-    fileFilter: (_, file, cb) => {
-        if (file.mimetype !== "application/pdf") {
-            return cb(new Error("Solo PDF"));
-        }
-        cb(null, true);
-    },
-    limits: {
-        fileSize: 100 * 1024 * 1024,
-    }
-});
+const upload = createUploader(['application/pdf'])
 
 router.get(
-    "/", 
+    "/",
     controller.getSystemsController
 )
 
-router.post("/", 
+router.post("/",
     authMiddleware,
     requirePermission("system.create"),
-    upload.single("file"), 
+    upload.single("file"),
     controller.postSystemController
 )
 
 router.put(
-    "/:id", 
+    "/:id",
     authMiddleware,
     requirePermission("system.update"),
-    upload.single("file"), 
+    upload.single("file"),
     controller.putSystemController
 )
 
 router.delete(
-    "/:id", 
+    "/:id",
     authMiddleware,
     requirePermission("system.delete"),
     controller.deleteSystemController

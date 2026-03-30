@@ -1,37 +1,12 @@
-import { sanitizeFileName } from "../../utils/file";
 import { Router } from "express";
-import multer from "multer";
 import * as controller from "./macroprocess.controller"
-import { uploadsRoot } from "./path";
 import { authMiddleware } from "@/middleware/auth.middleware";
 import { requirePermission } from "@/middleware/permission.middleware";
+import { createUploader } from "@/config/multer";
 
 const router: Router = Router()
 
-const storage = multer.diskStorage({
-    destination: uploadsRoot,
-    filename: (req, file, cb) => {
-        const safeName = sanitizeFileName(file.originalname);
-
-        const storedName =
-            crypto.randomUUID() + "-" + safeName;
-
-        cb(null, storedName);
-    }
-});
-
-export const upload = multer({
-    storage,
-    fileFilter: (_, file, cb) => {
-        if (file.mimetype !== "application/pdf") {
-            return cb(new Error("Solo PDF"));
-        }
-        cb(null, true);
-    },
-    limits: {
-        fileSize: 100 * 1024 * 1024,
-    }
-});
+const upload = createUploader(['application/pdf'])
 
 // Areas
 router.get("/areas", controller.getAreasController)
