@@ -2,7 +2,7 @@ import { Container } from "@/components"
 import { useEffect, useState } from "react"
 import { fetchSystems } from "../api"
 import { SimpleGrid } from "@mantine/core"
-import { Alert } from "@/ui"
+import { Alert, Notify } from "@/ui"
 import { System } from "../components"
 import type { SystemData } from "../../types/systems.types"
 
@@ -12,6 +12,13 @@ export const Systems = () => {
     useEffect(() => {
         fetchSystems()
             .then(setData)
+            .catch((error) => {
+                Notify({
+                    type: "error",
+                    title: "Error al cargar sistemas",
+                    message: error instanceof Error ? error.message : "Error desconocido"
+                })
+            })
     }, [])
 
     return (
