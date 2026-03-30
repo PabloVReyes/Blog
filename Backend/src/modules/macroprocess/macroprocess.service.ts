@@ -2,6 +2,7 @@ import { sanitizeFileName } from "../../utils/file";
 import * as repo from "./macroprocess.repository"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination";
 import * as schema from "./macroprocess.schema"
+import { HttpError } from "@/utils/httpError";
 
 //////////
 // READ //
@@ -86,7 +87,7 @@ export const putManualService = async (id: string, file?: Express.Multer.File) =
     const existingItem = await repo.getManualByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("El manual no existe")
+        throw new HttpError(404, "El manual no existe")
     }
 
     const props = {
@@ -123,7 +124,7 @@ export const deleteManualService = async (id: string) => {
     const manual = await repo.getManualByIdRepository(id)
 
     if (!manual) {
-        throw new Error("Manual no encontrado")
+        throw new HttpError(404, "Manual no encontrado")
     }
 
     return await repo.deleteManualRepository(id)

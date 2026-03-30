@@ -1,6 +1,7 @@
 import * as repo from "./settings.repository"
 import path from "path";
 import * as schema from "./settings.schema"
+import { HttpError } from "@/utils/httpError";
 
 export const settingsService = async () => {
     const settings = await repo.getSettingsRepository()
@@ -24,7 +25,7 @@ export const uploadFaviconService = async (
     file?: Express.Multer.File
 ) => {
     if (!file) {
-        throw new Error("No se envió ningún archivo")
+        throw new HttpError(400, "No se envió ningún archivo")
     }
     const ext = path.extname(file.filename)
     const publicUrl = `/uploads/favicon${ext}`

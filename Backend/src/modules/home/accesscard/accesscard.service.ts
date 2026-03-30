@@ -3,6 +3,7 @@ import * as repo from "./accesscard.repository"
 import { GetAccessCardSchema } from "./accesscard.schema"
 import { sanitizeFileName } from "../../../utils/file"
 import { AccessCardCreateDto, AccessCardUpdateDto } from "./accesscard.types"
+import { HttpError } from "@/utils/httpError"
 
 ////////////
 // CREATE //
@@ -12,7 +13,7 @@ export const postAccessCardService = async (dto: AccessCardCreateDto) => {
     const { title, description, sectionId, type, url, icon, color, isActive, file } = dto
 
     if (type === "file" && !file) {
-        throw new Error("El archivo PDF es requerido");
+        throw new HttpError(400, "El archivo es requerido");
     }
 
     const props = {
@@ -73,11 +74,11 @@ export const putAccessCardService = async (id: string, dto: AccessCardUpdateDto)
     const existingItem = await repo.getAccessCardByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("El Acceso Rapido no existe")
+        throw new HttpError(404, "El Acceso Rapido no existe")
     }
 
     if (type === "file" && !file) {
-        throw new Error("El archivo es requerido")
+        throw new HttpError(400, "El archivo es requerido")
     }
 
     const props = {
@@ -112,7 +113,7 @@ export const deleteAccessCardService = async (id: string) => {
     const accessCard = await repo.getAccessCardByIdRepository(id)
 
     if (!accessCard) {
-        throw new Error("Access Card no encontrado")
+        throw new HttpError(404, "El Acceso Rapido no existe")
     }
 
     await repo.deleteAccessCardRepository(id)

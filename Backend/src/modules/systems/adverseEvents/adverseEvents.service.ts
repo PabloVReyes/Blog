@@ -1,3 +1,4 @@
+import { HttpError } from "@/utils/httpError"
 import { sanitizeFileName } from "../../../utils/file"
 import { logger } from "../../../utils/logger"
 import { buildPaginationMeta } from "../../../utils/pagination"
@@ -20,7 +21,7 @@ export const putAdverseEventService = async (id: string, file?: Express.Multer.F
     const existingItem = await repo.getAdverseEventsByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("El sistema no existe")
+        throw new HttpError(404, "El evento adverso no existe")
     }
 
     const props = {
@@ -43,7 +44,7 @@ export const deleteAdverseEventService = async (id: string) => {
     const AdverseEvent = await repo.getAdverseEventsByIdRepository(id)
 
     if (!AdverseEvent) {
-        throw new Error("Evento adverso no encontrado")
+        throw new HttpError(404, "Evento adverso no encontrado")
     }
 
     return await repo.deleteAdverseEventRepository(id)

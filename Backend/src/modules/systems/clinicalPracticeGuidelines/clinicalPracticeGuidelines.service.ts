@@ -4,6 +4,7 @@ import * as schema from "./clinicalPracticeGuidelines.schema"
 import { sanitizeFileName } from "../../../utils/file";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import { logger } from "../../../utils/logger";
+import { HttpError } from "@/utils/httpError";
 
 ////////////
 // CREATE //
@@ -13,7 +14,7 @@ export const postClinicalPracticeGuidelinesService = async (dto: types.ClinicalP
     const { title, code, category, er, rr } = dto
 
     if (!er || !rr) {
-        throw new Error("Archivos requeridos")
+        throw new HttpError(400, "Archivos requeridos")
     }
 
     const props = {
@@ -89,7 +90,7 @@ export const putClinicalPracticeGuidelinesService = async (id: string, dto: type
     const existingItem = await repo.getClinicalPracticeGuidelineByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("La guía no existe")
+        throw new HttpError(404, "La guía no existe")
     }
 
     const props = {
@@ -128,7 +129,7 @@ export const daleteClinicalPracticeGuidelinesService = async (id: string) => {
     const ClinicalPracticeGuideline = await repo.getClinicalPracticeGuidelineByIdRepository(id)
 
     if (!ClinicalPracticeGuideline) {
-        throw new Error("Guía no encontrada")
+        throw new HttpError(404, "Guía no encontrada")
     }
 
     return await repo.deleteClinicalPracticeGuidelinesRepository(id)

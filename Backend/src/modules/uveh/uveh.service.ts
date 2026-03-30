@@ -3,6 +3,7 @@ import * as repo from "./uveh.repository"
 import * as types from "./uveh.types"
 import { sanitizeFileName } from "../../utils/file"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
+import { HttpError } from "@/utils/httpError"
 
 ////////////
 // CREATE //
@@ -88,7 +89,7 @@ export const putUVEHService = async (id: string, dto: types.DownloadsUpdateDto) 
     const existingItem = await repo.getUVEHByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("UVEH no existe")
+        throw new HttpError(404, "UVEH no existe")
     }
 
     const props = {
@@ -119,7 +120,7 @@ export const deleteUVEHService = async (id: string) => {
     const uveh = await repo.getUVEHByIdRepository(id)
 
     if (!uveh) {
-        throw new Error("Descarga no encontrada")
+        throw new HttpError(404, "UVEH no encontrada")
     }
 
     await repo.deleteUVEHRepository(id)

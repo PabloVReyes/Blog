@@ -1,6 +1,7 @@
 import { GetAgreementPersonsSchema, PostAgreementPersonsSchema, PostZoneSchema, PutAgreementPersonsSchema } from "./agreementPersons.schema";
 import * as repo from "./agreementPerson.repository"
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
+import { HttpError } from "@/utils/httpError";
 
 ////////////
 // CREATE //
@@ -98,7 +99,7 @@ export const putAgreementPersonService = async (id: number, dto: PutAgreementPer
     const person: any = await repo.getAgreementPersonByIdRepository(id)
 
     if (person.type !== type && person._count.children > 0) {
-        throw new Error("No se puede modificar el tipo debido a que el titular tiene dependientes")
+        throw new HttpError(400, "No se puede modificar el tipo debido a que el titular tiene dependientes")
     }
 
     return await repo.putAgreementPersonRepository({
@@ -121,7 +122,7 @@ export const deleteAgreementPersonService = async (id: number) => {
     const person: any = await repo.getAgreementPersonByIdRepository(id)
 
     if (person._count.children > 0) {
-        throw new Error("No se puede eliminar el paciente de convenio debido a que tiene dependientes")
+        throw new HttpError(400, "No se puede eliminar el paciente de convenio debido a que tiene dependientes")
     }
 
     await repo.deleteAgreementPersonRepository(id)

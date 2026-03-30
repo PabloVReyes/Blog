@@ -4,6 +4,7 @@ import { GetCarouselSchema } from "./carousel.schema"
 import { sanitizeFileName } from "../../../utils/file"
 import { CarouselCreateDto, CarouselUpdateDto } from "./carousel.types"
 import path from "path"
+import { HttpError } from "@/utils/httpError"
 
 ////////////
 // CREATE //
@@ -13,7 +14,7 @@ export const postCarouselService = async (dto: CarouselCreateDto) => {
     const { title, description, sectionId, type, url, isActive, imageFile, contentFile } = dto
 
     if (type === "file" && !contentFile) {
-        throw new Error("El archivo PDF es requerido");
+        throw new HttpError(400, "El archivo es requerido");
     }
 
     const props = {
@@ -81,11 +82,11 @@ export const putCarouselService = async (id: string, dto: CarouselUpdateDto) => 
     const existingItem = await repo.getCarouselByIdRepository(id);
 
     if (!existingItem) {
-        throw new Error("El elemento no existe");
+        throw new HttpError(404, "El elemento no existe");
     }
 
     if (type === "file" && !contentFile && !existingItem.fileId) {
-        throw new Error("El archivo es requerido");
+        throw new HttpError(400, "El archivo es requerido");
     }
 
     const props = {
@@ -127,7 +128,7 @@ export const deleteCarouselService = async (id: string) => {
     const carousel = await repo.getCarouselByIdRepository(id)
 
     if (!carousel) {
-        throw new Error("Carousel no encontrado")
+        throw new HttpError(404, "Carousel no encontrado")
     }
 
     await repo.deleteCarouselRepository(id)

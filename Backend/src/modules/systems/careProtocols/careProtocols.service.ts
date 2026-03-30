@@ -4,6 +4,7 @@ import { CareProtocolsCreateDto, CareProtocolsUpdateDto } from "./careProtocols.
 import * as schema from "./careProtocols.schema";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import { logger } from "../../../utils/logger";
+import { HttpError } from "@/utils/httpError";
 
 ////////////
 // CREATE //
@@ -87,7 +88,7 @@ export const putCareProtocolsService = async (id: string, dto: CareProtocolsUpda
     const existingItem = await repo.getCareProtocolByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("El sistema no existe")
+        throw new HttpError(404, "El protocolo de atención no existe")
     }
 
     const props = {
@@ -117,7 +118,7 @@ export const deleteCareProtocolsService = async (id: string) => {
     const Protocol = await repo.getCareProtocolByIdRepository(id)
 
     if (!Protocol) {
-        throw new Error("Algoritmo no encontrada")
+        throw new HttpError(404, "El protocolo de atención no existe")
     }
 
     return await repo.deleteCareProtocolsRepository(id)

@@ -3,6 +3,7 @@ import * as repo from "./vacations.repository"
 import * as schema from "./vacations.schema"
 import * as types from "./vacations.types"
 import { sanitizeFileName } from "../../utils/file"
+import { HttpError } from "@/utils/httpError"
 
 ////////////
 // CREATE //
@@ -109,7 +110,7 @@ export const putVacationService = async (id: string, dto: types.VacationsUpdateD
     const existingItem = await repo.getVacationsByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("El sistema no existe")
+        throw new HttpError(404, "Las vacaciones no existen")
     }
 
     const props = {
@@ -142,7 +143,7 @@ export const deleteVacationService = async (id: string) => {
     const vacation = await repo.getVacationsByIdRepository(id)
 
     if (!vacation) {
-        throw new Error("Descarga no encontrada")
+        throw new HttpError(404, "Vacaciones no encontradas")
     }
 
     return await repo.deleteVacationRepository(id)

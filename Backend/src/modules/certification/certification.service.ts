@@ -3,6 +3,7 @@ import * as repo from "./certification.repository"
 import * as types from "./certification.types"
 import { sanitizeFileName } from "../../utils/file"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
+import { HttpError } from "@/utils/httpError"
 
 ////////////
 // CREATE //
@@ -12,7 +13,7 @@ export const postCertificationService = async (dto: types.CertificationCreateDto
     const { name, description, isNew, section, file } = dto
 
     if (!file) {
-        throw new Error("El archivo es requerido")
+        throw new HttpError(400, "El archivo es requerido")
     }
 
     return await repo.postCertificationRepository({
@@ -92,7 +93,7 @@ export const putCertificationService = async (id: string, dto: types.Certificati
     const existingItem = await repo.getCertificationByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("El sistema no existe")
+        throw new HttpError(404, "La certificación no existe")
     }
 
     const props = {
@@ -123,7 +124,7 @@ export const deleteCertificationService = async (id: string) => {
     const Certification = await repo.getCertificationByIdRepository(id)
 
     if (!Certification) {
-        throw new Error("Descarga no encontrada")
+        throw new HttpError(404, "Certificación no encontrada")
     }
 
     await repo.deleteCertificationRepository(id)

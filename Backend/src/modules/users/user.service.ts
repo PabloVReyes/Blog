@@ -4,6 +4,7 @@ import * as repo from "./user.repository"
 import * as schema from "./user.schema"
 import { sendUserCredentials } from "../../services/email.service"
 import { logger } from "../../utils/logger"
+import { HttpError } from "@/utils/httpError"
 
 export const createUserService = async (dto: schema.CreateUserSchema) => {
     const { name, email, roles } = dto
@@ -31,7 +32,7 @@ export const createUserService = async (dto: schema.CreateUserSchema) => {
     } catch (error) {
         logger.warn({ error }, "Email Send failed")
         await repo.markEmailFailed(user.id)
-        throw new Error("Error al crear usuario")
+        throw new HttpError(500, "Error al crear usuario")
     }
 
     return user
@@ -106,13 +107,13 @@ export const changePasswordService = async (id: string, dto: schema.ChangePasswo
     const user = await repo.getUserById(id)
 
     if (!user) {
-        throw new Error("Usuario no encontrado")
+        throw new HttpError(404, "Usuario no encontrado")
     }
 
     const validPassword = await comparePassword(currentPassword, user.password)
 
     if (!validPassword) {
-        throw new Error("La contraseña actual es incorrecta")
+        throw new HttpError(400, "La contraseña actual es incorrecta")
     }
 
     const password = await hashPassword(newPassword)

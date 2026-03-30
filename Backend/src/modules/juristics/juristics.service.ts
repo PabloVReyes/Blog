@@ -3,6 +3,7 @@ import * as schema from "./juristics.schema"
 import * as repo from "./juristics.repository"
 import * as types from "./juristics.types"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
+import { HttpError } from "@/utils/httpError"
 
 ////////////
 // CREATE //
@@ -57,7 +58,7 @@ export const putJuristicService = async (id: string, dto: types.JuristicsUpdateD
     const existingItem = await repo.getJuristicsByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("El disposicion juridica no existe")
+        throw new HttpError(404, "El disposicion juridica no existe")
     }
 
     const props = {
@@ -87,7 +88,7 @@ export const deleteJuristicsService = async (id: string) => {
     const Juristics = await repo.getJuristicsByIdRepository(id)
 
     if (!Juristics) {
-        throw new Error("Descarga no encontrada")
+        throw new HttpError(404, "Disposición jurídica no encontrada")
     }
 
     await repo.deleteJuristicsRepository(id)

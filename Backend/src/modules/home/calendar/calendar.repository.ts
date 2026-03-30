@@ -46,13 +46,13 @@ interface PutCalendarRepositoryProps {
     color: string;
     icon: string;
     year: number;
-    description: string;
-    file?: {   // 👈 ahora sí consistente
+    description?: string | null;
+    file?: {
         name: string;
         path: string;
         size: number;
         mimeType: string;
-    }
+    } | null;
 }
 
 export const putCalendarRepository = async ({

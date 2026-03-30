@@ -3,6 +3,7 @@ import * as repo from "./standards.repository"
 import * as types from "./standards.types"
 import { sanitizeFileName } from "../../utils/file"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
+import { HttpError } from "@/utils/httpError"
 
 /// ////////
 // CREATE //
@@ -72,7 +73,7 @@ export const putStandardService = async (id: string, dto: types.StandarUpdateDto
     const existingItem = await repo.getStandarByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("La norma oficial no existe")
+        throw new HttpError(404, "La norma oficial no existe")
     }
     
     const props = {
@@ -103,7 +104,7 @@ export const deleteStandardService = async (id: string) => {
     const standar = await repo.getStandarByIdRepository(id)
 
     if (!standar) {
-        throw new Error("Norma oficial no encontrada")
+        throw new HttpError(404, "Norma oficial no encontrada")
     }
 
     await repo.deleteStandarRepository(id)

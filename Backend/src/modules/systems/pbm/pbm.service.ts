@@ -4,6 +4,7 @@ import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import * as schema from "./pbm.schema"
 import * as type from "./pbm.types"
 import { logger } from "../../../utils/logger";
+import { HttpError } from "@/utils/httpError";
 
 ////////////
 // CREATE //
@@ -13,7 +14,7 @@ export const postPbmService = async (dto: type.PbmCreateDto) => {
     const { title, file } = dto
 
     if (!file) {
-        throw new Error("Archivo requerido")
+        throw new HttpError(400, "Archivo requerido")
     }
 
     return await repo.postPbmRepository({
@@ -60,7 +61,7 @@ export const putPBMService = async (id: string, dto: type.PbmUpdateDto) => {
     const existingItem = await repo.getPBMByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("El algoritmo PBM no existe")
+        throw new HttpError(404, "El algoritmo PBM no existe")
     }
 
     const props = {
@@ -88,7 +89,7 @@ export const daletePBMService = async (id: string) => {
     const PBM = await repo.getPBMByIdRepository(id)
 
     if (!PBM) {
-        throw new Error("Guía no encontrada")
+        throw new HttpError(404, "El algoritmo PBM no existe")
     }
 
     return await repo.deletePBMRepository(id)

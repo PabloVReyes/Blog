@@ -3,6 +3,7 @@ import { sanitizeFileName } from "../../../utils/file"
 import * as repo from "./calendar.repository"
 import { CalendarUpdateDto } from "./calendar.schema"
 import { buildPaginationMeta } from "../../../utils/pagination"
+import { HttpError } from "@/utils/httpError"
 
 //////////
 // READ //
@@ -26,7 +27,7 @@ export const putCalendarService = async (id: string, dto: CalendarUpdateDto) => 
     const calendar = await repo.getCalendarByIdRepository(id)
 
     if (!calendar) {
-        throw new Error("Calendario no encontrado")
+        throw new HttpError(404, "Calendario no encontrado")
     }
 
     const props = {

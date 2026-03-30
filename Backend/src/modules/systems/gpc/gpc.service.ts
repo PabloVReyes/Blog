@@ -4,6 +4,7 @@ import * as schema from "./gpc.schema";
 import * as type from "./gpc.types";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import { logger } from "../../../utils/logger";
+import { HttpError } from "@/utils/httpError";
 
 ////////////
 // CREATE //
@@ -90,7 +91,7 @@ export const putGpcService = async (id: string, dto: type.GpcUpdateDto) => {
     const existingItem = await repo.getGpcByIdRepositoy(id)
 
     if (!existingItem) {
-        throw new Error("El sistema no existe")
+        throw new HttpError(404, "El algoritmo no existe")
     }
 
     const props = {
@@ -121,7 +122,7 @@ export const deleteGpcService = async (id: string) => {
     const GPC = await repo.getGpcByIdRepositoy(id)
 
     if (!GPC) {
-        throw new Error("Algoritmo no encontrada")
+        throw new HttpError(404, "El algoritmo no existe")
     }
 
     return await repo.deleteGpcRepository(id)

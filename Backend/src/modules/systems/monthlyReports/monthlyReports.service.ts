@@ -3,6 +3,7 @@ import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import * as schema from "./monthlyReports.schema"
 import * as type from "./monthlyReports.types"
 import { sanitizeFileName } from "../../../utils/file";
+import { HttpError } from "@/utils/httpError";
 
 ////////////
 // CREATE //
@@ -66,7 +67,7 @@ export const putMonthlyReportsService = async (id: string, dto: type.MontghlyRep
     const existingItem = await repo.getMonthlyReportByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("Reporte mensual no existe")
+        throw new HttpError(404, "Informe mensual no existe")
     }
 
     const props = {
@@ -98,7 +99,7 @@ export const deleteMonthlyReportsService = async (id: string) => {
     const monthlyReport = await repo.getMonthlyReportByIdRepository(id)
 
     if(!monthlyReport) {
-        throw new Error("Reporte mensual no encontrado")
+        throw new HttpError(404, "Informe mensual no encontrado")
     }
     return await repo.deleteMonthlyReportRepository(id)
 }

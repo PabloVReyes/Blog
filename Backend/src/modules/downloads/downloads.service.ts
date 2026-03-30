@@ -4,6 +4,7 @@ import * as repo from "./downloads.repository"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as types from "./downloads.types"
 import { sanitizeFileName } from "../../utils/file"
+import { HttpError } from "@/utils/httpError"
 
 ////////////
 // CREATE //
@@ -132,7 +133,7 @@ export const putDownloadService = async (id: string, dto: types.DownloadsUpdateD
     const download = await repo.getDownloadByIdRepository(id)
 
     if(!download) {
-        throw new Error("Descarga no encontrada")
+        throw new HttpError(404, "Descarga no encontrada")
     }
 
     const props = {
@@ -182,7 +183,7 @@ export const deleteDownloadService = async (id: string) => {
     const download: any = await repo.getDownloadByIdRepository(id)
 
     if (!download) {
-        throw new Error("Descarga no encontrada")
+        throw new HttpError(404, "Descarga no encontrada")
     }
 
     return await repo.deleteDownloadRepository(id)

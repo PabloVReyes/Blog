@@ -3,6 +3,7 @@ import * as repo from "./system.repository"
 import * as schema from "./system.schema"
 import * as type from "./systems.types"
 import { sanitizeFileName } from "../../utils/file"
+import { HttpError } from "@/utils/httpError"
 
 ////////////
 // CREATE //
@@ -12,7 +13,7 @@ export const postSystemService = async (dto: type.SystemCreateDto) => {
     const { name, acronym, description, icon, url, file, color, type } = dto
 
     if (type === "file" && !file) {
-        throw new Error("El archivo PDF el requerido")
+        throw new HttpError(400, "El archivo es requerido")
     }
 
     const props = {
@@ -67,11 +68,11 @@ export const putSystemService = async (id: string, dto: type.SystemUpdateDto) =>
     const existingItem = await repo.getSystemByIdRepository(id)
 
     if (!existingItem) {
-        throw new Error("El sistema no existe")
+        throw new HttpError(404, "El sistema no existe")
     }
 
     if (type === "file" && !existingItem.fileId && !file) {
-        throw new Error("El archivo es requerido")
+        throw new HttpError(400, "El archivo es requerido")
     }
 
     const props = {
@@ -106,7 +107,7 @@ export const deleteSystemService = async (id: string) => {
     const system = await repo.getSystemByIdRepository(id)
 
     if (!system) {
-        throw new Error("Sistema no encontrado")
+        throw new HttpError(404, "Sistema no encontrado")
     }
 
     return await repo.deleteSystemRepository(id)
