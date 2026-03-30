@@ -41,8 +41,6 @@ export const Search = () => {
     const [total, setTotal] = useState(0)
     const { download } = useDownloadFile()
 
-    console.log(data)
-
     const navigate = useNavigate()
     const { closeModal } = useModalStore()
 
