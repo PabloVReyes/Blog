@@ -1,10 +1,18 @@
 import { Divider, Fieldset, Stack, Text, TextInput } from "@mantine/core";
 import { ModalButtons, Switch } from "@/components";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
+import { type UseFormReturnType } from '@mantine/form'
+
+interface RoleFormValues {
+    active: boolean
+    name: string
+    description: string
+}
+
 
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<RoleFormValues>;
+    onSubmit: (values: RoleFormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
 }

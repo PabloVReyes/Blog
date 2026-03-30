@@ -6,9 +6,17 @@ import { IconAlertCircle, IconCircleCheck } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Alert } from "@/ui";
 import { settingsPermissionsApi } from "../../api";
+import { type UseFormReturnType } from '@mantine/form'
+
+interface RoleFormValues {
+    name: string
+    description?: string
+    permissions: string[]
+    fullAccess: boolean;
+}
 
 interface Props {
-    form: any;
+    form: UseFormReturnType<RoleFormValues>
     onSubmit: (values: any) => void;
     submitLabel: string;
     isLoading?: boolean;

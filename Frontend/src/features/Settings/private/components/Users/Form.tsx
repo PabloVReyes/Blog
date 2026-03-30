@@ -6,6 +6,7 @@ import { IconAlertCircle, IconCircleCheck, IconMail } from "@tabler/icons-react"
 import { settingsPermissionsApi, settingsRolesApi } from "../../api";
 import classes from "./Form.module.css"
 import { Alert } from "@/ui";
+import { type UseFormReturnType } from '@mantine/form'
 
 export interface Data {
     id: string;
@@ -13,6 +14,12 @@ export interface Data {
     description: string;
     _count: Count;
     permissions: PermissionElement[];
+}
+
+interface RoleFormValues {
+    name: string
+    active: boolean
+    roles: string[]
 }
 
 export interface Count {
@@ -33,7 +40,7 @@ export interface PermissionPermission {
 }
 
 interface Props {
-    form: any;
+    form: UseFormReturnType<RoleFormValues>
     onSubmit: (values: any) => void;
     submitLabel: string;
     isLoading?: boolean;
