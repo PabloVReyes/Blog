@@ -18,8 +18,8 @@ export interface Data {
     updatedAt: Date;
     carouselItems: CarouselData[];
     accessCards: AccessCard[];
-    derechohabiencia: Alert;
-    alert: Alert | null;
+    derechohabiencia: AlertData;
+    alert: AlertData | null;
     calendar: Calendar;
 }
 
@@ -42,7 +42,7 @@ export interface AccessCard {
     sectionId: string;
 }
 
-export interface Alert {
+export interface AlertData {
     id: string;
     title: string;
     description: string;
