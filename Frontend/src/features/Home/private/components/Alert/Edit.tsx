@@ -105,8 +105,8 @@ export const Edit = ({ id, icon, isActive, title, description, author, color }: 
 
                         <TextInput
                             withAsterisk
-                            label="Titulo"
-                            description="Titulo de la alerta"
+                            label="Título"
+                            description="Título de la alerta"
                             placeholder="Title"
                             {...form.getInputProps("title")}
                             maxLength={MAX_TITLE_LENGTH}
@@ -122,9 +122,9 @@ export const Edit = ({ id, icon, isActive, title, description, author, color }: 
 
                         <TextInput
                             withAsterisk
-                            label="Descripcion"
-                            description="Descripcion que se mostrara en la alerta"
-                            placeholder="Descripcion"
+                            label="Descripción"
+                            description="Descripción que se mostrara en la alerta"
+                            placeholder="Descripción"
                             {...form.getInputProps("description")}
                             maxLength={MAX_DESCRIPTION_LENGTH}
                             rightSection={

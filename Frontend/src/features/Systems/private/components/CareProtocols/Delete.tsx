@@ -111,8 +111,8 @@ export const Delete = ({ id, title, description, category, file }: CareProtocols
                 />
 
                 <TextInput
-                    label="Para confirmar escribe el titulo del protocolo:"
-                    placeholder="Escribe el titulo para confirmar..."
+                    label="Para confirmar escribe el título del protocolo:"
+                    placeholder="Escribe el título para confirmar..."
                     description={title}
                     autoFocus
                     {...form.getInputProps("value")}

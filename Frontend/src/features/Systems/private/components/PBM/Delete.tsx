@@ -98,9 +98,9 @@ export const Delete = ({ id, title, file }: PMBData) => {
                 />
 
                 <TextInput
-                    label="Para confirmar escribe el titulo del algoritmo PBM:"
+                    label="Para confirmar escribe el título del algoritmo PBM:"
                     description={title}
-                    placeholder="Escribe el titulo para confirmar..."
+                    placeholder="Escribe el título para confirmar..."
                     autoFocus
                     withAsterisk
                     {...form.getInputProps("value")}

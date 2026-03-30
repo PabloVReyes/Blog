@@ -32,12 +32,12 @@ const columns: Column<CalendarData>[] = [
     },
     {
         key: 'title',
-        label: 'Titulo',
+        label: 'Título',
         align: 'left',
     },
     {
         key: 'description',
-        label: 'Descripcion',
+        label: 'Descripción',
         align: 'left',
     },
     {

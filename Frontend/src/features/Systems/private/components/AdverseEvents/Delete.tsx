@@ -98,8 +98,8 @@ export const Delete = ({ id, title, file }: AdverseEventsData) => {
                 />
 
                 <TextInput
-                    label="Para confirmar escribe el titulo del evento adverso:"
-                    placeholder="Escribe el titulo para confirmar..."
+                    label="Para confirmar escribe el título del evento adverso:"
+                    placeholder="Escribe el título para confirmar..."
                     description={title}
                     autoFocus
                     {...form.getInputProps("value")}

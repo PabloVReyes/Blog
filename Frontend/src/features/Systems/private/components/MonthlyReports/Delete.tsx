@@ -104,9 +104,9 @@ export const Delete = ({ id, title, description, file }: MonthlyReportsData) => 
                 />
 
                 <TextInput
-                    label="Para confirmar escribe el titulo del informe mensual"
+                    label="Para confirmar escribe el título del informe mensual"
                     description={title}
-                    placeholder="Escribe el titulo para confirmar..."
+                    placeholder="Escribe el título para confirmar..."
                     autoFocus
                     {...form.getInputProps("value")}
                 />

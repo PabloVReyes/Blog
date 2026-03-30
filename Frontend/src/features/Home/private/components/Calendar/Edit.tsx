@@ -66,8 +66,8 @@ export const Edit = ({ id, icon, color, title, description, year, file }: Calend
                 <Fieldset legend="Contenido">
                     <TextInput
                         withAsterisk
-                        label="Titulo"
-                        description="Titulo del la primera sección"
+                        label="Título"
+                        description="Título del la primera sección"
                         placeholder="Calendario"
                         {...form.getInputProps("title")}
                         maxLength={MAX_TITLE_LENGTH}

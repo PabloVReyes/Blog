@@ -54,9 +54,9 @@ export const Form = <T extends QuickAccessFormValues>({
                     <Divider />
 
                     <TextInput
-                        label="Titulo"
+                        label="Título"
                         withAsterisk
-                        description="Titulo que se mostrara sobre la imagen en el carrusel"
+                        description="Título que se mostrara sobre la imagen en el carrusel"
                         placeholder="Title"
                         {...form.getInputProps("title")}
                         maxLength={MAX_TITLE_LENGTH}

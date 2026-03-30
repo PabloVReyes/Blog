@@ -16,12 +16,12 @@ import { Alert } from "@/ui";
 import classes from "./Settings.module.css";
 
 const modules = [
-    { id: 1, nombre: "Gestión de Usuarios", descripcion: "Crear, editar y administrar cuentas", icon: IconUsers, color: "blue", url: "/administracion/configuraciones/usuarios", stats: "45 usuarios" },
-    { id: 2, nombre: "Gestión de Roles", descripcion: "Jerarquías del personal", icon: IconShield, color: "emerald", url: "/administracion/configuraciones/roles", stats: "8 roles" },
-    { id: 3, nombre: "Gestión de Permisos", descripcion: "Configurar accesos", icon: IconKey, color: "purple", url: "/administracion/configuraciones/permisos", stats: "24 permisos" },
-    { id: 4, nombre: "Auditoría", descripcion: "Registro de actividades", icon: IconChartBar, color: "orange", url: "#", stats: "1,250 eventos" },
-    { id: 5, nombre: "Configuración General", descripcion: "Parámetros del sistema", icon: IconSettings, color: "gray", url: "/administracion/configuraciones/general", stats: "12 activos" },
-    { id: 6, nombre: "Perfiles", descripcion: "Plantillas predefinidas", icon: IconUserCog, color: "cyan", url: "#", stats: "5 perfiles" },
+    { id: 1, name: "Gestión de Usuarios", description: "Crear, editar y administrar cuentas", icon: IconUsers, color: "blue", url: "/administracion/configuraciones/usuarios", stats: "45 usuarios" },
+    { id: 2, name: "Gestión de Roles", description: "Jerarquías del personal", icon: IconShield, color: "emerald", url: "/administracion/configuraciones/roles", stats: "8 roles" },
+    { id: 3, name: "Gestión de Permisos", description: "Configurar accesos", icon: IconKey, color: "purple", url: "/administracion/configuraciones/permisos", stats: "24 permisos" },
+    { id: 4, name: "Auditoría", description: "Registro de actividades", icon: IconChartBar, color: "orange", url: "#", stats: "1,250 eventos" },
+    { id: 5, name: "Configuración General", description: "Parámetros del sistema", icon: IconSettings, color: "gray", url: "/administracion/configuraciones/general", stats: "12 activos" },
+    { id: 6, name: "Perfiles", description: "Plantillas predefinidas", icon: IconUserCog, color: "cyan", url: "#", stats: "5 perfiles" },
 ];
 
 export const Settings = () => {
@@ -67,10 +67,10 @@ export const Settings = () => {
 
                         <Box mt="md" mb="xl">
                             <Text fw={700} size="lg" className="mantine-visible-from-light">
-                                {module.nombre}
+                                {module.name}
                             </Text>
                             <Text size="sm" c="dimmed" mt="xs" lineClamp={2}>
-                                {module.descripcion}
+                                {module.description}
                             </Text>
                         </Box>
 

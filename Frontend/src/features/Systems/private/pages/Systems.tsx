@@ -52,7 +52,7 @@ const columns: Column<SystemData>[] = [
     },
     {
         key: 'description',
-        label: 'Descripcion',
+        label: 'Descripción',
         align: 'left',
     },
     {

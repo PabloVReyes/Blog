@@ -13,12 +13,12 @@ import type { CarouselData } from "../../types/carousel.types"
 const columns: Column<CarouselData>[] = [
     {
         key: 'title',
-        label: 'Titulo',
+        label: 'Título',
         align: 'left',
     },
     {
         key: 'description',
-        label: 'Descripcion',
+        label: 'Descripción',
         align: 'left',
     },
     {

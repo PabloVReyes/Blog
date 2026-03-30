@@ -20,7 +20,7 @@ export const App = () => {
     const { setColorScheme } = useMantineColorScheme();
 
     useEffect(() => {
-        document.title = title || 'Sin titulo'
+        document.title = title || 'Sin título'
     }, [title])
 
     useEffect(() => {
