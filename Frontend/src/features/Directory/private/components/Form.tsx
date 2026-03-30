@@ -29,19 +29,19 @@ interface Level {
 }
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
-    const [levels, setLevents] = useState<Level[]>([])
+    const [levels, setLevels] = useState<Level[]>([])
 
     const fetchLevelsData = async () => {
         try {
             const areasResp = await fetchLevels()
-            setLevents(areasResp.data || [])
+            setLevels(areasResp.data || [])
         } catch (error: unknown) {
             Notify({
                 type: "error",
                 title: "Error al obtener niveles",
                 message: error instanceof Error ? error.message : "Error desconocido"
             });
-            setLevents([])
+            setLevels([])
         }
     }
 
