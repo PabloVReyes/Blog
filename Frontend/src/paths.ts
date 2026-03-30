@@ -113,7 +113,7 @@ export const paths = [
     },
     {
         id: "directory",
-        label: "Directorio Telefonico",
+        label: "Directorio Telefónico",
         icon: "IconBook",
         link: "/directorio",
     },

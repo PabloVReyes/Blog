@@ -116,8 +116,8 @@ export const Directory = () => {
 
     const handleAdd = () => {
         openModal({
-            title: "Agregar Extensión Telefonia",
-            subtitle: "Agregar un nueva Extensión Telefonia",
+            title: "Agregar Extensión Telefónica",
+            subtitle: "Agregar una nueva Extensión Telefónica",
             icon: "IconPlus",
             content: <Add />
         })
@@ -125,7 +125,7 @@ export const Directory = () => {
 
     return (
         <Container
-            title="Directorio Telefonico"
+            title="Directorio Telefónico"
         >
             <Panel
                 title

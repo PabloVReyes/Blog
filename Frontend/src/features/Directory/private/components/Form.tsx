@@ -124,7 +124,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                     <TextInput
                         withAsterisk
                         label="Secretario(a)"
-                        description="Nombre del secretario(o) del área o departamento"
+                        description="Nombre del secretario(a) del área o departamento"
                         placeholder="Ej. Pablo Vazquez Reyes"
                         maxLength={MAX_NAME_PERSON_LENGTH}
                         rightSection={
@@ -141,7 +141,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                     <TextInput
                         withAsterisk
                         label="Correo Electrónico"
-                        description="Corro electronico utilizado para enviar archivos"
+                        description="Correo electrónico utilizado para enviar archivos"
                         placeholder="Ej. Ejemplo@ejemplo.com"
                         {...form.getInputProps("email")}
                     />

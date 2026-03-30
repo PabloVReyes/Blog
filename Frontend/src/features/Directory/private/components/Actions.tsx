@@ -10,8 +10,8 @@ export const Actions = ({id, ...props}: DirectoryData) => {
 
     const handleEdit = () => {
         openModal({
-            title: "Editar Extensión Telefonica",
-            subtitle: "Editar una Extensión Telefonica existente",
+            title: "Editar Extensión Telefónica",
+            subtitle: "Editar una Extensión Telefónica existente",
             icon: "IconEdit",
             color: "blue",
             content: (
@@ -25,8 +25,8 @@ export const Actions = ({id, ...props}: DirectoryData) => {
 
     const handleDelete = () => {
         openModal({
-            title: "Eliminar Extensión Telefonica",
-            subtitle: "Eliminar una Extensión Telefonica existente",
+            title: "Eliminar Extensión Telefónica",
+            subtitle: "Eliminar una Extensión Telefónica existente",
             icon: "IconTrash",
             color: "red",
             content: (

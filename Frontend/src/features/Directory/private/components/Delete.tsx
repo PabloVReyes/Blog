@@ -45,7 +45,7 @@ export const Delete = ({ id, phone, name }: DirectoryData) => {
                     withBorder
                 >
                     <Text size="sm" fw={500} c="dimmed" mb="sm">
-                        Extensión Telefonica a eliminar:
+                        Extensión Telefónica a eliminar:
                     </Text>
 
                     <Group align="center" gap="md">

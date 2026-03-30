@@ -126,9 +126,9 @@ async function main() {
         { key: "vacation.delete", name: "Eliminar Vacaciones", description: "Permite eliminar un rol vacacional existente" },
     
         // Directorio
-        { key: "directory.create", name: "Crear Extensión Telefonica", description: "Permite crear una nueva extensión telefónica" },
-        { key: "directory.update", name: "Actualizar Extensión Telefonica", description: "Permite actualizar una extensión telefónica existente" },
-        { key: "directory.delete", name: "Eliminar Extensión Telefonica", description: "Permite eliminar una extensión telefónica existente" },
+        { key: "directory.create", name: "Crear Extensión Telefónica", description: "Permite crear una nueva extensión telefónica" },
+        { key: "directory.update", name: "Actualizar Extensión Telefónica", description: "Permite actualizar una extensión telefónica existente" },
+        { key: "directory.delete", name: "Eliminar Extensión Telefónica", description: "Permite eliminar una extensión telefónica existente" },
     
         // Disposiciones Juristicas Administrativas
         { key: "juristics.create", name: "Crear Disposición Jurística Administrativa", description: "Permite crear una nueva disposición jurística administrativa" },
