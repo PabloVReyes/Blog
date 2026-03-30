@@ -832,7 +832,4 @@ enum ShiftFileType {
 enum FileType {
   DOCUMENT
   IMAGE
-  VIDEO
-  AUDIO
-  OTHER
 }
