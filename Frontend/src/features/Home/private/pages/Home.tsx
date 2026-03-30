@@ -7,6 +7,7 @@ import { Alert } from "./Alert"
 import { Derechohabiencia } from "./Derechohabiencia"
 import { Calendar } from "./Calendar"
 import { AccessCard } from "./AcessCard"
+import { Notify } from "@/ui"
 
 export interface Sections {
     id: string;
@@ -115,13 +116,15 @@ export const Home = () => {
     }, [])
 
     const handleFetch = async () => {
+        setLoading(true)
         try {
             await fetchSections()
                 .then(setSections)
-
-            setLoading(true)
         } catch (error) {
-
+            Notify({
+                type: "error",
+                message: "Error al cargar las secciones",
+            })
         } finally {
             setLoading(false)
         }
