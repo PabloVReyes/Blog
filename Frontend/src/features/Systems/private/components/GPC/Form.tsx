@@ -3,15 +3,24 @@ import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { ApiSelect, ModalButtons } from "@/components";
 import { useEffect, useState } from "react";
 import { addCycle, fetchCycle } from "../../api";
+import type { UseFormReturnType } from "@mantine/form";
 
 interface Item {
     value: string;
     label: string;
 }
 
+interface FormValues {
+    title: string;
+    description?: string;
+    orderIndex: number;
+    cycle: string;
+    file: File | null;
+}
+
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<FormValues>
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;

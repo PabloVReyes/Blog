@@ -4,15 +4,15 @@ import { MAX_TITLE_LENGTH } from "@/constants";
 import { getTablerIcon } from "@/helpers";
 import type { UseFormReturnType } from "@mantine/form";
 
-interface RoleFormValues {
+interface FormValues {
     name: string;
     icon: string;
     color: string;
 }
 
 interface Props {
-    form: UseFormReturnType<RoleFormValues>
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<FormValues>
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
 }

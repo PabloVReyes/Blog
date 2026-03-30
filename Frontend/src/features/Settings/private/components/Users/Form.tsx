@@ -16,7 +16,7 @@ export interface Data {
     permissions: PermissionElement[];
 }
 
-interface RoleFormValues {
+interface FormValues {
     name: string
     active: boolean
     roles: string[]
@@ -40,8 +40,8 @@ export interface PermissionPermission {
 }
 
 interface Props {
-    form: UseFormReturnType<RoleFormValues>
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<FormValues>
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
 }

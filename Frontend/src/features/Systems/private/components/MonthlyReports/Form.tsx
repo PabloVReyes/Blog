@@ -1,10 +1,20 @@
 import { Divider, Fieldset, FileInput, Select, Stack, Text, TextInput } from "@mantine/core";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 import { ModalButtons } from "@/components";
+import type { UseFormReturnType } from "@mantine/form";
+
+interface FormValues {
+    title: string;
+    description?: string;
+    type: string;
+    month?: string;
+    year?: string;
+    file: File | null;
+}
 
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<FormValues>;
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;

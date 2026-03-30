@@ -11,15 +11,24 @@ import {
 } from "../../api";
 import { ApiSelect } from "@/components";
 import { RemotePaginatedSelect } from "./RemotePaginatedSelect";
+import type { UseFormReturnType } from "@mantine/form";
 
 interface Item {
     value: string;
     label: string;
 }
 
+interface FormValues {
+    name: string;
+    group: string;
+    zone: string;
+    type: "HOLDER" | "DEPENDENT";
+    holder?: string;
+}
+
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<FormValues>
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
     initialGroup?: Item | null;

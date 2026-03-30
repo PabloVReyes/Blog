@@ -3,15 +3,25 @@ import { ApiSelect, ModalButtons, Switch } from "@/components";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { useEffect, useState } from "react";
 import { addCategory, fetchCategories } from "../api";
+import { type UseFormReturnType } from '@mantine/form'
 
 interface Item {
     value: string;
     label: string;
 }
 
+interface FormValues {
+    name: string;
+    description?: string;
+    isNew: boolean;
+    category: string;
+    section: string;
+    file: File | null;
+}
+
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<FormValues>
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;
@@ -35,7 +45,6 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
             setLoadingCategories(false)
         }
     }
-
 
     useEffect(() => {
         fetchCategoriesData()

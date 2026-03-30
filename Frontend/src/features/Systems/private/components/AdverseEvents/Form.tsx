@@ -8,7 +8,7 @@ interface FormValues {
 
 interface Props {
     form: UseFormReturnType<FormValues>;
-    onSubmit: (values: any) => void;
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;

@@ -1,10 +1,20 @@
 import { Divider, Fieldset, Stack, Text, TextInput } from "@mantine/core";
 import { MAX_CODE_MEDICAL_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 import { ModalButtons } from "@/components";
+import type { UseFormReturnType } from "@mantine/form";
+
+interface FormValues {
+    code: string;
+    name: string;
+    description: string;
+    sp?: string;
+    fpgc?: string;
+    cbt_cae?: string;
+}
 
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<FormValues>
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
 }

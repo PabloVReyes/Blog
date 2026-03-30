@@ -3,15 +3,24 @@ import { MAX_CODE_MEDICAL_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { ApiSelect, ModalButtons } from "@/components";
 import { useEffect, useState } from "react";
 import { addCategory, fetchCategorys } from "../../api";
+import type { UseFormReturnType } from "@mantine/form";
 
 interface Item {
     value: string;
     label: string;
 }
 
+interface FormValues {
+    code: string;
+    title: string;
+    category: string;
+    er: File | null;
+    rr: File | null;
+}
+
 interface Props {
-    form: any;
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<FormValues>
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileNameER?: string | null;

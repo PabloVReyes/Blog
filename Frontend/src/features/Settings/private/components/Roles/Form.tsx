@@ -8,7 +8,7 @@ import { Alert } from "@/ui";
 import { settingsPermissionsApi } from "../../api";
 import { type UseFormReturnType } from '@mantine/form'
 
-interface RoleFormValues {
+interface FormValues {
     name: string
     description?: string
     permissions: string[]
@@ -16,8 +16,8 @@ interface RoleFormValues {
 }
 
 interface Props {
-    form: UseFormReturnType<RoleFormValues>
-    onSubmit: (values: any) => void;
+    form: UseFormReturnType<FormValues>
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
 }
