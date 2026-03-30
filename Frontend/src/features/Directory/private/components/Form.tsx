@@ -6,7 +6,7 @@ import { fetchLevels } from "../api";
 import { Notify } from "@/ui";
 import { type UseFormReturnType } from "@mantine/form";
 
-export interface DirectoryFormValues {
+export interface FormValues {
     phone: string;
     name: string;
     level: string;
@@ -17,8 +17,8 @@ export interface DirectoryFormValues {
 
 interface Props {
     // Tipamos el formulario de Mantine
-    form: UseFormReturnType<DirectoryFormValues>;
-    onSubmit: (values: DirectoryFormValues) => void;
+    form: UseFormReturnType<FormValues>;
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
 }
