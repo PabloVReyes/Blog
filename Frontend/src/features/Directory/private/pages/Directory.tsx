@@ -129,12 +129,12 @@ export const Directory = () => {
         >
             <Panel
                 title
-                titleValue="Lista de Algoritmos"
+                titleValue="Lista de Extensiones"
                 onAddElement={handleAdd}
                 search
                 searchValue={search}
                 onChangeSearch={setSearch}
-                searchPlaceholder="Buscar Informe..."
+                searchPlaceholder="Buscar extensión telefónica..."
                 limit
                 limitValue={limit}
                 onChangeLimit={setLimit}
