@@ -69,7 +69,7 @@ export const putMonthlyReportsService = async (id: string, dto: type.MontghlyRep
         throw new Error("Reporte mensual no existe")
     }
 
-    const props: any = {
+    const props = {
         id,
         title,
         description,

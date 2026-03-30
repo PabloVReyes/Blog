@@ -135,7 +135,7 @@ export const putDownloadService = async (id: string, dto: types.DownloadsUpdateD
         throw new Error("Descarga no encontrada")
     }
 
-    const props: any = {
+    const props = {
         id,
         name,
         description,

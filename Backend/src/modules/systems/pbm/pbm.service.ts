@@ -63,7 +63,7 @@ export const putPBMService = async (id: string, dto: type.PbmUpdateDto) => {
         throw new Error("El algoritmo PBM no existe")
     }
 
-    const props: any = {
+    const props = {
         id,
         title,
         file:

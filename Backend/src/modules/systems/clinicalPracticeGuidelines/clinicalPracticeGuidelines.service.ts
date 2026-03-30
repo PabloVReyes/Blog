@@ -92,7 +92,7 @@ export const putClinicalPracticeGuidelinesService = async (id: string, dto: type
         throw new Error("La guía no existe")
     }
 
-    const props: any = {
+    const props = {
         id,
         code,
         title,

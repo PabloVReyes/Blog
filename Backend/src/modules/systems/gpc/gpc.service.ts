@@ -93,7 +93,7 @@ export const putGpcService = async (id: string, dto: type.GpcUpdateDto) => {
         throw new Error("El sistema no existe")
     }
 
-    const props: any = {
+    const props = {
         id,
         title,
         description,

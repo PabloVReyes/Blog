@@ -29,7 +29,7 @@ export const putCalendarService = async (id: string, dto: CalendarUpdateDto) => 
         throw new Error("Calendario no encontrado")
     }
 
-    const props: any = {
+    const props = {
         id,
         title,
         description,

@@ -95,7 +95,7 @@ export const putCertificationService = async (id: string, dto: types.Certificati
         throw new Error("El sistema no existe")
     }
 
-    const props: any = {
+    const props = {
         id,
         name,
         description: description ?? null,
