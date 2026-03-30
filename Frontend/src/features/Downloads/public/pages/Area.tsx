@@ -10,7 +10,7 @@ import { Download } from "../components"
 import type { FileData } from "@/types"
 
 interface Data {
-    id: number;
+    id: string;
     name: string;
     slug: string;
     icon: string;
@@ -21,9 +21,8 @@ interface Data {
     sections: Section[];
 }
 
-
 export interface Section {
-    id: number;
+    id: string;
     name: string;
     order: null;
     isActive: boolean;

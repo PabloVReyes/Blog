@@ -1,7 +1,7 @@
 import type { FileData } from "@/types";
 
 export interface DownloadData {
-    id: number;
+    id: string;
     name: string;
     description: string;
     fileId: string;
