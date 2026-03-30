@@ -54,7 +54,7 @@ export const resetPasswordParamsSchema = z.object({
 })
 
 export const changePasswordSchema = z.object({
-    currentPassword: z.string(),
+    currentPassword: z.string().min(1, 'La contraseña actual es requerida'),
     newPassword: z
         .string()
         .min(8, 'La contraseña debe tener al menos 8 caracteres')
