@@ -56,7 +56,9 @@ export const putManualController: RequestHandler = asyncHandler(async (req: Requ
 })
 
 export const putAreaController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
-    const data = await service.putAreaService(req)
+    const params = schema.putAreaParamsSchema.parse(req.params)
+    const body: schema.PutAreaSchema = schema.putAreaSchema.parse(req.body)
+    const data = await service.putAreaService(params.id, body)
     res.json(data)
 })
 

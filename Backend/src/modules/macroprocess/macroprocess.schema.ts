@@ -60,6 +60,16 @@ export const putManualTypeParamsSchema = z.object({
     id: z.string()
 })
 
+export const putAreaParamsSchema = z.object({
+    id: z.string()
+})
+
+export const putAreaSchema = z.object({
+    name: z.string()
+})
+
+export type PutAreaSchema = z.infer<typeof putAreaSchema>
+
 ////////////
 // DELETE //
 ////////////

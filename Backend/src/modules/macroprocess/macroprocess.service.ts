@@ -106,9 +106,8 @@ export const putManualService = async (id: string, file?: Express.Multer.File) =
     return await repo.putManualRepository(props)
 }
 
-export const putAreaService = async (req: any) => {
-    const { id } = req.params
-    const { name } = req.body
+export const putAreaService = async (id: string, dto: schema.PutAreaSchema) => {
+    const { name } = dto
 
     return await repo.putAreaRepository({
         id,
