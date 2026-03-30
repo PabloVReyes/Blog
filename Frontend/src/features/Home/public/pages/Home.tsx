@@ -1,11 +1,13 @@
 import { Center, Container, Grid, Group, Loader, Stack, Text } from "@mantine/core";
 import { AccessCard, Calendar, Carousel, Derechohabiencia } from "../components";
-import { Alert } from "@/ui";
+import { Alert, Notify } from "@/ui";
 import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { fetchHomeSections } from "../api";
 import { getTablerIcon } from "@/helpers";
 import type { CarouselData } from "../../types/carousel.types";
+import type { CalendarData } from "../../types/calendar.types";
+import type { AccessCardData } from "../../types/accessCard.types";
 
 export interface Data {
     id: string;
@@ -17,29 +19,10 @@ export interface Data {
     createdAt: Date;
     updatedAt: Date;
     carouselItems: CarouselData[];
-    accessCards: AccessCard[];
+    accessCards: AccessCardData[];
     derechohabiencia: AlertData;
     alert: AlertData | null;
-    calendar: Calendar;
-}
-
-export interface AccessCard {
-    id: string;
-    title: string;
-    badge: null;
-    color: string;
-    description: string;
-    icon: string;
-    url: string;
-    type: string;
-    fileName: null;
-    storedName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    orderIndex: number;
-    isActive: boolean;
-    sectionId: string;
+    calendar: CalendarData;
 }
 
 export interface AlertData {
@@ -67,29 +50,20 @@ export interface Link {
     derechohabienciaConfigId: string;
 }
 
-export interface Calendar {
-    id: string;
-    year: number;
-    title: string;
-    icon: string;
-    color: string;
-    description: string;
-    sectionId: string;
-    fileName: null;
-    storedName: null;
-    filePath: null;
-    fileSize: null;
-    mimeType: null;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
 export const Home = () => {
     const isDesktop = useMediaQuery("(min-width: 1400px)");
     const [data, setData] = useState<Data[]>([]);
 
     useEffect(() => {
-        fetchHomeSections().then(setData);
+        fetchHomeSections()
+            .then(setData)
+            .catch((error: unknown) => {
+                Notify({
+                    type: "error",
+                    title: "Error al cargar la página de inicio",
+                    message: error instanceof Error ? error.message : "Error desconocido"
+                });
+            });
     }, []);
 
     if (data.length === 0) return <Center h={"100%"}><Loader /></Center>;
