@@ -94,9 +94,9 @@ export const Directory = () => {
         return () => observer.disconnect();
     }, [page, hasMore, loading]);
 
-    const items = data.map((item, index) => (
+    const items = data.map((item) => (
         <Card
-            key={index}
+            key={item.id}
             card="directory"
             level={item.level.name}
             phone={item.phone}

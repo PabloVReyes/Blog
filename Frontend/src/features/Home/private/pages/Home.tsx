@@ -140,18 +140,18 @@ export const Home = () => {
             description="Configuración del Inicio"
         >
             <Stack gap={100}>
-                {sections.map((section, index: number) => {
+                {sections.map((section) => {
                     switch (section.type) {
                         case "ALERT":
-                            return <Alert key={index} />
+                            return <Alert key={section.id} />
                         case "CAROUSEL":
-                            return <Carousel {...section} key={index} />
+                            return <Carousel {...section} key={section.id} />
                         case "CALENDAR":
-                            return <Calendar key={index} />
+                            return <Calendar key={section.id} />
                         case "DERECHOHABIENCIA":
-                            return <Derechohabiencia key={index} />
+                            return <Derechohabiencia key={section.id} />
                         case "ACCESS_CARD":
-                            return <AccessCard {...section} key={index} />
+                            return <AccessCard {...section} key={section.id} />
                     }
                 })}
             </Stack>

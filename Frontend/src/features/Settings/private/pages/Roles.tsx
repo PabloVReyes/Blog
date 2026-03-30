@@ -98,8 +98,8 @@ export const Roles = () => {
                             <Text ta="center" size="sm" c="dimmed">No se encontraron resultados.</Text>
                         </Card>
                         : <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
-                            {items.map((rol: any, index: number) => (
-                                <Card withBorder shadow="sm" className={classes.card} key={index}>
+                            {items.map((rol) => (
+                                <Card withBorder shadow="sm" className={classes.card} key={rol.id}>
                                     <Card.Section withBorder>
                                         {/* Header */}
                                         <Group justify="space-between" align="flex-start" mb="md" wrap="nowrap">
@@ -112,7 +112,7 @@ export const Roles = () => {
                                                 </Group>
                                             </Box>
 
-                                            <ActionsRoles  {...rol} key={index} />
+                                            <ActionsRoles  {...rol} key={rol.id} />
                                         </Group>
 
                                         {/* Descripción */}
@@ -151,8 +151,8 @@ export const Roles = () => {
                                                     <Text size="xs" c="dimmed">Sin permisos</Text>
                                                 ) : (
                                                     <>
-                                                        {rol.permissions.slice(0, 3).map((permission: any, index: number) => (
-                                                            <Group key={index} gap="xs" mb={4}>
+                                                        {rol.permissions.slice(0, 3).map((permission: PermissionElement) => (
+                                                            <Group key={permission.permission.id} gap="xs" mb={4}>
                                                                 <IconCircleCheck size={16} className={classes.keyIcon} />
                                                                 <Text size="sm">
                                                                     {permission.permission.name}

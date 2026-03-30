@@ -164,7 +164,6 @@ export const Password = ({ id }: { id: string }) => {
                         {checks}
                     </Stack>
 
-
                     <Divider />
 
                     <PasswordInput
@@ -177,11 +176,8 @@ export const Password = ({ id }: { id: string }) => {
                         loading={loading}
                         label="Cambiar contraseña"
                     />
-
                 </Stack>
-
             </form>
-
         </Stack>
     )
 }

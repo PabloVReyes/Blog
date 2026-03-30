@@ -59,8 +59,8 @@ export const Juristic = () => {
                 ? (<Center h={"100%"}><Loader /></Center>)
                 : data.data?.length > 0
                     ?
-                    data.data.map((standar, index: number) => (
-                        <Download {...standar} key={index} color={theme.primaryColor} />
+                    data.data.map((standar) => (
+                        <Download {...standar} key={standar.id} color={theme.primaryColor} />
                     ))
                     : (
                         <Card>

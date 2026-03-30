@@ -54,12 +54,12 @@ export const AccessCard = ({ accessCards }: Props) => {
             </Title>
 
             <SimpleGrid cols={{ md: 2, sm: 2, xs: 1, lg: 4 }}>
-                {accessCards.map((system, index: number) => {
+                {accessCards.map((system) => {
                     const Icon = getTablerIcon(system.icon)
 
                     return (
                         <Card
-                            key={index}
+                            key={system.id}
                             h={"100%"}
                             p="lg"
                             withBorder
