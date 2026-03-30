@@ -78,7 +78,7 @@ export const AdverseEvents = () => {
                 }
                 content={
                     <Stack>
-                        <Text size="sm">Porque al informar de un evento adverso se toman las medidas para mejorar los procesos de atención mediante las Acciones Escenciales de Seguridad del Paciente y así dignificar nuestro trabajo.</Text>
+                        <Text size="sm">Porque al informar de un evento adverso se toman las medidas para mejorar los procesos de atención mediante las Acciones Esenciales de Seguridad del Paciente y así dignificar nuestro trabajo.</Text>
                     </Stack>
                 }
             />
