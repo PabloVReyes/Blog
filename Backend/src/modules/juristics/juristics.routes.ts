@@ -3,6 +3,8 @@ import * as controller from "./juristics.controller"
 import multer from "multer";
 import { uploadsRoot } from "./path";
 import { sanitizeFileName } from "../../utils/file";
+import { authMiddleware } from "@/middleware/auth.middleware";
+import { requirePermission } from "@/middleware/permission.middleware";
 
 const router: Router = Router()
 
@@ -29,8 +31,25 @@ export const upload = multer({
 });
 
 router.get('/', controller.getJuristicsController)
-router.post('/', upload.single("file"), controller.postJuristicController)
-router.put('/:id', upload.single("file"), controller.putJuristicController)
-router.delete('/:id', controller.deleteJuristicController)
+
+router.post('/', 
+    authMiddleware,
+    requirePermission("juristics.create"),
+    upload.single("file"), 
+    controller.postJuristicController
+)
+
+router.put('/:id', 
+    authMiddleware,
+    requirePermission("juristics.update"),
+    upload.single("file"), 
+    controller.putJuristicController
+)
+
+router.delete('/:id', 
+    authMiddleware,
+    requirePermission("juristics.delete"),
+    controller.deleteJuristicController
+)
 
 export default router;

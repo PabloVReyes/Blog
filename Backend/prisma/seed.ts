@@ -124,6 +124,16 @@ async function main() {
         { key: "vacation.create", name: "Crear Vacaciones", description: "Permite crear un nuevo rol vacacional" },
         { key: "vacation.update", name: "Actualizar Vacaciones", description: "Permite actualizar un rol vacacional existente" },
         { key: "vacation.delete", name: "Eliminar Vacaciones", description: "Permite eliminar un rol vacacional existente" },
+    
+        // Directorio
+        { key: "directory.create", name: "Crear Extensión Telefonica", description: "Permite crear una nueva extensión telefónica" },
+        { key: "directory.update", name: "Actualizar Extensión Telefonica", description: "Permite actualizar una extensión telefónica existente" },
+        { key: "directory.delete", name: "Eliminar Extensión Telefonica", description: "Permite eliminar una extensión telefónica existente" },
+    
+        // Disposiciones Juristicas Administrativas
+        { key: "juristics.create", name: "Crear Disposición Jurística Administrativa", description: "Permite crear una nueva disposición jurística administrativa" },
+        { key: "juristics.update", name: "Actualizar Disposición Jurística Administrativa", description: "Permite actualizar una disposición jurística administrativa existente" },
+        { key: "juristics.delete", name: "Eliminar Disposición Jurística Administrativa", description: "Permite eliminar una disposición jurística administrativa existente" },
     ]
 
     const permissionRecords = []
