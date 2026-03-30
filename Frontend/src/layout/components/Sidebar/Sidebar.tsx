@@ -64,7 +64,7 @@ export const Sidebar = () => {
             children: [
                 {
                     id: "filosofia-organizacional",
-                    label: "Filosofia Organizacional",
+                    label: "Filosofía Organizacional",
                     icon: "IconUsers",
                     link: "/filosofia-organizacional",
                 },
