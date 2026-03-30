@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { IconLock, IconMail, IconX } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { validateEmail } from "@/utils";
+import { Notify } from "@/ui";
 
 export function LoginModal() {
     const opened = useAuthStore((s) => s.loginOpened);
@@ -41,7 +42,11 @@ export function LoginModal() {
             form.reset()
             navigate("/administracion")
         } catch (error) {
-            console.error("Error al iniciar sesión", error)
+            Notify({
+                type: "error",
+                title: "Error al iniciar sesión",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            })
         }
         finally {
             setLoading(false)

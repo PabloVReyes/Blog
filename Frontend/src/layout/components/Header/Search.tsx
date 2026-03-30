@@ -86,7 +86,6 @@ export const Search = () => {
                 title: "Error al realizar búsqueda",
                 message: error instanceof Error ? error.message : "Error desconocido"
             })
-            console.error("Error en búsqueda:", error)
         } finally {
             isFetchingRef.current = false
             setLoading(false)

@@ -38,7 +38,11 @@ export const AgreementPerson = () => {
             setGroups(groupsResp.data || []);
             setZones(zonesResp.data || []);
         } catch (error: unknown) {
-            console.error("Error fetching filters:", error);
+            Notify({
+                type: "error",
+                title: "Error al obtener filtros",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            })
             setGroups([]);
             setZones([]);
         }
@@ -95,8 +99,8 @@ export const AgreementPerson = () => {
     useEffect(() => {
         const trimmed = debounced.trim();
 
-        setPage(1);          
-        setOpenedItems([]);  
+        setPage(1);
+        setOpenedItems([]);
 
         if (debounced && trimmed === "") {
             return;

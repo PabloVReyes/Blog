@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { IconAlertCircle, IconCircleCheck, IconMail } from "@tabler/icons-react";
 import { settingsPermissionsApi, settingsRolesApi } from "../../api";
 import classes from "./Form.module.css"
-import { Alert } from "@/ui";
+import { Alert, Notify } from "@/ui";
 import { type UseFormReturnType } from '@mantine/form'
 
 export interface Data {
@@ -66,7 +66,11 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
             const res = await settingsPermissionsApi.fetch({})
             setPermissions(res.meta.total)
         } catch (error) {
-            console.error(error)
+            Notify({
+                type: "error",
+                title: "Error al cargar permisos",
+                message: error instanceof Error ? error.message : "Error desconocido"
+            })
         }
     }
 

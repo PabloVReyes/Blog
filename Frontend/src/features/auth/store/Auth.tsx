@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode"
 import type { User } from "./types"
 import { useModalStore } from "@/layout/store"
 import { Password } from "@/layout/components/Sidebar/Password"
+import { Notify } from "@/ui"
 
 /** ────────────── Helpers de persistencia ────────────── */
 const STORAGE_USER_KEY = "user"
@@ -24,8 +25,12 @@ const safeParseUser = (): User | null => {
 const saveUserToStorage = (user: User) => {
     try {
         localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user))
-    } catch {
-        console.error("Error al guardar usuario en localStorage")
+    } catch (error) {
+        Notify({
+            type: "error",
+            title: "Error al guardar usuario en localStorage",
+            message: error instanceof Error ? error.message : "Error desconocido"
+        })
     }
 }
 
