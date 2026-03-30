@@ -2,7 +2,7 @@ export interface UsersData {
     id: string;
     name: string;
     email: string;
-    active: boolean;
+    isActive: boolean;
     mustChangePassword: boolean;
     lastLoginAt: Date;
     createdAt: Date;

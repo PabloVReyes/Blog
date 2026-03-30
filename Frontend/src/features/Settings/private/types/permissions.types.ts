@@ -3,7 +3,7 @@ export interface PermissionData {
     name: string;
     key: string;
     description: string;
-    active: boolean;
+    isActive: boolean;
     _count: Count;
     roles: RoleElement[];
 }

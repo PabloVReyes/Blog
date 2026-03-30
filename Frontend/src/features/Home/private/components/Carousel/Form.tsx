@@ -3,22 +3,21 @@ import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { Divider, Fieldset, FileInput, Stack, Text, TextInput } from "@mantine/core";
 import { type UseFormReturnType } from "@mantine/form";
 
-export interface CarouselFormValues {
+export interface FormValues {
     isActive: boolean;
     title: string;
     description: string;
     image: File | null;
-    type: "page" | "file" | "null"
-    url: string | null;
+    url: string;
     file: File | null;
 }
 
 interface Props {
-    form: UseFormReturnType<CarouselFormValues>;
+    form: UseFormReturnType<FormValues>;
     activeIndex: number;
     submitLabel: string;
     setActiveIndex: (index: number) => void;
-    onSubmit: (values: CarouselFormValues) => void;
+    onSubmit: (values: FormValues) => void;
     isLoading?: boolean;
     fileName?: string | null;
     imageName?: string;

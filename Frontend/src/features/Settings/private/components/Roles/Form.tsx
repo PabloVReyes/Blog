@@ -27,7 +27,7 @@ export interface Data {
     name: string;
     key: string;
     description: string;
-    active: boolean;
+    isActive: boolean;
     _count: Count;
     roles: RoleElement[];
 }

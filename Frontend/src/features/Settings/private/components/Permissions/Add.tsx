@@ -10,7 +10,7 @@ export const AddPermissions = () => {
     const form = useForm({
         mode: "controlled",
         initialValues: {
-            active: true,
+            isActive: true,
             name: "",
             description: "",
             key: "",

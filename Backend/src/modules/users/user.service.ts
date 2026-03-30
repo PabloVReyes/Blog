@@ -55,11 +55,11 @@ export const getUsersService = async (dto: schema.GetUsersSchema) => {
 }
 
 export const putUserService = async (id: string, dto: schema.PutUserSchema) => {
-    const { name, email, roles, active } = dto
+    const { name, email, roles, isActive } = dto
 
     return await repo.putUserRepository({
         id,
-        active,
+        isActive,
         email,
         roles,
         name

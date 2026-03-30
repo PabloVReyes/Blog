@@ -25,7 +25,7 @@ export interface Permission {
     name: string;
     key: string;
     description: string;
-    active: boolean;
+    isActive: boolean;
     _count: {
         roles: number;
     };
@@ -138,7 +138,7 @@ export const Permissions = () => {
                                         <Group justify="space-between">
                                             <Text fz="xs" c="dimmed">Estado:</Text>
                                             <Group gap={4} align="center">
-                                                {permiso.active ? (
+                                                {permiso.isActive ? (
                                                     <>
                                                         <IconCircleCheck size={14} color="var(--mantine-color-green-6)" stroke={3} />
                                                         <Text fz="xs" fw={600} c="green.6">Activo</Text>

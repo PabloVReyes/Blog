@@ -20,7 +20,7 @@ export interface PermissionPermission {
     name: string;
     key: string;
     description: string;
-    active: boolean;
+    isActive: boolean;
 }
 
 export interface RolesFilters {

@@ -16,7 +16,7 @@ export const login = async (email: string, password: string) => {
         throw new HttpError(401, "Credenciales inválidas")
     }
 
-    if (!user.active) {
+    if (!user.isActive) {
         throw new HttpError(403, "Usuario desactivado")
     }
 

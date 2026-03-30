@@ -7,14 +7,14 @@ import * as schema from "./permission.schema"
 // CREATE //
 ////////////
 
-export const postPermissionRepository = async ({ name, description, active, key }: schema.PostPermissionsSchema) => {
+export const postPermissionRepository = async ({ name, description, isActive, key }: schema.PostPermissionsSchema) => {
     try {
         return await database.permission.create({
             data: {
                 name,
                 description,
                 key,
-                active
+                isActive
             }
         })
     } catch (error) {
@@ -92,7 +92,7 @@ interface PutPermissionRepositoryProps extends schema.PostPermissionsSchema {
     id: string;
 }
 
-export const putPermissionRepository = async ({ id, name, description, active, key }: PutPermissionRepositoryProps) => {
+export const putPermissionRepository = async ({ id, name, description, isActive, key }: PutPermissionRepositoryProps) => {
     try {
         return await database.permission.update({
             where: {
@@ -102,7 +102,7 @@ export const putPermissionRepository = async ({ id, name, description, active, k
                 name,
                 description,
                 key,
-                active
+                isActive
             }
         })
     } catch (error) {
@@ -112,7 +112,7 @@ export const putPermissionRepository = async ({ id, name, description, active, k
                 operation: "putPermissionRepository",
                 entity: "Permissions",
                 id,
-                payload: { name, key, active }
+                payload: { name, key, isActive }
             },
             "Error updating permission"
         );

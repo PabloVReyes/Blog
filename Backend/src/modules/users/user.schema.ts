@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 export const createUserSchema = z.object({
-    active: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
+    isActive: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     name: z.string(),
     email: z.email(),
     roles: z.uuid().array()
@@ -26,7 +26,7 @@ export type GetUsersSchema = z.infer<typeof getUsersSchema>
 ////////////
 
 export const putUserSchema = z.object({
-    active: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
+    isActive: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
     name: z.string(),
     email: z.email(),
     roles: z.uuid().array()

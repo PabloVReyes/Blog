@@ -9,7 +9,7 @@ export interface Props {
     key: string;
     name: string;
     description: string;
-    active: boolean;
+    isActive: boolean;
     _count: Count;
     roles: RoleElement[];
     permissionKey: string;

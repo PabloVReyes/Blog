@@ -6,7 +6,7 @@ import { validateEmail, validateName } from "@/utils"
 import { useSettingsUsersStore } from "@/stores"
 import type { UsersData } from "../../types/users.types"
 
-export const Edit = ({id, name, email, roles, active}: UsersData) => {
+export const Edit = ({id, name, email, roles, isActive}: UsersData) => {
     const update = useSettingsUsersStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -15,7 +15,7 @@ export const Edit = ({id, name, email, roles, active}: UsersData) => {
         initialValues: {
             name,
             email,
-            active,
+            isActive,
             roles: roles.map((r) => r.role.id)
         },
         validate: {

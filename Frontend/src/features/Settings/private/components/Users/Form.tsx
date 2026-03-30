@@ -18,7 +18,7 @@ export interface Data {
 
 interface FormValues {
     name: string
-    active: boolean
+    isActive: boolean
     roles: string[]
 }
 
@@ -36,7 +36,7 @@ export interface PermissionPermission {
     name: string;
     key: string;
     description: string;
-    active: boolean;
+    isActive: boolean;
 }
 
 interface Props {
@@ -94,8 +94,8 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                     <Switch
                         label="Estado"
                         description='Estado del usuario: Activo/Inactivo'
-                        value={form.values.active}
-                        {...form.getInputProps("active", { type: "checkbox" })}
+                        value={form.values.isActive}
+                        {...form.getInputProps("isActive", { type: "checkbox" })}
                     />
 
                     <Divider />

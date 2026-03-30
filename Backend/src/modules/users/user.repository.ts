@@ -123,7 +123,7 @@ interface PutUserRepositoryProps extends schema.PutUserSchema {
 
 export const putUserRepository = async (props: PutUserRepositoryProps) => {
     try {
-        const { name, email, roles, id, active } = props
+        const { name, email, roles, id, isActive } = props
 
         const currentRoles = await database.userRole.findMany({
             where: { userId: id },
@@ -142,7 +142,7 @@ export const putUserRepository = async (props: PutUserRepositoryProps) => {
                 data: {
                     name,
                     email,
-                    active
+                    isActive
                 }
             }),
 

@@ -4,7 +4,7 @@ import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { type UseFormReturnType } from '@mantine/form'
 
 interface RoleFormValues {
-    active: boolean
+    isActive: boolean
     name: string
     description: string
 }
@@ -25,8 +25,8 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
                     <Switch
                         label="Estado"
                         description='Estado del permiso: Activo/Inactivo'
-                        value={form.values.active}
-                        {...form.getInputProps("active", { type: "checkbox" })}
+                        value={form.values.isActive}
+                        {...form.getInputProps("isActive", { type: "checkbox" })}
                     />
 
                     <Divider />

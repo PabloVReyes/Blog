@@ -68,7 +68,7 @@ const columns = (primaryColor: string): Column<UsersData>[] => [
         label: 'Estado',
         align: 'center',
         render: (row) => {
-            if (row.active === true) {
+            if (row.isActive === true) {
                 return (
                     <Badge
                         size="sm"

@@ -7,13 +7,13 @@ import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 ////////////
 
 export const postPermissionsService = async (dto: schema.PostPermissionsSchema) => {
-    const { name, description, active, key } = dto
+    const { name, description, isActive, key } = dto
 
     return await repo.postPermissionRepository({
         name,
         description,
         key,
-        active
+        isActive
     })
 }
 
@@ -42,20 +42,20 @@ export const getPermissionsService = async (dto: schema.GetPermissionsSchema) =>
 ////////////
 
 export const putPermissionsService = async (id: string, dto: schema.PostPermissionsSchema) => {
-    const { name, description, active, key } = dto
+    const { name, description, isActive, key } = dto
 
     return await repo.putPermissionRepository({
         id,
         name,
         description,
         key,
-        active
+        isActive
     })
 }
 
-////
-// DELETE
-///
+////////////
+// DELETE //
+////////////
 
 export const deletePermissionService = async (id: string) => {
     return await repo.deletePermissionRepository(id)

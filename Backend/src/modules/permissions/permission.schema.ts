@@ -8,7 +8,7 @@ export const postPermissionsSchema = z.object({
     name: z.string(),
     key: z.string(),
     description: z.string(),
-    active: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
+    isActive: z.preprocess((val) => val === 'true' || val === true, z.boolean()),
 })
 
 export type PostPermissionsSchema = z.infer<typeof postPermissionsSchema>

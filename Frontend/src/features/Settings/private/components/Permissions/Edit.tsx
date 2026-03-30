@@ -9,7 +9,7 @@ export interface Data {
     id: string;
     name: string;
     description: string;
-    active: boolean;
+    isActive: boolean;
     permissionKey: string;
     _count: Count;
     roles: RoleElement[];
@@ -38,7 +38,7 @@ export const Edit = (file: Data) => {
         initialValues: {
             name: file.name,
             description: file.description,
-            active: file.active,
+            isActive: file.isActive,
             key: file.permissionKey
         },
         validate: {

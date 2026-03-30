@@ -1,5 +1,4 @@
 import { useForm } from "@mantine/form"
-import type { SystemProps } from "@/features/Systems/types"
 import { useState } from "react"
 import { Form } from "./Form"
 import { validateColor, validateDescription, validateIcon, validateName, validatePdf, validateUrl } from "@/utils/validators"
@@ -10,7 +9,7 @@ export const AddSystem = () => {
     const add = useSystemsStore(s => s.add);
     const [active, setActive] = useState(0);
 
-    const form = useForm<SystemProps>({
+    const form = useForm({
         mode: "controlled",
         initialValues: {
             acronym: "",

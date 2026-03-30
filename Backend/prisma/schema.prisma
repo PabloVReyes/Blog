@@ -15,7 +15,7 @@ model User {
   name               String
   email              String     @unique
   password           String
-  active             Boolean    @default(true)
+  isActive           Boolean    @default(true)
   mustChangePassword Boolean    @default(false)
   roles              UserRole[]
   lastLoginAt        DateTime?
@@ -36,7 +36,7 @@ model Permission {
   name        String?
   key         String           @unique
   description String?
-  active      Boolean          @default(true)
+  isActive    Boolean          @default(true)
   roles       RolePermission[]
 }
 

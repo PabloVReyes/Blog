@@ -10,7 +10,7 @@ export const AddUsers = () => {
     const form = useForm({
         mode: "controlled",
         initialValues: {
-            active: true,
+            isActive: true,
             name: "",
             email: "",
             roles: [] as string[]
