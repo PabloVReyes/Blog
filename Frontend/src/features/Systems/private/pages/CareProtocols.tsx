@@ -99,7 +99,7 @@ export const CareProtocols = () => {
                 search
                 searchValue={search}
                 onChangeSearch={setSearch}
-                searchPlaceholder="Buscar Informe..."
+                searchPlaceholder="Buscar protocolos..."
                 limit
                 limitValue={limit}
                 onChangeLimit={setLimit}

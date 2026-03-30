@@ -94,7 +94,7 @@ export const Shift = () => {
                 firstItem={firstItem}
                 onChangePage={setPage}
                 search
-                searchPlaceholder="Buscar disposición jurídica..."
+                searchPlaceholder="Buscar turnos..."
                 searchValue={search}
                 onChangeSearch={setSearch}
             >

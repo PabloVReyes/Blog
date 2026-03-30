@@ -105,7 +105,7 @@ export const Vacation = () => {
                 firstItem={firstItem}
                 onChangePage={setPage}
                 search
-                searchPlaceholder="Buscar disposición jurídica..."
+                searchPlaceholder="Buscar vacaciones..."
                 searchValue={search}
                 onChangeSearch={setSearch}
             >

@@ -120,7 +120,7 @@ export const Certification = () => {
                 firstItem={firstItem}
                 onChangePage={setPage}
                 search
-                searchPlaceholder="Buscar disposición jurídica..."
+                searchPlaceholder="Buscar Certificación..."
                 searchValue={search}
                 onChangeSearch={setSearch}
             >

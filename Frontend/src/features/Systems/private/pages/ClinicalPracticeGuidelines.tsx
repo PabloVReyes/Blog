@@ -116,7 +116,7 @@ export const ClinicalPracticeGuidelines = () => {
                 search
                 searchValue={search}
                 onChangeSearch={setSearch}
-                searchPlaceholder="Buscar Informe..."
+                searchPlaceholder="Buscar guías..."
                 limit
                 limitValue={limit}
                 onChangeLimit={setLimit}

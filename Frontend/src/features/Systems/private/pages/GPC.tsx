@@ -123,7 +123,7 @@ export const GPC = () => {
                 search
                 searchValue={search}
                 onChangeSearch={setSearch}
-                searchPlaceholder="Buscar Informe..."
+                searchPlaceholder="Buscar algoritmos..."
                 limit
                 limitValue={limit}
                 onChangeLimit={setLimit}

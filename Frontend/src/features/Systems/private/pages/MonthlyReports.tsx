@@ -135,7 +135,7 @@ export const MonthlyReports = () => {
                 search
                 searchValue={search}
                 onChangeSearch={setSearch}
-                searchPlaceholder="Buscar Informe..."
+                searchPlaceholder="Buscar informes..."
                 limit
                 limitValue={limit}
                 onChangeLimit={setLimit}
