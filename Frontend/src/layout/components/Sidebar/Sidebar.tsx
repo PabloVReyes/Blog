@@ -11,6 +11,7 @@ import { UserButton } from "./UserButton";
 import { useAuthStore } from "@/features/auth/store";
 import type { MenuItem } from "./types";
 import type { FileData } from "@/types";
+import { Notify } from "@/ui";
 
 interface System {
     id: string | number;
@@ -45,8 +46,22 @@ export const Sidebar = () => {
     useEffect(() => {
         fetchSystems()
             .then(setSystems)
+            .catch((error: unknown) => {
+                Notify({
+                    type: "error",
+                    title: "Error al obtener sistemas de consulta",
+                    message: error instanceof Error ? error.message : "Error desconocido"
+                });
+            });
         fetchDownloads()
             .then(setDownloads)
+            .catch((error: unknown) => {
+                Notify({
+                    type: "error",
+                    title: "Error al obtener áreas de descarga",
+                    message: error instanceof Error ? error.message : "Error desconocido"
+                });
+            });
     }, [])
 
     const home: MenuItem[] = [
