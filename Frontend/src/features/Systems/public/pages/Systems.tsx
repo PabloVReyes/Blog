@@ -30,7 +30,7 @@ export const Systems = () => {
 
             <Alert
                 color="blue"
-                title="Informacion Importante"
+                title="Información Importante"
                 content="Para acceder a los sistemas requieres credenciales institucionales vigentes.
                 Si tienes problemas de acceso, contacta al área de Tecnologías de la Información."
             />
