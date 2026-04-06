@@ -7,8 +7,10 @@ interface Props {
     numberColums?: number
 }
 
-export const ExtraManuals = ({ manuals, numberColums }: Props) => {
+export const ExtraManuals = ({ manuals = [], numberColums }: Props) => {
     const { download } = useDownloadFile()
+    if (!manuals.length) return null;
+    
     const extras = manuals.filter(
         m => m.manualType.category === "EXTRA"
     );

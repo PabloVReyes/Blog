@@ -22,9 +22,19 @@ const MANUAL_KEYS = {
 
 export const Diagram = ({ setActiveTab }: Props) => {
     const manualTypes = Object.values(MANUAL_KEYS);
-    const { manuals, loading } = useManualMap(manualTypes);
+    const { manuals, loading, error } = useManualMap(manualTypes);
     const isMobile = useMediaQuery("(max-width: 1240px)");
     const { download } = useDownloadFile()
+
+    if (error?.type === "rate-limit") {
+        return (
+            <Container>
+                <Text ta="center" c="orange">
+                    Has excedido el número de intentos. Intenta más tarde.
+                </Text>
+            </Container>
+        );
+    }
 
     if (loading) {
         return (

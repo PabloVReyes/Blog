@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import classes from "./Sidebar.module.css"
-import { Code, CopyButton, Group, Image, ScrollArea, Text, Tooltip } from "@mantine/core";
+import { Center, Code, CopyButton, Group, Image, Loader, ScrollArea, Text, Tooltip } from "@mantine/core";
 import { mapTreeToMenu } from "./utils";
 import { LinksGroup } from "./LinksGroup";
 import { useSettingStore } from "@/features";
@@ -33,6 +33,7 @@ interface DownloadArea {
 export const Sidebar = () => {
     const title = useSettingStore((s) => s.title)
     const footer = useSettingStore((s) => s.footer)
+    const isLoading = useSettingStore((s) => s.isLoading)
     const subtitle = useSettingStore((s) => s.subtitle)
     const { pathname } = useLocation()
     const [systems, setSystems] = useState<System[]>([])
@@ -238,13 +239,21 @@ export const Sidebar = () => {
                         logout={handleLogout}
                     />
                     :
-                    <Image
-                        p={10}
-                        src={`${import.meta.env.VITE_API_URL}${footer}`}
-                        alt="Footer"
-                        fit="contain"
-                        height={60}
-                    />
+                    isLoading ?
+                        (
+                            <Center h={"100%"}>
+                                <Loader />
+                            </Center>
+                        )
+                        : (
+                            <Image
+                                p={10}
+                                src={`${import.meta.env.VITE_API_URL}${footer}`}
+                                alt="Footer"
+                                fit="contain"
+                                height={60}
+                            />
+                        )
                 }
             </div>
         </nav>

@@ -53,7 +53,6 @@ const bottomSections = [
     { key: "manuales", numberColums: 1, showMain: false, showExtras: true }
 ] as const;
 
-
 export const MainAreas = ({ setActiveTab }: Props) => {
     const [selectedArea, setSelectedArea] = useState<AreaData | null>(null)
 
@@ -80,7 +79,6 @@ export const MainAreas = ({ setActiveTab }: Props) => {
     ) as Record<keyof typeof AREA_KEYS, ReturnType<typeof useArea>>;
 
     return (
-
         <Stack gap={20} w="100%">
             <Modal
                 opened={Boolean(selectedArea)}

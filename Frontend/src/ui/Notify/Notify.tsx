@@ -5,7 +5,8 @@ import {
     IconInfoCircle,
     IconAlertTriangle,
 } from '@tabler/icons-react';
-import React, { type ReactNode } from 'react'; // 👈 importante para usar createElement
+import React, { type ReactNode } from 'react';
+import { useAppStore } from '@/stores/appStore'; // 👈 IMPORTANTE
 
 export type NotifyType = 'success' | 'error' | 'info' | 'warning';
 
@@ -16,7 +17,6 @@ export interface NotifyOptionProps {
     autoClose?: number | false;
     id?: string;
 }
-
 
 const colorByType: Record<NotifyType, string> = {
     success: 'green',
@@ -37,7 +37,7 @@ const getIconByType = (type: NotifyType): ReactNode => {
         default:
             return React.createElement(IconInfoCircle, { size: 20 });
     }
-}
+};
 
 export const Notify = ({
     title,
@@ -46,6 +46,13 @@ export const Notify = ({
     autoClose = 8000,
     id,
 }: NotifyOptionProps) => {
+
+    // 🔥 ACCESO GLOBAL SIN HOOK (clave)
+    const { rateLimit } = useAppStore.getState();
+
+    // 🚫 BLOQUEO TOTAL
+    if (rateLimit.active) return;
+
     notifications.show({
         id,
         title: title || type.toUpperCase(),
@@ -57,8 +64,8 @@ export const Notify = ({
         styles: () => ({
             root: {
                 border: `1px solid light-dark(var(--mantine-primary-color-6), var(--mantine-primary-color-8))`,
-                shadow: 'sm'
+                boxShadow: 'var(--mantine-shadow-sm)', // 👈 pequeño fix
             },
         }),
     });
-}
+};

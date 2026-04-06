@@ -27,8 +27,8 @@ export const FooterInput = ({ setIcon }: Props) => {
     return (
         <Group justify="space-between" align="center" mt="sm" style={{ alignItems: "center" }}>
             <FileInput
-                label="Icono"
-                description="Icono de la pagina"
+                label="Icono del pie de barra lateral"
+                description="Icono que se muestra en el pie de la barra lateral"
                 withAsterisk
                 accept="image/png,image/x-icon"
                 placeholder="Da clic para seleccionar el icono"

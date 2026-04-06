@@ -71,7 +71,7 @@ interface Props {
 
 export const SupportAreas = ({ setActiveTab }: Props) => {
     const isMobile = useMediaQuery("(max-width: 768px)");
-    const {download} = useDownloadFile()
+    const { download } = useDownloadFile()
     const manualTypes = Object.values(MANUAL_KEYS);
     const { manuals, loading: manualsLoading } = useManualMap(manualTypes);
 
@@ -100,6 +100,8 @@ export const SupportAreas = ({ setActiveTab }: Props) => {
                 return 'blue'
         }
     }, [selectedArea])
+
+    const sica = manuals?.[MANUAL_KEYS.sica];
 
     return (
         <Stack>
@@ -168,20 +170,25 @@ export const SupportAreas = ({ setActiveTab }: Props) => {
 
                     {isMobile ? (
                         <Stack align="center" gap={10}>
-                            <Fieldset
-                                legend="Normativa SICA"
-                                style={{ textAlign: "center", width: "100%", alignItems: "center" }}
-                            >
-                                <ActionIcon
-                                    size={56}
-                                    variant="light"
-                                    style={{
-                                        '--icon-rgb': `${colorMap[theme.primaryColor]}`
-                                    } as React.CSSProperties}
+                            {manualsLoading ? (
+                                <Loader size="sm" />
+                            ) : !sica ? (
+                                <Text c="red" size="sm">No disponible</Text>
+                            ) : (
+                                <Fieldset
+                                    legend={sica.manualType?.name || "Sin nombre"}
+                                    style={{ textAlign: "center", alignItems: "center" }}
                                 >
-                                    <IconFileText />
-                                </ActionIcon>
-                            </Fieldset>
+                                    <ActionIcon
+                                        disabled={!sica?.storedName}
+                                        size={56}
+                                        variant="light"
+                                        onClick={() => sica?.fileId && download(sica.fileId)}
+                                    >
+                                        <IconFileText />
+                                    </ActionIcon>
+                                </Fieldset>
+                            )}
 
                             <Button
                                 className={styles.group}

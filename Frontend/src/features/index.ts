@@ -56,5 +56,6 @@ export {
 } from "./Directory"
 
 export {    
-    NotFound
+    NotFound,
+    RateLimitScreen
 } from "./error"

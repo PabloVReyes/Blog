@@ -1,5 +1,6 @@
 import { createCrudStores } from "./createCrudStores"
 import { crudApiRegistry } from "./crudApiRegistry"
+export { useAppStore } from "./appStore"
 
 export { registerStoreReset, resetAllStores } from "./storeResetRegistry"
 export { createCrudStore } from "./createCrudStore"

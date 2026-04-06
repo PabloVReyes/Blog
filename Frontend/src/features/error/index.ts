@@ -1,1 +1,1 @@
-export { NotFound } from "./pages"
+export { NotFound, RateLimitScreen } from "./pages"

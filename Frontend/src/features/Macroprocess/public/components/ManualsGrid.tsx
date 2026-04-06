@@ -8,8 +8,9 @@ interface Props {
 
 const ORDER = ["MO", "MP", "DxSit", "PT"];
 
-export const ManualsGrid = ({ manuals }: Props) => {
+export const ManualsGrid = ({ manuals = [] }: Props) => {
     const { download } = useDownloadFile()
+    if (!manuals.length) return null;
 
     const byType = manuals.reduce((acc, m) => {
         acc[m.manualType.id] = m;
