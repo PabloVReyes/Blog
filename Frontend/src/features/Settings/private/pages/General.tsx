@@ -1,7 +1,7 @@
 import { Container } from "@/components"
 import { Box, Button, Card, Divider, Group, SimpleGrid, Stack, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
 import { FooterInput, IconInput, ThemeSelect, TitleInput } from "../components"
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useSettingStore } from "../store";
 import { IconLetterT, IconPalette, IconSunMoon } from "@tabler/icons-react";
 import { uploadFavicon, uploadFooter } from "../api";
@@ -21,30 +21,9 @@ export const General = () => {
     const color = useSettingStore((s) => s.color)
     const favicon = useSettingStore((s) => s.favicon)
     const subtitle = useSettingStore((s) => s.subtitle)
-    const footer = useSettingStore((s) => s.footer)
 
     const saveSetting = useSettingStore((s) => s.saveSetting)
     const setFavicon = useSettingStore((s) => s.setFavicon)
-
-    const [initialState, setInitialState] = useState(() => ({
-        title,
-        theme,
-        subtitle,
-        color,
-        favicon,
-        footer
-    }))
-
-    const hasChanges = useMemo(() => {
-        return (
-            title !== initialState.title ||
-            theme !== initialState.theme ||
-            color !== initialState.color ||
-            subtitle !== initialState.subtitle ||
-            icon !== null,
-            footerIcon !== null
-        )
-    }, [title, theme, color, subtitle, icon, initialState, footerIcon])
 
     const updateFavicon = useCallback((url: string) => {
         let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
@@ -89,15 +68,6 @@ export const General = () => {
                 setFavicon(url)
                 saveSetting("footer", url)
             }
-
-            setInitialState({
-                title,
-                favicon,
-                theme,
-                color,
-                subtitle,
-                footer
-            })
 
             showSuccessModal("Configuraciones Guardadas", "Las configuraciones fueron guardadas correctamente")
         } catch (error: unknown) {
@@ -209,7 +179,6 @@ export const General = () => {
             <Group justify="flex-end">
                 <Button
                     onClick={handleSubmit}
-                    disabled={!hasChanges}
                     loading={loading}
                 >
                     Guardar

@@ -6,7 +6,7 @@ import { RateLimitScreen, useSettingStore } from "./features";
 import { getApiAssetUrl } from "./utils";
 import { useAppStore } from "@/stores/appStore";
 
-// 🔥 favicon control
+// favicon control
 let originalFavicon: string | null = null;
 
 const updateFavicon = (url: string) => {
@@ -18,7 +18,9 @@ const updateFavicon = (url: string) => {
         document.head.appendChild(link);
     }
 
-    link.href = url;
+    if (link.href !== url) {
+        link.href = url;
+    }
 };
 
 const saveFavicon = () => {
@@ -33,6 +35,9 @@ export const App = () => {
     const { setColorScheme } = useMantineColorScheme();
     const { rateLimit } = useAppStore();
 
+    // =========================
+    // TITLE
+    // =========================
     useEffect(() => {
         if (!rateLimit.active) {
             document.title = title || "Sin título";
@@ -53,12 +58,15 @@ export const App = () => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [rateLimit.active, title]);
+    }, [rateLimit.active, rateLimit.retryAfter, title]);
 
+    // =========================
+    // FAVICON
+    // =========================
     useEffect(() => {
         if (rateLimit.active) {
             saveFavicon();
-            updateFavicon("/favicon-error.ico"); // tu icono local
+            updateFavicon("/favicon-error.ico");
             return;
         }
 
@@ -71,9 +79,12 @@ export const App = () => {
         if (faviconUrl) updateFavicon(faviconUrl);
     }, [favicon, rateLimit.active]);
 
+    // =========================
+    // THEME
+    // =========================
     useEffect(() => {
         setColorScheme(theme);
-    }, [theme]);
+    }, [theme, setColorScheme]);
 
     if (rateLimit.active) {
         return <RateLimitScreen />;

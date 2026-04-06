@@ -1,9 +1,17 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { colorMap } from "@/utils";
 import { getSettings, updateSettings } from "../api";
 import type { ThemeType } from "./types";
 import { extractErrorMessage } from "@/lib";
+
+type WritableSettingsKeys =
+    | "title"
+    | "subtitle"
+    | "color"
+    | "theme"
+    | "favicon"
+    | "footer";
 
 interface SettingsState {
     title: string;
@@ -15,15 +23,18 @@ interface SettingsState {
 
     isLoading: boolean;
 
+    hasHydrated: boolean;
+    setHasHydrated: (state: boolean) => void;
+
     setTitle: (title: string) => void;
     setSubtitle: (subtitle: string) => void;
     setColor: (color: string) => void;
     setTheme: (theme: ThemeType) => void;
     setFavicon: (url?: string) => void;
-    setFooter: (url?: string) => void;
+    setFooter: (footer?: string) => void;
 
     loadSettings: () => Promise<void>;
-    saveSetting: (name: keyof SettingsState, value: string) => Promise<void>;
+    saveSetting: (name: WritableSettingsKeys, value: string) => Promise<void>;
 
     reset: () => void;
 }
@@ -35,7 +46,8 @@ const initialState = {
     theme: "auto" as ThemeType,
     favicon: "",
     footer: "",
-    isLoading: false
+    isLoading: false,
+    hasHydrated: false
 };
 
 export const useSettingStore = create<SettingsState>()(
@@ -43,21 +55,32 @@ export const useSettingStore = create<SettingsState>()(
         (set) => ({
             ...initialState,
 
+            setHasHydrated: (state) => set({ hasHydrated: state }),
+
+            // =========================
+            // SETTERS
+            // =========================
             setTitle: (title) => set({ title }),
+
             setSubtitle: (subtitle) => set({ subtitle }),
 
             setColor: (color) => {
-                if (colorMap[color]) {
-                    set({ color });
+                if (colorMap[color]) set({ color });
+            },
+
+            setTheme: (theme) => {
+                if (["auto", "dark", "light"].includes(theme)) {
+                    set({ theme });
                 }
             },
 
-            setTheme: (theme) => set({ theme }),
+            setFavicon: (favicon) => set({ favicon: favicon ?? "" }),
 
-            setFavicon: (favicon) => set({ favicon }),
+            setFooter: (footer) => set({ footer: footer ?? "" }),
 
-            setFooter: (footer) => set({ footer }),
-
+            // =========================
+            // LOAD API
+            // =========================
             loadSettings: async () => {
                 try {
                     set({ isLoading: true });
@@ -67,45 +90,68 @@ export const useSettingStore = create<SettingsState>()(
                     set((state) => ({
                         title: settings.title ?? state.title,
                         subtitle: settings.subtitle ?? state.subtitle,
-                        favicon: settings.favicon,
-                        footer: settings.footer,
+                        favicon: settings.favicon ?? state.favicon,
+                        footer: settings.footer ?? state.footer,
+
                         color:
                             settings.color && colorMap[settings.color]
                                 ? settings.color
                                 : state.color,
-                        theme: ["auto", "dark", "light"].includes(settings.theme)
-                            ? settings.theme
-                            : state.theme
+
+                        // 🔥 FIX REAL AQUÍ
+                        theme:
+                            state.theme !== "auto" // ← si el usuario ya eligió algo
+                                ? state.theme
+                                : ["auto", "dark", "light"].includes(settings.theme)
+                                    ? settings.theme
+                                    : state.theme
                     }));
-                } catch (error) {
-                    throw new Error(extractErrorMessage(error))
                 } finally {
                     set({ isLoading: false });
                 }
             },
 
+            // =========================
+            // SAVE
+            // =========================
             saveSetting: async (name, value) => {
                 try {
                     await updateSettings(name, value);
+
+                    if (name === "color" && !colorMap[value]) return;
+                    if (name === "theme" && !["auto", "dark", "light"].includes(value))
+                        return;
 
                     set((state) => ({
                         ...state,
                         [name]: value
                     }));
                 } catch (error: unknown) {
-                    throw new Error(extractErrorMessage(error))
+                    throw new Error(extractErrorMessage(error));
                 }
             },
 
+            // =========================
+            // RESET
+            // =========================
             reset: () => set(initialState)
         }),
         {
             name: "settings-storage",
+            storage: createJSONStorage(() => localStorage),
 
             partialize: (state) => ({
                 theme: state.theme,
-                color: state.color
-            })
+                color: state.color,
+                title: state.title,
+                subtitle: state.subtitle,
+                favicon: state.favicon,
+                footer: state.footer
+            }),
+
+            onRehydrateStorage: () => (state) => {
+                state?.setHasHydrated(true);
+            }
         }
     )
 );
