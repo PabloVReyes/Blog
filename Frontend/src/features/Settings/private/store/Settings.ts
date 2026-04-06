@@ -7,16 +7,20 @@ import { extractErrorMessage } from "@/lib";
 
 interface SettingsState {
     title: string;
+    subtitle: string;
     color: string;
     theme: ThemeType;
     favicon: string;
+    footer: string;
 
     isLoading: boolean;
 
     setTitle: (title: string) => void;
+    setSubtitle: (subtitle: string) => void;
     setColor: (color: string) => void;
     setTheme: (theme: ThemeType) => void;
     setFavicon: (url?: string) => void;
+    setFooter: (url?: string) => void;
 
     loadSettings: () => Promise<void>;
     saveSetting: (name: keyof SettingsState, value: string) => Promise<void>;
@@ -26,9 +30,11 @@ interface SettingsState {
 
 const initialState = {
     title: "Blog",
+    subtitle: "Beta",
     color: "blue",
     theme: "auto" as ThemeType,
     favicon: "",
+    footer: "",
     isLoading: false
 };
 
@@ -38,6 +44,7 @@ export const useSettingStore = create<SettingsState>()(
             ...initialState,
 
             setTitle: (title) => set({ title }),
+            setSubtitle: (subtitle) => set({ subtitle }),
 
             setColor: (color) => {
                 if (colorMap[color]) {
@@ -49,6 +56,8 @@ export const useSettingStore = create<SettingsState>()(
 
             setFavicon: (favicon) => set({ favicon }),
 
+            setFooter: (footer) => set({ footer }),
+
             loadSettings: async () => {
                 try {
                     set({ isLoading: true });
@@ -57,7 +66,9 @@ export const useSettingStore = create<SettingsState>()(
 
                     set((state) => ({
                         title: settings.title ?? state.title,
+                        subtitle: settings.subtitle ?? state.subtitle,
                         favicon: settings.favicon,
+                        footer: settings.footer,
                         color:
                             settings.color && colorMap[settings.color]
                                 ? settings.color

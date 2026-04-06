@@ -33,3 +33,16 @@ export const uploadFaviconService = async (
         url: publicUrl
     }
 }
+
+export const uploadFooterService = async (
+    file?: Express.Multer.File
+) => {
+    if (!file) {
+        throw new HttpError(400, "No se envió ningún archivo")
+    }
+    const ext = path.extname(file.filename)
+    const publicUrl = `/uploads/footer${ext}`
+    return {
+        url: publicUrl
+    }
+}

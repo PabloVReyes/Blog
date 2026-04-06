@@ -65,7 +65,7 @@ export function LoginModal() {
         >
             <Box
                 bg={theme.primaryColor}
-                c={"white"}
+                c={"var(--mantine-primary-color-contrast)"}
                 p={"xl"}
                 style={{ borderTopLeftRadius: 15, borderTopRightRadius: 15 }}
             >
@@ -78,7 +78,7 @@ export function LoginModal() {
 
                     <ThemeIcon
                         variant="light"
-                        color="white"
+                        color="var(--mantine-primary-color-contrast)"
                         radius={"md"}
                         style={{ cursor: "pointer" }}
                         onClick={handleClose}

@@ -1,13 +1,13 @@
 import { Card, FileInput, Group, Image, Text } from "@mantine/core"
 import { useState, type Dispatch, type SetStateAction } from "react";
-import { useSettingStore } from "../store";
+import { useSettingStore } from "../../store";
 
 interface Props {
     setIcon: Dispatch<SetStateAction<File | null>>;
 }
 
-export const IconInput = ({ setIcon }: Props) => {
-    const { favicon } = useSettingStore();
+export const FooterInput = ({ setIcon }: Props) => {
+    const { footer } = useSettingStore();
     const [preview, setPreview] = useState<string | null>(null);
 
     const handleIconChange = (file: File | null) => {
@@ -25,7 +25,7 @@ export const IconInput = ({ setIcon }: Props) => {
     }
 
     return (
-        <Group justify="space-between" align="center" mt="sm">
+        <Group justify="space-between" align="center" mt="sm" style={{ alignItems: "center" }}>
             <FileInput
                 label="Icono"
                 description="Icono de la pagina"
@@ -44,9 +44,9 @@ export const IconInput = ({ setIcon }: Props) => {
                         h="auto"
                         radius="sm"
                     />
-                ) : favicon ? (
+                ) : footer ? (
                     <Image
-                        src={`${import.meta.env.VITE_API_URL}${favicon}`}
+                        src={`${import.meta.env.VITE_API_URL}${footer}`}
                         alt="Icono"
                         w={80}
                         h="auto"

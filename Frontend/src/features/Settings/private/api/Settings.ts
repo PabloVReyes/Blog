@@ -14,3 +14,8 @@ export const uploadFavicon = async (formData: any) => {
     const response = await api.post(`api/settings/upload-favicon`, formData)
     return response.data
 }
+
+export const uploadFooter = async (formData: any) => {
+    const response = await api.post(`api/settings/upload-footer`, formData)
+    return response.data
+}

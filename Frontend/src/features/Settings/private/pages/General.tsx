@@ -1,10 +1,10 @@
 import { Container } from "@/components"
 import { Box, Button, Card, Divider, Group, SimpleGrid, Stack, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
-import { IconInput, ThemeSelect, TitleInput } from "../components"
+import { FooterInput, IconInput, ThemeSelect, TitleInput } from "../components"
 import { useCallback, useMemo, useState } from "react";
 import { useSettingStore } from "../store";
 import { IconLetterT, IconPalette, IconSunMoon } from "@tabler/icons-react";
-import { uploadFavicon } from "../api";
+import { uploadFavicon, uploadFooter } from "../api";
 import { ColorPicker } from "../components";
 import { Notify, showSuccessModal } from "@/ui";
 import { getApiAssetUrl } from "@/utils";
@@ -12,6 +12,7 @@ import { getApiAssetUrl } from "@/utils";
 export const General = () => {
     const { primaryColor } = useMantineTheme()
     const [icon, setIcon] = useState<File | null>(null);
+    const [footerIcon, setFooterIcon] = useState<File | null>(null);
     const [loading, setLoading] = useState<boolean>(false)
 
     // STORE
@@ -19,14 +20,19 @@ export const General = () => {
     const theme = useSettingStore((s) => s.theme)
     const color = useSettingStore((s) => s.color)
     const favicon = useSettingStore((s) => s.favicon)
+    const subtitle = useSettingStore((s) => s.subtitle)
+    const footer = useSettingStore((s) => s.footer)
+
     const saveSetting = useSettingStore((s) => s.saveSetting)
     const setFavicon = useSettingStore((s) => s.setFavicon)
 
     const [initialState, setInitialState] = useState(() => ({
         title,
         theme,
+        subtitle,
         color,
-        favicon
+        favicon,
+        footer
     }))
 
     const hasChanges = useMemo(() => {
@@ -34,9 +40,11 @@ export const General = () => {
             title !== initialState.title ||
             theme !== initialState.theme ||
             color !== initialState.color ||
-            icon !== null
+            subtitle !== initialState.subtitle ||
+            icon !== null,
+            footerIcon !== null
         )
-    }, [title, theme, color, icon, initialState])
+    }, [title, theme, color, subtitle, icon, initialState, footerIcon])
 
     const updateFavicon = useCallback((url: string) => {
         let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
@@ -54,6 +62,7 @@ export const General = () => {
 
             await Promise.all([
                 saveSetting("title", title),
+                saveSetting("subtitle", subtitle),
                 saveSetting("theme", theme),
                 saveSetting("color", color)
             ])
@@ -71,11 +80,23 @@ export const General = () => {
                 updateFavicon(faviconUrl);
             }
 
+            if(footerIcon) {
+                const formData = new FormData();
+                formData.append("footer", footerIcon)
+
+                const { url } = await uploadFooter(formData)
+
+                setFavicon(url)
+                saveSetting("footer", url)
+            }
+
             setInitialState({
                 title,
                 favicon,
                 theme,
-                color
+                color,
+                subtitle,
+                footer
             })
 
             showSuccessModal("Configuraciones Guardadas", "Las configuraciones fueron guardadas correctamente")
@@ -116,13 +137,17 @@ export const General = () => {
                             </Box>
                         </Group>
                     </Card.Section>
-                    <Stack mt={10}>
+                    <Stack mt={10} gap={5}>
                         <TitleInput />
 
                         <Divider />
 
                         <IconInput
                             setIcon={setIcon}
+                        />
+                        <Divider />
+                        <FooterInput
+                            setIcon={setFooterIcon}
                         />
                     </Stack>
                 </Card>
@@ -148,7 +173,7 @@ export const General = () => {
                         </Group>
                     </Card.Section>
 
-                    <Box>
+                    <Box style={{ alignItems: "center" }}>
                         <ThemeSelect />
                     </Box>
                 </Card>
@@ -193,5 +218,3 @@ export const General = () => {
         </Container>
     )
 }
-
-// 201 lineas -> 194 lineas

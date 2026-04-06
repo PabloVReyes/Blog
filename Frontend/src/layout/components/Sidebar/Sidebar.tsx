@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import classes from "./Sidebar.module.css"
-import { Code, Group, ScrollArea, Text } from "@mantine/core";
+import { Code, CopyButton, Group, Image, ScrollArea, Text, Tooltip } from "@mantine/core";
 import { mapTreeToMenu } from "./utils";
 import { LinksGroup } from "./LinksGroup";
 import { useSettingStore } from "@/features";
@@ -12,6 +12,7 @@ import { useAuthStore } from "@/features/auth/store";
 import type { MenuItem } from "./types";
 import type { FileData } from "@/types";
 import { Notify } from "@/ui";
+import { IconCheck } from "@tabler/icons-react";
 
 interface System {
     id: string | number;
@@ -30,7 +31,9 @@ interface DownloadArea {
 }
 
 export const Sidebar = () => {
-    const { title } = useSettingStore()
+    const title = useSettingStore((s) => s.title)
+    const footer = useSettingStore((s) => s.footer)
+    const subtitle = useSettingStore((s) => s.subtitle)
     const { pathname } = useLocation()
     const [systems, setSystems] = useState<System[]>([])
     const [downloads, setDownloads] = useState<DownloadArea[]>([])
@@ -164,9 +167,55 @@ export const Sidebar = () => {
             <div className={classes.sidebarMain}>
                 <Group className={classes.header} justify="space-between">
                     <Text>{title ? title : "Sin título"}</Text>
-                    <Code fw={700} className={classes.version}>
-                        {isPrivate ? "Admin" : "Beta"}
-                    </Code>
+                    {isPrivate ? (
+                        <Code
+                            fw={700}
+                            className={classes.version}
+                            aria-label="Modo administración"
+                        >
+                            Administración
+                        </Code>
+                    ) : (
+                        <CopyButton value={subtitle} timeout={2000}>
+                            {({ copied, copy }) => (
+                                <Tooltip
+                                    label={copied ? "Copiado" : "Copiar"}
+                                    withArrow
+                                    position="right"
+                                    openDelay={300}
+                                >
+                                    <Code
+                                        fw={700}
+                                        className={classes.version}
+                                        role="button"
+                                        aria-label="Copiar código"
+                                        onClick={copy}
+                                        onKeyDown={(e) => e.key === "Enter" && copy()}
+                                        tabIndex={0}
+                                        style={{
+                                            cursor: "pointer",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 6,
+                                            transition: "all 0.2s ease",
+                                            userSelect: "none",
+                                        }}
+                                    >
+                                        {copied ? (
+                                            <>
+                                                <IconCheck size={14} />
+                                                Copiado
+                                            </>
+                                        ) : (
+                                            <>
+                                                {subtitle}
+                                            </>
+                                        )}
+                                    </Code>
+                                </Tooltip>
+                            )}
+                        </CopyButton>
+                    )}
                 </Group>
             </div>
 
@@ -182,14 +231,22 @@ export const Sidebar = () => {
                 </div>
             </ScrollArea>
 
-            {isPrivate &&
-                <div className={classes.footer}>
+            <div className={classes.footer}>
+                {isPrivate ?
                     <UserButton
                         user={user}
                         logout={handleLogout}
                     />
-                </div>
-            }
+                    :
+                    <Image
+                        p={10}
+                        src={`${import.meta.env.VITE_API_URL}${footer}`}
+                        alt="Footer"
+                        fit="contain"
+                        height={60}
+                    />
+                }
+            </div>
         </nav>
     );
 }

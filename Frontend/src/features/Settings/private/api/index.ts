@@ -1,7 +1,8 @@
 export {
     getSettings,
     updateSettings,
-    uploadFavicon
+    uploadFavicon,
+    uploadFooter
 } from "./Settings"
 
 export {

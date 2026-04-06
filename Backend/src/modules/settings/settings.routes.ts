@@ -3,6 +3,7 @@ import { Router } from "express";
 import { uploadFavicon } from "../../middleware/uploadFavicon.middleware"
 import { authMiddleware } from "../../middleware/auth.middleware";
 import { requirePermission } from "../../middleware/permission.middleware";
+import { uploadFooter } from "@/middleware/uploadFooter.middlewar";
 
 const router: Router = Router()
 router.get(
@@ -23,6 +24,14 @@ router.post(
     requirePermission("settings.update"),
     uploadFavicon.single("favicon"),
     controller.uploadFaviconController
+)
+
+router.post(
+    '/upload-footer',
+    authMiddleware,
+    requirePermission("settings.update"),
+    uploadFooter.single("footer"),
+    controller.uploadFooterController
 )
 
 export default router;

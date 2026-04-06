@@ -50,16 +50,16 @@ export const Modal = () => {
                             size={36}
                             radius="md"
                             variant="light"
-                            color={"white"}
+                            color={"var(--mantine-primary-color-contrast)"}
                         >
                             <Icon size={20} />
                         </ThemeIcon>
 
                         <Stack gap={0}>
-                            <Title order={4}>{modal?.title}</Title>
+                            <Title order={4} c={"var(--mantine-primary-color-contrast)"}>{modal?.title}</Title>
 
                             {modal?.subtitle && (
-                                <Text size="sm">
+                                <Text size="sm" c="var(--mantine-primary-color-contrast)">
                                     {modal.subtitle}
                                 </Text>
                             )}
@@ -68,7 +68,7 @@ export const Modal = () => {
 
                     <ThemeIcon
                         variant="light"
-                        color="white"
+                        color="var(--mantine-primary-color-contrast)"
                         radius={"md"}
                         style={{ cursor: "pointer" }}
                         onClick={closeModal}

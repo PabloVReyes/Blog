@@ -28,4 +28,8 @@ export const uploadFaviconController: RequestHandler = asyncHandler(async (req: 
     res.json(data)
 })
 
-// 41 lineas -> 29 lineas
+export const uploadFooterController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
+    const file = req.file
+    const data = await service.uploadFooterService(file)
+    res.json(data)
+})
