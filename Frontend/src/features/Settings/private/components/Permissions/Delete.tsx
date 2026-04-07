@@ -107,8 +107,8 @@ export const Delete = ({ id, name, permissionKey, description }: Props) => {
                 />
 
                 <TextInput
-                    label="Para confirmar escribe el codigo del permiso:"
-                    placeholder="Escribe el codigo para confirmar..."
+                    label="Para confirmar escribe el código del permiso:"
+                    placeholder="Escribe el código para confirmar..."
                     description={permissionKey}
                     autoFocus
                     {...form.getInputProps("value")}

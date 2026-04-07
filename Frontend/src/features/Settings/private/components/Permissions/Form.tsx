@@ -50,7 +50,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
 
                     <TextInput
                         withAsterisk
-                        label="Código Unico"
+                        label="Código Único"
                         description="Código del permiso"
                         placeholder="Ej. user.read"
                         {...form.getInputProps("key")}

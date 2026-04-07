@@ -10,7 +10,7 @@ import type { MacroprocessData } from "../../types/macroprocess.types"
 export const columns: Column<MacroprocessData>[] = [
     {
         key: 'code',
-        label: 'Codigo',
+        label: 'Código',
         align: 'center',
         render: (row) => {
             return (

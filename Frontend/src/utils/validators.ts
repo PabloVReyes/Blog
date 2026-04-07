@@ -22,7 +22,7 @@ export const validateColor = (value: string) =>
     value.length < 3 ? "Selecciona el Color" : null;
 
 export const validateCode = (value: string) =>
-    value.length < 1 ? "El codigo debe de tener al menos 1 caracter" : null;
+    value.length < 1 ? "El código debe tener al menos 1 caracter" : null;
 
 // Validación de URL con opciones para requerirla o permitir solo relativas
 export const validateUrl = (
@@ -157,7 +157,7 @@ export const validateName = (
         options || {};
 
     if (value === null || value === undefined || value === "") {
-        return required ? "Debes de introducir un nombre" : null;
+        return required ? "Debes introducir un nombre" : null;
     }
 
     if (value.length < 3) {
@@ -175,7 +175,7 @@ export const validateCodeMedicine = (
         options || {};
 
     if (value === null || value === undefined || value === "") {
-        return required ? "Debes de introducir la clave" : null;
+        return required ? "Debes introducir la clave" : null;
     }
 
     if (!MEDICAL_CODE_REGEX.test(value)) return "La clave no es válida";
@@ -273,7 +273,7 @@ export const validateKeyPermission = (
     const { required = false } = options || {};
 
     if (value === null || value === undefined || value === "") {
-        return required ? "Debes introducir un codigo unico" : null;
+        return required ? "Debes introducir un código único" : null;
     }
 
     if (!PERMISSION_KEY_REGEX.test(value)) {

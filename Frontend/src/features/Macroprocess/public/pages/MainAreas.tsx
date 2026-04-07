@@ -87,7 +87,7 @@ export const MainAreas = ({ setActiveTab }: Props) => {
                 loading={selectedArea?.loading}
                 color={modalColor}
             />
-            {/* Codigos */}
+
             <Fieldset legend="Códigos" style={{ textAlign: "center" }}>
                 <Group gap={10} justify="center" wrap="wrap">
                     <Badge variant="filled" color="gray.5">(MO) Manual de Organización</Badge>

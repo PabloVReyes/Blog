@@ -18,7 +18,7 @@ export interface Row {
 const columns: Column<Row>[] = [
     {
         key: 'code',
-        label: 'Codigo',
+        label: 'Código',
         align: 'center',
         render: (row) => {
             return (
