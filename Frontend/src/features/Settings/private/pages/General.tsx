@@ -19,7 +19,6 @@ export const General = () => {
     const title = useSettingStore((s) => s.title)
     const theme = useSettingStore((s) => s.theme)
     const color = useSettingStore((s) => s.color)
-    const favicon = useSettingStore((s) => s.favicon)
     const subtitle = useSettingStore((s) => s.subtitle)
 
     const saveSetting = useSettingStore((s) => s.saveSetting)
@@ -51,7 +50,7 @@ export const General = () => {
                 formData.append("favicon", icon)
 
                 const { url } = await uploadFavicon(formData)
-                const faviconUrl = getApiAssetUrl(favicon)
+                const faviconUrl = getApiAssetUrl(url)
 
                 setFavicon(url)
                 saveSetting("favicon", url)
