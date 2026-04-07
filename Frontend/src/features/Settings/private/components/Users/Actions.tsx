@@ -42,7 +42,7 @@ export const ActionsUsers = ({ id, ...props }: any) => {
         openModal({
             title: "Restablecer Contraseña",
             subtitle: "Restablecer contraseña de usuario registrado en el sistema",
-            icon: "IconTrash",
+            icon: "IconKey",
             color: "purple",
             content: (
                 <ResetPassword
