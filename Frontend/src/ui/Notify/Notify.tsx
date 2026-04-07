@@ -6,7 +6,7 @@ import {
     IconAlertTriangle,
 } from '@tabler/icons-react';
 import React, { type ReactNode } from 'react';
-import { useAppStore } from '@/stores/appStore'; // 👈 IMPORTANTE
+import { useAppStore } from '@/stores/appStore';
 
 export type NotifyType = 'success' | 'error' | 'info' | 'warning';
 

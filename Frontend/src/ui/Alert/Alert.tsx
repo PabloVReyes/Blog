@@ -1,6 +1,5 @@
 import { Card, Text } from "@mantine/core";
-import type { ReactNode, ReactElement, CSSProperties } from "react";
-import React from "react";
+import React, { type ReactNode, type ReactElement, type CSSProperties } from "react";
 
 interface Props {
     color?: string;

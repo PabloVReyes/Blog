@@ -36,7 +36,7 @@ export const ActionsPermissions = ({ id, ...props }: Props) => {
     const handleEdit = () => {
         openModal({
             title: "Editar Rol",
-            subtitle: "Eliminar un rol existente en el sistema",
+            subtitle: "Editar un permiso existente en el sistema",
             icon: "IconEdit",
             color: "blue",
             content: (
@@ -50,8 +50,8 @@ export const ActionsPermissions = ({ id, ...props }: Props) => {
 
     const handleDelete = () => {
         openModal({
-            title: "Editar Rol",
-            subtitle: "Eliminar un rol existente en el sistema",
+            title: "Eliminar Permiso",
+            subtitle: "Eliminar un permiso existente en el sistema",
             icon: "IconTrash",
             color: "red",
             content: (
