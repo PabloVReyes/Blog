@@ -54,7 +54,7 @@ export const General = () => {
                 const faviconUrl = getApiAssetUrl(url)
 
                 setFavicon(url)
-                saveSetting("favicon", url)
+                await saveSetting("favicon", url)
 
                 updateFavicon(faviconUrl);
             }
@@ -66,7 +66,7 @@ export const General = () => {
                 const { url } = await uploadFooter(formData)
 
                 setFooter(url)
-                saveSetting("footer", url)
+                await saveSetting("footer", url)
             }
 
             showSuccessModal("Configuraciones Guardadas", "Las configuraciones fueron guardadas correctamente")
