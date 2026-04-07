@@ -18,7 +18,7 @@ export const postDownloadController: RequestHandler = asyncHandler(async (req: R
 export const postDownloadAreaController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
     const body: schema.PostAreaSchema = schema.postAreaSchema.parse(req.body)
     await service.postAreaService(body)
-    res.json({ succes: true })
+    res.json({ success: true })
 })
 
 export const postSectionController: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
