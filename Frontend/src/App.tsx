@@ -34,6 +34,7 @@ export const App = () => {
     const { title, favicon, theme } = useSettingStore();
     const { setColorScheme } = useMantineColorScheme();
     const { rateLimit } = useAppStore();
+    const routing = useRoutes(routes);
 
     // =========================
     // TITLE
@@ -90,6 +91,5 @@ export const App = () => {
         return <RateLimitScreen />;
     }
 
-    const routing = useRoutes(routes);
     return routing;
 };
