@@ -3,7 +3,7 @@ import { Router } from "express";
 import { uploadFavicon } from "../../middleware/uploadFavicon.middleware"
 import { authMiddleware } from "../../middleware/auth.middleware";
 import { requirePermission } from "../../middleware/permission.middleware";
-import { uploadFooter } from "@/middleware/uploadFooter.middlewar";
+import { uploadFooter } from "@/middleware/uploadFooter.middleware";
 
 const router: Router = Router()
 router.get(
