@@ -20,7 +20,8 @@ export const General = () => {
     const theme = useSettingStore((s) => s.theme)
     const color = useSettingStore((s) => s.color)
     const subtitle = useSettingStore((s) => s.subtitle)
-
+    
+    const setFooter = useSettingStore((s) => s.setFooter)
     const saveSetting = useSettingStore((s) => s.saveSetting)
     const setFavicon = useSettingStore((s) => s.setFavicon)
 
@@ -64,7 +65,7 @@ export const General = () => {
 
                 const { url } = await uploadFooter(formData)
 
-                setFavicon(url)
+                setFooter(url)
                 saveSetting("footer", url)
             }
 
