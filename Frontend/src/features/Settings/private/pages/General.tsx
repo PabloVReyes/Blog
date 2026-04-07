@@ -1,13 +1,13 @@
 import { Container } from "@/components"
 import { Box, Button, Card, Divider, Group, SimpleGrid, Stack, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
 import { FooterInput, IconInput, ThemeSelect, TitleInput } from "../components"
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useSettingStore } from "../store";
 import { IconLetterT, IconPalette, IconSunMoon } from "@tabler/icons-react";
 import { uploadFavicon, uploadFooter } from "../api";
 import { ColorPicker } from "../components";
 import { Notify, showSuccessModal } from "@/ui";
-import { getApiAssetUrl } from "@/utils";
+import { getApiAssetUrl, updateFavicon } from "@/utils";
 
 export const General = () => {
     const { primaryColor } = useMantineTheme()
@@ -20,20 +20,10 @@ export const General = () => {
     const theme = useSettingStore((s) => s.theme)
     const color = useSettingStore((s) => s.color)
     const subtitle = useSettingStore((s) => s.subtitle)
-    
+
     const setFooter = useSettingStore((s) => s.setFooter)
     const saveSetting = useSettingStore((s) => s.saveSetting)
     const setFavicon = useSettingStore((s) => s.setFavicon)
-
-    const updateFavicon = useCallback((url: string) => {
-        let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-        if (!link) {
-            link = document.createElement("link");
-            link.rel = "icon";
-            document.head.appendChild(link);
-        }
-        link.href = url;
-    }, [])
 
     const handleSubmit = async () => {
         try {
@@ -59,7 +49,7 @@ export const General = () => {
                 updateFavicon(faviconUrl);
             }
 
-            if(footerIcon) {
+            if (footerIcon) {
                 const formData = new FormData();
                 formData.append("footer", footerIcon)
 

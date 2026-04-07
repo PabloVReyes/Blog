@@ -49,3 +49,7 @@ export {
 export {
     getApiAssetUrl
 } from "./apiUrl"
+
+export {
+    updateFavicon
+} from "./favicon"

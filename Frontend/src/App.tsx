@@ -3,25 +3,11 @@ import { useEffect } from "react";
 import { useMantineColorScheme } from "@mantine/core";
 import { routes } from "./routes/routes";
 import { RateLimitScreen, useSettingStore } from "./features";
-import { getApiAssetUrl } from "./utils";
+import { getApiAssetUrl, updateFavicon } from "./utils";
 import { useAppStore } from "@/stores/appStore";
 
 // favicon control
 let originalFavicon: string | null = null;
-
-const updateFavicon = (url: string) => {
-    let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-
-    if (!link) {
-        link = document.createElement("link");
-        link.rel = "icon";
-        document.head.appendChild(link);
-    }
-
-    if (link.href !== url) {
-        link.href = url;
-    }
-};
 
 const saveFavicon = () => {
     const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
