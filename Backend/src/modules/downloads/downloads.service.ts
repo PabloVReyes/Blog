@@ -180,7 +180,7 @@ export const deleteAreaService = async (id: string) => {
 
 
 export const deleteDownloadService = async (id: string) => {
-    const download: any = await repo.getDownloadByIdRepository(id)
+    const download = await repo.getDownloadByIdRepository(id)
 
     if (!download) {
         throw new HttpError(404, "Descarga no encontrada")
