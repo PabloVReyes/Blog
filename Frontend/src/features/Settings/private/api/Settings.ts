@@ -10,12 +10,12 @@ export const updateSettings = async (name: string, value: string) => {
     return response.data
 }
 
-export const uploadFavicon = async (formData: any) => {
+export const uploadFavicon = async (formData: FormData): Promise<{ url: string }> => {
     const response = await api.post(`api/settings/upload-favicon`, formData)
     return response.data
 }
 
-export const uploadFooter = async (formData: any) => {
+export const uploadFooter = async (formData: FormData): Promise<{ url: string }> => {
     const response = await api.post(`api/settings/upload-footer`, formData)
     return response.data
 }
