@@ -6,6 +6,7 @@ export interface PermissionData {
     isActive: boolean;
     _count: Count;
     roles: RoleElement[];
+    permissionKey: string;
 }
 
 export interface Count {

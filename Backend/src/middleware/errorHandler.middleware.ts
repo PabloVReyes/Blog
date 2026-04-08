@@ -4,46 +4,41 @@ import { ZodError } from 'zod'
 import { logger } from '../utils/logger'
 import { HttpError } from '../utils/httpError'
 
+interface ErrorContext {
+    url: string;
+    method: string;
+    userId: string | number | null;
+    ip: string | undefined;
+    userAgent: string | undefined;
+}
+
 export const errorHandler = (
     err: unknown,
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
-    const context = {
+    // req.user ya es reconocido gracias a la extensión de tipos
+    const context: ErrorContext = {
         url: req.url,
         method: req.method,
-        userId: (req as any)?.user?.id || null,
+        userId: req.user?.id || null,
         ip: req.ip,
         userAgent: req.headers['user-agent']
     }
 
     if (err instanceof ZodError) {
-        logger.warn(
-            {
-                ...context,
-                type: 'validation_error',
-                errors: err.flatten()
-            },
-            'Validation error'
-        )
+        const flattened = err.flatten();
+        logger.warn({ ...context, type: 'validation_error', errors: flattened }, 'Validation error')
 
         return res.status(422).json({
             success: false,
-            errors: err.flatten()
+            errors: flattened
         })
     }
 
     if (err instanceof HttpError) {
-        logger.warn(
-            {
-                ...context,
-                type: 'http_error',
-                status: err.status,
-                message: err.message
-            },
-            'HTTP error'
-        )
+        logger.warn({ ...context, type: 'http_error', status: err.status, message: err.message }, 'HTTP error')
 
         return res.status(err.status).json({
             success: false,
@@ -52,30 +47,26 @@ export const errorHandler = (
     }
 
     if (err instanceof Error) {
+        const isDev = process.env.NODE_ENV === 'development';
+
         logger.error(
             {
                 ...context,
                 type: 'application_error',
                 message: err.message,
-                stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+                stack: isDev ? err.stack : undefined
             },
             'Application error'
         )
 
+        // En producción, es mejor no enviar el mensaje real de Error si es sensible
         return res.status(400).json({
             success: false,
-            message: err.message
+            message: isDev ? err.message : 'Solicitud incorrecta'
         })
     }
 
-    logger.fatal(
-        {
-            ...context,
-            type: 'unknown_error',
-            err
-        },
-        'Unhandled error'
-    )
+    logger.fatal({ ...context, type: 'unknown_error', err }, 'Unhandled error')
 
     return res.status(500).json({
         success: false,

@@ -4,81 +4,66 @@ import type { ManualData } from "../../types/manuals.types";
 
 interface Props {
     manuals: ManualData[];
-    numberColums?: number
+    numberColums?: number;
 }
 
 export const ExtraManuals = ({ manuals = [], numberColums }: Props) => {
-    const { download } = useDownloadFile()
-    if (!manuals.length) return null;
-    
-    const extras = manuals.filter(
-        m => m.manualType.category === "EXTRA"
-    );
+    const { download } = useDownloadFile();
+
+    const extras = manuals.filter(m => m.manualType.category === "EXTRA");
+
+    if (extras.length === 0) return null;
 
     const byType = extras.reduce((acc, m) => {
         acc[m.manualType.id] = m;
         return acc;
-    }, {} as Record<string, any>);
+    }, {} as Record<string, ManualData>);
 
-    const hasFile = (typeId: string) =>
-        byType[typeId] && byType[typeId].fileId;
+    const extraTypeIds = Object.keys(byType);
 
-    const extraTypes = [...new Set(
-        extras.map(m => m.manualType.id)
-    )];
+    const renderButton = (typeId: string) => {
+        const manual = byType[typeId];
+        const isAvailable = !!manual?.fileId;
 
-    const columns: string[][] = [];
-
-    for (let i = 0; i < extraTypes.length; i += 2) {
-        columns.push(extraTypes.slice(i, i + 2));
-    }
-
-    if (!extraTypes.length) return null;
+        return (
+            <Button
+                key={typeId}
+                size="compact-xs"
+                color={manual?.manualType.color ?? "gray"}
+                disabled={!isAvailable}
+                onClick={() => manual?.fileId && download(manual.fileId)}
+            >
+                {manual.manualType.name}
+            </Button>
+        );
+    };
 
     if (numberColums) {
         return (
-            <SimpleGrid cols={{ xs: numberColums }} spacing={2} style={{ justifyContent: "center" }} mt={2}>
-                {extraTypes.map(typeId => {
-
-                    const manual = byType[typeId];
-
-                    return (
-                        <Button
-                            key={typeId}
-                            size="compact-xs"
-                            color={manual?.manualType.color || "gray"}
-                            disabled={!hasFile(typeId)}
-                            onClick={() => download(manual.fileId)}
-                        >
-                            {manual.manualType.name}
-                        </Button>
-                    );
-                })}
+            <SimpleGrid
+                cols={{ base: 1, xs: numberColums }}
+                spacing={2}
+                mt={2}
+            >
+                {extraTypeIds.map(renderButton)}
             </SimpleGrid>
-        )
+        );
     }
 
+    const chunkSize = 2;
+    const columns = Array.from(
+        { length: Math.ceil(extraTypeIds.length / chunkSize) },
+        (_, i) => extraTypeIds.slice(i * chunkSize, i * chunkSize + chunkSize)
+    );
+
     return (
-        <SimpleGrid cols={{ md: columns.length, xs: 1, sm: 1 }} spacing={2} style={{ justifyContent: "center" }}>
+        <SimpleGrid
+            cols={{ base: 1, sm: 1, md: columns.length }}
+            spacing={2}
+        >
             {columns.map((col, i) => (
                 <Stack key={i} gap={2}>
-                    {col.map(typeId => {
-
-                        const manual = byType[typeId];
-
-                        return (
-                            <Button
-                                key={typeId}
-                                size="compact-xs"
-                                color={manual?.manualType.color || "gray"}
-                                disabled={!hasFile(typeId)}
-                                onClick={() => download(manual.fileId)}
-                            >
-
-                                {manual.manualType.name}
-                            </Button>
-                        );
-                    })}
+                    {col.map(renderButton)}
                 </Stack>
             ))}
         </SimpleGrid>

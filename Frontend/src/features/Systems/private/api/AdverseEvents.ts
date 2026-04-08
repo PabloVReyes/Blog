@@ -5,7 +5,7 @@ export const fetchAdverseEvents = async () => {
     return response.data
 }
 
-export const updateAdverseEvent = async (id: string, body: any) => {
+export const updateAdverseEvent = async (id: string, body: FormData) => {
     const response = await api.put(`/api/systems/adverse-events/${id}`, body)
     return response.data
 }

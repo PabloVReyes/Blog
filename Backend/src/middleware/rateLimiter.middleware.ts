@@ -42,7 +42,7 @@ export const loginLimiter = rateLimit({
 // 🌐 Global (relajado)
 export const globalLimiter = rateLimit({
     windowMs: 60 * 1000,
-    max: 500,
+    max: 700,
     standardHeaders: true,
     legacyHeaders: false,
     handler: (req: RateLimitRequest, res: Response) => {

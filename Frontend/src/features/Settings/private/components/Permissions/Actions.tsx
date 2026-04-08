@@ -3,39 +3,14 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { PermissionData } from "../../types/permissions.types"
 
-export interface Props {
-    id: string;
-    key: string;
-    name: string;
-    description: string;
-    isActive: boolean;
-    _count: Count;
-    roles: RoleElement[];
-    permissionKey: string;
-}
-
-export interface Count {
-    roles: number;
-}
-
-export interface RoleElement {
-    role: RoleRole;
-}
-
-export interface RoleRole {
-    id: string;
-    name: string;
-    description: string;
-}
-
-
-export const ActionsPermissions = ({ id, ...props }: Props) => {
+export const ActionsPermissions = ({ id, ...props }: PermissionData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
         openModal({
-            title: "Editar Rol",
+            title: "Editar Permiso",
             subtitle: "Editar un permiso existente en el sistema",
             icon: "IconEdit",
             color: "blue",

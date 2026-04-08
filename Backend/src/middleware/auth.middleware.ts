@@ -14,14 +14,13 @@ declare module "express-serve-static-core" {
     }
 }
 
-function isAuthUser(obj: any): obj is AuthUser {
-    return (
-        obj &&
-        typeof obj.id === "string" &&
-        typeof obj.email === "string" &&
-        Array.isArray(obj.roles) &&
-        Array.isArray(obj.permissions)
-    );
+function isAuthUser(obj: unknown): obj is AuthUser {
+    if (!obj || typeof obj !== 'object') return false;
+    const candidate = obj as Record<string, unknown>;
+    return typeof candidate.id === 'string' &&
+        typeof candidate.email === 'string' &&
+        Array.isArray(candidate.roles) &&
+        Array.isArray(candidate.permissions);
 }
 
 export const authMiddleware = (

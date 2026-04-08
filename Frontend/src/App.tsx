@@ -9,12 +9,7 @@ import { useAppStore } from "@/stores/appStore";
 // favicon control
 let originalFavicon: string | null = null;
 
-const saveFavicon = () => {
-    const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-    if (link && !originalFavicon) {
-        originalFavicon = link.href;
-    }
-};
+
 
 export const App = () => {
     const { title, favicon, theme } = useSettingStore();
@@ -52,7 +47,6 @@ export const App = () => {
     // =========================
     useEffect(() => {
         if (rateLimit.active) {
-            saveFavicon();
             updateFavicon("/favicon-error.ico");
             return;
         }

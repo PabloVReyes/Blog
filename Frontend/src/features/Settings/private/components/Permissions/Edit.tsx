@@ -4,32 +4,9 @@ import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
 import { validateDescription, validateKeyPermission, validateName } from "@/utils"
 import { useSettingsPermissionsStore } from "@/stores"
+import type { PermissionData } from "../../types/permissions.types"
 
-export interface Data {
-    id: string;
-    name: string;
-    description: string;
-    isActive: boolean;
-    permissionKey: string;
-    _count: Count;
-    roles: RoleElement[];
-}
-
-export interface Count {
-    roles: number;
-}
-
-export interface RoleElement {
-    role: RoleRole;
-}
-
-export interface RoleRole {
-    id: string;
-    name: string;
-    description: string;
-}
-
-export const Edit = (file: Data) => {
+export const Edit = (file: PermissionData) => {
     const update = useSettingsPermissionsStore(s => s.update)
     const [loading, setLoading] = useState<boolean>(false)
 

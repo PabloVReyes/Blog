@@ -8,5 +8,7 @@ export interface SearchResponse {
     url?: string | null;
     type?: string | null,
     createdAt: Date,
-    file?: any,
+    file?: {
+        id: string
+    } | null;
 }

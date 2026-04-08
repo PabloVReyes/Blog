@@ -5,7 +5,7 @@ export const fetchCategories = async () => {
     return response.data
 }
 
-export const addCategory = async (body: any) => {
-    const response = await api.post(`/api/standards/categories`, body)
+export const addCategory = async ({name}: {name: string}) => {
+    const response = await api.post(`/api/standards/categories`, {name})
     return response.data
 }

@@ -9,7 +9,7 @@ interface AuthUser {
 
 export const generateToken = (user: AuthUser): string => {
     const secret = process.env.JWT_SECRET;
-    const expiresIn = Number(process.env.JWT_EXPIRES_IN);
+    const expiresIn = process.env.JWT_EXPIRES_IN as jwt.SignOptions["expiresIn"];
 
     if (!secret) throw new Error("JWT_SECRET no definido");
     if (!expiresIn) throw new Error("JWT_EXPIRES_IN no definido");

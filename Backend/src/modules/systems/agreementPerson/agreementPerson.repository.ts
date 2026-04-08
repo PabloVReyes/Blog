@@ -1,5 +1,6 @@
 import { database } from "../../../config/prisma"
 import { logger } from "../../../utils/logger"
+import { Prisma } from "@prisma/client";
 
 ////////////
 // CREATE //
@@ -133,7 +134,7 @@ export const getAgreementPersonWithDependentsRepository = async ({ search, take,
         const isNumeric = !isNaN(Number(search));
         const searchInt = isNumeric ? Number(search) : null;
 
-        const where: any = {
+        const where: Prisma.AgreementPersonWhereInput = {
             type: "HOLDER",
             ...(groupId && { groupId }),
             ...(zoneId && { zoneId }),

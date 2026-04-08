@@ -7,29 +7,39 @@ import {
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useState } from "react";
+import type { UseFormReturnType } from "@mantine/form";
 
 interface Item {
     value: string;
     label: string;
 }
 
-interface Props {
-    form: any;
-    name: string;
+interface FetchDataParams {
+    search: string;
+    page: number;
+    limit: number;
+}
+
+interface FetchDataResult {
+    data: Item[];
+    total: number;
+}
+
+interface Props<T> {
+    // T representa el esquema de valores de tu formulario
+    form: UseFormReturnType<T>;
+    // Usamos keyof T para asegurar que 'name' sea una propiedad válida del formulario
+    name: keyof T & string;
     label: string;
     placeholder?: string;
     description?: string;
-    fetchData: (params: {
-        search: string;
-        page: number;
-        limit: number;
-    }) => Promise<{ data: Item[]; total: number }>;
+    fetchData: (params: FetchDataParams) => Promise<FetchDataResult>;
     required?: boolean;
     withAsterisk?: boolean;
     initialItem?: Item | null;
 }
 
-export function RemotePaginatedSelect({
+export function RemotePaginatedSelect<T>({
     form,
     name,
     label,
@@ -39,10 +49,11 @@ export function RemotePaginatedSelect({
     required,
     withAsterisk,
     initialItem,
-}: Props) {
+}: Props<T>) {
     const combobox = useCombobox();
     const LIMIT = 20;
 
+    // Acceso tipado a los valores y errores del formulario
     const value = form.values[name];
     const [search, setSearch] = useState("");
     const [debounced] = useDebouncedValue(search, 400);
@@ -72,7 +83,11 @@ export function RemotePaginatedSelect({
     // ================= NUEVA BUSQUEDA =================
     useEffect(() => {
         setPage(1);
-        if (!debounced.trim()) return;
+        // Si no hay búsqueda y no hay datos (salvo el inicial), cargamos iniciales
+        if (!debounced.trim()) {
+            // Opcional: podrías cargar una lista inicial vacía aquí si prefieres
+            return;
+        }
 
         loadData(debounced.toUpperCase(), 1, false);
     }, [debounced]);
@@ -89,7 +104,9 @@ export function RemotePaginatedSelect({
     const handleSubmit = (val: string) => {
         const item = data.find((i) => i.value === val) || null;
         if (item) setSelectedItem(item);
-        form.setFieldValue(name, val);
+
+        // Seteo tipado del valor
+        form.setFieldValue(name, val as any);
         combobox.closeDropdown();
         setSearch("");
     };
@@ -118,7 +135,7 @@ export function RemotePaginatedSelect({
                     label={label}
                     placeholder={placeholder}
                     required={required}
-                    error={form.errors[name]}
+                    error={form.errors[name as string]}
                     value={combobox.dropdownOpened ? search : selectedItem?.label || ""}
                     onFocus={() => combobox.openDropdown()}
                     onClick={() => combobox.openDropdown()}

@@ -15,7 +15,6 @@ interface FormValues {
     description?: string;
     isNew: boolean;
     category: string;
-    section: string;
     file: File | null;
 }
 
@@ -106,7 +105,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                         data={categories}
                         loading={loadingCategories}
                         onCreate={async (name) => {
-                            const res = await addCategory({ name, section: form.values.section });
+                            const res = await addCategory({ name });
                             const newItem = { value: res.id.toString(), label: res.name };
                             setCategories((prev) => [...prev, newItem]);
                             return newItem;

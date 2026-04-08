@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
 import { getManual } from '../api';
+import type { ManualData } from '../../types/manuals.types';
 
+type ManualError = 
+    | { type: "rate-limit" }
+    | { type: "partial-error" }
+    | { type: "fatal"; detail: unknown };
+    
 export function useManualMap(manualTypes: string[]) {
-    const [manuals, setManuals] = useState<Record<string, any>>({});
+    const [manuals, setManuals] = useState<Record<string, ManualData>>({});
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<any>(null);
+    const [error, setError] = useState<ManualError | null>(null);
 
     useEffect(() => {
         if (!manualTypes || manualTypes.length === 0) return;
@@ -47,7 +53,7 @@ export function useManualMap(manualTypes: string[]) {
             })
             .catch(err => {
                 if (!isMounted) return;
-                setError({ type: "fatal", err });
+                setError({ type: "fatal", detail: err });
             })
             .finally(() => {
                 if (isMounted) setLoading(false);

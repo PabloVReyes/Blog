@@ -6,7 +6,7 @@ import { HttpError } from "@/utils/httpError";
 export const settingsService = async () => {
     const settings = await repo.getSettingsRepository()
 
-    return settings.reduce((acc: any, s: any) => {
+    return settings.reduce((acc, s) => {
         acc[s.name] = s.value;
         return acc;
     }, {} as Record<string, string>);

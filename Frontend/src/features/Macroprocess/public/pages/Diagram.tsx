@@ -113,6 +113,7 @@ export const Diagram = ({ setActiveTab }: Props) => {
                     minWidth: 0,
                     height: "100%",
                 }}
+                onClick={() => setActiveTab("mainareas")}
             >
                 <Text
                     p={10}
@@ -123,7 +124,6 @@ export const Diagram = ({ setActiveTab }: Props) => {
                         whiteSpace: "normal",
                         overflowWrap: "anywhere",
                     }}
-                    onClick={() => setActiveTab("mainareas")}
                 >
                     Acceso al Sistema Electrónico Documental del CAE
                 </Text>

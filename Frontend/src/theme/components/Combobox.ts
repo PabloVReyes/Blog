@@ -1,5 +1,5 @@
 export const Combobox = {
-    styles: (theme: any) => ({
+    styles: () => ({
         input: {
             backgroundColor: "light-dark(white, oklch(27.8% 0.033 256.848))",
             color: "light-dark(black, white)",
@@ -9,7 +9,7 @@ export const Combobox = {
             transition: "all .15s ease",
 
             "&:focus": {
-                borderColor: theme.colors[theme.primaryColor][6],
+                borderColor: "var(--mantine-primary-color-filled)",
             },
         },
 

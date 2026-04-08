@@ -4,8 +4,9 @@ import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import { ResetPassword } from "./ResetPassword"
+import type { UsersData } from "../../types/users.types"
 
-export const ActionsUsers = ({ id, ...props }: any) => {
+export const ActionsUsers = ({ id, ...props }: UsersData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

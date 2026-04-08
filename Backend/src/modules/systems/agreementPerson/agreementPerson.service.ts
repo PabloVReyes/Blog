@@ -96,7 +96,11 @@ export const getZonesService = async () => {
 export const putAgreementPersonService = async (id: number, dto: PutAgreementPersonsSchema) => {
     const { name, group, zone, type, holder } = dto
 
-    const person: any = await repo.getAgreementPersonByIdRepository(id)
+    const person = await repo.getAgreementPersonByIdRepository(id)
+
+    if(!person) {
+        throw new HttpError(404, "Paciente de convenio no encontrado")
+    }
 
     if (person.type !== type && person._count.children > 0) {
         throw new HttpError(400, "No se puede modificar el tipo debido a que el titular tiene dependientes")
@@ -119,8 +123,12 @@ export const putAgreementPersonService = async (id: number, dto: PutAgreementPer
 
 export const deleteAgreementPersonService = async (id: number) => {
 
-    const person: any = await repo.getAgreementPersonByIdRepository(id)
+    const person = await repo.getAgreementPersonByIdRepository(id)
 
+    if(!person) {
+        throw new HttpError(404, "Paciente de convenio no encontrado")
+    }
+    
     if (person._count.children > 0) {
         throw new HttpError(400, "No se puede eliminar el paciente de convenio debido a que tiene dependientes")
     }

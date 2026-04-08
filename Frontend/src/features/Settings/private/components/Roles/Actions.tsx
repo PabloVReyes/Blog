@@ -3,8 +3,9 @@ import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
 import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { RolData } from "../../types/roles.types"
 
-export const ActionsRoles = ({ id, ...props }: any) => {
+export const ActionsRoles = ({ id, ...props }: RolData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {
