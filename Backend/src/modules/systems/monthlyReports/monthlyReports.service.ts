@@ -3,7 +3,7 @@ import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import * as schema from "./monthlyReports.schema"
 import * as type from "./monthlyReports.types"
 import { sanitizeFileName } from "../../../utils/file";
-import { HttpError } from "@/utils/httpError";
+import { HttpError } from "../../../utils/httpError";
 
 ////////////
 // CREATE //

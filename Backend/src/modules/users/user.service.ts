@@ -4,7 +4,7 @@ import * as repo from "./user.repository"
 import * as schema from "./user.schema"
 import { sendUserCredentials } from "../../services/email.service"
 import { logger } from "../../utils/logger"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../utils/httpError"
 
 export const createUserService = async (dto: schema.CreateUserSchema) => {
     const { name, email, roles } = dto

@@ -2,7 +2,7 @@ import { sanitizeFileName } from "../../utils/file";
 import * as repo from "./macroprocess.repository"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination";
 import * as schema from "./macroprocess.schema"
-import { HttpError } from "@/utils/httpError";
+import { HttpError } from "../../utils/httpError";
 
 //////////
 // READ //

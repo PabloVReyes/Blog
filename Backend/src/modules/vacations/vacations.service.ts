@@ -3,7 +3,7 @@ import * as repo from "./vacations.repository"
 import * as schema from "./vacations.schema"
 import * as types from "./vacations.types"
 import { sanitizeFileName } from "../../utils/file"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../utils/httpError"
 
 ////////////
 // CREATE //

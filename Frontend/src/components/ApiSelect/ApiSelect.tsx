@@ -7,9 +7,10 @@ interface Item {
     label: string;
 }
 
-interface Props<T> {
+// Definimos un tipo que asegure que las llaves son strings para Mantine Form
+interface Props<T extends Record<string, any>> {
     form: UseFormReturnType<T>;
-    name: keyof T; // Eliminamos '& string' para mayor compatibilidad
+    name: Extract<keyof T, string>; // Extraemos solo las llaves que son strings
     label: string;
     placeholder?: string;
     description?: string;
@@ -22,7 +23,7 @@ interface Props<T> {
     onChange?: (value: string | null) => void;
 }
 
-export function ApiSelect<T>({
+export function ApiSelect<T extends Record<string, any>>({
     form,
     name,
     label,
@@ -39,11 +40,9 @@ export function ApiSelect<T>({
     const combobox = useCombobox();
     const [search, setSearch] = useState("");
 
-    // Obtenemos el valor actual del form de forma segura
     const rawValue = form.values[name];
     const selectedValue = rawValue !== null && rawValue !== undefined ? String(rawValue) : "";
 
-    // Buscamos el ítem seleccionado para mostrar el label en el input
     const selectedItem = useMemo(() => {
         return data.find((item: Item) => item.value === selectedValue) || initialItem || null;
     }, [data, selectedValue, initialItem]);
@@ -65,9 +64,12 @@ export function ApiSelect<T>({
 
         if (finalValue !== null) {
             const isNumberField = typeof rawValue === 'number';
-            const valueToSave = isNumberField ? Number(finalValue) : finalValue;
 
-            form.setFieldValue(name as any, valueToSave as any);
+            // Usamos un casting específico para cumplir con el contrato de UseFormReturnType
+            const valueToSave = (isNumberField ? Number(finalValue) : finalValue) as T[Extract<keyof T, string>];
+
+            // Al usar 'name' definido como Extract<keyof T, string>, LooseKeys lo acepta
+            form.setFieldValue(name, valueToSave);
             onChange?.(finalValue);
         }
 
@@ -84,9 +86,8 @@ export function ApiSelect<T>({
                     label={label}
                     placeholder={placeholder}
                     required={required}
-                    error={form.errors[name as string] as React.ReactNode}
-                    // Si el dropdown está abierto, mostramos lo que el usuario escribe (search)
-                    // Si está cerrado, mostramos el label del ítem seleccionado
+                    // Acceso seguro al error
+                    error={form.errors[name] as React.ReactNode}
                     value={combobox.dropdownOpened ? search : selectedItem?.label || ""}
                     onFocus={() => combobox.openDropdown()}
                     onClick={() => combobox.openDropdown()}

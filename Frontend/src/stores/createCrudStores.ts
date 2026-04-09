@@ -1,26 +1,35 @@
-import { createCrudStore, type CrudApi } from "./createCrudStore"
+import { createCrudStore, type CrudApi } from "./createCrudStore";
+
+type BaseId = string | number;
+type BaseEntity<ID extends BaseId> = { id: ID };
+
+type StoreFromApi<T> = T extends CrudApi<infer E, infer C, infer U, infer F>
+    ? C extends BaseId
+    ? E extends BaseEntity<C>
+    ? ReturnType<typeof createCrudStore<E, C, U, F>>
+    : never
+    : never
+    : never;
 
 type StoreMap<Registry extends Record<string, CrudApi<any, any, any, any>>> = {
-    [K in keyof Registry as `use${Capitalize<K & string>}Store`]:
-    ReturnType<typeof createCrudStore<any, any, any, any>>
-}
+    [K in keyof Registry as `use${Capitalize<K & string>}Store`]: StoreFromApi<Registry[K]>
+};
 
 export function createCrudStores<
-    Registry extends Record<string, CrudApi<any, any, any, any>>
+    Registry extends Record<string, CrudApi<BaseEntity<any>, BaseId, any, any>>
 >(registry: Registry): StoreMap<Registry> {
 
-    const stores = {} as StoreMap<Registry>
+    const stores = {} as StoreMap<Registry>;
 
-    for (const key of Object.keys(registry) as Array<keyof Registry>) {
+    (Object.keys(registry) as Array<keyof Registry & string>).forEach((key) => {
+        const api = registry[key];
 
-        const api = registry[key]
+        const storeName = `use${key.charAt(0).toUpperCase()}${key.slice(1)}Store` as keyof StoreMap<Registry>;
 
-        const storeName =
-            `use${String(key).charAt(0).toUpperCase()}${String(key).slice(1)}Store`
+        const store = createCrudStore(api);
 
-            // 🔴 SOLUCIÓN: casteo FINAL controlado (único punto)
-            ; (stores as any)[storeName] = createCrudStore(api as any)
-    }
+        (stores as Record<string, unknown>)[storeName as string] = store;
+    });
 
-    return stores
+    return stores;
 }

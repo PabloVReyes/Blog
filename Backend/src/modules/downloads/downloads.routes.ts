@@ -1,8 +1,8 @@
 import { Router } from "express";
 import * as controller from "./downloads.controller"
-import { createUploader } from "@/config/multer";
-import { authMiddleware } from "@/middleware/auth.middleware";
-import { requirePermission } from "@/middleware/permission.middleware";
+import { createUploader } from "../../config/multer";
+import { authMiddleware } from "../../middleware/auth.middleware";
+import { requirePermission } from "../../middleware/permission.middleware";
 
 const router: Router = Router()
 

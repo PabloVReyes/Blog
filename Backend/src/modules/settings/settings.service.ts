@@ -1,7 +1,7 @@
 import * as repo from "./settings.repository"
 import path from "path";
 import * as schema from "./settings.schema"
-import { HttpError } from "@/utils/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const settingsService = async () => {
     const settings = await repo.getSettingsRepository()

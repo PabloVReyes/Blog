@@ -10,9 +10,9 @@ import gpcRoutes from "./gpc/gpc.routes"
 import careProtocolsRoutes from "./careProtocols/careProtocols.routes"
 import codesRoutes from "./codes/codes.routes"
 import adverseEventsRoutes from "./adverseEvents/adverseEvents.routes"
-import { authMiddleware } from "@/middleware/auth.middleware";
-import { requirePermission } from "@/middleware/permission.middleware";
-import { createUploader } from "@/config/multer";
+import { authMiddleware } from "../../middleware/auth.middleware";
+import { requirePermission } from "../../middleware/permission.middleware";
+import { createUploader } from "../../config/multer";
 
 const router: Router = Router()
 

@@ -4,7 +4,7 @@ import * as repo from "./downloads.repository"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
 import * as types from "./downloads.types"
 import { sanitizeFileName } from "../../utils/file"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../utils/httpError"
 
 ////////////
 // CREATE //

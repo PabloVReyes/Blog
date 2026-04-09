@@ -3,7 +3,7 @@ import * as repo from "./system.repository"
 import * as schema from "./system.schema"
 import * as type from "./systems.types"
 import { sanitizeFileName } from "../../utils/file"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../utils/httpError"
 
 ////////////
 // CREATE //

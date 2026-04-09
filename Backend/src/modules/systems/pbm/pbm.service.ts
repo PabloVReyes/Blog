@@ -3,8 +3,7 @@ import { sanitizeFileName } from "../../../utils/file";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
 import * as schema from "./pbm.schema"
 import * as type from "./pbm.types"
-import { logger } from "../../../utils/logger";
-import { HttpError } from "@/utils/httpError";
+import { HttpError } from "../../../utils/httpError";
 
 ////////////
 // CREATE //

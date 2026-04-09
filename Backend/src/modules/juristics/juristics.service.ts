@@ -3,7 +3,7 @@ import * as schema from "./juristics.schema"
 import * as repo from "./juristics.repository"
 import * as types from "./juristics.types"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../utils/httpError"
 
 ////////////
 // CREATE //

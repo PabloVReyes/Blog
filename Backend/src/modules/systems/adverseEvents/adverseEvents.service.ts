@@ -1,6 +1,5 @@
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../../utils/httpError"
 import { sanitizeFileName } from "../../../utils/file"
-import { logger } from "../../../utils/logger"
 import { buildPaginationMeta } from "../../../utils/pagination"
 import * as repo from "./adverseEvents.repository"
 

@@ -6,8 +6,12 @@ export const fetchCategorys = async () => {
     return response.data
 }
 
-export const addCategory = async ({name}: {name: string}) => {
-    const response = await api.post(`/api/systems/clinical-practice-guidelines/category`, {name})
+interface AddCategoryDto {
+    name: string
+}
+
+export const addCategory = async (body: AddCategoryDto) => {
+    const response = await api.post(`/api/systems/clinical-practice-guidelines/category`, body)
     return response.data
 }
 

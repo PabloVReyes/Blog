@@ -3,7 +3,7 @@ import { sanitizeFileName } from "../../../utils/file"
 import * as repo from "./calendar.repository"
 import { CalendarUpdateDto } from "./calendar.schema"
 import { buildPaginationMeta } from "../../../utils/pagination"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../../utils/httpError"
 
 //////////
 // READ //

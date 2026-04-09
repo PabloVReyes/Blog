@@ -3,7 +3,7 @@ import * as repo from "./certification.repository"
 import * as types from "./certification.types"
 import { sanitizeFileName } from "../../utils/file"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../utils/httpError"
 
 ////////////
 // CREATE //

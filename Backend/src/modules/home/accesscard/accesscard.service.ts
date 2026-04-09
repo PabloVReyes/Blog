@@ -3,7 +3,7 @@ import * as repo from "./accesscard.repository"
 import { GetAccessCardSchema } from "./accesscard.schema"
 import { sanitizeFileName } from "../../../utils/file"
 import { AccessCardCreateDto, AccessCardUpdateDto } from "./accesscard.types"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../../utils/httpError"
 
 ////////////
 // CREATE //

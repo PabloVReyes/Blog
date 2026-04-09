@@ -5,7 +5,11 @@ export const fetchCategories = async () => {
     return response.data
 }
 
-export const addCategory = async ({name}: {name: string}) => {
-    const response = await api.post(`/api/standards/categories`, {name})
+interface AddCategoryDto {
+    name: string
+}
+
+export const addCategory = async (body: AddCategoryDto) => {
+    const response = await api.post(`/api/standards/categories`, body)
     return response.data
 }

@@ -3,8 +3,7 @@ import * as repo from "./careProtocols.repository"
 import { CareProtocolsCreateDto, CareProtocolsUpdateDto } from "./careProtocols.types";
 import * as schema from "./careProtocols.schema";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
-import { logger } from "../../../utils/logger";
-import { HttpError } from "@/utils/httpError";
+import { HttpError } from "../../../utils/httpError";
 
 ////////////
 // CREATE //

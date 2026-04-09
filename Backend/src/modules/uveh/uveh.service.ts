@@ -3,7 +3,7 @@ import * as repo from "./uveh.repository"
 import * as types from "./uveh.types"
 import { sanitizeFileName } from "../../utils/file"
 import { buildPaginationMeta, getPagination } from "../../utils/pagination"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../utils/httpError"
 
 ////////////
 // CREATE //

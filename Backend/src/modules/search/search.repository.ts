@@ -1,6 +1,6 @@
-import { database } from "@/config/prisma"
-import { PaginationProps } from "@/types/pagination"
-import { logger } from "@/utils/logger"
+import { database } from "../../config/prisma"
+import { PaginationProps } from "../../types/pagination"
+import { logger } from "../../utils/logger"
 
 export const getSearchSystemRepository = async ({ search, take, skip }: PaginationProps) => {
     try {

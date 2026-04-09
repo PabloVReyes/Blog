@@ -1,8 +1,12 @@
 import { api, createCrudApi } from "@/lib"
 import type { GPC, GPCFilters } from "../types/GPC.types"
 
-export const addCycle = async ({name}: {name: string}) => {
-    const response = await api.post(`/api/systems/gpc/cycles`, {name})
+interface AddCycleDto {
+    name: string
+}
+
+export const addCycle = async (body: AddCycleDto) => {
+    const response = await api.post(`/api/systems/gpc/cycles`, body)
     return response.data
 }
 

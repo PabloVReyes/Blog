@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as controller from "./certification.controller"
-import { createUploader } from "@/config/multer";
+import { createUploader } from "../../config/multer";
 
 const router: Router = Router()
 

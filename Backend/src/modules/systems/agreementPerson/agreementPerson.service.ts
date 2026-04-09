@@ -1,7 +1,7 @@
 import { GetAgreementPersonsSchema, PostAgreementPersonsSchema, PostZoneSchema, PutAgreementPersonsSchema } from "./agreementPersons.schema";
 import * as repo from "./agreementPerson.repository"
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
-import { HttpError } from "@/utils/httpError";
+import { HttpError } from "../../../utils/httpError";
 
 ////////////
 // CREATE //

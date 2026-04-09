@@ -1,6 +1,6 @@
 import path from "path"
 import * as repo from "./files.repository"
-import { HttpError } from "@/utils/httpError"
+import { HttpError } from "../../utils/httpError"
 
 export const downloadFileService = async (id: string) => {
     const file = await repo.downloadFileRepository(id)

@@ -3,8 +3,7 @@ import * as repo from "./gpc.repository"
 import * as schema from "./gpc.schema";
 import * as type from "./gpc.types";
 import { buildPaginationMeta, getPagination } from "../../../utils/pagination";
-import { logger } from "../../../utils/logger";
-import { HttpError } from "@/utils/httpError";
+import { HttpError } from "../../../utils/httpError";
 
 ////////////
 // CREATE //

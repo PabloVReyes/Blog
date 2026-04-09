@@ -1,8 +1,12 @@
 import { api, createCrudApi } from "@/lib"
 import type { CareProtocols, CareProtocolsFilters } from "../types/careProtocols.types"
 
-export const addCareCategory = async ({name}: {name: string}) => {
-    const response = await api.post(`/api/systems/care-protocols/categorys`, {name})
+interface AddCareCategoryDto {
+    name: string
+}
+
+export const addCareCategory = async (body: AddCareCategoryDto) => {
+    const response = await api.post(`/api/systems/care-protocols/categorys`, body)
     return response.data
 }
 
