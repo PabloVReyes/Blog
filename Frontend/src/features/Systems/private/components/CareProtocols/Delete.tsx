@@ -105,7 +105,7 @@ export const Delete = ({ id, title, description, category, file }: CareProtocols
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente el Protocolo de Atención (Pediatría)</List.Item>
-                            <List.Item>El archivo cargado sera eliminado permanentemente</List.Item>
+                            <List.Item>El archivo cargado será eliminado permanentemente</List.Item>
                         </List>
                     }
                 />

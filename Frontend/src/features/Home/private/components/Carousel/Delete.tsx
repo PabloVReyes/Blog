@@ -108,9 +108,9 @@ export const Delete = ({ id, title, imageUrl, type, url, file, description }: Ca
                     }
                     content={
                         <List>
-                            <List.Item>Se eliminara permanentemente el carrousel</List.Item>
+                            <List.Item>Se eliminara permanentemente el carrusel</List.Item>
                             <List.Item>Se perdera la imagen cargada</List.Item>
-                            <List.Item>En caso de que la acción sea la descarga de un archivo, este sera eliminado</List.Item>
+                            <List.Item>En caso de que la acción sea la descarga de un archivo, este será eliminado</List.Item>
                         </List>
                     }
                 />

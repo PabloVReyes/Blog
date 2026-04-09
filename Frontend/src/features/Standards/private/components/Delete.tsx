@@ -105,7 +105,7 @@ export const Delete = ({ id, name, description, category, file }: StandardsData)
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente la Norma Oficial Mexicana</List.Item>
-                            <List.Item>El archivo cargado sera eliminado permanentemente</List.Item>
+                            <List.Item>El archivo cargado será eliminado permanentemente</List.Item>
                         </List>
                     }
                 />

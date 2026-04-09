@@ -106,13 +106,9 @@ class App {
             const url = `http://localhost:${this.port}`
 
             logger.info(
-                { port: this.port },
-                "Server started"
+                { port: this.port, url: url },
+                "Server started",
             );
-
-            if (process.env.NODE_ENV !== 'production') {
-                console.log(randomColor(url));
-            }
         });
     }
 }

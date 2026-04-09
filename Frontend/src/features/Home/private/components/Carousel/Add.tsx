@@ -59,8 +59,8 @@ export const AddCarousel = ({ sectionId }: Props) => {
         },
         {
             successTitle: "Carrusel Creado",
-            successMessage: "El carrousel fue creado correctamente",
-            errorTitle: "Error al crear carrousel"
+            successMessage: "El carrusel fue creado correctamente",
+            errorTitle: "Error al crear carrusel",
         }
     )
 

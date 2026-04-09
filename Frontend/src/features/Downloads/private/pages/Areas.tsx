@@ -69,7 +69,7 @@ export const Areas = () => {
         } catch (error: unknown) {
             Notify({
                 type: "error",
-                title: "Error al obtener areas",
+                title: "Error al obtener áreas",
                 message: error instanceof Error ? error.message : "Error desconocido"
             })
         }
@@ -90,7 +90,7 @@ export const Areas = () => {
     return (
         <Container
             title="Áreas"
-            description="Areas de descargas de información"
+            description="Áreas de descargas de información"
         >
             <Panel
                 title

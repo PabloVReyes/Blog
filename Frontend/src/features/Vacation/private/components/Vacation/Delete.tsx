@@ -99,7 +99,7 @@ export const Delete = ({ id, type, shift, file }: VacationsData) => {
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente el rol vacacional</List.Item>
-                            <List.Item>El archivo cargado sera eliminado permanentemente</List.Item>
+                            <List.Item>El archivo cargado será eliminado permanentemente</List.Item>
                         </List>
                     }
                 />

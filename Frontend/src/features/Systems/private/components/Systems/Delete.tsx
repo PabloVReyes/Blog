@@ -114,7 +114,7 @@ export const Delete = ({ id, name, icon, color, description, type, url, file }: 
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente el sistema</List.Item>
-                            <List.Item>En caso de que la acción sea la descarga de un archivo, este sera eliminado</List.Item>
+                            <List.Item>En caso de que la acción sea la descarga de un archivo, este será eliminado</List.Item>
                         </List>
                     }
                 />

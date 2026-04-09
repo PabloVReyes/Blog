@@ -89,7 +89,7 @@ export const Delete = ({ id, name, color, icon }: ShiftData) => {
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente el turno</List.Item>
-                            <List.Item>Los roles vacacionales seran eliminados permanentemente</List.Item>
+                            <List.Item>Los roles vacacionales serán eliminados permanentemente</List.Item>
                         </List>
                     }
                 />

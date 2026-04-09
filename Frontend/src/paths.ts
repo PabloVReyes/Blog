@@ -94,7 +94,7 @@ export const paths = [
         link: "/descargas",
         children: [
             {
-                label: "Areas",
+                label: "Áreas",
                 link: "/areas"
             }
         ]

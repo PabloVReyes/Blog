@@ -114,7 +114,7 @@ export const Delete = ({ id, title, color, icon, description, type, url, file }:
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente el acceso rápido</List.Item>
-                            <List.Item>En caso de que la acción sea la descarga de un archivo, este sera eliminado</List.Item>
+                            <List.Item>En caso de que la acción sea la descarga de un archivo, este será eliminado</List.Item>
                         </List>
                     }
                 />

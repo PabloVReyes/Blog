@@ -101,7 +101,7 @@ export const Delete = ({ id, name, permissionKey, description }: Props) => {
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente el permiso</List.Item>
-                            <List.Item>El permiso sera eliminado de los roles asignados</List.Item>
+                            <List.Item>El permiso será eliminado de los roles asignados</List.Item>
                         </List>
                     }
                 />

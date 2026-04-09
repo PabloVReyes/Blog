@@ -92,7 +92,7 @@ export const Delete = ({ id, title, file }: PMBData) => {
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente el Algoritmo PBM</List.Item>
-                            <List.Item>El archivo cargado sera eliminado</List.Item>
+                            <List.Item>El archivo cargado será eliminado</List.Item>
                         </List>
                     }
                 />

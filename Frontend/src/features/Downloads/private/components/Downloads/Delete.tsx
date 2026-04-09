@@ -106,7 +106,7 @@ export const Delete = ({ id, name, description, category, file }: DownloadData) 
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente la descarga</List.Item>
-                            <List.Item>El archivo cargado sera eliminado permanentemente</List.Item>
+                            <List.Item>El archivo cargado será eliminado permanentemente</List.Item>
                         </List>
                     }
                 />

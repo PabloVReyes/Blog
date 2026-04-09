@@ -105,7 +105,7 @@ export const Delete = ({ id, title, code, fileER, fileRR }: ClinicalPracticeGuid
                     content={
                         <List>
                             <List.Item>Se eliminara permanentemente la Guía de Práctica Clínica</List.Item>
-                            <List.Item>Las guías seran eliminadas</List.Item>
+                            <List.Item>Las guías serán eliminadas</List.Item>
                         </List>
                     }
                 />
