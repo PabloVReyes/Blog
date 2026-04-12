@@ -7,7 +7,7 @@ export interface AgreementPerson {
     zone: Group;
     group: Group;
     dependents?: AgreementPerson[];
-    holders?: any[];
+    holders?: AgreementPerson[];
 }
 
 export interface Group {

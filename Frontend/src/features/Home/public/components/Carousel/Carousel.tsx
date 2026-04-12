@@ -12,13 +12,13 @@ interface Props {
 }
 
 export const Carousel = ({ items }: Props) => {
-    const { download } = useDownloadFile()
+    const { view } = useDownloadFile()
 
     const navigate = useNavigate();
 
     interface HandleNavigateProps {
         type: string | null;
-        url: string | null;
+        url?: string | null;
         file: {
             id: string;
         };
@@ -34,7 +34,7 @@ export const Carousel = ({ items }: Props) => {
                 navigate(url);
             }
         } else {
-            download(file.id)
+            view(file.id)
         }
     };
 

@@ -1,10 +1,9 @@
-import { Container } from "@/components";
+import { Alert, Container } from "@/components";
 import { Group, Stack, Tabs, Text } from "@mantine/core";
 import styles from "./Macroprocess.module.css";
 import { Diagram } from "./Diagram";
 import { MainAreas } from "./MainAreas";
 import { useState } from "react";
-import { Alert } from "@/ui";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { SupportAreas } from "./SupportAreas";
 

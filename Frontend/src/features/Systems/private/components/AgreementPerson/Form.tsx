@@ -35,17 +35,17 @@ interface FetchParams {
     limit: number;
 }
 
-interface FormValues {
+export interface FormValues {
     name: string;
-    group: string;
-    zone: string;
+    group: string | null;
+    zone: string | null;
     type: "HOLDER" | "DEPENDENT";
-    holder?: string;
+    holder: string | null;
 }
 
-interface Props {
-    form: UseFormReturnType<FormValues>;
-    onSubmit: (values: FormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>;
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
     initialGroup?: Item | null;
@@ -61,7 +61,7 @@ export const Form = ({
     initialGroup,
     initialZone,
     initialHolder,
-}: Props) => {
+}: Props<FormValues>) => {
     const [groups, setGroups] = useState<Item[]>([]);
     const [zones, setZones] = useState<Item[]>([]);
     const [loadingGroups, setLoadingGroups] = useState(false);

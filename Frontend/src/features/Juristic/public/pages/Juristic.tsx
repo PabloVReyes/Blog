@@ -1,5 +1,5 @@
-import { Container } from "@/components"
-import { Alert, Notify } from "@/ui"
+import { Alert, Container } from "@/components"
+import { Notify } from "@/ui"
 import { Card, Center, Loader, Text, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Download } from "../components";

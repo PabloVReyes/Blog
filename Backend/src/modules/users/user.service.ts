@@ -32,7 +32,7 @@ export const createUserService = async (dto: schema.CreateUserSchema) => {
     } catch (error) {
         logger.warn({ error }, "Email Send failed")
         await repo.markEmailFailed(user.id)
-        throw new HttpError(500, "Error al crear usuario")
+        throw new HttpError(500, "Error al enviar credenciales por correo. El usuario fue creado pero notifique al administrador.")
     }
 
     return user

@@ -1,163 +1,159 @@
-import { ColorSelect, IconSelect, ModalButtons } from "@/components"
+import { ColorSelect, CrudEditDialog, IconSelect, ModalButtons } from "@/components"
 import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
-import { useForm } from "@mantine/form"
-import { Notify, showSuccessModal } from "@/ui";
 import { validateColor, validateDescription, validateIcon, validateTitle, validateYear } from "@/utils";
-import { useState } from "react";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 import { useHomeCalendarStore } from "@/stores";
 import { getTablerIcon } from "@/helpers";
 import type { CalendarData } from "@/features/Home/types/calendar.types";
 
+interface FormValues {
+    title: string;
+    icon: string;
+    color: string;
+    description: string;
+    year: number;
+    file: File | null;
+}
 
 export const Edit = ({ id, icon, color, title, description, year, file }: CalendarData) => {
-    const [loading, setLoading] = useState<boolean>(false)
     const update = useHomeCalendarStore(s => s.update)
 
-    const form = useForm({
-        mode: 'controlled',
-        initialValues: {
-            title,
-            icon,
-            color,
-            description,
-            year,
-            file: null as File | null
-        },
-        validate: {
-            title: validateTitle,
-            description: validateDescription,
-            year: (values) => validateYear(values, { required: true, min: 1900, max: 2100 }),
-            color: validateColor,
-            icon: validateIcon
-        }
-    })
-
-    const Icon = getTablerIcon(form.values.icon)
-
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            const formData = new FormData()
-            formData.append("title", values.title)
-            formData.append("description", values.description)
-            formData.append("year", String(values.year))
-            formData.append("color", values.color)
-            formData.append("icon", values.icon)
-            if (values.file) {
-                formData.append("file", values.file!)
-            }
-            await update?.(id, formData)
-            showSuccessModal("Primera Sección Editada", "La primera sección fue editada correctamente")
-        } catch (error: unknown) {
-            Notify({
-                type: "error",
-                title: "Error al editar primera sección",
-                message: error instanceof Error ? error.message : "Error desconocido"
-            })
-        } finally {
-            setLoading(false)
-        }
-    }
-
     return (
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-            <Stack>
-                <Fieldset legend="Contenido">
-                    <TextInput
-                        withAsterisk
-                        label="Título"
-                        description="Título del la primera sección"
-                        placeholder="Calendario"
-                        {...form.getInputProps("title")}
-                        maxLength={MAX_TITLE_LENGTH}
-                        rightSection={
-                            <Text size="xs" c="dimmed">
-                                {form.values.title?.length || 0}/{MAX_TITLE_LENGTH}
-                            </Text>
-                        }
-                        rightSectionWidth={40}
-                    />
+        <CrudEditDialog<FormValues>
+            id={id}
+            initialValues={{
+                title,
+                icon,
+                color,
+                description,
+                year,
+                file: null as File | null
+            }}
+            validate={{
+                title: validateTitle,
+                description: validateDescription,
+                year: (values) => validateYear(values, { required: true, min: 1900, max: 2100 }),
+                color: validateColor,
+                icon: validateIcon
+            }}
+            successTitle="Primera Sección Editada"
+            successMessage="La primera sección fue editada correctamente"
+            errorTitle="Error al editar primera sección"
+            onSubmit={async (id, values) => {
+                const formData = new FormData()
+                formData.append("title", values.title)
+                formData.append("description", values.description)
+                formData.append("year", String(values.year))
+                formData.append("color", values.color)
+                formData.append("icon", values.icon)
+                if (values.file) {
+                    formData.append("file", values.file!)
+                }
+                await update?.(id, formData)
+            }}
+            renderForm={(form, loading, execute) => (
+                <form onSubmit={form.onSubmit(execute)}>
+                    <Stack>
+                        <Fieldset legend="Contenido">
+                            <TextInput
+                                withAsterisk
+                                label="Título"
+                                description="Título del la primera sección"
+                                placeholder="Calendario"
+                                {...form.getInputProps("title")}
+                                maxLength={MAX_TITLE_LENGTH}
+                                rightSection={
+                                    <Text size="xs" c="dimmed">
+                                        {form.values.title?.length || 0}/{MAX_TITLE_LENGTH}
+                                    </Text>
+                                }
+                                rightSectionWidth={40}
+                            />
 
-                    <Divider />
+                            <Divider />
 
-                    <TextInput
-                        withAsterisk
-                        label="Descripción"
-                        description="Descripción de la primera sección"
-                        placeholder="Descripción"
-                        {...form.getInputProps("description")}
-                        maxLength={MAX_DESCRIPTION_LENGTH}
-                        rightSection={
-                            <Text size="xs" c="dimmed">
-                                {form.values.description?.length || 0}/{MAX_DESCRIPTION_LENGTH}
-                            </Text>
-                        }
-                        rightSectionWidth={50}
-                    />
+                            <TextInput
+                                withAsterisk
+                                label="Descripción"
+                                description="Descripción de la primera sección"
+                                placeholder="Descripción"
+                                {...form.getInputProps("description")}
+                                maxLength={MAX_DESCRIPTION_LENGTH}
+                                rightSection={
+                                    <Text size="xs" c="dimmed">
+                                        {form.values.description?.length || 0}/{MAX_DESCRIPTION_LENGTH}
+                                    </Text>
+                                }
+                                rightSectionWidth={50}
+                            />
 
-                    <Divider />
+                            <Divider />
 
-                    <TextInput
-                        withAsterisk
-                        label="Año"
-                        description="Año del calendario"
-                        placeholder="Año"
-                        {...form.getInputProps("year")}
-                        maxLength={MAX_YEAR_LENGTH}
-                        rightSection={
-                            <Text size="xs" c="dimmed">
-                                {form.values.year?.toString().length || 0}/{MAX_YEAR_LENGTH}
-                            </Text>
-                        }
-                        rightSectionWidth={30}
-                    />
+                            <TextInput
+                                withAsterisk
+                                label="Año"
+                                description="Año del calendario"
+                                placeholder="Año"
+                                {...form.getInputProps("year")}
+                                maxLength={MAX_YEAR_LENGTH}
+                                rightSection={
+                                    <Text size="xs" c="dimmed">
+                                        {form.values.year?.toString().length || 0}/{MAX_YEAR_LENGTH}
+                                    </Text>
+                                }
+                                rightSectionWidth={30}
+                            />
 
-                    <Divider />
+                            <Divider />
 
-                    <FileInput
-                        label="Archivo"
-                        description={
-                            file?.name ?
-                                `Archivo cargado: ${file?.name}` :
-                                "Selecciona un archivo PDF"
-                        }
-                        placeholder="Manual de procedimientos PDF"
-                        withAsterisk
-                        accept="application/pdf"
-                        required
-                        {...form.getInputProps("file")}
-                    />
-                </Fieldset>
-                <Fieldset legend="Icono">
-                    <Group justify="space-between" align="center" wrap="nowrap">
-                        <IconSelect
-                            form={form}
+                            <FileInput
+                                label="Archivo"
+                                description={
+                                    file?.name ?
+                                        `Archivo cargado: ${file?.name}` :
+                                        "Selecciona un archivo PDF"
+                                }
+                                placeholder="Manual de procedimientos PDF"
+                                withAsterisk
+                                accept="application/pdf"
+                                required
+                                {...form.getInputProps("file")}
+                            />
+                        </Fieldset>
+                        <Fieldset legend="Icono">
+                            <Group justify="space-between" align="center" wrap="nowrap">
+                                <IconSelect
+                                    form={form}
+                                />
+
+                                <ColorSelect
+                                    form={form}
+                                />
+                                <Divider orientation="vertical" />
+                                <ThemeIcon
+                                    size={56}
+                                    color={form.values.color}
+                                    variant="light"
+                                    style={{
+                                        '--icon-rgb': form.values.color || "#40c057" // fallback green
+                                    } as React.CSSProperties}
+                                    className="themeIcon"
+                                >
+                                    {(() => {
+                                        const DynamicIcon = getTablerIcon(form.values.icon);
+                                        return <DynamicIcon size={32} />;
+                                    })()}
+                                </ThemeIcon>
+                            </Group>
+                        </Fieldset>
+
+                        <ModalButtons
+                            loading={loading}
+                            label="Editar"
                         />
-
-                        <ColorSelect
-                            form={form}
-                        />
-                        <Divider orientation="vertical" />
-                        <ThemeIcon
-                            size={56}
-                            color={form.values.color}
-                            variant="light"
-                            style={{
-                                '--icon-rgb': form.values.color || "#40c057" // fallback green
-                            } as React.CSSProperties}
-                            className="themeIcon"
-                        >
-                            {Icon ? <Icon /> : null}
-                        </ThemeIcon>
-                    </Group>
-                </Fieldset>
-
-                <ModalButtons
-                    loading={loading}
-                    label="Editar"
-                />
-            </Stack>
-        </form>
+                    </Stack>
+                </form>
+            )}
+        />
     )
 }

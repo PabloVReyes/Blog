@@ -1,5 +1,4 @@
-import { Container } from "@/components"
-import { Alert } from "@/ui";
+import { Alert, Container } from "@/components"
 import { Box, Card, Group, Paper, SimpleGrid, Stack, Text, ThemeIcon } from "@mantine/core";
 import { IconAlertCircle, IconArrowNarrowRight, IconClipboardText, IconDownload, IconFileTypePdf, IconPointFilled, IconQrcode, IconSend } from "@tabler/icons-react";
 import classes from "./AdverseEvents.module.css"

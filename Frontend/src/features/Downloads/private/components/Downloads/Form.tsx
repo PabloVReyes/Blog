@@ -20,7 +20,7 @@ export interface Category {
     sectionId: number;
 }
 
-export interface DownloadFormValues {
+export interface FormValues {
     name: string;
     description: string;
     isNew: boolean;
@@ -41,15 +41,15 @@ interface Area {
     name: string;
 }
 
-interface Props {
-    form: UseFormReturnType<DownloadFormValues>;
-    onSubmit: (values: DownloadFormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>;
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props<FormValues>) => {
     const [sections, setSections] = useState<Item[]>([])
     const [areas, setAreas] = useState<Area[]>([])
     const [loadingSections, setLoadingSections] = useState<boolean>(false)

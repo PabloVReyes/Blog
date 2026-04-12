@@ -9,8 +9,13 @@ export const downloadFileService = async (id: string) => {
         throw new HttpError(404, "Archivo no encontrado")
     }
 
-    const uploadsPath = path.join(process.cwd(), 'uploads')
-    const filePath = path.join(uploadsPath, file.path)
+    const uploadsPath = path.resolve(process.cwd(), 'uploads');
+
+    const filePath = path.normalize(path.join(uploadsPath, file.path));
+
+    if (!filePath.startsWith(uploadsPath)) {
+        throw new HttpError(403, "Acceso restringido: El nombre del archivo contiene caracteres inválidos");
+    }
 
     return {
         path: filePath,

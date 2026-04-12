@@ -10,18 +10,17 @@ interface Item {
     label: string;
 }
 
-interface FormValues {
+export interface FormValues {
     name: string;
     description?: string;
     isNew: boolean;
-    category: string;
-    section: string;
+    category: string | null;
     file: File | null;
 }
 
-interface Props {
-    form: UseFormReturnType<FormValues>;
-    onSubmit: (values: FormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>;
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;
@@ -34,7 +33,7 @@ export interface Categories {
     updatedAt: Date;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props<FormValues>) => {
     const [categories, setCategories] = useState<Item[]>([])
     const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
 

@@ -5,16 +5,15 @@ import { vacationShiftApi } from "../../api";
 import { Notify } from "@/ui";
 import type { UseFormReturnType } from "@mantine/form";
 
-export interface VacationShiftFormValues {
+export interface FormValues {
     type: "CALENDAR" | "INDEX" | "";
-    shift: string;
+    shift: string | null;
     file: File | null;
 }
 
-interface Props {
-    // Tipamos el form de Mantine correctamente
-    form: UseFormReturnType<VacationShiftFormValues>;
-    onSubmit: (values: VacationShiftFormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>;
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;
@@ -25,7 +24,7 @@ interface Shift {
     name: string;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props<FormValues>) => {
     const [shifts, setShifts] = useState<Shift[]>([])
 
     const fetchShiftsData = async () => {

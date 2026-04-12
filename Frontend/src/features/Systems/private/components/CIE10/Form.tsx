@@ -3,19 +3,19 @@ import { MAX_TITLE_LENGTH, MAX_CODE_LENGTH } from "@/constants";
 import { ModalButtons } from "@/components";
 import type { UseFormReturnType } from "@mantine/form";
 
-interface FormValues {
+export interface FormValues {
     code: string;
     name: string;
 }
 
-interface Props {
-    form: UseFormReturnType<FormValues>
-    onSubmit: (values: FormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props<FormValues>) => {
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>

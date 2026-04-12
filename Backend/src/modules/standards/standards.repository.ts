@@ -254,7 +254,7 @@ export const putStandarRepository = async ({
 // DELETE //
 ////////////
 
-export const deleteStandarRepository = async (id: string) => {
+export const deleteStandardRepository = async (id: string) => {
     try {
         return await database.$transaction(async (tx) => {
             const current = await tx.standard.findUnique({

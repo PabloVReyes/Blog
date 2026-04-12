@@ -8,8 +8,9 @@ export interface FormValues {
     title: string;
     description: string;
     image: File | null;
-    url: string;
+    url?: string | null;
     file: File | null;
+    type: "page" | "file" | "null"
 }
 
 interface Props {
@@ -39,6 +40,8 @@ export const Form = ({
                 <Fieldset legend="Configuración del Carrusel">
                     <Switch
                         label="Visible"
+                        value={"isActive"}
+                        withAsterisk
                         description="Determina si esta diapositiva aparecerá en el carrusel público"
                         checked={form.values.isActive} // IMPORTANTE: Usar checked para booleanos
                         {...form.getInputProps("isActive", { type: "checkbox" })}

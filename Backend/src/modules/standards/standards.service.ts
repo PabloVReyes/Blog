@@ -107,5 +107,5 @@ export const deleteStandardService = async (id: string) => {
         throw new HttpError(404, "Norma oficial no encontrada")
     }
 
-    await repo.deleteStandarRepository(id)
+    await repo.deleteStandardRepository(id)
 }

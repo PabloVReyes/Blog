@@ -1,6 +1,6 @@
 import { Center, Container, Grid, Group, Loader, Stack, Text } from "@mantine/core";
 import { AccessCard, Calendar, Carousel, Derechohabiencia } from "../components";
-import { Alert, Notify } from "@/ui";
+import { Notify } from "@/ui";
 import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { fetchHomeSections } from "../api";
@@ -8,6 +8,7 @@ import { getTablerIcon } from "@/helpers";
 import type { CarouselData } from "../../types/carousel.types";
 import type { CalendarData } from "../../types/calendar.types";
 import type { AccessCardData } from "../../types/accessCard.types";
+import { Alert } from "@/components";
 
 export interface Data {
     id: string;

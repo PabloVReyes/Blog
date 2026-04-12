@@ -121,13 +121,11 @@ export const putCertificationService = async (id: string, dto: types.Certificati
 ////////////
 
 export const deleteCertificationService = async (id: string) => {
-    const Certification = await repo.getCertificationByIdRepository(id)
+    const certification = await repo.getCertificationByIdRepository(id)
 
-    if (!Certification) {
+    if (!certification) {
         throw new HttpError(404, "Certificación no encontrada")
     }
 
     await repo.deleteCertificationRepository(id)
 }
-
-// 169 lineas -> 152 lineas -> 133 lineas

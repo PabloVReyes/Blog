@@ -9,7 +9,7 @@ export interface DownloadData {
     isNew: boolean;
     isActive: boolean;
     order: null;
-    categoryId: number;
+    categoryId: string;
     createdAt: Date;
     updatedAt: Date;
     file: FileData | null;
@@ -17,20 +17,20 @@ export interface DownloadData {
 }
 
 export interface Category {
-    id: number;
+    id: string;
     name: string;
     order: null;
     isActive: boolean;
-    sectionId?: number;
+    sectionId?: string;
     createdAt: Date;
     updatedAt: Date;
     section?: Category;
-    areaId?: number;
+    areaId?: string;
     area?: Area;
 }
 
 export interface Area {
-    id: number;
+    id: string;
     name: string;
     slug: string;
     icon: string;
@@ -38,4 +38,15 @@ export interface Area {
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
+}
+
+export interface File {
+    id: string;
+    name: string;
+    path: string;
+    size: number;
+    mimeType: string;
+    url: null;
+    provider: null;
+    createdAt: Date;
 }

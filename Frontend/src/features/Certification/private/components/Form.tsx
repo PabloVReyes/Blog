@@ -14,9 +14,8 @@ export interface FormValues {
     name: string;
     description: string;
     isNew: boolean;
-    section: string;
+    section: string | null;
     file: File | null;
-    [key: string]: unknown;
 }
 
 interface Props<T extends FormValues> {

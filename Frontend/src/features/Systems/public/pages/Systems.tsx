@@ -1,8 +1,8 @@
-import { Container } from "@/components"
+import { Container, Alert } from "@/components"
 import { useEffect, useState } from "react"
 import { fetchSystems } from "../api"
 import { SimpleGrid } from "@mantine/core"
-import { Alert, Notify } from "@/ui"
+import { Notify } from "@/ui"
 import { System } from "../components"
 import type { SystemData } from "../../types/systems.types"
 

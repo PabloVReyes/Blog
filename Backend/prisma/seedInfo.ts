@@ -14,7 +14,6 @@ async function main() {
         { name: "color", value: "custom1" },
         { name: "theme", value: "auto" },
         { name: "favicon", value: "" },
-        // { name: "menu", value: menu }
     ];
 
     for (const setting of settings) {
@@ -45,7 +44,7 @@ async function main() {
     }
 
 
-    console.log('✅ Todas los sistemas cargadas correctamente');
+    console.log('✅ Todos los sistemas cargados correctamente');
 
     // Inicio
     await prisma.homeSection.create({
@@ -229,7 +228,7 @@ async function main() {
         })
     }
 
-    console.log('✅ Todas las areas cargadas correctamente');
+    console.log('✅ Todas las áreas cargadas correctamente');
 
     const filePathManuals = path.join(__dirname, './data/manuals.json'); // si está en la misma carpeta que seed_ext.ts
     const dataManuals = JSON.parse(fs.readFileSync(filePathManuals, 'utf8'));
@@ -243,7 +242,7 @@ async function main() {
         })
     }
 
-    console.log('✅ Todas los manuales cargadas correctamente');
+    console.log('✅ Todos los manuales cargadas correctamente');
 
     const filePathCie10 = path.join(__dirname, './data/cie10.json'); // si está en la misma carpeta que seed_ext.ts
     const dataCie10 = JSON.parse(fs.readFileSync(filePathCie10, 'utf8'));

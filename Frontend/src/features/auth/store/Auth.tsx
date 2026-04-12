@@ -5,61 +5,64 @@ import { useModalStore } from "@/layout/store"
 import { Password } from "@/layout/components/Sidebar/Password"
 import { Notify } from "@/ui"
 
-/** ────────────── Helpers de persistencia ────────────── */
-const STORAGE_USER_KEY = "user"
-const STORAGE_TOKEN_KEY = "token"
+// Constantes de persistencia
+const STORAGE_USER_KEY = "user_profile"
+const SESSION_TOKEN_KEY = "auth_session_token"
 
-const safeParseUser = (): User | null => {
+// --- HELPERS DE PERSISTENCIA ---
+
+const saveToSession = (token: string) => sessionStorage.setItem(SESSION_TOKEN_KEY, token)
+const getFromSession = () => sessionStorage.getItem(SESSION_TOKEN_KEY)
+const removeFromSession = () => sessionStorage.removeItem(SESSION_TOKEN_KEY)
+
+const saveToLocal = (user: User) => {
+    try {
+        localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user))
+    } catch (error) {
+        console.error("Error al persistir usuario:", error)
+    }
+}
+
+const getFromLocal = (): User | null => {
     try {
         const raw = localStorage.getItem(STORAGE_USER_KEY)
         if (!raw) return null
-        const parsed = JSON.parse(raw)
-        if (!parsed?.id || !parsed?.email) return null
-        return parsed as User
+        return JSON.parse(raw) as User
     } catch {
         localStorage.removeItem(STORAGE_USER_KEY)
         return null
     }
 }
 
-const saveUserToStorage = (user: User) => {
-    try {
-        localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user))
-    } catch (error) {
-        Notify({
-            type: "error",
-            title: "Error al guardar usuario en localStorage",
-            message: error instanceof Error ? error.message : "Error desconocido"
-        })
-    }
-}
+// --- LÓGICA DE JWT ---
 
-const saveTokenToStorage = (token: string) => localStorage.setItem(STORAGE_TOKEN_KEY, token)
-const removeUserFromStorage = () => localStorage.removeItem(STORAGE_USER_KEY)
-const removeTokenFromStorage = () => localStorage.removeItem(STORAGE_TOKEN_KEY)
-const getTokenFromStorage = () => localStorage.getItem(STORAGE_TOKEN_KEY)
-
-/** ────────────── Scheduler de logout automático ────────────── */
-const scheduleAutoLogout = (token: string, logout: () => void) => {
+const scheduleAutoLogout = (token: string, logoutFn: () => void): ReturnType<typeof setTimeout> | null => {
     try {
         const { exp } = jwtDecode<{ exp: number }>(token)
-        const msUntilExpiry = exp * 1000 - Date.now()
+        // Convertimos exp (segundos) a milisegundos
+        const msUntilExpiry = (exp * 1000) - Date.now()
+
         if (msUntilExpiry <= 0) {
-            logout()
-            return
+            logoutFn()
+            return null
         }
-        return setTimeout(logout, msUntilExpiry)
+
+        // Si falta demasiado tiempo (ej. más de 24h), el timeout de JS puede fallar.
+        // Pero para sesiones normales de 1-8h funciona perfecto.
+        return setTimeout(logoutFn, msUntilExpiry)
     } catch {
-        logout()
+        logoutFn()
+        return null
     }
 }
 
-/** ────────────── Estado y store ────────────── */
+// --- STORE ---
+
 interface AuthState {
     user: User | null
     token: string | null
     loginOpened: boolean
-    logoutTimer?: ReturnType<typeof setTimeout>
+    logoutTimer: ReturnType<typeof setTimeout> | null
 
     login: (user: User, token: string) => void
     logout: () => void
@@ -75,18 +78,23 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-    /** ────────────── Inicialización segura ────────────── */
-    user: safeParseUser(),
-    token: getTokenFromStorage(),
+    user: getFromLocal(),
+    token: getFromSession(),
     loginOpened: false,
+    logoutTimer: null,
 
-    /** ────────────── Login ────────────── */
     login: (user, token) => {
-        const timer = scheduleAutoLogout(token, get().logout)
-        if (!timer) return
+        // 1. Limpiar cualquier sesión o timer previo
+        const currentTimer = get().logoutTimer
+        if (currentTimer) clearTimeout(currentTimer)
 
-        saveTokenToStorage(token)
-        saveUserToStorage(user)
+        // 2. Agendar el cierre de sesión automático
+        const timer = scheduleAutoLogout(token, () => get().logout())
+        if (!timer) return // Token expirado
+
+        // 3. Persistir datos
+        saveToSession(token)
+        saveToLocal(user)
 
         set({
             user,
@@ -95,10 +103,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             loginOpened: false
         })
 
+        // 4. Acción obligatoria de seguridad
         if (user.mustChangePassword) {
             useModalStore.getState().openModal({
                 title: "Cambiar Contraseña",
-                subtitle: "Cambiar mi contraseña",
+                subtitle: "Es necesario actualizar tu contraseña por seguridad",
                 icon: "IconPassword",
                 content: <Password id={user.id} />,
                 withCloseButton: false,
@@ -108,56 +117,67 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         }
     },
 
-    /** ────────────── Actualización de usuario ────────────── */
-    updateUser: (data) => {
-        const currentUser = get().user
-        if (!currentUser) return
-        const updatedUser = { ...currentUser, ...data }
-        saveUserToStorage(updatedUser)
-        set({ user: updatedUser })
-    },
-
-    /** ────────────── Logout ────────────── */
     logout: () => {
+        // Limpiar el timer de la memoria
         const timer = get().logoutTimer
         if (timer) clearTimeout(timer)
 
-        removeTokenFromStorage()
-        removeUserFromStorage()
+        // Limpiar storages
+        removeFromSession()
+        localStorage.removeItem(STORAGE_USER_KEY)
 
+        // Limpiar modales abiertos
         useModalStore.getState().closeModal()
 
-        set({ user: null, token: null, logoutTimer: undefined })
+        set({
+            user: null,
+            token: null,
+            logoutTimer: null,
+            loginOpened: false
+        })
+
+        Notify({
+            type: "info",
+            title: "Sesión finalizada",
+            message: "Has salido del sistema correctamente"
+        })
     },
 
-    /** ────────────── Carga desde storage ────────────── */
-    loadUserFromStorage: () => {
-        const token = getTokenFromStorage()
-        const user = safeParseUser()
-        if (!token || !user) return get().logout()
+    updateUser: (data) => {
+        const currentUser = get().user
+        if (!currentUser) return
 
-        const timer = scheduleAutoLogout(token, get().logout)
+        const updatedUser = { ...currentUser, ...data }
+        saveToLocal(updatedUser)
+        set({ user: updatedUser })
+    },
+
+    loadUserFromStorage: () => {
+        const token = getFromSession()
+        const user = getFromLocal()
+
+        if (!token || !user) {
+            return get().logout()
+        }
+
+        const timer = scheduleAutoLogout(token, () => get().logout())
         if (!timer) return
 
         set({ token, user, logoutTimer: timer })
     },
 
-    /** ────────────── Modales ────────────── */
     openLogin: () => set({ loginOpened: true }),
     closeLogin: () => set({ loginOpened: false }),
 
-    /** ────────────── Consultas de estado ────────────── */
     isAuthenticated: () => !!get().token,
 
-    hasRole: (role: string) => {
+    hasRole: (role) => {
         const user = get().user
-        if (!user || !Array.isArray(user.roles)) return false
-        return user.roles.includes(role)
+        return Array.isArray(user?.roles) && user.roles.includes(role)
     },
 
-    hasPermission: (perm: string) => {
+    hasPermission: (perm) => {
         const user = get().user
-        if (!user || !Array.isArray(user.permissions)) return false
-        return user.permissions.includes(perm)
+        return Array.isArray(user?.permissions) && user.permissions.includes(perm)
     }
 }))

@@ -1,4 +1,4 @@
-export interface CBIM {
+export interface CBIMData {
     id: string;
     code: string;
     name: string;

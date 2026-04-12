@@ -2,19 +2,19 @@ import { Fieldset, FileInput, Stack } from "@mantine/core";
 import { ModalButtons } from "@/components";
 import type { UseFormReturnType } from "@mantine/form";
 
-interface FormValues {
+export interface FormValues {
     file: File | null;
 }
 
-interface Props {
-    form: UseFormReturnType<FormValues>;
-    onSubmit: (values: FormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>;
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props<FormValues>) => {
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>

@@ -1,13 +1,23 @@
 import type { UseFormReturnType } from "@mantine/form"
 import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core";
 import { ColorSelect, IconSelect, IndicatorGroup, ModalButtons } from "@/components";
-import type { SystemProps } from "@/features/Systems/types";
 import { MAX_ACRONYM_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { getTablerIcon } from "@/helpers";
 
-interface Props {
-    form: UseFormReturnType<SystemProps>;
-    onSubmit: (values: SystemProps) => void;
+export interface FormValues {
+    acronym: string | null;
+    icon: string;
+    color: string;
+    name: string;
+    description: string;
+    url: string,
+    type: "page" | "file";
+    file: File | null;
+}
+
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>;
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
     activeIndex: number,
@@ -15,7 +25,7 @@ interface Props {
     fileName?: string | null;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading, activeIndex, setActiveIndex, fileName }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading, activeIndex, setActiveIndex, fileName }: Props<FormValues>) => {
     const Icon = getTablerIcon(form.values.icon)
 
     return (

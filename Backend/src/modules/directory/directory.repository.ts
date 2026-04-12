@@ -84,7 +84,7 @@ export const getDirectoryRepository = async ({ skip, take, search }: PaginationP
             },
             "Error fetching directory"
         )
-        throw new Error("Error al obtener directorio telefonio")
+        throw new Error("Error al obtener directorio telefónico")
     }
 }
 

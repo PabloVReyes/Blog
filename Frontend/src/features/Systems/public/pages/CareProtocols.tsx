@@ -1,7 +1,7 @@
-import { Container } from "@/components"
+import { Alert, Container } from "@/components"
 import { useEffect, useState } from "react";
 import { fetchCareCategory } from "../api";
-import { Alert, Notify } from "@/ui";
+import { Notify } from "@/ui";
 import { Badge, Card, Center, Group, Loader, Stack, Text, useMantineTheme } from "@mantine/core";
 import { getCicloColor } from "@/utils";
 import { Protocol } from "../components";

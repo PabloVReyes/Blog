@@ -5,7 +5,7 @@ import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon 
 import { type UseFormReturnType } from "@mantine/form";
 import React from "react";
 
-export interface QuickAccessFormValues {
+export interface FormValues {
     isActive: boolean;
     title: string;
     description: string;
@@ -13,10 +13,10 @@ export interface QuickAccessFormValues {
     color: string;
     url?: string | null;
     file?: File | null;
-    [key: string]: unknown;
+    type: "page" | "file" | "null";
 }
 
-interface Props<T extends QuickAccessFormValues> {
+interface Props<T extends FormValues> {
     form: UseFormReturnType<T>;
     activeIndex: number;
     submitLabel: string;
@@ -26,7 +26,7 @@ interface Props<T extends QuickAccessFormValues> {
     fileName?: string | null;
 }
 
-export const Form = <T extends QuickAccessFormValues>({
+export const Form = <T extends FormValues>({
     form,
     activeIndex,
     submitLabel,

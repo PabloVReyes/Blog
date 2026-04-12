@@ -1,57 +1,48 @@
-import { useForm } from "@mantine/form"
-import { Form } from "./Form"
+import { Form, type FormValues } from "./Form"
 import { validateFile, validateName, validateSelect } from "@/utils/validators"
 import { useStandardsStore } from "@/stores"
-import { useFormSubmit } from "@/hooks"
+import { CrudAddDialog } from "@/components"
 
 export const Add = () => {
     const add = useStandardsStore(s => s.add);
 
-    const form = useForm({
-        mode: "controlled",
-        initialValues: {
-            name: "",
-            description: "",
-            isNew: true,
-            category: null,
-            file: null as File | null
-        },
-        validate: {
-            name: (value) => validateName(value, { required: true }),
-            category: (value) => validateSelect(value, { required: true }),
-            file: (value) => validateFile(value, { required: true })
-        }
-    })
-
-    const { handleSubmit, loading } = useFormSubmit<typeof form.values>(
-        async (values) => {
-            if (!add) throw new Error("Add no definido")
-            const formData = new FormData()
-            formData.append("name", values.name)
-            formData.append("description", values.description)
-            formData.append("isNew", String(values.isNew))
-            formData.append("category", String(values.category))
-            if (values.file) {
-                formData.append("file", values.file)
-            }
-
-            await add(formData)
-        },
-        {
-            successTitle: "Norma Oficial Creada",
-            successMessage: "La norma oficial fue creada correctamente",
-            errorTitle: "Error al crear norma oficial"
-        }
-    )
-
     return (
-        <Form
-            form={form}
-            onSubmit={handleSubmit}
-            submitLabel="Agregar"
-            isLoading={loading}
+        <CrudAddDialog<FormValues>
+            initialValues={{
+                name: "",
+                description: "",
+                isNew: true,
+                category: null,
+                file: null as File | null
+            }}
+            validate={{
+                name: (value) => validateName(value, { required: true }),
+                category: (value) => validateSelect(value, { required: true }),
+                file: (value) => validateFile(value, { required: true })
+            }}
+            successTitle="Norma Oficial Creada"
+            successMessage="La norma oficial fue creada correctamente"
+            errorTitle="Error al crear norma oficial"
+            onSubmit={async (values) => {
+                const formData = new FormData()
+                formData.append("name", values.name)
+                formData.append("description", values.description!)
+                formData.append("isNew", String(values.isNew))
+                formData.append("category", String(values.category))
+                if (values.file) {
+                    formData.append("file", values.file)
+                }
+
+                await add?.(formData)
+            }}
+            renderForm={(form, loading, execute) => (
+                <Form
+                    form={form}
+                    onSubmit={execute}
+                    submitLabel="Agregar"
+                    isLoading={loading}
+                />
+            )}
         />
     )
 }
-
-// 79 lineas -> 62 lineas -> 55 lineas

@@ -9,8 +9,7 @@ import {
     IconUsers
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import { Container } from "@/components";
-import { Alert } from "@/ui";
+import { Alert, Container } from "@/components";
 
 // Importación del CSS Module
 import classes from "./Settings.module.css";

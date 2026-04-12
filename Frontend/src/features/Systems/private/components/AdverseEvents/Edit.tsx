@@ -1,55 +1,40 @@
-import { useForm } from "@mantine/form"
-import { Form } from "./Form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
+import { Form, type FormValues } from "./Form"
 import { validatePdf } from "@/utils/validators"
 import { useSystemsAdverseEventsStore } from "@/stores"
 import type { AdverseEventsData } from "../../types/adverseEvents.types"
-
+import { CrudEditDialog } from "@/components"
 
 export const Edit = ({ id, file }: AdverseEventsData) => {
     const update = useSystemsAdverseEventsStore(s => s.update)
-    const [loading, setLoading] = useState<boolean>(false)
-
-    const form = useForm({
-        mode: "controlled",
-        initialValues: {
-            file: null as File | null,
-        },
-        validate: {
-            file: (value) => validatePdf(value, { required: true, existingFileName: file?.name })
-        }
-    })
-
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            const formData = new FormData();
-            if (values.file) {
-                formData.append("file", values.file!)
-            }
-            await update?.(id, formData)
-            showSuccessModal("Evento Adverso Editado", "El evento adverso fue editado correctamente")
-        } catch (error: unknown) {
-            Notify({
-                type: "error",
-                title: "Error al editar evento adverso",
-                message: error instanceof Error ? error.message : "Error desconocido"
-            })
-        } finally {
-            setLoading(false)
-        }
-    }
 
     return (
-        <Form
-            form={form}
-            onSubmit={handleSubmit}
-            submitLabel="Editar"
-            isLoading={loading}
-            fileName={file?.name}
+        <CrudEditDialog<FormValues>
+            id={id}
+            initialValues={{
+                file: null as File | null,
+            }}
+            validate={{
+                file: (value) => validatePdf(value, { required: true, existingFileName: file?.name })
+            }}
+            successTitle="Evento Adverso Editado"
+            successMessage="El evento adverso fue editado correctamente"
+            errorTitle="Error al editar evento adverso"
+            onSubmit={async (id, values) => {
+                const formData = new FormData();
+                if (values.file) {
+                    formData.append("file", values.file!)
+                }
+                await update?.(id, formData)
+            }}
+            renderForm={(form, loading, execute) => (
+                <Form
+                    form={form}
+                    onSubmit={execute}
+                    submitLabel="Editar"
+                    isLoading={loading}
+                    fileName={file?.name}
+                />
+            )}
         />
     )
 }
-
-// 70 lineas -> 51 lineas

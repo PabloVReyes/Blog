@@ -1,6 +1,6 @@
-import { ModalButtons } from "@/components"
+import { Alert, ModalButtons } from "@/components"
 import { changePasswordUser } from "@/layout/api"
-import { Alert, Notify, showSuccessModal } from "@/ui"
+import { Notify, showSuccessModal } from "@/ui"
 import {
     Divider,
     Group,

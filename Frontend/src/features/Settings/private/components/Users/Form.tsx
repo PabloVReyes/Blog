@@ -1,11 +1,11 @@
 import { Box, Center, Checkbox, Divider, Fieldset, Group, Loader, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
-import { ModalButtons, Switch } from "@/components";
+import { Alert, ModalButtons, Switch } from "@/components";
 import { MAX_NAME_PERSON_LENGTH } from "@/constants";
 import { useEffect, useState } from "react";
 import { IconAlertCircle, IconCircleCheck, IconMail } from "@tabler/icons-react";
 import { settingsPermissionsApi, settingsRolesApi } from "../../api";
 import classes from "./Form.module.css"
-import { Alert, Notify } from "@/ui";
+import { Notify } from "@/ui";
 import { type UseFormReturnType } from '@mantine/form'
 
 export interface Data {
@@ -16,9 +16,10 @@ export interface Data {
     permissions: PermissionElement[];
 }
 
-interface FormValues {
+export interface FormValues {
     name: string
     isActive: boolean
+    email: string;
     roles: string[]
 }
 
@@ -39,14 +40,14 @@ export interface PermissionPermission {
     isActive: boolean;
 }
 
-interface Props {
-    form: UseFormReturnType<FormValues>
-    onSubmit: (values: FormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props<FormValues>) => {
     const [roles, setRoles] = useState<Data[]>([])
     const [loadingRoles, setLoadingRoles] = useState<boolean>(false)
     const [permissions, setPermissions] = useState<number>(0)

@@ -10,24 +10,24 @@ interface Item {
     label: string;
 }
 
-interface FormValues {
+export interface FormValues {
     title: string;
-    description?: string;
+    description: string;
     orderIndex: number;
     cycle: string;
     file: File | null;
 }
 
-interface Props {
-    form: UseFormReturnType<FormValues>
-    onSubmit: (values: FormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;
     initialCycle?: Item | null;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName, initialCycle }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName, initialCycle }: Props<FormValues>) => {
     const [cycles, setCycles] = useState<Item[]>([]);
     const [loadingCycles, setLoadingCycles] = useState<boolean>(false);
 

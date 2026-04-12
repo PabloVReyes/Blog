@@ -1,13 +1,18 @@
 import { Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core";
 import { ColorSelect, IconSelect, ModalButtons } from "@/components";
-import type { SystemProps } from "@/features/Systems/types";
 import { MAX_TITLE_LENGTH } from "@/constants";
 import { getTablerIcon } from "@/helpers";
 import type { UseFormReturnType } from "@mantine/form";
 
+export interface FormValues {
+    name: string;
+    icon: string;
+    color: string;
+}
+
 interface Props {
-    form: UseFormReturnType<SystemProps>;
-    onSubmit: (values: SystemProps) => void;
+    form: UseFormReturnType<FormValues>;
+    onSubmit: (values: FormValues) => void;
     submitLabel: string;
     isLoading?: boolean;
 }

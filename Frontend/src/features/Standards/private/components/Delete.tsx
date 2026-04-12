@@ -1,131 +1,72 @@
-import { Card, Group, List, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
-import { useForm } from "@mantine/form"
-import { IconAlertTriangleFilled, IconArticle, IconCategory, IconFileText, IconLetterT } from "@tabler/icons-react"
-import { useState } from "react"
-import { Alert, Notify, showSuccessModal } from "@/ui"
-import { ModalButtons } from "@/components"
+import { Card, Group, Stack, Text, ThemeIcon } from "@mantine/core"
+import { IconArticle, IconCategory, IconFileText, IconLetterT } from "@tabler/icons-react"
+import { CrudDeleteDialog } from "@/components"
 import { useStandardsStore } from "@/stores"
 import type { StandardsData } from "../../types/standards.types"
 
 export const Delete = ({ id, name, description, category, file }: StandardsData) => {
     const { remove } = useStandardsStore()
-    const [loading, setLoading] = useState<boolean>(false)
-
-    const form = useForm({
-        initialValues: {
-            value: ""
-        },
-        validate: {
-            value: (value) => value == name ? null : "Escribe lo solicitado"
-        }
-    })
-
-    const handleSubmit = async () => {
-        try {
-            setLoading(true);
-            await remove?.(id)
-            showSuccessModal("Norma Oficial Eliminada", "La norma oficial fue eliminada correctamente")
-        } catch (error: unknown) {
-            Notify({
-                type: "error",
-                title: "Error al eliminar norma oficial",
-                message: error instanceof Error ? error.message : "Error desconocido"
-            });
-        } finally {
-            setLoading(false);
-        }
-    }
 
     return (
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-            <Stack>
-                <Card
-                    radius="md"
-                    p="md"
-                    withBorder
-                >
-                    <Text size="sm" fw={500} c="dimmed" mb="sm">
-                        Norma Oficial Mexicana a eliminar:
-                    </Text>
+        <CrudDeleteDialog
+            id={id}
+            confirmValue={name}
+            titleEntity="Norma Oficial Mexicana"
+            onDelete={remove}
+            label="Para confirmar escribe el nombre de la norma oficial mexicana:"
+            warningItems={[
+                "Se eliminara permanentemente la Norma Oficial Mexicana",
+                "El archivo cargado será eliminado permanentemente"
+            ]}
+        >
+            <Card
+                radius="md"
+                p="md"
+                withBorder
+            >
+                <Text size="sm" fw={500} c="dimmed" mb="sm">
+                    Norma Oficial Mexicana a eliminar:
+                </Text>
 
-                    <Group align="center" gap="md">
-                        <ThemeIcon
-                            size={56}
-                            variant="light"
-                        >
-                            <IconFileText />
-                        </ThemeIcon>
+                <Group align="center" gap="md">
+                    <ThemeIcon
+                        size={56}
+                        variant="light"
+                    >
+                        <IconFileText />
+                    </ThemeIcon>
 
-                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-                            <Group gap={6} wrap="nowrap">
-                                <IconLetterT size={16} style={{ flex: "0 0 auto" }} />
-                                <Text fw={700} size="md" truncate>
-                                    {name}
-                                </Text>
-                            </Group>
-
-                            <Group gap={6} wrap="nowrap">
-                                <IconArticle size={16} style={{ flex: "0 0 auto" }} />
-                                <Text fw={700} size="md" truncate>
-                                    {description}
-                                </Text>
-                            </Group>
-
-                            <Group gap={6} wrap="nowrap">
-                                <IconCategory size={16} style={{ flex: "0 0 auto" }} />
-                                <Text fw={700} size="md" truncate>
-                                    {category.name}
-                                </Text>
-                            </Group>
-
-                            <Group gap={6} wrap="nowrap">
-                                <IconFileText size={16} style={{ flex: "0 0 auto" }} />
-                                <Text fw={700} size="md" truncate>
-                                    {file?.name}
-                                </Text>
-                            </Group>
-                        </Stack>
-                    </Group>
-                </Card>
-
-                <Alert
-                    color="red"
-                    title={
-                        <Group align="center" gap="xs" mb="sm" wrap="nowrap">
-                            <IconAlertTriangleFilled
-                                size={20}
-                                color="orange"
-                                style={{ flex: "0 0 auto" }}
-                            />
-                            <Text fw={600} fz="lg">
-                                ADVERTENCIA: Esta acción es irreversible
+                    <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                        <Group gap={6} wrap="nowrap">
+                            <IconLetterT size={16} style={{ flex: "0 0 auto" }} />
+                            <Text fw={700} size="md" truncate>
+                                {name}
                             </Text>
                         </Group>
-                    }
-                    content={
-                        <List>
-                            <List.Item>Se eliminara permanentemente la Norma Oficial Mexicana</List.Item>
-                            <List.Item>El archivo cargado será eliminado permanentemente</List.Item>
-                        </List>
-                    }
-                />
 
-                <TextInput
-                    label="Para confirmar escribe el nombre de la norma oficial mexicana:"
-                    placeholder="Escribe el nombre para confirmar..."
-                    description={name}
-                    autoFocus
-                    {...form.getInputProps("value")}
-                />
+                        <Group gap={6} wrap="nowrap">
+                            <IconArticle size={16} style={{ flex: "0 0 auto" }} />
+                            <Text fw={700} size="md" truncate>
+                                {description}
+                            </Text>
+                        </Group>
 
-                <ModalButtons
-                    label="Eliminar"
-                    loading={loading}
-                    disabled={!form.isValid()}
-                />
-            </Stack>
-        </form>
+                        <Group gap={6} wrap="nowrap">
+                            <IconCategory size={16} style={{ flex: "0 0 auto" }} />
+                            <Text fw={700} size="md" truncate>
+                                {category.name}
+                            </Text>
+                        </Group>
+
+                        <Group gap={6} wrap="nowrap">
+                            <IconFileText size={16} style={{ flex: "0 0 auto" }} />
+                            <Text fw={700} size="md" truncate>
+                                {file?.name}
+                            </Text>
+                        </Group>
+                    </Stack>
+                </Group>
+            </Card>
+        </CrudDeleteDialog>
     )
 }
-
-// 106 lineas -> 90 lineas

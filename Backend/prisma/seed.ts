@@ -97,8 +97,8 @@ async function main() {
         { key: "protocols.delete", name: "Eliminar Protocolo de Atención (Pediatría)", description: "Permite eliminar un Protocolo de Atención (Pediatría) existente" },
 
         // Eventos Adversos
-        { key: "events.create", name: "Agregar Evento Adverso", description: "Permite agregar un nuevo Evento Adverso" },
         { key: "events.update", name: "Actualizar Evento Adverso", description: "Permite actualizar un Evento Adverso existente" },
+        { key: "events.delete", name: "Eliminar Evento Adverso", description: "Permite eliminar un Evento Adverso existente" },
 
         // Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)
         { key: "uveh.create", name: "Agregar Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)", description: "Permite agregar una nueva Unidad de Vigilancia Epidemiológica Hospitalaria (UVEH)" },
@@ -124,17 +124,17 @@ async function main() {
         { key: "vacation.create", name: "Agregar Vacaciones", description: "Permite agregar un nuevo rol vacacional" },
         { key: "vacation.update", name: "Actualizar Vacaciones", description: "Permite actualizar un rol vacacional existente" },
         { key: "vacation.delete", name: "Eliminar Vacaciones", description: "Permite eliminar un rol vacacional existente" },
-    
+
         // Directorio
         { key: "directory.create", name: "Agregar Extensión Telefónica", description: "Permite agregar una nueva extensión telefónica" },
         { key: "directory.update", name: "Actualizar Extensión Telefónica", description: "Permite actualizar una extensión telefónica existente" },
         { key: "directory.delete", name: "Eliminar Extensión Telefónica", description: "Permite eliminar una extensión telefónica existente" },
-    
+
         // Disposiciones Juristicas Administrativas
         { key: "juristics.create", name: "Agregar Disposición Jurística Administrativa", description: "Permite agregar una nueva disposición jurística administrativa" },
         { key: "juristics.update", name: "Actualizar Disposición Jurística Administrativa", description: "Permite actualizar una disposición jurística administrativa existente" },
         { key: "juristics.delete", name: "Eliminar Disposición Jurística Administrativa", description: "Permite eliminar una disposición jurística administrativa existente" },
-    
+
         // Descargas
         { key: "downloads.create", name: "Agregar Descarga", description: "Permite agregar una nueva descarga" },
         { key: "downloads.update", name: "Actualizar Descarga", description: "Permite actualizar una descarga existente" },

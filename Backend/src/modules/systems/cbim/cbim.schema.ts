@@ -8,8 +8,8 @@ export const postCbimSchema = z.object({
     code: z.string(),
     name: z.string(),
     description: z.string(),
-    sp: z.string().optional(),
-    fpgc: z.string().optional(),
+    sp: z.string().optional().nullable(),
+    fpgc: z.string().optional().nullable(),
     cbt_cae: z.enum(["CAE", "CBT"])
 })
 
@@ -35,8 +35,8 @@ export const putCbimSchema = z.object({
     code: z.string(),
     name: z.string(),
     description: z.string(),
-    sp: z.string().optional(),
-    fpgc: z.string().optional(),
+    sp: z.string().optional().nullable(),
+    fpgc: z.string().optional().nullable(),
     cbt_cae: z.enum(["CAE", "CBT"])
 })
 

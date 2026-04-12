@@ -2,9 +2,9 @@ import { Card, Text, Button, Group, Stack, Center, Divider } from "@mantine/core
 import { Link, useNavigate } from "react-router-dom";
 import classes from "./NotFound.module.css";
 import { IconAlertCircle, IconArrowLeft, IconHome } from "@tabler/icons-react";
-import { Alert } from "@/ui";
 import Lottie from "lottie-react";
 import NotFoundAnimation from "@/assets/not_found.json";
+import { Alert } from "@/components";
 
 export const NotFound = () => {
     const navigate = useNavigate();

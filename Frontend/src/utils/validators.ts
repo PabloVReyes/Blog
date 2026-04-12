@@ -26,7 +26,7 @@ export const validateCode = (value: string) =>
 
 // Validación de URL con opciones para requerirla o permitir solo relativas
 export const validateUrl = (
-    value: string | null,
+    value?: string | null,
     options?: {
         required?: boolean;
         allowRelative?: boolean;
@@ -63,7 +63,7 @@ export const validateSelect = (
 const DEFAULT_MAX_SIZE = 100 * 1024 * 1024; // 100MB
 
 export const validatePdf = (
-    file: File | null,
+    file?: File | null,
     options?: {
         required?: boolean;
         maxSize?: number;
@@ -148,7 +148,7 @@ export const validateYear = (
 };
 
 export const validateName = (
-    value: string,
+    value?: string,
     options?: {
         required?: boolean;
     }
@@ -246,7 +246,7 @@ export const validateExtension = (
 };
 
 export const validateEmail = (
-    value: string,
+    value?: string,
     options?: {
         required?: boolean;
     }

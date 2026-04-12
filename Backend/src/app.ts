@@ -48,8 +48,8 @@ export const createApp = (): Express => {
     }
 
     // Static files
-    const public_path = path.resolve(__dirname, '../uploads');
-    app.use("/uploads", express.static(public_path))
+    const publicPath = path.resolve(__dirname, '../uploads');
+    app.use("/uploads", express.static(publicPath))
 
     // Logs (desactivado en test)
     if (process.env.NODE_ENV !== 'test') {

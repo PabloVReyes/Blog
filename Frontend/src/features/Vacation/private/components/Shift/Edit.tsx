@@ -1,61 +1,39 @@
-import { useForm } from "@mantine/form"
-import { Form } from "./Form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
+import { Form, type FormValues } from "./Form"
 import { validateColor, validateIcon, validateName } from "@/utils"
 import { useVacationShiftStore } from "@/stores"
+import type { ShiftData } from "@/features/Vacation/types/vacations.types"
+import { CrudEditDialog } from "@/components"
 
-export interface Data {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const Edit = (file: Data) => {
+export const Edit = ({ id, name, icon, color }: ShiftData) => {
     const update = useVacationShiftStore(s => s.update)
-    const [loading, setLoading] = useState<boolean>(false)
-
-    const form = useForm({
-        mode: "controlled",
-        initialValues: {
-            name: file.name,
-            icon: file.icon,
-            color: file.color,
-        },
-        validate: {
-            name: (value) => validateName(value, { required: true }),
-            icon: validateIcon,
-            color: validateColor
-        }
-    })
-
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await update?.(file.id.toString(), values)
-            showSuccessModal("Turno Editado", "El turno fue editado correctamente")
-        } catch (error: unknown) {
-            Notify({
-                type: "error",
-                title: "Error al editar turno",
-                message: error instanceof Error ? error.message : "Error desconocido"
-            })
-        } finally {
-            setLoading(false)
-        }
-    }
 
     return (
-        <Form
-            form={form}
-            onSubmit={handleSubmit}
-            submitLabel="Editar"
-            isLoading={loading}
+        <CrudEditDialog<FormValues>
+            id={id}
+            initialValues={{
+                name,
+                icon,
+                color,
+            }}
+            validate={{
+                name: (value) => validateName(value, { required: true }),
+                icon: validateIcon,
+                color: validateColor
+            }}
+            successTitle="Turno Editado"
+            successMessage="El turno fue editado correctamente"
+            errorTitle="Error al editar turno"
+            onSubmit={async (id, values) => {
+                await update?.(id, values)
+            }}
+            renderForm={(form, loading, execute) => (
+                <Form
+                    form={form}
+                    onSubmit={execute}
+                    submitLabel="Editar"
+                    isLoading={loading}
+                />
+            )}
         />
     )
 }
-
-// 77 lineas -> 59 lineas

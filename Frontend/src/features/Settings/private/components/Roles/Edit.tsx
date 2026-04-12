@@ -1,83 +1,45 @@
-import { useForm } from "@mantine/form"
-import { Form } from "./Form"
-import { useState } from "react"
-import { Notify, showSuccessModal } from "@/ui"
+import { Form, type FormValues } from "./Form"
 import { validateDescription, validateName } from "@/utils"
 import { useSettingsRolesStore } from "@/stores"
+import type { RolData } from "../../types/roles.types"
+import { CrudEditDialog } from "@/components"
 
-export interface Data {
-    id: string;
-    name: string;
-    description: string;
-    _count: Count;
-    permissions: PermissionElement[];
-}
-
-export interface Count {
-    users: number;
-    permissions: number;
-}
-
-export interface PermissionElement {
-    permission: PermissionPermission;
-}
-
-export interface PermissionPermission {
-    id: string;
-    name: string;
-    key: string;
-    description: string;
-    isActive: boolean;
-}
-
-export const Edit = (file: Data) => {
+export const Edit = ({ id, name, description, permissions }: RolData) => {
     const update = useSettingsRolesStore(s => s.update)
-    const [loading, setLoading] = useState<boolean>(false)
-
-    const form = useForm({
-        mode: "controlled",
-        initialValues: {
-            name: file.name,
-            description: file.description,
-            fullAccess: false,
-            permissions: file.permissions.map((p) => p.permission.id)
-        },
-        validate: {
-            name: (value) => validateName(value, { required: true }),
-            description: (value) => validateDescription(value),
-            permissions: (value, values) => {
-                if (!values.fullAccess && value.length === 0) {
-                    return "Debes seleccionar al menos un permiso";
-                }
-                return null;
-            },
-        }
-    })
-
-    const handleSubmit = async (values: typeof form.values) => {
-        try {
-            setLoading(true)
-            await update?.(file.id.toString(), values)
-            showSuccessModal("Rol Editado", "El rol fue editado correctamente")
-        } catch (error: unknown) {
-            Notify({
-                type: "error",
-                title: "Error al editar rol",
-                message: error instanceof Error ? error.message : "Error desconocido"
-            })
-        } finally {
-            setLoading(false)
-        }
-    }
 
     return (
-        <Form
-            form={form}
-            onSubmit={handleSubmit}
-            submitLabel="Editar"
-            isLoading={loading}
+        <CrudEditDialog<FormValues>
+            id={id}
+            initialValues={{
+                name,
+                description,
+                fullAccess: false,
+                permissions: permissions.map((p) => p.permission.id)
+            }}
+            validate={{
+                name: (value) => validateName(value, { required: true }),
+                description: (value) => validateDescription(value),
+                permissions: (value, values) => {
+                    if (!values.fullAccess && value.length === 0) {
+                        return "Debes seleccionar al menos un permiso";
+                    }
+                    return null;
+                },
+            }}
+            successTitle="Rol Editado"
+            successMessage="El rol fue editado correctamente"
+            errorTitle="Error al editar rol"
+            onSubmit={async (id, values) => {
+                await update?.(id.toString(), values)
+            }}
+            renderForm={(form, loading, execute) => (
+                <Form
+                    form={form}
+                    onSubmit={execute}
+                    submitLabel="Editar"
+                    isLoading={loading}
+                />
+            )}
         />
     )
 }
-
-// 98 lineas -> 81 lineas

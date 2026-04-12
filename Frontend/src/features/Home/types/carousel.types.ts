@@ -10,7 +10,7 @@ export interface CarouselData {
     description: string;
     orderIndex: number;
     isActive: boolean;
-    url: string | null;
+    url?: string | null;
     fileId: string;
     sectionId: string;
     createdAt: Date;

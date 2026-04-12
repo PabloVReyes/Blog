@@ -9,16 +9,15 @@ import { type UseFormReturnType } from "@mantine/form";
 export interface FormValues {
     phone: string;
     name: string;
-    level: string;
-    boss: string;
-    secretary: string;
-    email: string;
+    level: string | null;
+    boss?: string;
+    secretary?: string;
+    email?: string;
 }
 
-interface Props {
-    // Tipamos el formulario de Mantine
-    form: UseFormReturnType<FormValues>;
-    onSubmit: (values: FormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>;
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
 }
@@ -28,7 +27,7 @@ interface Level {
     name: string;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props<FormValues>) => {
     const [levels, setLevels] = useState<Level[]>([])
 
     const fetchLevelsData = async () => {

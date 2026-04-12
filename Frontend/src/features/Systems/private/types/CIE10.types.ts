@@ -1,4 +1,4 @@
-export interface CIE10 {
+export interface CIE10Data {
     id: string;
     name: string;
 }

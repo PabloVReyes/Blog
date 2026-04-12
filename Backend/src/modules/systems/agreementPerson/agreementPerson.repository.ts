@@ -1,6 +1,35 @@
 import { database } from "../../../config/prisma"
 import { logger } from "../../../utils/logger"
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client"
+import { mapAgreementPerson } from "../../../helpers/mapAgreementPerson"
+
+const personBasicSelect = {
+    id: true,
+    name: true,
+    type: true,
+    groupId: true, 
+    zoneId: true, 
+    group: { select: { id: true, name: true } },
+    zone: { select: { id: true, name: true } }
+}
+
+const relationSelect = {
+    children: {
+        select: {
+            dependent: { select: personBasicSelect }
+        }
+    },
+    parents: {
+        select: {
+            parent: { select: personBasicSelect }
+        }
+    }
+}
+
+const fullPersonSelect = {
+    ...personBasicSelect,
+    ...relationSelect
+}
 
 ////////////
 // CREATE //
@@ -9,9 +38,9 @@ import { Prisma } from "@prisma/client";
 interface PostAgreementPersonRepositoryProps {
     name: string;
     group: number;
-    zone: number
-    type: "HOLDER" | "DEPENDENT"
-    holder?: number,
+    zone: number;
+    type: "HOLDER" | "DEPENDENT";
+    holder?: number;
 }
 
 export const postAgreementPersonRepository = async ({
@@ -29,90 +58,33 @@ export const postAgreementPersonRepository = async ({
                 zoneId: zone,
                 type,
                 parents: (type === "DEPENDENT" && holder)
-                    ? {
-                        create: [
-                            {
-                                parent: { connect: { id: holder } }
-                            }
-                        ]
-                    }
+                    ? { create: [{ parent: { connect: { id: holder } } }] }
                     : undefined
             },
-            include: {
-                children: {
-                    include: {
-                        dependent: { include: { zone: true, group: true } }
-                    }
-                },
-                parents: {
-                    include: {
-                        parent: { include: { zone: true, group: true } }
-                    }
-                },
-                zone: true,
-                group: true
-            },
-        });
+            select: fullPersonSelect
+        })
 
-        const { children, parents, ...rest } = personCreated;
-
-        return {
-            ...rest,
-            dependents: (children || [])
-                .map(link => link.dependent)
-                .sort((a, b) => (a.id - b.id)),
-            holders: (parents || [])
-                .map(link => link.parent)
-                .sort((a, b) => (a.id - b.id))
-        };
+        return mapAgreementPerson(personCreated)
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "postAgreementPersonRepository",
-                entity: "AgreementPerson",
-                payload: { name, type, group, zone }
-            },
-            "Error creating agreement person"
-        )
+        logger.error({ error, operation: "postAgreementPersonRepository", payload: { name, type } }, "Error creating agreement person")
         throw new Error("Error al crear paciente de convenio")
     }
 }
 
 export const postGroupRepository = async (name: string) => {
     try {
-        return await database.group.create({
-            data: { name }
-        })
+        return await database.group.create({ data: { name } })
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "postGroupRepository",
-                entity: "Group",
-                payload: { name }
-            },
-            "Error creating group"
-        )
+        logger.error({ error, operation: "postGroupRepository", payload: { name } }, "Error creating group")
         throw new Error("Error al crear nuevo grupo")
     }
 }
 
 export const postZoneRepository = async (name: string) => {
     try {
-        return await database.zone.create({
-            data: { name }
-        })
+        return await database.zone.create({ data: { name } })
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "postZoneRepository",
-                entity: "Zone",
-                payload: { name }
-            },
-            "Error creating zone"
-        )
+        logger.error({ error, operation: "postZoneRepository", payload: { name } }, "Error creating zone")
         throw new Error("Error al crear nueva zona")
     }
 }
@@ -131,14 +103,14 @@ interface GetAgreementPersonRepositoryProps {
 
 export const getAgreementPersonWithDependentsRepository = async ({ search, take, skip, groupId, zoneId }: GetAgreementPersonRepositoryProps) => {
     try {
-        const isNumeric = !isNaN(Number(search));
-        const searchInt = isNumeric ? Number(search) : null;
+        const isNumeric = !isNaN(Number(search))
+        const searchInt = isNumeric ? Number(search) : null
 
         const where: Prisma.AgreementPersonWhereInput = {
             type: "HOLDER",
             ...(groupId && { groupId }),
             ...(zoneId && { zoneId }),
-        };
+        }
 
         if (search) {
             where.OR = [
@@ -156,114 +128,53 @@ export const getAgreementPersonWithDependentsRepository = async ({ search, take,
                         }
                     }
                 }
-            ];
+            ]
         }
 
         const [rawData, total] = await Promise.all([
             database.agreementPerson.findMany({
                 where,
-                include: {
-                    children: {
-                        include: {
-                            dependent: {
-                                include: { zone: true, group: true }
-                            }
-                        }
-                    },
-                    zone: true,
-                    group: true
-                },
+                select: fullPersonSelect,
                 orderBy: { id: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
             }),
             database.agreementPerson.count({ where }),
-        ]);
+        ])
 
-        const data = rawData.map(person => {
-            const { children, groupId, zoneId, ...rest } = person;
-
-            return {
-                ...rest,
-                dependents: children.map(link => link.dependent)
-            };
-        });
-
-        return { data, total }
+        return { data: rawData.map(mapAgreementPerson), total }
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "getAgreementPersonWithDependentsRepository",
-                entity: "AgreementPerson",
-                params: { search, take, skip, groupId, zoneId }
-            },
-            "Error fetching agreement persons with dependents"
-        )
+        logger.error({ error, operation: "getAgreementPersonWithDependentsRepository" }, "Error fetching holders")
         throw new Error("Error al obtener pacientes de convenio")
     }
 }
 
 export const getAgreementPersonRepository = async ({ search, take, skip }: GetAgreementPersonRepositoryProps) => {
     try {
-        const isNumeric = !isNaN(Number(search));
-        const searchInt = isNumeric ? Number(search) : null;
+        const isNumeric = !isNaN(Number(search))
+        const searchInt = isNumeric ? Number(search) : null
 
-        const where = search ? {
+        const where: Prisma.AgreementPersonWhereInput = search ? {
             OR: [
                 { name: { contains: search } },
                 ...(searchInt ? [{ id: searchInt }] : []),
             ]
-        } : {};
+        } : {}
 
         const [rawData, total] = await Promise.all([
             database.agreementPerson.findMany({
                 where,
-                include: {
-                    children: {
-                        include: {
-                            dependent: {
-                                include: { zone: true, group: true }
-                            }
-                        }
-                    },
-                    parents: {
-                        include: {
-                            parent: {
-                                include: { zone: true, group: true }
-                            }
-                        }
-                    },
-                    zone: true,
-                    group: true
-                },
+                select: fullPersonSelect,
                 orderBy: { id: "asc" },
                 ...(take !== undefined && { take }),
                 ...(skip !== undefined && { skip }),
             }),
             database.agreementPerson.count({ where }),
-        ]);
+        ])
 
-        const data = rawData.map(person => {
-            const { children, parents, ...rest } = person;
-            return {
-                ...rest,
-                dependents: children.map(link => link.dependent).sort((a, b) => a.id - b.id),
-                holders: parents.map(link => link.parent).sort((a, b) => a.id - b.id)
-            };
-        });
-
-        return { data, total };
+        return { data: rawData.map(mapAgreementPerson), total }
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "getAgreementPersonRepository",
-                entity: "AgreementPerson",
-                params: { search, take, skip }
-            },
-            "Error fetching agreement persons"
-        )
+        logger.error({ error, operation: "getAgreementPersonRepository" }, "Error fetching persons")
         throw new Error("Error al obtener pacientes de convenio")
     }
 }
@@ -275,15 +186,7 @@ export const getAgreementPersonByIdRepository = async (id: number) => {
             include: { _count: { select: { children: true } } }
         })
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "getAgreementPersonByIdRepository",
-                entity: "AgreementPerson",
-                id
-            },
-            "Error fetching agreement person by id"
-        )
+        logger.error({ error, operation: "getAgreementPersonByIdRepository", id }, "Error fetching by id")
         throw new Error("Error al obtener paciente")
     }
 }
@@ -296,14 +199,7 @@ export const getGroupsRepository = async () => {
         ])
         return { data, total }
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "getGroupsRepository",
-                entity: "Group"
-            },
-            "Error fetching groups"
-        )
+        logger.error({ error, operation: "getGroupsRepository" }, "Error fetching groups")
         throw new Error("Error al obtener grupos")
     }
 }
@@ -316,14 +212,7 @@ export const getZonesRepository = async () => {
         ])
         return { data, total }
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "getZonesRepository",
-                entity: "Zone"
-            },
-            "Error fetching zones"
-        )
+        logger.error({ error, operation: "getZonesRepository" }, "Error fetching zones")
         throw new Error("Error al obtener zonas")
     }
 }
@@ -336,9 +225,9 @@ interface PutAgreementPersonRepositoryProps {
     id: number;
     name: string;
     group: number;
-    zone: number
-    type: "HOLDER" | "DEPENDENT"
-    holder?: number,
+    zone: number;
+    type: "HOLDER" | "DEPENDENT";
+    holder?: number;
 }
 
 export const putAgreementPersonRepository = async ({
@@ -361,57 +250,24 @@ export const putAgreementPersonRepository = async ({
                     ? { deleteMany: {} }
                     : {
                         deleteMany: {},
-                        create: holder ? [{
-                            parent: { connect: { id: holder } }
-                        }] : []
+                        create: holder ? [{ parent: { connect: { id: holder } } }] : []
                     }
             },
-            include: {
-                children: { include: { dependent: { include: { zone: true, group: true } } } },
-                parents: { include: { parent: { include: { zone: true, group: true } } } },
-                zone: true,
-                group: true
-            },
-        });
+            select: fullPersonSelect
+        })
 
-        const { children, parents, ...rest } = personUpdated;
-
-        return {
-            ...rest,
-            dependents: (children || []).map(link => link.dependent).sort((a, b) => a.id - b.id),
-            holders: (parents || []).map(link => link.parent).sort((a, b) => a.id - b.id)
-        };
-
+        return mapAgreementPerson(personUpdated)
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "putAgreementPersonRepository",
-                entity: "AgreementPerson",
-                id,
-                payload: { name, type, group, zone }
-            },
-            "Error updating agreement person"
-        )
+        logger.error({ error, operation: "putAgreementPersonRepository", id }, "Error updating person")
         throw new Error("Error al actualizar paciente de convenio")
     }
 }
 
 export const deleteAgreementPersonRepository = async (id: number) => {
     try {
-        return await database.agreementPerson.delete({
-            where: { id }
-        })
+        return await database.agreementPerson.delete({ where: { id } })
     } catch (error) {
-        logger.error(
-            {
-                error,
-                operation: "deleteAgreementPersonRepository",
-                entity: "AgreementPerson",
-                id
-            },
-            "Error deleting agreement person"
-        )
+        logger.error({ error, operation: "deleteAgreementPersonRepository", id }, "Error deleting person")
         throw new Error("Error al eliminar paciente de convenio")
     }
 }

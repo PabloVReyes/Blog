@@ -3,23 +3,22 @@ import { ModalButtons, Switch } from "@/components";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { type UseFormReturnType } from "@mantine/form";
 
-// 1. Interfaz para los valores del formulario de descarga simple
-export interface SimpleDownloadFormValues {
+export interface FormValues {
     name: string;
     description: string;
     isNew: boolean;
     file: File | null;
 }
 
-interface Props {
-    form: UseFormReturnType<SimpleDownloadFormValues>;
-    onSubmit: (values: SimpleDownloadFormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>;
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
     fileName?: string | null;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props<FormValues>) => {
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack gap="md">
@@ -58,6 +57,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props
                     <Divider my="sm" />
 
                     <Switch
+                        value="isNew"
                         label="Nuevo"
                         description='Muestra una etiqueta visual de novedad al costado del nombre'
                         checked={form.values.isNew} // IMPORTANTE: Usar checked para booleanos

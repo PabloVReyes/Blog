@@ -3,21 +3,21 @@ import { ModalButtons, Switch } from "@/components";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
 import { type UseFormReturnType } from '@mantine/form'
 
-interface RoleFormValues {
-    isActive: boolean
-    name: string
-    description: string
+export interface FormValues {
+    isActive: boolean;
+    name: string;
+    description: string;
+    key: string;
 }
 
-
-interface Props {
-    form: UseFormReturnType<RoleFormValues>;
-    onSubmit: (values: RoleFormValues) => void;
+interface Props<T extends FormValues> {
+    form: UseFormReturnType<T>;
+    onSubmit: (values: T) => void;
     submitLabel: string;
     isLoading?: boolean;
 }
 
-export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props) => {
+export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props<FormValues>) => {
     return (
         <form onSubmit={form.onSubmit(onSubmit)}>
             <Stack>
