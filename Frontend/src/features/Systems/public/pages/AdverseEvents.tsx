@@ -1,5 +1,5 @@
-import { Alert, Container } from "@/components"
-import { Box, Card, Group, Paper, SimpleGrid, Stack, Text, ThemeIcon } from "@mantine/core";
+import { Alert, Container, ThemeIcon } from "@/components"
+import { Box, Card, Group, Paper, SimpleGrid, Stack, Text } from "@mantine/core";
 import { IconAlertCircle, IconArrowNarrowRight, IconClipboardText, IconDownload, IconFileTypePdf, IconPointFilled, IconQrcode, IconSend } from "@tabler/icons-react";
 import classes from "./AdverseEvents.module.css"
 import { useEffect, useState } from "react";
@@ -100,8 +100,8 @@ export const AdverseEvents = () => {
 
                     <Box className={classes.content}>
                         <Group mb="md">
-                            <ThemeIcon size={48} radius={"lg"} className={classes.icon}>
-                                <IconSend size={24} color="white" />
+                            <ThemeIcon size={48} className={classes.icon}>
+                                <IconSend color="white" />
                             </ThemeIcon>
                         </Group>
 
@@ -139,8 +139,8 @@ export const AdverseEvents = () => {
 
                     <Box className={classes.content}>
                         <Group mb="md">
-                            <ThemeIcon size={48} radius="lg" className={classes.icon}>
-                                <IconDownload size={24} color="white" />
+                            <ThemeIcon size={48} className={classes.icon}>
+                                <IconDownload color="white" />
                             </ThemeIcon>
                         </Group>
 
@@ -173,7 +173,6 @@ export const AdverseEvents = () => {
                             variant="light"
                             size={40}
                             color="orange"
-                            className="themeIcon"
                         >
                             <IconSend size={20} />
                         </ThemeIcon>
@@ -188,7 +187,6 @@ export const AdverseEvents = () => {
                             variant="light"
                             size={40}
                             color="cyan"
-                            className="themeIcon"
                         >
                             <IconDownload size={20} />
                         </ThemeIcon>
@@ -203,7 +201,6 @@ export const AdverseEvents = () => {
                             variant="light"
                             size={40}
                             color="green"
-                            className="themeIcon"
                         >
                             <IconAlertCircle size={20} />
                         </ThemeIcon>

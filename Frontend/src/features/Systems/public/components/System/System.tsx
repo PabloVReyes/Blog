@@ -1,15 +1,16 @@
-import { Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/core";
+import { Button, Card, Stack, Text, Title, useMantineTheme } from "@mantine/core";
 import * as TablerIcons from "@tabler/icons-react";
 import styles from './System.module.css'
 import { useNavigate } from "react-router-dom";
-import { getTablerIcon } from "@/helpers";
 import type { SystemData } from "@/features/Systems/types/systems.types";
 import { useDownloadFile } from "@/hooks";
+import { ThemeIcon } from "@/components";
+import { getTablerIcon } from "@/helpers";
 
 export const System = ({ icon, color, name, acronym, description, url, type, file }: SystemData) => {
     const navigate = useNavigate()
     const { view } = useDownloadFile()
-
+    const { primaryColor } = useMantineTheme()
     const Icon = getTablerIcon(icon)
 
     const handleNavigate = () => {
@@ -39,15 +40,9 @@ export const System = ({ icon, color, name, acronym, description, url, type, fil
         >
             <Stack gap={"xs"} h={"100%"}>
                 <ThemeIcon
-                    size={56}
                     color={color}
-                    variant="light"
-                    className={`${styles.iconWrapper}`}
-                    style={{
-                        '--icon-rgb': color || "#40c057" // fallback green
-                    } as React.CSSProperties}
                 >
-                    <Icon size={28} />
+                    <Icon />
                 </ThemeIcon>
 
                 <Title order={4} className={styles.itemTitle}>
@@ -66,6 +61,7 @@ export const System = ({ icon, color, name, acronym, description, url, type, fil
                 <Button
                     mt={"auto"}
                     variant="subtle"
+                    c={primaryColor}
                     px={0}
                     className={styles.action}
                     rightSection={

@@ -10,7 +10,6 @@ export const createCrudApi = <
     T,
     CreateDTO = Partial<T>,
     UpdateDTO = Partial<T>,
-    // SOLUCIÓN: Restringimos los filtros a tipos primitivos que pueden convertirse a string
     Filters extends Record<string, string | number | boolean | undefined> = {}
 >(
     basePath: string,
@@ -27,7 +26,6 @@ export const createCrudApi = <
             const query = params
                 ? new URLSearchParams(
                     Object.entries(params).reduce((acc, [k, v]) => {
-                        // Ahora TypeScript sabe que 'v' no es 'any', sino un primitivo o undefined
                         if (v !== undefined && v !== "") {
                             acc[k] = String(v)
                         }

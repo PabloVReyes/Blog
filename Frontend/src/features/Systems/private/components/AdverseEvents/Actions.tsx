@@ -1,12 +1,14 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { AdverseEventsData } from "../../types/adverseEvents.types"
+import { CrudDeleteEntity } from "@/components"
+import { useSystemsAdverseEventsStore } from "@/stores"
 
 export const ActionsAdverseEvents = ({ id, ...props }: AdverseEventsData) => {
     const { openModal } = useModalStore()
+    const remove = useSystemsAdverseEventsStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -31,10 +33,19 @@ export const ActionsAdverseEvents = ({ id, ...props }: AdverseEventsData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Evento Adverso"
+                    confirmValue={props.title}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del evento adverso:"
+                    warnings={[
+                        "Se eliminara permanentemente el evento adverso",
+                        "Todos los procesos que tienen este evento adverso como referencia quedaran sin él"
+                    ]}
+                >
+
+                </CrudDeleteEntity>
             )
         })
     }

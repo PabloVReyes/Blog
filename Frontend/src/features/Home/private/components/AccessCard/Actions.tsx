@@ -2,11 +2,14 @@ import { useModalStore } from "@/layout"
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import type { AccessCardData } from "@/features/Home/types/accessCard.types"
+import { useHomeAccessCardStore } from "@/stores"
+import { CrudDeleteEntity } from "@/components"
+import { AccessCardPreview } from "./AccessCardPreview"
 
 export const ActionsAccessCard = ({ id, ...props }: AccessCardData) => {
     const { openModal } = useModalStore()
+    const remove = useHomeAccessCardStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const ActionsAccessCard = ({ id, ...props }: AccessCardData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Acceso Rápido"
+                    confirmValue={props.title}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del acceso rápido:"
+                    warnings={[
+                        "Se eliminara permanentemente el acceso rápido",
+                        "El ícono seleccionado será eliminado permanentemente"
+                    ]}
+                >
+                    <AccessCardPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

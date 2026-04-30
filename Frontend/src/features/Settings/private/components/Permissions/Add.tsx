@@ -26,14 +26,14 @@ export const AddPermissions = () => {
                 if (!add) throw new Error("Add no definido")
                 await add(values)
             }}
-            renderForm={(form, loading, execute) => {
+            renderForm={(form, loading, execute) => (
                 <Form
                     form={form}
                     onSubmit={execute}
                     submitLabel="Agregar"
                     isLoading={loading}
                 />
-            }}
+            )}
         />
     )
 }

@@ -1,5 +1,5 @@
-import { Panel, Table } from "@/components"
-import { Badge, Text, ThemeIcon } from "@mantine/core"
+import { Panel, Table, ThemeIcon } from "@/components"
+import { Badge, Text } from "@mantine/core"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { ActionsCalendar } from "../components"
@@ -17,13 +17,7 @@ const columns: Column<CalendarData>[] = [
             const Icon = getTablerIcon(row.icon)
             return (
                 <ThemeIcon
-                    size={50}
                     color={row.color}
-                    variant="light"
-                    style={{
-                        '--icon-rgb': row.color || "#40c057" // fallback green
-                    } as React.CSSProperties}
-                    className="themeIcon"
                 >
                     <Icon />
                 </ThemeIcon>

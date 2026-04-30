@@ -1,15 +1,16 @@
-import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Badge, Button, Card, Flex, Group, Stack, Text, Title } from "@mantine/core"
 import classes from "./Download.module.css"
-import { colorMap, formatFileSize, resolveFileMeta } from "@/utils"
+import { formatFileSize, resolveFileMeta } from "@/utils"
 import { IconDownload, IconExternalLink, IconGavel } from "@tabler/icons-react"
 import type { JuristicData } from "../../types/juristic.types"
 import { useDownloadFile } from "@/hooks"
+import { ThemeIcon } from "@/components"
 
 interface Props extends JuristicData {
     color: string;
 }
 
-export const Download = ({ color, name, description, file, fileId, isNew }: Props) => {
+export const Download = ({ name, description, file, fileId, isNew }: Props) => {
     const { download, view } = useDownloadFile()
 
     const fileMeta = resolveFileMeta(file?.mimeType ?? "", file?.name ?? "")
@@ -19,14 +20,7 @@ export const Download = ({ color, name, description, file, fileId, isNew }: Prop
         >
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
-                    <ThemeIcon
-                        size={56}
-                        variant="light"
-                        className={`${classes.iconWrapper}`}
-                        style={{
-                            '--icon-rgb': colorMap[color] || "#40c057" // fallback green
-                        } as React.CSSProperties}
-                    >
+                    <ThemeIcon>
                         <IconGavel size={28} />
                     </ThemeIcon>
 

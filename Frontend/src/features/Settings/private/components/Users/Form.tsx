@@ -1,5 +1,5 @@
 import { Box, Center, Checkbox, Divider, Fieldset, Group, Loader, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
-import { Alert, ModalButtons, Switch } from "@/components";
+import { Alert, BaseForm, Switch } from "@/components";
 import { MAX_NAME_PERSON_LENGTH } from "@/constants";
 import { useEffect, useState } from "react";
 import { IconAlertCircle, IconCircleCheck, IconMail } from "@tabler/icons-react";
@@ -64,7 +64,7 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props<FormValue
 
     const fetchPermissionsData = async () => {
         try {
-            const res = await settingsPermissionsApi.fetch({})
+            const res: any = await settingsPermissionsApi.fetch({})
             setPermissions(res.meta.total)
         } catch (error) {
             Notify({
@@ -89,165 +89,163 @@ export const Form = ({ form, onSubmit, submitLabel, isLoading }: Props<FormValue
         : false;
 
     return (
-        <form onSubmit={form.onSubmit(onSubmit)}>
-            <Stack>
-                <Fieldset legend="Información">
-                    <Switch
-                        label="Estado"
-                        description='Estado del usuario: Activo/Inactivo'
-                        value={form.values.isActive}
-                        {...form.getInputProps("isActive", { type: "checkbox" })}
-                    />
-
-                    <Divider />
-
-                    <TextInput
-                        withAsterisk
-                        label="Nombre"
-                        description="Nombre completo del usuario"
-                        placeholder="Ej. Pablo Vazquez Reyes"
-                        maxLength={MAX_NAME_PERSON_LENGTH}
-                        rightSection={
-                            <Text size="xs" c="dimmed">
-                                {form.values.name?.length || 0}/{MAX_NAME_PERSON_LENGTH}
-                            </Text>
-                        }
-                        rightSectionWidth={40}
-                        {...form.getInputProps("name")}
-                    />
-
-                    <Divider />
-
-                    <TextInput
-                        withAsterisk
-                        label="Correo Electrónico"
-                        description="Correo Electrónico en donde le llegara su contraseña al usuario"
-                        leftSection={
-                            <IconMail size={16} />
-                        }
-                        {...form.getInputProps("email")}
-                        placeholder="email@example.com"
-                    />
-
-                </Fieldset>
-
-                <Fieldset legend="Roles"
-                    style={{
-                        borderColor: form.errors.roles ? 'var(--mantine-color-red-filled)' : 'light-dark(oklch(92.8% 0.006 264.531), oklch(37.3% 0.034 259.733))',
-                    }}
-                >
-                    {loadingRoles
-                        ? <Center h={"100%"}><Loader /></Center>
-                        : <Stack>
-                            <SimpleGrid cols={{ base: 1, md: 2 }} spacing={5}>
-                                {roles.length > 0 ? (
-                                    roles.map((rol) => {
-                                        const checked = form.values.roles.includes(rol.id);
-                                        return (
-                                            <Checkbox.Card
-                                                key={rol.id}
-                                                checked={checked}
-                                                className={`${classes.root} ${checked ? classes.active : ""}`}
-                                                radius="md"
-                                                value={rol.id}
-                                                onClick={() => {
-                                                    const current = form.values.roles;
-                                                    /**
-                                                     * Si selecciona ADMIN
-                                                     */
-                                                    if (fullAccessRole && rol.id === fullAccessRole.id) {
-                                                        if (checked) {
-                                                            form.setFieldValue("roles", []);
-                                                        } else {
-                                                            form.setFieldValue("roles", [fullAccessRole.id]);
-                                                        }
-                                                        return;
-                                                    }
-                                                    /**
-                                                     * Si selecciona rol normal
-                                                     * quitar admin si estaba
-                                                     */
-                                                    let updated = current.filter(
-                                                        (id: string) => id !== fullAccessRole?.id
-                                                    );
-                                                    if (checked) {
-                                                        updated = updated.filter(
-                                                            (id: string) => id !== rol.id
-                                                        );
-                                                    } else {
-                                                        updated = [...updated, rol.id];
-                                                    }
-                                                    form.setFieldValue("roles", updated);
-                                                }}
-                                            >
-                                                <Group wrap="nowrap" align="flex-start">
-                                                    <Checkbox.Indicator
-                                                        radius="xs"
-                                                        checked={checked}
-                                                        style={{ backgroundColor: checked ? "" : "transparent" }}
-                                                    />
-                                                    <div>
-                                                        <Text className={classes.label}>
-                                                            {rol.name}
-                                                        </Text>
-                                                        <Text className={classes.description} size="sm">
-                                                            {rol.description}
-                                                        </Text>
-                                                    </div>
-                                                </Group>
-                                            </Checkbox.Card>
-                                        );
-                                    })
-                                ) : (
-                                    <Box
-                                        style={{ gridColumn: "span 2", textAlign: "center" }}
-                                        py="xl"
-                                    >
-                                        <Text c="dimmed" fz="sm">
-                                            No hay roles disponibles. Crea roles primero.
-                                        </Text>
-                                    </Box>
-                                )}
-                            </SimpleGrid>
-                            {form.errors.roles && (
-                                <Text c="red.6" size="xs" mt={8}>
-                                    <Group gap={5} align="center">
-                                        <IconAlertCircle size={16} />
-                                        {form.errors.roles}
-                                    </Group>
-                                </Text>
-                            )}
-                            {form.values.roles.length > 0 && (
-                                <Alert
-                                    color="blue"
-                                    content={
-                                        <Group gap={5}>
-                                            <IconCircleCheck />
-                                            <Text size="sm"><strong>{form.values.roles.length}</strong>{form.values.roles.length === 1 ? " rol seleccionado" : " roles seleccionados"}</Text>
-                                        </Group>
-                                    }
-                                />
-                            )}
-                            {isAdminSelected && (
-                                <Alert
-                                    color="yellow"
-                                    content={
-                                        <Group gap={5} wrap="nowrap">
-                                            <IconAlertCircle style={{ flex: "0 0 auto" }} />
-                                            <Text size="sm"><strong>Rol con todos los permisos:</strong> Los roles con todos los permisos tienen acceso completo al sistema y no pueden combinarse con otros roles.</Text>
-                                        </Group>
-                                    }
-                                />
-                            )}
-                        </Stack>
-                    }
-                </Fieldset>
-
-                <ModalButtons
-                    label={submitLabel}
-                    loading={isLoading}
+        <BaseForm
+            form={form}
+            onSubmit={onSubmit}
+            submitLabel={submitLabel}
+            isLoading={isLoading}
+        >
+            <Fieldset legend="Información">
+                <Switch
+                    label="Estado"
+                    description='Estado del usuario: Activo/Inactivo'
+                    value={form.values.isActive}
+                    {...form.getInputProps("isActive", { type: "checkbox" })}
                 />
-            </Stack>
-        </form>
+
+                <Divider />
+
+                <TextInput
+                    withAsterisk
+                    label="Nombre"
+                    description="Nombre completo del usuario"
+                    placeholder="Ej. Pablo Vazquez Reyes"
+                    maxLength={MAX_NAME_PERSON_LENGTH}
+                    rightSection={
+                        <Text size="xs" c="dimmed">
+                            {form.values.name?.length || 0}/{MAX_NAME_PERSON_LENGTH}
+                        </Text>
+                    }
+                    rightSectionWidth={40}
+                    {...form.getInputProps("name")}
+                />
+
+                <Divider />
+
+                <TextInput
+                    withAsterisk
+                    label="Correo Electrónico"
+                    description="Correo Electrónico en donde le llegara su contraseña al usuario"
+                    leftSection={
+                        <IconMail size={16} />
+                    }
+                    {...form.getInputProps("email")}
+                    placeholder="email@example.com"
+                />
+
+            </Fieldset>
+
+            <Fieldset legend="Roles"
+                style={{
+                    borderColor: form.errors.roles ? 'var(--mantine-color-red-filled)' : 'light-dark(oklch(92.8% 0.006 264.531), oklch(37.3% 0.034 259.733))',
+                }}
+            >
+                {loadingRoles
+                    ? <Center h={"100%"}><Loader /></Center>
+                    : <Stack>
+                        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={5}>
+                            {roles.length > 0 ? (
+                                roles.map((rol) => {
+                                    const checked = form.values.roles.includes(rol.id);
+                                    return (
+                                        <Checkbox.Card
+                                            key={rol.id}
+                                            checked={checked}
+                                            className={`${classes.root} ${checked ? classes.active : ""}`}
+                                            radius="md"
+                                            value={rol.id}
+                                            onClick={() => {
+                                                const current = form.values.roles;
+                                                /**
+                                                 * Si selecciona ADMIN
+                                                */
+                                                if (fullAccessRole && rol.id === fullAccessRole.id) {
+                                                    if (checked) {
+                                                        form.setFieldValue("roles", []);
+                                                    } else {
+                                                        form.setFieldValue("roles", [fullAccessRole.id]);
+                                                    }
+                                                    return;
+                                                }
+                                                /**
+                                                 * Si selecciona rol normal
+                                                 * quitar admin si estaba
+                                                */
+                                                let updated = current.filter(
+                                                    (id: string) => id !== fullAccessRole?.id
+                                                );
+                                                if (checked) {
+                                                    updated = updated.filter(
+                                                        (id: string) => id !== rol.id
+                                                    );
+                                                } else {
+                                                    updated = [...updated, rol.id];
+                                                }
+                                                form.setFieldValue("roles", updated);
+                                            }}
+                                        >
+                                            <Group wrap="nowrap" align="flex-start">
+                                                <Checkbox.Indicator
+                                                    radius="xs"
+                                                    checked={checked}
+                                                    style={{ backgroundColor: checked ? "" : "transparent" }}
+                                                />
+                                                <div>
+                                                    <Text className={classes.label}>
+                                                        {rol.name}
+                                                    </Text>
+                                                    <Text className={classes.description} size="sm">
+                                                        {rol.description}
+                                                    </Text>
+                                                </div>
+                                            </Group>
+                                        </Checkbox.Card>
+                                    );
+                                })
+                            ) : (
+                                <Box
+                                    style={{ gridColumn: "span 2", textAlign: "center" }}
+                                    py="xl"
+                                >
+                                    <Text c="dimmed" fz="sm">
+                                        No hay roles disponibles. Crea roles primero.
+                                    </Text>
+                                </Box>
+                            )}
+                        </SimpleGrid>
+                        {form.errors.roles && (
+                            <Text c="red.6" size="xs" mt={8}>
+                                <Group gap={5} align="center">
+                                    <IconAlertCircle size={16} />
+                                    {form.errors.roles}
+                                </Group>
+                            </Text>
+                        )}
+                        {form.values.roles.length > 0 && (
+                            <Alert
+                                color="blue"
+                                content={
+                                    <Group gap={5}>
+                                        <IconCircleCheck />
+                                        <Text size="sm"><strong>{form.values.roles.length}</strong>{form.values.roles.length === 1 ? " rol seleccionado" : " roles seleccionados"}</Text>
+                                    </Group>
+                                }
+                            />
+                        )}
+                        {isAdminSelected && (
+                            <Alert
+                                color="yellow"
+                                content={
+                                    <Group gap={5} wrap="nowrap">
+                                        <IconAlertCircle style={{ flex: "0 0 auto" }} />
+                                        <Text size="sm"><strong>Rol con todos los permisos:</strong> Los roles con todos los permisos tienen acceso completo al sistema y no pueden combinarse con otros roles.</Text>
+                                    </Group>
+                                }
+                            />
+                        )}
+                    </Stack>
+                }
+            </Fieldset>
+        </BaseForm>
     )
 }

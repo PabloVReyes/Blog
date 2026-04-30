@@ -2,11 +2,11 @@ import {
     Card,
     Text,
     Badge,
-    ThemeIcon,
     Stack,
     Button,
     Title,
-    SimpleGrid
+    SimpleGrid,
+    useMantineTheme
 } from "@mantine/core"
 import styles from "./AccessCard.module.css"
 import { IconArrowNarrowRight, IconDownload } from "@tabler/icons-react"
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { getTablerIcon } from "@/helpers";
 import { useDownloadFile } from "@/hooks";
 import type { AccessCardData } from "@/features/Home/types/accessCard.types";
+import { ThemeIcon } from "@/components";
 
 interface Props {
     accessCards: AccessCardData[]
@@ -30,6 +31,7 @@ interface handleNavigateProps {
 export const AccessCard = ({ accessCards }: Props) => {
     const navigate = useNavigate();
     const { download } = useDownloadFile()
+    const { primaryColor } = useMantineTheme()
 
     const handleNavigate = ({ type, url, file }: handleNavigateProps) => {
         if (type === "page") {
@@ -65,7 +67,7 @@ export const AccessCard = ({ accessCards }: Props) => {
                             withBorder
                             style={{ cursor: "pointer", position: "relative" }}
                             className={styles.group}
-                            onClick={() => handleNavigate({...system})}
+                            onClick={() => handleNavigate({ ...system })}
                         >
                             <Stack gap={"xs"} h={"100%"}>
                                 {system.badge && (
@@ -79,15 +81,9 @@ export const AccessCard = ({ accessCards }: Props) => {
                                     </Badge>
                                 )}
                                 <ThemeIcon
-                                    size={56}
                                     color={system.color}
-                                    variant="light"
-                                    className={`${styles.iconWrapper}`}
-                                    style={{
-                                        '--icon-rgb': system.color || "#40c057" // fallback green
-                                    } as React.CSSProperties}
                                 >
-                                    <Icon size={28} />
+                                    <Icon />
                                 </ThemeIcon>
 
                                 <Title order={4} className={styles.itemTitle}>
@@ -105,6 +101,7 @@ export const AccessCard = ({ accessCards }: Props) => {
                                     variant="subtle"
                                     px={0}
                                     className={styles.action}
+                                    c={primaryColor}
                                     rightSection={
                                         system.type === "page" ?
                                             <IconArrowNarrowRight

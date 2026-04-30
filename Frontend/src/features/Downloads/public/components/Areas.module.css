@@ -4,21 +4,25 @@
 
 .circle {
     border-radius: 50%;
+    background-color: var(--circle-bg);
+    color: var(--circle-color);
+
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
-    transition: transform 300ms ease, box-shadow 300ms ease;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+
+    pointer-events: none;
 }
 
-.button:hover .circle {
+.button:hover [data-circle] {
     transform: scale(1.1);
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
 }
 
-.icon {
-    color: white;
-}
-
 .text {
-    color: light-dark(oklch(37.3% 0.034 259.733), oklch(87.2% 0.01 258.338));
+    color: light-dark(
+        oklch(37.3% 0.034 259.733),
+        oklch(87.2% 0.01 258.338)
+    );
     transition: color 200ms ease;
 }
 

@@ -1,0 +1,8 @@
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 200ms ease;
+    background-color: var(--icon-bg);
+    color: var(--icon-color);
+}

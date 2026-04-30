@@ -1,5 +1,5 @@
-import { ColorSelect, CrudEditDialog, IconSelect, ModalButtons } from "@/components"
-import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
+import { ColorSelect, CrudEditDialog, IconSelect, ModalButtons, ThemeIcon } from "@/components"
+import { Divider, Fieldset, FileInput, Group, Stack, Text, TextInput } from "@mantine/core"
 import { validateColor, validateDescription, validateIcon, validateTitle, validateYear } from "@/utils";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, MAX_YEAR_LENGTH } from "@/constants";
 import { useHomeCalendarStore } from "@/stores";
@@ -131,17 +131,11 @@ export const Edit = ({ id, icon, color, title, description, year, file }: Calend
                                 />
                                 <Divider orientation="vertical" />
                                 <ThemeIcon
-                                    size={56}
                                     color={form.values.color}
-                                    variant="light"
-                                    style={{
-                                        '--icon-rgb': form.values.color || "#40c057" // fallback green
-                                    } as React.CSSProperties}
-                                    className="themeIcon"
                                 >
                                     {(() => {
                                         const DynamicIcon = getTablerIcon(form.values.icon);
-                                        return <DynamicIcon size={32} />;
+                                        return <DynamicIcon />;
                                     })()}
                                 </ThemeIcon>
                             </Group>

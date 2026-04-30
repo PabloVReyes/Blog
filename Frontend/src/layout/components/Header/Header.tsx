@@ -4,7 +4,7 @@ import { IconBook, IconSearch } from "@tabler/icons-react"
 import { useHotkeys, useOs } from "@mantine/hooks"
 import { Search } from "./Search"
 import { Directory } from "./Directory"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useSettingStore } from "@/features"
 import { useModalStore } from "@/layout/store"
 
@@ -17,7 +17,10 @@ interface Props {
 
 export const Header = ({ isMobile, mobileOpen, toggleSidebar }: Props) => {
     const { setTheme } = useSettingStore();
+    const { pathname } = useLocation()
     const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+    
+    const isPrivate = pathname.startsWith("/administracion")
 
     const os = useOs();
     const { openModal } = useModalStore()
@@ -46,7 +49,11 @@ export const Header = ({ isMobile, mobileOpen, toggleSidebar }: Props) => {
     }
 
     const handleAdmin = () => {
-        navigate('/administracion')
+        if(!isPrivate) {
+            navigate('/administracion')
+        } else {
+            navigate('/')
+        }
     }
 
     useHotkeys([

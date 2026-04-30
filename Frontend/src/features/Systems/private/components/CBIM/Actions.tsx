@@ -1,23 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import type { CBIMData } from "../../types/CBIM.types"
+import { CrudDeleteEntity } from "@/components"
+import { CBIMPreview } from "./CBIMPreview"
+import { useSystemsCBIMStore } from "@/stores"
 
-export interface Props {
-    id:          string;
-    code:        string;
-    name:        string;
-    description: string;
-    sp:          null;
-    fpgc:        null;
-    cbt_cae:     string;
-    createdAt:   Date;
-    updatedAt:   Date;
-}
-
-export const ActionsCBIM = ({ id, ...props }: Props) => {
+export const ActionsCBIM = ({ id, ...props }: CBIMData) => {
     const { openModal } = useModalStore()
+    const remove = useSystemsCBIMStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -41,10 +33,22 @@ export const ActionsCBIM = ({ id, ...props }: Props) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Medicamento del CBIM"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del medicamento:"
+                    warnings={[
+                        "Se eliminara permanentemente el medicamento del CBIM",
+                        "Todos los procesos que tienen este medicamento del CBIM como referencia quedaran sin él"
+                    ]}
+                >
+                    <CBIMPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

@@ -1,16 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
+import { CrudDeleteEntity } from "@/components"
+import { CIE10Preview } from "./CIE10Preview"
+import type { CIE10Data } from "../../types/CIE10.types"
+import { useSystemsCIE10Store } from "@/stores"
 
-export interface Props {
-    id: string;
-    name: string;
-}
-
-export const ActionsCIE10 = ({ id, ...props }: Props) => {
+export const ActionsCIE10 = ({ id, ...props }: CIE10Data) => {
     const { openModal } = useModalStore()
+    const remove = useSystemsCIE10Store(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -34,10 +33,22 @@ export const ActionsCIE10 = ({ id, ...props }: Props) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    name={props.name}
-                />
+                    entityName="Enfermedad"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre de la enfermedad:"
+                    warnings={[
+                        "Se eliminara permanentemente la enfermedad",
+                        "Todos los procesos que tienen esta enfermedad como referencia quedaran sin ella"
+                    ]}
+                >
+                    <CIE10Preview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

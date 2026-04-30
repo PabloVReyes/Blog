@@ -1,5 +1,5 @@
-import { Container } from "@/components"
-import { Box, Button, Card, Divider, Group, SimpleGrid, Stack, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
+import { Container, ThemeIcon } from "@/components"
+import { Box, Button, Card, Divider, Group, SimpleGrid, Stack, Text, useMantineTheme } from "@mantine/core"
 import { FooterInput, IconInput, ThemeSelect, TitleInput } from "../components"
 import { useState } from "react";
 import { useSettingStore } from "../store";
@@ -82,7 +82,7 @@ export const General = () => {
                         <Group gap="md">
                             <ThemeIcon
                                 size={40}
-                                radius="md"
+                                radius={10}
                                 color={primaryColor}
                             >
                                 <IconLetterT size={20} />
@@ -117,7 +117,7 @@ export const General = () => {
                         <Group gap="md">
                             <ThemeIcon
                                 size={40}
-                                radius="md"
+                                radius={10}
                                 color={primaryColor}
                             >
                                 <IconSunMoon size={20} />
@@ -144,7 +144,7 @@ export const General = () => {
                     <Group gap="md">
                         <ThemeIcon
                             size={40}
-                            radius="md"
+                            radius={10}
                             color={primaryColor}
                         >
                             <IconPalette size={20} />

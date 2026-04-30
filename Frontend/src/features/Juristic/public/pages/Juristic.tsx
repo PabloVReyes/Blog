@@ -1,6 +1,6 @@
 import { Alert, Container } from "@/components"
 import { Notify } from "@/ui"
-import { Card, Center, Loader, Text, useMantineTheme } from "@mantine/core";
+import { Card, Center, Loader, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Download } from "../components";
 import { fetchJuristics } from "../api";
@@ -19,7 +19,6 @@ export interface Meta {
 }
 
 export const Juristic = () => {
-    const theme = useMantineTheme()
     const [data, setData] = useState<Data>({
         data: [],
         meta: { total: 0, page: 1, limit: 10, totalPages: 0 },
@@ -60,7 +59,7 @@ export const Juristic = () => {
                 : data.data?.length > 0
                     ?
                     data.data.map((standar) => (
-                        <Download {...standar} key={standar.id} color={theme.primaryColor} />
+                        <Download {...standar} key={standar.id} />
                     ))
                     : (
                         <Card>

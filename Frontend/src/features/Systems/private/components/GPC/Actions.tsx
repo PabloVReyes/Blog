@@ -1,12 +1,14 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { GPCData } from "@/features/Systems/types/gpc.types"
+import { CrudDeleteEntity } from "@/components"
+import { useSystemsGPCStore } from "@/stores"
 
 export const ActionsGCP = ({ id, ...props }: GPCData) => {
     const { openModal } = useModalStore()
+    const remove = useSystemsGPCStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +32,19 @@ export const ActionsGCP = ({ id, ...props }: GPCData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Algoritmo GPC"
+                    confirmValue={props.title}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del algoritmo GPC:"
+                    warnings={[
+                        "Se eliminara permanentemente el algoritmo GPC",
+                        "Todos los procesos que tienen este algoritmo GPC como referencia quedaran sin él"
+                    ]}
+                >
+
+                </CrudDeleteEntity>
             )
         })
     }

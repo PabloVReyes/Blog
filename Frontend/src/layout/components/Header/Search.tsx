@@ -7,7 +7,6 @@ import {
     Stack,
     Text,
     TextInput,
-    ThemeIcon,
     Title
 } from "@mantine/core"
 import { IconSearch } from "@tabler/icons-react"
@@ -20,6 +19,7 @@ import { useModalStore } from "@/layout/store"
 import { getTablerIcon } from "@/helpers"
 import { Notify } from "@/ui"
 import { useDownloadFile } from "@/hooks"
+import { ThemeIcon } from "@/components"
 
 export interface Data {
     id: string;
@@ -46,7 +46,7 @@ export const Search = () => {
 
     const loaderRef = useRef<HTMLDivElement | null>(null)
     const isFetchingRef = useRef(false)
-    const debounceRef = useRef<NodeJS.Timeout | null>(null)
+    const debounceRef = useRef<NodeJs.Timeout | null>(null)
 
     // ==============================
     // FETCH CONTROLADO
@@ -176,13 +176,7 @@ export const Search = () => {
                 <Flex justify="space-between" align="flex-start">
                     <Flex gap="md" align="flex-start" style={{ flex: 1 }}>
                         <ThemeIcon
-                            size={56}
                             color={search.color}
-                            variant="light"
-                            className={styles.iconWrapper}
-                            style={{
-                                '--icon-rgb': search.color || "#40c057"
-                            } as React.CSSProperties}
                         >
                             {Icon && <Icon size={28} />}
                         </ThemeIcon>

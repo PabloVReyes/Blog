@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { StandardsData } from "../../types/standards.types"
+import { CrudDeleteEntity } from "@/components"
+import { useStandardsStore } from "@/stores"
+import { StandardPreview } from "./StandardPreview"
 
 export const Actions = ({ id, ...props }: StandardsData) => {
     const { openModal } = useModalStore()
+    const remove = useStandardsStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const Actions = ({ id, ...props }: StandardsData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Norma Oficial Mexicana"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre de la norma:"
+                    warnings={[
+                        "Se eliminara permanentemente la norma",
+                        "Todos los procesos que tienen esta norma como referencia quedaran sin ella"
+                    ]}
+                >
+                    <StandardPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

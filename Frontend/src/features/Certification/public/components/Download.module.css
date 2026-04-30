@@ -32,37 +32,8 @@
     gap: 1px;
 }
 
-.iconWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    /* redondeado */
-    padding: 0.5rem;
-    transition: all 0.3s ease;
-
-    /* estado inicial “light” */
-    background-color: 0.1;
-}
-
-/* Hover sobre la Card */
-.group:hover .iconWrapper {
-    background-color: var(--icon-rgb);
-    color: white;
-}
-
-.rating {
-    position: absolute;
-    top: var(--mantine-spacing-xs);
-    right: 12px;
-    pointer-events: none;
-}
-
-.image {
-    max-width: 100px;
-
-    @mixin smaller-than 755px {
-        /* max-width: 100%; */
-        max-height: 180px;
-    }
+.group:hover [data-icon] {
+    background-color: var(--icon-bg-hover) !important;
+    color: var(--icon-color-hover) !important;
+    transform: scale(1.05);
 }

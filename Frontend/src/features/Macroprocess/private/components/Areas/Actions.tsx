@@ -2,18 +2,9 @@ import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit } from "@tabler/icons-react"
 import { useModalStore } from "@/layout"
 import { Edit } from "./Edit"
+import type { Area } from "@/features/Macroprocess/types/areas.types"
 
-export interface Props {
-    id: string;
-    name: string;
-    category: string;
-    manager: null;
-    description: null;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export const ActionsAreas = ({ id, ...props }: Props) => {
+export const ActionsAreas = ({ id, ...props }: Area) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

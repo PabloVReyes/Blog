@@ -1,17 +1,15 @@
-import { Container, Panel } from "@/components"
+import { Container, Panel, ThemeIcon } from "@/components"
 import { Notify } from "@/ui"
-import { Loader, Center, Text, Accordion, Group, ThemeIcon, Box, Badge, Card, Stack, Button, useMantineTheme, Select } from "@mantine/core"
+import { Loader, Center, Text, Accordion, Group, Box, Badge, Card, Stack, Button, Select } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { fetchAgreementPerson, fetchGroups, fetchZones } from "../api"
 import { IconUser, IconUsers } from "@tabler/icons-react"
 import styles from "./AgreementPerson.module.css"
-import { colorMap, Highlight } from "@/utils"
+import { Highlight } from "@/utils"
 import * as types from "../types/AgreementPerson"
 
 export const AgreementPerson = () => {
-    const theme = useMantineTheme();
-
     const [data, setData] = useState<types.Data>({
         data: [],
         meta: { total: 0, page: 1, limit: 10, totalPages: 0, firstItem: 0, lastItem: 0 },
@@ -196,13 +194,13 @@ export const AgreementPerson = () => {
                                                 ) : (
                                                     <Box className="chevron-placeholder" />
                                                 )}
-                                                <ThemeIcon variant="light" radius="xl" size="lg"
-                                                    className={styles.iconWrapper}
-                                                    style={{
-                                                        '--icon-rgb': `${colorMap[theme.primaryColor]}` || "#40c057" // fallback green
-                                                    } as React.CSSProperties}
+                                                <ThemeIcon
+                                                    ml={1}
+                                                    variant="light"
+                                                    radius={50}
+                                                    size={40}
                                                 >
-                                                    <IconUser size={20} />
+                                                    <IconUser />
                                                 </ThemeIcon>
                                                 <Box style={{ flex: 1 }}>
                                                     <Group
@@ -246,13 +244,13 @@ export const AgreementPerson = () => {
                                                     p="md"
                                                     wrap="nowrap"
                                                 >
-                                                    <ThemeIcon color="grape" variant="light" size="md" radius="xl"
-                                                        className={styles.iconWrapper}
-                                                        style={{
-                                                            '--icon-rgb': `${"#be4bdb"}` || "#40c057" // fallback green
-                                                        } as React.CSSProperties}
+                                                    <ThemeIcon
+                                                        color="grape"
+                                                        variant="light"
+                                                        size={40}
+                                                        radius={50}
                                                     >
-                                                        <IconUser size={14} />
+                                                        <IconUser />
                                                     </ThemeIcon>
                                                     <Box w={100}>
                                                         <Text size="xs" c="dimmed" fw={700} mb={"4px"}>No. Dependiente</Text>

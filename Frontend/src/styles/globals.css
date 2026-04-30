@@ -15,19 +15,6 @@ body {
     background-color: var(--mantine-primary-color-filled) !important;
 }
 
-/* Nuevas */
-.themeIcon {
-    border-radius: 12px;
-    padding: 0.5rem;
-    transition: all 0.3s ease;
-    background-color: 0.1;
-
-    &:hover {
-        background-color: var(--icon-rgb);
-        color: white;
-    }
-}
-
 .actionIcon {
     background-color: light-dark(white, oklch(27.8% 0.033 256.848));
     color: light-dark(black, white);

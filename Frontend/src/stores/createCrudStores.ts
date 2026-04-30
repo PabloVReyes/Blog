@@ -18,7 +18,6 @@ export function createCrudStores<
         const storeName =
             `use${String(key).charAt(0).toUpperCase()}${String(key).slice(1)}Store`
 
-            // 🔴 SOLUCIÓN: casteo FINAL controlado (único punto)
             ; (stores as any)[storeName] = createCrudStore(api as any)
     }
 

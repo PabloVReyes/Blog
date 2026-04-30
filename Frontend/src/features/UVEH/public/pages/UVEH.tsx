@@ -99,7 +99,7 @@ export const UVEH = () => {
                                 </Card>
 
                                 {category.uvehs.map((item) => (
-                                    <Download {...item} key={item.id} color={colors.bg} />
+                                    <Download {...item} key={item.id} />
                                 ))}
                             </Stack>
                         )

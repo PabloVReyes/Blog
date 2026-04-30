@@ -1,14 +1,14 @@
-import { Container, Panel, Table } from "@/components"
+import { Container, Panel, Table, ThemeIcon } from "@/components"
 import { useModalStore } from "@/layout"
 import { ActionsAreas, AddArea } from "../components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
-import { Text, ThemeIcon } from "@mantine/core"
+import { Center, Text } from "@mantine/core"
 import { useDownloadAreasStore } from "@/stores"
 import type { Column } from "@/types"
 import { getTablerIcon } from "@/helpers"
-import type { Area } from "../../types/download.types"
+import type { Area } from "../types/areas.types"
 
 const columns: Column<Area>[] = [
     {
@@ -19,13 +19,15 @@ const columns: Column<Area>[] = [
             const Icon = getTablerIcon(row.icon)
 
             return (
-                <ThemeIcon
-                    size={50}
-                    color={row.color}
-                    radius={"50%"}
-                >
-                    <Icon />
-                </ThemeIcon>
+                <Center>
+                    <ThemeIcon
+                        variant="filled"
+                        color={row.color}
+                        radius={50}
+                    >
+                        <Icon />
+                    </ThemeIcon>
+                </Center>
             )
         }
     },

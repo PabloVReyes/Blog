@@ -102,11 +102,11 @@ export const CareProtocols = () => {
                                             </Badge>
                                         </Group>
                                     </Card.Section>
-
-                                    {category.careProtocols.map((item) => (
-                                        <Protocol {...item} key={item.id} color={colors.bg} />
-                                    ))}
+                                    
                                 </Card>
+                                    {category.careProtocols.map((item) => (
+                                        <Protocol {...item} key={item.id} />
+                                    ))}
                             </Stack>
                         )
                     })

@@ -99,7 +99,7 @@ export const Certification = () => {
                                 </Card>
 
                                 {section.certifications.map((item) => (
-                                    <Download {...item} key={item.id} color={colors.bg} />
+                                    <Download {...item} key={item.id}/>
                                 ))}
                             </Stack>
                         )

@@ -1,13 +1,13 @@
-import { Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title, useMantineTheme } from "@mantine/core"
+import { Button, Card, Flex, Group, Stack, Text, Title } from "@mantine/core"
 import styles from "./Algorithms.module.css"
 import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-react"
-import { colorMap, formatFileSize } from "@/utils"
+import { formatFileSize } from "@/utils"
 import type { PMBData } from "@/features/Systems/types/pbm.types"
 import { useDownloadFile } from "@/hooks"
+import { ThemeIcon } from "@/components"
 
 
-export const PBMAlgorithms = ({ title, fileId, file}: PMBData) => {
-    const theme = useMantineTheme()
+export const PBMAlgorithms = ({ title, fileId, file }: PMBData) => {
     const { download, view } = useDownloadFile()
 
     return (
@@ -16,14 +16,7 @@ export const PBMAlgorithms = ({ title, fileId, file}: PMBData) => {
         >
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
-                    <ThemeIcon
-                        size={56}
-                        variant="light"
-                        className={`${styles.iconWrapper}`}
-                        style={{
-                            '--icon-rgb': `${colorMap[theme.primaryColor]}` || "#40c057" // fallback green
-                        } as React.CSSProperties}
-                    >
+                    <ThemeIcon>
                         <IconFileText size={28} />
                     </ThemeIcon>
 

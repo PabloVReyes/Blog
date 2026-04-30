@@ -1,5 +1,5 @@
-import { Container, Panel, Table } from "@/components"
-import { Text, ThemeIcon } from "@mantine/core"
+import { Container, Panel, Table, ThemeIcon } from "@/components"
+import { Text } from "@mantine/core"
 import { useEffect } from "react"
 import { useModalStore } from "@/layout"
 import { Notify } from "@/ui"
@@ -20,13 +20,7 @@ const columns: Column<SystemData>[] = [
 
             return (
                 <ThemeIcon
-                    size={50}
                     color={row.color}
-                    variant="light"
-                    style={{
-                        '--icon-rgb': row.color || "#40c057" // fallback green
-                    } as React.CSSProperties}
-                    className="themeIcon"
                 >
                     <Icon />
                 </ThemeIcon>

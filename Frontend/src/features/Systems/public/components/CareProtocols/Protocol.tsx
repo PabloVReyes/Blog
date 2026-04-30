@@ -1,31 +1,20 @@
-import { Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Button, Card, Flex, Group, Stack, Text, Title } from "@mantine/core"
 import styles from "./Protocol.module.css"
 import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-react"
 import { formatFileSize } from "@/utils"
 import type { CareProtocolsData } from "@/features/Systems/types/careProtocols.types"
 import { useDownloadFile } from "@/hooks"
+import { ThemeIcon } from "@/components"
 
-interface Props extends CareProtocolsData {
-    color: string;
-}
-
-export const Protocol = ({ title, file, fileId, color, description }: Props) => {
+export const Protocol = ({ title, file, fileId, description }: CareProtocolsData) => {
     const { download, view } = useDownloadFile()
     return (
         <Card
-            mt={"sm"}
             className={styles.group}
         >
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
-                    <ThemeIcon
-                        size={56}
-                        variant="light"
-                        className={`${styles.iconWrapper}`}
-                        style={{
-                            '--icon-rgb': `${color}` || "#40c057" // fallback green
-                        } as React.CSSProperties}
-                    >
+                    <ThemeIcon>
                         <IconFileText size={28} />
                     </ThemeIcon>
 
@@ -49,7 +38,7 @@ export const Protocol = ({ title, file, fileId, color, description }: Props) => 
                         style={{ minWidth: 0 }}
                         onClick={() => download(fileId)}
                     >
-                        <IconDownload size={20} />
+                        <IconDownload />
                     </Button>
                     <Button
                         variant="subtle"

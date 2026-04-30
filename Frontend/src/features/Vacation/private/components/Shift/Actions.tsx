@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { ShiftData } from "@/features/Vacation/types/vacations.types"
+import { CrudDeleteEntity } from "@/components"
+import { useVacationShiftStore } from "@/stores"
+import { ShiftPreview } from "./ShiftPreview"
 
 export const ActionsShift = ({ id, ...props }: ShiftData) => {
     const { openModal } = useModalStore()
+    const remove = useVacationShiftStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const ActionsShift = ({ id, ...props }: ShiftData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Turno"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del turno:"
+                    warnings={[
+                        "Se eliminará permanentemente el turno",
+                        "Los roles vacacionales serán eliminados permanentemente"
+                    ]}
+                >
+                    <ShiftPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

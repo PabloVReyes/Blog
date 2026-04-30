@@ -32,24 +32,10 @@
     gap: 1px;
 }
 
-.iconWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    /* redondeado */
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    transition: all 0.3s ease;
-
-    /* estado inicial “light” */
-    background-color: 0.1;
-}
-
-/* Hover sobre la Card */
-.group:hover .iconWrapper {
-    background-color: var(--icon-rgb);
-    color: white;
+.group:hover [data-icon] {
+    background-color: var(--icon-bg-hover) !important;
+    color: var(--icon-color-hover) !important;
+    transform: scale(1.05);
 }
 
 .rating {

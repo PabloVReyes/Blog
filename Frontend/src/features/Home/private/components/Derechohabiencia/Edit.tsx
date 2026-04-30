@@ -1,5 +1,5 @@
-import { ColorSelect, CrudEditDialog, IconSelect, ModalButtons } from "@/components"
-import { Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
+import { ColorSelect, CrudEditDialog, IconSelect, ModalButtons, ThemeIcon } from "@/components"
+import { Divider, Fieldset, Group, Stack, Text, TextInput } from "@mantine/core"
 import { formRootRule } from "@mantine/form"
 import { validateColor, validateDescription, validateIcon, validateTitle, validateUrl } from "@/utils";
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/constants";
@@ -115,17 +115,11 @@ export const Edit = ({ id, icon, color, title, description, links }: Props) => {
                                     <Divider orientation="vertical" />
 
                                     <ThemeIcon
-                                        size={56}
                                         color={form.values.color}
-                                        variant="light"
-                                        style={{
-                                            '--icon-rgb': form.values.color || "#40c057" // fallback green
-                                        } as React.CSSProperties}
-                                        className="themeIcon"
                                     >
                                         {(() => {
                                             const DynamicIcon = getTablerIcon(form.values.icon);
-                                            return <DynamicIcon size={32} />;
+                                            return <DynamicIcon />;
                                         })()}
                                     </ThemeIcon>
                                 </Group>

@@ -1,17 +1,15 @@
-import { Container, Panel, Table } from "@/components"
+import { Container, Panel, Table, ThemeIcon } from "@/components"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { Actions, Add } from "../components"
 import { useModalStore } from "@/layout"
-import { Badge, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
-import { colorMap } from "@/utils"
+import { Badge, Text } from "@mantine/core"
 import { useDirectoryStore } from "@/stores"
 import type { Column } from "@/types"
 import type { DirectoryData } from "../types/directory.types"
 
-
-const columns = (primaryColor: string): Column<DirectoryData>[] => [
+const columns: Column<DirectoryData>[] = [
     {
         key: "phone",
         label: "Extención",
@@ -19,12 +17,7 @@ const columns = (primaryColor: string): Column<DirectoryData>[] => [
         render: (row) => {
             return (
                 <ThemeIcon
-                    size={50}
-                    variant="light"
-                    style={{
-                        '--icon-rgb': colorMap[primaryColor] || "#40c057" // fallback green
-                    } as React.CSSProperties}
-                    className="themeIcon"
+                    variant="filled"
                 >
                     <Text fw={900}>{row.phone}</Text>
                 </ThemeIcon>
@@ -96,7 +89,6 @@ export const Directory = () => {
     const { openModal } = useModalStore()
     const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useDirectoryStore()
     const [debounced] = useDebouncedValue(search, 500)
-    const { primaryColor } = useMantineTheme()
 
     useEffect(() => {
         handleFetch()
@@ -149,7 +141,7 @@ export const Directory = () => {
                 <Table
                     isLoading={isLoading}
                     data={items}
-                    columns={columns(primaryColor)}
+                    columns={columns}
                 />
             </Panel>
         </Container>

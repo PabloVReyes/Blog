@@ -7,5 +7,3 @@ export const certificationApi = createCrudApi<
     FormData,
     CertificationFilters
 >("api/certification")
-
-// 21 lineas -> 9 lineas

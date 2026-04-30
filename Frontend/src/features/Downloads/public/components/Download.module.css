@@ -1,68 +1,28 @@
-.itemTitle {
-    margin-bottom: calc(var(--mantine-spacing-xs) / 2);
+.button {
+    cursor: pointer;
 }
 
-.group:hover .itemTitle {
-    color: var(--mantine-primary-color);
+/* círculo */
+.circle {
+    border-radius: 50%;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 300ms ease, box-shadow 300ms ease;
 }
 
-.group {
-    transition: box-shadow 300ms ease, transform 300ms ease;
+/* 🔥 hover desde TODO el contenedor */
+.button:hover [data-circle] {
+    transform: scale(1.1);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
 }
 
-.group:hover {
-    box-shadow: var(--mantine-shadow-xl);
-    transform: translateY(-2px);
+/* texto */
+.text {
+    color: light-dark(oklch(37.3% 0.034 259.733),
+            oklch(87.2% 0.01 258.338));
+    transition: color 200ms ease;
 }
 
-.action {
-    align-self: flex-start;
-    pointer-events: none;
-}
-
-.arrow {
-    transition: transform 200ms ease;
-}
-
-.group:hover .arrow {
-    transform: translateX(2px);
-}
-
-.group:hover .action {
-    gap: 1px;
-}
-
-.iconWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    /* redondeado */
-    padding: 0.5rem;
-    transition: all 0.3s ease;
-
-    /* estado inicial “light” */
-    background-color: 0.1;
-}
-
-/* Hover sobre la Card */
-.group:hover .iconWrapper {
-    background-color: var(--icon-rgb);
-    color: white;
-}
-
-.rating {
-    position: absolute;
-    top: var(--mantine-spacing-xs);
-    right: 12px;
-    pointer-events: none;
-}
-
-.image {
-    max-width: 100px;
-
-    @mixin smaller-than 755px {
-        /* max-width: 100%; */
-        max-height: 180px;
-    }
+/* hover del texto */
+.button:hover .text {
+    color: var(--mantine-primary-color-filled);
 }

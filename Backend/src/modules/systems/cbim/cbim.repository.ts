@@ -10,8 +10,8 @@ interface PostCbimRepositoryProps {
     code: string;
     name: string;
     description: string;
-    sp: string | undefined;
-    fpgc: string | undefined;
+    sp?: string | null;
+    fpgc?: string | null;
     cbt_cae: "CAE" | "CBT";
 }
 
@@ -89,8 +89,8 @@ interface PutCbimRepositoryProps {
     code: string;
     name: string;
     description: string;
-    sp: string | undefined;
-    fpgc: string | undefined;
+    sp?: string | null;
+    fpgc?: string | null;
     cbt_cae: "CAE" | "CBT";
 }
 

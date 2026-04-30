@@ -1,9 +1,9 @@
-import { Box, Group, Loader, Modal as MantineModal, SimpleGrid, Stack, Text, ThemeIcon, Title, UnstyledButton } from "@mantine/core"
+import { Box, Group, Loader, Modal as MantineModal, SimpleGrid, Stack, Text, Title, UnstyledButton } from "@mantine/core"
 import { IconClipboardList, IconFileText, IconUsers, IconX } from "@tabler/icons-react";
 import styles from "./Modal.module.css"
 import type { Area } from "../../types/areas.types";
 import { useDownloadFile } from "@/hooks";
-import { Alert } from "@/components";
+import { Alert, ThemeIcon } from "@/components";
 
 interface Props {
     opened: boolean
@@ -47,9 +47,8 @@ export const Modal = ({ opened, onClose, area, color, loading }: Props) => {
                                 </Box>
 
                                 <ThemeIcon
-                                    variant="light"
-                                    color="white"
-                                    radius={"md"}
+                                    radius={10}
+                                    color={color}
                                     style={{ cursor: "pointer" }}
                                     onClick={onClose}
                                 >

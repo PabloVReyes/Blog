@@ -1,9 +1,10 @@
-import { Badge, Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/core"
-import styles from "./Calendar.module.css"
+import { Badge, Button, Card, Stack, Text, Title } from "@mantine/core"
+import classes from "./Calendar.module.css"
 import * as TablerIcons from "@tabler/icons-react";
 import { getTablerIcon } from "@/helpers";
 import { useDownloadFile } from "@/hooks";
 import type { CalendarData } from "@/features/Home/types/calendar.types";
+import { ThemeIcon } from "@/components";
 
 
 export const Calendar = ({ title, color, year, description, file, icon }: CalendarData) => {
@@ -12,16 +13,20 @@ export const Calendar = ({ title, color, year, description, file, icon }: Calend
     return (
         <Card padding={"lg"} h={"100%"}>
             <Stack h={"100%"}>
-                <Badge variant="filled" className={styles.rating} color="red" size="sm">
+                <Badge variant="filled" className={classes.rating} color="red" size="sm">
                     {year}
                 </Badge>
-                <div className={styles.item}>
-                    <ThemeIcon variant="light" color={color} className={styles.itemIcon} size={45} radius="md">
-                        <Icon size={40} />
+                <div className={classes.item}>
+                    <ThemeIcon
+                        className={classes.itemIcon}
+                        color={color}
+                        size={45}
+                    >
+                        <Icon />
                     </ThemeIcon>
 
                     <div>
-                        <Title order={4} className={styles.itemTitle}>
+                        <Title order={4} className={classes.itemTitle}>
                             {title}
                         </Title>
                     </div>
@@ -43,6 +48,6 @@ export const Calendar = ({ title, color, year, description, file, icon }: Calend
                     Descargar PDF
                 </Button>
             </Stack>
-        </Card>
+        </Card >
     )
 }

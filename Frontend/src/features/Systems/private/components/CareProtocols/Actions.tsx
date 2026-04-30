@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { CareProtocolsData } from "@/features/Systems/types/careProtocols.types"
+import { CrudDeleteEntity } from "@/components"
+import { useSystemsCareProtocolsApiStore } from "@/stores"
+import { ProtocolPreview } from "./ProtocolPreview"
 
 export const ActionsCareProtocols = ({ id, ...props }: CareProtocolsData) => {
     const { openModal } = useModalStore()
+    const remove = useSystemsCareProtocolsApiStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const ActionsCareProtocols = ({ id, ...props }: CareProtocolsData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Protocolo de Atención (Pediatría)"
+                    confirmValue={props.title}
+                    onDelete={remove}
+                    label="Para confirmar escribe el título del protocolo:"
+                    warnings={[
+                        "Se eliminara permanentemente el Protocolo de Atención (Pediatría)",
+                        "El archivo cargado será eliminado permanentemente"
+                    ]}
+                >
+                    <ProtocolPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

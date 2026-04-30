@@ -1,12 +1,14 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { SystemData } from "@/features/Systems/types/systems.types"
+import { CrudDeleteEntity } from "@/components"
+import { useSystemsStore } from "@/stores"
 
 export const ActionsSystems = ({ id, ...props }: SystemData) => {
     const { openModal } = useModalStore()
+    const remove = useSystemsStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +32,19 @@ export const ActionsSystems = ({ id, ...props }: SystemData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Sistema"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del sistema:"
+                    warnings={[
+                        "Se eliminara permanentemente el sistema",
+                        props.type === "file" && "El archivo cargado será eliminado permanentemente"
+                    ].filter(Boolean) as string[]}
+                >
+
+                </CrudDeleteEntity>
             )
         })
     }

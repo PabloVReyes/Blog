@@ -7,7 +7,7 @@ import { Container } from "@/components"
 import classes from "./Areas.module.css"
 import { getCicloColor } from "@/utils"
 import { Download } from "../components"
-import type { FileData } from "@/types"
+import type { DownloadData } from "../../types/download.types"
 
 interface Data {
     id: string;
@@ -31,7 +31,7 @@ export interface Section {
     updatedAt: Date;
     categories?: Section[];
     sectionId?: number;
-    files: FileData[] | null;
+    files: DownloadData[] | null;
 }
 
 export const Area = () => {
@@ -129,7 +129,7 @@ export const Area = () => {
                                                 </Card>
 
                                                 {category.files?.map((download) => (
-                                                    <Download {...download} key={download.id} color={colors.bg} />
+                                                    <Download {...download} key={download.id} />
                                                 ))}
                                             </Stack>
                                         )

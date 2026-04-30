@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { ClinicalPracticeGuidelinesData } from "@/features/Systems/types/ClinicalPracticeGuidelines.types"
+import { CrudDeleteEntity } from "@/components"
+import { useSystemsClinicalPracticeGuidelinesStore } from "@/stores"
+import { GuidelinePreview } from "./GuidelinePreview"
 
 export const ActionsClinicalPracticeGuidelines = ({ id, ...props }: ClinicalPracticeGuidelinesData) => {
     const { openModal } = useModalStore()
+    const remove = useSystemsClinicalPracticeGuidelinesStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const ActionsClinicalPracticeGuidelines = ({ id, ...props }: ClinicalPrac
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Guía de Práctica Clínica"
+                    confirmValue={props.title}
+                    onDelete={remove}
+                    label="Para confirmar escribe el título de la guía de práctica clínica:"
+                    warnings={[
+                        "Se eliminara permanentemente la Guía de Práctica Clínica",
+                        "Los archivos cargados serán eliminados permanentemente"
+                    ]}
+                >
+                    <GuidelinePreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

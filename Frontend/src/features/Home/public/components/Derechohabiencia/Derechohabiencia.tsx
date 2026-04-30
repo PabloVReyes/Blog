@@ -1,7 +1,8 @@
-import { Button, Card, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Button, Card, Stack, Text, Title } from "@mantine/core"
 import styles from "./Derechohabiencia.module.css"
 import * as TablerIcons from "@tabler/icons-react";
 import { getTablerIcon } from "@/helpers";
+import { ThemeIcon } from "@/components";
 
 interface Props {
     color: string;
@@ -23,8 +24,12 @@ export const Derechohabiencia = ({ color, icon, title, description, links }: Pro
         <Card padding={"lg"} h={"100%"}>
             <Stack h={"100%"}>
                 <div className={styles.item}>
-                    <ThemeIcon variant="light" color={color} className={styles.itemIcon} size={45} radius="md">
-                        <Icon size={40} />
+                    <ThemeIcon
+                        color={color}
+                        size={45}
+                        className={styles.itemIcon}
+                    >
+                        <Icon />
                     </ThemeIcon>
 
                     <div>

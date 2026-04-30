@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { PMBData } from "@/features/Systems/types/pbm.types"
+import { CrudDeleteEntity } from "@/components"
+import { useSystemsPBMStore } from "@/stores"
+import { PBMPreview } from "./PBMPreview"
 
 export const ActionsPBM = ({ id, ...props }: PMBData) => {
     const { openModal } = useModalStore()
+    const remove = useSystemsPBMStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const ActionsPBM = ({ id, ...props }: PMBData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Algoritmo PBM"
+                    confirmValue={props.title}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del algoritmo PBM:"
+                    warnings={[
+                        "Se eliminara permanentemente el algoritmo PBM",
+                        "Todos los procesos que tienen este algoritmo PBM como referencia quedaran sin él"
+                    ]}
+                >
+                    <PBMPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

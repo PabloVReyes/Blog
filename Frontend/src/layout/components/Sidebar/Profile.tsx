@@ -1,13 +1,13 @@
 import { MAX_NAME_PERSON_LENGTH } from "@/constants"
 import { useAuthStore } from "@/features/auth/store"
 import { validateName } from "@/utils"
-import { Box, Divider, Fieldset, Group, Stack, Text, TextInput, ThemeIcon, UnstyledButton } from "@mantine/core"
+import { Box, Divider, Fieldset, Group, Stack, Text, TextInput, UnstyledButton } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconChevronRight, IconKey, IconMail } from "@tabler/icons-react"
 import classes from "./Profile.module.css"
 import { useModalStore } from "@/layout/store"
 import { Password } from "./Password"
-import { ModalButtons } from "@/components"
+import { ModalButtons, ThemeIcon } from "@/components"
 import { useState } from "react"
 import { updateMe } from "@/layout/api"
 import { Notify, showSuccessModal } from "@/ui"
@@ -114,7 +114,11 @@ export const Profile = () => {
                         >
                             <Group justify="space-between" wrap="nowrap">
                                 <Group gap="md">
-                                    <ThemeIcon size={40} radius="md" variant="transparent" color="blue">
+                                    <ThemeIcon
+                                        size={40}
+                                        variant="transparent"
+                                        color="blue"
+                                    >
                                         <IconKey size={20} stroke={1.5} />
                                     </ThemeIcon>
 

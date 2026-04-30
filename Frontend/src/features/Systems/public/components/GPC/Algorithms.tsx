@@ -1,16 +1,13 @@
-import { Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Button, Card, Flex, Group, Stack, Text, Title } from "@mantine/core"
 import styles from "./Algorithms.module.css"
 import { IconDownload, IconExternalLink } from "@tabler/icons-react"
 import { formatFileSize } from "@/utils"
 import { getTablerIcon } from "@/helpers"
 import { useDownloadFile } from "@/hooks"
 import type { GPCData } from "@/features/Systems/types/gpc.types"
+import { ThemeIcon } from "@/components"
 
-interface Props extends GPCData {
-    color: string;
-}
-
-export const GPCAlgorithms = ({ title, orderIndex, file, description, color }: Props) => {
+export const GPCAlgorithms = ({ title, orderIndex, file, description }: GPCData) => {
     const { download, view } = useDownloadFile()
     const Icon = getTablerIcon(`IconHexagonNumber${orderIndex}Filled`)
 
@@ -20,15 +17,8 @@ export const GPCAlgorithms = ({ title, orderIndex, file, description, color }: P
         >
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
-                    <ThemeIcon
-                        size={56}
-                        variant="light"
-                        className={`${styles.iconWrapper}`}
-                        style={{
-                            '--icon-rgb': `${color}` || "#40c057" // fallback green
-                        } as React.CSSProperties}
-                    >
-                        <Icon size={28} />
+                    <ThemeIcon>
+                        <Icon />
                     </ThemeIcon>
 
                     <Stack gap={5} style={{ flex: 1 }}>

@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { Area } from "../../types/areas.types"
+import { CrudDeleteEntity } from "@/components"
+import { AreaPreview } from "./AreaPreview"
+import { useDownloadAreasStore } from "@/stores"
 
 export const ActionsAreas = ({ id, ...props }: Area) => {
     const { openModal } = useModalStore()
+    const remove = useDownloadAreasStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const ActionsAreas = ({ id, ...props }: Area) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Área"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del área:"
+                    warnings={[
+                        "Se eliminara permanentemente el área",
+                        "Los archivos asociados a esta área serán eliminados permanentemente"
+                    ]}
+                >
+                    <AreaPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

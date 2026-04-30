@@ -26,7 +26,6 @@ export const Alert = ({
         textColor: string,
         extra?: Record<string, any>
     ) => {
-        // Texto plano
         if (typeof value === "string" || typeof value === "number") {
             return (
                 <Text {...extra} style={{ color: textColor }}>
@@ -35,7 +34,6 @@ export const Alert = ({
             );
         }
 
-        // ReactElement tipado correctamente
         if (React.isValidElement(value)) {
             const element = value as ReactElement<any>;
 

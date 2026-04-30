@@ -1,12 +1,11 @@
-import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title, useMantineTheme } from "@mantine/core"
+import { Badge, Button, Card, Flex, Group, Stack, Text, Title } from "@mantine/core"
 import styles from "./ClinicalPracticeGuideline.module.css"
-import { colorMap } from "@/utils"
 import { IconDownload, IconFileText } from "@tabler/icons-react"
 import type { ClinicalPracticeGuidelinesData } from "@/features/Systems/types/ClinicalPracticeGuidelines.types"
 import { useDownloadFile } from "@/hooks"
+import { ThemeIcon } from "@/components"
 
 export const ClinicalPracticeGuideline = ({ title, fileERId, fileRRId, code, category }: ClinicalPracticeGuidelinesData) => {
-    const theme = useMantineTheme()
     const { download } = useDownloadFile()
 
     return (
@@ -15,22 +14,14 @@ export const ClinicalPracticeGuideline = ({ title, fileERId, fileRRId, code, cat
         >
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
-                    <ThemeIcon
-                        size={56}
-                        variant="light"
-                        className={`${styles.iconWrapper}`}
-                        style={{
-                            '--icon-rgb': `${colorMap[theme.primaryColor]}` || "#40c057" // fallback green
-                        } as React.CSSProperties}
-                    >
-                        <IconFileText size={28} />
+                    <ThemeIcon>
+                        <IconFileText/>
                     </ThemeIcon>
 
                     <Stack gap={5} style={{ flex: 1 }}>
                         <Group gap="sm">
                             <Title order={5}>{title}</Title>
                             <Badge
-                                variant="light"
                                 size="sm"
                             >{category.name}</Badge>
                         </Group>

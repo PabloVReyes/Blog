@@ -24,7 +24,8 @@ export interface Certification {
 }
 
 export interface CertificationFilters {
-    page?: number
-    limit?: number
-    search?: string
+    page?: number;
+    limit?: number;
+    search?: string;
+    [key: string]: any;
 }

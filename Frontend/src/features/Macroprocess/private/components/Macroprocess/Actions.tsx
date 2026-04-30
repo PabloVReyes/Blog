@@ -2,11 +2,14 @@ import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { useModalStore } from "@/layout"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import type { MacroprocessData } from "@/features/Macroprocess/types/macroprocess.types"
+import { CrudDeleteEntity } from "@/components"
+import { useMacroprocessStore } from "@/stores"
+import { MacroprocessPreview } from "./MacroprocessPreview"
 
-export const ActionsMacroprocess = (macroprocess: MacroprocessData) => {
+export const ActionsMacroprocess = ({ id, ...props }: MacroprocessData) => {
     const { openModal } = useModalStore()
+    const remove = useMacroprocessStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -16,15 +19,15 @@ export const ActionsMacroprocess = (macroprocess: MacroprocessData) => {
             color: "blue",
             content: (
                 <Edit
-                    id={macroprocess.id}
-                    fileName={macroprocess.file?.name}
+                    id={id}
+                    {...props}
                 />
             )
         })
     }
 
     const handleDelete = () => {
-        if (!macroprocess.file) {
+        if (!props.file) {
             return null
         }
 
@@ -34,9 +37,21 @@ export const ActionsMacroprocess = (macroprocess: MacroprocessData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
-                    {...macroprocess}
-                />
+                <CrudDeleteEntity
+                    id={id}
+                    entityName="Macroproceso"
+                    confirmValue={props.manualType.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del macroproceso:"
+                    warnings={[
+                        "Se eliminara permanentemente la guía del macroproceso"
+                    ]}
+                >
+                    <MacroprocessPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

@@ -2,22 +2,9 @@ import { useModalStore } from "@/layout"
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit } from "@tabler/icons-react"
 import { Edit } from "./Edit"
+import type { AlertData } from "@/features/Home/public/pages/Home"
 
-export interface Props {
-    id: string
-    title: string;
-    description: string;
-    author: string;
-    color: string;
-    icon: string;
-    isActive: boolean;
-    sectionId: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-export const ActionsAlert = ({ id, ...props }: Props) => {
+export const ActionsAlert = ({ id, ...props }: AlertData) => {
     const { openModal } = useModalStore()
 
     const handleEdit = () => {

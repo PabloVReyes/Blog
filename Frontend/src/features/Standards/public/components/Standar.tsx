@@ -1,15 +1,12 @@
-import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Badge, Button, Card, Flex, Group, Stack, Text, Title } from "@mantine/core"
 import classes from "./Standar.module.css"
-import { colorMap, formatFileSize, resolveFileMeta } from "@/utils"
+import { formatFileSize, resolveFileMeta } from "@/utils"
 import { IconDownload, IconExternalLink, IconFileText } from "@tabler/icons-react"
 import type { StandardsData } from "../../types/standards.types"
 import { useDownloadFile } from "@/hooks"
+import { ThemeIcon } from "@/components"
 
-interface Props extends StandardsData {
-    color: string;
-}
-
-export const Standar = ({ color, name, description, isNew, file, fileId, category }: Props) => {
+export const Standar = ({ name, description, isNew, file, fileId, category }: StandardsData) => {
     const { download, view } = useDownloadFile()
 
     const fileMeta = resolveFileMeta(file?.mimeType ?? "", file?.name ?? "")
@@ -20,15 +17,8 @@ export const Standar = ({ color, name, description, isNew, file, fileId, categor
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
 
-                    <ThemeIcon
-                        size={56}
-                        variant="light"
-                        className={`${classes.iconWrapper}`}
-                        style={{
-                            '--icon-rgb': colorMap[color] || "#40c057" // fallback green
-                        } as React.CSSProperties}
-                    >
-                        <IconFileText size={28} />
+                    <ThemeIcon>
+                        <IconFileText />
                     </ThemeIcon>
 
                     <Stack gap={5} style={{ flex: 1 }}>

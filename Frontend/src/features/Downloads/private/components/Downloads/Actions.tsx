@@ -1,12 +1,14 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { DownloadData } from "@/features/Downloads/types/download.types"
+import { CrudDeleteEntity } from "@/components"
+import { useDownloadAreasStore } from "@/stores"
 
 export const ActionsDownloads = ({ id, ...props }: DownloadData) => {
     const { openModal } = useModalStore()
+    const remove = useDownloadAreasStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +32,19 @@ export const ActionsDownloads = ({ id, ...props }: DownloadData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Descarga"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre de la descarga:"
+                    warnings={[
+                        "Se eliminara permanentemente la descarga",
+                        "El archivo cargado será eliminado permanentemente"
+                    ]}
+                >
+
+                </CrudDeleteEntity>
             )
         })
     }

@@ -1,5 +1,5 @@
-import { Fieldset, FileInput, Stack } from "@mantine/core";
-import { ModalButtons } from "@/components";
+import { Fieldset, FileInput } from "@mantine/core";
+import { BaseForm } from "@/components";
 import type { UseFormReturnType } from "@mantine/form";
 
 export interface FormValues {
@@ -16,28 +16,26 @@ interface Props<T extends FormValues> {
 
 export const Form = ({ form, onSubmit, submitLabel, isLoading, fileName }: Props<FormValues>) => {
     return (
-        <form onSubmit={form.onSubmit(onSubmit)}>
-            <Stack>
-                <Fieldset>
-                    <FileInput
-                        withAsterisk
-                        label="Archivo"
-                        description={
-                            fileName ?
-                                `El archivo cargado es: ${fileName}` :
-                                "Selecciona un archivo perteneciente al evento adverso"
-                        }
-                        accept=".pdf"
-                        placeholder="Evento Adverso.pdf"
-                        {...form.getInputProps("file")}
-                    />
-                </Fieldset>
-
-                <ModalButtons
-                    label={submitLabel}
-                    loading={isLoading}
+        <BaseForm
+            form={form}
+            onSubmit={onSubmit}
+            submitLabel={submitLabel}
+            isLoading={isLoading}
+        >
+            <Fieldset>
+                <FileInput
+                    withAsterisk
+                    label="Archivo"
+                    description={
+                        fileName ?
+                            `El archivo cargado es: ${fileName}` :
+                            "Selecciona un archivo perteneciente al evento adverso"
+                    }
+                    accept=".pdf"
+                    placeholder="Evento Adverso.pdf"
+                    {...form.getInputProps("file")}
                 />
-            </Stack>
-        </form>
+            </Fieldset>
+        </BaseForm>
     )
 }

@@ -1,4 +1,4 @@
-import { Modal, Button, Stack, TextInput, PasswordInput, Box, useMantineTheme, Group, Title, ThemeIcon } from "@mantine/core";
+import { Modal, Button, Stack, TextInput, PasswordInput, Box, useMantineTheme, Group, Title } from "@mantine/core";
 import { useState } from "react";
 import { useAuthStore } from "./store";
 import { api } from "@/lib";
@@ -7,6 +7,7 @@ import { IconLock, IconMail, IconX } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { validateEmail } from "@/utils";
 import { Notify } from "@/ui";
+import { ThemeIcon } from "@/components";
 
 export function LoginModal() {
     const opened = useAuthStore((s) => s.loginOpened);
@@ -78,10 +79,10 @@ export function LoginModal() {
 
                     <ThemeIcon
                         variant="light"
-                        color="var(--mantine-primary-color-contrast)"
-                        radius={"md"}
                         style={{ cursor: "pointer" }}
                         onClick={handleClose}
+                        size={30}
+                        radius={10}
                     >
                         <IconX size={18} />
                     </ThemeIcon>

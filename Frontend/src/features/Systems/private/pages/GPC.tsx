@@ -1,33 +1,24 @@
-import { Container, Panel, Table } from "@/components"
+import { Container, Panel, Table, ThemeIcon } from "@/components"
 import { useModalStore } from "@/layout"
 import { ActionsGCP, AddGCP } from "../components"
 import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Notify } from "@/ui"
-import { Badge, Text, ThemeIcon, useMantineTheme } from "@mantine/core"
-import { colorMap } from "@/utils"
+import { Badge, Text } from "@mantine/core"
 import { useSystemsGPCStore } from "@/stores"
 import { getTablerIcon } from "@/helpers"
 import type { GPCData } from "../../types/gpc.types"
 import type { Column } from "@/types"
 
-const columns = (primaryColor: string): Column<GPCData>[] => [
+const columns: Column<GPCData>[] = [
     {
         key: "orderIndex",
         label: "Prioridad",
         align: 'left',
         render: (row) => {
             const Icon = getTablerIcon(`IconHexagonNumber${row.orderIndex}Filled`)
-
             return (
-                <ThemeIcon
-                    size={50}
-                    variant="light"
-                    style={{
-                        '--icon-rgb': colorMap[primaryColor] || "#40c057" // fallback green
-                    } as React.CSSProperties}
-                    className="themeIcon"
-                >
+                <ThemeIcon>
                     <Icon />
                 </ThemeIcon>
             )
@@ -83,7 +74,6 @@ export const GPC = () => {
     const { openModal } = useModalStore()
     const { items, fetch, setSearch, search, isLoading, page, limit, totalItems, totalPages, setLimit, firstItem, lastItem, setPage } = useSystemsGPCStore()
     const [debounced] = useDebouncedValue(search, 500)
-    const { primaryColor } = useMantineTheme()
 
     const handleAdd = () => {
         openModal({
@@ -138,7 +128,7 @@ export const GPC = () => {
                 <Table
                     isLoading={isLoading}
                     data={items}
-                    columns={columns(primaryColor)}
+                    columns={columns}
                 />
             </Panel>
         </Container>

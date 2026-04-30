@@ -1,10 +1,9 @@
-import { Container, Panel, Table } from "@/components"
+import { Container, Panel, Table, ThemeIcon } from "@/components"
 import { useModalStore } from "@/layout"
 import { ActionsShift, AddShift } from "../components"
 import { useEffect } from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { Notify } from "@/ui"
-import { ThemeIcon } from "@mantine/core"
 import { useVacationShiftStore } from "@/stores"
 import { getTablerIcon } from "@/helpers"
 import type { Column } from "@/types"
@@ -20,8 +19,7 @@ const columns: Column<ShiftData>[] = [
 
             return (
                 <ThemeIcon
-                    size={56}
-                    variant="light"
+                    variant="filled"
                     color={row.color}
                 >
                     <Icon />

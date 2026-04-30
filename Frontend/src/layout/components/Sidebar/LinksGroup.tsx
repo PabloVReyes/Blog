@@ -140,7 +140,7 @@ export const LinksGroup = ({
 
             {/* CHILDREN */}
             {hasLinks && (
-                <Collapse in={opened}>
+                <Collapse expanded={opened}>
                     {normalizedChildren.map((child) => {
                         const external = isExternal(child.link);
                         const isActive = pathname === child.link;

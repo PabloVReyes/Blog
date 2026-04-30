@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { PermissionData } from "../../types/permissions.types"
+import { CrudDeleteEntity } from "@/components"
+import { useSettingsPermissionsStore } from "@/stores"
+import { PermissionPreview } from "./PermissionPreview"
 
 export const ActionsPermissions = ({ id, ...props }: PermissionData) => {
     const { openModal } = useModalStore()
+    const remove = useSettingsPermissionsStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,21 @@ export const ActionsPermissions = ({ id, ...props }: PermissionData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Permiso"
+                    confirmValue={props.permissionKey}
+                    onDelete={remove}
+                    label="Para confirmar escribe el código del permiso:"
+                    warnings={[
+                        "Se eliminara permanentemente el permiso"
+                    ]}
+                >
+                    <PermissionPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

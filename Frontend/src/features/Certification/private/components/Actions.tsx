@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { CertificationData } from "../../types/certification.types"
+import { CrudDeleteEntity } from "@/components"
+import { CertificationPreview } from "./CertificationPreview"
+import { useCertificationStore } from "@/stores"
 
 export const Actions = ({ id, ...props }: CertificationData) => {
     const { openModal } = useModalStore()
+    const remove = useCertificationStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const Actions = ({ id, ...props }: CertificationData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Certificación"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre de la certificación:"
+                    warnings={[
+                        "Se eliminara permanentemente el certificado",
+                        "El archivo cargado será eliminado permanentemente"
+                    ]}
+                >
+                    <CertificationPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

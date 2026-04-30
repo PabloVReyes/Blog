@@ -1,13 +1,16 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconKey, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import { ResetPassword } from "./ResetPassword"
 import type { UsersData } from "../../types/users.types"
+import { CrudDeleteEntity } from "@/components"
+import { useSettingsUsersStore } from "@/stores"
+import { UserPreview } from "./UserPreview"
 
 export const ActionsUsers = ({ id, ...props }: UsersData) => {
     const { openModal } = useModalStore()
+    const remove = useSettingsUsersStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -31,10 +34,22 @@ export const ActionsUsers = ({ id, ...props }: UsersData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Usuario"
+                    confirmValue={props.email}
+                    onDelete={remove}
+                    label="Para confirmar escribe el email del usuario:"
+                    warnings={[
+                        "Se eliminara permanentemente el usuario",
+                        "No podra volver acceder al sistema"
+                    ]}
+                >
+                    <UserPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }
@@ -44,7 +59,7 @@ export const ActionsUsers = ({ id, ...props }: UsersData) => {
             title: "Restablecer Contraseña",
             subtitle: "Restablecer contraseña de usuario registrado en el sistema",
             icon: "IconKey",
-            color: "purple",
+            color: "violet",
             content: (
                 <ResetPassword
                     id={id}

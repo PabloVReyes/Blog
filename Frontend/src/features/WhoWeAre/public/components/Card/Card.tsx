@@ -1,7 +1,8 @@
-import { Card as MantineCard, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Card as MantineCard, Stack, Text, Title } from "@mantine/core"
 import styles from "./Card.module.css"
 import { getTablerIcon } from "@/helpers";
 import type { ReactNode } from "react";
+import { ThemeIcon } from "@/components";
 
 interface Props {
     icon: string;
@@ -16,7 +17,7 @@ export const Card = ({ icon, title, content, color }: Props) => {
         <MantineCard padding={"lg"} h={"100%"}>
             <Stack>
                 <div className={styles.item}>
-                    <ThemeIcon variant="light" color={color} className={styles.itemIcon} size={45} radius="md">
+                    <ThemeIcon variant="light" color={color} className={styles.itemIcon} size={45}>
                         <Icon size={40} />
                     </ThemeIcon>
 

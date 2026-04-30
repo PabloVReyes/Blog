@@ -1,7 +1,7 @@
-import { Badge, Flex, Group, Card as MantineCard, Stack, Text, ThemeIcon, Title, useMantineTheme } from "@mantine/core"
+import { Badge, Flex, Group, Card as MantineCard, Stack, Text, Title, useMantineTheme } from "@mantine/core"
 import clasess from "./Card.module.css"
 import { useNavigate } from "react-router-dom";
-import { colorMap } from "../../utils/colors";
+import { ThemeIcon } from "../ThemeIcon";
 
 interface Props {
     card: "system" | "file" | "directory"
@@ -61,12 +61,7 @@ export const Card = ({
                 <Flex justify="space-between" align="flex-start">
                     <Flex gap="md" align="center" style={{ flex: 1 }}>
                         <ThemeIcon
-                            size={56}
-                            variant="light"
-                            className={`${clasess.iconWrapper}`}
-                            style={{
-                                '--icon-rgb': `${colorMap[theme.primaryColor]}` || "#40c057" // fallback green
-                            } as React.CSSProperties}
+                            variant="filled"
                         >
                             <Text fw={900}>{phone}</Text>
                         </ThemeIcon>

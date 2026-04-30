@@ -5,7 +5,6 @@ import type { PermissionData } from "../../types/permissions.types"
 import { CrudEditDialog } from "@/components"
 
 export const Edit = ({ id, name, description, isActive, permissionKey }: PermissionData) => {
-    console.log(permissionKey)
     const update = useSettingsPermissionsStore(s => s.update)
 
     return (

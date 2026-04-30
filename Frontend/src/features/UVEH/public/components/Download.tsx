@@ -1,15 +1,12 @@
-import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Badge, Button, Card, Flex, Group, Stack, Text, Title } from "@mantine/core"
 import classes from "./Download.module.css"
 import { formatFileSize, resolveFileMeta } from "@/utils"
 import { IconDownload, IconExternalLink } from "@tabler/icons-react"
 import type { UVEHData } from "../../types/UVEH.types"
 import { useDownloadFile } from "@/hooks"
+import { ThemeIcon } from "@/components"
 
-interface Props extends UVEHData {
-    color: string;
-}
-
-export const Download = ({ color, name, fileId, description, isNew, file }: Props) => {
+export const Download = ({ name, fileId, description, isNew, file }: UVEHData) => {
     const { download, view } = useDownloadFile()
     const fileMeta = resolveFileMeta(file?.mimeType ?? "", file?.name ?? "")
 
@@ -19,14 +16,7 @@ export const Download = ({ color, name, fileId, description, isNew, file }: Prop
         >
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
-                    <ThemeIcon
-                        size={56}
-                        variant="light"
-                        className={`${classes.iconWrapper}`}
-                        style={{
-                            '--icon-rgb': `${color}` || "#40c057" // fallback green
-                        } as React.CSSProperties}
-                    >
+                    <ThemeIcon>
                         {fileMeta.icon}
                     </ThemeIcon>
 

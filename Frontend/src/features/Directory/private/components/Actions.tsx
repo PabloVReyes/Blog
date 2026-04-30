@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { DirectoryData } from "../types/directory.types"
+import { CrudDeleteEntity } from "@/components"
+import { useDirectoryStore } from "@/stores"
+import { DirectoryPreview } from "./DirectoryPreview"
 
-export const Actions = ({id, ...props}: DirectoryData) => {
+export const Actions = ({ id, ...props }: DirectoryData) => {
     const { openModal } = useModalStore()
+    const remove = useDirectoryStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,21 @@ export const Actions = ({id, ...props}: DirectoryData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Extensión Telefónica"
+                    confirmValue={props.phone}
+                    onDelete={remove}
+                    label="Para confirmar escribe la extensión telefónica:"
+                    warnings={[
+                        "Se eliminara permanentemente la extensión telefonica"
+                    ]}
+                >
+                    <DirectoryPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

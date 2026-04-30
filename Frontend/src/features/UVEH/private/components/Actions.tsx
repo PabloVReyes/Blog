@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { UVEHData } from "../../types/UVEH.types"
+import { CrudDeleteEntity } from "@/components"
+import { useUVEHStore } from "@/stores"
+import { UVEHPreview } from "./UVEHPreview"
 
 export const Actions = ({ id, ...props }: UVEHData) => {
     const { openModal } = useModalStore()
+    const remove = useUVEHStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const Actions = ({ id, ...props }: UVEHData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="UVEH"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del UVEH:"
+                    warnings={[
+                        "Se eliminara permanentemente el UVEH",
+                        "El archivo cargado será eliminado permanentemente"
+                    ]}
+                >
+                    <UVEHPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

@@ -1,5 +1,5 @@
-import { Panel, Table } from "@/components"
-import { Text, ThemeIcon } from "@mantine/core"
+import { Panel, Table, ThemeIcon } from "@/components"
+import { Text } from "@mantine/core"
 import { useEffect } from "react"
 import { useModalStore } from "@/layout"
 import { ActionsAccessCard, AddAccessCard } from "../components"
@@ -21,13 +21,7 @@ const columns: Column<AccessCardData>[] = [
 
             return (
                 <ThemeIcon
-                    size={50}
                     color={row.color}
-                    variant="light"
-                    style={{
-                        '--icon-rgb': row.color || "#40c057" // fallback green
-                    } as React.CSSProperties}
-                    className="themeIcon"
                 >
                     <Icon />
                 </ThemeIcon>

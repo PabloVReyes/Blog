@@ -1,9 +1,9 @@
-import { Card, Group, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
+import { Card, Group, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { IconAlertCircle, IconMail, IconUser } from "@tabler/icons-react"
 import { useState } from "react"
 import { Notify, showSuccessModal } from "@/ui"
-import { Alert, ModalButtons } from "@/components"
+import { Alert, ModalButtons, ThemeIcon } from "@/components"
 import { resetPasswordUser } from "../../api"
 import type { UsersData } from "../../types/users.types"
 
@@ -48,10 +48,7 @@ export const ResetPassword = ({ id, name, email }: UsersData) => {
                     </Text>
 
                     <Group align="center" gap="md">
-                        <ThemeIcon
-                            size={56}
-                            variant="light"
-                        >
+                        <ThemeIcon>
                             <IconUser />
                         </ThemeIcon>
 
@@ -73,7 +70,6 @@ export const ResetPassword = ({ id, name, email }: UsersData) => {
                     </Group>
                 </Card>
 
-
                 <Alert
                     color="yellow"
                     title={
@@ -87,9 +83,9 @@ export const ResetPassword = ({ id, name, email }: UsersData) => {
                     content={"Se enviará un correo electrónico con las nuevas credenciales del usuario"}
                 />
                 <TextInput
+                    leftSection={<IconMail size={18} />}
                     label="Para confirmar escribe el correo electrónico del usuario"
-                    placeholder="Escribe el correo para confirmar..."
-                    description={email}
+                    placeholder={email}
                     autoFocus
                     {...form.getInputProps("value")}
                 />

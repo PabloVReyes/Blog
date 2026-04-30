@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { VacationsData } from "@/features/Vacation/types/vacations.types"
+import { CrudDeleteEntity } from "@/components"
+import { VacationPreview } from "./VacationPreview"
+import { useVacationStore } from "@/stores"
 
 export const ActionsVacation = ({ id, ...props }: VacationsData) => {
     const { openModal } = useModalStore()
+    const remove = useVacationStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const ActionsVacation = ({ id, ...props }: VacationsData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Rol Vacacional"
+                    confirmValue={props.type === "CALENDAR" ? "Calendario" : "Index"}
+                    onDelete={remove}
+                    label="Para confirmar escribe el tipo de vacación:"
+                    warnings={[
+                        "Se eliminarán permanentemente las vacaciones",
+                        "Los roles vacacionales serán eliminados permanentemente"
+                    ]}
+                >
+                    <VacationPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

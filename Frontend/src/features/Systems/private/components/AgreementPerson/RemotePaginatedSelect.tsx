@@ -66,7 +66,6 @@ export function RemotePaginatedSelect<T>({
 
     const hasMore = data.length < total;
 
-    // ================= FETCH =================
     const loadData = async (searchValue: string, pageValue: number, append = false) => {
         if (loading) return;
 
@@ -80,19 +79,15 @@ export function RemotePaginatedSelect<T>({
         }
     };
 
-    // ================= NUEVA BUSQUEDA =================
     useEffect(() => {
         setPage(1);
-        // Si no hay búsqueda y no hay datos (salvo el inicial), cargamos iniciales
         if (!debounced.trim()) {
-            // Opcional: podrías cargar una lista inicial vacía aquí si prefieres
             return;
         }
 
         loadData(debounced.toUpperCase(), 1, false);
     }, [debounced]);
 
-    // ================= SCROLL =================
     const handleScrollEnd = () => {
         if (!hasMore || loading) return;
         const nextPage = page + 1;
@@ -100,18 +95,15 @@ export function RemotePaginatedSelect<T>({
         loadData(debounced.toUpperCase(), nextPage, true);
     };
 
-    // ================= SELECCION =================
     const handleSubmit = (val: string) => {
         const item = data.find((i) => i.value === val) || null;
         if (item) setSelectedItem(item);
 
-        // Seteo tipado del valor
         form.setFieldValue(name, val as any);
         combobox.closeDropdown();
         setSearch("");
     };
 
-    // ================= SINCRONIZAR CON FORM =================
     useEffect(() => {
         if (!value) {
             setSelectedItem(null);

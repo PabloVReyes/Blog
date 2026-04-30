@@ -1,32 +1,22 @@
-import { Badge, Button, Card, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Badge, Button, Card, Flex, Group, Stack, Text, Title } from "@mantine/core"
 import classes from "./Download.module.css"
 import { formatFileSize, resolveFileMeta } from "@/utils"
 import { IconAward, IconDownload, IconExternalLink } from "@tabler/icons-react"
 import type { CertificationData } from "../../types/certification.types"
 import { useDownloadFile } from "@/hooks"
+import { ThemeIcon } from "@/components"
 
-interface Props extends CertificationData {
-    color: string
-}
-export const Download = (item: Props) => {
-    const { color, name, description, file, isNew, fileId } = item
+export const Download = ({ name, description, file, isNew, fileId }: CertificationData) => {
     const { download, view } = useDownloadFile()
     const fileMeta = resolveFileMeta(file?.mimeType ?? "", file?.name ?? "")
-    
+
     return (
         <Card
             className={classes.group}
         >
             <Flex justify="space-between" align="flex-start">
                 <Flex gap="md" align="center" style={{ flex: 1 }}>
-                    <ThemeIcon
-                        size={56}
-                        variant="light"
-                        className={`${classes.iconWrapper}`}
-                        style={{
-                            '--icon-rgb': `${color}` || "#40c057" // fallback green
-                        } as React.CSSProperties}
-                    >
+                    <ThemeIcon>
                         <IconAward size={28} />
                     </ThemeIcon>
 

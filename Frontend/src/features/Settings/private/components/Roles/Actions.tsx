@@ -1,12 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core"
 import { IconEdit, IconTrash } from "@tabler/icons-react"
 import { Edit } from "./Edit"
-import { Delete } from "./Delete"
 import { useModalStore } from "@/layout"
 import type { RolData } from "../../types/roles.types"
+import { CrudDeleteEntity } from "@/components"
+import { useSettingsRolesStore } from "@/stores"
+import { RolPreview } from "./RolPreview"
 
 export const ActionsRoles = ({ id, ...props }: RolData) => {
     const { openModal } = useModalStore()
+    const remove = useSettingsRolesStore(s => s.remove)
 
     const handleEdit = () => {
         openModal({
@@ -30,10 +33,22 @@ export const ActionsRoles = ({ id, ...props }: RolData) => {
             icon: "IconTrash",
             color: "red",
             content: (
-                <Delete
+                <CrudDeleteEntity
                     id={id}
-                    {...props}
-                />
+                    entityName="Rol"
+                    confirmValue={props.name}
+                    onDelete={remove}
+                    label="Para confirmar escribe el nombre del rol:"
+                    warnings={[
+                        "Se eliminara permanentemente el rol",
+                        "Todos los usuario que tienen este rol no podran acceder a algunos apartados del sistema"
+                    ]}
+                >
+                    <RolPreview
+                        id={id}
+                        {...props}
+                    />
+                </CrudDeleteEntity>
             )
         })
     }

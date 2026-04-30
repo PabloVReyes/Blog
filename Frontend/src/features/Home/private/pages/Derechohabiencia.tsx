@@ -1,5 +1,5 @@
-import { Panel, Table } from "@/components"
-import { ThemeIcon, Table as TableMantine, Text } from "@mantine/core"
+import { Panel, Table, ThemeIcon } from "@/components"
+import { Table as TableMantine, Text } from "@mantine/core"
 import { useEffect } from "react"
 import { Notify } from "@/ui"
 import { ActionsDerechohabiencia } from "../components"
@@ -39,13 +39,7 @@ const columns: Column<Row>[] = [
             const Icon = getTablerIcon(row.icon)
             return (
                 <ThemeIcon
-                    size={50}
                     color={row.color}
-                    variant="light"
-                    style={{
-                        '--icon-rgb': row.color || "#40c057" // fallback green
-                    } as React.CSSProperties}
-                    className="themeIcon"
                 >
                     <Icon />
                 </ThemeIcon>
