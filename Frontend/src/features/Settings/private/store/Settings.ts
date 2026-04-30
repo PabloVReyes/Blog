@@ -24,6 +24,8 @@ interface SettingsState {
     isLoading: boolean;
 
     hasHydrated: boolean;
+    lastUpdated: number;
+
     setHasHydrated: (state: boolean) => void;
 
     setTitle: (title: string) => void;
@@ -39,6 +41,8 @@ interface SettingsState {
     reset: () => void;
 }
 
+const channel = new BroadcastChannel("settings-sync");
+
 const initialState = {
     title: "Blog",
     subtitle: "Beta",
@@ -47,7 +51,8 @@ const initialState = {
     favicon: "",
     footer: "",
     isLoading: false,
-    hasHydrated: false
+    hasHydrated: false,
+    lastUpdated: 0
 };
 
 export const useSettingStore = create<SettingsState>()(
@@ -56,31 +61,38 @@ export const useSettingStore = create<SettingsState>()(
             ...initialState,
 
             setHasHydrated: (state) => set({ hasHydrated: state }),
-
-            // =========================
-            // SETTERS
-            // =========================
             setTitle: (title) => set({ title }),
 
             setSubtitle: (subtitle) => set({ subtitle }),
 
             setColor: (color) => {
-                if (colorMap[color]) set({ color });
+                if (colorMap[color]) {
+                    const now = Date.now();
+                    set({ color, lastUpdated: now });
+                    channel.postMessage({ color, lastUpdated: now });
+                }
             },
 
             setTheme: (theme) => {
                 if (["auto", "dark", "light"].includes(theme)) {
-                    set({ theme });
+                    const now = Date.now();
+                    set({ theme, lastUpdated: now });
+                    channel.postMessage({ theme, lastUpdated: now });
                 }
             },
 
-            setFavicon: (favicon) => set({ favicon: favicon ?? "" }),
+            setFavicon: (favicon) => {
+                const now = Date.now();
+                set({ favicon: favicon ?? "", lastUpdated: now });
+                channel.postMessage({ favicon, lastUpdated: now });
+            },
 
-            setFooter: (footer) => set({ footer: footer ?? "" }),
+            setFooter: (footer) => {
+                const now = Date.now();
+                set({ footer: footer ?? "", lastUpdated: now });
+                channel.postMessage({ footer, lastUpdated: now });
+            },
 
-            // =========================
-            // LOAD API
-            // =========================
             loadSettings: async () => {
                 try {
                     set({ isLoading: true });
@@ -98,9 +110,8 @@ export const useSettingStore = create<SettingsState>()(
                                 ? settings.color
                                 : state.color,
 
-                        // 🔥 FIX REAL AQUÍ
                         theme:
-                            state.theme !== "auto" // ← si el usuario ya eligió algo
+                            state.theme !== "auto"
                                 ? state.theme
                                 : ["auto", "dark", "light"].includes(settings.theme)
                                     ? settings.theme
@@ -111,11 +122,10 @@ export const useSettingStore = create<SettingsState>()(
                 }
             },
 
-            // =========================
-            // SAVE
-            // =========================
             saveSetting: async (name, value) => {
                 try {
+                    const now = Date.now();
+
                     await updateSettings(name, value);
 
                     if (name === "color" && !colorMap[value]) return;
@@ -124,16 +134,19 @@ export const useSettingStore = create<SettingsState>()(
 
                     set((state) => ({
                         ...state,
-                        [name]: value
+                        [name]: value,
+                        lastUpdated: now
                     }));
+
+                    channel.postMessage({
+                        [name]: value,
+                        lastUpdated: now
+                    });
                 } catch (error: unknown) {
                     throw new Error(extractErrorMessage(error));
                 }
             },
 
-            // =========================
-            // RESET
-            // =========================
             reset: () => set(initialState)
         }),
         {
@@ -146,7 +159,8 @@ export const useSettingStore = create<SettingsState>()(
                 title: state.title,
                 subtitle: state.subtitle,
                 favicon: state.favicon,
-                footer: state.footer
+                footer: state.footer,
+                lastUpdated: state.lastUpdated
             }),
 
             onRehydrateStorage: () => (state) => {
@@ -155,3 +169,18 @@ export const useSettingStore = create<SettingsState>()(
         }
     )
 );
+
+channel.onmessage = (event) => {
+    const incoming = event.data;
+    const current = useSettingStore.getState();
+
+    if (!incoming.lastUpdated) return;
+
+    // ✅ SOLO actualiza si el dato es más nuevo
+    if (incoming.lastUpdated > current.lastUpdated) {
+        useSettingStore.setState({
+            ...current,
+            ...incoming
+        });
+    }
+};
